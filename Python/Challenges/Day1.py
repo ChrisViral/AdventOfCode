@@ -4,7 +4,7 @@ import sys
 def main(args):
     """
     Application entry point
-    :param args: Argument list, should contain the file to load
+    :param args: Argument list, should contain the file to load at index 1
     """
 
     # Final result
