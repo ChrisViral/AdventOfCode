@@ -21,8 +21,8 @@ def main(args: List[str]) -> None:
     # File read stub
     with open(args[1], "r") as f:
         for line in f:
-            x, y = map(int, pattern.search(line).groups())
-            positions.append(Point(x, y))
+            point: Point = Point(*map(int, pattern.search(line).groups()))
+            positions.append(point)
 
     # Set grid
     width: int = max(positions, key=lambda p: p.x).x
