@@ -1,11 +1,59 @@
+from __future__ import annotations
 import sys
 import re as regex
-from collections import namedtuple
+from dataclasses import dataclass
 from typing import List, Set
 from itertools import chain
 
+
 # Point coordinate structure
-Point = namedtuple("Point", ['x', 'y'])
+@dataclass
+class Point:
+    """
+    2D Point coordinate class
+    """
+
+    # Coordinates
+    _x: int
+    _y: int
+
+    @property
+    def x(self) -> int:
+        """
+        X value of this coordinate
+        :return: The X value
+        """
+
+        return self._x
+
+    @property
+    def y(self) -> int:
+        """
+        Y value of this coordinate
+        :return: The Y value
+        """
+
+        return self._y
+
+    def distance_to(self, other: Point) -> int:
+        """
+        Calculates the Manhattan distance between this point and another
+        :param other: Other point to calculate the distance with
+        :return:  The resulting, positive Manhattan distance between the points
+        """
+
+        return abs(self._x - other._x) + abs(self._y - other._y)
+
+    @staticmethod
+    def distance(a: Point, b: Point) -> int:
+        """
+        Calculates the Manhattan distance between two points
+        :param a: First point
+        :param b: Second point
+        :return:  The resulting, positive Manhattan distance between these points
+        """
+
+        return a.distance_to(b)
 
 
 def main(args: List[str]) -> None:
@@ -25,8 +73,8 @@ def main(args: List[str]) -> None:
             positions.append(point)
 
     # Set grid
-    width: int = max(positions, key=lambda p: p.x).x
-    height: int = max(positions, key=lambda p: p.y).y
+    width: int = max(map(Point.x.fget, positions))
+    height: int = max(map(Point.y.fget, positions))
     grid: List[List[int]] = [[0] * height for _ in range(width)]
     edges: Set[int] = set()
     counts: List[int] = [0] * len(positions)
@@ -42,7 +90,7 @@ def main(args: List[str]) -> None:
             # Loop through known points
             for i, point in enumerate(positions):
                 # Calculate distance
-                dist: int = distance(pos, point)
+                dist: int = Point.distance(pos, point)
                 # New closest
                 if dist < smallest:
                     grid[x][y] = i
@@ -66,27 +114,16 @@ def main(args: List[str]) -> None:
 
     # Print maximum
     maximum: int = max(counts)
-    print(f"Part one max area:", maximum)
+    print("Part one max area:", maximum)
 
     # Calculate distance sum
     for x in range(width):
         for y in range(height):
             pos: Point = Point(x, y)
-            grid[x][y] = sum(map(lambda p: distance(pos, p), positions))
+            grid[x][y] = sum(map(pos.distance_to, positions))
 
     area: int = sum(1 for i in chain.from_iterable(grid) if i < 10000)
-    print(f"Part two safe area:", area)
-
-
-def distance(a: Point, b: Point) -> int:
-    """
-    Calculates the Manhattan distance between two points
-    :param a: First point
-    :param b: Second point
-    :return:  The resulting, positive Manhattan distance between these points
-    """
-
-    return abs(a.x - b.x) + abs(a.y - b.y)
+    print("Part two safe area:", area)
 
 
 # Only run if entry point

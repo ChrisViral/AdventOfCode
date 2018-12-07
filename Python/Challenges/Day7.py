@@ -1,25 +1,23 @@
+from __future__ import annotations
 import sys
 import re as regex
 from collections import OrderedDict
+from dataclasses import dataclass, field
 from typing import List, Dict, Set, Optional
 
 
+@dataclass
 class Task:
     """
     Task object, holds a reference to required task to proceed, as well as tasks unlocked by this
     """
 
-    def __init__(self, task: str) -> None:
-        """
-        Creates a new Step with the given key
-        :param task: Step key identifier
-        """
+    # Class fields
+    key: str
+    requirements: Set[Task] = field(default_factory=set)
+    unlocks: Set[Task] = field(default_factory=set)
 
-        self.key: str = task
-        self.requirements: Set[Task] = set()
-        self.unlocks: Set[Task] = set()
-
-    def add_requirement(self, required: "Task") -> None:
+    def add_requirement(self, required: Task) -> None:
         """
         Adds the given task to be required by this task
         This also sets the required task to have this task as an unlockable
@@ -39,19 +37,24 @@ class Task:
             # Remove that requirement from the instruction
             unlock.requirements.remove(self)
 
+    def __hash__(self) -> int:
+        """
+        Hashes this Task, according to the key
+        :return: Hash of the key
+        """
 
+        return hash(self.key)
+
+
+@dataclass
 class Worker:
     """
     Worker object, holds a task and time left to complete it
     """
 
-    def __init__(self):
-        """
-        Creates a new worker without any task
-        """
-
-        self.task: Optional[Task] = None
-        self.time: int = 0
+    # Class fields
+    task: Task = None
+    time: int = 0
 
     def assign(self, task: Optional[Task]) -> bool:
         """
