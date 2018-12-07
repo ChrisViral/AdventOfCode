@@ -1,6 +1,6 @@
 import sys
 import re
-from typing import List, Dict, Tuple
+from typing import List, Dict
 from datetime import datetime
 
 
@@ -11,8 +11,8 @@ def main(args: List[str]) -> None:
     """
 
     # Setup parsing info
-    timestamps: List[Tuple[datetime, str]] = []
-    splitter = re.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # How have I come up with this
+    timestamps: Dict[datetime, str] = {}
+    splitter: re = re.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # How have I come up with this
 
     # Annotate tuple unpacking variables
     timestamp: datetime
@@ -22,14 +22,14 @@ def main(args: List[str]) -> None:
     with open(args[1], "r") as f:
         for line in f:
             timestamp, op = splitter.search(line).groups()
-            timestamps.append((datetime.strptime(timestamp, "%m-%d %H:%M"), op))
+            timestamps[datetime.strptime(timestamp, "%m-%d %H:%M")] = op
 
     # Setup lookup variables
     schedules: Dict[int, List[int]] = {}
     timesheet: List[int] = None
     start: int = 0
     # Loop through timestamps in chronological order
-    for timestamp, op in sorted(timestamps, key=lambda t: t[0]):
+    for timestamp, op in sorted(timestamps.items(), key=lambda t: t[0]):
         # On fall asleep mark time
         if op == "falls":
             start = timestamp.minute
