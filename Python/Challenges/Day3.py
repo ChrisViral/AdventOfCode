@@ -1,20 +1,28 @@
 import sys
 import re
+from typing import List, Dict, Tuple
 from itertools import chain
 
 
-def main(args):
+def main(args: List[str]) -> None:
     """
     Application entry point
     :param args: Argument list, should contain the file to load at index 1
     """
 
     # Create fabric tile
-    width = 1000
-    fabric = [[0] * width for _ in range(width)]
+    width: int = 1000
+    fabric: List[List[int]] = [[0] * width for _ in range(width)]
     # Regex match for input
-    splitter = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
-    claims = {}
+    splitter: re = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+    claims: Dict[int, Tuple[int, int, int, int]] = {}
+
+    # Annotate tuple unpacking variables
+    req: int
+    x: int
+    y: int
+    w: int
+    h: int
 
     # Read file
     with open(args[1], "r") as f:
@@ -29,7 +37,7 @@ def main(args):
                     fabric[i][j] += 1
 
     # Get amount of squares with more than one request access
-    count = sum(1 for i in chain.from_iterable(fabric) if i > 1)
+    count: int = sum(1 for i in chain.from_iterable(fabric) if i > 1)
     print(f"Part one count: {count}")
 
     # Loop through all requests

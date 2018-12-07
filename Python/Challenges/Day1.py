@@ -1,16 +1,17 @@
 import sys
+from typing import List, Set
 
 
-def main(args):
+def main(args: List[str]) -> None:
     """
     Application entry point
     :param args: Argument list, should contain the file to load at index 1
     """
 
     # Final result
-    frequency = 0
-    jumps = []
-    frequencies = set()
+    frequency: int = 0
+    jumps: List[int] = []
+    frequencies: Set[int] = set()
 
     # Read file for frequency jumps
     with open(args[1], "r") as f:
