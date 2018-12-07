@@ -15,19 +15,22 @@ def main(args: List[str]) -> None:
     splitter: re = re.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # How have I come up with this
 
     # Annotate tuple unpacking variables
-    timestamp: datetime
-    op: str
+    time: str
+    message: str
 
     # Parse info from the file
     with open(args[1], "r") as f:
         for line in f:
-            timestamp, op = splitter.search(line).groups()
-            timestamps[datetime.strptime(timestamp, "%m-%d %H:%M")] = op
+            time, message = splitter.search(line).groups()
+            timestamps[datetime.strptime(time, "%m-%d %H:%M")] = message
 
     # Setup lookup variables
     schedules: Dict[int, List[int]] = {}
-    timesheet: List[int] = None
-    start: int = 0
+    start: int
+    timesheet: List[int]
+    timestamp: datetime
+    op: str
+    guard: int
     # Loop through timestamps in chronological order
     for timestamp, op in sorted(timestamps.items(), key=lambda t: t[0]):
         # On fall asleep mark time
@@ -41,23 +44,22 @@ def main(args: List[str]) -> None:
 
         # Get sleep schedule
         else:
-            op: int = int(op)
+            guard = int(op)
             if op not in schedules:
                 timesheet = [0] * 60
-                schedules[op] = timesheet
+                schedules[guard] = timesheet
             else:
-                timesheet = schedules[op]
+                timesheet = schedules[guard]
 
     # Best candidate setup
     best: int = 0
     maximum: int = 0
-    ID: int
-    for ID in schedules:
+    for guard in schedules:
         # Get maximum sleep time
-        sleep: int = sum(schedules[ID])
+        sleep: int = sum(schedules[guard])
         if sleep > maximum:
             maximum = sleep
-            best = ID
+            best = guard
 
     # Print result
     timesheet = schedules[best]
@@ -67,12 +69,12 @@ def main(args: List[str]) -> None:
     # Best candidate setup again
     best = 0
     maximum = 0
-    for ID in schedules:
+    for guard in schedules:
         # Get most frequent sleep time
-        frequent: int = max(schedules[ID])
+        frequent: int = max(schedules[guard])
         if frequent > maximum:
             maximum = frequent
-            best = ID
+            best = guard
 
     # Print result
     timesheet = schedules[best]
