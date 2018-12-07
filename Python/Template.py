@@ -1,7 +1,8 @@
 import sys
+from typing import List
 
 
-def main(args):
+def main(args: List[str]) -> None:
     """
     Application entry point
     :param args: Argument list, should contain the file to load at index 1

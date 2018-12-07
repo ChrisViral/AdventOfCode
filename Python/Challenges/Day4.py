@@ -1,70 +1,82 @@
 import sys
-import re
+import re as regex
+from typing import List, Dict
 from datetime import datetime
 
+# Type aliases
+Timesheet = List[int]
 
-def main(args):
+
+def main(args: List[str]) -> None:
     """
     Application entry point
     :param args: Argument list, should contain the file to load at index 1
     """
 
     # Setup parsing info
-    timestamps = []
-    splitter = re.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # How have I come up with this
+    timestamps: Dict[datetime, str] = {}
+    splitter: regex = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
+
+    # Annotate tuple unpacking variables
+    time: str
+    op: str
 
     # Parse info from the file
     with open(args[1], "r") as f:
         for line in f:
-            date, op = splitter.search(line).groups()
-            timestamps.append((datetime.strptime(date, "%m-%d %H:%M"), op))
+            time, message = splitter.search(line).groups()
+            timestamps[datetime.strptime(time, "%m-%d %H:%M")] = message
 
     # Setup lookup variables
-    schedules = {}
-    timesheet = None
-    start = 0
+    schedules: Dict[int, Timesheet] = {}
+    start: int
+    timesheet: Timesheet
+    timestamp: datetime
+    guard: int
     # Loop through timestamps in chronological order
-    for timestamp, op in sorted(timestamps, key=lambda t: t[0]):
+    for timestamp, op in sorted(timestamps.items(), key=lambda t: t[0]):
         # On fall asleep mark time
         if op == "falls":
             start = timestamp.minute
+
         # On wake up add to sleeping timesheet
         elif op == "wakes":
             for i in range(start, timestamp.minute):
                 timesheet[i] += 1
+
         # Get sleep schedule
         else:
-            op = int(op)
+            guard = int(op)
             if op not in schedules:
                 timesheet = [0] * 60
-                schedules[op] = timesheet
+                schedules[guard] = timesheet
             else:
-                timesheet = schedules[op]
+                timesheet = schedules[guard]
 
     # Best candidate setup
-    best = 0
-    maximum = 0
-    for ID in schedules:
+    best: int = 0
+    maximum: int = 0
+    for guard in schedules:
         # Get maximum sleep time
-        sleep = sum(schedules[ID])
+        sleep: int = sum(schedules[guard])
         if sleep > maximum:
             maximum = sleep
-            best = ID
+            best = guard
 
     # Print result
     timesheet = schedules[best]
-    minute = timesheet.index(max(timesheet))
+    minute: int = timesheet.index(max(timesheet))
     print(f"Part one hash: {best * minute}")
 
     # Best candidate setup again
     best = 0
     maximum = 0
-    for ID in schedules:
+    for guard in schedules:
         # Get most frequent sleep time
-        frequent = max(schedules[ID])
+        frequent: int = max(schedules[guard])
         if frequent > maximum:
             maximum = frequent
-            best = ID
+            best = guard
 
     # Print result
     timesheet = schedules[best]
