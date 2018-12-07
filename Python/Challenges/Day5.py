@@ -1,5 +1,5 @@
 import sys
-import re
+import re as regex
 from typing import List, Tuple
 
 
@@ -18,17 +18,17 @@ def main(args: List[str]) -> None:
     minimum: int = len(polymer)
 
     # Print results
-    print(f"Part one polymer length: {minimum}")
+    print("Part one polymer length:", minimum)
 
     # Try with each letter of the alphabet
     for c in "abcdefghijklmnopqrstuvwxyz":
         # Remove the letter from the original polymer, case insensitive, then test
-        polymer = re.sub(c, "", original, flags=re.IGNORECASE)
+        polymer = regex.sub(c, "", original, flags=regex.IGNORECASE)
         polymer = fully_react(polymer)
         minimum = min(minimum, len(polymer))
 
     # Print results
-    print(f"Part two polymer length: {minimum}")
+    print("Part two polymer length:", minimum)
 
 
 def fully_react(polymer: str) -> str:

@@ -23,7 +23,7 @@ def main(args: List[str]) -> None:
             if 3 in counts:
                 threes += 1
 
-    print(f"Part one checksum: {twos * threes}")
+    print("Part one checksum:", twos * threes)
 
     # Annotate tuple unpacking variables
     a: str
@@ -55,7 +55,7 @@ def main(args: List[str]) -> None:
             # If only one mismatch, the target has been found
             else:
                 if mismatch:
-                    print("Part two diff: " + diff)
+                    print("Part two diff:", diff)
                     return
 
 

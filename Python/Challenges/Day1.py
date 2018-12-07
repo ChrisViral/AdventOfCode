@@ -22,7 +22,7 @@ def main(args: List[str]) -> None:
             frequencies.add(frequency)
 
     # Part one: final frequency
-    print(f"Part one: {frequency}")
+    print("Part one:", frequency)
 
     # Loop through jumps until a duplicate is found
     found: bool = False
@@ -37,7 +37,7 @@ def main(args: List[str]) -> None:
             # If not, just add it to the set
             frequencies.add(frequency)
 
-    print(f"Part two: {frequency}")
+    print("Part two:", frequency)
 
 
 # Only run if entry point

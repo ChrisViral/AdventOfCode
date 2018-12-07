@@ -1,7 +1,10 @@
 import sys
-import re
+import re as regex
 from typing import List, Dict, Tuple
 from itertools import chain
+
+# Type aliases
+Rect = Tuple[int, int, int, int]
 
 
 def main(args: List[str]) -> None:
@@ -14,8 +17,8 @@ def main(args: List[str]) -> None:
     width: int = 1000
     fabric: List[List[int]] = [[0] * width for _ in range(width)]
     # Regex match for input
-    splitter: re = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
-    claims: Dict[int, Tuple[int, int, int, int]] = {}
+    splitter: regex = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+    claims: Dict[int, Rect] = {}
 
     # Annotate tuple unpacking variables
     req: int
@@ -38,7 +41,7 @@ def main(args: List[str]) -> None:
 
     # Get amount of squares with more than one request access
     count: int = sum(1 for i in chain.from_iterable(fabric) if i > 1)
-    print(f"Part one count: {count}")
+    print("Part one count:", count)
 
     # Loop through all requests
     for req, (x, y, w, h) in claims.items():
@@ -53,7 +56,7 @@ def main(args: List[str]) -> None:
             break
         # Both loops exited normally, match found
         else:
-            print(f"Part two ID: {req}")
+            print("Part two ID:", req)
             return
 
 

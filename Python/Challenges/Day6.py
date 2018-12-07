@@ -1,7 +1,7 @@
 import sys
 import re as regex
 from collections import namedtuple
-from typing import List, Optional, Set
+from typing import List, Set
 from itertools import chain
 
 # Point coordinate structure
@@ -16,7 +16,7 @@ def main(args: List[str]) -> None:
 
     # Get structure variables
     pattern: regex = regex.compile(r"(\d+), (\d+)")
-    positions: List[Optional[Point]] = []
+    positions: List[Point] = []
 
     # File read stub
     with open(args[1], "r") as f:

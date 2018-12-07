@@ -1,7 +1,10 @@
 import sys
-import re
+import re as regex
 from typing import List, Dict
 from datetime import datetime
+
+# Type aliases
+Timesheet = List[int]
 
 
 def main(args: List[str]) -> None:
@@ -12,11 +15,11 @@ def main(args: List[str]) -> None:
 
     # Setup parsing info
     timestamps: Dict[datetime, str] = {}
-    splitter: re = re.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # How have I come up with this
+    splitter: regex = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
 
     # Annotate tuple unpacking variables
     time: str
-    message: str
+    op: str
 
     # Parse info from the file
     with open(args[1], "r") as f:
@@ -25,11 +28,10 @@ def main(args: List[str]) -> None:
             timestamps[datetime.strptime(time, "%m-%d %H:%M")] = message
 
     # Setup lookup variables
-    schedules: Dict[int, List[int]] = {}
+    schedules: Dict[int, Timesheet] = {}
     start: int
-    timesheet: List[int]
+    timesheet: Timesheet
     timestamp: datetime
-    op: str
     guard: int
     # Loop through timestamps in chronological order
     for timestamp, op in sorted(timestamps.items(), key=lambda t: t[0]):
