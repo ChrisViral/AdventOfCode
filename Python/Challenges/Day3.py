@@ -41,9 +41,8 @@ def main(args: List[str]) -> None:
     print(f"Part one count: {count}")
 
     # Loop through all requests
-    for req in claims:
+    for req, (x, y, w, h) in claims.items():
         # Get request data
-        x, y, w, h = claims[req]
         for i in range(x, x + w):
             for j in range(y, y + h):
                 # If not 1, another request overlaps
