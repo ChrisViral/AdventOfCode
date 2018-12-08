@@ -109,7 +109,7 @@ def main(args: List[str]) -> None:
     with open(args[1], "r") as f:
         for line in f:
             # Get tasks and set requirements
-            requirement, required = map(tasks.__getitem__, pattern.search(line).groups())
+            requirement, required = (tasks[t] for t in pattern.search(line).groups())
             required.add_requirement(requirement)
 
     # Setup final sequence
@@ -136,7 +136,7 @@ def main(args: List[str]) -> None:
     with open(args[1], "r") as f:
         for line in f:
             # Get tasks and set requirements
-            requirement, required = map(tasks.__getitem__, pattern.search(line).groups())
+            requirement, required = (tasks[t] for t in pattern.search(line).groups())
             required.add_requirement(requirement)
 
     # Setup worker info
