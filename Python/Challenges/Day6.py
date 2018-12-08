@@ -35,15 +35,6 @@ class Point:
 
         return self._y
 
-    def distance_to(self, other: Point) -> int:
-        """
-        Calculates the Manhattan distance between this point and another
-        :param other: Other point to calculate the distance with
-        :return:  The resulting, positive Manhattan distance between the points
-        """
-
-        return abs(self._x - other._x) + abs(self._y - other._y)
-
     @staticmethod
     def distance(a: Point, b: Point) -> int:
         """
@@ -53,7 +44,7 @@ class Point:
         :return:  The resulting, positive Manhattan distance between these points
         """
 
-        return a.distance_to(b)
+        return abs(a.x - b.x) + abs(a.y - b.y)
 
 
 def main(args: List[str]) -> None:
@@ -73,8 +64,8 @@ def main(args: List[str]) -> None:
             positions.append(point)
 
     # Set grid
-    width: int = max(map(Point.x.fget, positions))
-    height: int = max(map(Point.y.fget, positions))
+    width: int = max(p.x for p in positions)
+    height: int = max(p.y for p in positions)
     grid: List[List[int]] = [[0] * height for _ in range(width)]
     edges: Set[int] = set()
     counts: List[int] = [0] * len(positions)
@@ -120,7 +111,7 @@ def main(args: List[str]) -> None:
     for x in range(width):
         for y in range(height):
             pos: Point = Point(x, y)
-            grid[x][y] = sum(map(pos.distance_to, positions))
+            grid[x][y] = sum(Point.distance(pos, p) for p in positions)
 
     area: int = sum(1 for i in chain.from_iterable(grid) if i < 10000)
     print("Part two safe area:", area)
