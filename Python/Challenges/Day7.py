@@ -141,7 +141,7 @@ def main(args: List[str]) -> None:
 
     # Setup worker info
     elapsed: int = 0
-    workers: List[Optional[Worker]] = [Worker() for _ in range(5)]
+    workers: List[Worker] = [Worker() for _ in range(5)]
     # Loop through tasks to assign
     while tasks:
         # Try to assign all workers
