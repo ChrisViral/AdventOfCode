@@ -19,7 +19,7 @@ namespace AdventOfCode
         {
             HELP,
             LIST,
-            CHALLENGE,
+            DAY,
             CLEAR,
             EXIT,
             NONE
@@ -36,7 +36,7 @@ namespace AdventOfCode
         /// <summary>
         /// Challenges ID->Solver mapping dictionary
         /// </summary>
-        private static Dictionary<string, Challenge> Challenges { get; } = new Dictionary<string, Challenge>(50);
+        private static Dictionary<int, Challenge> Challenges { get; } = new Dictionary<int, Challenge>(50);
         #endregion
 
         #region Main
@@ -61,21 +61,23 @@ namespace AdventOfCode
                 {
                     case Command.HELP:
                         WriteLine("Commands: ");
-                        WriteLine("challenge {id} - Run the solver for the challenge of the given ID");
+                        WriteLine("day {id} - Run the solver for the challenge of a given day");
                         WriteLine("clear - Clear the command window");
                         WriteLine("exit - Halts execution");
                         WriteLine("help - Displays command help and information");
-                        WriteLine("list - Lists all challenge IDs that can be run");
+                        WriteLine("list - Lists all days IDs that can be run\n");
                         break;
 
                     case Command.LIST:
-                        WriteLine("Challenges:");
+                        WriteLine("Days:");
                         WriteLine(string.Join("\n", Challenges.Keys));
+                        WriteLine();
                         break;
 
-                    case Command.CHALLENGE:
-                        if (string.IsNullOrEmpty(text) || !Challenges.TryGetValue(text, out Challenge challenge)) { WriteLine("Invalid challenge ID"); break; }
-                        challenge.Run();
+                    case Command.DAY:
+                        if (!int.TryParse(text, out int i) || !Challenges.TryGetValue(i, out Challenge challenge)) { WriteLine("Invalid day ID"); break; }
+                        challenge.Solve();
+                        WriteLine();
                         break;
 
                     case Command.CLEAR:
@@ -87,16 +89,11 @@ namespace AdventOfCode
                         break;
 
                     case Command.NONE:
-                        WriteLine("Invalid command");
+                        WriteLine("Invalid command\n");
                         break;
 
                 }
-
-                WriteLine();
             }
-
-            WriteLine("Press any key to exit...");
-            ReadKey(true);
         }
         #endregion
 
@@ -121,7 +118,7 @@ namespace AdventOfCode
         /// <returns>The command entered, or NONE if invalid</returns>
         private static Command GetCommand(out string text)
         {
-            Write('>');
+            Write(">>>");
             string value = ReadLine()?.Trim().ToUpperInvariant();
             if (!string.IsNullOrEmpty(value))
             {
