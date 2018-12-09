@@ -104,8 +104,7 @@ def main(args: List[str]) -> None:
                     counts[i] += 1
 
     # Print maximum
-    maximum: int = max(counts)
-    print("Part one max area:", maximum)
+    print("Part one max area:", max(counts))
 
     # Calculate distance sum
     for x in range(width):

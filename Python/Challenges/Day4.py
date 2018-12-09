@@ -15,24 +15,20 @@ def main(args: List[str]) -> None:
 
     # Setup parsing info
     timestamps: Dict[datetime, str] = {}
-    splitter: regex = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
-
-    # Annotate tuple unpacking variables
-    time: str
-    op: str
+    pattern: regex = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
 
     # Parse info from the file
     with open(args[1], "r") as f:
         for line in f:
-            time, message = splitter.search(line).groups()
+            tim: str
+            message: str
+            time, message = pattern.search(line).groups()
             timestamps[datetime.strptime(time, "%m-%d %H:%M")] = message
 
     # Setup lookup variables
     schedules: Dict[int, Timesheet] = {}
-    start: int
     timesheet: Timesheet
-    timestamp: datetime
-    guard: int
+    start: int
     # Loop through timestamps in chronological order
     for timestamp, op in sorted(timestamps.items(), key=lambda t: t[0]):
         # On fall asleep mark time
@@ -46,7 +42,7 @@ def main(args: List[str]) -> None:
 
         # Get sleep schedule
         else:
-            guard = int(op)
+            guard: int = int(op)
             if op not in schedules:
                 timesheet = [0] * 60
                 schedules[guard] = timesheet
