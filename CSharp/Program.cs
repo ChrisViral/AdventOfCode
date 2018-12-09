@@ -76,7 +76,12 @@ namespace AdventOfCode
 
                     case Command.DAY:
                         if (!int.TryParse(text, out int i) || !Challenges.TryGetValue(i, out Challenge challenge)) { WriteLine("Invalid day ID"); break; }
-                        challenge.Solve();
+                        try { challenge.Solve(); }
+                        catch (Exception e)
+                        {
+                            WriteLine("An error occured while trying to run this challenge");
+                            WriteLine(e);
+                        }
                         WriteLine();
                         break;
 
