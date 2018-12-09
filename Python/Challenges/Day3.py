@@ -17,21 +17,19 @@ def main(args: List[str]) -> None:
     width: int = 1000
     fabric: List[List[int]] = [[0] * width for _ in range(width)]
     # Regex match for input
-    splitter: regex = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+    pattern: regex = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
     claims: Dict[int, Rect] = {}
-
-    # Annotate tuple unpacking variables
-    req: int
-    x: int
-    y: int
-    w: int
-    h: int
 
     # Read file
     with open(args[1], "r") as f:
         for line in f:
             # Parse input
-            req, x, y, w, h = map(int, splitter.search(line).groups())
+            req: int
+            x: int
+            y: int
+            w: int
+            h: int
+            req, x, y, w, h = map(int, pattern.search(line).groups())
             claims[req] = (x, y, w, h)
 
             # Increment use count on the fabric for this request
