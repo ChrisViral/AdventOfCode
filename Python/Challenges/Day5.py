@@ -1,4 +1,5 @@
 import sys
+import string
 import re as regex
 from typing import List, Tuple
 
@@ -21,7 +22,7 @@ def main(args: List[str]) -> None:
     print("Part one polymer length:", minimum)
 
     # Try with each letter of the alphabet
-    for c in "abcdefghijklmnopqrstuvwxyz":
+    for c in string.ascii_lowercase:
         # Remove the letter from the original polymer, case insensitive, then test
         polymer = regex.sub(c, "", original, flags=regex.IGNORECASE)
         polymer = fully_react(polymer)
@@ -60,23 +61,19 @@ def react(polymer: str) -> Tuple[bool, str]:
 
     # Previous/Current character
     prev: str = polymer[0]
-    curr: str
 
     # Loop through all the remaining characters
     for curr in polymer[1:]:
         # If the same character and case is different
         if prev.lower() == curr.lower() and prev.islower() != curr.islower():
-            # Remove the character pair from the string
-            polymer = polymer.replace(prev + curr, "")
-            break
+            # Remove the character pair from the string and return
+            return True, polymer.replace(prev + curr, "")
+
         # If no reaction, set current character as previous
         prev = curr
-    else:
-        # If completed normally, no replacements have been done
-        return False, polymer
 
-    # If broke out, More replacements might need to be done
-    return True, polymer
+    # If completed normally, no replacements have been done
+    return False, polymer
 
 
 # Only run if entry point
