@@ -62,6 +62,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)Challenges\Input\*" "$(TargetDir)Input\*" /D /E /C /R /I /K /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)Challenges\in\*" "$(TargetDir)Input\*" /D /E /C /R /I /K /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
