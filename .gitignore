@@ -11,7 +11,6 @@
 .vs/
 
 # Build results
-[Bb]uild/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -22,6 +21,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+Challenges/Input/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
@@ -107,7 +107,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -161,5 +160,5 @@ ENV/
 env.bak/
 venv.bak/
 
-# Personal
+# JetBrains
 .idea/
