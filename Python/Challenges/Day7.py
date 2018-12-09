@@ -1,5 +1,6 @@
 from __future__ import annotations
 import sys
+import string
 import re as regex
 from collections import OrderedDict
 from dataclasses import dataclass, field
@@ -99,16 +100,15 @@ def main(args: List[str]) -> None:
     """
 
     # Setup data structures
-    letters: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    tasks: Dict[str, Task] = OrderedDict([(key, Task(key)) for key in letters])
+    tasks: Dict[str, Task] = OrderedDict([(key, Task(key)) for key in string.ascii_uppercase])
     pattern: regex = regex.compile("Step ([A-Z]) must be finished before step ([A-Z]) can begin.")
-    requirement: Task
-    required: Task
 
     # Read from file
     with open(args[1], "r") as f:
         for line in f:
             # Get tasks and set requirements
+            requirement: Task
+            required: Task
             requirement, required = (tasks[t] for t in pattern.search(line).groups())
             required.add_requirement(requirement)
 
@@ -131,7 +131,7 @@ def main(args: List[str]) -> None:
     print("Part one sequence:", sequence)
 
     # Recreate tasks structure
-    tasks = OrderedDict([(key, Task(key)) for key in letters])
+    tasks = OrderedDict([(key, Task(key)) for key in string.ascii_uppercase])
     # Read from file
     with open(args[1], "r") as f:
         for line in f:

@@ -60,14 +60,10 @@ def main(args: List[str]) -> None:
     with open(args[1], "r") as f:
         data: Deque[int] = deque(map(int, f.readline().strip().split()))
 
-    # Create root node and
+    # Create root node and print results
     root: Node = Node(data)
-    total: int = root.get_total()
-
-    print("Part one total:", total)
-
-    value: int = root.get_value()
-    print("Part two value:", value)
+    print("Part one total:", root.get_total())
+    print("Part two value:", root.get_value())
 
 
 # Only run if entry point

@@ -25,10 +25,6 @@ def main(args: List[str]) -> None:
 
     print("Part one checksum:", twos * threes)
 
-    # Annotate tuple unpacking variables
-    a: str
-    b: str
-
     # While the list has more than one element
     while len(ids) > 1:
         # Get last element, keep the rest for the secondary loop
@@ -39,6 +35,8 @@ def main(args: List[str]) -> None:
             diff: str = ""
 
             # Check character by character
+            a: str
+            b: str
             for a, b in zip(first, second):
                 # If mismatch
                 if a != b:
