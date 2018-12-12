@@ -1,6 +1,6 @@
 import sys
 import re as regex
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Pattern
 from itertools import chain
 
 # Type aliases
@@ -17,7 +17,7 @@ def main(args: List[str]) -> None:
     width: int = 1000
     fabric: List[List[int]] = [[0] * width for _ in range(width)]
     # Regex match for input
-    pattern: regex = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+    pattern: Pattern = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
     claims: Dict[int, Rect] = {}
 
     # Read file
