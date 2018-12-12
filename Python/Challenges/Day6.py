@@ -2,7 +2,7 @@ from __future__ import annotations
 import sys
 import re as regex
 from dataclasses import dataclass
-from typing import List, Set
+from typing import List, Set, Pattern
 from itertools import chain
 
 
@@ -54,7 +54,7 @@ def main(args: List[str]) -> None:
     """
 
     # Get structure variables
-    pattern: regex = regex.compile(r"(\d+), (\d+)")
+    pattern: Pattern = regex.compile(r"(\d+), (\d+)")
     positions: List[Point] = []
 
     # File read stub
