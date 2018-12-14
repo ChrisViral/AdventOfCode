@@ -96,14 +96,12 @@ class Grid:
         # Setting up the data
         self._width: int = width
         self._height: int = len(data)
-        self._grid: List[List[Rail]] = []
+        self._grid: List[List[Rail]] = [[Rail.NONE] * self._height for _ in range(self._width)]
 
         # Creating the grid
-        for line in data:
-            row: List[Rail] = [Rail.NONE] * self._width
-            for x in range(len(line)):
-                row[x] = Rail(line[x])
-            self._grid.append(row)
+        for y, line in enumerate(data):
+            for x, c in enumerate(line):
+                self._grid[x][y] = Rail(c)
 
     def __getitem__(self, pos: Vector) -> Rail:
         """
@@ -112,7 +110,7 @@ class Grid:
         :return: The rail value at the given position
         """
 
-        return self._grid[pos.y][pos.x]
+        return self._grid[pos.x][pos.y]
 
 
 class Cart:

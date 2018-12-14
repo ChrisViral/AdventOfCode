@@ -1,54 +1,8 @@
 from __future__ import annotations
 import sys
 import re as regex
-from dataclasses import dataclass
 from typing import List, Tuple, Pattern
-
-
-@dataclass
-class Vector:
-    """
-    An object representing a 2D vector
-    """
-
-    _x: int = 0
-    _y: int = 0
-
-    @property
-    def x(self) -> int:
-        """
-        The X position of the vector
-        :return: X component
-        """
-
-        return self._x
-
-    @property
-    def y(self) -> int:
-        """
-        The Y position of the vector
-        :return: Y component
-        """
-
-        return self._y
-
-    def __add__(self, other: Vector) -> Vector:
-        """
-        Adds two vectors together
-        :param other: The other vector to add
-        :return: The resulting vector
-        """
-
-        return Vector(self._x + other._x, self._y + other._y)
-
-    def __mul__(self, scalar: int) -> Vector:
-        """
-        Multiplies a vector by a scalar
-        :param scalar: Scalar to multiply the vector by
-        :return: Multiplied/scaled vector
-        """
-
-        return Vector(self._x * scalar, self._y * scalar)
+from Utils.Vector import Vector
 
 
 class Particle:
