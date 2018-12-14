@@ -1,7 +1,7 @@
 import sys
 from collections import deque
 import re as regex
-from typing import List, Deque
+from typing import List, Deque, Pattern
 
 
 def main(args: List[str]) -> None:
@@ -14,7 +14,7 @@ def main(args: List[str]) -> None:
     with open(args[1], "r") as f:
         player_count: int
         final_marble: int
-        pattern: regex = regex.search(r"(\d+) players; last marble is worth (\d+) points", f.readline().strip())
+        pattern: Pattern = regex.search(r"(\d+) players; last marble is worth (\d+) points", f.readline().strip())
         player_count, final_marble = map(int, pattern.groups())
 
     highscore: int = calculate_score(player_count, final_marble)

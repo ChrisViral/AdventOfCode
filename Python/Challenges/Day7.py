@@ -4,7 +4,7 @@ import string
 import re as regex
 from collections import OrderedDict
 from dataclasses import dataclass, field
-from typing import List, Dict, Set, Optional
+from typing import List, Dict, Set, Optional, Pattern
 
 
 @dataclass
@@ -101,7 +101,7 @@ def main(args: List[str]) -> None:
 
     # Setup data structures
     tasks: Dict[str, Task] = OrderedDict([(key, Task(key)) for key in string.ascii_uppercase])
-    pattern: regex = regex.compile("Step ([A-Z]) must be finished before step ([A-Z]) can begin.")
+    pattern: Pattern = regex.compile("Step ([A-Z]) must be finished before step ([A-Z]) can begin.")
 
     # Read from file
     with open(args[1], "r") as f:

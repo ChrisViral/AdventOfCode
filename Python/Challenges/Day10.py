@@ -2,7 +2,7 @@ from __future__ import annotations
 import sys
 import re as regex
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Pattern
 
 
 @dataclass
@@ -84,7 +84,7 @@ def main(args: List[str]) -> None:
     """
 
     # Get patten and setup particle list
-    pattern: regex = regex.compile(r"position=<([-| ]\d+), ([-| ]\d+)> velocity=<([-| ]\d+), ([-| ]\d+)>")
+    pattern: Pattern = regex.compile(r"position=<([-| ]\d+), ([-| ]\d+)> velocity=<([-| ]\d+), ([-| ]\d+)>")
     particles: List[Particle] = []
 
     # File read stub
