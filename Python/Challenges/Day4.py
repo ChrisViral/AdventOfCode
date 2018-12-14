@@ -1,6 +1,6 @@
 import sys
 import re as regex
-from typing import List, Dict
+from typing import List, Dict, Pattern
 from datetime import datetime
 
 # Type aliases
@@ -15,7 +15,7 @@ def main(args: List[str]) -> None:
 
     # Setup parsing info
     timestamps: Dict[datetime, str] = {}
-    pattern: regex = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
+    pattern: Pattern = regex.compile(r".+(\d{2}-\d{2} \d{2}:\d{2})[^#]+#?(wakes|falls|\d+).+")  # What have I done?
 
     # Parse info from the file
     with open(args[1], "r") as f:

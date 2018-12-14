@@ -15,8 +15,8 @@ def main(args: List[str]) -> None:
         original: str = f.readline().strip()
 
     # Fully react the polymer
-    polymer = fully_react(original)
-    minimum: int = len(polymer)
+    original = fully_react(original)
+    minimum: int = len(original)
 
     # Print results
     print("Part one polymer length:", minimum)
