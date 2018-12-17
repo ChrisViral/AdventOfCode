@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Union
 from enum import Enum
+from functools import total_ordering
 import math
 
 # Type alias
@@ -9,6 +10,7 @@ Number = Union[int, float]
 
 
 @dataclass
+@total_ordering
 class Vector:
     """
     An object representing a 2D vector
@@ -137,6 +139,39 @@ class Vector:
 
         return Vector(self._x // scalar, self._y // scalar)
 
+    def __eq__(self, other: Vector) -> bool:
+        """
+        Checks if the passed vector is equal to this vector
+        :param other: Other vector to compare to
+        :return: True if both vectors are equal, false otherwise
+        """
+
+        return (self._x, self._y) == (other._x, other._y)
+
+    def __lt__(self, other: Vector) -> bool:
+        """
+        Checks if the passed vector is less than this vector
+        Order is checked by row first, then if the rows are equal, by column
+        :param other: Other vector to compare to
+        :return: True if this vectors is less than the other, false otherwise
+        """
+
+        if self._y == other._y:
+            return self._x < other._x
+        return self._y < other._y
+
+    def __gt__(self, other: Vector) -> bool:
+        """
+        Checks if the passed vector is greater than this vector
+        Order is checked by row first, then if the rows are equal, by column
+        :param other: Other vector to compare to
+        :return: True if this vectors is greater than the other, false otherwise
+        """
+
+        if self._y == other._y:
+            return self._x > other._x
+        return self._y > other._y
+
     def __abs__(self) -> Vector:
         """
         Returns the absolute value of the Vector
@@ -177,13 +212,15 @@ class Direction(Vector, Enum):
     Direction enum
     """
 
-    # Enum members
+    # region Enum members
     UP = 0, -1
     DOWN = 0, 1
     RIGHT = 1, 0
     LEFT = -1, 0
     NONE = 0, 0
+    # endregion
 
+    # region Methods
     def turn_left(self) -> Direction:
         """
         Turns this direction left relative to it's current heading
@@ -199,3 +236,4 @@ class Direction(Vector, Enum):
         """
 
         return Direction((-self._y, self._x))
+    # endregion

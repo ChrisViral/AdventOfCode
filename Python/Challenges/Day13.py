@@ -149,7 +149,7 @@ def main(args: List[str]) -> None:
     crashed: Set[Cart] = set()
     while len(carts) > 1:
         # Update carts in order, starting at the top left through the bottom right
-        for cart in sorted(carts, key=lambda x: (x.pos.y, x.pos.y)):
+        for cart in sorted(carts, key=lambda x: x.pos):
             cart.update()
             for c in carts:
                 # Check for collisions
