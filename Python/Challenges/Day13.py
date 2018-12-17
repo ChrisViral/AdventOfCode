@@ -4,8 +4,7 @@ import re as regex
 from typing import List, Dict, Set, Optional, Pattern
 from enum import Enum
 from itertools import chain
-from Utils.Vector import Vector, Direction
-from Utils.Grid import Grid
+from Utils import Vector, Direction, Grid
 
 
 class Rail(str, Enum):

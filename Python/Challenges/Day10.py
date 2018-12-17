@@ -2,7 +2,7 @@ from __future__ import annotations
 import sys
 import re as regex
 from typing import List, Tuple, Pattern
-from Utils.Vector import Vector
+from Utils import Vector
 
 
 class Particle:

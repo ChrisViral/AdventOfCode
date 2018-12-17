@@ -3,7 +3,7 @@ import sys
 import re as regex
 from typing import List, Set, Pattern
 from Utils.Vector import Vector
-from Utils.Grid import Grid
+from Utils import Grid
 
 
 def main(args: List[str]) -> None:

@@ -1,7 +1,7 @@
 import sys
 import re as regex
 from typing import List, Dict, Tuple, Pattern
-from Utils.Grid import Grid
+from Utils import Grid
 
 # Type aliases
 Rect = Tuple[int, int, int, int]
