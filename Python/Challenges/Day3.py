@@ -1,7 +1,7 @@
 import sys
 import re as regex
 from typing import List, Dict, Tuple, Pattern
-from itertools import chain
+from Utils.Grid import Grid
 
 # Type aliases
 Rect = Tuple[int, int, int, int]
@@ -15,7 +15,7 @@ def main(args: List[str]) -> None:
 
     # Create fabric tile
     width: int = 1000
-    fabric: List[List[int]] = [[0] * width for _ in range(width)]
+    fabric: Grid[int] = Grid(width, width, 0)
     # Regex match for input
     pattern: Pattern = regex.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
     claims: Dict[int, Rect] = {}
@@ -35,10 +35,10 @@ def main(args: List[str]) -> None:
             # Increment use count on the fabric for this request
             for i in range(x, x + w):
                 for j in range(y, y + h):
-                    fabric[i][j] += 1
+                    fabric[(i, j)] += 1
 
     # Get amount of squares with more than one request access
-    count: int = sum(1 for i in chain.from_iterable(fabric) if i > 1)
+    count: int = sum(1 for i in fabric if i > 1)
     print("Part one count:", count)
 
     # Loop through all requests
@@ -47,7 +47,7 @@ def main(args: List[str]) -> None:
         for i in range(x, x + w):
             for j in range(y, y + h):
                 # If not 1, another request overlaps
-                if fabric[i][j] != 1:
+                if fabric[(i, j)] != 1:
                     break
             else:
                 continue
