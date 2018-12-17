@@ -1,7 +1,11 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Union
+from enum import Enum
 import math
+
+# Type alias
+Number = Union[int, float]
 
 
 @dataclass
@@ -10,11 +14,14 @@ class Vector:
     An object representing a 2D vector
     """
 
-    _x: Union[int, float] = 0
-    _y: Union[int, float] = 0
+    # region Fields
+    _x: Number = 0
+    _y: Number = 0
+    # endregion
 
+    # region Properties
     @property
-    def x(self) -> int:
+    def x(self) -> Number:
         """
         The X position of the vector
         :return: X component
@@ -23,7 +30,7 @@ class Vector:
         return self._x
 
     @property
-    def y(self) -> int:
+    def y(self) -> Number:
         """
         The Y position of the vector
         :return: Y component
@@ -39,9 +46,11 @@ class Vector:
         """
 
         return self / len(self)
+    # endregion
 
+    # region Static methods
     @staticmethod
-    def dot(a: Vector, b: Vector) -> Union[int, float]:
+    def dot(a: Vector, b: Vector) -> Number:
         """
         Returns the dot product between two vectors
         :param a: First vector
@@ -51,6 +60,30 @@ class Vector:
 
         return (a._x * b._x) + (a._y * b._y)
 
+    @staticmethod
+    def distance(a: Vector, b: Vector) -> float:
+        """
+        Calculates the Euclidean distance between a and b
+        :param a: First vector
+        :param b: Second vector
+        :return: The Euclidean distance between a and b
+        """
+
+        return math.sqrt(((a._x - b._x) ** 2) + ((a._y - b._y) ** 2))
+
+    @staticmethod
+    def distance_rectilinear(a: Vector, b: Vector) -> Number:
+        """
+        Calculates the rectilinear (Manhattan) distance between a and b
+        :param a: First vector
+        :param b: Second vector
+        :return: The rectilinear (Manhattan) distance between a and b
+        """
+
+        return abs(a._x - b._x) + abs(a._y - b._y)
+    # endregion
+
+    # region Methods
     def __neg__(self) -> Vector:
         """
         Negates this vector
@@ -77,7 +110,7 @@ class Vector:
 
         return Vector(self._x - other._x, self._y - other._y)
 
-    def __mul__(self, scalar: Union[int, float]) -> Vector:
+    def __mul__(self, scalar: Number) -> Vector:
         """
         Multiplies a vector by a scalar
         :param scalar: Scalar to multiply the vector by
@@ -86,7 +119,7 @@ class Vector:
 
         return Vector(self._x * scalar, self._y * scalar)
 
-    def __truediv__(self, scalar: Union[int, float]) -> Vector:
+    def __truediv__(self, scalar: Number) -> Vector:
         """
         Divides a vector by a scalar
         :param scalar: Scalar to divide the vector by
@@ -136,3 +169,33 @@ class Vector:
         """
 
         return f"({self._x}, {self._y})"
+    # endregion
+
+
+class Direction(Vector, Enum):
+    """
+    Direction enum
+    """
+
+    # Enum members
+    UP = 0, -1
+    DOWN = 0, 1
+    RIGHT = 1, 0
+    LEFT = -1, 0
+    NONE = 0, 0
+
+    def turn_left(self) -> Direction:
+        """
+        Turns this direction left relative to it's current heading
+        :return: The direction turned to the left
+        """
+
+        return Direction((self._y, -self._x))
+
+    def turn_right(self) -> Direction:
+        """
+        Turns this direction right relative to it's current heading
+        :return: The direction turned to the right
+        """
+
+        return Direction((-self._y, self._x))
