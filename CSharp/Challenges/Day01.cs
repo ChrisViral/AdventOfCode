@@ -4,9 +4,9 @@ using System.Linq;
 namespace AdventOfCode.Challenges
 {
     /// <summary>
-    /// Day 1 Part 1 challenge
+    /// Day 1 challenge
     /// </summary>
-    public sealed class Day1 : Challenge
+    public sealed class Day01 : Challenge
     {
         #region Properties
         /// <summary>

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace AdventOfCode.Challenges
 {
-    public class Day2 : Challenge
+    /// <summary>
+    /// Day 2 challenge
+    /// </summary>
+    public class Day02 : Challenge
     {
         #region Properties
         /// <summary>

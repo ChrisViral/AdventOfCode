@@ -18,6 +18,18 @@ namespace AdventOfCode
 
         #region Methods
         /// <summary>
+        /// Returns the first line of the input for this challenge
+        /// </summary>
+        /// <returns>First line of the input</returns>
+        protected string GetLine()
+        {
+            using (StreamReader fs = File.OpenText($"Input/day{this.ID}.txt"))
+            {
+                return fs.ReadLine()?.Trim();
+            }
+        }
+
+        /// <summary>
         /// Gets all the input lines for this given challenge
         /// </summary>
         /// <returns>Enumerable of all lines</returns>
