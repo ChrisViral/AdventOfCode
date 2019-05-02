@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using AdventOfCode.Tools;
 
 namespace AdventOfCode.Challenges
 {
@@ -57,6 +57,9 @@ namespace AdventOfCode.Challenges
 
     }
 
+    /// <summary>
+    /// Day 3 challenge
+    /// </summary>
     public class Day3 : Challenge
     {
         #region Properties
@@ -80,7 +83,7 @@ namespace AdventOfCode.Challenges
 
             foreach (string line in GetLines())
             {
-                int[] data = pattern.Match(line).Groups.Cast<Group>().Skip(1).Select(c => int.Parse(c.Value)).ToArray();
+                int[] data = pattern.ParseData(line, int.Parse);
                 Rect rect = new Rect(data[1], data[2], data[3], data[4]);
                 claims.Add(data[0], rect);
                 for (int i = rect.X; i < rect.MaxX; i++)
