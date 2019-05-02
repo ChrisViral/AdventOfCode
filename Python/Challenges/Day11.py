@@ -10,6 +10,7 @@ def main(args: List[str]) -> None:
 
     # Setup data
     width: int = 301
+    # We're not using Grid yet here because this algorithm is already too slow and adding another layer won't help
     grid: List[List[int]] = [[0] * width for _ in range(width)]
 
     with open(args[1], "r") as f:
