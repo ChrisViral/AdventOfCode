@@ -3,36 +3,8 @@ import sys
 import re as regex
 from typing import List, Dict, Set, Optional, Pattern
 from enum import Enum
-from Utils.Vector import Vector
-
-
-class Direction(Vector, Enum):
-    """
-    Direction enum
-    """
-
-    # Enum members
-    UP = 0, -1
-    DOWN = 0, 1
-    RIGHT = 1, 0
-    LEFT = -1, 0
-    NONE = 0, 0
-
-    def turn_left(self) -> Direction:
-        """
-        Turns this direction left relative to it's current heading
-        :return: The direction turned to the left
-        """
-
-        return Direction((self._y, -self._x))
-
-    def turn_right(self) -> Direction:
-        """
-        Turns this direction right relative to it's current heading
-        :return: The direction turned to the right
-        """
-
-        return Direction((-self._y, self._x))
+from itertools import chain
+from Utils import Vector, Direction, Grid
 
 
 class Rail(str, Enum):
@@ -61,56 +33,6 @@ class Rail(str, Enum):
         elif self == Rail.CORNER_LEFT:
             return Direction((heading.y, heading.x))
         return heading
-
-
-class Grid:
-    """
-    2D rail grid system
-    """
-
-    @property
-    def width(self) -> int:
-        """
-        Grid's width
-        :return: Grid's width
-        """
-
-        return self._width
-
-    @property
-    def height(self) -> int:
-        """
-        Grid's height
-        :return: Grid's height
-        """
-
-        return self._height
-
-    def __init__(self, data: List[str], width: int) -> None:
-        """
-        Creates a new rail Grid
-        :param data: Data to create the grid from
-        :param width: Maximum width of the grid
-        """
-
-        # Setting up the data
-        self._width: int = width
-        self._height: int = len(data)
-        self._grid: List[List[Rail]] = [[Rail.NONE] * self._height for _ in range(self._width)]
-
-        # Creating the grid
-        for y, line in enumerate(data):
-            for x, c in enumerate(line):
-                self._grid[x][y] = Rail(c)
-
-    def __getitem__(self, pos: Vector) -> Rail:
-        """
-        Gets the rail object at the given Vector position in the Grid
-        :param pos: Vector position in the grid
-        :return: The rail value at the given position
-        """
-
-        return self._grid[pos.x][pos.y]
 
 
 class Cart:
@@ -145,12 +67,12 @@ class Cart:
         """
 
         # Setup variables
-        self._grid: Optional[Grid] = None
+        self._grid: Optional[Grid[Rail]] = None
         self.pos: Vector = position
         self.direction: Direction = direction
         self._choice: int = 0
 
-    def set_grid(self, grid: Grid) -> None:
+    def set_grid(self, grid: Grid[Rail]) -> None:
         """
         Sets the grid this cart evolves in
         :param grid: Grid to set
@@ -195,22 +117,20 @@ def main(args: List[str]) -> None:
 
     # File read stub
     with open(args[1], "r") as f:
-        j: int
+        i: int
         line: str
-        for j, line in enumerate(f):
+        for i, line in enumerate(f):
 
-            # Ignore empty lines
-            line = line.rstrip()
-            length: int = len(line)
-            if length == 0:
+            # Ignore blank lines
+            if len(line.strip()) == 0:
                 continue
 
-            # Get max width
-            width = max(width, length)
+            # Remove line terminator
+            line = line.rstrip("\n")
 
             # Get all carts
             for match in pattern.finditer(line):
-                cart: Cart = Cart.create_cart(match.start(), j, match.group())
+                cart: Cart = Cart.create_cart(match.start(), i, match.group())
                 if cart:
                     carts.append(cart)
 
@@ -220,7 +140,7 @@ def main(args: List[str]) -> None:
             data.append(line)
 
     # Create and set grid
-    grid: Grid = Grid(data, width)
+    grid: Grid[Rail] = Grid.populate_new(len(data[0]), len(data), chain.from_iterable(data), Rail)
     for cart in carts:
         cart.set_grid(grid)
 
@@ -228,7 +148,7 @@ def main(args: List[str]) -> None:
     crashed: Set[Cart] = set()
     while len(carts) > 1:
         # Update carts in order, starting at the top left through the bottom right
-        for cart in sorted(carts, key=lambda x: (x.pos.y, x.pos.y)):
+        for cart in sorted(carts, key=lambda x: x.pos):
             cart.update()
             for c in carts:
                 # Check for collisions

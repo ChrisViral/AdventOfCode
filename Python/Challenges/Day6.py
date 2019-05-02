@@ -1,50 +1,9 @@
 from __future__ import annotations
 import sys
 import re as regex
-from dataclasses import dataclass
 from typing import List, Set, Pattern
-from itertools import chain
-
-
-# Point coordinate structure
-@dataclass
-class Point:
-    """
-    2D Point coordinate class
-    """
-
-    # Coordinates
-    _x: int
-    _y: int
-
-    @property
-    def x(self) -> int:
-        """
-        X value of this coordinate
-        :return: The X value
-        """
-
-        return self._x
-
-    @property
-    def y(self) -> int:
-        """
-        Y value of this coordinate
-        :return: The Y value
-        """
-
-        return self._y
-
-    @staticmethod
-    def distance(a: Point, b: Point) -> int:
-        """
-        Calculates the Manhattan distance between two points
-        :param a: First point
-        :param b: Second point
-        :return:  The resulting, positive Manhattan distance between these points
-        """
-
-        return abs(a.x - b.x) + abs(a.y - b.y)
+from Utils.Vector import Vector
+from Utils import Grid
 
 
 def main(args: List[str]) -> None:
@@ -55,18 +14,18 @@ def main(args: List[str]) -> None:
 
     # Get structure variables
     pattern: Pattern = regex.compile(r"(\d+), (\d+)")
-    positions: List[Point] = []
+    positions: List[Vector] = []
 
     # File read stub
     with open(args[1], "r") as f:
         for line in f:
-            point: Point = Point(*map(int, pattern.search(line).groups()))
+            point: Vector = Vector(*map(int, pattern.search(line).groups()))
             positions.append(point)
 
     # Set grid
     width: int = max(p.x for p in positions)
     height: int = max(p.y for p in positions)
-    grid: List[List[int]] = [[0] * height for _ in range(width)]
+    grid: Grid[int] = Grid(width, height, 0)
     edges: Set[int] = set()
     counts: List[int] = [0] * len(positions)
 
@@ -74,25 +33,25 @@ def main(args: List[str]) -> None:
     for x in range(width):
         for y in range(height):
             # Set current position
-            pos: Point = Point(x, y)
-            closest: Point
+            pos: Vector = Vector(x, y)
+            closest: Vector
             smallest: int = width + height
 
             # Loop through known points
             for i, point in enumerate(positions):
                 # Calculate distance
-                dist: int = Point.distance(pos, point)
+                dist: int = Vector.distance_rectilinear(pos, point)
                 # New closest
                 if dist < smallest:
-                    grid[x][y] = i
+                    grid[pos] = i
                     smallest = dist
                     closest = point
                 # Two points match, ignore
                 elif dist == smallest:
-                    grid[x][y] = -1
+                    grid[pos] = -1
 
             # Points not ignored
-            i: int = grid[x][y]
+            i: int = grid[pos]
             if i != -1:
                 # Point on an edge, and index to edge points
                 if x == 0 or x == width - 1 or y == 0 or y == height - 1:
@@ -109,10 +68,10 @@ def main(args: List[str]) -> None:
     # Calculate distance sum
     for x in range(width):
         for y in range(height):
-            pos: Point = Point(x, y)
-            grid[x][y] = sum(Point.distance(pos, p) for p in positions)
+            pos: Vector = Vector(x, y)
+            grid[pos] = sum(Vector.distance_rectilinear(pos, p) for p in positions)
 
-    area: int = sum(1 for i in chain.from_iterable(grid) if i < 10000)
+    area: int = sum(1 for i in grid if i < 10000)
     print("Part two safe area:", area)
 
 
