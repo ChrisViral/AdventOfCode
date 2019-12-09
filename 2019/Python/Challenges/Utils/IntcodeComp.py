@@ -3,7 +3,7 @@ from typing import List, Dict, Callable, Optional
 from enum import IntEnum, IntFlag
 
 
-class Modes(IntFlag):
+class ParamMode(IntFlag):
     """
     Input mode flags for the IntcodeComp
     """
@@ -16,7 +16,7 @@ class Modes(IntFlag):
     # endregion
 
     # region Static methods
-    def has_flag(self, flag: Modes) -> bool:
+    def has_flag(self, flag: ParamMode) -> bool:
         """
         Returns if the given modes value has the specified flag
         :param flag: Flag to test for
@@ -46,7 +46,21 @@ class Opcode(IntEnum):
 
     # region Operations
     @staticmethod
-    def _add(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def __get_param(prog: List[int], ip: int, modes: ParamMode, param: ParamMode) -> int:
+        """
+        Gets the parameter in either immediate mode or address mode
+        :param prog: Intcode program to get the parameter from
+        :param ip: Current instruction pointer
+        :param modes: Current input modes for this Opcode
+        :param param: Current parameter of the instruction
+        :return: The value of the parameter, accounting for the correct input mode
+        """
+
+        x: int = prog[ip + param.bit_length()]
+        return x if modes.has_flag(param) else prog[x]
+
+    @staticmethod
+    def _add(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Add Opcode operation
         :param prog: Program memory
@@ -54,14 +68,15 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         prog[prog[ip + 3]] = a + b
         return ip + 4
 
     @staticmethod
-    def _mul(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _mul(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Multiply Opcode operation
         :param prog: Program memory
@@ -69,14 +84,14 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         prog[prog[ip + 3]] = a * b
         return ip + 4
 
     @staticmethod
-    def _inp(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _inp(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Input Opcode operation
         :param prog: Program memory
@@ -88,7 +103,7 @@ class Opcode(IntEnum):
         return ip + 2
 
     @staticmethod
-    def _out(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _out(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Output Opcode operation
         :param prog: Program memory
@@ -96,13 +111,13 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
 
         print(a)
         return ip + 2
 
     @staticmethod
-    def _jit(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _jit(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Jump-If-True Opcode operation
         :param prog: Program memory
@@ -110,13 +125,13 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         return b if a != 0 else ip + 3
 
     @staticmethod
-    def _jif(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _jif(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Jump-If-False Opcode operation
         :param prog: Program memory
@@ -124,13 +139,13 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         return b if a == 0 else ip + 3
 
     @staticmethod
-    def _tlt(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _tlt(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Test-Less-Than Opcode operation
         :param prog: Program memory
@@ -138,14 +153,14 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         prog[prog[ip + 3]] = 1 if a < b else 0
         return ip + 4
 
     @staticmethod
-    def _teq(prog: List[int], ip: int, modes: Modes = Modes.NONE) -> int:
+    def _teq(prog: List[int], ip: int, modes: ParamMode = ParamMode.NONE) -> int:
         """
         Test-Equals Opcode operation
         :param prog: Program memory
@@ -153,8 +168,8 @@ class Opcode(IntEnum):
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = prog[ip + 1] if modes.has_flag(Modes.FIRST) else prog[prog[ip + 1]]
-        b = prog[ip + 2] if modes.has_flag(Modes.SECOND) else prog[prog[ip + 2]]
+        a = Opcode.__get_param(prog, ip, modes, ParamMode.FIRST)
+        b = Opcode.__get_param(prog, ip, modes, ParamMode.SECOND)
 
         prog[prog[ip + 3]] = 1 if a == b else 0
         return ip + 4
@@ -168,7 +183,7 @@ class IntcodeComp:
 
     # region Static fields
     # Opcodes/Operations map
-    _operations: Dict[Opcode, Callable[[List[int], int, Optional[Modes]], int]] = {
+    _operations: Dict[Opcode, Callable[[List[int], int, ParamMode], int]] = {
         Opcode.ADD: Opcode._add,
         Opcode.MUL: Opcode._mul,
         Opcode.INP: Opcode._inp,
@@ -204,8 +219,8 @@ class IntcodeComp:
 
         # Set the Instruction Pointer and the starting Opcode
         ip: int = 0
-        opcode: Opcode = Opcode(IntcodeComp._get_digits(prog[ip], -2))
-        modes: Modes = Modes(IntcodeComp._get_digits(prog[ip], 0, -2))
+        opcode: Opcode = Opcode(IntcodeComp._get_digits(prog[0], -2))
+        modes: ParamMode = ParamMode(IntcodeComp._get_digits(prog[0], 0, -2))
 
         # Run forever
         while opcode != Opcode.HLT:
@@ -216,7 +231,7 @@ class IntcodeComp:
                 raise ValueError("Invalid Opcode detected")
 
             opcode = Opcode(IntcodeComp._get_digits(prog[ip], -2))
-            modes = Modes(IntcodeComp._get_digits(prog[ip], 0, -2))
+            modes = ParamMode(IntcodeComp._get_digits(prog[ip], 0, -2))
 
         # Return output of the program
         if out:
