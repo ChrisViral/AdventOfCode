@@ -1,6 +1,6 @@
 import sys
 from typing import List
-from Utils import IntcodeComp
+from utils import IntcodeComp
 
 
 def main(args: List[str]) -> None:
