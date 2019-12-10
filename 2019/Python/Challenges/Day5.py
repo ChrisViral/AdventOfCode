@@ -15,11 +15,11 @@ def main(args: List[str]) -> None:
         comp: IntcodeComp = IntcodeComp(f.readline())
 
     # Run the first diagnostics
-    comp.add_input(1)
+    comp.input_buffer.append(1)
     comp.run_program()
 
     # Run the second diagnostics
-    comp.add_input(5)
+    comp.input_buffer.append(5)
     _, out = comp.run_program()
 
     # Print the output
