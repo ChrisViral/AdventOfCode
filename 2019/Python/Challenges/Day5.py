@@ -11,8 +11,19 @@ def main(args: List[str]) -> None:
 
     # File read stub
     with open(args[1], "r") as f:
-        # Simply run the program and input the number needed for the required solution
-        IntcodeComp(f.readline(), True).run_program()
+        # Create the computer from the program
+        comp: IntcodeComp = IntcodeComp(f.readline())
+
+    # Run the first diagnostics
+    comp.add_input(1)
+    comp.run_program()
+
+    # Run the second diagnostics
+    comp.add_input(5)
+    _, out = comp.run_program()
+
+    # Print the output
+    print("\n".join(map(str, out)))
 
 
 # Only run if entry point

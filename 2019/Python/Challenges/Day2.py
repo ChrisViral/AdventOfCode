@@ -11,10 +11,10 @@ def main(args: List[str]) -> None:
 
     # File read stub
     with open(args[1], "r") as f:
-        comp: IntcodeComp = IntcodeComp(f.readline())
+        comp: IntcodeComp = IntcodeComp(f.readline(), False)
 
     # Run the original problem
-    print(comp.run_program(12, 2, True))
+    print(comp.run_program(12, 2)[0][0])
 
     # Value to find
     value: int = 19690720
@@ -22,7 +22,7 @@ def main(args: List[str]) -> None:
     for noun in range(100):
         for verb in range(100):
             # Run the program and compare
-            if comp.run_program(noun, verb, True) == value:
+            if comp.run_program(noun, verb)[0][0] == value:
                 # If it matches, print the hash and we are done
                 print((100 * noun) + verb)
                 return
