@@ -13,6 +13,7 @@ class Parameter(IntEnum):
     # region Enum members
     FIRST  = 1
     SECOND = 2
+    THIRD = 3
     # endregion
 
 
@@ -60,13 +61,13 @@ class IntcodeComp:
         :param instruction: Intcode instruction to decode
         """
 
-        instruction = f"{instruction:04}"
+        instruction = f"{instruction:05}"
         return Opcode(int(instruction[-2:])), instruction[0:-2]
 
     @staticmethod
     def _get_param(prog: List[int], ip: int, modes: str, param: Parameter, ref: int) -> int:
         """
-        Gets the parameter in either immediate mode or address mode
+        Gets the parameter in either immediate mode, relative mode, or address mode
         :param prog: Intcode program to get the parameter from
         :param ip: Current instruction pointer
         :param modes: Current parameter modes for this Opcode
@@ -92,6 +93,34 @@ class IntcodeComp:
             raise ValueError("Invalid ParameterMode detected")
 
     @staticmethod
+    def _get_register(prog: List[int], ip: int, modes: str, param: Parameter, ref: int) -> int:
+        """
+                Gets the register address in either relative mode or address mode
+                :param prog: Intcode program to get the parameter from
+                :param ip: Current instruction pointer
+                :param modes: Current parameter modes for this Opcode
+                :param param: Current parameter of the instruction
+                :param ref: Reference base for relative instructions
+                :return: The value of the parameter, accounting for the correct input mode
+                """
+
+        # Instruction parameter
+        x: int = prog[ip + param]
+        # Default to absolute if parameter modes are not provided
+        if modes is None:
+            return x
+        # Use the correct parameter mode
+        mode: ParamMode = ParamMode(int(modes[-param]))
+        if mode == mode.ABSOLUTE:
+            return x
+        elif mode == mode.IMMEDIATE:
+            raise ValueError("Immediate mode not supported for writes")
+        elif mode == mode.RELATIVE:
+            return x + ref
+        else:
+            raise ValueError("Invalid ParameterMode detected")
+
+    @staticmethod
     def _add(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Add Opcode operation
@@ -104,8 +133,9 @@ class IntcodeComp:
 
         a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
         b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
+        c = IntcodeComp._get_register(prog, ip, modes, Parameter.THIRD, comp._reference)
 
-        prog[prog[ip + 3]] = a + b
+        prog[c] = a + b
         return ip + 4
 
     @staticmethod
@@ -120,8 +150,9 @@ class IntcodeComp:
         """
         a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
         b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
+        c = IntcodeComp._get_register(prog, ip, modes, Parameter.THIRD, comp._reference)
 
-        prog[prog[ip + 3]] = a * b
+        prog[c] = a * b
         return ip + 4
 
     @staticmethod
@@ -144,7 +175,10 @@ class IntcodeComp:
                 raise ValueError("Input buffer empty")
 
         # Pop the input buffer
-        prog[prog[ip + 1]] = comp._input_buffer.popleft()
+        a = IntcodeComp._get_register(prog, ip, modes, Parameter.FIRST, comp._reference)
+        inp = comp._input_buffer.popleft()
+
+        prog[a] = inp
         return ip + 2
 
     @staticmethod
@@ -205,8 +239,9 @@ class IntcodeComp:
         """
         a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
         b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
+        c = IntcodeComp._get_register(prog, ip, modes, Parameter.THIRD, comp._reference)
 
-        prog[prog[ip + 3]] = 1 if a < b else 0
+        prog[c] = 1 if a < b else 0
         return ip + 4
 
     @staticmethod
@@ -221,8 +256,9 @@ class IntcodeComp:
         """
         a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
         b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
+        c = IntcodeComp._get_register(prog, ip, modes, Parameter.THIRD, comp._reference)
 
-        prog[prog[ip + 3]] = 1 if a == b else 0
+        prog[c] = 1 if a == b else 0
         return ip + 4
 
     @staticmethod
@@ -236,7 +272,7 @@ class IntcodeComp:
         :return: The new instruction pointer after execution
         """
         a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
-        comp._reference = a
+        comp._reference += a
 
         return ip + 2
     # endregion
@@ -284,7 +320,7 @@ class IntcodeComp:
         """
 
         # Setup the code into the list it needs to be
-        self._program: List[int] = list(map(int, code.split(","))) + ([0] * 100)  # Additional memory
+        self._program: List[int] = list(map(int, code.split(","))) + ([0] * 2000)  # Additional memory
         self._modes: bool = modes
         self._threaded: bool = threaded
         self._input_buffer: Deque[int] = deque()
@@ -303,6 +339,7 @@ class IntcodeComp:
 
         # Make sure we make a copy of the program first, then set the verb and noun
         prog: List[int] = self._program.copy()
+        self._reference = 0
         if noun is not None:
             prog[1] = noun
             if verb is not None:
