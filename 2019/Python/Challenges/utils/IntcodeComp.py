@@ -1,31 +1,30 @@
 from __future__ import annotations
 from typing import Tuple, List, Deque, Dict, Callable, Optional, Final
 from collections import deque
-from enum import Enum, IntFlag
+from enum import Enum, IntEnum
 from time import sleep
 
 
-class ParamMode(IntFlag):
+class Parameter(IntEnum):
     """
     Input mode flags for the IntcodeComp
     """
 
     # region Enum members
-    NONE   = 0b000
-    FIRST  = 0b001
-    SECOND = 0b010
-    THIRD  = 0b100
+    FIRST  = 1
+    SECOND = 2
     # endregion
 
-    # region Static methods
-    def has_flag(self, flag: ParamMode) -> bool:
-        """
-        Returns if the given modes value has the specified flag
-        :param flag: Flag to test for
-        :return: True if the value has the flag, false otherwise
-        """
 
-        return self & flag == flag
+class ParamMode(Enum):
+    """
+    Intcode Parameter Modes
+    """
+
+    # region Enum members
+    ABSOLUTE = 0
+    IMMEDIATE = 1
+    RELATIVE = 2
     # endregion
 
 
@@ -43,6 +42,7 @@ class Opcode(Enum):
     JIF = 6
     TLT = 7
     TEQ = 8
+    REF = 9
     HLT = 99
     # endregion
 
@@ -54,150 +54,191 @@ class IntcodeComp:
 
     # region Static methods
     @staticmethod
-    def _get_digits(value: int, start: int, end: Optional[int] = None) -> int:
+    def _decode_instruction(instruction: int) -> Tuple[Opcode, str]:
         """
-        Returns the value of the specified digits of the given number
-        :param value: Value to extract digits from
-        :param start: Starting index of the digits to extract
-        :param end: Ending index of the digits to extract, defaults to the end of the string
+        Turns an intcode instruction into it's corresponding Opcode and parameter modes string
+        :param instruction: Intcode instruction to decode
         """
 
-        return int(f"{value:06}"[start:end])
+        instruction = f"{instruction:04}"
+        return Opcode(int(instruction[-2:])), instruction[0:-2]
 
     @staticmethod
-    def __get_param(prog: List[int], ip: int, modes: ParamMode, param: ParamMode) -> int:
+    def _get_param(prog: List[int], ip: int, modes: str, param: Parameter, ref: int) -> int:
         """
         Gets the parameter in either immediate mode or address mode
         :param prog: Intcode program to get the parameter from
         :param ip: Current instruction pointer
-        :param modes: Current input modes for this Opcode
+        :param modes: Current parameter modes for this Opcode
         :param param: Current parameter of the instruction
+        :param ref: Reference base for relative instructions
         :return: The value of the parameter, accounting for the correct input mode
         """
 
-        x: int = prog[ip + param.bit_length()]
-        return x if modes.has_flag(param) else prog[x]
+        # Instruction parameter
+        x: int = prog[ip + param]
+        # Default to absolute if parameter modes are not provided
+        if modes is None:
+            return prog[x]
+        # Use the correct parameter mode
+        mode: ParamMode = ParamMode(int(modes[-param]))
+        if mode == mode.ABSOLUTE:
+            return prog[x]
+        elif mode == mode.IMMEDIATE:
+            return x
+        elif mode == mode.RELATIVE:
+            return prog[x + ref]
+        else:
+            raise ValueError("Invalid ParameterMode detected")
 
     @staticmethod
-    def _add(prog: List[int], ip: int, comp: IntcodeComp, modes: ParamMode = ParamMode.NONE) -> int:
+    def _add(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Add Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
 
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         prog[prog[ip + 3]] = a + b
         return ip + 4
 
     @staticmethod
-    def _mul(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _mul(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Multiply Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         prog[prog[ip + 3]] = a * b
         return ip + 4
 
     @staticmethod
-    def _inp(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _inp(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Input Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        # If nothing is in the input buffer, busy wait until something is produced
-        while len(comp._input_buffer) == 0:
-            sleep(1E-3)  # 1ms
+        if len(comp._input_buffer) == 0:
+            # If nothing is in the input buffer and in a threaded environment, busy wait until something is produced
+            if comp._threaded:
+                while len(comp._input_buffer) == 0:
+                    sleep(1E-3)  # 1ms
+            # Else throw
+            else:
+                raise ValueError("Input buffer empty")
 
         # Pop the input buffer
         prog[prog[ip + 1]] = comp._input_buffer.popleft()
         return ip + 2
 
     @staticmethod
-    def _out(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _out(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Output Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
 
         # Add to the output buffer
         comp._output_buffer.append(a)
         return ip + 2
 
     @staticmethod
-    def _jit(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _jit(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Jump-If-True Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         return b if a != 0 else ip + 3
 
     @staticmethod
-    def _jif(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _jif(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Jump-If-False Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         return b if a == 0 else ip + 3
 
     @staticmethod
-    def _tlt(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _tlt(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Test-Less-Than Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         prog[prog[ip + 3]] = 1 if a < b else 0
         return ip + 4
 
     @staticmethod
-    def _teq(prog: List[int], ip: int, comp: IntcodeComp,  modes: ParamMode = ParamMode.NONE) -> int:
+    def _teq(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
         """
         Test-Equals Opcode operation
         :param prog: Program memory
         :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
         :param modes: Input modes
         :return: The new instruction pointer after execution
         """
-        a = IntcodeComp.__get_param(prog, ip, modes, ParamMode.FIRST)
-        b = IntcodeComp.__get_param(prog, ip, modes, ParamMode.SECOND)
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        b = IntcodeComp._get_param(prog, ip, modes, Parameter.SECOND, comp._reference)
 
         prog[prog[ip + 3]] = 1 if a == b else 0
         return ip + 4
+
+    @staticmethod
+    def _ref(prog: List[int], ip: int, comp: IntcodeComp, modes: Optional[str] = None) -> int:
+        """
+        Reference-Adjust Opcode operation
+        :param prog: Program memory
+        :param ip: Current instruction pointer
+        :param comp: IntcodeComp this operation is executed from
+        :param modes: Input modes
+        :return: The new instruction pointer after execution
+        """
+        a = IntcodeComp._get_param(prog, ip, modes, Parameter.FIRST, comp._reference)
+        comp._reference = a
+
+        return ip + 2
     # endregion
 
     # region Properties
@@ -235,7 +276,7 @@ class IntcodeComp:
     # endregion
 
     # region Constructor
-    def __init__(self, code: str, modes: bool = True) -> None:
+    def __init__(self, code: str, modes: bool = True, threaded: bool = False) -> None:
         """
         Creates a new IntcodeComputer for the given program
         :param code: Code that the computer has to run
@@ -243,10 +284,12 @@ class IntcodeComp:
         """
 
         # Setup the code into the list it needs to be
-        self._program: List[int] = list(map(int, code.split(",")))
+        self._program: List[int] = list(map(int, code.split(","))) + ([0] * 100)  # Additional memory
         self._modes: bool = modes
+        self._threaded: bool = threaded
         self._input_buffer: Deque[int] = deque()
         self._output_buffer: Deque[int] = deque()
+        self._reference: int = 0
     # endregion
 
     # region Methods
@@ -294,8 +337,9 @@ class IntcodeComp:
 
         # Set the Instruction Pointer and the starting Opcode
         ip: int = 0
-        opcode: Opcode = Opcode(IntcodeComp._get_digits(prog[0], -2))
-        modes: ParamMode = ParamMode(IntcodeComp._get_digits(prog[0], 0, -2))
+        opcode: Opcode
+        modes: str
+        opcode, modes = IntcodeComp._decode_instruction(prog[ip])
 
         # Run forever
         while opcode is not Opcode.HLT:
@@ -305,8 +349,7 @@ class IntcodeComp:
             except KeyError:
                 raise ValueError("Invalid Opcode detected")
 
-            opcode = Opcode(IntcodeComp._get_digits(prog[ip], -2))
-            modes = ParamMode(IntcodeComp._get_digits(prog[ip], 0, -2))
+            opcode, modes = IntcodeComp._decode_instruction(prog[ip])
 
         # Return output of the program
         return prog, self._output_buffer
@@ -314,7 +357,7 @@ class IntcodeComp:
 
 
 # Operation function signature
-Operation = Callable[[List[int], int, IntcodeComp, ParamMode], int]
+Operation = Callable[[List[int], int, IntcodeComp, Optional[str]], int]
 # Opcode/Operations map
 _operations: Final[Dict[Opcode, Operation]] = {
     Opcode.ADD: IntcodeComp._add,
@@ -325,5 +368,6 @@ _operations: Final[Dict[Opcode, Operation]] = {
     Opcode.JIF: IntcodeComp._jif,
     Opcode.TLT: IntcodeComp._tlt,
     Opcode.TEQ: IntcodeComp._teq,
+    Opcode.REF: IntcodeComp._ref,
     Opcode.HLT: lambda _, ip, __, ___: ip
 }

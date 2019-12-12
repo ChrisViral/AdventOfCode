@@ -40,7 +40,7 @@ def main(args: List[str]) -> None:
 
     # Reset thrust and create the five amplifiers
     thrust = 0
-    amplifiers: List[IntcodeComp] = [comp] + [IntcodeComp(line) for _ in range(4)]
+    amplifiers: List[IntcodeComp] = [IntcodeComp(line, True, True) for _ in range(5)]
     # Link all input and output buffers circularly
     for i in range(5):
         amplifiers[i].input_buffer = amplifiers[i - 1].output_buffer
