@@ -50,7 +50,6 @@ def main(args: List[str]) -> None:
     print("\n".join(image))
 
 
-
 # Only run if entry point
 if __name__ == "__main__":
     main(sys.argv)
