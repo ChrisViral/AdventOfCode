@@ -115,6 +115,15 @@ class Vector:
     # endregion
 
     # region Methods
+    def move_towards(self, direction: Direction, length: int = 1) -> Vector:
+        """
+        Moves the Vector in the specified direction and length
+        :param direction: Direction to move the Vector in
+        :param length: Distance in which to move the Vector
+        :return: The resulting Vector after moving it
+        """
+        return self + direction if length == 1 else self + (direction * length)
+
     def __neg__(self) -> Vector:
         """
         Negates this vector

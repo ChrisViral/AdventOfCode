@@ -30,7 +30,7 @@ def main(args: List[str]) -> None:
         for phase in perm:
             # Append phase and run
             comp.input_buffer.appendleft(phase)
-            _, out = comp.run_program()
+            out = comp.run_program().output
 
         # Final thrust is in the output buffer
         thrust = max(thrust, out.pop())
@@ -49,10 +49,10 @@ def main(args: List[str]) -> None:
     for perm in permutations([5, 6, 7, 8, 9]):
         # Input the phase number
         for i in range(5):
-            amplifiers[i].input_buffer.append(perm[i])
+            amplifiers[i].add_input(perm[i])
 
         # Add original input to the first
-        amplifiers[0].input_buffer.append(0)
+        amplifiers[0].add_input(0)
 
         # Create all the amplifier threads
         threads: List[Thread] = [Thread(target=amplifier.run_program) for amplifier in amplifiers]
@@ -64,7 +64,7 @@ def main(args: List[str]) -> None:
             thread.join()
 
         # Final thrust is in the last amplifier's output buffer
-        thrust = max(thrust, amplifiers[-1].output_buffer.pop())
+        thrust = max(thrust, amplifiers[-1].next_output())
 
     # Print the max thrust
     print(thrust)

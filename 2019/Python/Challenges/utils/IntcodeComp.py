@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple, List, Deque, Dict, Callable, Optional, Final
+from typing import Tuple, List, Deque, Dict, NamedTuple, Callable, Optional, Final
 from collections import deque
 from enum import Enum, IntEnum
 from time import sleep
@@ -46,6 +46,14 @@ class Opcode(Enum):
     REF = 9
     HLT = 99
     # endregion
+
+
+class State(NamedTuple):
+    """
+    IntcodeComp state
+    """
+    code: List[int]
+    output: Deque[int]
 
 
 class IntcodeComp:
@@ -330,7 +338,23 @@ class IntcodeComp:
     # endregion
 
     # region Methods
-    def run_program(self, noun: Optional[int] = None, verb: Optional[int] = None) -> Tuple[List[int], Deque[int]]:
+    def add_input(self, *args: int) -> None:
+        """
+        Adds the all the provided inputs in order to the IntcodeComp's input buffer
+        :param args: Values to add to the input buffer
+        """
+
+        for value in args:
+            self._input_buffer.append(value)
+
+    def next_output(self) -> int:
+        """
+        Returns the next value in this IntcodeComp's output buffer
+        :return: The next value in the output buffer
+        """
+        return self._output_buffer.popleft()
+
+    def run_program(self, noun: Optional[int] = None, verb: Optional[int] = None) -> State:
         """
         Runs the Intcode program associated to this computer, with the given noun and verb
         :param noun: First parameter of the program
@@ -364,9 +388,9 @@ class IntcodeComp:
             opcode = Opcode(prog[ip])
 
         # Return output of the program
-        return prog, self._output_buffer
+        return State(prog, self._output_buffer)
 
-    def _run_program_modes(self, prog: List[int]) -> Tuple[List[int], Deque[int]]:
+    def _run_program_modes(self, prog: List[int]) -> State:
         """
         Runs the given Intcode program with input modes activated
         :param prog: Program code
@@ -390,7 +414,7 @@ class IntcodeComp:
             opcode, modes = IntcodeComp._decode_instruction(prog[ip])
 
         # Return output of the program
-        return prog, self._output_buffer
+        return State(prog, self._output_buffer)
     # endregion
 
 

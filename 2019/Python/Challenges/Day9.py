@@ -15,14 +15,14 @@ def main(args: List[str]) -> None:
         comp: IntcodeComp = IntcodeComp(f.readline().strip())
 
     # Run diagnostics mode
-    comp.input_buffer.append(1)
+    comp.add_input(1)
     comp.run_program()
-    print(comp.output_buffer.pop())
+    print(comp.next_output())
 
     # Run Sensor program
-    comp.input_buffer.append(2)
+    comp.add_input(2)
     comp.run_program()
-    print(comp.output_buffer.pop())
+    print(comp.next_output())
 
 
 # Only run if entry point
