@@ -15,12 +15,12 @@ def main(args: List[str]) -> None:
         comp: IntcodeComp = IntcodeComp(f.readline().strip())
 
     # Run the first diagnostics
-    comp.input_buffer.append(1)
+    comp.add_input(1)
     comp.run_program()
 
     # Run the second diagnostics
-    comp.input_buffer.append(5)
-    _, out = comp.run_program()
+    comp.add_input(5)
+    out = comp.run_program().output
 
     # Print the output
     print("\n".join(map(str, out)))
