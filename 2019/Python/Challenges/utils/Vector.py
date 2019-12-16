@@ -9,7 +9,7 @@ Number = Union[int, float]
 
 
 @dataclass(frozen=True, order=True)
-class Vector(Iterable):
+class Vector:
     """
     An object representing a 2D vector
     """

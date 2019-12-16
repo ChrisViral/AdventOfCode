@@ -312,16 +312,17 @@ class IntcodeComp:
     # endregion
 
     # region Constructor
-    def __init__(self, code: str, modes: bool = True, threaded: bool = False) -> None:
+    def __init__(self, code: str, *, uses_modes: bool = True, threaded: bool = False) -> None:
         """
         Creates a new IntcodeComputer for the given program
         :param code: Code that the computer has to run
-        :param modes: If input modes are active for this computer
+        :param uses_modes: If input modes are active for this computer
+        :param threaded: If the IntcodeComp will be ran in it's own thread or not
         """
 
         # Setup the code into the list it needs to be
         self._program: List[int] = list(map(int, code.split(","))) + ([0] * 2000)  # Additional memory
-        self._modes: bool = modes
+        self._modes: bool = uses_modes
         self._threaded: bool = threaded
         self._input_buffer: Deque[int] = deque()
         self._output_buffer: Deque[int] = deque()
