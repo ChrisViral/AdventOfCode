@@ -1,17 +1,15 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Union, Optional
+from typing import Iterable, Iterator, Union, Optional
 from enum import Enum
-from functools import total_ordering
 import math
 
 # Type alias
 Number = Union[int, float]
 
 
-@dataclass
-@total_ordering
-class Vector:
+@dataclass(frozen=True, order=True)
+class Vector(Iterable):
     """
     An object representing a 2D vector
     """
@@ -170,47 +168,6 @@ class Vector:
 
         return Vector(self._x // scalar, self._y // scalar)
 
-    def __hash__(self) -> int:
-        """
-        Hash value of this Vector
-        :return: The hash of this vector
-        """
-
-        return (hash(self._x) * 397) ^ hash(self._y)
-
-    def __eq__(self, other: Vector) -> bool:
-        """
-        Checks if the passed vector is equal to this vector
-        :param other: Other vector to compare to
-        :return: True if both vectors are equal, false otherwise
-        """
-
-        return (self._x, self._y) == (other._x, other._y)
-
-    def __lt__(self, other: Vector) -> bool:
-        """
-        Checks if the passed vector is less than this vector
-        Order is checked by row first, then if the rows are equal, by column
-        :param other: Other vector to compare to
-        :return: True if this vectors is less than the other, false otherwise
-        """
-
-        if self._y == other._y:
-            return self._x < other._x
-        return self._y < other._y
-
-    def __gt__(self, other: Vector) -> bool:
-        """
-        Checks if the passed vector is greater than this vector
-        Order is checked by row first, then if the rows are equal, by column
-        :param other: Other vector to compare to
-        :return: True if this vectors is greater than the other, false otherwise
-        """
-
-        if self._y == other._y:
-            return self._x > other._x
-        return self._y > other._y
-
     def __abs__(self) -> Vector:
         """
         Returns the absolute value of the Vector
@@ -228,6 +185,23 @@ class Vector:
 
         return Vector(round(self._x, ndigits), round(self._y, ndigits))
 
+    def __copy__(self) -> Vector:
+        """
+        Creates a copy of this Vector
+        :return: A new identical Vector
+        """
+
+        return Vector(self._x, self._y)
+
+    def __iter__(self) -> Iterator[Number]:
+        """
+        Iterates over the properties of this object. Used for unpacking
+        :return: An iterator returning x, then y
+        """
+
+        yield self._x
+        yield self._y
+
     def __str__(self) -> str:
         """
         String representation of the vector
@@ -235,14 +209,6 @@ class Vector:
         """
 
         return f"({self._x}, {self._y})"
-
-    def __repr__(self) -> str:
-        """
-        Debugger string representation of the Vector
-        :return: An unambiguous debugger string representation
-        """
-
-        return f"Vector({self._x}, {self._y})"
     # endregion
 
 
