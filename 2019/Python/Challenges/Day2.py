@@ -11,7 +11,7 @@ def main(args: List[str]) -> None:
 
     # File read stub
     with open(args[1], "r") as f:
-        comp: IntcodeComp = IntcodeComp(f.readline(), False)
+        comp: IntcodeComp = IntcodeComp(f.readline(), uses_modes=False)
 
     # Run the original problem
     print(comp.run_program(12, 2)[0][0])
