@@ -12,7 +12,7 @@ def main(args: List[str]) -> None:
     # File read stub
     with open(args[1], "r") as f:
         # Create the computer from the program
-        comp: IntcodeComp = IntcodeComp(f.readline())
+        comp: IntcodeComp = IntcodeComp(f.readline().strip())
 
     # Run the first diagnostics
     comp.input_buffer.append(1)

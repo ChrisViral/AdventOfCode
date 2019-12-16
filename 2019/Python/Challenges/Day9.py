@@ -12,7 +12,7 @@ def main(args: List[str]) -> None:
     # File read stub
     with open(args[1], "r") as f:
         # Get IntcodeComp
-        comp: IntcodeComp = IntcodeComp(f.readline())
+        comp: IntcodeComp = IntcodeComp(f.readline().strip())
 
     # Run diagnostics mode
     comp.input_buffer.append(1)

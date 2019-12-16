@@ -14,7 +14,7 @@ def main(args: List[str]) -> None:
     # File read stub
     with open(args[1], "r") as f:
         # Save the program code
-        line: str = f.readline()
+        line: str = f.readline().strip()
 
     # Create the Intcode Computer, and link the input and output buffers
     comp: IntcodeComp = IntcodeComp(line)
