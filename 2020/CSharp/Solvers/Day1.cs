@@ -1,16 +1,28 @@
 ﻿#nullable enable
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using AdventOfCode.Solvers.Base;
 
 namespace AdventOfCode.Solvers
 {
     public class Day1 : Solver<int>
     {
+        #region Constants
+        private const int TARGET = 2020;
+        #endregion
+
+        #region Fields
+        private readonly HashSet<int> values;
+        #endregion
+
         #region Constructors
-        public Day1(FileInfo file) : base(file) => Array.Sort(this.Input);
+        public Day1(FileInfo file) : base(file)
+        {
+            Array.Sort(this.Input);
+            this.values = new HashSet<int>(this.Input);
+        }
         #endregion
 
         #region Methods
@@ -25,58 +37,36 @@ namespace AdventOfCode.Solvers
 
         private void FindTwoMatching()
         {
-            int length = this.Input.Length;
-            for (int i = 0; i < length - 1; i++)
+            foreach (int expense in this.Input)
             {
-                int a = this.Input[i];
-                for (int j = i + 1; j < length; j--)
+                int match = TARGET - expense;
+                if (this.values.Contains(match))
                 {
-                    int b = this.Input[j];
-                    int total = a + b;
-                    if (total is 2020)
-                    {
-                        Trace.WriteLine(a * b);
-                        return;
-                    }
-
-                    if (total < 2020)
-                    {
-                        break;
-                    }
+                    Trace.WriteLine(expense * match);
+                    return;
                 }
             }
         }
 
         private void FindThreeMatching()
         {
-            int length = this.Input.Length;
-            for (int i = 0; i < length - 2; i++)
+            for (int i = 0; i < this.Input.Length - 2; )
             {
-                int a = this.Input[i];
-                for (int j = i + 1; j < length - 1; j++)
+                int first = this.Input[i++];
+                foreach (int second in this.Input[i..^1])
                 {
-                    int b = this.Input[j];
-                    int ab = + a + b;
+                    int total = first + second;
 
-                    if (ab > 2020)
+                    if (total > TARGET)
                     {
                         break;
                     }
 
-                    for (int k = j + 1; k < length; k++)
+                    int third = TARGET - total;
+                    if (this.values.Contains(third))
                     {
-                        int c = this.Input[k];
-                        int total = ab + c;
-                        if (total is 2020)
-                        {
-                            Trace.WriteLine(a * b * c);
-                            return;
-                        }
-
-                        if (total > 2020)
-                        {
-                            break;
-                        }
+                        Trace.WriteLine(first * second * third);
+                        return;
                     }
                 }
             }
