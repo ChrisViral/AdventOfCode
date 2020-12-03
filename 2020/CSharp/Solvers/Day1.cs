@@ -18,11 +18,7 @@ namespace AdventOfCode.Solvers
         #endregion
 
         #region Constructors
-        public Day1(FileInfo file) : base(file)
-        {
-            Array.Sort(this.Input);
-            this.values = new HashSet<int>(this.Input);
-        }
+        public Day1(FileInfo file) : base(file) => this.values = new HashSet<int>(this.Input);
         #endregion
 
         #region Methods
@@ -50,14 +46,15 @@ namespace AdventOfCode.Solvers
 
         private void FindThreeMatching()
         {
-            for (int i = 0; i < this.Input.Length - 2; )
+            Array.Sort(this.Input);
+            for (int i = 0; i < this.Input.Length - 2; /*i++*/)
             {
                 int first = this.Input[i++];
                 foreach (int second in this.Input[i..^1])
                 {
                     int total = first + second;
 
-                    if (total > TARGET)
+                    if (total >= TARGET)
                     {
                         break;
                     }

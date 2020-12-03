@@ -10,6 +10,8 @@ namespace AdventOfCode
 {
     public static class Program
     {
+        private static readonly Type baseSolverType = typeof(Solver<>);
+
         private static void Main(string[] args)
         {
             //Check for arguments
@@ -33,7 +35,9 @@ namespace AdventOfCode
                 //Get solver types
                 Type? solverType = Assembly.GetCallingAssembly()
                                            .GetTypes()
-                                           .Where(t => !t.IsAbstract && (t.BaseType?.IsGenericType ?? false) && t.BaseType.GetGenericTypeDefinition() == typeof(Solver<>))
+                                           .Where(t => !t.IsAbstract
+                                                    && (t.BaseType?.IsGenericType ?? false)
+                                                    && t.BaseType.GetGenericTypeDefinition() == baseSolverType)
                                            .FirstOrDefault(t => t.Name == day);
 
                 //Make sure the type exists
