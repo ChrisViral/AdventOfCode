@@ -1,8 +1,10 @@
 {
-  "profiles": {
-    "AdventOfCode": {
+  "profiles": 
+  {
+    "AdventOfCode": 
+    {
       "commandName": "Project",
-      "commandLineArgs": "Day1"
+      "commandLineArgs": "Day2"
     }
   }
 }
