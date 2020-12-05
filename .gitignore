@@ -9,6 +9,7 @@
 *.userosscache
 *.sln.docstates
 .vs/
+resuts.txt
 
 # Build results
 [Dd]ebug/
