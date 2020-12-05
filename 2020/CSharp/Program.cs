@@ -10,7 +10,8 @@ namespace AdventOfCode
 {
     public static class Program
     {
-        private static readonly Type baseSolverType = typeof(Solver<>);
+        private static readonly Type baseSolverType = typeof(Solver);
+        private static readonly Type[] constructorTypes = { typeof(FileInfo) };
 
         private static void Main(string[] args)
         {
@@ -36,9 +37,10 @@ namespace AdventOfCode
                 Type? solverType = Assembly.GetCallingAssembly()
                                            .GetTypes()
                                            .Where(t => !t.IsAbstract
-                                                    && (t.BaseType?.IsGenericType ?? false)
-                                                    && t.BaseType.GetGenericTypeDefinition() == baseSolverType)
-                                           .FirstOrDefault(t => t.Name == day);
+                                                    && !t.IsGenericType
+                                                    && t.IsAssignableTo(baseSolverType)
+                                                    && t.GetConstructor(constructorTypes) is not null)
+                                           .SingleOrDefault(t => t.Name == day);
 
                 //Make sure the type exists
                 if (solverType is null)
@@ -69,8 +71,8 @@ namespace AdventOfCode
             Trace.AutoFlush = true;
 
             solver.Run();
-            Trace.Close();
 
+            Trace.Close();
             Exit();
         }
 
