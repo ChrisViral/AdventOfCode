@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using AdventOfCode.Solvers.Base;
 
 namespace AdventOfCode.Solvers
 {
-    public class Day1 : Solver<int>
+    public class Day1 : Solver<int[]>
     {
         #region Constants
         private const int TARGET = 2020;
@@ -22,7 +23,7 @@ namespace AdventOfCode.Solvers
         #endregion
 
         #region Methods
-        public override int Convert(string s) => int.Parse(s);
+        public override int[] Convert(string[] rawInput) => rawInput.Select(int.Parse).ToArray();
 
         public override void Run()
         {
@@ -49,8 +50,8 @@ namespace AdventOfCode.Solvers
             Array.Sort(this.Input);
             for (int i = 0; i < this.Input.Length - 2; /*i++*/)
             {
-                int first = this.Input[i++];
-                foreach (int second in this.Input[i..^1])
+                int first = this.Input[i];
+                foreach (int second in this.Input[++i..^1])
                 {
                     int total = first + second;
 
