@@ -25,12 +25,12 @@ namespace AdventOfCode.Solvers
 
         #region Constructors
         /// <summary>
-        /// Creates a new Day1 <see cref="Solver"/>
+        /// Creates a new Day2 <see cref="Solver"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException"/>
-        /// <exception cref="FileLoadException"/>
-        /// <exception cref="InvalidOperationException"/>
+        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
+        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
         public Day1(FileInfo file) : base(file) => this.values = new HashSet<int>(this.Input);
         #endregion
 
