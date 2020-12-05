@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -43,7 +42,6 @@ namespace AdventOfCode.Solvers
         public override void Run()
         {
             FindTwoMatching();
-
             FindThreeMatching();
         }
 
