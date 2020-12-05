@@ -16,7 +16,7 @@ string day = args[0];
 FileInfo inputFile = new ($@"Input\{day.ToLower()}.txt");
 if (!inputFile.Exists)
 {
-    Exit($"Input file {day}.txt does not exist.", 1);
+    Exit($"Input file {day.ToLower()}.txt does not exist.", 1);
     return;
 }
 
