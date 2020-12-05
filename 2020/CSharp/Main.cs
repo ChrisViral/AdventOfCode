@@ -6,13 +6,26 @@ using System.Linq;
 using System.Reflection;
 using AdventOfCode.Solvers.Base;
 
+
+
 namespace AdventOfCode
 {
-    public static class Program
+    /// <summary>
+    /// Entry point class
+    /// </summary>
+    internal static class Program
     {
-        private static readonly Type baseSolverType = typeof(Solver);
-        private static readonly Type[] constructorTypes = { typeof(FileInfo) };
+        #region Constants
+        //Helpful types
+        private static readonly Type   solverInterfaceType   = typeof(ISolver);
+        private static readonly Type   baseSolverType        = typeof(Solver);
+        private static readonly Type[] constructorParamTypes = { typeof(FileInfo) };
+        #endregion
 
+        /// <summary>
+        /// Program entry point
+        /// </summary>
+        /// <param name="args">Program arguments</param>
         private static void Main(string[] args)
         {
             //Check for arguments
@@ -33,13 +46,16 @@ namespace AdventOfCode
             ISolver solver;
             try
             {
-                //Get solver types
+                //Making sure our solver types are valid
+                Debug.Assert(solverInterfaceType.IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {solverInterfaceType}");
+
+                //Get solver types 
                 Type? solverType = Assembly.GetCallingAssembly()
                                            .GetTypes()
                                            .Where(t => !t.IsAbstract
                                                     && !t.IsGenericType
                                                     && t.IsAssignableTo(baseSolverType)
-                                                    && t.GetConstructor(constructorTypes) is not null)
+                                                    && t.GetConstructor(constructorParamTypes) is not null)
                                            .SingleOrDefault(t => t.Name == day);
 
                 //Make sure the type exists
@@ -55,7 +71,7 @@ namespace AdventOfCode
             catch (Exception e)
             {
                 //If any exception happens, immediately hop out
-                Exit($"Exception while creating solver for {day}\n[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}\n", 1);
+                Exit($"Exception while creating solver for {day}", e);
                 return;
             }
 
@@ -70,20 +86,47 @@ namespace AdventOfCode
             Trace.Listeners.Add(consoleListener);
             Trace.AutoFlush = true;
 
-            solver.Run();
+            try
+            {
+                //Run solver
+                solver.Run();
+            }
+            catch (Exception e)
+            {
+                //Log any exceptions that occur
+                Exit($"Exception while running solver {solver.GetType().Name}", e);
+                return;
+            }
 
+            //Cleanup and exit
             Trace.Close();
             Exit();
         }
+        
+        #region Static methods
+        /// <summary>
+        /// Exits while logging an exception
+        /// </summary>
+        /// <param name="message">Message to log</param>
+        /// <param name="e">Exception to log</param>
+        private static void Exit(string message, Exception e) => Exit($"{message}\n[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}\n", 1);
 
+        /// <summary>
+        /// Exits the program, while logging an optional message
+        /// </summary>
+        /// <param name="message">Message to log</param>
+        /// <param name="exitCode">Program exit code</param>
         private static void Exit(string? message = null, int exitCode = 0)
         {
-            if (string.IsNullOrEmpty(message))
+            //Log message if any
+            if (!string.IsNullOrEmpty(message))
             {
                 Console.WriteLine(message);
             }
 
+            //Exit
             Environment.Exit(exitCode);
         }
+        #endregion
     }
 }
