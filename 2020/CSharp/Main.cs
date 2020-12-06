@@ -13,7 +13,7 @@ if (args.Length == 0)
 
 //Make sure the file exists
 string day = args[0];
-FileInfo inputFile = new ($@"Input\{day.ToLower()}.txt");
+FileInfo inputFile = new($@"Input\{day.ToLower()}.txt");
 if (!inputFile.Exists)
 {
     Exit($"Input file {day.ToLower()}.txt does not exist.", 1);
@@ -59,12 +59,12 @@ catch (Exception e)
 
 //Setup trace file
 #if DEBUG
-using TextWriterTraceListener textListener = new (File.CreateText(@"..\..\..\results.txt"));
+using TextWriterTraceListener textListener = new(File.CreateText(@"..\..\..\results.txt"));
 #else
-using TextWriterTraceListener textListener = new (File.CreateText("results.txt"));
+using TextWriterTraceListener textListener = new(File.CreateText("results.txt"));
 #endif
 Trace.Listeners.Add(textListener);
-using ConsoleTraceListener consoleListener = new ();
+using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
@@ -85,6 +85,7 @@ Trace.Close();
 Exit();
 
 
+#region Methods
 static void ExitOnException(string message, Exception e) => Exit($"{message}\n[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}\n", 1);
 
 static void Exit(string? message = null, int exitCode = 0)
@@ -98,3 +99,4 @@ static void Exit(string? message = null, int exitCode = 0)
     //Exit
     Environment.Exit(exitCode);
 }
+#endregion
