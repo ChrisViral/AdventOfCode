@@ -106,8 +106,8 @@ namespace AdventOfCode.Solvers.Base
 
         #region Abstract methods
         /// <summary>
-        /// Input conversion function
-        /// NOTE: This method <b>must</b> be pure as it initializes the base class
+        /// Input conversion function<br/>
+        /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
         /// </summary>
         /// <param name="rawInput">Input value</param>
         /// <returns>Target converted value</returns>

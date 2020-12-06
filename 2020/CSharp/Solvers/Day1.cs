@@ -35,15 +35,15 @@ namespace AdventOfCode.Solvers
         #endregion
 
         #region Methods
-        ///<inheritdoc cref="Solver{T}"/>
-        public override int[] Convert(string[] rawInput) => rawInput.Select(int.Parse).ToArray();
-
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
             FindTwoMatching();
             FindThreeMatching();
         }
+        
+        ///<inheritdoc cref="Solver{T}"/>
+        public override int[] Convert(string[] rawInput) => rawInput.Select(int.Parse).ToArray();
 
         /// <summary>
         /// First part solving
