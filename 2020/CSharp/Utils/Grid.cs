@@ -215,32 +215,37 @@ namespace AdventOfCode.Utils
         public Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
         {
             (int x, int y) result = vector + travel;
-            if (result.x >= this.Width)
+            //Check if an invalid wrap must happen
+            if ((!wrapX && (result.x >= this.Width  || result.x < 0))
+             || (!wrapY && (result.y >= this.Height || result.y < 0))) return null;
+
+            //Wrap x axis
+            if (wrapX)
             {
-                if (!wrapX) return null;
-                
-                result.x -= this.Width;
-            }
-            else if (result.x < 0)
-            {
-                if (!wrapX) return null;
-                
-                result.x += this.Width;
-            }
-            
-            if (result.y >= this.Height)
-            {
-                if (!wrapY) return null;
-                
-                result.y -= this.Height;
-            }
-            else if (result.y < 0)
-            {
-                if (!wrapY) return null;
-                
-                result.y += this.Height;
+                if (result.x >= this.Width)
+                {
+                    result.x -= this.Width;
+                }
+                else if (result.x < 0)
+                {
+                    result.x += this.Width;
+                }
             }
 
+            //Wrap y axis
+            if (wrapY)
+            {
+                if (result.y >= this.Height)
+                {
+                    result.y -= this.Height;
+                }
+                else if (result.y < 0)
+                {
+                    result.y += this.Height;
+                }
+            }
+
+            //Return result
             return new Vector2(result);
         }
 
