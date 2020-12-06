@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers
     {
         #region Constructors
         /// <summary>
-        /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
+        /// Creates a new <see cref="Day3"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>

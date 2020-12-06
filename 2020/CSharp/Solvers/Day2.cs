@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers
         private const string PATTERN = @"(\d+)-(\d+) ([a-z]): ([a-z]+)";
 
         /// <summary>
-        /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
+        /// Creates a new <see cref="Day2"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>

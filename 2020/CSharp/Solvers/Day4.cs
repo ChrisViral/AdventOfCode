@@ -42,8 +42,7 @@ namespace AdventOfCode.Solvers
                 if (!int.TryParse(this.eyr, out int expYear)   || expYear   is < 2020 or > 2030) return false;
 
                 Match match = heightMatch.Match(this.hgt!);
-                if (!match.Success || match.Groups.Count != 3) return false;
-                if (!int.TryParse(match.Groups[1].Value, out int height)) return false;
+                if (!match.Success || match.Groups.Count is not 3 || !int.TryParse(match.Groups[1].Value, out int height)) return false;
                 switch (match.Groups[2].Value)
                 {
                     case "cm":
@@ -64,11 +63,9 @@ namespace AdventOfCode.Solvers
         private const string PATTERN = "([a-z]{3}):([a-z0-9#]+)";
 
         /// <summary>
-        /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
+        /// Creates a new <see cref="Day4"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
-        /// <param name="splitters">Splitting characters, defaults to newline only</param>
-        /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
@@ -77,10 +74,12 @@ namespace AdventOfCode.Solvers
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
+            //Calculate valid for Part 1
             Passport[] valid = this.Input.Where(p => p.IsValid).ToArray();
             Trace.WriteLine(valid.Length);
+            
+            //Validate for Part 2
             Trace.WriteLine(valid.Count(p => p.Validate()));
-
         }
 
         /// <inheritdoc cref="Solver{T}"/>
