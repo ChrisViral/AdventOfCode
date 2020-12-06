@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
@@ -26,15 +25,15 @@ namespace AdventOfCode.Solvers
         public override void Run()
         {
             //Part one
-            long result = CheckSlope(new Vector2(3, 1));
-            Trace.WriteLine(result);
+            long result = CheckSlope((3, 1));
+            AoCUtils.LogPart1(result);
             
             //Part two
-            result *= CheckSlope(new Vector2(1, 1));
-            result *= CheckSlope(new Vector2(5, 1));
-            result *= CheckSlope(new Vector2(7, 1));
-            result *= CheckSlope(new Vector2(1, 2));
-            Trace.WriteLine(result);
+            result *= CheckSlope((1, 1));
+            result *= CheckSlope((5, 1));
+            result *= CheckSlope((7, 1));
+            result *= CheckSlope((1, 2));
+            AoCUtils.LogPart2(result);
         }
 
         /// <summary>

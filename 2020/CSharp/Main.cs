@@ -68,6 +68,8 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
+Trace.WriteLine("Running Solver for " + day);
+
 try
 {
     //Run solver
