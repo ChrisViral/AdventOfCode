@@ -34,7 +34,7 @@ namespace AdventOfCode.Utils
             if (input.Length == 0) return Array.Empty<T>();
             
             //Create match
-            Regex match = new (pattern, compile ? RegexOptions.Compiled : RegexOptions.None);
+            Regex match = new(pattern, compile ? RegexOptions.Compiled : RegexOptions.None);
             
             //Get captures and matching Constructor
             string[] captures = GetCaptures(input[0], match);
