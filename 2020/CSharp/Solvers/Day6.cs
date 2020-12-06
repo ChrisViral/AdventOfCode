@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
     public class Day6 : Solver<HashSet<char>[][]>
     {
+        #region Constructors
         /// <summary>
         /// Creates a new <see cref="Day6"/> Solver with the input data properly parsed
         /// </summary>
@@ -17,7 +18,9 @@ namespace AdventOfCode.Solvers
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
         public Day6(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Runs the solver on the problem input
         /// </summary>
@@ -31,7 +34,9 @@ namespace AdventOfCode.Solvers
                 HashSet<char> allAnswered = new(anyAnswered);
                 foreach (HashSet<char> answers in group[1..])
                 {
+                    //Part 1
                     anyAnswered.UnionWith(answers);
+                    //Part 2
                     allAnswered.IntersectWith(answers);
                 }
 
@@ -39,8 +44,8 @@ namespace AdventOfCode.Solvers
                 allTotal += allAnswered.Count;
             }
             
-            Trace.WriteLine(anyTotal);
-            Trace.WriteLine(allTotal);
+            AoCUtils.LogPart1(anyTotal);
+            AoCUtils.LogPart2(allTotal);
         }
 
         /// <summary>
@@ -49,29 +54,9 @@ namespace AdventOfCode.Solvers
         /// </summary>
         /// <param name="rawInput">Input value</param>
         /// <returns>Target converted value</returns>
-        public override HashSet<char>[][] Convert(string[] rawInput)
-        {
-            List<HashSet<char>[]> input = new();
-            List<HashSet<char>> group = new();
-            foreach (string line in rawInput)
-            {
-                if (string.IsNullOrEmpty(line))
-                {
-                    input.Add(group.ToArray());
-                    group.Clear();
-                }
-                else
-                {
-                    group.Add(new HashSet<char>(line));
-                }
-            }
-
-            if (group.Count is not 0)
-            {
-                input.Add(group.ToArray());
-            }
-
-            return input.ToArray();
-        }
+        public override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
+                                                                                .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
+                                                                                .ToArray();
+        #endregion
     }
 }

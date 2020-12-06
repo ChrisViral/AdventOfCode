@@ -46,7 +46,7 @@ namespace AdventOfCode.Utils
             //Get parameters
             ParameterInfo[] paramsInfo = constructor.GetParameters();
             if (paramsInfo.Any(p => !convertibleType.IsAssignableFrom(p.ParameterType)
-                                 || !convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType)))) throw new ArgumentException($"Matching constructor for type {typeof(T)} has parameters which do not implement IConvertible", nameof(T));
+                                 && !convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType)))) throw new ArgumentException($"Matching constructor for type {typeof(T)} has parameters which do not implement IConvertible", nameof(T));
 
             //Parse results
             T[] results = new T[input.Count];

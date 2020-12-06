@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,8 +11,11 @@ namespace AdventOfCode.Solvers
     {
         public record PasswordData(int Min, int Max, char Target, string Password);
 
+        #region Constants
         private const string PATTERN = @"(\d+)-(\d+) ([a-z]): ([a-z]+)";
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Creates a new <see cref="Day2"/> Solver with the input data properly parsed
         /// </summary>
@@ -22,41 +24,43 @@ namespace AdventOfCode.Solvers
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="PasswordData"/> fails</exception>
         public Day2(FileInfo file) : base(file) { }
+        #endregion
 
+        #region Methods
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            int count = 0;
+            int part1 = 0;
+            int part2 = 0;
             foreach ((int min, int max, char target, string password) in this.Input)
             {
+                //Part 1
                 int occurrences = password.Count(c => c == target);
                 if (occurrences >= min && occurrences <= max)
                 {
-                    count++;
+                    part1++;
                 }
-            }
-            
-            Trace.WriteLine(count);
-            
-            count = 0;
-            foreach ((int min, int max, char target, string password) in this.Input)
-            {
+                
+                //Part 2
                 if (password[min - 1] == target)
                 {
                     if (password[max - 1] != target)
                     {
-                        count++;
+                        part2++;
                     }
                 }
                 else if (password[max - 1] == target)
                 {
-                    count++;
+                    part2++;
                 }
             }
-            Trace.WriteLine(count);
+            
+            AoCUtils.LogPart1(part1);
+            AoCUtils.LogPart2(part2);
         }
 
         /// <inheritdoc cref="Solver{T}"/>
         public override PasswordData[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<PasswordData>(PATTERN, rawInput, RegexOptions.Compiled);
+        #endregion
     }
 }

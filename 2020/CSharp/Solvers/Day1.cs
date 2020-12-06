@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
@@ -55,7 +55,7 @@ namespace AdventOfCode.Solvers
                 int match = TARGET - expense;
                 if (this.values.Contains(match))
                 {
-                    Trace.WriteLine(expense * match);
+                    AoCUtils.LogPart1(expense * match);
                     return;
                 }
             }
@@ -82,7 +82,7 @@ namespace AdventOfCode.Solvers
                     int third = TARGET - total;
                     if (this.values.Contains(third))
                     {
-                        Trace.WriteLine(first * second * third);
+                        AoCUtils.LogPart2(first * second * third);
                         return;
                     }
                 }
