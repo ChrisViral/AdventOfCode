@@ -9,7 +9,6 @@
 *.userosscache
 *.sln.docstates
 .vs/
-resuts.txt
 
 # Build results
 [Dd]ebug/
@@ -163,3 +162,4 @@ venv.bak/
 
 # JetBrains
 .idea/
+2020/CSharp/results.txt

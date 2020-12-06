@@ -22,9 +22,7 @@ namespace AdventOfCode.Solvers
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="PasswordData"/> fails</exception>
         public Day2(FileInfo file) : base(file) { }
 
-        /// <summary>
-        /// Runs the solver on the problem input
-        /// </summary>
+        /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
             int count = 0;
@@ -57,12 +55,7 @@ namespace AdventOfCode.Solvers
             Trace.WriteLine(count);
         }
 
-        /// <summary>
-        /// Input conversion function
-        /// NOTE: This method <b>must</b> be pure as it initializes the base class
-        /// </summary>
-        /// <param name="rawInput">Input value</param>
-        /// <returns>Target converted value</returns>
+        /// <inheritdoc cref="Solver{T}"/>
         public override PasswordData[] Convert(string[] rawInput) => RegexUtils.CreateObjects<PasswordData>(PATTERN, rawInput, true);
     }
 }

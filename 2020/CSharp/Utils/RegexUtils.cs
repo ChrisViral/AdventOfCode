@@ -42,7 +42,6 @@ namespace AdventOfCode.Utils
                                                     .SingleOrDefault(c => c.GetParameters().Length == captures.Length);
             if (constructor is null) throw new ArgumentException($"Could not find a single matching constructor for type {typeof(T)} for the produced output of the regex", nameof(T));
             
-            
             //Get parameters
             ParameterInfo[] paramsInfo = constructor.GetParameters();
             if (paramsInfo.Any(p => !convertibleType.IsAssignableFrom(p.ParameterType))) throw new ArgumentException($"Matching constructor for type {typeof(T)} has parameters which do not implement IConvertible", nameof(T));
