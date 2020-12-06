@@ -7,6 +7,9 @@ using AdventOfCode.Utils.Vectors;
 
 namespace AdventOfCode.Solvers
 {
+    /// <summary>
+    /// Day 3 Solver
+    /// </summary>
     public class Day3: Solver<Grid<bool>>
     {
         #region Constructors

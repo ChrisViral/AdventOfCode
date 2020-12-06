@@ -7,6 +7,9 @@ using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
+    /// <summary>
+    /// Day 6 Solver
+    /// </summary>
     public class Day6 : Solver<HashSet<char>[][]>
     {
         #region Constructors
