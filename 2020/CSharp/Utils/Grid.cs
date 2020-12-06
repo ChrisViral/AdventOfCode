@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using AdventOfCode.Utils.Vectors;
@@ -253,19 +254,10 @@ namespace AdventOfCode.Utils
         /// Enumerates through the grid row by row, from left to right
         /// </summary>
         /// <returns>The enumerator going through the grid</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int j = 0; j < this.Height; j++)
-            {
-                for (int i = 0; i < this.Width; i++)
-                {
-                    yield return this[i, j];
-                }
-            }
-        }
-        
+        public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
+
         /// <inheritdoc cref="IEnumerable"/>
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.grid.GetEnumerator();
 
         /// <summary>
         /// String representation of the Grid
