@@ -11,7 +11,7 @@ namespace AdventOfCode.Utils
     /// Generic grid structure
     /// </summary>
     /// <typeparam name="T">Type of element within the grid</typeparam>
-    public class Grid<T> : IEnumerable<T> where T : unmanaged, IConvertible
+    public class Grid<T> : IEnumerable<T>
     {
         #region Fields
         private readonly T[,] grid;
@@ -79,11 +79,9 @@ namespace AdventOfCode.Utils
         /// <param name="width">Width of the grid</param>
         /// <param name="height">Height of the grid</param>
         /// <param name="toString">ToString conversion function</param>
-        /// <exception cref="NotSupportedException">If <typeparamref name="T"/> is not a valid primitive type</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
         public Grid(int width, int height, Converter<T, string>? toString = null)
         {
-            if (!typeof(T).IsPrimitive) throw new NotSupportedException("Grid element type must be primitive");
             if (width <= 0)  throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
             if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
             
@@ -92,13 +90,16 @@ namespace AdventOfCode.Utils
             this.Size = width * height;
             this.grid = new T[height, width];
 
-            this.rowBufferSize = this.Width * typeof(T) switch
+            if (typeof(T).IsPrimitive)
             {
-                { } t when t == typeof(bool) => 1,
-                { } t when t == typeof(char) => 2,
-                _                            => Marshal.SizeOf<T>()
-            };
-            this.toString = toString ?? (t => t.ToString() ?? string.Empty);
+                this.rowBufferSize = this.Width * typeof(T) switch
+                {
+                    { } t when t == typeof(bool) => 1,
+                    { } t when t == typeof(char) => 2,
+                    _                            => Marshal.SizeOf<T>()
+                };
+            }
+            this.toString = toString ?? (t => t?.ToString() ?? string.Empty);
         }
 
         /// <summary>
@@ -109,7 +110,6 @@ namespace AdventOfCode.Utils
         /// <param name="input">Input lines</param>
         /// <param name="converter">Conversion function from the input string to a full row</param>
         /// <param name="toString">ToString conversion function</param>
-        /// <exception cref="NotSupportedException">If <typeparamref name="T"/> is not a valid primitive type</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
         /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
         /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
@@ -128,12 +128,23 @@ namespace AdventOfCode.Utils
         {
             if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
 
-            for (int i = 0; i < this.Height; i++)
+            for (int j = 0; j < this.Height; j++)
             {
-                T[] result = converter(input[i]);
-                if (result.Length != this.Width) throw new InvalidOperationException($"Input line {i} does not produce a row of the same length as the grid after conversion");
-                
-                Buffer.BlockCopy(result, 0, this.grid, i * this.rowBufferSize, this.rowBufferSize);
+                T[] result = converter(input[j]);
+                if (result.Length != this.Width) throw new InvalidOperationException($"Input line {j} does not produce a row of the same length as the grid after conversion");
+
+                if (this.rowBufferSize != 0)
+                {
+                    //For primitives only
+                    Buffer.BlockCopy(result, 0, this.grid, j * this.rowBufferSize, this.rowBufferSize);
+                }
+                else
+                {
+                    for (int i = 0; i < this.Width; i++)
+                    {
+                        this[i, j] = result[i];
+                    }
+                }
             }
         }
         
@@ -149,7 +160,18 @@ namespace AdventOfCode.Utils
             if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
             
             T[] row = new T[this.Width];
-            Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
+            if (this.rowBufferSize != 0)
+            {
+                //For primitives only
+                Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
+            }
+            else
+            {
+                for (int i = 0; i < this.Width; i++)
+                {
+                    row[i] = this[i, y];
+                }
+            }
             return row;
         }
 
