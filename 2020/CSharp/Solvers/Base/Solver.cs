@@ -17,14 +17,14 @@ namespace AdventOfCode.Solvers.Base
         private const string EXTENSION = ".txt";
 
         /// <summary>
-        /// Split options
+        /// Default split options
         /// </summary>
-        private const StringSplitOptions SPLIT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+        private const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
 
         /// <summary>
-        /// Split characters
+        /// Default split characters
         /// </summary>
-        private static readonly char[] splitters = { '\n' };
+        private static readonly char[] defaultSplitters = { '\n' };
         #endregion
 
         #region Properties
@@ -39,9 +39,11 @@ namespace AdventOfCode.Solvers.Base
         /// Creates a new <see cref="Solver"/> from the specified file
         /// </summary>
         /// <param name="file">File to load for puzzle input</param>
+        /// <param name="splitters">Splitting characters, defaults to newline only</param>
+        /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        protected Solver(FileInfo file)
+        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions? options = null)
         {
             if (!file.Exists) throw new ArgumentException("Solver file does not exist", nameof(file));
             if (file.Extension is not EXTENSION) throw new ArgumentException($"File extension must be {EXTENSION}, got {file.Extension} instead.", nameof(file));
@@ -50,7 +52,7 @@ namespace AdventOfCode.Solvers.Base
             {
                 using StreamReader reader = file.OpenText();
                 this.Input = reader.ReadToEnd()
-                                   .Split(splitters, SPLIT_OPTIONS)
+                                   .Split(splitters ?? defaultSplitters, options ?? DEFAULT_OPTIONS)
                                    .ToArray();
             }
             catch (Exception e)
@@ -86,10 +88,12 @@ namespace AdventOfCode.Solvers.Base
         /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
+        /// <param name="splitters">Splitting characters, defaults to newline only</param>
+        /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
-        protected Solver(FileInfo file) : base(file)
+        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions? options = null) : base(file, splitters, options)
         {
             try
             {
