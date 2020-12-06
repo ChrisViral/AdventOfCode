@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -11,7 +12,7 @@ namespace AdventOfCode.Solvers
     {
         public record PasswordData(int Min, int Max, char Target, string Password);
 
-        public const string PATTERN = @"(\d+)-(\d+) ([a-z]): ([a-z]+)";
+        private const string PATTERN = @"(\d+)-(\d+) ([a-z]): ([a-z]+)";
 
         /// <summary>
         /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
@@ -26,7 +27,7 @@ namespace AdventOfCode.Solvers
         public override void Run()
         {
             int count = 0;
-            foreach ((int min, int max, char target, var password) in this.Input)
+            foreach ((int min, int max, char target, string password) in this.Input)
             {
                 int occurrences = password.Count(c => c == target);
                 if (occurrences >= min && occurrences <= max)
@@ -38,7 +39,7 @@ namespace AdventOfCode.Solvers
             Trace.WriteLine(count);
             
             count = 0;
-            foreach ((int min, int max, char target, var password) in this.Input)
+            foreach ((int min, int max, char target, string password) in this.Input)
             {
                 if (password[min - 1] == target)
                 {
@@ -56,6 +57,6 @@ namespace AdventOfCode.Solvers
         }
 
         /// <inheritdoc cref="Solver{T}"/>
-        public override PasswordData[] Convert(string[] rawInput) => RegexUtils.CreateObjects<PasswordData>(PATTERN, rawInput, true);
+        public override PasswordData[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<PasswordData>(PATTERN, rawInput, RegexOptions.Compiled);
     }
 }
