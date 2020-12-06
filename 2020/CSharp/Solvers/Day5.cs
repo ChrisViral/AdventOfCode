@@ -7,8 +7,14 @@ using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
+    /// <summary>
+    /// Day 5 Solver
+    /// </summary>
     public class Day5 : Solver<Day5.BoardingPass[]>
     {
+        /// <summary>
+        /// BoardingPass info
+        /// </summary>
         public class BoardingPass
         {
             #region Constants

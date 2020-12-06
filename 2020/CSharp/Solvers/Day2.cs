@@ -7,8 +7,14 @@ using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
+    /// <summary>
+    /// Day 2 Solver
+    /// </summary>
     public class Day2 : Solver<Day2.PasswordData[]>
     {
+        /// <summary>
+        /// Password info data
+        /// </summary>
         public record PasswordData(int Min, int Max, char Target, string Password);
 
         #region Constants
