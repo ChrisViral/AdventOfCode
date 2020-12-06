@@ -43,7 +43,7 @@ namespace AdventOfCode.Solvers.Base
         /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions? options = null)
+        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS)
         {
             if (!file.Exists) throw new ArgumentException("Solver file does not exist", nameof(file));
             if (file.Extension is not EXTENSION) throw new ArgumentException($"File extension must be {EXTENSION}, got {file.Extension} instead.", nameof(file));
@@ -52,7 +52,7 @@ namespace AdventOfCode.Solvers.Base
             {
                 using StreamReader reader = file.OpenText();
                 this.Input = reader.ReadToEnd()
-                                   .Split(splitters ?? defaultSplitters, options ?? DEFAULT_OPTIONS)
+                                   .Split(splitters ?? defaultSplitters, options)
                                    .ToArray();
             }
             catch (Exception e)
@@ -76,6 +76,13 @@ namespace AdventOfCode.Solvers.Base
     /// <typeparam name="T">The fully parse input type</typeparam>
     public abstract class Solver<T> : Solver
     {
+        #region Constants
+        /// <summary>
+        /// Default split options
+        /// </summary>
+        private const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+        #endregion
+        
         #region Properties
         /// <summary>
         /// Parsed input data
@@ -93,7 +100,7 @@ namespace AdventOfCode.Solvers.Base
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
-        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions? options = null) : base(file, splitters, options)
+        protected Solver(FileInfo file, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(file, splitters, options)
         {
             try
             {
