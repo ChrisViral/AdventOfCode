@@ -37,7 +37,7 @@ try
                                .Where(t => !t.IsAbstract
                                         && !t.IsGenericType
                                         && t.IsAssignableTo(baseSolverType)
-                                        && t.GetConstructor(BindingFlags.Public, null, constructorParamTypes, null) is not null)
+                                        && t.GetConstructor(constructorParamTypes) is not null)
                                .SingleOrDefault(t => t.Name == day);
 
     //Make sure the type exists
