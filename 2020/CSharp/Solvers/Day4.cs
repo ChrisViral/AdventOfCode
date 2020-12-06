@@ -63,12 +63,12 @@ namespace AdventOfCode.Solvers
         private const string PATTERN = "([a-z]{3}):([a-z0-9#]+)";
 
         /// <summary>
-        /// Creates a new <see cref="Day4"/> with the input data properly parsed
+        /// Creates a new <see cref="Day4"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Passport"/> fails</exception>
         public Day4(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
 
         /// <inheritdoc cref="Solver"/>
