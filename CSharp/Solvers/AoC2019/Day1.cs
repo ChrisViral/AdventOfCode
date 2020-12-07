@@ -1,0 +1,50 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
+
+namespace AdventOfCode.Solvers.AoC2019
+{
+    /// <summary>
+    /// Solver for 2019 Day 1
+    /// </summary>
+    public class Day1 : Solver<int[]>
+    {
+        #region Constructors
+        /// <summary>
+        /// Creates a new <see cref="Day1"/> Solver with the input data properly parsed
+        /// </summary>
+        /// <param name="file">Input file</param>
+        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
+        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
+        public Day1(FileInfo file) : base(file) { }
+        #endregion
+
+        #region Methods
+        /// <inheritdoc cref="Solver"/>
+        public override void Run()
+        {
+            AoCUtils.LogPart1(this.Input.Sum(m => (m / 3) - 2));
+            AoCUtils.LogPart2(this.Input.Sum(CalculateFuel));
+        }
+
+        public int CalculateFuel(int mass)
+        {
+            mass = (mass / 3) - 2;
+            int totalFuel = 0;
+            while (mass is > 0)
+            {
+                totalFuel += mass;
+                mass = (mass / 3) - 2;
+            }
+
+            return totalFuel;
+        }
+
+        /// <inheritdoc cref="Solver{T}"/>
+        public override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+        #endregion
+    }
+}
