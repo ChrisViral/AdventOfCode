@@ -80,6 +80,10 @@ catch (Exception e)
     ExitOnException($"Exception while running solver {solver.GetType().Name}", e);
     return;
 }
+finally
+{
+    solver.Dispose();
+}
 
 //Cleanup and exit
 Trace.Close();

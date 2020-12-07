@@ -62,11 +62,16 @@ namespace AdventOfCode.Solvers.Base
         }
         #endregion
 
-        #region Abstract methods
+        #region Virtual methods
         /// <summary>
         /// Runs the solver on the problem input
         /// </summary>
         public abstract void Run();
+
+        /// <summary>
+        /// Disposes of aany resources held by the Solver
+        /// </summary>
+        public virtual void Dispose() { }
         #endregion
     }
 
@@ -88,6 +93,11 @@ namespace AdventOfCode.Solvers.Base
         /// Parsed input data
         /// </summary>
         protected new T Input { get; }
+        
+        /// <summary>
+        /// If the Solver has been disposed or not
+        /// </summary>
+        public bool IsDisposed { get; protected set; }
         #endregion
 
         #region Constructors
@@ -111,6 +121,24 @@ namespace AdventOfCode.Solvers.Base
             catch (Exception e)
             {
                 throw new InvalidOperationException($"Could not convert the string array input to the {typeof(T)} type using the {nameof(Convert)} method.", e);
+            }
+        }
+        #endregion
+        
+        #region Methods
+        /// <summary>
+        /// Disposes of the resources held by the Solver if any
+        /// </summary>
+        public override void Dispose()
+        {
+            if (!this.IsDisposed)
+            {
+                if (this.Input is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+
+                this.IsDisposed = true;
             }
         }
         #endregion
