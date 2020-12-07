@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 5 Solver
+    /// Solver for 2020 Day 5
     /// </summary>
     public class Day5 : Solver<Day5.BoardingPass[]>
     {
@@ -118,7 +117,7 @@ namespace AdventOfCode.Solvers
         /// </summary>
         /// <param name="rawInput">Input value</param>
         /// <returns>Target converted value</returns>
-        public override BoardingPass[] Convert(string[] rawInput) => rawInput.Select(s => new BoardingPass(s)).ToArray();
+        public override BoardingPass[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new BoardingPass(s));
         #endregion
     }
 }

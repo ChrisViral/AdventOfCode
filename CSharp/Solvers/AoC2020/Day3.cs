@@ -5,10 +5,10 @@ using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Vectors;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 3 Solver
+    /// Solver for 2020 Day 3
     /// </summary>
     public class Day3: Solver<Grid<bool>>
     {

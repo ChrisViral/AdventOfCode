@@ -5,10 +5,10 @@ using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 6 Solver
+    /// Solver for 2020 Day 6
     /// </summary>
     public class Day6 : Solver<HashSet<char>[][]>
     {

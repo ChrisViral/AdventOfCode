@@ -3,20 +3,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AdventOfCode;
 using AdventOfCode.Solvers.Base;
 
-//Check for arguments
-if (args.Length == 0)
+#region Main
+SolverData solverData;
+try
 {
-    Exit("No day specified", 1);
+    solverData = new SolverData(args);
 }
-
-//Make sure the file exists
-string day = args[0];
-FileInfo inputFile = new($@"Input\{day.ToLower()}.txt");
-if (!inputFile.Exists)
+catch (Exception e)
 {
-    Exit($"Input file {day.ToLower()}.txt does not exist.", 1);
+    //If any exception happens, immediately hop out
+    ExitOnException("Exception while creating solverData", e);
     return;
 }
 
@@ -38,22 +37,22 @@ try
                                         && !t.IsGenericType
                                         && t.IsAssignableTo(baseSolverType)
                                         && t.GetConstructor(constructorParamTypes) is not null)
-                               .SingleOrDefault(t => t.Name == day);
+                               .SingleOrDefault(t => t.FullName == solverData.fullName);
 
     //Make sure the type exists
     if (solverType is null)
     {
-        Exit($"Could not find a matching Solver for {day}", 1);
+        Exit($"Could not find a matching Solver for {solverData}", 1);
         return;
     }
 
     //Instantiate the solver
-    solver = (ISolver)Activator.CreateInstance(solverType, inputFile)!; //Throw if cast fails
+    solver = (ISolver)Activator.CreateInstance(solverType, solverData.inputFile)!; //Throw if cast fails
 }
 catch (Exception e)
 {
     //If any exception happens, immediately hop out
-    ExitOnException($"Exception while creating solver for {day}", e);
+    ExitOnException($"Exception while creating solver for {solverData}", e);
     return;
 }
 
@@ -68,7 +67,7 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
-Trace.WriteLine("Running Solver for " + day);
+Trace.WriteLine("Running Solver for " + solverData);
 
 try
 {
@@ -85,7 +84,7 @@ catch (Exception e)
 //Cleanup and exit
 Trace.Close();
 Exit();
-
+#endregion
 
 #region Methods
 static void ExitOnException(string message, Exception e) => Exit($"{message}\n[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}\n", 1);
