@@ -1,7 +1,7 @@
 ﻿using System;
-using AdventOfCode.Utils.Vectors;
+using AdventOfCode.Grids.Vectors;
 
-namespace AdventOfCode.Utils
+namespace AdventOfCode.Grids
 {
     [Flags]
     public enum Direction

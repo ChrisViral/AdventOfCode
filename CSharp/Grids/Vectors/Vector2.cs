@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventOfCode.Utils.Vectors
+namespace AdventOfCode.Grids.Vectors
 {
     /// <summary>
     /// Integer two component vector

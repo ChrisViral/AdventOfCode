@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using AdventOfCode.Utils.Vectors;
+using AdventOfCode.Grids.Vectors;
 
-namespace AdventOfCode.Utils
+namespace AdventOfCode.Grids
 {
     /// <summary>
     /// Generic grid structure
