@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using Operation = AdventOfCode.Intcode.Operations.Operation;
+using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 
 namespace AdventOfCode.Intcode
 {
@@ -79,9 +79,9 @@ namespace AdventOfCode.Intcode
             //Program loop
             while (this.pointer is not HALT)
             {
-                int op = this.Fetch;                         //Fetch
-                Operation operation = Operations.Decode(op); //Decode
-                operation(this.memory, ref this.pointer);    //Execute
+                int op = this.Fetch;                               //Fetch
+                Instruction instruction = Instructions.Decode(op); //Decode
+                instruction(this.memory, ref this.pointer);        //Execute
             }
 
             //Use the address currently stored in result to store the out value
