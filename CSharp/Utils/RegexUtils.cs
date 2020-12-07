@@ -67,7 +67,7 @@ namespace AdventOfCode.Utils
         /// <param name="match">Matching Regex</param>
         /// <returns>All the matched captures</returns>
         private static string[] GetCaptures(string input, Regex match) => match.Match(input)
-                                                                               .Groups.Cast<Group>().Skip(1)
+                                                                               .GetGroups()
                                                                                .Select(g => g.Value)
                                                                                .ToArray();
 
@@ -124,7 +124,7 @@ namespace AdventOfCode.Utils
             {
                 //Find all matches, extract key/value pairs
                 (string, string)[] matches = match.Matches(input[i])
-                                                  .Select(m => m.Groups.Cast<Group>().Skip(1).ToArray())
+                                                  .Select(m => m.GetGroups().ToArray())
                                                   .Where(a => a.Length is 2)
                                                   .Select(a => (a[0].Value, a[1].Value))
                                                   .ToArray();
@@ -149,6 +149,16 @@ namespace AdventOfCode.Utils
 
             return results;
         }
+        #endregion
+        
+        #region Extension methods
+        /// <summary>
+        /// Gets all the captured groups of the match
+        /// </summary>
+        /// <returns>Enumerable of the captured groups</returns>
+        public static IEnumerable<Group> GetGroups(this Match match) => match.Groups
+                                                                             .Cast<Group>()
+                                                                             .Skip(1);
         #endregion
     }
 }
