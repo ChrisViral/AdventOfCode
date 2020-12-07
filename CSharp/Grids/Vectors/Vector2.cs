@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Grids.Vectors
 {
@@ -9,6 +10,7 @@ namespace AdventOfCode.Grids.Vectors
     {
         #region Constants
         private const double RAD_TO_DEG = 180d / Math.PI;
+        private static readonly Regex directionMatch = new(@"^\s*(U|D|L|R)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         /// <summary>Zero vector</summary>
         public static readonly Vector2 Zero  = new(0, 0);
         /// <summary>One vector</summary>
@@ -119,9 +121,9 @@ namespace AdventOfCode.Grids.Vectors
         /// <summary>
         /// Creates a new vector resulting in the moving of this vector in the specified direction
         /// </summary>
-        /// <param name="direction">Direction to move in</param>
+        /// <param name="directions">Direction to move in</param>
         /// <returns>The new, moved vector</returns>
-        public Vector2 Move(Direction direction) => this + direction.ToVector();
+        public Vector2 Move(Directions directions) => this + directions.ToVector();
         
         /// <inheritdoc cref="IEquatable{T}"/>
         bool IEquatable<Vector2>.Equals(Vector2 other) => Equals(other);
@@ -140,6 +142,14 @@ namespace AdventOfCode.Grids.Vectors
         public static double Distance(in Vector2 a, in Vector2 b) => (a - b).Length;
 
         /// <summary>
+        /// The Manhattan distance between both vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>Tge straight line distance between both vectors</returns>
+        public static int ManhattanDistance(in Vector2 a, in Vector2 b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+
+        /// <summary>
         /// Calculates the angle, in degrees, between two vectors
         /// </summary>
         /// <param name="a">First vector</param>
@@ -154,6 +164,71 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="b">Second vector</param>
         /// <returns>The dot product of both vectors</returns>
         public static int Dot(in Vector2 a, in Vector2 b) => a.X * b.X + a.Y * b.Y;
+        
+        /// <summary>
+        /// Parses the Vector2 from a direction and distance
+        /// </summary>
+        /// <param name="value">String to parse</param>
+        /// <returns>The parsed Vector2</returns>
+        /// <exception cref="FormatException">If the direction format or string format is invalid</exception>
+        /// <exception cref="OverflowException">If the number parse causes an overflow</exception>
+        public static Vector2 ParseFromDirection(string value)
+        {
+            GroupCollection groups = directionMatch.Match(value).Groups;
+            //Parse direction first
+            Vector2 direction = groups[1].Value switch
+            {
+                "U" => Up,
+                "D" => Down,
+                "L" => Left,
+                "R" => Right,
+                _   => throw new FormatException($"Direction value ({groups[1].Value}) cannot be parsed into a direction")
+            };
+            //Return with correct length
+            return direction * int.Parse(groups[2].Value);
+        }
+
+        /// <summary>
+        /// Tries to parses the Vector2 from a direction and distance
+        /// </summary>
+        /// <param name="value">String to parse</param>
+        /// <param name="direction">Result out parameter</param>
+        /// <returns>True if the vector was successfully parsed, false otherwise</returns>
+        public static bool TryParseFromDirection(string value, out Vector2 direction)
+        {
+            //Check if it matches at all
+            direction = Zero;
+            Match match = directionMatch.Match(value);
+            if (!match.Success) return false;
+
+            
+            GroupCollection groups = match.Groups;
+            if (groups.Count is not 3) return false;
+            if (!int.TryParse(groups[2].Value, out int distance)) return false;
+            Vector2 dir;
+            switch (groups[1].Value)
+            {
+                case "U":
+                    dir = Up;
+                    break;
+                case "D":
+                    dir = Down;
+                    break;
+                case "L":
+                    dir = Left;
+                    break;
+                case "R":
+                    dir = Right;
+                    break;
+                
+                default:
+                    return false;
+            }
+
+            direction = dir * distance;
+            return true;
+
+        }
         #endregion
 
         #region Operators
