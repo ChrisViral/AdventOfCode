@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 2 Solver
+    /// Solver for 2020 Day 2
     /// </summary>
     public class Day2 : Solver<Day2.PasswordData[]>
     {

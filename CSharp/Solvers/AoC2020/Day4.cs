@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 4 Solver
+    /// Solver for 2020 Day 4
     /// </summary>
     public class Day4 : Solver<Day4.Passport[]>
     {

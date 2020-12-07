@@ -3,10 +3,10 @@ using System.IO;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 7 Solver
+    /// Solver for 2020 Day 7
     /// </summary>
     public class Day7 : Solver<string[]>
     {

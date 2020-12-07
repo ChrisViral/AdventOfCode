@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-namespace AdventOfCode.Solvers
+namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Day 1 solver
+    /// Solver for 2020 Day 1
     /// </summary>
     public class Day1 : Solver<int[]>
     {
@@ -43,7 +42,7 @@ namespace AdventOfCode.Solvers
         }
         
         ///<inheritdoc cref="Solver{T}"/>
-        public override int[] Convert(string[] rawInput) => rawInput.Select(int.Parse).ToArray();
+        public override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
 
         /// <summary>
         /// First part solving
