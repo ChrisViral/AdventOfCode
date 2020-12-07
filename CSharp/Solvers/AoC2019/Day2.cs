@@ -36,9 +36,9 @@ namespace AdventOfCode.Solvers.AoC2019
             int result = this.Input.Run(12, 2);
             AoCUtils.LogPart1(result);
 
-            for (int noun = 0; noun <= 99; noun++)
+            foreach (int noun in ..100)
             {
-                for (int verb = 0; verb <= 99; verb++)
+                foreach (int verb in ..100)
                 {
                     this.Input.Reset();
                     result = this.Input.Run(noun, verb);
