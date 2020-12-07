@@ -30,6 +30,11 @@ namespace AdventOfCode.Solvers.AoC2019
             AoCUtils.LogPart2(this.Input.Sum(CalculateFuel));
         }
 
+        /// <summary>
+        /// Calculates the fuel necessary for a given mass, accounting for the mass of the fuel
+        /// </summary>
+        /// <param name="mass">Mass to calculate for</param>
+        /// <returns>The total fuel required for the given mass</returns>
         public int CalculateFuel(int mass)
         {
             mass = (mass / 3) - 2;
