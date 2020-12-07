@@ -33,7 +33,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            int result = this.Input.Run(12, 2);
+            int result = this.Input.Run(12, 2, 0)!.Value;
             AoCUtils.LogPart1(result);
 
             foreach (int noun in ..100)
@@ -41,7 +41,7 @@ namespace AdventOfCode.Solvers.AoC2019
                 foreach (int verb in ..100)
                 {
                     this.Input.Reset();
-                    result = this.Input.Run(noun, verb);
+                    result = this.Input.Run(noun, verb, 0)!.Value;
                     if (result is TARGET)
                     {
                         AoCUtils.LogPart2((100 * noun) + verb);
