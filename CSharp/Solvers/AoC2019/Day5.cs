@@ -35,7 +35,7 @@ namespace AdventOfCode.Solvers.AoC2019
             input[0] = 5;
             this.VM.SetInput(input);
             this.VM.Run();
-            AoCUtils.LogPart2(this.Data.GetOutput()[0]);
+            AoCUtils.LogPart2(this.Data.GetNextOutput());
         }
         #endregion
     }

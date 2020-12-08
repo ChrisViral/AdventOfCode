@@ -158,18 +158,12 @@ namespace AdventOfCode.Intcode
         /// <param name="modes">Parameter modes</param>
         private static VMStates Inp(ref int pointer, in VMData data, in Modes modes)
         {
+            //Make sure we can get the input first
+            if (!data.getInput(out int input)) return VMStates.STALLED;
+            
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             
-            try
-            {
-                a = data.getInput();
-            }
-            catch (EndOfStreamException)
-            {
-                //If nothing to read
-                return VMStates.STALLED;
-            }
-            
+            a = input;
             pointer += 2;
             return VMStates.RUNNING;
         }
