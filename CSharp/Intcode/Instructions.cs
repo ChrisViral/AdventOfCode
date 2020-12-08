@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 using VMData = AdventOfCode.Intcode.IntcodeVM.VMData;
 
@@ -15,13 +14,13 @@ namespace AdventOfCode.Intcode
         /// </summary>
         public enum Opcodes
         {
-            ADD = 1,
-            MUL = 2,
-            INP = 3,
-            OUT = 4,
+            ADD = 1,    //Add
+            MUL = 2,    //Multiply
+            INP = 3,    //Input
+            OUT = 4,    //Output
             
-            NOP = 0,
-            HLT = 99
+            NOP = 0,    //No Op
+            HLT = 99    //Halt
         }
         
         /// <summary>
@@ -107,28 +106,32 @@ namespace AdventOfCode.Intcode
         }
 
         /// <summary>
-        /// ADD Instruction, adds the values in the addresses of the first and second arguments into the address of the third argument
+        /// ADD Instruction, adds the values of the first and second operands into the address of the third operand
         /// </summary>
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
         private static void Add(ref int pointer, in VMData data, in Modes modes)
         {
-            (int a, int b, int c) = GetOperands(data.memory, pointer, modes);
-            data.memory[c] = a + b;
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            c = a + b;
             pointer += 4;
         }
 
         /// <summary>
-        /// MUL Instruction, multiplies the values in the addresses of the first and second arguments into the address of the third argument
+        /// MUL Instruction, multiplies the values of the first and second operands into the address of the third operand
         /// </summary>
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
         private static void Mul(ref int pointer, in VMData data, in Modes modes)
         {
-            (int a, int b, int c) = GetOperands(data.memory, pointer, modes);
-            data.memory[c] = a * b;
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            c = a * b;
             pointer += 4;
         }
 
@@ -140,20 +143,20 @@ namespace AdventOfCode.Intcode
         /// <param name="modes">Parameter modes</param>
         private static void Inp(ref int pointer, in VMData data, in Modes modes)
         {
-            int a = GetOperand(data.memory, pointer + 1, ParamModes.IMMEDIATE); //Input parameter is always an address
-            data.memory[a] = data.getInput();
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            a = data.getInput();
             pointer += 2;
         }
 
         /// <summary>
-        /// OUT Instruction, puts the value at the address of the first operand in the output stream
+        /// OUT Instruction, puts the value of the first operand in the output stream
         /// </summary>
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
         private static void Out(ref int pointer, in VMData data, in Modes modes)
         {
-            int a = GetOperand(data.memory, pointer + 1, modes.first);
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             data.setOutput(a);
             pointer += 2;
         }
@@ -183,30 +186,20 @@ namespace AdventOfCode.Intcode
         /// <param name="mode">Parameter mode</param>
         /// <returns>The operand for the given instruction</returns>
         /// <exception cref="InvalidEnumArgumentException">If an invalid ParamModes is detected</exception>
-        private static int GetOperand(IReadOnlyList<int> memory, int pointer, in ParamModes mode)
+        /// ReSharper disable once SuggestBaseTypeForParameter - Cannot be IList because of the ref return
+        private static ref int GetOperand(int[] memory, int pointer, in ParamModes mode)
         {
-            return mode switch
+            //ReSharper disable once ConvertSwitchStatementToSwitchExpression - Cannot use a switch expression because of the ref return 
+            switch (mode)
             {
-                ParamModes.POSITION  => memory[memory[pointer]],
-                ParamModes.IMMEDIATE => memory[pointer],
-                _                    => throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamModes))
-            };
-        }
-
-        /// <summary>
-        /// Returns the three operands in memory for the instruction at the given pointer
-        /// </summary>
-        /// <param name="memory">Memory of the VM</param>
-        /// <param name="pointer">Pointer at the current instruction</param>
-        /// <param name="modes">Parameter modes</param>
-        /// <returns>The three operands for the given instruction</returns>
-        /// <exception cref="InvalidEnumArgumentException">If an invalid ParamModes is detected</exception>
-        private static (int, int, int) GetOperands(IReadOnlyList<int> memory, int pointer, in Modes modes)
-        {
-            int a = GetOperand(memory, pointer + 1, modes.first);
-            int b = GetOperand(memory, pointer + 2, modes.second);
-            int c = GetOperand(memory, pointer + 3, ParamModes.IMMEDIATE); //Last parameter is the write address, always immediate
-            return (a, b, c);
+                case ParamModes.POSITION:
+                    return ref memory[memory[pointer]];
+                case ParamModes.IMMEDIATE:
+                    return ref memory[pointer];
+                
+                default:
+                    throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamModes));
+            }
         }
         #endregion
     }
