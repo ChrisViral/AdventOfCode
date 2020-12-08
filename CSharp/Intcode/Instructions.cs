@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using VMData = AdventOfCode.Intcode.IntcodeVM.VMData;
+using VMStates = AdventOfCode.Intcode.IntcodeVM.VMStates;
 
 namespace AdventOfCode.Intcode
 {
@@ -79,7 +81,7 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Pointer of the VM</param>
         /// <param name="data">Intcode VM data</param>
         /// <param name="modes">Operand modes</param>
-        public delegate void Instruction(ref int pointer, in VMData data, in Modes modes);
+        public delegate VMStates Instruction(ref int pointer, in VMData data, in Modes modes);
 
         #region Static methods
         /// <summary>
@@ -120,7 +122,7 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Add(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Add(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
@@ -128,6 +130,7 @@ namespace AdventOfCode.Intcode
             
             c = a + b;
             pointer += 4;
+            return VMStates.RUNNING;
         }
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Mul(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Mul(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
@@ -144,6 +147,7 @@ namespace AdventOfCode.Intcode
             
             c = a * b;
             pointer += 4;
+            return VMStates.RUNNING;
         }
 
         /// <summary>
@@ -152,12 +156,22 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Inp(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Inp(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             
-            a = data.getInput();
+            try
+            {
+                a = data.getInput();
+            }
+            catch (EndOfStreamException)
+            {
+                //If nothing to read
+                return VMStates.STALLED;
+            }
+            
             pointer += 2;
+            return VMStates.RUNNING;
         }
 
         /// <summary>
@@ -166,12 +180,14 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Out(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Out(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             
             data.setOutput(a);
             pointer += 2;
+
+            return VMStates.RUNNING;
         }
         
         /// <summary>
@@ -180,12 +196,14 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Jnz(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Jnz(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
             
             pointer = a is not 0 ? b : pointer + 3;
+
+            return VMStates.RUNNING;
         }
         
         /// <summary>
@@ -194,12 +212,14 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Jez(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Jez(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
             
             pointer = a is 0 ? b : pointer + 3;
+
+            return VMStates.RUNNING;
         }
         
         /// <summary>
@@ -208,7 +228,7 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Tlt(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Tlt(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
@@ -216,6 +236,8 @@ namespace AdventOfCode.Intcode
             
             c = a < b ? 1 : 0;
             pointer += 4;
+
+            return VMStates.RUNNING;
         }
         
         /// <summary>
@@ -224,7 +246,7 @@ namespace AdventOfCode.Intcode
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Teq(ref int pointer, in VMData data, in Modes modes)
+        private static VMStates Teq(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
@@ -232,15 +254,21 @@ namespace AdventOfCode.Intcode
             
             c = a == b ? 1 : 0;
             pointer += 4;
+
+            return VMStates.RUNNING;
         }
-        
+
         /// <summary>
         /// NOP Instruction, increments pointer only
         /// </summary>
         /// <param name="pointer">Current VM pointer</param>
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
-        private static void Nop(ref int pointer, in VMData data, in Modes modes) => pointer++;
+        private static VMStates Nop(ref int pointer, in VMData data, in Modes modes)
+        {
+            pointer++;
+            return VMStates.RUNNING;
+        }
 
         /// <summary>
         /// HLT Instruction, sets the pointer into the halted state
@@ -249,7 +277,11 @@ namespace AdventOfCode.Intcode
         /// <param name="data">VM specific data</param>
         /// <param name="modes">Parameter modes</param>
         /// ReSharper disable once RedundantAssignment
-        private static void Hlt(ref int pointer, in VMData data, in Modes modes) => pointer = IntcodeVM.HALT;
+        private static VMStates Hlt(ref int pointer, in VMData data, in Modes modes)
+        {
+            pointer = IntcodeVM.HALT;
+            return VMStates.HALTED;
+        }
 
         /// <summary>
         /// Returns the an operands in memory for the instruction at the given pointer

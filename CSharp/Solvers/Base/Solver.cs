@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -129,9 +131,18 @@ namespace AdventOfCode.Solvers.Base
         {
             if (!this.IsDisposed)
             {
-                if (this.Data is IDisposable disposable)
+                switch (this.Data)
                 {
-                    disposable.Dispose();
+                    case IDisposable disposable:
+                        disposable.Dispose();
+                        break;
+
+                    case IEnumerable enumerable:
+                        foreach (object obj in enumerable)
+                        {
+                            (obj as IDisposable)?.Dispose();
+                        }
+                        break;
                 }
 
                 this.IsDisposed = true;

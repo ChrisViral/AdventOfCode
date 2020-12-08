@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using AdventOfCode.Grids.Vectors;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids
 {
@@ -93,12 +94,7 @@ namespace AdventOfCode.Grids
 
             if (typeof(T).IsPrimitive)
             {
-                this.rowBufferSize = this.Width * typeof(T) switch
-                {
-                    { } t when t == typeof(bool) => 1,
-                    { } t when t == typeof(char) => 2,
-                    _                            => Marshal.SizeOf<T>()
-                };
+                this.rowBufferSize = this.Width * AoCUtils.GetSizeOfPrimitive<T>();
             }
             this.toString = toString ?? (t => t?.ToString() ?? string.Empty);
         }

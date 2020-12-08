@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2019
     /// <summary>
     /// Solver for 2019 Day 5
     /// </summary>
-    public class Day5 : Solver<IntcodeVM>
+    public class Day5 : IntcodeSolver
     {
         #region Constructors
         /// <summary>
@@ -27,19 +27,16 @@ namespace AdventOfCode.Solvers.AoC2019
         public override void Run()
         {
             int[] input = { 1 };
-            this.Data.SetInput(input);
-            this.Data.Run();
+            this.VM.SetInput(input);
+            this.VM.Run();
             AoCUtils.LogPart1(string.Join(' ', this.Data.GetOutput()));
             
-            this.Data.Reset();
+            this.VM.Reset();
             input[0] = 5;
-            this.Data.SetInput(input);
-            this.Data.Run();
+            this.VM.SetInput(input);
+            this.VM.Run();
             AoCUtils.LogPart2(this.Data.GetOutput()[0]);
         }
-
-        /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
         #endregion
     }
 }

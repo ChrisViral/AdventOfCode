@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2019
     /// <summary>
     /// Solver for 2019 Day 2
     /// </summary>
-    public class Day2 : Solver<IntcodeVM>
+    public class Day2 : IntcodeSolver
     {
         #region Constants
         /// <summary>
@@ -33,15 +33,15 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            int result = this.Data.Run(12, 2, 0)!.Value;
+            this.VM.Run(12, 2, 0, out int result);
             AoCUtils.LogPart1(result);
 
             foreach (int noun in ..100)
             {
                 foreach (int verb in ..100)
                 {
-                    this.Data.Reset();
-                    result = this.Data.Run(noun, verb, 0)!.Value;
+                    this.VM.Reset();
+                    this.VM.Run(noun, verb, 0, out result);
                     if (result is TARGET)
                     {
                         AoCUtils.LogPart2((100 * noun) + verb);
@@ -50,9 +50,6 @@ namespace AdventOfCode.Solvers.AoC2019
                 }
             }
         }
-
-        /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
         #endregion
     }
 }
