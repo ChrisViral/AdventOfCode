@@ -65,9 +65,9 @@ namespace AdventOfCode.Intcode
         /// <summary>Original memory state of the program</summary>
         private readonly ReadOnlyMemory<int> originalState;
         /// <summary>The input stream of the IntcodeVM</summary>
-        private readonly MemoryStream inputStream;
+        private MemoryStream inputStream;
         /// <summary>The input stream reader of the IntcodeVM</summary>
-        private readonly BinaryReader inputReader;
+        private BinaryReader inputReader;
         /// <summary>The output stream of the IntcodeVM</summary>
         private readonly MemoryStream outputStream;
         /// <summary>The output stream writer of the IntcodeVM</summary>
@@ -212,6 +212,19 @@ namespace AdventOfCode.Intcode
         }
 
         /// <summary>
+        /// Sets the input array for this IntcodeVM
+        /// </summary>
+        /// <param name="array">Array to set as input</param>
+        public void SetInput(int[] array)
+        {
+            this.inputStream.Dispose();
+            this.inputReader.Dispose();
+
+            this.inputStream = new MemoryStream(GetBuffer(array));
+            this.inputReader = new BinaryReader(this.inputStream);
+        }
+
+        /// <summary>
         /// Gets the output array from this Intcode VM
         /// </summary>
         /// <returns>A new copy of the current output array of the VM</returns>
@@ -254,8 +267,8 @@ namespace AdventOfCode.Intcode
             {
                 if (closeStreams)
                 {
-                    this.inputStream.Close();
-                    this.outputStream.Close();
+                    this.inputStream.Dispose();
+                    this.outputStream.Dispose();
                 }
                 
                 Dispose();
