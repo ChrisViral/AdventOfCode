@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using VMData = AdventOfCode.Intcode.IntcodeVM.VMData;
 
@@ -18,6 +18,10 @@ namespace AdventOfCode.Intcode
             MUL = 2,    //Multiply
             INP = 3,    //Input
             OUT = 4,    //Output
+            JNZ = 5,    //Jump Not Zero
+            JEZ = 6,    //Jump Equal Zero
+            TLT = 7,    //Test Less Than
+            TEQ = 8,    //Test Equals
             
             NOP = 0,    //No Op
             HLT = 99    //Halt
@@ -75,7 +79,7 @@ namespace AdventOfCode.Intcode
         /// <param name="memory">Memory of the VM</param>
         /// <param name="pointer">Pointer of the VM</param>
         public delegate void Instruction(ref int pointer, in VMData data, in Modes modes);
-        
+
         #region Static methods
         /// <summary>
         /// Decodes an opcode into it's associated instruction
@@ -95,6 +99,10 @@ namespace AdventOfCode.Intcode
                 Opcodes.MUL => Mul,
                 Opcodes.INP => Inp,
                 Opcodes.OUT => Out,
+                Opcodes.JNZ => Jnz,
+                Opcodes.JEZ => Jez,
+                Opcodes.TLT => Tlt,
+                Opcodes.TEQ => Teq,
                 
                 //Nop, Halt, and unknown
                 Opcodes.NOP => Nop,
@@ -116,6 +124,7 @@ namespace AdventOfCode.Intcode
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
             ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            
             c = a + b;
             pointer += 4;
         }
@@ -131,6 +140,7 @@ namespace AdventOfCode.Intcode
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
             ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
             ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            
             c = a * b;
             pointer += 4;
         }
@@ -144,6 +154,7 @@ namespace AdventOfCode.Intcode
         private static void Inp(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            
             a = data.getInput();
             pointer += 2;
         }
@@ -157,8 +168,69 @@ namespace AdventOfCode.Intcode
         private static void Out(ref int pointer, in VMData data, in Modes modes)
         {
             ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            
             data.setOutput(a);
             pointer += 2;
+        }
+        
+        /// <summary>
+        /// JNZ Instruction, if the first operand is not zero, sets the pointer to the value of the second operand
+        /// </summary>
+        /// <param name="pointer">Current VM pointer</param>
+        /// <param name="data">VM specific data</param>
+        /// <param name="modes">Parameter modes</param>
+        private static void Jnz(ref int pointer, in VMData data, in Modes modes)
+        {
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            
+            pointer = a is not 0 ? b : pointer + 3;
+        }
+        
+        /// <summary>
+        /// JEZ Instruction, if the first operand is zero, sets the pointer to the value of the second operand
+        /// </summary>
+        /// <param name="pointer">Current VM pointer</param>
+        /// <param name="data">VM specific data</param>
+        /// <param name="modes">Parameter modes</param>
+        private static void Jez(ref int pointer, in VMData data, in Modes modes)
+        {
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            
+            pointer = a is 0 ? b : pointer + 3;
+        }
+        
+        /// <summary>
+        /// TLT Instruction, if the first operand is less than the second operand, sets the third operand to 1, otherwise, sets the third operand to 0
+        /// </summary>
+        /// <param name="pointer">Current VM pointer</param>
+        /// <param name="data">VM specific data</param>
+        /// <param name="modes">Parameter modes</param>
+        private static void Tlt(ref int pointer, in VMData data, in Modes modes)
+        {
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            
+            c = a < b ? 1 : 0;
+            pointer += 4;
+        }
+        
+        /// <summary>
+        /// TEQ Instruction, if the first operand is equal to the second operand, sets the third operand to 1, otherwise, sets the third operand to 0
+        /// </summary>
+        /// <param name="pointer">Current VM pointer</param>
+        /// <param name="data">VM specific data</param>
+        /// <param name="modes">Parameter modes</param>
+        private static void Teq(ref int pointer, in VMData data, in Modes modes)
+        {
+            ref int a = ref GetOperand(data.memory, pointer + 1, modes.first);
+            ref int b = ref GetOperand(data.memory, pointer + 2, modes.second);
+            ref int c = ref GetOperand(data.memory, pointer + 3, modes.third);
+            
+            c = a == b ? 1 : 0;
+            pointer += 4;
         }
         
         /// <summary>
