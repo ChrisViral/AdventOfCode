@@ -33,7 +33,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             int part1 = 0;
@@ -65,7 +65,7 @@ namespace AdventOfCode.Solvers.AoC2020
             AoCUtils.LogPart2(part2);
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override PasswordData[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<PasswordData>(PATTERN, rawInput, RegexOptions.Compiled);
         #endregion
     }

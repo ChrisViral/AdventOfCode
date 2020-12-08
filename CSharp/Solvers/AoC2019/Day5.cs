@@ -23,7 +23,7 @@ namespace AdventOfCode.Solvers.AoC2019
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             int[] input = { 1 };
@@ -38,7 +38,7 @@ namespace AdventOfCode.Solvers.AoC2019
             AoCUtils.LogPart2(this.Data.GetOutput()[0]);
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
         #endregion
     }

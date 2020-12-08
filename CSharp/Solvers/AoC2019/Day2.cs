@@ -30,7 +30,7 @@ namespace AdventOfCode.Solvers.AoC2019
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             int result = this.Data.Run(12, 2, 0)!.Value;
@@ -51,7 +51,7 @@ namespace AdventOfCode.Solvers.AoC2019
             }
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
         #endregion
     }

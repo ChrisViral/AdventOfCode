@@ -24,9 +24,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Runs the solver on the problem input
-        /// </summary>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             int anyTotal = 0;
@@ -51,12 +49,7 @@ namespace AdventOfCode.Solvers.AoC2020
             AoCUtils.LogPart2(allTotal);
         }
 
-        /// <summary>
-        /// Input conversion function<br/>
-        /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
-        /// </summary>
-        /// <param name="rawInput">Input value</param>
-        /// <returns>Target converted value</returns>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
                                                                                 .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
                                                                                 .ToArray();

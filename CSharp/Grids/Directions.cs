@@ -25,6 +25,11 @@ namespace AdventOfCode.Grids
     public static class DirectionsExtensions
     {
         #region Extension methods
+        /// <summary>
+        /// Gets a Vector2 from a given Directions
+        /// </summary>
+        /// <param name="directions">Direction to get the vector from</param>
+        /// <returns>The resulting vector</returns>
         public static Vector2 ToVector(this Directions directions)
         {
             switch (directions)

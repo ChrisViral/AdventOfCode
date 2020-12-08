@@ -25,7 +25,7 @@ namespace AdventOfCode.Solvers.AoC2019
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             Dictionary<Vector2, int> firstVisited = GetVisited(this.Data.first);
@@ -41,7 +41,12 @@ namespace AdventOfCode.Solvers.AoC2019
             AoCUtils.LogPart2(min);
         }
 
-        private Dictionary<Vector2, int> GetVisited(IEnumerable<Vector2> movements)
+        /// <summary>
+        /// Gets the visited positions for a given wire
+        /// </summary>
+        /// <param name="movements">Sequence of movements made by the wire</param>
+        /// <returns>A dictionary containing the visited location as key and steps amount as values</returns>
+        private static Dictionary<Vector2, int> GetVisited(IEnumerable<Vector2> movements)
         {
             int steps = 0;
             Vector2 position = Vector2.Zero;
@@ -62,7 +67,7 @@ namespace AdventOfCode.Solvers.AoC2019
             return visited;
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override (Vector2[], Vector2[]) Convert(string[] rawInput) => (Array.ConvertAll(rawInput[0].Split(','), Vector2.ParseFromDirection), Array.ConvertAll(rawInput[1].Split(','), Vector2.ParseFromDirection));
         #endregion
     }

@@ -37,7 +37,7 @@ namespace AdventOfCode.Intcode
         }
 
         /// <summary>
-        /// Parameter Modes
+        /// Operand Modes
         /// </summary>
         public readonly struct Modes
         {
@@ -76,8 +76,9 @@ namespace AdventOfCode.Intcode
         /// <summary>
         /// Intcode operation delegate
         /// </summary>
-        /// <param name="memory">Memory of the VM</param>
         /// <param name="pointer">Pointer of the VM</param>
+        /// <param name="data">Intcode VM data</param>
+        /// <param name="modes">Operand modes</param>
         public delegate void Instruction(ref int pointer, in VMData data, in Modes modes);
 
         #region Static methods

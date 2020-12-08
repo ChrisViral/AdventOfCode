@@ -73,7 +73,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="T"/> fails</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/> fails</exception>
         public Day8(FileInfo file) : base(file) { }
         #endregion
 
@@ -84,7 +84,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             RunProgram();
@@ -128,7 +128,7 @@ namespace AdventOfCode.Solvers.AoC2020
             return true;
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override Instruction[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new Instruction(s));
         #endregion
     }

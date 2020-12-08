@@ -92,7 +92,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             //Calculate valid for Part 1
@@ -104,7 +104,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override Passport[] Convert(string[] rawInput) => RegexUtils.PopulateObjects<Passport>(PATTERN,
                                                                                                       AoCUtils.CombineLines(rawInput)
                                                                                                               .Select(l => string.Join(' ', l))
