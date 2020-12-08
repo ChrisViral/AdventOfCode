@@ -32,7 +32,7 @@ namespace AdventOfCode.Solvers.AoC2020
             /// Creates a new instruction from a given line
             /// </summary>
             /// <param name="line">Instruction line</param>
-            public Instruction(string line) : this(Enum.Parse<Operations>(line[..3]), int.Parse(line[4..])) { }
+            public Instruction(string line) : this(Enum.Parse<Operations>(line[..3], true), int.Parse(line[4..])) { }
             #endregion
 
             #region Methods
