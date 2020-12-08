@@ -28,8 +28,8 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            Dictionary<Vector2, int> firstVisited = GetVisited(this.Input.first);
-            Dictionary<Vector2, int> secondVisited = GetVisited(this.Input.second);
+            Dictionary<Vector2, int> firstVisited = GetVisited(this.Data.first);
+            Dictionary<Vector2, int> secondVisited = GetVisited(this.Data.second);
 
             HashSet<Vector2> intersections = new(firstVisited.Keys);
             intersections.IntersectWith(secondVisited.Keys);

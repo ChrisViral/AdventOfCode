@@ -84,7 +84,7 @@ namespace AdventOfCode.Solvers.AoC2020
             int max = 0;
             HashSet<int> existing = new();
             bool[,] seats = new bool[BoardingPass.MAX_ROW + 1, BoardingPass.MAX_COLUMN + 1];
-            foreach (BoardingPass pass in this.Input)
+            foreach (BoardingPass pass in this.Data)
             {
                 max = Math.Max(max, pass.Id);
                 existing.Add(pass.Id);

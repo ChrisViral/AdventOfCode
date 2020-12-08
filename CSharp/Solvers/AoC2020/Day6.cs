@@ -31,7 +31,7 @@ namespace AdventOfCode.Solvers.AoC2020
         {
             int anyTotal = 0;
             int allTotal = 0;
-            foreach (HashSet<char>[] group in this.Input)
+            foreach (HashSet<char>[] group in this.Data)
             {
                 HashSet<char> anyAnswered = group[0];
                 HashSet<char> allAnswered = new(anyAnswered);

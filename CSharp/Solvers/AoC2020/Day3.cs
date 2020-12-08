@@ -52,12 +52,12 @@ namespace AdventOfCode.Solvers.AoC2020
             do
             {
                 //Check the position for a hit
-                if (this.Input[position.Value])
+                if (this.Data[position.Value])
                 {
                     hits++;
                 }
                 //Move along slope
-                position = this.Input.MoveWithinGrid(position.Value, slope, true);
+                position = this.Data.MoveWithinGrid(position.Value, slope, true);
             }
             while (position is not null); //Keep moving until out of bounds at the bottom
 

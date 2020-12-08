@@ -31,7 +31,7 @@ namespace AdventOfCode.Solvers.Base
         /// <summary>
         /// Input data
         /// </summary>
-        protected string[] Input { get; }
+        protected string[] Data { get; }
         #endregion
 
         #region Constructors
@@ -51,7 +51,7 @@ namespace AdventOfCode.Solvers.Base
             try
             {
                 using StreamReader reader = file.OpenText();
-                this.Input = reader.ReadToEnd()
+                this.Data = reader.ReadToEnd()
                                    .Split(splitters ?? defaultSplitters, options)
                                    .ToArray();
             }
@@ -92,7 +92,7 @@ namespace AdventOfCode.Solvers.Base
         /// <summary>
         /// Parsed input data
         /// </summary>
-        protected new T Input { get; }
+        protected new T Data { get; }
         
         /// <summary>
         /// If the Solver has been disposed or not
@@ -116,7 +116,7 @@ namespace AdventOfCode.Solvers.Base
             {
                 //Convert is intended to be a Pure function, therefore it should be safe to call in the constructor
                 //ReSharper disable once VirtualMemberCallInConstructor
-                this.Input = Convert(base.Input);
+                this.Data = Convert(base.Data);
             }
             catch (Exception e)
             {
@@ -133,7 +133,7 @@ namespace AdventOfCode.Solvers.Base
         {
             if (!this.IsDisposed)
             {
-                if (this.Input is IDisposable disposable)
+                if (this.Data is IDisposable disposable)
                 {
                     disposable.Dispose();
                 }

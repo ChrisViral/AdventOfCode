@@ -96,7 +96,7 @@ namespace AdventOfCode.Solvers.AoC2020
         public override void Run()
         {
             //Calculate valid for Part 1
-            List<Passport> valid = this.Input.Where(p => p.IsValid).ToList();
+            List<Passport> valid = this.Data.Where(p => p.IsValid).ToList();
             AoCUtils.LogPart1(valid.Count);
 
             //Validate for Part 2
