@@ -12,6 +12,17 @@ namespace AdventOfCode.Intcode
     public class IntcodeVM : IDisposable
     {
         /// <summary>
+        /// VM states
+        /// </summary>
+        public enum VMStates
+        {
+            READY,
+            RUNNING,
+            STALLED,
+            HALTED
+        }
+        
+        /// <summary>
         /// VM specific data
         /// </summary>
         public readonly struct VMData
@@ -64,23 +75,26 @@ namespace AdventOfCode.Intcode
         private readonly int[] memory;
         /// <summary>Original memory state of the program</summary>
         private readonly ReadOnlyMemory<int> originalState;
-        /// <summary>The input stream of the IntcodeVM</summary>
-        private MemoryStream inputStream;
         /// <summary>The input stream reader of the IntcodeVM</summary>
-        private BinaryReader inputReader;
-        /// <summary>The output stream of the IntcodeVM</summary>
-        private readonly MemoryStream outputStream;
+        private BinaryReader inputReader = null!;
+        /// <summary>The input stream writer</summary>
+        private BinaryWriter inputWriter = null!;
         /// <summary>The output stream writer of the IntcodeVM</summary>
-        private readonly BinaryWriter outputWriter;
+        private BinaryWriter outputWriter = null!;
         /// <summary>Data relating to the VM</summary>
         private readonly VMData data;
         #endregion
         
         #region Properties
         /// <summary>
+        /// The current VM State
+        /// </summary>
+        public VMStates State { get; private set; }
+        
+        /// <summary>
         /// If the Intcode VM is currently halted
         /// </summary>
-        public bool IsHalted => this.pointer is HALT;
+        public bool IsHalted => this.State is VMStates.HALTED;
 
         /// <summary>
         /// Fetches the current instruction in memory
@@ -91,6 +105,35 @@ namespace AdventOfCode.Intcode
         /// If the VM has disposed of it's input and output streams
         /// </summary>
         public bool IsDisposed { get; private set; }
+
+        private MemoryStream inputStream = null!;
+        /// <summary>
+        /// The input stream of the IntcodeVM
+        /// </summary>
+        public MemoryStream In
+        {
+            get => this.inputStream;
+            set
+            {
+                this.inputStream = value;
+                this.inputReader = new BinaryReader(this.inputStream);
+                this.inputWriter = new BinaryWriter(this.inputStream);
+            }
+        }
+
+        private MemoryStream outputStream = null!;
+        /// <summary>
+        /// The output stream of the IntcodeVM
+        /// </summary>
+        public MemoryStream Out
+        {
+            get => this.outputStream;
+            set
+            {
+                this.outputStream = value;
+                this.outputWriter = new BinaryWriter(this.outputStream);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -98,7 +141,7 @@ namespace AdventOfCode.Intcode
         /// Creates a new Intcode VM by parsing the given code, and with an empty input buffer and resizable output buffer
         /// </summary>
         /// <param name="code">Comma separated Intcode to parse</param>
-        public IntcodeVM(string code) : this(code, new MemoryStream(), new MemoryStream(DEFAULT_SIZE)) { }
+        public IntcodeVM(string code) : this(code, new MemoryStream(DEFAULT_SIZE), new MemoryStream(DEFAULT_SIZE)) { }
         
         /// <summary>
         /// Creates a new Intcode VM by parsing the given code, and with the specified combined input and output array
@@ -126,20 +169,15 @@ namespace AdventOfCode.Intcode
         /// Creates a new Intcode VM by parsing the given code, and with the specified input and output MemoryStreams
         /// </summary>
         /// <param name="code">Comma separated Intcode to parse</param>
-        /// <param name="inputStream">The input Stream for this Intcode VM</param>
-        /// <param name="outputStream">The output Steam for this Intcode VM</param>
-        public IntcodeVM(string code, MemoryStream inputStream, MemoryStream outputStream)
+        /// <param name="input">The input Stream for this Intcode VM</param>
+        /// <param name="output">The output Steam for this Intcode VM</param>
+        public IntcodeVM(string code, MemoryStream input, MemoryStream output)
         {
             this.originalState = Array.ConvertAll(code.Split(splitters, OPTIONS), int.Parse);
             this.memory = new int[this.originalState.Length];
             this.originalState.CopyTo(this.memory);
-
-            this.inputStream = inputStream;
-            this.inputReader = new BinaryReader(inputStream);
-
-            this.outputStream = outputStream;
-            this.outputWriter = new BinaryWriter(this.outputStream);
-
+            this.In = input;
+            this.Out = output;
             this.data = new VMData(this);
         }
         #endregion
@@ -152,24 +190,24 @@ namespace AdventOfCode.Intcode
         /// <returns>Value at the return address after the VM halts if there is one, otherwise null</returns>
         /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
         /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
-        public int? Run(int? resultAddress = null)
+        public VMStates Run()
         {
             //Make sure we aren't already halted
             if (this.IsHalted) throw new InvalidOperationException("Intcode program is already in a halted state and must be reset to run again");
  
             //Program loop
-            while (this.pointer is not HALT)
+            this.State = VMStates.RUNNING;
+            while (this.State is VMStates.RUNNING)
             {
                 //Fetch
                 int op = this.Fetch;
                 //Decode
                 (Instruction instruction, Modes modes) = Instructions.Decode(op);
                 //Execute
-                instruction(ref this.pointer, this.data, modes);
+                this.State = instruction(ref this.pointer, this.data, modes);
             }
 
-            //Use the address currently stored in result to store the out value
-            return resultAddress.HasValue ? this.memory[resultAddress.Value] : null;
+            return this.State;
         }
 
         /// <summary>
@@ -179,20 +217,48 @@ namespace AdventOfCode.Intcode
         /// <param name="noun">Value to insert into the first operand</param>
         /// <param name="verb">Value to insert into the second operand</param>
         /// <param name="resultAddress">Address of the return value, defaults to null</param>
+        /// <param name="result">Output parameter where the result is stored</param>
         /// <returns>Value at the return address after the VM halts if there is one, otherwise null</returns>
         /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
         /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
-        public int? Run(int noun, int verb, int? resultAddress = null)
+        public VMStates Run(int noun, int verb, int resultAddress, out int result)
         {
-            //Make sure we aren't already halted
-            if (this.IsHalted) throw new InvalidOperationException("Intcode program is already in a halted state and must be reset to run again");
-            
-            //Set the noun and verb
+            //Set noun and verb
             this.memory[1] = noun;
             this.memory[2] = verb;
             
             //Run normally
-            return Run(resultAddress);
+            VMStates state = Run();
+
+            //Set result
+            result = this.memory[resultAddress];
+
+            return state;
+        }
+
+        /// <summary>
+        /// Resets the input buffer to the start
+        /// </summary>
+        public void ResetInput()
+        {
+            if (!this.IsDisposed)
+            {
+                this.In.Seek(0L, SeekOrigin.Begin);
+                this.inputWriter.Seek(0, SeekOrigin.Begin);
+            }
+        }
+
+        /// <summary>
+        /// Resets and clears the input buffer
+        /// </summary>
+        public void ClearInput()
+        {
+            if (!this.IsDisposed)
+            {
+                this.In.Seek(0L, SeekOrigin.Begin);
+                this.In.SetLength(0L);
+                this.inputWriter.Seek(0, SeekOrigin.Begin);
+            }
         }
 
         /// <summary>
@@ -204,10 +270,12 @@ namespace AdventOfCode.Intcode
             {
                 this.pointer = DEFAULT;
                 this.originalState.CopyTo(this.memory);
+                
+                ClearInput();
+                this.Out.Seek(0L, SeekOrigin.Begin);
+                this.Out.SetLength(0L);
 
-                this.inputStream.Seek(0L, SeekOrigin.Begin);
-                this.outputStream.Seek(0L, SeekOrigin.Begin);
-                this.outputStream.SetLength(0L);
+                this.State = VMStates.READY;
             }
         }
 
@@ -217,11 +285,11 @@ namespace AdventOfCode.Intcode
         /// <param name="array">Array to set as input</param>
         public void SetInput(int[] array)
         {
-            this.inputStream.Dispose();
+            this.In.Dispose();
             this.inputReader.Dispose();
 
-            this.inputStream = new MemoryStream(GetBuffer(array));
-            this.inputReader = new BinaryReader(this.inputStream);
+            this.In = new MemoryStream(GetBuffer(array));
+            this.inputReader = new BinaryReader(this.In);
         }
 
         /// <summary>
@@ -230,9 +298,9 @@ namespace AdventOfCode.Intcode
         /// <returns>A new copy of the current output array of the VM</returns>
         public int[] GetOutput()
         {
-            if (this.outputStream.Length is 0) return Array.Empty<int>();
+            if (this.Out.Length is 0) return Array.Empty<int>();
             
-            byte[] serialized = this.outputStream.ToArray();
+            byte[] serialized = this.Out.ToArray();
             int[] output = new int[serialized.Length / sizeof(int)];
             Buffer.BlockCopy(serialized, 0, output, 0, serialized.Length);
             return output;
@@ -244,6 +312,12 @@ namespace AdventOfCode.Intcode
         /// <returns>The next integer in the input stream</returns>
         /// <exception cref="InvalidOperationException">If no input stream is specified</exception>
         private int GetNextInput() => this.inputReader.ReadInt32();
+
+        /// <summary>
+        /// Writes a value to the input stream
+        /// </summary>
+        /// <param name="value">Value to write</param>
+        public void WriteToInput(int value) => this.inputWriter.Write(value);
 
         /// <summary>
         /// Adds an integer to the output stream
@@ -267,8 +341,8 @@ namespace AdventOfCode.Intcode
             {
                 if (closeStreams)
                 {
-                    this.inputStream.Dispose();
-                    this.outputStream.Dispose();
+                    this.In.Dispose();
+                    this.Out.Dispose();
                 }
                 
                 Dispose();
