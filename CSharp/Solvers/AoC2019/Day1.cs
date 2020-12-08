@@ -26,8 +26,8 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            AoCUtils.LogPart1(this.Input.Sum(m => (m / 3) - 2));
-            AoCUtils.LogPart2(this.Input.Sum(CalculateFuel));
+            AoCUtils.LogPart1(this.Data.Sum(m => (m / 3) - 2));
+            AoCUtils.LogPart2(this.Data.Sum(CalculateFuel));
         }
 
         /// <summary>

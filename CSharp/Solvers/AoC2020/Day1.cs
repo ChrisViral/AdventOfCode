@@ -30,7 +30,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
-        public Day1(FileInfo file) : base(file) => this.values = new HashSet<int>(this.Input);
+        public Day1(FileInfo file) : base(file) => this.values = new HashSet<int>(this.Data);
         #endregion
 
         #region Methods
@@ -49,7 +49,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// </summary>
         private void FindTwoMatching()
         {
-            foreach (int expense in this.Input)
+            foreach (int expense in this.Data)
             {
                 int match = TARGET - expense;
                 if (this.values.Contains(match))
@@ -65,11 +65,11 @@ namespace AdventOfCode.Solvers.AoC2020
         /// </summary>
         private void FindThreeMatching()
         {
-            Array.Sort(this.Input);
-            for (int i = 0; i < this.Input.Length - 2; /*i++*/)
+            Array.Sort(this.Data);
+            for (int i = 0; i < this.Data.Length - 2; /*i++*/)
             {
-                int first = this.Input[i];
-                foreach (int second in this.Input[++i..^1])
+                int first = this.Data[i];
+                foreach (int second in this.Data[++i..^1])
                 {
                     int total = first + second;
 

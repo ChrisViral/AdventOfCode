@@ -38,7 +38,7 @@ namespace AdventOfCode.Solvers.AoC2020
         {
             int part1 = 0;
             int part2 = 0;
-            foreach ((int min, int max, char target, string password) in this.Input)
+            foreach ((int min, int max, char target, string password) in this.Data)
             {
                 //Part 1
                 int occurrences = password.Count(c => c == target);

@@ -139,7 +139,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            Bag personalBag = this.Input[PERSONAL_BAG];
+            Bag personalBag = this.Data[PERSONAL_BAG];
             HashSet<Bag> canContain = new(personalBag.ContainedBy);
             Queue<Bag> toCheck = new(canContain);
             while (toCheck.TryDequeue(out Bag? bag))

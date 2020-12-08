@@ -34,12 +34,12 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver"/>
         public override void Run()
         {
-            List<string> valid = this.Input.AsEnumerable()
+            List<string> valid = this.Data.AsEnumerable()
                                   .Select(p => p.ToString())
                                   .Where(s => adjacentMatch.IsMatch(s) && increasingMatch.IsMatch(s))
                                   .ToList();
             AoCUtils.LogPart1(valid.Count);
-            AoCUtils.LogPart1(valid.Count(s => adjacentPairMatch.IsMatch(s)));
+            AoCUtils.LogPart2(valid.Count(s => adjacentPairMatch.IsMatch(s)));
         }
 
         /// <inheritdoc cref="Solver{T}"/>
