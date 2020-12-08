@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Intcode;
 using AdventOfCode.Utils;
@@ -12,6 +11,21 @@ namespace AdventOfCode.Solvers.AoC2019
     /// </summary>
     public class Day7 : Solver<IntcodeVM[]>
     {
+        #region Constants
+        /// <summary>
+        /// Amount of amplifiers running
+        /// </summary>
+        private const int AMPS = 5;
+        /// <summary>
+        /// Part 1 phase settings
+        /// </summary>
+        private static readonly int[] part1Phase = { 0, 1, 2, 3, 4 };
+        /// <summary>
+        /// Part 2 phase settings
+        /// </summary>
+        private static readonly int[] part2Phase = { 5, 6, 7, 8, 9 };
+        #endregion
+        
         #region Constructors
         /// <summary>
         /// Creates a new <see cref="Day7"/> Solver with the input data properly parsed
@@ -28,64 +42,76 @@ namespace AdventOfCode.Solvers.AoC2019
         public override void Run()
         {
             int max = int.MinValue;
-            foreach (int[] perm in AoCUtils.Permutations(new[] { 0, 1, 2, 3, 4 }))
+            //Go through all permutations of part 1 settings
+            foreach (int[] perm in AoCUtils.Permutations(part1Phase))
             {
+                //Add phase settings
                 foreach (int i in ..5)
                 {
-                    this.Data[i].WriteToInput(perm[i]);
+                    this.Data[i].AddInput(perm[i]);
                 }
-                this.Data[0].WriteToInput(0);
+                //Add input value
+                this.Data[0].AddInput(0);
                 
-                foreach (IntcodeVM vm in this.Data)
+                //Run all amplifiers
+                foreach (IntcodeVM amp in this.Data)
                 {
-                    vm.ResetInput();
-                    vm.Run();
+                    amp.Run();
                 }
 
-                max = Math.Max(max, this.Data[4].GetOutput()[0]);
+                //Get value from last amplifier
+                max = Math.Max(max, this.Data[^1].GetNextOutput());
                 
-                foreach (IntcodeVM vm in this.Data)
+                //Reset amplifiers
+                foreach (IntcodeVM amp in this.Data)
                 {
-                    vm.Reset();
+                    amp.Reset();
                 }
             }
             AoCUtils.LogPart1(max);
             
+            //Set last output as first input
+            this.Data[0].In = this.Data[^1].Out;
             max = int.MinValue;
-            this.Data[0].In = this.Data[4].Out;
-            foreach (int[] perm in AoCUtils.Permutations(new[] { 5, 6, 7, 8, 9 }))
+            //Go through all permutations of part 2 settings
+            foreach (int[] perm in AoCUtils.Permutations(part2Phase))
             {
-                foreach (int i in ..5)
+                //Add phase settings
+                foreach (int i in ..AMPS)
                 {
-                    this.Data[i].WriteToInput(perm[i]);
+                    this.Data[i].AddInput(perm[i]);
                 }
-                this.Data[0].WriteToInput(0);
+                //Add input value
+                this.Data[0].AddInput(0);
                 
-                while (!this.Data[4].IsHalted)
+                //Run until the last amp has halted
+                while (!this.Data[^1].IsHalted)
                 {
-                    foreach (IntcodeVM vm in this.Data)
+                    //Run all amps
+                    foreach (IntcodeVM amp in this.Data)
                     {
-                        vm.ResetInput();
-                        vm.Run();
-                        vm.ClearInput();
+                        amp.Run();
                     }
                 }
                 
-                max = Math.Max(max, this.Data[4].GetOutput()[0]);
+                //Get value from last amplifier
+                max = Math.Max(max, this.Data[^1].GetNextOutput());
+                
+                //Reset amplifiers
                 foreach (IntcodeVM vm in this.Data)
                 {
                     vm.Reset();
                 }
             }
-            AoCUtils.LogPart1(max);
+            AoCUtils.LogPart2(max);
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
         public override IntcodeVM[] Convert(string[] rawInput)
         {
             string line = rawInput[0];
-            IntcodeVM[] vms = new IntcodeVM[5];
-            foreach (int i in ..5)
+            IntcodeVM[] vms = new IntcodeVM[AMPS];
+            foreach (int i in ..AMPS)
             {
                 IntcodeVM vm = new(line);
                 vms[i] = vm;
@@ -93,12 +119,6 @@ namespace AdventOfCode.Solvers.AoC2019
                 {
                     vm.In = vms[i - 1].Out;
                 }
-            }
-
-            //Link up streams
-            foreach (int i in 1..5)
-            {
-                vms[i].In = vms[i - 1].Out;
             }
 
             return vms;
