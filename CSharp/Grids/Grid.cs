@@ -250,19 +250,13 @@ namespace AdventOfCode.Grids
             return new Vector2(result);
         }
 
-        /// <summary>
-        /// Enumerates through the grid row by row, from left to right
-        /// </summary>
-        /// <returns>The enumerator going through the grid</returns>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
-        /// <inheritdoc cref="IEnumerable"/>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() => this.grid.GetEnumerator();
 
-        /// <summary>
-        /// String representation of the Grid
-        /// </summary>
-        /// <returns>String of the Grid</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             StringBuilder sb = new();

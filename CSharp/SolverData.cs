@@ -48,10 +48,7 @@ namespace AdventOfCode
         #endregion
         
         #region Methods
-        /// <summary>
-        /// String representation of the SolverData
-        /// </summary>
-        /// <returns>The year, followed by the day</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"{this.year} Day{this.day}";
         #endregion
     }

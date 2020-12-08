@@ -25,7 +25,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             //Part one
@@ -64,7 +64,7 @@ namespace AdventOfCode.Solvers.AoC2020
             return hits;
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override Grid<bool> Convert(string[] rawInput)
         {
             int width = rawInput[0].Length;

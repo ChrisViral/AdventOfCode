@@ -90,30 +90,16 @@ namespace AdventOfCode.Solvers.AoC2020
                 this.containedBagNames = null;
             }
 
-            /// <summary>
-            /// Gets the HashCode of this Bag
-            /// </summary>
-            /// <returns>HashCode, based on the name of the Bag</returns>
+            /// <inheritdoc cref="object.GetHashCode"/>
             public override int GetHashCode() => this.Name.GetHashCode();
             
-            /// <summary>
-            /// Checks if the passed object is a Bag equal to this one
-            /// </summary>
-            /// <param name="obj">Object to compare to</param>
-            /// <returns>True if the object is a bag equals to this one, false otherwise</returns>
+            /// <inheritdoc cref="object.Equals(object)"/>
             public override bool Equals(object? obj) => obj is Bag bag && Equals(bag);
             
-            /// <summary>
-            /// Checks if the passed Bag is equals to this one
-            /// </summary>
-            /// <param name="other">Other bag to compare to</param>
-            /// <returns>True if the bags are equal, false otherwise</returns>
+            /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
             public bool Equals(Bag? other) => other is not null && (ReferenceEquals(this, other) || this.Name == other.Name);
 
-            /// <summary>
-            /// Name of the Bag
-            /// </summary>
-            /// <returns>Name of the Bag</returns>
+            /// <inheritdoc cref="object.ToString"/>
             public override string ToString() => this.Name;
             #endregion
         }
@@ -136,7 +122,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             Bag personalBag = this.Data[PERSONAL_BAG];
@@ -167,7 +153,7 @@ namespace AdventOfCode.Solvers.AoC2020
             AoCUtils.LogPart2(result);
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override Dictionary<string, Bag> Convert(string[] rawInput)
         {
             Dictionary<string, Bag> bags = new(rawInput.Length);

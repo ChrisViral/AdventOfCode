@@ -74,48 +74,26 @@ namespace AdventOfCode.Grids.Vectors
         #endregion
         
         #region Methods
-        /// <summary>
-        /// Checks for equality with the given object
-        /// </summary>
-        /// <param name="other">Other object to test</param>
-        /// <returns>True if the object is a Vector2 with the same components, false otherwise</returns>
+        /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? other) => other is Vector2 vector && Equals(vector);
 
-        /// <summary>
-        /// Checks with equality with another Vector
-        /// </summary>
-        /// <param name="other">Other Vector to check</param>
-        /// <returns>True if both vectors have the same components, false otherwise</returns>
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(in Vector2 other) => this.X == other.X && this.Y == other.Y;
 
-        /// <summary>
-        /// Calculates the hash of this vector
-        /// </summary>
-        /// <returns>HashCode of the Vector, calculated from both components</returns>
+        /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode() => HashCode.Combine(this.X, this.Y);
 
-        /// <summary>
-        /// Compares this vector to another object
-        /// </summary>
-        /// <param name="other">Object to compare to</param>
-        /// <returns>0 if the other object is not a vector, otherwise the result of <see cref="CompareTo(in Vector2)"/></returns>
+        /// <inheritdoc cref="IComparable.CompareTo"/>
         public int CompareTo(object? other) => other is Vector2 vector ? CompareTo(vector) : 0;
 
-        /// <summary>
-        /// Compares this vector to another vector. Comparison is done on the X component first, then Y if necessary.
-        /// </summary>
-        /// <param name="other">Vector to compare to</param>
-        /// <returns>0 if both vectors are equal, 1 if this vector is greater, -1 otherwise</returns>
+        /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(in Vector2 other)
         {
             int comp = this.X.CompareTo(other.X);
             return comp is 0 ? this.Y.CompareTo(other.X) : comp;
         }
 
-        /// <summary>
-        /// Converts this vector to a readable string
-        /// </summary>
-        /// <returns>String representation of this vector</returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y})";
 
         /// <summary>

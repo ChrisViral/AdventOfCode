@@ -23,7 +23,7 @@ namespace AdventOfCode.Solvers.AoC2019
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             AoCUtils.LogPart1(this.Data.Sum(m => (m / 3) - 2));
@@ -35,7 +35,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// </summary>
         /// <param name="mass">Mass to calculate for</param>
         /// <returns>The total fuel required for the given mass</returns>
-        public int CalculateFuel(int mass)
+        public static int CalculateFuel(int mass)
         {
             mass = (mass / 3) - 2;
             int totalFuel = 0;
@@ -48,7 +48,7 @@ namespace AdventOfCode.Solvers.AoC2019
             return totalFuel;
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
         #endregion
     }

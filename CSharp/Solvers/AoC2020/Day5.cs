@@ -75,9 +75,7 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Runs the solver on the problem input
-        /// </summary>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             //Part 1
@@ -111,12 +109,7 @@ namespace AdventOfCode.Solvers.AoC2020
             }
         }
 
-        /// <summary>
-        /// Input conversion function<br/>
-        /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
-        /// </summary>
-        /// <param name="rawInput">Input value</param>
-        /// <returns>Target converted value</returns>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override BoardingPass[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new BoardingPass(s));
         #endregion
     }

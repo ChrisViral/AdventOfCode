@@ -34,14 +34,14 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             FindTwoMatching();
             FindThreeMatching();
         }
         
-        ///<inheritdoc cref="Solver{T}"/>
+        ///<inheritdoc cref="Solver{T}.Convert"/>
         public override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace AdventOfCode.Solvers.AoC2019
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver"/>
+        /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
             List<string> valid = this.Data.AsEnumerable()
@@ -42,7 +42,7 @@ namespace AdventOfCode.Solvers.AoC2019
             AoCUtils.LogPart2(valid.Count(s => adjacentPairMatch.IsMatch(s)));
         }
 
-        /// <inheritdoc cref="Solver{T}"/>
+        /// <inheritdoc cref="Solver{T}.Convert"/>
         public override Range Convert(string[] rawInput)
         {
             string[] splits = rawInput[0].Split('-', StringSplitOptions.TrimEntries);

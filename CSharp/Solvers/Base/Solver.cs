@@ -36,7 +36,7 @@ namespace AdventOfCode.Solvers.Base
 
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Solver"/> from the specified file
+        /// Creates a new <see cref="Solver.Run"/> from the specified file
         /// </summary>
         /// <param name="file">File to load for puzzle input</param>
         /// <param name="splitters">Splitting characters, defaults to newline only</param>
@@ -68,9 +68,7 @@ namespace AdventOfCode.Solvers.Base
         /// </summary>
         public abstract void Run();
 
-        /// <summary>
-        /// Disposes of aany resources held by the Solver
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public virtual void Dispose() { }
         #endregion
     }
@@ -102,7 +100,7 @@ namespace AdventOfCode.Solvers.Base
 
         #region Constructors
         /// <summary>
-        /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
+        /// Creates a new generic <see cref="Solver{T}.Convert"/> with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <param name="splitters">Splitting characters, defaults to newline only</param>
@@ -126,9 +124,7 @@ namespace AdventOfCode.Solvers.Base
         #endregion
         
         #region Methods
-        /// <summary>
-        /// Disposes of the resources held by the Solver if any
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
             if (!this.IsDisposed)
@@ -139,6 +135,7 @@ namespace AdventOfCode.Solvers.Base
                 }
 
                 this.IsDisposed = true;
+                GC.SuppressFinalize(this);
             }
         }
         #endregion
