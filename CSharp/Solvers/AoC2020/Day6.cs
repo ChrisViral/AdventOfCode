@@ -50,9 +50,9 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
-                                                                                .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
-                                                                                .ToArray();
+        protected override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
+                                                                                   .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
+                                                                                   .ToArray();
         #endregion
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -17,12 +16,10 @@ namespace AdventOfCode.Solvers.Base
         /// Expected input file extension
         /// </summary>
         private const string EXTENSION = ".txt";
-
         /// <summary>
         /// Default split options
         /// </summary>
-        private const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-
+        protected const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
         /// <summary>
         /// Default split characters
         /// </summary>
@@ -81,13 +78,6 @@ namespace AdventOfCode.Solvers.Base
     /// <typeparam name="T">The fully parse input type</typeparam>
     public abstract class Solver<T> : Solver
     {
-        #region Constants
-        /// <summary>
-        /// Default split options
-        /// </summary>
-        private const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-        #endregion
-        
         #region Properties
         /// <summary>
         /// Parsed input data
@@ -159,7 +149,7 @@ namespace AdventOfCode.Solvers.Base
         /// <param name="rawInput">Input value</param>
         /// <returns>Target converted value</returns>
         [Pure]
-        public abstract T Convert(string[] rawInput);
+        protected abstract T Convert(string[] rawInput);
         #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using AdventOfCode.Grids;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2020
@@ -11,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 3
     /// </summary>
-    public class Day3: Solver<Grid<bool>>
+    public class Day3: GridSolver<bool>
     {
         #region Constructors
         /// <summary>
@@ -64,13 +65,8 @@ namespace AdventOfCode.Solvers.AoC2020
             return hits;
         }
 
-        /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override Grid<bool> Convert(string[] rawInput)
-        {
-            int width = rawInput[0].Length;
-            int height = rawInput.Length;
-            return new Grid<bool>(width, height, rawInput, s => s.Select(c => c is '#').ToArray());
-        }
+        /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
+        protected override bool[] LineConverter(string line) => line.Select(c => c is '#').ToArray();
         #endregion
     }
 }

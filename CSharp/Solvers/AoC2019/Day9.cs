@@ -2,6 +2,7 @@
 using System.IO;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2019
