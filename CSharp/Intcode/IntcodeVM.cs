@@ -29,7 +29,7 @@ namespace AdventOfCode.Intcode
         {
             #region Fields
             /// <summary>Memory of the VM</summary>
-            public readonly int[] memory;
+            public readonly long[] memory;
             /// <summary>Input function of the VM</summary>
             public readonly InputGetter getInput;
             /// <summary>Output function of the VM</summary>
@@ -55,13 +55,13 @@ namespace AdventOfCode.Intcode
         /// </summary>
         /// <param name="input">The returned input</param>
         /// <returns>True if an input was fetched, false otherwise</returns>
-        public delegate bool InputGetter(out int input);
+        public delegate bool InputGetter(out long input);
 
         /// <summary>
         /// Delegate which sets the next output value
         /// </summary>
         /// <param name="output">Output value to set</param>
-        public delegate void OutputSetter(int output);
+        public delegate void OutputSetter(long output);
 
         #region Constants
         /// <summary>
@@ -76,6 +76,10 @@ namespace AdventOfCode.Intcode
         /// Default output stream size (1kb)
         /// </summary>
         public const int DEFAULT_SIZE = 16;
+        /// <summary>
+        /// Extra buffer memory added to the VM (1k)
+        /// </summary>
+        public const int BUFFER_SIZE = 1024;
         
         private const StringSplitOptions OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
         private static readonly char[] splitters = { ',' };
@@ -84,10 +88,12 @@ namespace AdventOfCode.Intcode
         #region Fields
         /// <summary>Intcode program memory pointer</summary>
         private int pointer = DEFAULT;
+        /// <summary>Relative base of the VM</summary>
+        private int relative = DEFAULT;
         /// <summary>Intcode program memory</summary>
-        private readonly int[] memory;
+        private readonly long[] memory;
         /// <summary>Original memory state of the program</summary>
-        private readonly ReadOnlyMemory<int> originalState;
+        private readonly ReadOnlyMemory<long> originalState;
         /// <summary>Data relating to the VM</summary>
         private readonly VMData data;
         #endregion
@@ -106,22 +112,17 @@ namespace AdventOfCode.Intcode
         /// <summary>
         /// Fetches the current instruction in memory
         /// </summary>
-        private int Fetch => this.memory[this.pointer];
-        
-        /// <summary>
-        /// If the VM has disposed of it's input and output streams
-        /// </summary>
-        public bool IsDisposed { get; private set; }
-        
+        private long Fetch => this.memory[this.pointer];
+
         /// <summary>
         /// The input queue of the IntcodeVM
         /// </summary>
-        public Queue<int> In { get; set; }
+        public Queue<long> In { get; set; }
         
         /// <summary>
         /// The output queue of the IntcodeVM
         /// </summary>
-        public Queue<int> Out { get; set; }
+        public Queue<long> Out { get; set; }
         #endregion
 
         #region Constructors
@@ -129,14 +130,14 @@ namespace AdventOfCode.Intcode
         /// Creates a new Intcode VM by parsing the given code, and with empty input and output queues
         /// </summary>
         /// <param name="code">Comma separated Intcode to parse</param>
-        public IntcodeVM(string code) : this(code, new Queue<int>(DEFAULT_SIZE), new Queue<int>(DEFAULT_SIZE)) { }
+        public IntcodeVM(string code) : this(code, new Queue<long>(DEFAULT_SIZE), new Queue<long>(DEFAULT_SIZE)) { }
         
         /// <summary>
         /// Creates a new Intcode VM by parsing the given code, and with the input and output values
         /// </summary>
         /// <param name="code">Comma separated Intcode to parse</param>
         /// <param name="input">Input values</param>
-        public IntcodeVM(string code, IEnumerable<int> input) : this(code, new Queue<int>(input), new Queue<int>(DEFAULT_SIZE)) { }
+        public IntcodeVM(string code, IEnumerable<long> input) : this(code, new Queue<long>(input), new Queue<long>(DEFAULT_SIZE)) { }
         
         /// <summary>
         /// Creates a new Intcode VM by parsing the given code, and with the specified input and output Queues
@@ -144,10 +145,10 @@ namespace AdventOfCode.Intcode
         /// <param name="code">Comma separated Intcode to parse</param>
         /// <param name="input">The input Queue for this Intcode VM</param>
         /// <param name="output">The output Queue for this Intcode VM</param>
-        public IntcodeVM(string code, Queue<int> input, Queue<int> output)
+        public IntcodeVM(string code, Queue<long> input, Queue<long> output)
         {
-            this.originalState = Array.ConvertAll(code.Split(splitters, OPTIONS), int.Parse);
-            this.memory = new int[this.originalState.Length];
+            this.originalState = Array.ConvertAll(code.Split(splitters, OPTIONS), long.Parse);
+            this.memory = new long[this.originalState.Length + BUFFER_SIZE];
             this.originalState.CopyTo(this.memory);
             this.In = input;
             this.Out = output;
@@ -172,11 +173,11 @@ namespace AdventOfCode.Intcode
             while (this.State is VMStates.RUNNING)
             {
                 //Fetch
-                int op = this.Fetch;
+                long opcode = this.Fetch;
                 //Decode
-                (Instruction instruction, Modes modes) = Instructions.Decode(op);
+                (Instruction instruction, Modes modes) = Instructions.Decode(opcode);
                 //Execute
-                this.State = instruction(ref this.pointer, this.data, modes);
+                this.State = instruction(ref this.pointer, ref this.relative, this.data, modes);
             }
 
             return this.State;
@@ -194,7 +195,7 @@ namespace AdventOfCode.Intcode
         /// <returns>Current state of the VM</returns>
         /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
         /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
-        public VMStates Run(int noun, int verb, int resultAddress, out int result)
+        public VMStates Run(long noun, long verb, int resultAddress, out long result)
         {
             //Set noun and verb
             this.memory[1] = noun;
@@ -214,58 +215,56 @@ namespace AdventOfCode.Intcode
         /// </summary>
         public void Reset()
         {
-            if (!this.IsDisposed)
-            {
-                this.pointer = DEFAULT;
-                this.originalState.CopyTo(this.memory);
+            this.pointer = DEFAULT;
+            this.relative = DEFAULT;
+            this.originalState.CopyTo(this.memory);
                 
-                this.In.Clear();
-                this.Out.Clear();
+            this.In.Clear();
+            this.Out.Clear();
 
-                this.State = VMStates.READY;
-            }
+            this.State = VMStates.READY;
         }
 
         /// <summary>
         /// Sets a new input queue with the specified data
         /// </summary>
         /// <param name="input">Data to set as input</param>
-        public void SetInput(IEnumerable<int> input) => this.In = new Queue<int>(input);
+        public void SetInput(IEnumerable<long> input) => this.In = new Queue<long>(input);
 
         /// <summary>
         /// Adds the given value to the input queue
         /// </summary>
         /// <param name="value">Value to add</param>
-        public void AddInput(int value) => this.In.Enqueue(value);
+        public void AddInput(long value) => this.In.Enqueue(value);
         
         /// <summary>
         /// Gets the next available int from the input if available
         /// </summary>
         /// <returns>The next integer in the input queue</returns>
-        private bool GetNextInput(out int input) => this.In.TryDequeue(out input);
+        private bool GetNextInput(out long input) => this.In.TryDequeue(out input);
         
         /// <summary>
         /// Adds an integer to the output stream
         /// </summary>
         /// <param name="output">Value to add to the output</param>
         /// <exception cref="InvalidOperationException">If no output stream is specified</exception>
-        private void AddOutput(int output) => this.Out.Enqueue(output);
+        private void AddOutput(long output) => this.Out.Enqueue(output);
 
         /// <summary>
         /// Gets the next available int from the output
         /// </summary>
         /// <returns>The next output value</returns>
-        public int GetNextOutput() => this.Out.Dequeue();
+        public long GetNextOutput() => this.Out.Dequeue();
 
         /// <summary>
         /// Gets all the output from this Intcode VM
         /// </summary>
         /// <returns>A new copy of the current output  of the VM in an array</returns>
-        public int[] GetOutput()
+        public long[] GetOutput()
         {
-            if (this.Out.Count is 0) return Array.Empty<int>();
+            if (this.Out.Count is 0) return Array.Empty<long>();
             
-            int[] output = new int[this.Out.Count];
+            long[] output = new long[this.Out.Count];
             this.Out.CopyTo(output, 0);
             return output;
         }
