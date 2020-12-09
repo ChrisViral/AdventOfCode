@@ -38,25 +38,21 @@ namespace AdventOfCode.Solvers.AoC2020
             }
             AoCUtils.LogPart1(invalid);
 
-            long[] slice = null!;
-            for (int i = 0, j = 2; j <= this.Data.Length; )
+            int start = 0, end = 1;
+            long sum = this.Data[start] + this.Data[end];
+            while (sum != invalid && end < this.Data.Length)
             {
-                slice = this.Data[i..j];
-                long sum = slice.Sum();
-                if (sum == invalid)
+                if (sum > invalid && start + 1 != end)
                 {
-                    break;
-                }
-
-                if (sum > invalid && i + 1 != j)
-                {
-                    i++;
+                    sum -= this.Data[start++];
                 }
                 else
                 {
-                    j++;
+                    sum += this.Data[++end];
                 }
             }
+
+            long[] slice = this.Data[start..++end];
             AoCUtils.LogPart2(slice.Min() + slice.Max());
         }
 
