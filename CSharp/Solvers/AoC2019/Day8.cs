@@ -119,7 +119,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="T"/> fails</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Layer"/> fails</exception>
         public Day8(FileInfo file) : base(file) { }
         #endregion
 
@@ -139,22 +139,10 @@ namespace AdventOfCode.Solvers.AoC2019
                 }
             }
 
-            int ones = 0, twos = 0;
-            foreach (int i in smallest)
-            {
-                switch (i)
-                {
-                    case 1:
-                        ones++;
-                        break;
-                    
-                    case 2:
-                        twos++;
-                        break;
-                }
-            }
+            int[] count = new int[3];
+            smallest.ForEach(i => count[i]++);
             
-            AoCUtils.LogPart1(ones * twos);
+            AoCUtils.LogPart1(count[1] * count[2]);
 
             Layer image = new();
             foreach (int i in ..Layer.WIDTH)
