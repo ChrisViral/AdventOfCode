@@ -46,7 +46,7 @@ namespace AdventOfCode.Solvers.AoC2019
             foreach (int[] perm in AoCUtils.Permutations(part1Phase))
             {
                 //Add phase settings
-                foreach (int i in ..5)
+                foreach (int i in ..AMPS)
                 {
                     this.Data[i].AddInput(perm[i]);
                 }
@@ -54,19 +54,13 @@ namespace AdventOfCode.Solvers.AoC2019
                 this.Data[0].AddInput(0);
                 
                 //Run all amplifiers
-                foreach (IntcodeVM amp in this.Data)
-                {
-                    amp.Run();
-                }
+                this.Data.ForEach(amp => amp.Run());
 
                 //Get value from last amplifier
                 max = Math.Max(max, this.Data[^1].GetNextOutput());
                 
                 //Reset amplifiers
-                foreach (IntcodeVM amp in this.Data)
-                {
-                    amp.Reset();
-                }
+                this.Data.ForEach(amp => amp.Reset());
             }
             AoCUtils.LogPart1(max);
             
@@ -88,20 +82,14 @@ namespace AdventOfCode.Solvers.AoC2019
                 while (!this.Data[^1].IsHalted)
                 {
                     //Run all amps
-                    foreach (IntcodeVM amp in this.Data)
-                    {
-                        amp.Run();
-                    }
+                    this.Data.ForEach(amp => amp.Run());
                 }
                 
                 //Get value from last amplifier
                 max = Math.Max(max, this.Data[^1].GetNextOutput());
                 
                 //Reset amplifiers
-                foreach (IntcodeVM vm in this.Data)
-                {
-                    vm.Reset();
-                }
+                this.Data.ForEach(amp => amp.Reset());
             }
             AoCUtils.LogPart2(max);
         }

@@ -150,15 +150,5 @@ namespace AdventOfCode.Utils
             return results;
         }
         #endregion
-        
-        #region Extension methods
-        /// <summary>
-        /// Gets all the captured groups of the match
-        /// </summary>
-        /// <returns>Enumerable of the captured groups</returns>
-        public static IEnumerable<Group> GetGroups(this Match match) => match.Groups
-                                                                             .Cast<Group>()
-                                                                             .Skip(1);
-        #endregion
     }
 }
