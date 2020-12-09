@@ -26,14 +26,12 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            int[] input = { 1 };
-            this.VM.SetInput(input);
+            this.VM.AddInput(1L);
             this.VM.Run();
             AoCUtils.LogPart1(string.Join(' ', this.Data.GetOutput()));
             
             this.VM.Reset();
-            input[0] = 5;
-            this.VM.SetInput(input);
+            this.VM.AddInput(5L);
             this.VM.Run();
             AoCUtils.LogPart2(this.Data.GetNextOutput());
         }

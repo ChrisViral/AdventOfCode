@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Target to find using the Intcode VM
         /// </summary>
-        private const int TARGET = 19690720;
+        private const long TARGET = 19690720L;
         #endregion
         
         #region Constructors
@@ -33,7 +33,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            this.VM.Run(12, 2, 0, out int result);
+            this.VM.Run(12L, 2L, 0, out long result);
             AoCUtils.LogPart1(result);
 
             foreach (int noun in ..100)

@@ -19,11 +19,11 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Part 1 phase settings
         /// </summary>
-        private static readonly int[] part1Phase = { 0, 1, 2, 3, 4 };
+        private static readonly long[] part1Phase = { 0L, 1L, 2L, 3L, 4L };
         /// <summary>
         /// Part 2 phase settings
         /// </summary>
-        private static readonly int[] part2Phase = { 5, 6, 7, 8, 9 };
+        private static readonly long[] part2Phase = { 5L, 6L, 7L, 8L, 9L };
         #endregion
         
         #region Constructors
@@ -41,9 +41,9 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            int max = int.MinValue;
+            long max = long.MinValue;
             //Go through all permutations of part 1 settings
-            foreach (int[] perm in AoCUtils.Permutations(part1Phase))
+            foreach (long[] perm in AoCUtils.Permutations(part1Phase))
             {
                 //Add phase settings
                 foreach (int i in ..AMPS)
@@ -51,7 +51,7 @@ namespace AdventOfCode.Solvers.AoC2019
                     this.Data[i].AddInput(perm[i]);
                 }
                 //Add input value
-                this.Data[0].AddInput(0);
+                this.Data[0].AddInput(0L);
                 
                 //Run all amplifiers
                 this.Data.ForEach(amp => amp.Run());
@@ -66,9 +66,9 @@ namespace AdventOfCode.Solvers.AoC2019
             
             //Set last output as first input
             this.Data[0].In = this.Data[^1].Out;
-            max = int.MinValue;
+            max = long.MinValue;
             //Go through all permutations of part 2 settings
-            foreach (int[] perm in AoCUtils.Permutations(part2Phase))
+            foreach (long[] perm in AoCUtils.Permutations(part2Phase))
             {
                 //Add phase settings
                 foreach (int i in ..AMPS)
@@ -76,7 +76,7 @@ namespace AdventOfCode.Solvers.AoC2019
                     this.Data[i].AddInput(perm[i]);
                 }
                 //Add input value
-                this.Data[0].AddInput(0);
+                this.Data[0].AddInput(0L);
                 
                 //Run until the last amp has halted
                 while (!this.Data[^1].IsHalted)
