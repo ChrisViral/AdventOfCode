@@ -68,7 +68,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override (Vector2[], Vector2[]) Convert(string[] rawInput) => (Array.ConvertAll(rawInput[0].Split(','), Vector2.ParseFromDirection), Array.ConvertAll(rawInput[1].Split(','), Vector2.ParseFromDirection));
+        protected override (Vector2[], Vector2[]) Convert(string[] rawInput) => (Array.ConvertAll(rawInput[0].Split(','), Vector2.ParseFromDirection), Array.ConvertAll(rawInput[1].Split(','), Vector2.ParseFromDirection));
         #endregion
     }
 }

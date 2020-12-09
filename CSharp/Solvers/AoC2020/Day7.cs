@@ -154,7 +154,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override Dictionary<string, Bag> Convert(string[] rawInput)
+        protected override Dictionary<string, Bag> Convert(string[] rawInput)
         {
             Dictionary<string, Bag> bags = new(rawInput.Length);
             foreach (string line in rawInput)

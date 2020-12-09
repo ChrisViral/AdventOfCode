@@ -43,7 +43,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override Range Convert(string[] rawInput)
+        protected override Range Convert(string[] rawInput)
         {
             string[] splits = rawInput[0].Split('-', StringSplitOptions.TrimEntries);
             return new Range(int.Parse(splits[0]), int.Parse(splits[1]));

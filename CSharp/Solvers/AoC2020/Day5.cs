@@ -110,7 +110,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override BoardingPass[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new BoardingPass(s));
+        protected override BoardingPass[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new BoardingPass(s));
         #endregion
     }
 }

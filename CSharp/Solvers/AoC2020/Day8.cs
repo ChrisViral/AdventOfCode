@@ -129,7 +129,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override Instruction[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new Instruction(s));
+        protected override Instruction[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new Instruction(s));
         #endregion
     }
 }

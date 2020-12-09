@@ -165,7 +165,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override Layer[] Convert(string[] rawInput)
+        protected override Layer[] Convert(string[] rawInput)
         {
             string line = rawInput[0];
             List<Layer> layers = new();

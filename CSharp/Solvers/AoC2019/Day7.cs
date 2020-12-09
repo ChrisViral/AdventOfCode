@@ -95,7 +95,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override IntcodeVM[] Convert(string[] rawInput)
+        protected override IntcodeVM[] Convert(string[] rawInput)
         {
             string line = rawInput[0];
             IntcodeVM[] vms = new IntcodeVM[AMPS];

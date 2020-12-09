@@ -49,7 +49,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+        protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
         #endregion
     }
 }

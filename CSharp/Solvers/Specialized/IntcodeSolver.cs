@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using AdventOfCode.Intcode;
+using AdventOfCode.Solvers.Base;
 
-namespace AdventOfCode.Solvers.Base
+namespace AdventOfCode.Solvers.Specialized
 {
     /// <summary>
-    /// IntcodeVm solver base
+    /// IntcodeVM solver base
     /// </summary>
     public abstract class IntcodeSolver : Solver<IntcodeVM>
     {
@@ -26,12 +27,12 @@ namespace AdventOfCode.Solvers.Base
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
-        protected IntcodeSolver(FileInfo file, char[]? splitters = null, StringSplitOptions options = StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries) : base(file, splitters, options) { }
+        protected IntcodeSolver(FileInfo file, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(file, splitters, options) { }
         #endregion
 
         #region Methods
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override IntcodeVM Convert(string[] rawInput) => new (rawInput[0]);
+        protected override IntcodeVM Convert(string[] rawInput) => new (rawInput[0]);
         #endregion
     }
 }

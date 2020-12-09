@@ -155,7 +155,7 @@ namespace AdventOfCode.Solvers.AoC2019
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        public override (Orbit, Orbit, Orbit) Convert(string[] rawInput)
+        protected override (Orbit, Orbit, Orbit) Convert(string[] rawInput)
         {
             Dictionary<string, Orbit> orbits = new();
             foreach (string line in rawInput)
