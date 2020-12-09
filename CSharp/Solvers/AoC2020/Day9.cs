@@ -1,0 +1,86 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
+
+namespace AdventOfCode.Solvers.AoC2020
+{
+    /// <summary>
+    /// Solver for 2020 Day 9
+    /// </summary>
+    public class Day9 : Solver<long[]>
+    {
+        #region Constructors
+        /// <summary>
+        /// Creates a new <see cref="Day9"/> Solver with the input data properly parsed
+        /// </summary>
+        /// <param name="file">Input file</param>
+        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
+        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/> fails</exception>
+        public Day9(FileInfo file) : base(file) { }
+        #endregion
+
+        #region Methods
+        /// <inheritdoc cref="Solver.Run"/>
+        public override void Run()
+        {
+            long invalid = 0L;
+            for (int i = 0, j = 25; j < this.Data.Length; i++, j++)
+            {
+                long number = this.Data[j];
+                if (!IsSumOfTwo(this.Data[i..j], number))
+                {
+                    invalid = number;
+                    break;
+                }
+            }
+            AoCUtils.LogPart1(invalid);
+
+            long[] slice = null!;
+            for (int i = 0, j = 2; j <= this.Data.Length; )
+            {
+                slice = this.Data[i..j];
+                long sum = slice.Sum();
+                if (sum == invalid)
+                {
+                    break;
+                }
+
+                if (sum > invalid && i + 1 != j)
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            AoCUtils.LogPart2(slice.Min() + slice.Max());
+        }
+
+        /// <summary>
+        /// Checks if the target number is the sum of two numbers from the array
+        /// </summary>
+        /// <param name="array">Array to check in</param>
+        /// <param name="target">Target sum to find</param>
+        /// <returns>True if the target is the sum of any two numbers in the array, otherwise false</returns>
+        private static bool IsSumOfTwo(long[] array, long target)
+        {
+            for (int i = 0; i < array.Length; /*i++*/)
+            {
+                long a = target - array[i];
+                if (array[++i..].Any(b => a == b))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <inheritdoc cref="Solver{T}.Convert"/>
+        protected override long[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, long.Parse);
+        #endregion
+    }
+}

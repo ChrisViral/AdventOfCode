@@ -62,16 +62,11 @@ namespace AdventOfCode.Intcode
             /// <exception cref="InvalidEnumArgumentException">If one of the parsed modes is not a valid member of the enum</exception>
             public Modes(string modes)
             {
-                if (modes.Length != 3) throw new ArgumentException($"Modes length is invalid, got {modes.Length}, expected 3", nameof(modes));
+                if (modes.Length is not 3) throw new ArgumentException($"Modes length is invalid, got {modes.Length}, expected 3", nameof(modes));
 
                 this.first  = (ParamModes)(modes[2] - '0');
-                if (!Enum.IsDefined(this.first)) throw new InvalidEnumArgumentException(nameof(this.first), (int)this.first, typeof(ParamModes));
-                
                 this.second = (ParamModes)(modes[1] - '0');
-                if (!Enum.IsDefined(this.second)) throw new InvalidEnumArgumentException(nameof(this.second), (int)this.second, typeof(ParamModes));
-                
                 this.third  = (ParamModes)(modes[0] - '0');
-                if (!Enum.IsDefined(this.third)) throw new InvalidEnumArgumentException(nameof(this.third), (int)this.third, typeof(ParamModes));
             }
             #endregion
         }
