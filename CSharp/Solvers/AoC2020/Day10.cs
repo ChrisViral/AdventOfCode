@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -18,7 +17,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="T"/> fails</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
         public Day10(FileInfo file) : base(file) { }
         #endregion
 
@@ -30,7 +29,9 @@ namespace AdventOfCode.Solvers.AoC2020
 
             //To make this simpler lets just store the results in an array, easier to code than vars, less waste than a dict
             int[] counts = new int[4];
-            counts[3]++;
+            //Final jump
+            counts[3]++;  
+            //First jump
             counts[this.Data[0]]++;
             
             for (int i = 0; i < this.Data.Length - 1; /*i++*/)
