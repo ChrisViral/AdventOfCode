@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Solver for 2020 Day 5
+    /// Solver for 2020 Day 05
     /// </summary>
     public class Day05 : Solver<Day05.BoardingPass[]>
     {
@@ -67,11 +66,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <param name="input">Puzzle input</param>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="BoardingPass"/> fails</exception>
-        public Day05(FileInfo file) : base(file) { }
+        public Day05(string input) : base(input) { }
         #endregion
 
         #region Methods

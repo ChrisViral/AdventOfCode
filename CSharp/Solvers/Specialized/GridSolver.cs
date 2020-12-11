@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.IO;
 using AdventOfCode.Grids;
 using AdventOfCode.Solvers.Base;
 
@@ -11,17 +10,22 @@ namespace AdventOfCode.Solvers.Specialized
     /// </summary>
     public abstract class GridSolver<T> : Solver<Grid<T>>
     {
+        #region Properties
+        /// <summary>
+        /// Input Grid
+        /// </summary>
+        public Grid<T> Grid => this.Data;
+        #endregion
+        
         #region Constructors
         /// <summary>
         /// Creates a new <see cref="GridSolver{T}"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
+        /// <param name="input">Puzzle input</param>
         /// <param name="splitters">Splitting characters, defaults to newline only</param>
         /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
-        protected GridSolver(FileInfo file, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(file, splitters, options) { }
+        protected GridSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
         #endregion
 
         #region Methods

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -7,7 +6,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Solver for 2020 Day 9
+    /// Solver for 2020 Day 09
     /// </summary>
     public class Day09 : Solver<long[]>
     {
@@ -15,11 +14,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/> fails</exception>
-        public Day09(FileInfo file) : base(file) { }
+        /// <param name="input">Puzzle input</param>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/>[] fails</exception>
+        public Day09(string input) : base(input) { }
         #endregion
 
         #region Methods

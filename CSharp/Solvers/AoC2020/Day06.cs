@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -8,7 +7,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Solver for 2020 Day 6
+    /// Solver for 2020 Day 06
     /// </summary>
     public class Day06 : Solver<HashSet<char>[][]>
     {
@@ -16,11 +15,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <param name="input">Puzzle input</param>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
-        public Day06(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
+        public Day06(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
         #endregion
 
         #region Methods
