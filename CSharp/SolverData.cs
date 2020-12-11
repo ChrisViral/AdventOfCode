@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace AdventOfCode
 {
@@ -22,7 +21,7 @@ namespace AdventOfCode
         #region Fields
         public readonly int year;
         public readonly int day;
-        public readonly FileInfo inputFile;
+        public readonly string input;
         public readonly string fullName;
         #endregion
 
@@ -39,7 +38,7 @@ namespace AdventOfCode
             if (!int.TryParse(args[0], out this.year)) throw new ArgumentException($"Year ({args[0]}) could not be parsed to integer.", $"{nameof(args)}[0]");
             if (!int.TryParse(args[1], out this.day)) throw new ArgumentException($"Day ({args[1]}) could not be parsed to integer.", $"{nameof(args)}[1]");
             
-            this.inputFile = new FileInfo($@"Input\{this.year}\day{this.day:D2}.txt");
+            this.input = InputFetcher.EnsureInput(this.year, this.day);
             this.fullName = $"{QUALIFIER}{this.year}.Day{this.day:D2}";
         }
         #endregion

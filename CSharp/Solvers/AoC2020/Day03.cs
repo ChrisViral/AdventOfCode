@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Grids;
 using AdventOfCode.Grids.Vectors;
@@ -10,7 +9,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Solver for 2020 Day 3
+    /// Solver for 2020 Day 03
     /// </summary>
     public class Day03: GridSolver<bool>
     {
@@ -18,11 +17,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <param name="input">Puzzle input</param>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
-        public Day03(FileInfo file) : base(file) { }
+        public Day03(string input) : base(input) { }
         #endregion
 
         #region Methods

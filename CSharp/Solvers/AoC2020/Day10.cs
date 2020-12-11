@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -14,11 +13,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
-        public Day10(FileInfo file) : base(file) { }
+        /// <param name="input">Puzzle input</param>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
+        public Day10(string input) : base(input) { }
         #endregion
 
         #region Methods

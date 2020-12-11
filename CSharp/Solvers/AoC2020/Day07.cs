@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
@@ -10,7 +8,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2020
 {
     /// <summary>
-    /// Solver for 2020 Day 7
+    /// Solver for 2020 Day 07
     /// </summary>
     public class Day07 : Solver<Dictionary<string, Day07.Bag>>
     {
@@ -115,10 +113,9 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Creates a new <see cref="Day07"/> Solver from the specified file
         /// </summary>
-        /// <param name="file">File to load for puzzle input</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        public Day07(FileInfo file) : base(file) { }
+        /// <param name="input">Puzzle input</param>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Dictionary{TKey,TValue}"/> fails</exception>
+        public Day07(string input) : base(input) { }
         #endregion
 
         #region Methods

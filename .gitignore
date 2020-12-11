@@ -163,3 +163,4 @@ venv.bak/
 # JetBrains
 .idea/
 CSharp/results.txt
+CSharp/Input/cookie.txt

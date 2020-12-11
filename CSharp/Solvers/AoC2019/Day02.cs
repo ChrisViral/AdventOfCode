@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
@@ -8,7 +7,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2019
 {
     /// <summary>
-    /// Solver for 2019 Day 2
+    /// Solver for 2019 Day 02
     /// </summary>
     public class Day02 : IntcodeSolver
     {
@@ -23,11 +22,9 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <param name="input">Puzzle input</param>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
-        public Day02(FileInfo file) : base(file) { }
+        public Day02(string input) : base(input) { }
         #endregion
 
         #region Methods

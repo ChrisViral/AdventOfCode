@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using AdventOfCode.Solvers.Base;
@@ -11,7 +10,7 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Solvers.AoC2019
 {
     /// <summary>
-    /// Solver for 2019 Day 8
+    /// Solver for 2019 Day 08
     /// </summary>
     public class Day08 : Solver<Day08.Layer[]>
     {
@@ -116,11 +115,9 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
         /// </summary>
-        /// <param name="file">Input file</param>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
-        /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
+        /// <param name="input">Puzzle input</param>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Layer"/> fails</exception>
-        public Day08(FileInfo file) : base(file) { }
+        public Day08(string input) : base(input) { }
         #endregion
 
         #region Methods
