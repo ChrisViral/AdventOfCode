@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 7
     /// </summary>
-    public class Day7 : Solver<Dictionary<string, Day7.Bag>>
+    public class Day07 : Solver<Dictionary<string, Day07.Bag>>
     {
         /// <summary>
         /// Bag object
@@ -113,12 +113,12 @@ namespace AdventOfCode.Solvers.AoC2020
 
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day7"/> Solver from the specified file
+        /// Creates a new <see cref="Day07"/> Solver from the specified file
         /// </summary>
         /// <param name="file">File to load for puzzle input</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
-        public Day7(FileInfo file) : base(file) { }
+        public Day07(FileInfo file) : base(file) { }
         #endregion
 
         #region Methods

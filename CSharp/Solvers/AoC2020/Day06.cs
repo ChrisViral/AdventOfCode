@@ -10,17 +10,17 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 6
     /// </summary>
-    public class Day6 : Solver<HashSet<char>[][]>
+    public class Day06 : Solver<HashSet<char>[][]>
     {
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day6"/> Solver with the input data properly parsed
+        /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
-        public Day6(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
+        public Day06(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
         #endregion
 
         #region Methods
