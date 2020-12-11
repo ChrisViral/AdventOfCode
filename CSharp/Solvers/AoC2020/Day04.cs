@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 4
     /// </summary>
-    public class Day4 : Solver<Day4.Passport[]>
+    public class Day04 : Solver<Day04.Passport[]>
     {
         /// <summary>
         /// Passport info
@@ -82,13 +82,13 @@ namespace AdventOfCode.Solvers.AoC2020
 
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day4"/> Solver with the input data properly parsed
+        /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Passport"/> fails</exception>
-        public Day4(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
+        public Day04(FileInfo file) : base(file, options: StringSplitOptions.TrimEntries) { }
         #endregion
 
         #region Methods

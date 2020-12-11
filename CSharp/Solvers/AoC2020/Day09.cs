@@ -9,17 +9,17 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 9
     /// </summary>
-    public class Day9 : Solver<long[]>
+    public class Day09 : Solver<long[]>
     {
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day9"/> Solver with the input data properly parsed
+        /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/> fails</exception>
-        public Day9(FileInfo file) : base(file) { }
+        public Day09(FileInfo file) : base(file) { }
         #endregion
 
         #region Methods

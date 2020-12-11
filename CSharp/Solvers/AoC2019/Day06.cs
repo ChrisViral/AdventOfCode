@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2019
     /// <summary>
     /// Solver for 2019 Day 6
     /// </summary>
-    public class Day6 : Solver<(Day6.Orbit com, Day6.Orbit you, Day6.Orbit san)>
+    public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     {
         /// <summary>
         /// Orbit object
@@ -103,13 +103,13 @@ namespace AdventOfCode.Solvers.AoC2019
         
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day6"/> Solver with the input data properly parsed
+        /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2, T3}"/> fails</exception>
-        public Day6(FileInfo file) : base(file) { }
+        public Day06(FileInfo file) : base(file) { }
         #endregion
 
         #region Methods

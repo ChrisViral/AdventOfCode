@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2019
     /// <summary>
     /// Solver for 2019 Day 8
     /// </summary>
-    public class Day8 : Solver<Day8.Layer[]>
+    public class Day08 : Solver<Day08.Layer[]>
     {
         /// <summary>
         /// Image layer
@@ -114,13 +114,13 @@ namespace AdventOfCode.Solvers.AoC2019
         
         #region Constructors
         /// <summary>
-        /// Creates a new <see cref="Day8"/> Solver with the input data properly parsed
+        /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="file">Input file</param>
         /// <exception cref="ArgumentException">Thrown if the <paramref name="file"/> does not exist or has an invalid extension</exception>
         /// <exception cref="FileLoadException">Thrown if the input <paramref name="file"/> could not be properly loaded</exception>
         /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Layer"/> fails</exception>
-        public Day8(FileInfo file) : base(file) { }
+        public Day08(FileInfo file) : base(file) { }
         #endregion
 
         #region Methods
