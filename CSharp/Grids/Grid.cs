@@ -110,6 +110,21 @@ namespace AdventOfCode.Grids
         /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
         /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
         public Grid(int width, int height, string[] input, Converter<string, T[]> converter, Converter<T, string>? toString = null) : this(width, height, toString) => Populate(input, converter);
+
+        /// <summary>
+        /// Grid copy constructor
+        /// </summary>
+        /// <param name="other">Other grid to create a copy of</param>
+        public Grid(Grid<T> other)
+        {
+            this.Width = other.Width;
+            this.Height = other.Height;
+            this.Size = other.Size;
+            this.rowBufferSize = other.rowBufferSize;
+            this.toString = other.toString;
+            this.grid = new T[this.Height, this.Width];
+            CopyFrom(other);
+        }
         #endregion
 
         #region Methods
@@ -141,6 +156,25 @@ namespace AdventOfCode.Grids
                         this[i, j] = result[i];
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Copies the data from another Grid into this one
+        /// </summary>
+        /// <param name="other">Other grid to copy from</param>
+        public void CopyFrom(Grid<T> other)
+        {
+            if (other.Size != this.Size) throw new InvalidOperationException("Cannot copy two grids with different sizes");
+            
+            //Copy data over
+            if (this.rowBufferSize > 0)
+            {
+                Buffer.BlockCopy(other.grid, 0, this.grid, 0, this.Height * this.rowBufferSize);
+            }
+            else
+            {
+                Array.Copy(other.grid, this.grid, this.Size);
             }
         }
         
@@ -245,6 +279,13 @@ namespace AdventOfCode.Grids
             return new Vector2(result);
         }
 
+        /// <summary>
+        /// Checks if a given position Vector2 is within the grid
+        /// </summary>
+        /// <param name="position">Position vector</param>
+        /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
+        public bool WithinGrid(Vector2 position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
+
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
@@ -255,9 +296,9 @@ namespace AdventOfCode.Grids
         public override string ToString()
         {
             StringBuilder sb = new();
-            for (int j = 0; j < this.Height; j++)
+            foreach (int j in ..this.Height)
             {
-                for (int i = 0; i < this.Width; i++)
+                foreach (int i in ..this.Width)
                 {
                     sb.Append(this.toString(this[i, j]));
                 }

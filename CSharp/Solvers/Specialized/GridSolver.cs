@@ -34,7 +34,7 @@ namespace AdventOfCode.Solvers.Specialized
         {
             int width = rawInput[0].Length;
             int height = rawInput.Length;
-            return new Grid<T>(width, height, rawInput, LineConverter);
+            return new Grid<T>(width, height, rawInput, LineConverter, StringConversion);
         }
 
         /// <summary>
@@ -45,6 +45,13 @@ namespace AdventOfCode.Solvers.Specialized
         /// <returns>The created row</returns>
         [Pure]
         protected abstract T[] LineConverter(string line);
+
+        /// <summary>
+        /// Perf object string conversion for the Grid's to string method
+        /// </summary>
+        /// <param name="obj">Object being converted</param>
+        /// <returns>A string representation of the object</returns>
+        protected virtual string StringConversion(T obj) => obj?.ToString() ?? string.Empty;
         #endregion
     }
 }
