@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2;
 
 namespace AdventOfCode.Solvers.AoC2020
 {
