@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids.Vectors
 {
@@ -84,6 +86,7 @@ namespace AdventOfCode.Grids.Vectors
         public override int GetHashCode() => HashCode.Combine(this.X, this.Y);
 
         /// <inheritdoc cref="IComparable.CompareTo"/>
+        /// ReSharper disable once TailRecursiveCall - not tail recursive
         public int CompareTo(object? other) => other is Vector2 vector ? CompareTo(vector) : 0;
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
@@ -102,6 +105,33 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="directions">Direction to move in</param>
         /// <returns>The new, moved vector</returns>
         public Vector2 Move(Directions directions) => this + directions.ToVector();
+
+        /// <summary>
+        /// Gets all the adjacent Vector2 to this one
+        /// </summary>
+        /// <returns>Adjacent vectors</returns>
+        public IEnumerable<Vector2> Adjacent(bool includeDiagonals = true)
+        {
+            if (includeDiagonals)
+            {
+                for (int x = this.X - 1; x <= this.X + 1; x++)
+                {
+                    for (int y = this.Y - 1; y <= this.Y + 1; y++)
+                    {
+                        if (x == this.X && y == this.Y) continue;
+                        
+                        yield return new Vector2(x, y);
+                    }
+                }   
+            }
+            else
+            {
+                yield return this + Up;
+                yield return this + Left;
+                yield return this + Right;
+                yield return this + Down;
+            }
+        }
         
         /// <inheritdoc cref="IEquatable{T}"/>
         bool IEquatable<Vector2>.Equals(Vector2 other) => Equals(other);

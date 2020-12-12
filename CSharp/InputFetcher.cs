@@ -46,7 +46,7 @@ namespace AdventOfCode
                 #if DEBUG
                 //Additionally write to project if in debug
                 writer.Flush();
-                inputFile.CopyTo(@$"..\..\..\Input\{year}\{inputFile.Name}");
+                inputFile.CopyTo(@$"..\..\..\Input\{year}\{inputFile.Name}", true);
                 #endif
 
                 //Return the fetched input
@@ -74,7 +74,6 @@ namespace AdventOfCode
             using Stream responseStream = response.GetResponseStream();
             using StreamReader responseReader = new(responseStream, Encoding.UTF8);
             return responseReader.ReadToEnd().Trim();
-
         }
         #endregion
     }
