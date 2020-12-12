@@ -217,21 +217,36 @@ namespace AdventOfCode.Grids.Vectors
         /// </summary>
         /// <param name="radians">Radians of the angle</param>
         /// <returns>The angle object</returns>
-        public static Angle FromRadians(double radians) => new(radians);
+        public static Angle FromRadians(double radians)
+        {
+            //Ensure the angle is in a valid range
+            switch (radians)
+            {
+                case > FULL_CIRCLE:
+                    radians %= FULL_CIRCLE;
+                    break;
+                case < -Math.PI:
+                    //Mathematical modulo
+                    radians = ((radians % Math.PI) + Math.PI) % Math.PI;
+                    break;
+            }
+
+            return new Angle(radians);
+        }
         
         /// <summary>
         /// Creates a new angle from degrees
         /// </summary>
         /// <param name="degrees">Degrees of the angle</param>
         /// <returns>The angle object</returns>
-        public static Angle FromDegrees(double degrees) => new(degrees * DEG_TO_RAD);
+        public static Angle FromDegrees(double degrees) => FromRadians(degrees * DEG_TO_RAD);
         
         /// <summary>
         /// Creates a new angle from gradians
         /// </summary>
         /// <param name="gradians">Gradians of the angle</param>
         /// <returns>The angle object</returns>
-        public static Angle FromGradians(double gradians) => new(gradians * GRAD_TO_RAD);
+        public static Angle FromGradians(double gradians) => FromRadians(gradians * GRAD_TO_RAD);
         
         /// <summary>
         /// Creates a new angle from DMS (degrees, minutes, seconds)
@@ -247,7 +262,7 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="m">Minutes of the angle</param>
         /// <param name="s">Seconds of the angle</param>
         /// <returns>The angle object</returns>
-        public static Angle FromDMS(int d, int m, double s) => new((d + (m / 60d) + (s / 3600d)) * DEG_TO_RAD);
+        public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG_TO_RAD);
         #endregion
 
         #region Operators
