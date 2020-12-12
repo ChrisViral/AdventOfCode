@@ -13,9 +13,9 @@ namespace AdventOfCode.Grids.Vectors
         /// <summary>One vector</summary>
         public static readonly Vector3 One   = new(1, 1, 1);
         /// <summary>Up vector</summary>
-        public static readonly Vector3 Up    = new(0, -1, 0);
+        public static readonly Vector3 Up    = new(0, 1, 0);
         /// <summary>Down vector</summary>
-        public static readonly Vector3 Down  = new(0, 1, 0);
+        public static readonly Vector3 Down  = new(0, -1, 0);
         /// <summary>Left vector</summary>
         public static readonly Vector3 Left  = new(-1, 0, 0);
         /// <summary>Right vector</summary>
@@ -23,7 +23,7 @@ namespace AdventOfCode.Grids.Vectors
         /// <summary>Forward vector</summary>
         public static readonly Vector3 Forwards = new(0, 0, 1);
         /// <summary>Backward vector</summary>
-        public static readonly Vector3 Backward = new(0, 0, -1);
+        public static readonly Vector3 Backwards = new(0, 0, -1);
         #endregion
         
         #region Propeties
@@ -115,6 +115,19 @@ namespace AdventOfCode.Grids.Vectors
         /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
         public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
 
+        /// <summary>
+        /// Deconstructs this vector into a tuple
+        /// </summary>
+        /// <param name="x">X parameter</param>
+        /// <param name="y">Y parameter</param>
+        /// <param name="z">Z parameter</param>
+        public void Deconstruct(out int x, out int y, out int z)
+        {
+            x = this.X;
+            y = this.Y;
+            z = this.Z;
+        }
+
         /// <inheritdoc cref="IEquatable{T}"/>
         bool IEquatable<Vector3>.Equals(Vector3 other) => Equals(other);
         
@@ -146,6 +159,13 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="b">Second vector</param>
         /// <returns>The dot product of both vectors</returns>
         public static int Dot(in Vector3 a, in Vector3 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+
+        /// <summary>
+        /// Gives the absolute value of a given vector
+        /// </summary>
+        /// <param name="vector">Vector to get the absolute value of</param>
+        /// <returns>Absolute value of the vector</returns>
+        public static Vector3 Abs(in Vector3 vector) => new(Math.Abs(vector.X), Math.Abs(vector.Y), Math.Abs(vector.Z));
         #endregion
 
         #region Operators

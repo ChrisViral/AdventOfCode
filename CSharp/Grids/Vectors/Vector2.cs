@@ -100,6 +100,17 @@ namespace AdventOfCode.Grids.Vectors
         
         /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
         public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)})";
+        
+        /// <summary>
+        /// Deconstructs this vector into a tuple
+        /// </summary>
+        /// <param name="x">X parameter</param>
+        /// <param name="y">Y parameter</param>
+        public void Deconstruct(out int x, out int y)
+        {
+            x = this.X;
+            y = this.Y;
+        }
 
         /// <summary>
         /// Creates a new vector resulting in the moving of this vector in the specified direction
@@ -144,7 +155,7 @@ namespace AdventOfCode.Grids.Vectors
             int gcd = AoCUtils.GCD(this.X, this.Y);
             return this / gcd;
         }
-        
+
         /// <inheritdoc cref="IEquatable{T}"/>
         bool IEquatable<Vector2>.Equals(Vector2 other) => Equals(other);
         
