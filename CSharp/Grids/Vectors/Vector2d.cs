@@ -97,6 +97,17 @@ namespace AdventOfCode.Grids.Vectors
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y})";
         
+        /// <summary>
+        /// Deconstructs this vector into a tuple
+        /// </summary>
+        /// <param name="x">X parameter</param>
+        /// <param name="y">Y parameter</param>
+        public void Deconstruct(out double x, out double y)
+        {
+            x = this.X;
+            y = this.Y;
+        }
+        
         /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
         public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)})";
 

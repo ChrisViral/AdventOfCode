@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace AdventOfCode.Utils
@@ -138,6 +139,61 @@ namespace AdventOfCode.Utils
 
             return a | b;
         }
+        
+        /// <summary>
+        /// Greatest Common Divisor function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>Gets the GCD of a and b</returns>
+        public static long GCD(long a, long b)
+        {
+            a = Math.Abs(a);
+            b = Math.Abs(b);
+            while (a is not 0L && b is not 0L)
+            {
+                if (a > b)
+                {
+                    a %= b;
+                }
+                else
+                {
+                    b %= a;
+                }
+            }
+
+            return a | b;
+        }
+        
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>The LCM of a and b</returns>
+        public static int LCM(int a, int b) => a * b / GCD(a, b);
+
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>The LCM of a and b</returns>
+        public static long LCM(long a, long b) => a * b / GCD(a, b);
+
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="numbers">Numbers to get the LCM for</param>
+        /// <returns>LCM of all the numbers in the array</returns>
+        public static int LCM(params int[] numbers) => numbers.Aggregate(1, LCM);
+        
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="numbers">Numbers to get the LCM for</param>
+        /// <returns>LCM of all the numbers in the array</returns>
+        public static long LCM(params long[] numbers) => numbers.Aggregate(1L, LCM);
 
         /// <summary>
         /// Gets the size of the object in bytes for a given primitive type
