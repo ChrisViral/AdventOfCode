@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -7,14 +9,71 @@ namespace AdventOfCode.Solvers.AoC2020
     /// <summary>
     /// Solver for 2020 Day 10
     /// </summary>
-    public class Day10 : Solver<int[]>
+    public class Day10 : Solver<Day10.Adapter[]>
     {
+        /// <summary>
+        /// Adapter object
+        /// </summary>
+        public class Adapter : IComparable<Adapter>
+        {
+            #region Constants
+            /// <summary>
+            /// Tolerance between different adapters
+            /// </summary>
+            private const int TOLERANCE = 3;
+            #endregion
+            
+            #region Properties
+            /// <summary>
+            /// Jolts rating of this adapter
+            /// </summary>
+            public int Jolts { get; set; }
+
+            /// <summary>
+            /// Paths to final adapter from this one
+            /// </summary>
+            public long Paths { get; set; } = 1L;
+
+            /// <summary>
+            /// List of compatible adapters with this one
+            /// </summary>
+            public Adapter[]? Compatible { get; private set; }
+            #endregion
+
+            #region Constructors
+            /// <summary>
+            /// Creates a new adapter with the specified jolts
+            /// </summary>
+            /// <param name="jolts"></param>
+            public Adapter(int jolts) => this.Jolts = jolts;
+            #endregion
+
+            #region Methods
+            /// <summary>
+            /// Sets all the compatible adapters to this one from
+            /// </summary>
+            /// <param name="adapters"></param>
+            /// <param name="index"></param>
+            public void SetCompatible(Adapter[] adapters, int index)
+            {
+                this.Compatible = adapters[index..].TakeWhile(a => a.Jolts - this.Jolts <= TOLERANCE).ToArray();
+                this.Paths = this.Compatible.Sum(a => a.Paths);
+            }
+
+            /// <inheritdoc cref="IComparable{T}.CompareTo"/>
+            public int CompareTo(Adapter? other) => this.Jolts.CompareTo(other?.Jolts);
+
+            /// <inheritdoc cref="object.ToString"/>
+            public override string ToString() => this.Jolts.ToString();
+            #endregion
+        }
+        
         #region Constructors
         /// <summary>
         /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
         /// </summary>
         /// <param name="input">Puzzle input</param>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Adapter"/>[] fails</exception>
         public Day10(string input) : base(input) { }
         #endregion
 
@@ -26,44 +85,38 @@ namespace AdventOfCode.Solvers.AoC2020
 
             //To make this simpler lets just store the results in an array, easier to code than vars, less waste than a dict
             int[] counts = new int[4];
-            //Final jump
+            //Final and final jumps
             counts[3]++;  
-            //First jump
-            counts[this.Data[0]]++;
+            counts[this.Data[1].Jolts]++;
             
-            for (int i = 0; i < this.Data.Length - 1; /*i++*/)
+            for (int i = 1; i < this.Data.Length - 2; /*i++*/)
             {
-                counts[-this.Data[i++] + this.Data[i]]++;
+                counts[-this.Data[i++].Jolts + this.Data[i].Jolts]++;
             }
-            
             AoCUtils.LogPart1(counts[1] * counts[3]);
-
-            //Store how many ways the goal can be reached from each node
-            long[] ways = new long[this.Data.Length];
-            ways[^1] = 1L; //Seed the array, there's only one way to the goal from the last
-            ways[^2] = 1L; //And one way from the second to last, the last node since the goal is more than three away
-            for (int i = this.Data.Length - 3; i >= 0; i--)
-            {
-                int number = this.Data[i];
-                //Ways to reach the goal from a node is the sum of the ways from the reachable nodes
-                for (int j = i + 1; j < this.Data.Length && this.Data[j] - number <= 3; j++)
-                {
-                    ways[i] += ways[j];
-                }
-            }
-            
-            //Count the ways from the reachable nodes from zero
-            long total = 0L;
-            for (int i = 0; this.Data[i] <= 3; i++)
-            {
-                total += ways[i];
-            }
-            
-            AoCUtils.LogPart2(total);
+            AoCUtils.LogPart2(this.Data[0].Paths);
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+        protected override Adapter[] Convert(string[] rawInput)
+        {
+            Adapter[] adapters = new Adapter[rawInput.Length + 2];
+            adapters[0] = new Adapter(0);
+            adapters[^1] = new Adapter(int.MaxValue);
+            foreach (int i in ..rawInput.Length)
+            {
+                adapters[i + 1] = new Adapter(int.Parse(rawInput[i]));
+            }
+            Array.Sort(adapters);
+            adapters[^1].Jolts = adapters[^2].Jolts + 3;
+
+            for (int i = adapters.Length - 2; i >= 0; i--)
+            {
+                adapters[i].SetCompatible(adapters, i + 1);
+            }
+
+            return adapters;
+        }
         #endregion
     }
 }
