@@ -91,7 +91,7 @@ namespace AdventOfCode.Grids.Vectors
         public int CompareTo(in Vector2d other)
         {
             int comp = this.X.CompareTo(other.X);
-            return comp is 0 ? this.Y.CompareTo(other.X) : comp;
+            return comp is 0 ? this.Y.CompareTo(other.Y) : comp;
         }
 
         /// <inheritdoc cref="object.ToString"/>
