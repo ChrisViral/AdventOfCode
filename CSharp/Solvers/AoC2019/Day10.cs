@@ -5,7 +5,6 @@ using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2;
 
 namespace AdventOfCode.Solvers.AoC2019
 {
@@ -48,9 +47,7 @@ namespace AdventOfCode.Solvers.AoC2019
                 {
                     if (target == asteroid) continue;
 
-                    Vector2 direction = target - asteroid;
-                    int gcd = AoCUtils.GCD(direction.X, direction.Y);
-                    direction /= gcd;
+                    Vector2 direction = (target - asteroid).Reduced();
                     if (targets.ContainsKey(direction))
                     {
                         targets[direction]++;

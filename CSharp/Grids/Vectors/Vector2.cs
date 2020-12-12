@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids.Vectors
 {
@@ -132,6 +133,16 @@ namespace AdventOfCode.Grids.Vectors
                 yield return this + Right;
                 yield return this + Down;
             }
+        }
+
+        /// <summary>
+        /// Creates an irreducible version of this vector
+        /// </summary>
+        /// <returns>The fully reduced version of this vector</returns>
+        public Vector2 Reduced()
+        {
+            int gcd = AoCUtils.GCD(this.X, this.Y);
+            return this / gcd;
         }
         
         /// <inheritdoc cref="IEquatable{T}"/>
