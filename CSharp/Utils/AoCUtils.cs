@@ -115,6 +115,31 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
+        /// Greatest Common Divisor function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>Gets the GCD of a and b</returns>
+        public static int GCD(int a, int b)
+        {
+            a = Math.Abs(a);
+            b = Math.Abs(b);
+            while (a is not 0 && b is not 0)
+            {
+                if (a > b)
+                {
+                    a %= b;
+                }
+                else
+                {
+                    b %= a;
+                }
+            }
+
+            return a | b;
+        }
+
+        /// <summary>
         /// Gets the size of the object in bytes for a given primitive type
         /// </summary>
         /// <typeparam name="T">Type of object</typeparam>
@@ -126,11 +151,9 @@ namespace AdventOfCode.Utils
             if (!type.IsPrimitive) throw new InvalidOperationException($"Cannot get the size of a non primitive type {typeof(T).FullName}");
 
             //Manual overrides
-            if (type == typeof(bool)) return 1;
-            if (type == typeof(char)) return 2;
+            return type == typeof(bool) ? 1 : (type == typeof(char) ? 2 : Marshal.SizeOf<T>());
             
             //Normal behaviour
-            return Marshal.SizeOf<T>();
         }
         #endregion
     }

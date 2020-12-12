@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids.Vectors
 {
     /// <summary>
     /// Integer two component vector
     /// </summary>
-    public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<Vector2>
+    public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<Vector2>, IFormattable
     {
         #region Constants
-        private const double RAD_TO_DEG = 180d / Math.PI;
         private static readonly Regex directionMatch = new(@"^\s*(U|D|L|R)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         /// <summary>Zero vector</summary>
         public static readonly Vector2 Zero  = new(0, 0);
@@ -98,6 +96,9 @@ namespace AdventOfCode.Grids.Vectors
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y})";
+        
+        /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
+        public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)})";
 
         /// <summary>
         /// Creates a new vector resulting in the moving of this vector in the specified direction
@@ -158,12 +159,20 @@ namespace AdventOfCode.Grids.Vectors
         public static int ManhattanDistance(in Vector2 a, in Vector2 b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 
         /// <summary>
-        /// Calculates the angle, in degrees, between two vectors
+        /// Calculates the signed angle, in degrees, between two vectors. The result is in the range [-180, 180]
         /// </summary>
         /// <param name="a">First vector</param>
         /// <param name="b">Second vector</param>
         /// <returns>The angle between both vectors</returns>
-        public static double Angle(in Vector2 a, in Vector2 b) => Math.Acos(Dot(a, b) / (a.Length * b.Length)) * RAD_TO_DEG;
+        public static Angle Angle(in Vector2 a, in Vector2 b) => Vectors.Angle.FromRadians(Math.Atan2(a.X * b.Y - a.Y * b.X, a.X * b.X + a.Y * b.Y));
+
+        /// <summary>
+        /// Calculates the absolute angle, in degrees, between two vectors. The result is in the range [0, 180]
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>The angle between both vectors</returns>
+        public static Angle AbsoluteAngle(in Vector2 a, in Vector2 b) => Vectors.Angle.FromRadians(Math.Acos(Dot(a, b) / (a.Length * b.Length)));
 
         /// <summary>
         /// Calculates the dot product of both vectors
@@ -322,6 +331,20 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="b">Second Vector</param>
         /// <returns>The result of the component-wise subtraction on both Vectors</returns>
         public static Vector2 operator -(in Vector2 a, in Vector2 b) => new(a.X - b.X, a.Y - b.Y);
+
+        /// <summary>
+        /// Increment operation on a vector
+        /// </summary>
+        /// <param name="a">Vector to increment</param>
+        /// <returns>The vector with X and Y incremented by one</returns>
+        public static Vector2 operator ++(in Vector2 a) => new(a.X + 1, a.Y + 1);
+        
+        /// <summary>
+        /// Decrement operation on a vector
+        /// </summary>
+        /// <param name="a">Vector to decrement</param>
+        /// <returns>The vector with X and Y decremented by one</returns>
+        public static Vector2 operator --(in Vector2 a) => new(a.X - 1, a.Y - 1);
 
         /// <summary>
         /// Scalar integer multiplication on a Vector
