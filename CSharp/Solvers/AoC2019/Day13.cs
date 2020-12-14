@@ -94,6 +94,9 @@ namespace AdventOfCode.Solvers.AoC2019
             /// <returns>The final score of the game</returns>
             public int Play()
             {
+                //Hide cursor during play
+                Console.CursorVisible = false;
+                //Setup
                 long ball = 0L, paddle = 0L;
                 this.software[0] = 2L;
                 while (!this.software.IsHalted)
@@ -129,6 +132,8 @@ namespace AdventOfCode.Solvers.AoC2019
                     Thread.Sleep(33);
                 }
 
+                //Show cursor again
+                Console.CursorVisible = true;
                 //Return the final score
                 return this.Score;
             }
