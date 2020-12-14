@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -37,62 +38,49 @@ namespace AdventOfCode.Utils
             //Create match
             Regex match = new(pattern, options);
             
-            //Get captures and matching Constructor
-            string[] captures = GetCaptures(input[0], match);
-            ConstructorInfo? constructor = typeof(T).GetConstructors()
-                                                    .SingleOrDefault(c => c.GetParameters().Length == captures.Length);
-            if (constructor is null) throw new ArgumentException($"Could not find a single matching constructor for type {typeof(T)} for the produced output of the regex", nameof(T));
+            //Get all valid constructors
+            Dictionary<int, ConstructorInfo> constructors = typeof(T).GetConstructors()
+                                                                     .Where(c => c.GetParameters()
+                                                                                  .All(p => convertibleType.IsAssignableFrom(p.ParameterType)
+                                                                                         || convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType))))
+                                                                     .ToDictionary(c => c.GetParameters().Length, c => c);
+            if (constructors.Count is 0) throw new ArgumentException($"Could not find a single valid constructor for type {typeof(T)}", nameof(T));
             
-            //Get parameters
-            ParameterInfo[] paramsInfo = constructor.GetParameters();
-            if (paramsInfo.Any(p => !convertibleType.IsAssignableFrom(p.ParameterType)
-                                 && !convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType)))) throw new ArgumentException($"Matching constructor for type {typeof(T)} has parameters which do not implement IConvertible", nameof(T));
 
             //Parse results
             T[] results = new T[input.Count];
-            object[] parameters = new object[paramsInfo.Length];
-            results[0] = CreateObject<T>(captures, parameters, constructor, paramsInfo);
-            for (int i = 1; i < input.Count; i++)
+            foreach (int i in ..results.Length)
             {
-                results[i] = CreateObject<T>(GetCaptures(input[i], match), parameters, constructor, paramsInfo);
+                string[] captures = match.Match(input[i])
+                                         .GetCapturedGroups()
+                                         .Select(c => c.Value)
+                                         .ToArray();
+                ConstructorInfo constructor;
+                try
+                {
+                    constructor = constructors[captures.Length];
+                }
+                catch (KeyNotFoundException e)
+                {
+                    //Rethrow but with a clearer message
+                    throw new KeyNotFoundException($"Could not find constructor with {captures.Length} parameters while parsing", e);
+                }
+                
+                object[] parameters = new object[captures.Length];
+                ParameterInfo[] paramsInfo = constructor.GetParameters();
+                foreach (int j in ..captures.Length)
+                {
+                    //Get the underlying type if a nullable
+                    Type paramType = paramsInfo[j].ParameterType;
+                    Type type = Nullable.GetUnderlyingType(paramType) ?? paramType;
+                    //Create and set the value
+                    parameters[j] = Convert.ChangeType(captures[j], type) ?? throw new InvalidCastException($"Could not convert {captures[j]} to {type}");
+                }
+
+                results[i] = (T)constructor.Invoke(parameters);
             }
 
             return results;
-        }
-        
-        /// <summary>
-        /// Gets all the Regex captures on a specific input
-        /// </summary>
-        /// <param name="input">Input string</param>
-        /// <param name="match">Matching Regex</param>
-        /// <returns>All the matched captures</returns>
-        private static string[] GetCaptures(string input, Regex match) => match.Match(input)
-                                                                               .GetGroups()
-                                                                               .Select(g => g.Value)
-                                                                               .ToArray();
-
-        /// <summary>
-        /// Parses a specific line and creates a new <typeparamref name="T"/> from the data
-        /// </summary>
-        /// <typeparam name="T">Type of object to create</typeparam>
-        /// <param name="captures">Captured strings for parameters</param>
-        ///¸<param name="parameterCache">Parameters pre-allocated array</param>
-        /// <param name="constructor">Constructor signature</param>
-        /// <param name="paramsInfo">Parameter signatures</param>
-        /// <returns>The parsed and created <typeparamref name="T"/> object</returns>
-        /// <exception cref="InvalidCastException">If the conversion to a parameter failed</exception>
-        private static T CreateObject<T>(IReadOnlyList<string> captures, object[] parameterCache, ConstructorInfo constructor, IReadOnlyList<ParameterInfo> paramsInfo)
-        {
-            for (int i = 0; i < paramsInfo.Count; i++)
-            {
-                //Get the underlying type if a nullable
-                Type paramType = paramsInfo[i].ParameterType;
-                Type type = Nullable.GetUnderlyingType(paramType) ?? paramType;
-                //Create and set the value
-                parameterCache[i] = Convert.ChangeType(captures[i], type) ?? throw new InvalidCastException($"Could not convert {captures[i]} to {type}");
-            }
-
-            return (T)constructor.Invoke(parameterCache);
         }
 
         /// <summary>
@@ -124,8 +112,8 @@ namespace AdventOfCode.Utils
             {
                 //Find all matches, extract key/value pairs
                 (string, string)[] matches = match.Matches(input[i])
-                                                  .Select(m => m.GetGroups().ToArray())
-                                                  .Where(a => a.Length is 2)
+                                                  .Select(m => m.Captures)
+                                                  .Where(a => a.Count is 2)
                                                   .Select(a => (a[0].Value, a[1].Value))
                                                   .ToArray();
                 //Create object and populate
