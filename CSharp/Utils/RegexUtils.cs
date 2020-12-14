@@ -40,8 +40,7 @@ namespace AdventOfCode.Utils
             //Get all valid constructors
             Dictionary<int, ConstructorInfo> constructors = typeof(T).GetConstructors()
                                                                      .Where(c => c.GetParameters()
-                                                                                  .All(p => convertibleType.IsAssignableFrom(p.ParameterType)
-                                                                                         || convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType))))
+                                                                                  .All(p => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
                                                                      .ToDictionary(c => c.GetParameters().Length, c => c);
             if (constructors.Count is 0) throw new ArgumentException($"Could not find a single valid constructor for type {typeof(T)}", nameof(T));
             
@@ -104,15 +103,15 @@ namespace AdventOfCode.Utils
             Regex match = new(pattern, options);
             T[] results = new T[input.Count];
             Dictionary<string, FieldInfo> fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
-                                                            .Where(f => convertibleType.IsAssignableFrom(f.FieldType)
-                                                                     || convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType)))
+                                                            .Where(f => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
                                                             .ToDictionary(f => f.Name, f => f);
             for (int i = 0; i < input.Count; i++)
             {
                 //Find all matches, extract key/value pairs
                 (string, string)[] matches = match.Matches(input[i])
-                                                  .Select(m => m.Captures)
-                                                  .Where(a => a.Count is 2)
+                                                  .Select(m => m.GetCapturedGroups()
+                                                                .ToArray())
+                                                  .Where(a  => a.Length is 2)
                                                   .Select(a => (a[0].Value, a[1].Value))
                                                   .ToArray();
                 //Create object and populate
