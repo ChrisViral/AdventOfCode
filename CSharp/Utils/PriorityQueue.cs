@@ -68,7 +68,7 @@ namespace AdventOfCode.Utils
         /// <summary>
         /// If the collection is read only. Since we are using List{T}, it never is.
         /// </summary>
-        bool ICollection<T>.IsReadOnly => false;
+        bool ICollection<T>.IsReadOnly { get; } = false;
 
         /// <summary>
         /// Index of the last member
@@ -153,51 +153,7 @@ namespace AdventOfCode.Utils
         }
         #endregion
 
-        #region Static methods
-        /// <summary>
-        /// Returns the index of the parent node
-        /// </summary>
-        /// <param name="i">Index of the child node</param>
-        /// <returns>Index of the parent</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Parent(int i) => (i - 1) / 2;
-
-        /// <summary>
-        /// Returns the index of the left child node
-        /// </summary>
-        /// <param name="i">Index of the parent node</param>
-        /// <returns>Index of the left child node</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int LeftChild(int i) => (2 * i) + 1;
-
-        /// <summary>
-        /// Returns the index of the right child node
-        /// </summary>
-        /// <param name="i">Index of the parent node</param>
-        /// <returns>Index of the right child node</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int RightChild(int i) => (2 * i) + 2;
-        #endregion
-
         #region Methods
-        /// <summary>
-        /// Compares two <typeparamref name="T"/> using the provided or default comparer
-        /// </summary>
-        /// <param name="a">First value to compare</param>
-        /// <param name="b">Second value to compare</param>
-        /// <returns>-1 if a comes before b, 1 if it comes after b, and 0 if they are equal</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private int Compare(T a, T b) => this.comparer.Compare(a, b);
-
-        /// <summary>
-        /// Compares the two <typeparamref name="T"/> at both indices in the memory using the provided or default comparer
-        /// </summary>
-        /// <param name="i">Index of the first value to compare</param>
-        /// <param name="j">Index of the second value to compare</param>
-        /// <returns>-1 if i comes before j, 1 if it comes after j, and 0 if they are equal</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private int CompareAt(int i, int j) => Compare(this.heap[i], this.heap[j]);
-
         /// <summary>
         /// Compares the values at indices i and j and finds out if i must be moved upwards
         /// </summary>
@@ -205,7 +161,7 @@ namespace AdventOfCode.Utils
         /// <param name="j">Index of the top node</param>
         /// <returns>If i must be moved to j</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool CompareUp(int i, int j) => i > 0 && i < this.heap.Count && CompareAt(i, j) < 0;
+        private bool CompareUp(int i, int j) => i > 0 && i < this.heap.Count && this.comparer.Compare(this.heap[i], this.heap[j]) < 0;
 
         /// <summary>
         /// Compares the values at indices i and j and finds out if i must be moved downwards
@@ -214,7 +170,7 @@ namespace AdventOfCode.Utils
         /// <param name="j">Index of bottom value</param>
         /// <returns>If i must be moved to j</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool CompareDown(int i, int j) => j < this.heap.Count && CompareAt(i, j) > 0;
+        private bool CompareDown(int i, int j) => j < this.heap.Count && this.comparer.Compare(this.heap[i], this.heap[j]) > 0;
 
         /// <summary>
         /// Moves the target <typeparamref name="T"/> up until it satisfies heap priority
@@ -224,7 +180,7 @@ namespace AdventOfCode.Utils
         private void HeapUp(int i)
         {
             //If index is zero it's already at the top
-            if (i == 0) { return; }
+            if (i is 0) { return; }
 
             //Store value to move
             T value = this.heap[i];
@@ -250,8 +206,8 @@ namespace AdventOfCode.Utils
         private void HeapDown(int i)
         {
             //Move down until priority is satisfied
-            bool moving = true;
-            while (moving)
+            bool moving;
+            do
             {
                 //Reset moving flag
                 moving = false;
@@ -285,6 +241,7 @@ namespace AdventOfCode.Utils
                     this.indices[this.heap[i]] = i;
                 }
             }
+            while (moving);
         }
 
         /// <summary>
@@ -497,6 +454,32 @@ namespace AdventOfCode.Utils
         /// </summary>
         /// <returns>Iterator going through this sequence</returns>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        #endregion
+        
+        #region Static methods
+        /// <summary>
+        /// Returns the index of the parent node
+        /// </summary>
+        /// <param name="i">Index of the child node</param>
+        /// <returns>Index of the parent</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int Parent(int i) => (i - 1) / 2;
+
+        /// <summary>
+        /// Returns the index of the left child node
+        /// </summary>
+        /// <param name="i">Index of the parent node</param>
+        /// <returns>Index of the left child node</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int LeftChild(int i) => (2 * i) + 1;
+
+        /// <summary>
+        /// Returns the index of the right child node
+        /// </summary>
+        /// <param name="i">Index of the parent node</param>
+        /// <returns>Index of the right child node</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int RightChild(int i) => (2 * i) + 2;
         #endregion
     }
 }
