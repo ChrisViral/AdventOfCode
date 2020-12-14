@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Solvers.Specialized;
-using Console = System.Console;
 
 namespace AdventOfCode.Solvers.AoC2019
 {
