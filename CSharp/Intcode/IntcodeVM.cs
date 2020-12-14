@@ -123,6 +123,35 @@ namespace AdventOfCode.Intcode
         /// The output queue of the IntcodeVM
         /// </summary>
         public Queue<long> Out { get; set; }
+
+        /// <summary>
+        /// If the VM has any available output values left
+        /// </summary>
+        public bool HasOutputs => this.Out.Count is not 0;
+        #endregion
+
+        #region Indexers
+        /// <summary>
+        /// Accesses the memory of the VM
+        /// </summary>
+        /// <param name="index">Index to access</param>
+        /// <returns>Value in the memory at the specified index</returns>
+        public long this[int index]
+        {
+            get => this.memory[index];
+            set => this.memory[index] = value;
+        }
+
+        /// <summary>
+        /// Accesses the memory of the VM
+        /// </summary>
+        /// <param name="index">Index to access</param>
+        /// <returns>Value in the memory at the specified index</returns>
+        public long this[Index index]
+        {
+            get => this.memory[index];
+            set => this.memory[index] = value;
+        }
         #endregion
 
         #region Constructors
@@ -197,16 +226,13 @@ namespace AdventOfCode.Intcode
         /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
         public VMStates Run(long noun, long verb, int resultAddress, out long result)
         {
-            //Set noun and verb
+            //Set the noun and verb
             this.memory[1] = noun;
             this.memory[2] = verb;
-            
             //Run normally
             VMStates state = Run();
-
-            //Set result
+            //Store result and return
             result = this.memory[resultAddress];
-
             return state;
         }
 
@@ -267,6 +293,62 @@ namespace AdventOfCode.Intcode
             long[] output = new long[this.Out.Count];
             this.Out.CopyTo(output, 0);
             return output;
+        }
+
+        /// <summary>
+        /// Gets the next two outputs into two variables through deconstruction
+        /// </summary>
+        /// <param name="a">First output</param>
+        /// <param name="b">Second output</param>
+        public void Deconstruct(out long a, out long b)
+        {
+            a = GetNextOutput();
+            b = GetNextOutput();
+        }
+        
+        /// <summary>
+        /// Gets the next three outputs into two variables through deconstruction
+        /// </summary>
+        /// <param name="a">First output</param>
+        /// <param name="b">Second output</param>
+        /// <param name="c">Third output</param>
+        public void Deconstruct(out long a, out long b, out long c)
+        {
+            a = GetNextOutput();
+            b = GetNextOutput();
+            c = GetNextOutput();
+        }
+        
+        /// <summary>
+        /// Gets the next four outputs into two variables through deconstruction
+        /// </summary>
+        /// <param name="a">First output</param>
+        /// <param name="b">Second output</param>
+        /// <param name="c">Third output</param>
+        /// <param name="d">Fourth output</param>
+        public void Deconstruct(out long a, out long b, out long c, out long d)
+        {
+            a = GetNextOutput();
+            b = GetNextOutput();
+            c = GetNextOutput();
+            d = GetNextOutput();
+        }
+        
+        /// <summary>
+        /// Gets the next five outputs into two variables through deconstruction
+        /// </summary>
+        /// <param name="a">First output</param>
+        /// <param name="b">Second output</param>
+        /// <param name="c">Third output</param>
+        /// <param name="d">Fourth output</param>
+        /// <param name="e">Fifth output</param>
+        public void Deconstruct(out long a, out long b, out long c, out long d, out long e)
+        {
+            a = GetNextOutput();
+            b = GetNextOutput();
+            c = GetNextOutput();
+            d = GetNextOutput();
+            e = GetNextOutput();
         }
         #endregion
     }
