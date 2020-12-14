@@ -63,9 +63,10 @@ namespace AdventOfCode.Utils
         /// </summary>
         /// <param name="match">Match to get the groups from</param>
         /// <returns>Enumerable of the captured groups</returns>
-        public static IEnumerable<Group> GetGroups(this Match match) => match.Groups
-                                                                             .Cast<Group>()
-                                                                             .Skip(1);
+        public static IEnumerable<Group> GetCapturedGroups(this Match match) => match.Groups
+                                                                                     .Cast<Group>()
+                                                                                     .Skip(1)
+                                                                                     .Where(g => !string.IsNullOrEmpty(g.Value));
         #endregion
     }
 }
