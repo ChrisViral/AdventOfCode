@@ -13,6 +13,9 @@ namespace AdventOfCode.Solvers.AoC2019
     /// </summary>
     public class Day13 : IntcodeSolver
     {
+        /// <summary>
+        /// Intcode Arcade game
+        /// </summary>
         public class Arcade
         {
             #region Constants

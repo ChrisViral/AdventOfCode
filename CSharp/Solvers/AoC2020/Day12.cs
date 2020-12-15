@@ -161,7 +161,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override Navigation[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<Navigation>(Navigation.PATTERN, rawInput, RegexOptions.Compiled);
+        protected override Navigation[] Convert(string[] rawInput) => RegexFactory<Navigation>.ConstructObjects(Navigation.PATTERN, rawInput, RegexOptions.Compiled);
         #endregion
     }
 }

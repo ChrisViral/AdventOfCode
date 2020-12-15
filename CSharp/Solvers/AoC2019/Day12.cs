@@ -298,7 +298,7 @@ namespace AdventOfCode.Solvers.AoC2019
         private static (Moon.State, Moon.State, Moon.State, Moon.State) GetStates(IReadOnlyList<Moon> moons) => (moons[0], moons[1], moons[2], moons[3]);
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override Moon[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<Moon>(Moon.PATTERN, rawInput);
+        protected override Moon[] Convert(string[] rawInput) => RegexFactory<Moon>.ConstructObjects(Moon.PATTERN, rawInput);
         #endregion
     }
 }
