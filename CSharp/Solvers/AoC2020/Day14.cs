@@ -263,7 +263,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override Instruction[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<Instruction>(Instruction.PATTERN, rawInput, RegexOptions.Compiled);
+        protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(Instruction.PATTERN, rawInput, RegexOptions.Compiled);
         #endregion
     }
 }

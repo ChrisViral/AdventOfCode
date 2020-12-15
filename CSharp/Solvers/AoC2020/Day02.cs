@@ -63,7 +63,7 @@ namespace AdventOfCode.Solvers.AoC2020
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override PasswordData[] Convert(string[] rawInput) => RegexUtils.ConstructObjects<PasswordData>(PATTERN, rawInput, RegexOptions.Compiled);
+        protected override PasswordData[] Convert(string[] rawInput) => RegexFactory<PasswordData>.ConstructObjects(PATTERN, rawInput, RegexOptions.Compiled);
         #endregion
     }
 }

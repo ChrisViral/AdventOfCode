@@ -102,11 +102,11 @@ namespace AdventOfCode.Solvers.AoC2020
 
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
-        protected override Passport[] Convert(string[] rawInput) => RegexUtils.PopulateObjects<Passport>(PATTERN,
-                                                                                                         AoCUtils.CombineLines(rawInput)
-                                                                                                                 .Select(l => string.Join(' ', l))
-                                                                                                                 .ToList(),
-                                                                                                         RegexOptions.Compiled);
+        protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PATTERN,
+                                                                                                           AoCUtils.CombineLines(rawInput)
+                                                                                                                   .Select(l => string.Join(' ', l))
+                                                                                                                   .ToList(),
+                                                                                                           RegexOptions.Compiled);
         #endregion
     }
 }
