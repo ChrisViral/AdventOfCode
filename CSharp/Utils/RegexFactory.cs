@@ -79,6 +79,49 @@ namespace AdventOfCode.Utils
 
             return (T)constructor.Invoke(parameters);
         }
+
+        /// <summary>
+        /// Constructs <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
+        /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
+        /// then populates the parameters by converting the captures to the parameter type.<br/>
+        /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.<br/>
+        /// This construction uses a single input string and finds all matches within it.
+        /// </summary>
+        /// <typeparam name="T">Type of object to create</typeparam>
+        /// <param name="input">Input string</param>
+        /// <returns>An array of the created <typeparamref name="T"/> objects</returns>
+        /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
+        /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
+        public T[] ConstructObjects(string input)
+        {
+            //Get all matches
+            string[][] allCaptures = this.regex.Matches(input)
+                                               .Select(m => m.GetCapturedGroups()
+                                                             .Select(c => c.Value)
+                                                             .ToArray())
+                                               .ToArray();
+
+            //Go through them and create the objects
+            T[] results = new T[allCaptures.Length];
+            foreach (int i in ..results.Length)
+            {
+                string[] captures = allCaptures[i];
+                object[] parameters = new object[captures.Length];
+                ConstructorInfo constructor = this.constructors[captures.Length];
+                ParameterInfo[] paramsInfo = constructor.GetParameters();
+                foreach (int j in ..captures.Length)
+                {
+                    //Get the underlying type if a nullable
+                    Type paramType = paramsInfo[j].ParameterType;
+                    paramType = Nullable.GetUnderlyingType(paramType) ?? paramType;
+                    //Create and set the value
+                    parameters[j] = Convert.ChangeType(captures[j], paramType) ?? throw new InvalidCastException($"Could not convert {captures[j]} to {paramType}");
+                }
+                results[i] = (T)constructor.Invoke(parameters);
+            }
+
+            return results;
+        }
         
         /// <summary>
         /// Constructs <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
