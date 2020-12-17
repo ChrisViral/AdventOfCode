@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids.Vectors
 {
@@ -9,19 +11,19 @@ namespace AdventOfCode.Grids.Vectors
     {
         #region Constants
         /// <summary>Zero vector</summary>
-        public static readonly Vector3 Zero  = new(0, 0, 0);
+        public static readonly Vector3 Zero      = new(0, 0, 0);
         /// <summary>One vector</summary>
-        public static readonly Vector3 One   = new(1, 1, 1);
+        public static readonly Vector3 One       = new(1, 1, 1);
         /// <summary>Up vector</summary>
-        public static readonly Vector3 Up    = new(0, 1, 0);
+        public static readonly Vector3 Up        = new(0, 1, 0);
         /// <summary>Down vector</summary>
-        public static readonly Vector3 Down  = new(0, -1, 0);
+        public static readonly Vector3 Down      = new(0, -1, 0);
         /// <summary>Left vector</summary>
-        public static readonly Vector3 Left  = new(-1, 0, 0);
+        public static readonly Vector3 Left      = new(-1, 0, 0);
         /// <summary>Right vector</summary>
-        public static readonly Vector3 Right = new(1, 0, 0);
+        public static readonly Vector3 Right     = new(1, 0, 0);
         /// <summary>Forward vector</summary>
-        public static readonly Vector3 Forwards = new(0, 0, 1);
+        public static readonly Vector3 Forwards  = new(0, 0, 1);
         /// <summary>Backward vector</summary>
         public static readonly Vector3 Backwards = new(0, 0, -1);
         #endregion
@@ -116,6 +118,27 @@ namespace AdventOfCode.Grids.Vectors
             x = this.X;
             y = this.Y;
             z = this.Z;
+        }
+
+        /// <summary>
+        /// Lists out the 27 vectors adjacent to this one
+        /// </summary>
+        /// <returns>An enumerable of the adjacent vectors</returns>
+        public IEnumerable<Vector3> Adjacent()
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    for (int z = -1; z <= 1; z++)
+                    {
+                        Vector3 v = new(x, y, z);
+                        if (v == Zero) continue;
+
+                        yield return this + v;
+                    }
+                }
+            }
         }
 
         /// <inheritdoc cref="IEquatable{T}"/>
