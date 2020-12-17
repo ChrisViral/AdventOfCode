@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using AdventOfCode.Grids.Vectors;
 
 namespace AdventOfCode.Grids
@@ -6,24 +7,31 @@ namespace AdventOfCode.Grids
     /// <summary>
     /// Cardinal Directions
     /// </summary>
-    [Flags]
     public enum Directions
     {
-        NONE       = 0b0000,
-        UP         = 0b0001,
-        DOWN       = 0b0010,
-        LEFT       = 0b0100,
-        RIGHT      = 0b1000,
-        VERTICAL   = UP | DOWN,
-        HORIZONTAL = LEFT | RIGHT,
-        ALL        = VERTICAL | HORIZONTAL
+        NONE  = 0,
+        UP    = 1,
+        DOWN  = 2,
+        LEFT  = 3,
+        RIGHT = 4,
+        NORTH = UP,
+        SOUTH = DOWN,
+        EAST  = LEFT,
+        WEST  = RIGHT
     }
 
     /// <summary>
     /// Directions extension methods
     /// </summary>
-    public static class DirectionsExtensions
+    public static class DirectionsUtils
     {
+        #region Static properties
+        /// <summary>
+        /// All possible directions
+        /// </summary>
+        public static ReadOnlyCollection<Directions> AllDirections { get; } = new(new[] { Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT });
+        #endregion
+        
         #region Extension methods
         /// <summary>
         /// Gets a Vector2 from a given Directions
@@ -32,41 +40,31 @@ namespace AdventOfCode.Grids
         /// <returns>The resulting vector</returns>
         public static Vector2 ToVector(this Directions directions)
         {
-            switch (directions)
+            return directions switch
             {
-                case Directions.NONE:
-                case Directions.VERTICAL:
-                case Directions.HORIZONTAL:
-                case Directions.ALL:
-                    return Vector2.Zero;
-                
-                case Directions.UP:
-                    return Vector2.Up;
-                
-                case Directions.DOWN:
-                    return Vector2.Down;
-                
-                case Directions.LEFT:
-                    return Vector2.Left;
-                
-                case Directions.RIGHT:
-                    return Vector2.Right;
-                
-                default:
-                    int x = (directions & Directions.HORIZONTAL) switch
-                    {
-                        Directions.LEFT  => Vector2.Left.X,
-                        Directions.RIGHT => Vector2.Right.X,
-                        _               => 0
-                    };
-                    int y = (directions & Directions.VERTICAL) switch
-                    {
-                        Directions.UP   => Vector2.Up.Y,
-                        Directions.DOWN => Vector2.Down.Y,
-                        _              => 0
-                    };
-                    return new Vector2(x, y);
-            }
+                Directions.UP    => Vector2.Up,
+                Directions.DOWN  => Vector2.Down,
+                Directions.LEFT  => Vector2.Left,
+                Directions.RIGHT => Vector2.Right,
+                _                => Vector2.Zero,
+            };
+        }
+
+        /// <summary>
+        /// Inverts the direction
+        /// </summary>
+        /// <param name="directions">Direction to invert</param>
+        /// <returns>Reverse direction from the current one</returns>
+        public static Directions Invert(this Directions directions)
+        {
+            return directions switch
+            {
+                Directions.UP    => Directions.DOWN,
+                Directions.DOWN  => Directions.UP,
+                Directions.LEFT  => Directions.RIGHT,
+                Directions.RIGHT => Directions.LEFT,
+                _                => directions
+            };
         }
         #endregion
     }

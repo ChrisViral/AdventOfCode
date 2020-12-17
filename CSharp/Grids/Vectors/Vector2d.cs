@@ -88,11 +88,7 @@ namespace AdventOfCode.Grids.Vectors
         public int CompareTo(object? other) => other is Vector2d vector ? CompareTo(vector) : 0;
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
-        public int CompareTo(in Vector2d other)
-        {
-            int comp = this.X.CompareTo(other.X);
-            return comp is 0 ? this.Y.CompareTo(other.Y) : comp;
-        }
+        public int CompareTo(in Vector2d other) => this.Length.CompareTo(other.Length);
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y})";
