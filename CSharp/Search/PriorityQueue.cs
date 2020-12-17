@@ -24,10 +24,10 @@ using System.Runtime.CompilerServices;
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                      *
 \* ==================================================================================== */
 
-namespace AdventOfCode.Utils
+namespace AdventOfCode.Search
 {
     /// <summary>
-    /// A generic Priority Queue implementation using a binary heap.
+    /// A generic Min Priority Queue implementation using a binary heap.
     /// Most operations are O(log n), while full enumeration or copying to an array is O(n log n)
     /// </summary>
     /// <typeparam name="T">Type of the queue</typeparam>
@@ -109,15 +109,15 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Creates the PriorityQueue from the IEnumerable provided with the default IComparer of <typeparamref name="T"/>
-        /// This constructor runs in O(n log n)
+        /// Creates the PriorityQueue from the IEnumerable provided with the default IComparer of <typeparamref name="T"/><br/>
+        /// This constructor runs in <b>O(n log n)</b>
         /// </summary>
         /// <param name="enumerable">Enumerable to make the StopQueue from</param>
         public PriorityQueue(IEnumerable<T> enumerable) : this(enumerable, Comparer<T>.Default) { }
 
         /// <summary>
-        /// Creates the PriorityQueue from the IEnumerable provided with the IComparer of <typeparamref name="T"/> provided
-        /// This constructor runs in O(n log n)
+        /// Creates the PriorityQueue from the IEnumerable provided with the IComparer of <typeparamref name="T"/> provided<br/>
+        /// This constructor runs in <b>O(n log n)</b>
         /// </summary>
         /// <param name="enumerable">Enumerable to make the PriorityQueue from</param>
         /// <param name="comparer">Comparer to sort the values</param>
@@ -141,8 +141,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Copy constructor, creates a new PriorityQueue of <typeparamref name="T"/> from an existing one
-        /// This constructor runs in O(n)
+        /// Copy constructor, creates a new PriorityQueue of <typeparamref name="T"/> from an existing one<br/>
+        /// This constructor runs in <b>O(n)</b>
         /// </summary>
         /// <param name="queue">Queue to copy from</param>
         public PriorityQueue(PriorityQueue<T> queue)
@@ -173,7 +173,7 @@ namespace AdventOfCode.Utils
         private bool CompareDown(int i, int j) => j < this.heap.Count && this.comparer.Compare(this.heap[i], this.heap[j]) > 0;
 
         /// <summary>
-        /// Moves the target <typeparamref name="T"/> up until it satisfies heap priority
+        /// Moves the target <typeparamref name="T"/> up until it satisfies heap priority<br/>
         /// Heaping up is an O(log n) operation
         /// </summary>
         /// <param name="i">Index of the value to move</param>
@@ -187,8 +187,12 @@ namespace AdventOfCode.Utils
             int j = Parent(i);
             while (CompareUp(i, j))
             {
-                //Swap values downwards
-                this.heap[i] = this.heap[j];
+                //Swap parent
+                T parent = this.heap[j];
+                this.heap[i] = parent;
+                this.indices[parent] = i;
+                
+                //Swap child
                 this.heap[j] = value;
                 i = j;
                 j = Parent(i);
@@ -199,7 +203,7 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Moves the <typeparamref name="T"/> down until it satisfies heap priority
+        /// Moves the <typeparamref name="T"/> down until it satisfies heap priority<br/>
         /// Heaping down is an O(log n) operation
         /// </summary>
         /// <param name="i">Index of the value to move</param>
@@ -229,9 +233,11 @@ namespace AdventOfCode.Utils
                 if (largest > i)
                 {
                     //Swap and keep moving down
-                    T temp = this.heap[i];
-                    this.heap[i] = this.heap[largest];
-                    this.heap[largest] = temp;
+                    T parent = this.heap[largest];
+                    this.heap[largest] = this.heap[i];
+                    //Swap parent and update index
+                    this.heap[i] = parent;
+                    this.indices[parent] = i;
                     i = largest;
                     moving = true;
                 }
@@ -245,8 +251,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Adds a value in the queue by priority
-        /// This operation is O(log n)
+        /// Adds a value in the queue, and adjusts it's position according to the set priority rule<br/>
+        /// This operation is <b>O(log n)</b>
         /// </summary>
         /// <param name="value"><typeparamref name="T"/> to add. Cannot be null as it isn't sortable</param>
         public void Add(T value)
@@ -258,8 +264,9 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Removes and returns the first element of the queue by priority
-        /// This operation is O(log n)
+        /// Removes and returns the first element of the queue.<br/>
+        /// This element is the global minimum within the queue.<br/>
+        /// This operation is <b>O(log n)</b>
         /// </summary>
         /// <returns>The first element of the queue</returns>
         /// <exception cref="InvalidOperationException">Cannot pop if the queue is empty</exception>
@@ -280,12 +287,46 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
+        /// Tries to remove and return the first element of the queue, if it has one
+        /// </summary>
+        /// <param name="value">Popped value, or the default value if nothing was present</param>
+        /// <returns>True if a value was popped, false otherwise</returns>
+        public bool TryPop(out T value)
+        {
+            if (!this.IsEmpty)
+            {
+                value = Pop();
+                return true;
+            }
+
+            value = default!;
+            return false;
+        }
+
+        /// <summary>
         /// Returns without removing the first <typeparamref name="T"/> in the queue
         /// This is an O(1) operation
         /// </summary>
         /// <returns>First Item in the queue</returns>
         /// <exception cref="InvalidOperationException">Cannot peek if the queue is empty</exception>
         public T Peek() => !this.IsEmpty ? this.heap[0] : throw new InvalidOperationException("Queue empty, operation invalid");
+        
+        /// <summary>
+        /// Tries to get and return the first element of the queue without removing it, if it has one
+        /// </summary>
+        /// <param name="value">First value of the queue, or the default value if nothing was present</param>
+        /// <returns>True if there was a value, false otherwise</returns>
+        public bool TryPeek(out T value)
+        {
+            if (!this.IsEmpty)
+            {
+                value = this.heap[0];
+                return true;
+            }
+
+            value = default!;
+            return false;
+        }
 
         /// <summary>
         /// Removes the given value at the given index, and puts the last element of the list in it's place
@@ -302,8 +343,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Removes the provided <typeparamref name="T"/> from the queue, if null is passed, the function returns false
-        /// This is an O(log n) operation
+        /// Removes the provided <typeparamref name="T"/> from the queue, if null is passed, the function returns false<br/>
+        /// This is an <b>O(log n)</b> operation
         /// </summary>
         /// <param name="value">Value to remove</param>
         /// <returns>If the value was successfully removed</returns>
@@ -322,8 +363,28 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// If the queue contains the given value
-        /// This is an O(1) operation
+        /// Replaces the specified value with a new value if it is higher in the queue order, and updates the queue
+        /// </summary>
+        /// <param name="value">Value to replace by</param>
+        /// <returns>True if the value was successfully replaced, false otherwise</returns>
+        public bool Replace(T value)
+        {
+            if (this.indices.TryGetValue(value, out int i))
+            {
+                T old = this.heap[i];
+                if (this.comparer.Compare(value, old) < 0)
+                {
+                    this.heap[i] = value;
+                    HeapUp(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// If the queue contains the given value<br/>
+        /// This is an <b>O(1)</b> operation
         /// </summary>
         /// <param name="value">Value to find</param>
         /// <returns>True when the queue contains the value, false otherwise</returns>
@@ -357,8 +418,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Updates the <typeparamref name="T"/> at the index i until it satisfies heap priority
-        /// This is an O(log n) operation
+        /// Updates the <typeparamref name="T"/> at the index i until it satisfies heap priority<br/>
+        /// This is an <b>O(log n)</b> operation
         /// </summary>
         /// <param name="i">Index of the element to update</param>
         private void Update(int i)
@@ -379,15 +440,15 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Copies the PriorityQueue to a generic array
-        /// This is an O(n log n) operation.
+        /// Copies the PriorityQueue to a generic array<br/>
+        /// This is an <b>O(n log n)</b> operation.
         /// </summary>
         /// <param name="array">Array to copy to</param>
         public void CopyTo(T[] array) => CopyTo(array, 0);
 
         /// <summary>
-        /// Copies the PriorityQueue to a generic array
-        /// This is an O(n log n) operation.
+        /// Copies the PriorityQueue to a generic array<br/>
+        /// This is an <b>O(n log n)</b> operation.
         /// </summary>
         /// <param name="array">Array to copy to</param>
         /// <param name="index">Starting index in the target array to put the objects in</param>
@@ -398,8 +459,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Returns this queue in a sorted array
-        /// This is an O(n log n) operation.
+        /// Returns this queue in a sorted array<br/>
+        /// This is an <b>O(n log n)</b> operation.
         /// </summary>
         /// <returns>Array of the queue</returns>
         public T[] ToArray()
@@ -412,8 +473,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Returns this queue in a sorted List of <typeparamref name="T"/>
-        /// This is an O(n log n) operation.
+        /// Returns this queue in a sorted List of <typeparamref name="T"/><br/>
+        /// This is an <b>O(n log n)</b> operation.
         /// </summary>
         /// <returns>List of this queue</returns>
         public List<T> ToList()
@@ -431,8 +492,8 @@ namespace AdventOfCode.Utils
         public void TrimExcess() => this.heap.TrimExcess();
 
         /// <summary>
-        /// Returns an IEnumerator of <typeparamref name="T"/> from this PriorityQueue
-        /// WARNING: Obtaining the first element of the iterator is O(n). Every subsequent elements is O(log n)
+        /// Returns an IEnumerator of <typeparamref name="T"/> from this PriorityQueue<br/>
+        /// <b>WARNING</b>: Obtaining the first element of the iterator is <b>O(n)</b>. Every subsequent elements is <b>O(log n)</b>
         /// </summary>
         /// <returns>Iterator going through this sequence</returns>
         public IEnumerator<T> GetEnumerator()
@@ -449,8 +510,8 @@ namespace AdventOfCode.Utils
         }
 
         /// <summary>
-        /// Returns an IEnumerator from this PriorityQueue
-        /// WARNING: Obtaining the first element of the iterator is O(n). Every subsequent elements is O(log n)
+        /// Returns an IEnumerator from this PriorityQueue<br/>
+        /// <b>WARNING</b>: Obtaining the first element of the iterator is <b>O(n)</b>. Every subsequent elements is <b>O(log n)</b>
         /// </summary>
         /// <returns>Iterator going through this sequence</returns>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
