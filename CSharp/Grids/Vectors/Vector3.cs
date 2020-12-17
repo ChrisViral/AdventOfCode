@@ -54,7 +54,7 @@ namespace AdventOfCode.Grids.Vectors
         /// </summary>
         /// <param name="x">X component</param>
         /// <param name="y">Y component</param>
-        /// <param name="y">Z component</param>
+        /// <param name="z">Z component</param>
         public Vector3(int x, int y, int z)
         {
             this.X = x;
@@ -97,17 +97,7 @@ namespace AdventOfCode.Grids.Vectors
         public int CompareTo(object? other) => other is Vector3 vector ? CompareTo(vector) : 0;
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
-        public int CompareTo(in Vector3 other)
-        {
-            int comp = this.X.CompareTo(other.X);
-            if (comp is 0)
-            {
-                comp = this.Y.CompareTo(other.Y);
-                return comp is 0 ? this.Z.CompareTo(other.Z) : comp;
-                
-            }
-            return comp;
-        }
+        public int CompareTo(in Vector3 other) => this.Length.CompareTo(other.Length);
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y}, {this.Z})";

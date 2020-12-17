@@ -11,7 +11,7 @@ namespace AdventOfCode.Grids.Vectors
     public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<Vector2>, IFormattable
     {
         #region Constants
-        private static readonly Regex directionMatch = new(@"^\s*(U|D|L|R)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         /// <summary>Zero vector</summary>
         public static readonly Vector2 Zero  = new(0, 0);
         /// <summary>One vector</summary>
@@ -89,11 +89,7 @@ namespace AdventOfCode.Grids.Vectors
         public int CompareTo(object? other) => other is Vector2 vector ? CompareTo(vector) : 0;
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
-        public int CompareTo(in Vector2 other)
-        {
-            int comp = this.X.CompareTo(other.X);
-            return comp is 0 ? this.Y.CompareTo(other.Y) : comp;
-        }
+        public int CompareTo(in Vector2 other) => this.Length.CompareTo(other.Length);
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"({this.X}, {this.Y})";
@@ -117,13 +113,13 @@ namespace AdventOfCode.Grids.Vectors
         /// </summary>
         /// <param name="directions">Direction to move in</param>
         /// <returns>The new, moved vector</returns>
-        public Vector2 Move(Directions directions) => this + directions.ToVector();
+        public Vector2 Move(Directions directions) => this + directions;
 
         /// <summary>
         /// Gets all the adjacent Vector2 to this one
         /// </summary>
         /// <returns>Adjacent vectors</returns>
-        public IEnumerable<Vector2> Adjacent(bool includeDiagonals = true)
+        public IEnumerable<Vector2> Adjacent(bool includeDiagonals = false)
         {
             if (includeDiagonals)
             {
@@ -238,9 +234,13 @@ namespace AdventOfCode.Grids.Vectors
             Vector2 direction = groups[1].Value switch
             {
                 "U" => Up,
+                "N" => Up,
                 "D" => Down,
+                "S" => Down,
                 "L" => Left,
+                "W" => Left,
                 "R" => Right,
+                "E" => Right,
                 _   => throw new FormatException($"Direction value ({groups[1].Value}) cannot be parsed into a direction")
             };
             //Return with correct length
@@ -268,15 +268,19 @@ namespace AdventOfCode.Grids.Vectors
             switch (groups[1].Value)
             {
                 case "U":
+                case "N":
                     dir = Up;
                     break;
                 case "D":
+                case "S":
                     dir = Down;
                     break;
                 case "L":
+                case "W":
                     dir = Left;
                     break;
                 case "R":
+                case "E":
                     dir = Right;
                     break;
                 
@@ -379,6 +383,14 @@ namespace AdventOfCode.Grids.Vectors
         /// <param name="b">Second Vector</param>
         /// <returns>The result of the component-wise subtraction on both Vectors</returns>
         public static Vector2 operator -(in Vector2 a, in Vector2 b) => new(a.X - b.X, a.Y - b.Y);
+        
+        /// <summary>
+        /// Add operation between a vector and a direction
+        /// </summary>
+        /// <param name="a">Vector</param>
+        /// <param name="b">Direction</param>
+        /// <returns>The result of the movement of the vector in the given direction</returns>
+        public static Vector2 operator +(in Vector2 a, Directions b) => a + b.ToVector();
 
         /// <summary>
         /// Scalar integer multiplication on a Vector
