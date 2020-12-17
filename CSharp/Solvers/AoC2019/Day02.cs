@@ -31,16 +31,18 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            this.VM.Run(12L, 2L, 0, out long result);
-            AoCUtils.LogPart1(result);
+            (this.VM[1], this.VM[2]) = (12L, 2L);
+            this.VM.Run();
+            AoCUtils.LogPart1(this.VM[0]);
 
             foreach (int noun in ..100)
             {
                 foreach (int verb in ..100)
                 {
                     this.VM.Reset();
-                    this.VM.Run(noun, verb, 0, out result);
-                    if (result is TARGET)
+                    (this.VM[1], this.VM[2]) = (noun, verb);
+                    this.VM.Run();
+                    if (this.VM[0] is TARGET)
                     {
                         AoCUtils.LogPart2((100 * noun) + verb);
                         return;

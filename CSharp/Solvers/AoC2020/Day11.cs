@@ -68,7 +68,7 @@ namespace AdventOfCode.Solvers.AoC2020
                         switch (current[position])
                         {
                             case Seat.EMPTY:
-                                if (position.Adjacent().Where(current.WithinGrid).All(p => previous[p] is not Seat.TAKEN))
+                                if (position.Adjacent(true).Where(current.WithinGrid).All(p => previous[p] is not Seat.TAKEN))
                                 {
                                     current[position] = Seat.TAKEN;
                                     changes = true;
@@ -77,7 +77,7 @@ namespace AdventOfCode.Solvers.AoC2020
                         
                             case Seat.TAKEN:
                                 int taken = 0;
-                                if (position.Adjacent().Where(current.WithinGrid).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
+                                if (position.Adjacent(true).Where(current.WithinGrid).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
                                 {
                                     current[position] = Seat.EMPTY;
                                     changes = true;
