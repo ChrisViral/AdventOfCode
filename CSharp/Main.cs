@@ -7,6 +7,7 @@ using AdventOfCode;
 using AdventOfCode.Solvers.Base;
 
 #region Main
+Console.Title = "Advent of Code";
 SolverData solverData;
 try
 {

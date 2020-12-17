@@ -213,30 +213,6 @@ namespace AdventOfCode.Intcode
         }
 
         /// <summary>
-        /// Runs the Intcode VM until it reaches a stopped state, then returns it's current state.<br/>
-        /// The "noun" and "verb" are values inserted into the first and second operand of the first instruction.<br/>
-        /// The result address is used to get a value out of the memory, which is then stored in result
-        /// </summary>
-        /// <param name="noun">Value to insert into the first operand</param>
-        /// <param name="verb">Value to insert into the second operand</param>
-        /// <param name="resultAddress">Address of the return value</param>
-        /// <param name="result">Output parameter where the result is stored</param>
-        /// <returns>Current state of the VM</returns>
-        /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
-        /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
-        public VMStates Run(long noun, long verb, int resultAddress, out long result)
-        {
-            //Set the noun and verb
-            this.memory[1] = noun;
-            this.memory[2] = verb;
-            //Run normally
-            VMStates state = Run();
-            //Store result and return
-            result = this.memory[resultAddress];
-            return state;
-        }
-
-        /// <summary>
         /// Resets the Intcode VM to it's original state so it can be run again
         /// </summary>
         public void Reset()
