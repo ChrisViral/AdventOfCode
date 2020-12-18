@@ -187,9 +187,8 @@ namespace AdventOfCode.Solvers.AoC2020
                         break;
                 }
             }
-
-            long value = multipliers.Peek().Aggregate(1L, (a, b) => a * b) * total;
-            return value;
+            
+            return multipliers.Peek().Aggregate(1L, (a, b) => a * b) * total;
         }
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <param name="operation">Operation type</param>
         /// <param name="multipliers">Multiplication backlog</param>
         /// <returns>The value of the expression</returns>
-        private static long EvaluateAdvanced(long a, long b, Operation operation, List<long> multipliers)
+        private static long EvaluateAdvanced(long a, long b, Operation operation, ICollection<long> multipliers)
         {
             switch (operation)
             {
@@ -220,3 +219,5 @@ namespace AdventOfCode.Solvers.AoC2020
         #endregion
     }
 }
+
+
