@@ -7,7 +7,7 @@ using Modes = AdventOfCode.Intcode.Instructions.Modes;
 namespace AdventOfCode.Intcode
 {
     /// <summary>
-    /// Intcode computer Virtual Machine, using a Fetch/Decode/Execute architecture, and input and output memory streams
+    /// Intcode computer Virtual Machine, using a Fetch/Decode/Execute architecture, and input and output queues
     /// </summary>
     public class IntcodeVM
     {
@@ -73,15 +73,20 @@ namespace AdventOfCode.Intcode
         /// </summary>
         public const int DEFAULT = 0;
         /// <summary>
-        /// Default output stream size (1kb)
+        /// Default output stream size
         /// </summary>
         public const int DEFAULT_SIZE = 16;
         /// <summary>
-        /// Extra buffer memory added to the VM (1k)
+        /// Extra buffer memory added to the VM (1k integers, 8kb memory)
         /// </summary>
         public const int BUFFER_SIZE = 1024;
-        
+        /// <summary>
+        /// Input parsing splitting options
+        /// </summary>
         private const StringSplitOptions OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+        /// <summary>
+        /// Input parsing splitting character
+        /// </summary>
         private static readonly char[] splitters = { ',' };
         #endregion
         

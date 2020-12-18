@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Solvers.Base;
-using AdventOfCode.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2020
 {
@@ -20,6 +20,17 @@ namespace AdventOfCode.Solvers.AoC2020
             ADD,
             MULTIPLY
         }
+        
+        #region Constants
+        /// <summary>
+        /// Add symbol
+        /// </summary>
+        private const string ADD = "+";
+        /// <summary>
+        /// Multiplication symbol
+        /// </summary>
+        private const string MUL = "*";
+        #endregion
 
         #region Constructors
         /// <summary>
@@ -54,10 +65,10 @@ namespace AdventOfCode.Solvers.AoC2020
             {
                 switch (s)
                 {
-                    case "+":
+                    case ADD:
                         operation = Operation.ADD;
                         break;
-                    case "*":
+                    case MUL:
                         operation = Operation.MULTIPLY;
                         break;
 
@@ -66,10 +77,9 @@ namespace AdventOfCode.Solvers.AoC2020
                         operationStack.Push((total, operation));
                         //Remove parenthesis
                         string n = s.TrimStart('(');
-                        int parenthesis = s.Length - n.Length;
-                        //Add blank operations for every extra parenthesis
-                        while (parenthesis-- > 1)
+                        for (int parenthesis = s.Length - n.Length; parenthesis > 1; parenthesis--)
                         {
+                            //Add blank operations for every extra parenthesis
                             operationStack.Push((0L, Operation.ADD));
                         }
                         //Parse number
@@ -81,14 +91,12 @@ namespace AdventOfCode.Solvers.AoC2020
                         n = s.TrimEnd(')');
                         long result = Evaluate(total, long.Parse(n), operation);
                         //Remove parenthesis
-                        parenthesis = s.Length - n.Length;
-                        do
+                        for (int parenthesis = s.Length - n.Length; parenthesis >= 1; parenthesis--)
                         {
                             //Calculate results from closed parenthesis
                             (total, operation) = operationStack.Pop();
                             result = Evaluate(total, result, operation);
                         }
-                        while (parenthesis-- > 1);
                         //Set result
                         total = result;
                         break;
@@ -138,10 +146,10 @@ namespace AdventOfCode.Solvers.AoC2020
             {
                 switch (s)
                 {
-                    case "+":
+                    case ADD:
                         operation = Operation.ADD;
                         break;
-                    case "*":
+                    case MUL:
                         operation = Operation.MULTIPLY;
                         break;
 
@@ -151,9 +159,8 @@ namespace AdventOfCode.Solvers.AoC2020
                         multipliers.Push(new List<long>());
                         //Remove parenthesis
                         string n = s.TrimStart('(');
-                        int parenthesis = s.Length - n.Length;
                         //Add blank operations for every extra parenthesis
-                        while (parenthesis-- > 1)
+                        for (int parenthesis = s.Length - n.Length; parenthesis > 1; parenthesis--)
                         {
                             operationStack.Push((0L, Operation.ADD));
                             multipliers.Push(new List<long>());
@@ -167,8 +174,7 @@ namespace AdventOfCode.Solvers.AoC2020
                         n = s.TrimEnd(')');
                         long result = EvaluateAdvanced(total, long.Parse(n), operation, multipliers.Peek());
                         //Remove parenthesis
-                        parenthesis = s.Length - n.Length;
-                        do
+                        for (int parenthesis = s.Length - n.Length; parenthesis >= 1; parenthesis--)
                         {
                             //Calculate results from closed parenthesis
                             List<long> mult = multipliers.Pop();
@@ -176,7 +182,6 @@ namespace AdventOfCode.Solvers.AoC2020
                             (total, operation) = operationStack.Pop();
                             result = EvaluateAdvanced(total, result, operation, multipliers.Peek());
                         }
-                        while (parenthesis-- > 1);
                         //Set result
                         total = result;
                         break;
