@@ -101,9 +101,9 @@ namespace AdventOfCode.Intcode
         /// <exception cref="InvalidEnumArgumentException">If an invalid Opcodes or ParamModes is detected</exception>
         public static (Instruction instruction, Modes modes) Decode(long opcode)
         {
-            string full = opcode.ToString("D5");
-            Modes modes = new(full[..3]);
-            Opcodes op = (Opcodes)int.Parse(full[3..]);
+            string padded = opcode.ToString("D5");
+            Modes modes = new(padded[..3]);
+            Opcodes op = (Opcodes)int.Parse(padded[3..]);
             Instruction instruction = op switch
             {
                 //Instructions
@@ -318,7 +318,7 @@ namespace AdventOfCode.Intcode
         /// <returns>The operand for the given instruction</returns>
         /// <exception cref="InvalidEnumArgumentException">If an invalid ParamModes is detected</exception>
         /// ReSharper disable once SuggestBaseTypeForParameter - Cannot be IList because of the ref return
-        private static ref long GetOperand(int pointer, int relative, long[] memory, in ParamModes mode)
+        private static ref long GetOperand(int pointer, int relative, long[] memory, ParamModes mode)
         {
             //ReSharper disable once ConvertSwitchStatementToSwitchExpression - Cannot use a switch expression because of the ref return 
             switch (mode)
