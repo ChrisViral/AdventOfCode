@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using AdventOfCode.Utils;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 using Modes = AdventOfCode.Intcode.Instructions.Modes;
 
@@ -132,7 +133,7 @@ namespace AdventOfCode.Intcode
         /// <summary>
         /// If the VM has any available output values left
         /// </summary>
-        public bool HasOutputs => this.Out.Count is not 0;
+        public bool HasOutputs => !this.Out.IsEmpty();
         #endregion
 
         #region Indexers
