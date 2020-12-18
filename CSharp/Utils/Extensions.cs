@@ -31,6 +31,90 @@ namespace AdventOfCode.Utils
         /// <param name="collection">Collection to check</param>
         /// <returns>True if the collection is empty, false otherwise</returns>
         public static bool IsEmpty(this ICollection collection) => collection.Count is 0;
+
+        /// <summary>
+        /// Returns the sequence where every element is repeated a given amount of times
+        /// </summary>
+        /// <typeparam name="T">Type of element in the sequence</typeparam>
+        /// <param name="e">Enumerable from which to repeat the elements</param>
+        /// <param name="count">Amount of times to repeat each element</param>
+        /// <returns>An enumerable where all the elements of the original sequence are repeated the specified amount of times</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is less than or equal to zero</exception>
+        public static IEnumerable<T> RepeatElements<T>(this IEnumerable<T> e, int count)
+        {
+            switch (count)
+            {
+                case <= 0:
+                    throw new ArgumentOutOfRangeException(nameof(count), count, "Count must be greater than zero");
+                
+                case 1:
+                    //For one simply loop through the elements
+                    foreach (T t in e)
+                    {
+                        yield return t;
+                    }
+                    break;
+
+                default:
+                    //Otherwise repeat each element the right amount of times
+                    foreach (T t in e)
+                    {
+                        foreach (int _ in ..count)
+                        {
+                            yield return t;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Loops an enumerator over itself until the total length is reached
+        /// </summary>
+        /// <typeparam name="T">Type of element within the enumerator</typeparam>
+        /// <param name="e">Enumerable to loop over</param>
+        /// <param name="length">Total length to reach</param>
+        /// <param name="copy">If a local copy of the enumerator should be cached, defaults to true</param>
+        /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+        public static IEnumerable<T> Loop<T>(this IEnumerable<T> e, int length, bool copy = true)
+        {
+            //Make sure the length is valid
+            if (length < 1) yield break;
+            
+            //Caching
+            if (copy)
+            {
+                //Create cache over first iteration
+                List<T> cache = new();
+                foreach (T t in e)
+                {
+                    yield return t;
+                    if (--length is 0) yield break;
+                    cache.Add(t);
+                }
+
+                while (true)
+                {
+                    //Loop forever
+                    foreach (T t in cache)
+                    {
+                        yield return t;
+                        if (--length is 0) yield break;
+                    }
+                }
+            }
+            
+            //Not caching
+            while (true)
+            {
+                //ReSharper disable once PossibleMultipleEnumeration - intended
+                foreach (T t in e)
+                {
+                    yield return t;
+                    if (--length is 0) yield break;
+                }
+            }
+        }
         #endregion
         
         #region Range extensions
