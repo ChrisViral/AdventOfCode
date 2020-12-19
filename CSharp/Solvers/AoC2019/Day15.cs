@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using AdventOfCode.Grids;
 using AdventOfCode.Intcode;
 using AdventOfCode.Search;
@@ -66,7 +65,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Maze view
         /// </summary>
-        public class Maze
+        public class Maze : ConsoleView<Status>
         {
             #region Constants
             /// <summary>
@@ -84,48 +83,11 @@ namespace AdventOfCode.Solvers.AoC2019
             };
             #endregion
             
-            #region Fields
-            private readonly Vector2 middle;
-            private readonly Status[,] maze;
-            private readonly char[] viewBuffer;
-            private int printedLines;
-            #endregion
-            
             #region Properties
-            /// <summary>
-            /// Width of the Maze
-            /// </summary>
-            public int Width { get; }
-            /// <summary>
-            /// Height of the Maze
-            /// </summary>
-            public int Height { get; }
             /// <summary>
             /// Current position of the droid in the grid
             /// </summary>
             public Vector2 DroidPosition { get; set; }
-            #endregion
-
-            #region Indexers
-            /// <summary>
-            /// Gets or sets a character in the Maze
-            /// </summary>
-            /// <param name="pos"></param>
-            /// <returns></returns>
-            public Status this[in Vector2 pos]
-            {
-                get
-                {
-                    (int x, int y) = pos + this.middle;
-                    return this.maze[y, x];
-                }
-                set
-                {
-                    (int x, int y) = pos + this.middle;
-                    this.maze[y, x] = value;
-                    this.viewBuffer[(y * (this.Width + 2)) + x + 1] = toChar[value];
-                }
-            }
             #endregion
 
             #region Constructors
@@ -134,30 +96,8 @@ namespace AdventOfCode.Solvers.AoC2019
             /// </summary>
             /// <param name="width">Width of the maze</param>
             /// <param name="height">Height of the maze</param>
-            public Maze(int width, int height)
+            public Maze(int width, int height) : base(width, height, s => toChar[s], new Vector2((int)Math.Ceiling(width / 2d), (int)Math.Ceiling(height / 2d)), Status.UNKNOWN)
             {
-                //Setup
-                this.Width = width;
-                this.Height = height;
-                this.middle = new Vector2((int)Math.Ceiling(width / 2d), (int)Math.Ceiling(height / 2d));
-                this.maze = new Status[height, width];
-                this.viewBuffer = new char[height * (width + 2)];
-                
-                //View buffer
-                Array.Fill(this.viewBuffer, toChar[Status.UNKNOWN]);
-                //Maze buffer
-                Status[] line = new Status[width];
-                Array.Fill(line, Status.UNKNOWN);
-                int bufferWidth = width * sizeof(Status);
-                //Set everything in the arrays
-                foreach (int j in ..height)
-                {
-                    int rowDiff = (width + 2) * j;
-                    this.viewBuffer[rowDiff] = ' ';
-                    this.viewBuffer[rowDiff + width + 1] = '\n';
-                    Buffer.BlockCopy(line, 0, this.maze, j * bufferWidth, bufferWidth);
-                }
-
                 //Set starting position
                 this[Vector2.Zero] = Status.START;
             }
@@ -244,30 +184,13 @@ namespace AdventOfCode.Solvers.AoC2019
                     yield return (neighbour, 1d);
                 }
             }
-            
-            /// <summary>
-            /// Prints the maze screen to the console
-            /// </summary>
-            public void PrintToConsole()
-            {
-                //Clear anything already printed
-                if (this.printedLines is not 0)
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - this.printedLines);
-                }
-                //Write to console
-                Console.Write(this);
-                this.printedLines = this.Height;
-                //Display at ~30fps
-                Thread.Sleep(33);
-            }
-            
+
             /// <inheritdoc cref="object.ToString"/>
             public override string ToString()
             {
                 Status temp = this[this.DroidPosition];
                 this[this.DroidPosition] = Status.DROID;
-                string toString = new(this.viewBuffer);
+                string toString = base.ToString();
                 this[this.DroidPosition] = temp;
                 return toString;
             }
