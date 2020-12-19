@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text;
-using System.Threading;
+using System.Collections.Generic;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -13,48 +12,39 @@ namespace AdventOfCode.Solvers.AoC2019
     /// </summary>
     public class Day13 : IntcodeSolver
     {
+        public enum Blocks
+        {
+            EMPTY = 0,
+            WALL = 1,
+            BLOCK = 2,
+            PADDLE = 3,
+            BALL = 4
+        }
+        
         /// <summary>
         /// Intcode Arcade game
         /// </summary>
-        public class Arcade
+        public class Arcade : ConsoleView<Blocks>
         {
             #region Constants
             /// <summary>
-            /// Block ID
-            /// </summary>
-            private const int BLOCK  = 2;
-            /// <summary>
-            /// Ball ID
-            /// </summary>
-            private const int BALL   = 3;
-            /// <summary>
-            /// Paddle ID
-            /// </summary>
-            private const int PADDLE = 4;
-            /// <summary>
             /// ID to character mapping
             /// </summary>
-            private static readonly char[] tileMapping =
+            private static readonly Dictionary<Blocks, char> toChar = new(5)
             {
-                ' ', //Empty
-                '▓', //Wall
-                '▒', //Block
-                '═', //Paddle
-                'O'  //Ball
+                [Blocks.EMPTY]  = ' ',
+                [Blocks.WALL]   = '▓',
+                [Blocks.BLOCK]  = '░',
+                [Blocks.PADDLE] = '═',
+                [Blocks.BALL]   = 'O'
             };
             #endregion
             
             #region Fields
             private readonly IntcodeVM software;
-            private readonly char[,] screen;
-            private readonly StringBuilder sb;
-            private readonly int width;
-            private readonly int height;
-            private int printedLines;
             #endregion
             
             #region Properties
-            public int Blocks { get; }
             public int Score { get; private set; }
             #endregion
             
@@ -62,31 +52,12 @@ namespace AdventOfCode.Solvers.AoC2019
             /// <summary>
             /// Creates and setups a new Arcade from the given software
             /// </summary>
+            /// <param name="width">Width of the view</param>
+            /// <param name="height">Height of the view</param>
             /// <param name="software">Software to run the arcade on</param>
-            public Arcade(IntcodeVM software)
+            public Arcade(int width, int height, IntcodeVM software) : base(width, height, b => toChar[b], Anchor.TOP_LEFT, Blocks.EMPTY)
             {
                 this.software = software;
-                this.Blocks = 0;
-                this.width = 0;
-                this.height = 0;
-                this.software.Run();
-                while (this.software.HasOutputs)
-                {
-                    (long x, long y, long id) = this.software;
-                    if (id is BLOCK)
-                    {
-                        this.Blocks++;
-                    }
-
-                    this.width = Math.Max(this.width, (int)x);
-                    this.height = Math.Max(this.height, (int)y);
-                }
-                
-                this.software.Reset();
-                this.width++;
-                this.height++;
-                this.screen = new char[this.height, this.width];
-                this.sb = new StringBuilder(this.screen.Length + this.height + 15);
             }
             #endregion
             
@@ -114,13 +85,14 @@ namespace AdventOfCode.Solvers.AoC2019
                         }
                         else
                         {
-                            this.screen[y, x] = tileMapping[id];
-                            switch (id)
+                            Blocks type = (Blocks)id;
+                            this[(int)x, (int)y] = type;
+                            switch (type)
                             {
-                                case BALL:
+                                case Blocks.BALL:
                                     ball = x;
                                     break;
-                                case PADDLE:
+                                case Blocks.PADDLE:
                                     paddle = x;
                                     break;
                             }
@@ -130,9 +102,7 @@ namespace AdventOfCode.Solvers.AoC2019
                     //Display
                     PrintToConsole();
                     //Handle input for next move
-                    this.software.AddInput(ball > paddle ? -1L : (ball < paddle ? 1L : 0L));
-                    //Render at 30fps to see what's going on
-                    Thread.Sleep(33);
+                    this.software.AddInput(ball.CompareTo(paddle));
                 }
 
                 //Show cursor again
@@ -140,38 +110,13 @@ namespace AdventOfCode.Solvers.AoC2019
                 //Return the final score
                 return this.Score;
             }
-            
-            /// <summary>
-            /// Prints the arcade screen to the console
-            /// </summary>
-            public void PrintToConsole()
-            {
-                if (this.printedLines is not 0)
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - this.printedLines);
-                }
-                Console.Write(this);
-                this.printedLines = this.height + 1;
-            }
-            
-            /// <summary>
-            /// Converts the arcade screen to a string
-            /// </summary>
-            /// <returns>String representation of the arcade screen</returns>
-            public override string ToString()
-            {
-                this.sb.Clear();
-                this.sb.AppendLine($"Score: {this.Score}");
-                foreach (int y in ..this.height)
-                {
-                    foreach (int x in ..this.width)
-                    {
-                        this.sb.Append(this.screen[y, x]);
-                    }
-                    this.sb.AppendLine();
-                }
 
-                return this.sb.ToString();
+            /// <inheritdoc cref="object.ToString"/>
+            public override void PrintToConsole()
+            {
+                base.PrintToConsole();
+                Console.WriteLine("              Score: " + this.Score);
+                this.printedLines++;
             }
             #endregion
         }
@@ -189,8 +134,24 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <inheritdoc cref="Solver.Run"/>
         public override void Run()
         {
-            Arcade arcade = new(this.VM);
-            AoCUtils.LogPart1(arcade.Blocks);
+            int width = 0;
+            int height = 0;
+            int blocks = 0;
+            this.VM.Run();
+            while (this.VM.HasOutputs)
+            {
+                (long x, long y, long id) = this.VM;
+                if (id is (long)Blocks.BLOCK)
+                {
+                    blocks++;
+                }
+                width = Math.Max(width, (int)x);
+                height = Math.Max(height, (int)y);
+            }
+            AoCUtils.LogPart1(blocks);
+
+            this.VM.Reset();
+            Arcade arcade = new(width + 1, height + 1, this.VM);
             AoCUtils.LogPart2(arcade.Play());
         }
         #endregion
