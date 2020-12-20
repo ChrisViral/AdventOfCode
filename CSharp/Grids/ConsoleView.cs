@@ -54,11 +54,7 @@ namespace AdventOfCode.Grids
         /// <returns>The value in the view at the given location</returns>
         public T this[in Vector2 pos]
         {
-            get
-            {
-                (int x, int y) = pos + this.anchor;
-                return this.grid[y, x];
-            }
+            get => base[pos + this.anchor];
             set
             {
                 (int x, int y) = pos + this.anchor;
