@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using AdventOfCode.Grids.Vectors;
+using AdventOfCode.Utils;
 
-namespace AdventOfCode.Utils
+namespace AdventOfCode.Grids
 {
     /// <summary>
     /// Console interactive view
     /// </summary>
     /// <typeparam name="T">Type of object in the view</typeparam>
-    public class ConsoleView<T> where T : notnull
+    public class ConsoleView<T> : Grid<T> where T : notnull
     {
         /// <summary>
         /// View anchors
@@ -27,27 +27,11 @@ namespace AdventOfCode.Utils
 
         #region Fields
         private readonly Vector2 anchor;
-        private readonly T[,] view;
         private readonly char[] viewBuffer;
-        private readonly Converter<T, char> viewConverter;
+        private readonly Converter<T, char> toChar;
         private readonly int sleepTime;
         private readonly Stopwatch timer = new();
         protected int printedLines;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Width of the view
-        /// </summary>
-        public int Width { get; }
-        /// <summary>
-        /// Height of the view
-        /// </summary>
-        public int Height { get; }
-        /// <summary>
-        /// Total size of the view
-        /// </summary>
-        public int Size { get; }
         #endregion
 
         #region Indexers
@@ -57,7 +41,7 @@ namespace AdventOfCode.Utils
         /// <param name="x">X Position</param>
         /// <param name="y">Y Position</param>
         /// <returns>The value in the view at the given location</returns>
-        public T this[int x, int y]
+        public override T this[int x, int y]
         {
             get => this[new Vector2(x, y)];
             set => this[new Vector2(x, y)] = value;
@@ -73,30 +57,41 @@ namespace AdventOfCode.Utils
             get
             {
                 (int x, int y) = pos + this.anchor;
-                return this.view[y, x];
+                return this.grid[y, x];
             }
             set
             {
                 (int x, int y) = pos + this.anchor;
-                this.view[y, x] = value;
-                this.viewBuffer[(y * (this.Width + 1)) + x] = this.viewConverter(value);
+                this.grid[y, x] = value;
+                this.viewBuffer[(y * (this.Width + 1)) + x] = this.toChar(value);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a position in the view
+        /// </summary>
+        /// <param name="tuple">Position tuple</param>
+        /// <returns>The value in the view at the given location</returns>
+        public override T this[(int x, int y) tuple]
+        {
+            get => this[new Vector2(tuple)];
+            set => this[new Vector2(tuple)] = value;
         }
         #endregion
 
         #region Constructors
-        private ConsoleView(int width, int height, Converter<T, char> converter, int fps = 30)
+        /// <summary>
+        /// ConsoleView base constructor, calls the Grid constructor to setup the underlying data
+        /// </summary>
+        /// <param name="width">Width of the view</param>
+        /// <param name="height">Height of the view</param>
+        /// <param name="toChar">Element to char conversion function</param>
+        /// <param name="fps">Display FPS</param>
+        private ConsoleView(int width, int height, Converter<T, char> toChar, int fps) : base(width, height)
         {
-            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), width, "Width must be greater than zero");
-            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than zero");
-            
             //Setup
-            this.Width = width;
-            this.Height = height;
-            this.Size = width * height;
-            this.view = new T[height, width];
             this.viewBuffer = new char[height * (width + 1)];
-            this.viewConverter = converter;
+            this.toChar = toChar;
             this.sleepTime = 1000 / fps;
         }
         
@@ -156,9 +151,16 @@ namespace AdventOfCode.Utils
             foreach (int j in ..this.Height)
             {
                 this.viewBuffer[((this.Width + 1) * j) + this.Width] = '\n';
-                foreach (int i in ..this.Width)
+                if (this.rowBufferSize is not 0)
                 {
-                    this.view[j, i] = line[i];
+                    Buffer.BlockCopy(line, 0, this.grid, j * this.rowBufferSize, this.rowBufferSize);
+                }
+                else
+                {
+                    foreach (int i in ..this.Width)
+                    {
+                        this.grid[j, i] = line[i];
+                    }   
                 }
             }
         }

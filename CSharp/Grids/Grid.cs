@@ -15,8 +15,8 @@ namespace AdventOfCode.Grids
     public class Grid<T> : IEnumerable<T>
     {
         #region Fields
-        private readonly T[,] grid;
-        private readonly int rowBufferSize;
+        protected readonly T[,] grid;
+        protected readonly int rowBufferSize;
         private readonly Converter<T, string> toString;
         #endregion
 
@@ -44,7 +44,7 @@ namespace AdventOfCode.Grids
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
         /// <returns>The element at the specified position</returns>
-        public T this[int x, int y]
+        public virtual T this[int x, int y]
         {
             get => this.grid[y, x];
             set => this.grid[y, x] = value;
@@ -55,7 +55,7 @@ namespace AdventOfCode.Grids
         /// </summary>
         /// <param name="vector">Position vector in the grid</param>
         /// <returns>The element at the specified position</returns>
-        public T this[Vector2 vector]
+        public virtual T this[Vector2 vector]
         {
             get => this.grid[vector.Y, vector.X];
             set => this.grid[vector.Y, vector.X] = value;
@@ -66,7 +66,7 @@ namespace AdventOfCode.Grids
         /// </summary>
         /// <param name="tuple">Position tuple in the grid</param>
         /// <returns>The element at the specified position</returns>
-        public T this[(int x, int y) tuple]
+        public virtual T this[(int x, int y) tuple]
         {
             get => this.grid[tuple.y, tuple.x];
             set => this.grid[tuple.y, tuple.x] = value;
