@@ -168,9 +168,10 @@ namespace AdventOfCode.Solvers.AoC2020
                 {
                     foreach (int i in ..(this.Size / 2))
                     {
-                        AoCUtils.Swap(ref this.image[j][i], ref this.image[^(i + 1)][j]);
-                        AoCUtils.Swap(ref this.image[j][i], ref this.image[^(j + 1)][^(i + 1)]);
-                        AoCUtils.Swap(ref this.image[j][i], ref this.image[i][^(j + 1)]);
+                        ref char topLeft = ref this.image[j][i];
+                        AoCUtils.Swap(ref topLeft, ref this.image[^(i + 1)][j]);
+                        AoCUtils.Swap(ref topLeft, ref this.image[^(j + 1)][^(i + 1)]);
+                        AoCUtils.Swap(ref topLeft, ref this.image[i][^(j + 1)]);
                     }
                 }
 
@@ -183,6 +184,29 @@ namespace AdventOfCode.Solvers.AoC2020
                     Array.Reverse(this.left);
                     Array.Reverse(this.right);
                 }
+            }
+
+            /// <summary>
+            /// Modifies the image to try all layouts and yields after adopting a new one
+            /// </summary>
+            /// <returns>An enumerable of <see langword="null"/> that yields after adopting a new layout</returns>
+            private IEnumerable<object?> AllLayouts()
+            {
+                yield return null;
+                FlipVertical();
+                yield return null;
+                FlipHorizontal();
+                yield return null;
+                FlipVertical();
+                yield return null;
+                Rotate();
+                yield return null;
+                FlipVertical();
+                yield return null;
+                FlipHorizontal();
+                yield return null;
+                FlipVertical();
+                yield return null;
             }
 
             /// <summary>
@@ -221,44 +245,14 @@ namespace AdventOfCode.Solvers.AoC2020
             /// </summary>
             /// <param name="tile">Tile to check against</param>
             /// <returns>True if the other tile can be adjacent to the right, false otherwise</returns>
-            public bool AdjacentRight(Tile tile)
-            {
-                foreach (int _ in ..2)
-                {
-                    if (this.right.SequenceEqual(tile.left)) return true;
-                    tile.FlipVertical();
-                    if (this.right.SequenceEqual(tile.left)) return true;
-                    tile.FlipHorizontal();
-                    if (this.right.SequenceEqual(tile.left)) return true;
-                    tile.FlipVertical();
-                    if (this.right.SequenceEqual(tile.left)) return true;
-                    tile.Rotate();
-                }
+            public bool AdjacentRight(Tile tile) => tile.AllLayouts().Any(_ => this.right.SequenceEqual(tile.left));
 
-                return false;
-            }
-            
             /// <summary>
             /// Checks if another tile can be adjacent to it on the bottom
             /// </summary>
             /// <param name="tile">Tile to check against</param>
             /// <returns>True if the other tile can be adjacent to the bottom, false otherwise</returns>
-            public bool AdjacentBottom(Tile tile)
-            {
-                foreach (int __ in ..2)
-                {
-                    if (this.bottom.SequenceEqual(tile.top)) return true;
-                    tile.FlipVertical();
-                    if (this.bottom.SequenceEqual(tile.top)) return true;
-                    tile.FlipHorizontal();
-                    if (this.bottom.SequenceEqual(tile.top)) return true;
-                    tile.FlipVertical();
-                    if (this.bottom.SequenceEqual(tile.top)) return true;
-                    tile.Rotate();
-                }
-
-                return false;
-            }
+            public bool AdjacentBottom(Tile tile) => tile.AllLayouts().Any(_ => this.bottom.SequenceEqual(tile.top));
             
             /// <summary>
             /// Strips the image from it's borders
@@ -280,28 +274,8 @@ namespace AdventOfCode.Solvers.AoC2020
             /// <returns>The roughness of the water for the given image</returns>
             public int CalculateRoughness()
             {
-                int monsters = 0;
-                foreach (int _ in ..2)
-                {
-                    monsters = CountMonsters();
-                    if (monsters is not 0) break;
-                    
-                    FlipVertical();
-                    monsters = CountMonsters();
-                    if (monsters is not 0) break;
-                    
-                    FlipHorizontal();
-                    monsters = CountMonsters();
-                    if (monsters is not 0) break;
-                    
-                    FlipVertical();
-                    monsters = CountMonsters();
-                    if (monsters is not 0) break;
-
-                    Rotate();
-                }
-
-                return this.image.Sum(l => l.Count(c => c is BLACK)) - (monsters * monster.Length);
+                int monsters = AllLayouts().Select(_ => CountMonsters()).FirstOrDefault(m => m is not 0) * monster.Length;
+                return this.image.Sum(l => l.Count(c => c is BLACK)) - monsters;
             }
 
             /// <summary>
@@ -313,10 +287,15 @@ namespace AdventOfCode.Solvers.AoC2020
                 int monsters = 0;
                 foreach (int j in ..(this.Size - 3))
                 {
+                    char[][] slice = this.image[j..(j + 3)];
                     foreach (int i in ..(this.Size - 20))
                     {
-                        Vector2 pos = new(i, j);
-                        if (monster.All(m => this[pos + m] is BLACK))
+                        int end = i + 20;
+                        char[][] box = slice[..];
+                        box[0] = box[0][i..end];
+                        box[1] = box[1][i..end];
+                        box[2] = box[2][i..end];
+                        if (monster.All(m => box[m.Y][m.X] is BLACK))
                         {
                             monsters++;
                         }
