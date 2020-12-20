@@ -31,6 +31,13 @@ namespace AdventOfCode.Utils
         /// <param name="collection">Collection to check</param>
         /// <returns>True if the collection is empty, false otherwise</returns>
         public static bool IsEmpty(this ICollection collection) => collection.Count is 0;
+        
+        /// <summary>
+        /// Checks if a collection is empty
+        /// </summary>
+        /// <param name="collection">Collection to check</param>
+        /// <returns>True if the collection is empty, false otherwise</returns>
+        public static bool IsEmpty<T>(this ICollection<T> collection) => collection.Count is 0;
 
         /// <summary>
         /// Returns the sequence where every element is repeated a given amount of times
