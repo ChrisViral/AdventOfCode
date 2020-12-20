@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AdventOfCode.Grids;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
