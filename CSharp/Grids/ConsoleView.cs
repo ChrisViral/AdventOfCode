@@ -8,23 +8,23 @@ using AdventOfCode.Utils;
 namespace AdventOfCode.Grids
 {
     /// <summary>
+    /// View anchors
+    /// </summary>
+    public enum Anchor
+    {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT,
+        MIDDLE
+    }
+    
+    /// <summary>
     /// Console interactive view
     /// </summary>
     /// <typeparam name="T">Type of object in the view</typeparam>
     public class ConsoleView<T> : Grid<T> where T : notnull
     {
-        /// <summary>
-        /// View anchors
-        /// </summary>
-        public enum Anchor
-        {
-            TOP_LEFT,
-            TOP_RIGHT,
-            BOTTOM_LEFT,
-            BOTTOM_RIGHT,
-            MIDDLE
-        }
-
         #region Fields
         private readonly Vector2 anchor;
         private readonly char[] viewBuffer;
