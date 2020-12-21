@@ -24,13 +24,6 @@ namespace AdventOfCode.Utils
                 action(t);
             }
         }
-
-        /// <summary>
-        /// Checks if a collection is empty
-        /// </summary>
-        /// <param name="collection">Collection to check</param>
-        /// <returns>True if the collection is empty, false otherwise</returns>
-        public static bool IsEmpty(this ICollection collection) => collection.Count is 0;
         
         /// <summary>
         /// Checks if a collection is empty

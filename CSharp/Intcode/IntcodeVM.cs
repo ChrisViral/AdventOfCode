@@ -138,7 +138,7 @@ namespace AdventOfCode.Intcode
         /// <summary>
         /// If the VM has any available output values left
         /// </summary>
-        public bool HasOutputs => !this.Out.IsEmpty();
+        public bool HasOutputs => this.Out.Count is not 0;
         #endregion
 
         #region Indexers
