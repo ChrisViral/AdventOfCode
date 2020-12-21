@@ -138,7 +138,7 @@ namespace AdventOfCode.Intcode
             ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
             ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
             ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
-            
+                
             c = a + b;
             pointer += 4;
             return VMStates.RUNNING;

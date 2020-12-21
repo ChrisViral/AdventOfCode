@@ -64,6 +64,11 @@ namespace AdventOfCode.Intcode
         /// <param name="output">Output value to set</param>
         public delegate void OutputSetter(long output);
 
+        /// <summary>
+        /// Output event
+        /// </summary>
+        public event Action OnOutput;
+
         #region Constants
         /// <summary>
         /// Halted pointer state
@@ -78,9 +83,9 @@ namespace AdventOfCode.Intcode
         /// </summary>
         public const int DEFAULT_SIZE = 16;
         /// <summary>
-        /// Extra buffer memory added to the VM (1k integers, 8kb memory)
+        /// Extra buffer memory added to the VM (2k integers, 16kb memory)
         /// </summary>
-        public const int BUFFER_SIZE = 1024;
+        public const int BUFFER_SIZE = 2048;
         /// <summary>
         /// Input parsing splitting options
         /// </summary>
@@ -244,19 +249,29 @@ namespace AdventOfCode.Intcode
         /// </summary>
         /// <param name="value">Value to add</param>
         public void AddInput(long value) => this.In.Enqueue(value);
+
+        /// <summary>
+        /// Adds the string as a character array to the input values
+        /// </summary>
+        /// <param name="value">String to add</param>
+        public void AddInput(string value) => value.ForEach(c => this.In.Enqueue(c));
         
         /// <summary>
         /// Gets the next available int from the input if available
         /// </summary>
         /// <returns>The next integer in the input queue</returns>
         private bool GetNextInput(out long input) => this.In.TryDequeue(out input);
-        
+
         /// <summary>
         /// Adds an integer to the output stream
         /// </summary>
         /// <param name="output">Value to add to the output</param>
         /// <exception cref="InvalidOperationException">If no output stream is specified</exception>
-        private void AddOutput(long output) => this.Out.Enqueue(output);
+        private void AddOutput(long output)
+        {
+            this.Out.Enqueue(output);
+            this.OnOutput?.Invoke();
+        }
 
         /// <summary>
         /// Gets the next available int from the output
@@ -274,6 +289,7 @@ namespace AdventOfCode.Intcode
             
             long[] output = new long[this.Out.Count];
             this.Out.CopyTo(output, 0);
+            this.Out.Clear();
             return output;
         }
 

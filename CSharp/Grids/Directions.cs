@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using AdventOfCode.Grids.Vectors;
 
 namespace AdventOfCode.Grids
@@ -64,6 +65,42 @@ namespace AdventOfCode.Grids
                 Directions.LEFT  => Directions.RIGHT,
                 Directions.RIGHT => Directions.LEFT,
                 _                => directions
+            };
+        }
+
+        /// <summary>
+        /// Turns the direction towards the left
+        /// </summary>
+        /// <param name="directions">Direction to turn</param>
+        /// <returns>The new direction after turning to the left</returns>
+        public static Directions TurnLeft(this Directions directions)
+        {
+            return directions switch
+            {
+                Directions.NONE  => Directions.NONE,
+                Directions.UP    => Directions.LEFT,
+                Directions.LEFT  => Directions.DOWN,
+                Directions.DOWN  => Directions.RIGHT,
+                Directions.RIGHT => Directions.UP,
+                _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
+            };
+        }
+        
+        /// <summary>
+        /// Turns the direction towards the right
+        /// </summary>
+        /// <param name="directions">Direction to turn</param>
+        /// <returns>The new direction after turning to the right</returns>
+        public static Directions TurnRight(this Directions directions)
+        {
+            return directions switch
+            {
+                Directions.NONE  => Directions.NONE,
+                Directions.UP    => Directions.RIGHT,
+                Directions.RIGHT => Directions.DOWN,
+                Directions.DOWN  => Directions.LEFT,
+                Directions.LEFT  => Directions.UP,
+                _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
             };
         }
         #endregion
