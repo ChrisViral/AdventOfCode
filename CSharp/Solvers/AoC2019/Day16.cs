@@ -18,7 +18,7 @@ namespace AdventOfCode.Solvers.AoC2019
         /// <summary>
         /// Input repeats for part 2
         /// </summary>
-        private const int REPEATS = 10000;
+        private const int REPEATS = 10_000;
         #endregion
         
         #region Constructors

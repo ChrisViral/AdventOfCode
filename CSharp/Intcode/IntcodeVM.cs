@@ -67,7 +67,7 @@ namespace AdventOfCode.Intcode
         /// <summary>
         /// Output event
         /// </summary>
-        public event Action OnOutput;
+        public event Action? OnOutput;
 
         #region Constants
         /// <summary>

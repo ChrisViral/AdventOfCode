@@ -13,9 +13,13 @@ namespace AdventOfCode.Solvers.AoC2019
     {
         #region Constants
         /// <summary>
+        /// Max value for the noun or verb
+        /// </summary>
+        private const int MAX = 100;
+        /// <summary>
         /// Target to find using the Intcode VM
         /// </summary>
-        private const long TARGET = 19690720L;
+        private const long TARGET = 19_690_720L;
         #endregion
         
         #region Constructors
@@ -35,9 +39,9 @@ namespace AdventOfCode.Solvers.AoC2019
             this.VM.Run();
             AoCUtils.LogPart1(this.VM[0]);
 
-            foreach (int noun in ..100)
+            foreach (int noun in ..MAX)
             {
-                foreach (int verb in ..100)
+                foreach (int verb in ..MAX)
                 {
                     this.VM.Reset();
                     (this.VM[1], this.VM[2]) = (noun, verb);

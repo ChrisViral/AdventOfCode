@@ -19,7 +19,7 @@ namespace AdventOfCode.Solvers.AoC2020
         /// <summary>
         /// Second target to hit
         /// </summary>
-        private const int SECOND_TARGET = 30000000;
+        private const int SECOND_TARGET = 30_000_000;
         #endregion
         
         #region Constructors
