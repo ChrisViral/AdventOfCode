@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -115,6 +114,22 @@ namespace AdventOfCode.Utils
                 }
             }
         }
+
+        /// <summary>
+        /// Returns the next node in a linked list in a circular fashion, wrapping back to the start after getting to the end
+        /// </summary>
+        /// <typeparam name="T">Type of element in the list node</typeparam>
+        /// <param name="node">Current node</param>
+        /// <returns>The next node in the list, or the first one if at the end</returns>
+        public static LinkedListNode<T> NextCircular<T>(this LinkedListNode<T> node) => node.Next ?? node.List!.First!;
+        
+        /// <summary>
+        /// Returns the previous node in a linked list in a circular fashion, wrapping back to the end after getting to the start
+        /// </summary>
+        /// <typeparam name="T">Type of element in the list node</typeparam>
+        /// <param name="node">Current node</param>
+        /// <returns>The previous node in the list, or the last one if at the start</returns>
+        public static LinkedListNode<T> PreviousCircular<T>(this LinkedListNode<T> node) => node.Previous ?? node.List!.Last!;
         #endregion
         
         #region Range extensions
