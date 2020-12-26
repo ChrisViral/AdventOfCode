@@ -160,6 +160,23 @@ namespace AdventOfCode.Grids
                 }
             }
         }
+
+        /// <inheritdoc cref="Grid{T}.Populate"/>
+        public new void Populate(string[] input, Converter<string, T[]> converter)
+        {
+            if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
+            
+            for ((int x, int y) pos = (0, 0); pos.y < this.Height; pos.y++)
+            {
+                T[] result = converter(input[pos.y]);
+                if (result.Length != this.Width) throw new InvalidOperationException($"Input line {pos.y} does not produce a row of the same length as the grid after conversion");
+
+                for (pos.x = 0; pos.x < this.Width; pos.x++)
+                {
+                    this[pos - this.anchor] = result[pos.x];
+                }
+            }
+        }
         
         /// <summary>
         /// Prints the view screen to the console and waits to hit the target FPS
@@ -180,6 +197,33 @@ namespace AdventOfCode.Grids
             Thread.Sleep(Math.Max(0, this.sleepTime - (int)this.timer.ElapsedMilliseconds));
             this.timer.Restart();
         }
+
+        /// <summary>
+        /// Moves the vector within the grid
+        /// </summary>
+        /// <param name="vector">Vector to move</param>
+        /// <param name="directions">Direction to move in</param>
+        /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
+        /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
+        /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
+        public override Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
+
+        /// <summary>
+        /// Moves the vector within the grid
+        /// </summary>
+        /// <param name="vector">Vector to move</param>
+        /// <param name="travel">Vector to travel in</param>
+        /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
+        /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
+        /// <returns>The resulting Vector after the move</returns>
+        public override Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
+        {
+            Vector2? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
+            return result.HasValue ? result.Value + this.anchor : null;
+        }
+
+        /// <inheritdoc cref="Grid{T}.WithinGrid"/>
+        public override bool WithinGrid(Vector2 position) => base.WithinGrid(position - this.anchor);
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => new(this.viewBuffer);

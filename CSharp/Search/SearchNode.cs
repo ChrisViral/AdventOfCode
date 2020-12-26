@@ -29,12 +29,19 @@ namespace AdventOfCode.Search
         public delegate double Heuristic(T value);
 
         #region Fields
-        public readonly double costSoFar;
-        public readonly T value;
-        private readonly Heuristic heuristic;
+        /// <summary>Heuristic function of the node</summary>
+        private readonly Heuristic? heuristic;
         #endregion
         
         #region Properties
+        /// <summary>
+        /// Cost to reach the node so far
+        /// </summary>
+        public double CostSoFar { get; }
+        /// <summary>
+        /// Value of the node
+        /// </summary>
+        public T Value { get; }
         /// <summary>
         /// Parent node
         /// </summary>
@@ -42,7 +49,7 @@ namespace AdventOfCode.Search
         /// <summary>
         /// Cost of this node
         /// </summary>
-        public double Cost => this.costSoFar + this.heuristic(this.value);
+        public double Cost => this.CostSoFar + this.heuristic?.Invoke(this.Value) ?? 0d;
         #endregion
 
         #region Constructors
@@ -52,10 +59,8 @@ namespace AdventOfCode.Search
         /// <param name="value">Value of the node</param>
         public SearchNode(T value)
         {
-            this.costSoFar = 0d;
-            this.value = value;
-            this.heuristic = _ => 0d;
-            this.Parent = null;
+            this.CostSoFar = 0d;
+            this.Value = value;
         }
         
         /// <summary>
@@ -67,8 +72,8 @@ namespace AdventOfCode.Search
         /// <param name="parent">Parent node</param>
         public SearchNode(double cost, T value, Heuristic heuristic, SearchNode<T> parent)
         {
-            this.costSoFar = cost;
-            this.value = value;
+            this.CostSoFar = cost;
+            this.Value = value;
             this.heuristic = heuristic;
             this.Parent = parent;
         }
@@ -76,16 +81,16 @@ namespace AdventOfCode.Search
         
         #region Methods
         /// <inheritdoc cref="object.Equals(object)"/>
-        public override bool Equals(object? obj) => obj is SearchNode<T> other && this.value.Equals(other.value);
+        public override bool Equals(object? obj) => obj is SearchNode<T> other && this.Value.Equals(other.Value);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(SearchNode<T>? other) => other is not null && this.value.Equals(other.value);
+        public bool Equals(SearchNode<T>? other) => other is not null && this.Value.Equals(other.Value);
 
         /// <inheritdoc cref="object.GetHashCode"/>
-        public override int GetHashCode() => this.value.GetHashCode();
+        public override int GetHashCode() => this.Value.GetHashCode();
 
         /// <inheritdoc cref="object.ToString"/>
-        public override string ToString() => $"{{Node: {this.value}, Cost: {this.Cost}}}";
+        public override string ToString() => $"{{Node: {this.Value}, Cost: {this.Cost}}}";
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(SearchNode<T>? other) => other is not null ? this.Cost.CompareTo(other.Cost) : -1;
@@ -114,7 +119,7 @@ namespace AdventOfCode.Search
         /// <param name="a">First node</param>
         /// <param name="b">Value</param>
         /// <returns>True if the value of the node equals the other value, false otherwise</returns>
-        public static bool operator ==(SearchNode<T> a, T b) => a.value.Equals(b);
+        public static bool operator ==(SearchNode<T> a, T b) => a.Value.Equals(b);
         
         /// <summary>
         /// Inequality operator between a search node and a value
@@ -122,7 +127,7 @@ namespace AdventOfCode.Search
         /// <param name="a">First node</param>
         /// <param name="b">Value</param>
         /// <returns>True if the value of the node is not equals the other value, false otherwise</returns>
-        public static bool operator !=(SearchNode<T> a, T b) => !a.value.Equals(b);
+        public static bool operator !=(SearchNode<T> a, T b) => !a.Value.Equals(b);
         #endregion
     }
 }
