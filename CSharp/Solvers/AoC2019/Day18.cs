@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Grids;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace AdventOfCode.Solvers.AoC2019
 {
@@ -51,9 +49,9 @@ namespace AdventOfCode.Solvers.AoC2019
             {
                 #region Properties
                 /// <summary>
-                /// Distance to reach this node
+                /// Distance from the parent node to this node
                 /// </summary>
-                public int Distance { get; }
+                public int FromParent { get; }
 
                 /// <summary>
                 /// Position of the node
@@ -61,14 +59,14 @@ namespace AdventOfCode.Solvers.AoC2019
                 public Vector2 Position { get; }
 
                 /// <summary>
-                /// Children of the node
+                /// Best child of the node
                 /// </summary>
-                public List<Node> Children { get; } = new();
+                public Node? Child { get; private set; }
 
                 /// <summary>
-                /// Total distance from this node to the end
+                /// Total distance from the start to the end through this node
                 /// </summary>
-                public int DistanceToEnd { get; private set; }
+                public int DistanceToEnd => this.FromParent + (this.Child?.DistanceToEnd ?? 0);
                 #endregion
 
                 #region Constructors
@@ -76,21 +74,21 @@ namespace AdventOfCode.Solvers.AoC2019
                 /// Creates a new Node from the given position
                 /// </summary>
                 /// <param name="position">Position of the node</param>
-                /// <param name="distance">Distance so far to reach this node,defaults to zero</param>
-                public Node(Vector2 position, int distance = 0)
+                /// <param name="fromParent">Distance from the parent node to this node, defaults to 0</param>
+                public Node(Vector2 position, int fromParent = 0)
                 {
                     this.Position = position;
-                    this.Distance = distance;
+                    this.FromParent = fromParent;
                 }
 
                 /// <summary>
                 /// Creates a new Node from the given position, then explores it's children
                 /// </summary>
                 /// <param name="position">Position of the node</param>
-                /// <param name="distance">Distance so far to reach this node</param>
+                /// <param name="fromParent">Distance from the parent node to this node</param>
                 /// <param name="maze">Maze the node is in</param>
                 /// <param name="keys">Currently available keys</param>
-                private Node(Vector2 position, int distance, Maze maze, int keys) : this(position, distance) => Explore(maze, keys);
+                private Node(Vector2 position, int fromParent, Maze maze, int keys) : this(position, fromParent) => Explore(maze, keys);
                 #endregion
 
                 #region Methods
@@ -101,26 +99,16 @@ namespace AdventOfCode.Solvers.AoC2019
                 /// <param name="keys">Currently available keys</param>
                 public void Explore(Maze maze, int keys = 0)
                 {
-                    if (this.Distance >= maze.shortestPath)
-                    {
-                        this.DistanceToEnd = maze.shortestPath;
-                        return;
-                    }
+                    //Got all keys
+                    if (keys == maze.allKeys) return;
 
-                    if (keys == maze.allKeys)
+                    if (maze.states.TryGetValue((this.Position, keys), out Node? child))
                     {
-                        //Got all the keys
-                        maze.shortestPath = Math.Min(maze.shortestPath, this.Distance);
-                    }
-                    else if (maze.states.TryGetValue((this.Position, keys), out int toEnd))
-                    {
-                        this.DistanceToEnd = toEnd;
-                        maze.shortestPath = Math.Min(maze.shortestPath, this.Distance + toEnd);
+                        //Already visited this state
+                        this.Child = child;
                     }
                     else
                     {
-                        //Get distance to key
-                        this.DistanceToEnd = int.MaxValue;
                         //Look at every key that can be traveled to
                         foreach (Lock locked in maze.locks.Values.Where(l => l.IsReachable(keys)))
                         {
@@ -128,24 +116,24 @@ namespace AdventOfCode.Solvers.AoC2019
                             if (!maze.distances.TryGetValue(travel, out int distance))
                             {
                                 int? path = SearchUtils.GetPathLength(this.Position, locked.Key, v => (v - locked.Key).Length, v => FindNeighbours(v, maze, locked.ID, keys), MinSearchComparer.Comparer, maze.distances);
-                                if (!path.HasValue)
-                                {
-                                    continue;
-                                }
+                                if (!path.HasValue) continue;
 
                                 distance = path.Value;
                             }
 
                             //Create node further down
-                            Node child = new(locked.Key, this.Distance + distance, maze, keys | locked.Bitwise);
-                            this.DistanceToEnd = Math.Min(this.DistanceToEnd, child.DistanceToEnd + distance);
-                            this.Children.Add(child);
+                            child = new Node(locked.Key, distance, maze, keys | locked.Bitwise);
+                            if (this.Child is null)
+                            {
+                                this.Child = child;
+                            }
+                            else if (child.DistanceToEnd < this.Child.DistanceToEnd || (child.DistanceToEnd == this.Child.DistanceToEnd && child.FromParent < this.Child.FromParent))
+                            {
+                                this.Child = child;
+                            }
                         }
 
-                        if (!this.Children.IsEmpty())
-                        {
-                            maze.states.Add((this.Position, keys), this.DistanceToEnd);
-                        }
+                        maze.states.Add((this.Position, keys), this.Child!);
                     }
                 }
                 #endregion
@@ -165,7 +153,7 @@ namespace AdventOfCode.Solvers.AoC2019
                     foreach (Vector2 neighbour in position.Adjacent().Where(n => maze[n] is not WALL))
                     {
                         char value = maze[neighbour];
-                        if (!char.IsLetter(value) || key == value || (keys & (1 << (char.ToLower(value) - 'a'))) is not 0)
+                        if (!char.IsLetter(value) || value == key || (keys & (1 << (char.ToLower(value) - 'a'))) is not 0)
                         {
                             //Return neighbours with a distance of 1
                             yield return (neighbour, 1d);
@@ -188,11 +176,9 @@ namespace AdventOfCode.Solvers.AoC2019
             /// <summary>Travel distance dictionary</summary>
             private readonly Dictionary<(Vector2, Vector2), int> distances = new();
             /// <summary>Maze search states</summary>
-            private readonly Dictionary<(Vector2, int), int> states = new();
-            /// <summary>Shortest path found to reach all the keys</summary>
-            private int shortestPath = int.MaxValue;
+            private readonly Dictionary<(Vector2, int), Node> states = new();
             /// <summary>Bit mask for all keys</summary>
-            private readonly int allKeys = 0;
+            private readonly int allKeys;
             #endregion
 
             #region Properties
@@ -262,7 +248,7 @@ namespace AdventOfCode.Solvers.AoC2019
             public int FindShortestPath()
             {
                 this.Start.Explore(this);
-                return this.shortestPath;
+                return this.Start.DistanceToEnd;
             }
 
             /// <summary>
