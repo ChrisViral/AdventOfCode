@@ -232,7 +232,7 @@ namespace AdventOfCode.Grids
         /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
         /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
         /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-        public Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
+        public virtual Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
         
         /// <summary>
         /// Moves the vector within the grid
@@ -242,7 +242,7 @@ namespace AdventOfCode.Grids
         /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
         /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
         /// <returns>The resulting Vector after the move</returns>
-        public Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
+        public virtual Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
         {
             (int x, int y) result = vector + travel;
             //Check if an invalid wrap must happen
@@ -284,7 +284,7 @@ namespace AdventOfCode.Grids
         /// </summary>
         /// <param name="position">Position vector</param>
         /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
-        public bool WithinGrid(Vector2 position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
+        public virtual bool WithinGrid(Vector2 position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();

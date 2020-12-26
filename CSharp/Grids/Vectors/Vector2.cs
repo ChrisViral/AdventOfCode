@@ -292,6 +292,23 @@ namespace AdventOfCode.Grids.Vectors
             return true;
 
         }
+
+        /// <summary>
+        /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
+        /// </summary>
+        /// <param name="maxX">Max value for the x component, exclusive</param>
+        /// <param name="maxY">Max value for the y component, exclusive</param>
+        /// <returns>An enumerable of all the vectors in the given range</returns>
+        public static IEnumerable<Vector2> Enumerate(int maxX, int maxY)
+        {
+            foreach (int y in ..maxY)
+            {
+                foreach (int x in ..maxX)
+                {
+                    yield return new Vector2(x, y);
+                }
+            }
+        }
         #endregion
 
         #region Operators
