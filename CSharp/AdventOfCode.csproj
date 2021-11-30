@@ -1,5 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
 	<LangVersion>10.0</LangVersion>
@@ -9,5 +10,8 @@
     <None Update="Input\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Experimental" Version="6.0.0" />
   </ItemGroup>
 </Project>
