@@ -24,11 +24,10 @@ public static class AoCUtils
         {
             if (string.IsNullOrWhiteSpace(line))
             {
-                if (pack.Count is not 0)
-                {
-                    yield return pack;
-                    pack = new List<string>();
-                }
+                if (pack.Count is 0) continue;
+
+                yield return pack;
+                pack = new();
             }
             else
             {
@@ -88,12 +87,12 @@ public static class AoCUtils
             {
                 for (int i = k; i < working.Length; i++)
                 {
-                    Swap(ref working[k], ref working[i]);
+                    (working[k], working[i]) = (working[i], working[k]);
                     foreach (T[] perm in GetPermutations(working, k + 1, size))
                     {
                         yield return perm;
                     }
-                    Swap(ref working[k], ref working[i]);
+                    (working[k], working[i]) = (working[i], working[k]);
                 }
             }
         }
@@ -110,9 +109,7 @@ public static class AoCUtils
     /// <param name="b">Second value</param>
     public static void Swap<T>(ref T a, ref T b)
     {
-        T temp = a;
-        a = b;
-        b = temp;
+        (a, b) = (b, a);
     }
 
     /// <summary>

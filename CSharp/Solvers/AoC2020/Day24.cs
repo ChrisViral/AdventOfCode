@@ -124,7 +124,7 @@ public class Day24 : Solver<Day24.Neighbour[][]>
             }
 
             //Swap and clear
-            AoCUtils.Swap(ref flipped, ref newState);
+            (flipped, newState) = (newState, flipped);
             newState.Clear();
             updated.Clear();
         }

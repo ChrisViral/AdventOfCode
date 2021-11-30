@@ -63,7 +63,7 @@ public class Day16 : Solver<string>
                 updated[i] = (char)((Math.Abs(total) % 10) + '0');
             }
             //Swap old/new
-            AoCUtils.Swap(ref current, ref updated);
+            (current, updated) = (updated, current);
         }
         //Return the start of the array
         AoCUtils.LogPart1(new string(current[..8]));
@@ -85,7 +85,7 @@ public class Day16 : Solver<string>
                 updated[i - 1] = (char)(((updated[i--] - '0' + current[i] - '0') % 10) + '0');
             }
             //Swap old/new
-            AoCUtils.Swap(ref current, ref updated);
+            (current, updated) = (updated, current);
         }
         //And return the start again
         AoCUtils.LogPart2(new string(current[..8]));

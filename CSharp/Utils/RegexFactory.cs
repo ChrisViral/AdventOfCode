@@ -31,7 +31,7 @@ public class RegexFactory<T> where T : notnull
         if (pattern.Length is 0) throw new ArgumentException("Pattern length cannot be zero");
 
         //Create Regex
-        this.regex = new Regex(pattern, options);
+        this.regex = new(pattern, options);
         //Get types
         Type type = typeof(T);
         Type convertible = typeof(IConvertible);

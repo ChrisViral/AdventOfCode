@@ -133,12 +133,11 @@ public class Day20 : Solver<Day20.Tile[]>
                 AoCUtils.Swap(ref this.image[i++], ref this.image[^i]);
             }
 
-            if (!this.ignoreBorders)
-            {
-                Array.Reverse(this.left);
-                Array.Reverse(this.right);
-                AoCUtils.Swap(ref this.top, ref this.bottom);
-            }
+            if (this.ignoreBorders) return;
+
+            Array.Reverse(this.left);
+            Array.Reverse(this.right);
+            (this.top, this.bottom) = (this.bottom, this.top);
         }
 
         /// <summary>
@@ -151,12 +150,11 @@ public class Day20 : Solver<Day20.Tile[]>
                 Array.Reverse(row);
             }
 
-            if (!this.ignoreBorders)
-            {
-                Array.Reverse(this.top);
-                Array.Reverse(this.bottom);
-                AoCUtils.Swap(ref this.left, ref this.right);
-            }
+            if (this.ignoreBorders) return;
+
+            Array.Reverse(this.top);
+            Array.Reverse(this.bottom);
+            (this.left, this.right) = (this.right, this.left);
         }
 
         /// <summary>
@@ -175,15 +173,14 @@ public class Day20 : Solver<Day20.Tile[]>
                 }
             }
 
-            if (!this.ignoreBorders)
-            {
-                AoCUtils.Swap(ref this.left, ref this.top);
-                AoCUtils.Swap(ref this.bottom, ref this.top);
-                AoCUtils.Swap(ref this.right, ref this.top);
+            if (this.ignoreBorders) return;
+
+            (this.left, this.top) = (this.top, this.left);
+            (this.bottom, this.top) = (this.top, this.bottom);
+            (this.right, this.top) = (this.top, this.right);
                 
-                Array.Reverse(this.left);
-                Array.Reverse(this.right);
-            }
+            Array.Reverse(this.left);
+            Array.Reverse(this.right);
         }
 
         /// <summary>
