@@ -160,7 +160,7 @@ public class Day15 : IntcodeSolver
                 }
 
                 //Switch over
-                AoCUtils.Swap(ref toFill, ref fillNext);
+                (toFill, fillNext) = (fillNext, toFill);
                 fillNext.Clear();
                 PrintToConsole();
                 cycles++;
