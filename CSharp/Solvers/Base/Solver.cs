@@ -3,136 +3,130 @@ using System.Collections;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace AdventOfCode.Solvers.Base
+namespace AdventOfCode.Solvers.Base;
+
+/// <summary>
+/// Solver base class
+/// </summary>
+public abstract class Solver : ISolver
 {
+    #region Constants
     /// <summary>
-    /// Solver base class
+    /// Default split options
     /// </summary>
-    public abstract class Solver : ISolver
+    protected const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+    /// <summary>
+    /// Default split characters
+    /// </summary>
+    private static readonly char[] defaultSplitters = { '\n' };
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// Input data
+    /// </summary>
+    protected string[] Data { get; }
+    #endregion
+
+    #region Constructors
+    /// <summary>
+    /// Creates a new <see cref="Solver"/> from the specified file
+    /// </summary>
+    /// <param name="input">Puzzle input</param>
+    /// <param name="splitters">Splitting characters, defaults to newline only</param>
+    /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
+    protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS)
     {
-        #region Constants
-        /// <summary>
-        /// Expected input file extension
-        /// </summary>
-        private const string EXTENSION = ".txt";
-        /// <summary>
-        /// Default split options
-        /// </summary>
-        protected const StringSplitOptions DEFAULT_OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-        /// <summary>
-        /// Default split characters
-        /// </summary>
-        private static readonly char[] defaultSplitters = { '\n' };
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Input data
-        /// </summary>
-        protected string[] Data { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// Creates a new <see cref="Solver"/> from the specified file
-        /// </summary>
-        /// <param name="input">Puzzle input</param>
-        /// <param name="splitters">Splitting characters, defaults to newline only</param>
-        /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
-        protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS)
-        {
-            this.Data = input.Split(splitters ?? defaultSplitters, options)
-                             .ToArray();
-        }
-        #endregion
-
-        #region Virtual methods
-        /// <summary>
-        /// Runs the solver on the problem input
-        /// </summary>
-        public abstract void Run();
-
-        /// <inheritdoc cref="IDisposable.Dispose"/>
-        public virtual void Dispose() { }
-        #endregion
+        this.Data = input.Split(splitters ?? defaultSplitters, options)
+                         .ToArray();
     }
+    #endregion
 
+    #region Virtual methods
     /// <summary>
-    /// Solver generic class
+    /// Runs the solver on the problem input
     /// </summary>
-    /// <typeparam name="T">The fully parse input type</typeparam>
-    public abstract class Solver<T> : Solver
-    {
-        #region Properties
-        /// <summary>
-        /// Parsed input data
-        /// </summary>
-        protected new T Data { get; }
-        
-        /// <summary>
-        /// If the Solver has been disposed or not
-        /// </summary>
-        public bool IsDisposed { get; protected set; }
-        #endregion
+    public abstract void Run();
 
-        #region Constructors
-        /// <summary>
-        /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
-        /// </summary>
-        /// <param name="input">Puzzle input</param>
-        /// <param name="splitters">Splitting characters, defaults to newline only</param>
-        /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
-        protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options)
-        {
-            try
-            {
-                //Convert is intended to be a Pure function, therefore it should be safe to call in the constructor
-                //ReSharper disable once VirtualMemberCallInConstructor
-                this.Data = Convert(base.Data);
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException($"Could not convert the string array input to the {typeof(T)} type using the {nameof(Convert)} method.", e);
-            }
-        }
-        #endregion
+    /// <inheritdoc cref="IDisposable.Dispose"/>
+    public virtual void Dispose() { }
+    #endregion
+}
+
+/// <summary>
+/// Solver generic class
+/// </summary>
+/// <typeparam name="T">The fully parse input type</typeparam>
+public abstract class Solver<T> : Solver
+{
+    #region Properties
+    /// <summary>
+    /// Parsed input data
+    /// </summary>
+    protected new T Data { get; }
         
-        #region Methods
-        /// <inheritdoc cref="IDisposable.Dispose"/>
-        public override void Dispose()
+    /// <summary>
+    /// If the Solver has been disposed or not
+    /// </summary>
+    public bool IsDisposed { get; protected set; }
+    #endregion
+
+    #region Constructors
+    /// <summary>
+    /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
+    /// </summary>
+    /// <param name="input">Puzzle input</param>
+    /// <param name="splitters">Splitting characters, defaults to newline only</param>
+    /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
+    protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options)
+    {
+        try
         {
-            if (!this.IsDisposed)
-            {
-                switch (this.Data)
+            //Convert is intended to be a Pure function, therefore it should be safe to call in the constructor
+            //ReSharper disable once VirtualMemberCallInConstructor
+            this.Data = Convert(base.Data);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException($"Could not convert the string array input to the {typeof(T)} type using the {nameof(Convert)} method.", e);
+        }
+    }
+    #endregion
+        
+    #region Methods
+    /// <inheritdoc cref="IDisposable.Dispose"/>
+    public override void Dispose()
+    {
+        if (this.IsDisposed) return;
+
+        switch (this.Data)
+        {
+            case IDisposable disposable:
+                disposable.Dispose();
+                break;
+
+            case IEnumerable enumerable:
+                foreach (object obj in enumerable)
                 {
-                    case IDisposable disposable:
-                        disposable.Dispose();
-                        break;
-
-                    case IEnumerable enumerable:
-                        foreach (object obj in enumerable)
-                        {
-                            (obj as IDisposable)?.Dispose();
-                        }
-                        break;
+                    (obj as IDisposable)?.Dispose();
                 }
-
-                this.IsDisposed = true;
-                GC.SuppressFinalize(this);
-            }
+                break;
         }
-        #endregion
 
-        #region Abstract methods
-        /// <summary>
-        /// Input conversion function<br/>
-        /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
-        /// </summary>
-        /// <param name="rawInput">Input value</param>
-        /// <returns>Target converted value</returns>
-        [Pure]
-        protected abstract T Convert(string[] rawInput);
-        #endregion
+        this.IsDisposed = true;
+        GC.SuppressFinalize(this);
     }
+    #endregion
+
+    #region Abstract methods
+    /// <summary>
+    /// Input conversion function<br/>
+    /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
+    /// </summary>
+    /// <param name="rawInput">Input value</param>
+    /// <returns>Target converted value</returns>
+    [Pure]
+    protected abstract T Convert(string[] rawInput);
+    #endregion
 }
