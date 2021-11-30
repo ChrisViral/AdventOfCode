@@ -11,7 +11,7 @@ Console.Title = "Advent of Code";
 SolverData solverData;
 try
 {
-    solverData = new SolverData(args);
+    solverData = new(args);
 }
 catch (Exception e)
 {
