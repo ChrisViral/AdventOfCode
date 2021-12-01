@@ -22,7 +22,7 @@ public class IntcodeVM
         STALLED,
         HALTED
     }
-        
+
     /// <summary>
     /// VM specific data
     /// </summary>
@@ -36,7 +36,7 @@ public class IntcodeVM
         /// <summary>Output function of the VM</summary>
         public readonly OutputSetter setOutput;
         #endregion
-            
+
         #region constructors
         /// <summary>
         /// Creates new VM data from the given IntcodeVM
@@ -95,7 +95,7 @@ public class IntcodeVM
     /// </summary>
     private static readonly char[] splitters = { ',' };
     #endregion
-        
+
     #region Fields
     /// <summary>Intcode program memory pointer</summary>
     private int pointer = DEFAULT;
@@ -108,13 +108,13 @@ public class IntcodeVM
     /// <summary>Data relating to the VM</summary>
     private readonly VMData data;
     #endregion
-        
+
     #region Properties
     /// <summary>
     /// The current VM State
     /// </summary>
     public VMStates State { get; private set; }
-        
+
     /// <summary>
     /// If the Intcode VM is currently halted
     /// </summary>
@@ -129,7 +129,7 @@ public class IntcodeVM
     /// The input queue of the IntcodeVM
     /// </summary>
     public Queue<long> In { get; set; }
-        
+
     /// <summary>
     /// The output queue of the IntcodeVM
     /// </summary>
@@ -170,15 +170,15 @@ public class IntcodeVM
     /// Creates a new Intcode VM by parsing the given code, and with empty input and output queues
     /// </summary>
     /// <param name="code">Comma separated Intcode to parse</param>
-    public IntcodeVM(string code) : this(code, new Queue<long>(DEFAULT_SIZE), new Queue<long>(DEFAULT_SIZE)) { }
-        
+    public IntcodeVM(string code) : this(code, new(DEFAULT_SIZE), new(DEFAULT_SIZE)) { }
+
     /// <summary>
     /// Creates a new Intcode VM by parsing the given code, and with the input and output values
     /// </summary>
     /// <param name="code">Comma separated Intcode to parse</param>
     /// <param name="input">Input values</param>
-    public IntcodeVM(string code, IEnumerable<long> input) : this(code, new Queue<long>(input), new Queue<long>(DEFAULT_SIZE)) { }
-        
+    public IntcodeVM(string code, IEnumerable<long> input) : this(code, new(input), new(DEFAULT_SIZE)) { }
+
     /// <summary>
     /// Creates a new Intcode VM by parsing the given code, and with the specified input and output Queues
     /// </summary>
@@ -192,10 +192,10 @@ public class IntcodeVM
         this.originalState.CopyTo(this.memory);
         this.In = input;
         this.Out = output;
-        this.data = new VMData(this);
+        this.data = new(this);
     }
     #endregion
-        
+
     #region Methods
     /// <summary>
     /// Runs the Intcode VM until it reaches a stopped state, then returns it's current state.
@@ -207,7 +207,7 @@ public class IntcodeVM
     {
         //Make sure we aren't already halted
         if (this.IsHalted) throw new InvalidOperationException("Intcode program is already in a halted state and must be reset to run again");
- 
+
         //Program loop
         this.State = VMStates.RUNNING;
         while (this.State is VMStates.RUNNING)
@@ -228,10 +228,10 @@ public class IntcodeVM
     /// </summary>
     public void Reset()
     {
-        this.pointer = DEFAULT;
+        this.pointer  = DEFAULT;
         this.relative = DEFAULT;
         this.originalState.CopyTo(this.memory);
-                
+
         this.In.Clear();
         this.Out.Clear();
 
@@ -242,7 +242,7 @@ public class IntcodeVM
     /// Sets a new input queue with the specified data
     /// </summary>
     /// <param name="input">Data to set as input</param>
-    public void SetInput(IEnumerable<long> input) => this.In = new Queue<long>(input);
+    public void SetInput(IEnumerable<long> input) => this.In = new(input);
 
     /// <summary>
     /// Adds the given value to the input queue
@@ -255,7 +255,7 @@ public class IntcodeVM
     /// </summary>
     /// <param name="value">String to add</param>
     public void AddInput(string value) => value.ForEach(c => this.In.Enqueue(c));
-        
+
     /// <summary>
     /// Gets the next available int from the input if available
     /// </summary>
@@ -286,7 +286,7 @@ public class IntcodeVM
     public long[] GetOutput()
     {
         if (this.Out.Count is 0) return Array.Empty<long>();
-            
+
         long[] output = new long[this.Out.Count];
         this.Out.CopyTo(output, 0);
         this.Out.Clear();
@@ -303,7 +303,7 @@ public class IntcodeVM
         a = GetNextOutput();
         b = GetNextOutput();
     }
-        
+
     /// <summary>
     /// Gets the next three outputs into two variables through deconstruction
     /// </summary>
@@ -316,7 +316,7 @@ public class IntcodeVM
         b = GetNextOutput();
         c = GetNextOutput();
     }
-        
+
     /// <summary>
     /// Gets the next four outputs into two variables through deconstruction
     /// </summary>
@@ -331,7 +331,7 @@ public class IntcodeVM
         c = GetNextOutput();
         d = GetNextOutput();
     }
-        
+
     /// <summary>
     /// Gets the next five outputs into two variables through deconstruction
     /// </summary>
