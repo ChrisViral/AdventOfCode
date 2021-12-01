@@ -24,11 +24,11 @@ public static class Instructions
         TLT = 7, //Test Less Than
         TEQ = 8, //Test Equals
         REL = 9, //Relative Base Set
-            
+
         NOP = 0, //No Op
         HLT = 99 //Halt
     }
-        
+
     /// <summary>
     /// Parameter modes
     /// </summary>
@@ -79,7 +79,7 @@ public static class Instructions
     /// <param name="data">Intcode VM data</param>
     /// <param name="modes">Operand modes</param>
     public delegate VMStates Instruction(ref int pointer, ref int relative, in VMData data, in Modes modes);
-        
+
     #region Constants
     /// <summary>
     /// True Constant
@@ -116,7 +116,7 @@ public static class Instructions
             Opcodes.TLT => Tlt,
             Opcodes.TEQ => Teq,
             Opcodes.REL => Rel,
-                
+
             //Nop, Halt, and unknown
             Opcodes.NOP => Nop,
             Opcodes.HLT => Hlt,
@@ -138,7 +138,7 @@ public static class Instructions
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
         ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
-                
+
         c = a + b;
         pointer += 4;
         return VMStates.RUNNING;
@@ -156,7 +156,7 @@ public static class Instructions
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
         ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
-            
+
         c = a * b;
         pointer += 4;
         return VMStates.RUNNING;
@@ -173,9 +173,9 @@ public static class Instructions
     {
         //Make sure we can get the input first
         if (!data.getInput(out long input)) return VMStates.STALLED;
-            
+
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-            
+
         a = input;
         pointer += 2;
         return VMStates.RUNNING;
@@ -191,12 +191,12 @@ public static class Instructions
     private static VMStates Out(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-            
+
         data.setOutput(a);
         pointer += 2;
         return VMStates.RUNNING;
     }
-        
+
     /// <summary>
     /// JNZ Instruction, if the first operand is not zero, sets the pointer to the value of the second operand
     /// </summary>
@@ -208,11 +208,11 @@ public static class Instructions
     {
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-            
+
         pointer = a is not FALSE ? (int)b : pointer + 3;
         return VMStates.RUNNING;
     }
-        
+
     /// <summary>
     /// JEZ Instruction, if the first operand is zero, sets the pointer to the value of the second operand
     /// </summary>
@@ -224,11 +224,11 @@ public static class Instructions
     {
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-            
+
         pointer = a is FALSE ? (int)b : pointer + 3;
         return VMStates.RUNNING;
     }
-        
+
     /// <summary>
     /// TLT Instruction, if the first operand is less than the second operand, sets the third operand to 1, otherwise, sets the third operand to 0
     /// </summary>
@@ -241,12 +241,12 @@ public static class Instructions
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
         ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
-            
+
         c = a < b ? TRUE : FALSE;
         pointer += 4;
         return VMStates.RUNNING;
     }
-        
+
     /// <summary>
     /// TEQ Instruction, if the first operand is equal to the second operand, sets the third operand to 1, otherwise, sets the third operand to 0
     /// </summary>
@@ -259,12 +259,12 @@ public static class Instructions
         ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
         ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
         ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
-            
+
         c = a == b ? TRUE : FALSE;
         pointer += 4;
         return VMStates.RUNNING;
     }
-        
+
     /// <summary>
     /// REL Instruction, sets the relative base to the first operand
     /// </summary>
@@ -320,7 +320,7 @@ public static class Instructions
     /// ReSharper disable once SuggestBaseTypeForParameter - Cannot be IList because of the ref return
     private static ref long GetOperand(int pointer, int relative, long[] memory, ParamModes mode)
     {
-        //ReSharper disable once ConvertSwitchStatementToSwitchExpression - Cannot use a switch expression because of the ref return 
+        //ReSharper disable once ConvertSwitchStatementToSwitchExpression - Cannot use a switch expression because of the ref return
         switch (mode)
         {
             case ParamModes.POSITION:
@@ -329,7 +329,7 @@ public static class Instructions
                 return ref memory[pointer];
             case ParamModes.RELATIVE:
                 return ref memory[memory[pointer] + relative];
-                
+
             default:
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamModes));
         }
