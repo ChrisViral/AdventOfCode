@@ -14,4 +14,7 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.Experimental" Version="6.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Solvers\AoC2021\" />
+  </ItemGroup>
 </Project>
