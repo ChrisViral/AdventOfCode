@@ -27,11 +27,11 @@ try
     Type   solverInterfaceType   = typeof(ISolver);
     Type   baseSolverType        = typeof(Solver);
     Type[] constructorParamTypes = { typeof(string) };
-    
+
     //Making sure our solver types are valid
     Debug.Assert(solverInterfaceType.IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {solverInterfaceType}");
 
-    //Get solver types 
+    //Get solver types
     Type? solverType = Assembly.GetCallingAssembly()
                                .GetTypes()
                                .Where(t => !t.IsAbstract
@@ -101,7 +101,7 @@ static void Exit(string? message = null, int exitCode = 0)
     {
         Console.WriteLine(message);
     }
-    
+
     #if !DEBUG
     //Wait for keypress
     Console.WriteLine("Press any key to continue...");
