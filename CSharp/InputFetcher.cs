@@ -37,7 +37,7 @@ public static class InputFetcher
         HttpClient.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(COOKIE)}");
     }
     #endregion
-        
+
     #region Static methods
     /// <summary>
     /// Gets the associated input file, or fetches it from the AoC website if needed
@@ -56,7 +56,7 @@ public static class InputFetcher
             {
                 inputFile.Directory!.Create();
             }
-                
+
             //Get input and write to file
             string input = GetInput(year, day);
             using StreamWriter writer = inputFile.CreateText();

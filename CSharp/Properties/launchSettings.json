@@ -1,10 +1,10 @@
 {
-  "profiles": 
+  "profiles":
   {
-    "AdventOfCode": 
+    "AdventOfCode":
     {
       "commandName": "Project",
-      "commandLineArgs": "2021 01"
+      "commandLineArgs": "2021 02"
     }
   }
 }
