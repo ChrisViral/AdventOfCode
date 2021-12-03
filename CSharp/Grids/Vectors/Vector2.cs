@@ -25,7 +25,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
     /// <summary>Right vector</summary>
     public static readonly Vector2 Right = new(1, 0);
     #endregion
-        
+
     #region Propeties
     /// <summary>
     /// X component of the Vector
@@ -55,7 +55,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
         this.Y = y;
         this.Length = Math.Sqrt(x * x + y * y);
     }
-        
+
     /// <summary>
     /// Creates a new <see cref="Vector2"/> from a given two component tuple
     /// </summary>
@@ -73,7 +73,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
         this.Length = copy.Length;
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="object.Equals(object)"/>
     public override bool Equals(object? other) => other is Vector2 vector && Equals(vector);
@@ -93,10 +93,10 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => $"({this.X}, {this.Y})";
-        
+
     /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
     public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)})";
-        
+
     /// <summary>
     /// Deconstructs this vector into a tuple
     /// </summary>
@@ -128,10 +128,10 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
                 for (int y = this.Y - 1; y <= this.Y + 1; y++)
                 {
                     if (x == this.X && y == this.Y) continue;
-                        
+
                     yield return new Vector2(x, y);
                 }
-            }   
+            }
         }
         else
         {
@@ -154,11 +154,11 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
 
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector2>.Equals(Vector2 other) => Equals(other);
-        
+
     /// <inheritdoc cref="IComparable{T}"/>
     int IComparable<Vector2>.CompareTo(Vector2 other) => CompareTo(other);
     #endregion
-        
+
     #region Static methods
     /// <summary>
     /// Calculates the distance between two vectors
@@ -219,7 +219,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
             _   => vector
         };
     }
-        
+
     /// <summary>
     /// Parses the Vector2 from a direction and distance
     /// </summary>
@@ -260,7 +260,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
         Match match = directionMatch.Match(value);
         if (!match.Success) return false;
 
-            
+
         GroupCollection groups = match.Groups;
         if (groups.Count is not 3) return false;
         if (!int.TryParse(groups[2].Value, out int distance)) return false;
@@ -283,7 +283,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
             case "E":
                 dir = Right;
                 break;
-                
+
             default:
                 return false;
         }
@@ -337,7 +337,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are equal, false otherwise</returns>
     public static bool operator ==(in Vector2 a, in Vector2 b) => a.Equals(b);
-        
+
     /// <summary>
     /// Inequality between two vectors
     /// </summary>
@@ -361,7 +361,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than the second vector, false otherwise</returns>
     public static bool operator >(in Vector2 a, in Vector2 b) => a.CompareTo(b) > 0;
-        
+
     /// <summary>
     /// Less-than-or-equals between two vectors
     /// </summary>
@@ -400,7 +400,7 @@ public readonly struct Vector2 : IComparable, IComparable<Vector2>, IEquatable<V
     /// <param name="b">Second Vector</param>
     /// <returns>The result of the component-wise subtraction on both Vectors</returns>
     public static Vector2 operator -(in Vector2 a, in Vector2 b) => new(a.X - b.X, a.Y - b.Y);
-        
+
     /// <summary>
     /// Add operation between a vector and a direction
     /// </summary>
