@@ -3,8 +3,14 @@
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-	<LangVersion>10.0</LangVersion>
+	<LangVersion>preview</LangVersion>
 	<Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Input\**">
