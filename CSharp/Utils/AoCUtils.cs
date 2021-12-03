@@ -46,7 +46,7 @@ public static class AoCUtils
     /// </summary>
     /// <param name="answer">Answer to log</param>
     public static void LogPart1(object answer) => Trace.WriteLine($"Part 1: {answer}");
-        
+
     /// <summary>
     /// Logs the answer to Part 3 to the console and results file
     /// </summary>
@@ -75,7 +75,7 @@ public static class AoCUtils
 
             return copy;
         }
-            
+
         static IEnumerable<T[]> GetPermutations(T[] working, int k, int size)
         {
             if (k == working.Length - 1)
@@ -118,6 +118,31 @@ public static class AoCUtils
     /// <param name="a">First number</param>
     /// <param name="b">Second number</param>
     /// <returns>Gets the GCD of a and b</returns>
+    public static T GCD<T>(T a, T b) where T : IBinaryInteger<T>
+    {
+        a = T.Abs(a);
+        b = T.Abs(b);
+        while (a != T.Zero && b != T.Zero)
+        {
+            if (a > b)
+            {
+                a %= b;
+            }
+            else
+            {
+                b %= a;
+            }
+        }
+
+        return a | b;
+    }
+
+    /// <summary>
+    /// Greatest Common Divisor function
+    /// </summary>
+    /// <param name="a">First number</param>
+    /// <param name="b">Second number</param>
+    /// <returns>Gets the GCD of a and b</returns>
     public static int GCD(int a, int b)
     {
         a = Math.Abs(a);
@@ -136,7 +161,7 @@ public static class AoCUtils
 
         return a | b;
     }
-        
+
     /// <summary>
     /// Greatest Common Divisor function
     /// </summary>
@@ -161,7 +186,7 @@ public static class AoCUtils
 
         return a | b;
     }
-        
+
     /// <summary>
     /// Least Common Multiple function
     /// </summary>
@@ -184,7 +209,7 @@ public static class AoCUtils
     /// <param name="numbers">Numbers to get the LCM for</param>
     /// <returns>LCM of all the numbers in the array</returns>
     public static int LCM(params int[] numbers) => numbers.Aggregate(1, LCM);
-        
+
     /// <summary>
     /// Least Common Multiple function
     /// </summary>
@@ -205,7 +230,7 @@ public static class AoCUtils
 
         //Manual overrides
         return type == typeof(bool) ? 1 : (type == typeof(char) ? 2 : Marshal.SizeOf<T>());
-            
+
         //Normal behaviour
     }
     #endregion
