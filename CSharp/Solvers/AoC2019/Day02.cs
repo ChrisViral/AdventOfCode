@@ -21,7 +21,7 @@ public class Day02 : IntcodeSolver
     /// </summary>
     private const long TARGET = 19_690_720L;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed

@@ -48,7 +48,7 @@ public class Day10 : GridSolver<bool>
             {
                 if (target == asteroid) continue;
 
-                Vector2 direction = (target - asteroid).Reduced();
+                Vector2 direction = (target - asteroid).Reduced;
                 if (targets.ContainsKey(direction))
                 {
                     targets[direction]++;

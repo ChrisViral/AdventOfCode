@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics.Contracts;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Base;
 
@@ -57,6 +57,7 @@ public abstract class Solver : ISolver
 /// Solver generic class
 /// </summary>
 /// <typeparam name="T">The fully parse input type</typeparam>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class Solver<T> : Solver
 {
     #region Properties
@@ -64,7 +65,7 @@ public abstract class Solver<T> : Solver
     /// Parsed input data
     /// </summary>
     protected new T Data { get; }
-        
+
     /// <summary>
     /// If the Solver has been disposed or not
     /// </summary>
@@ -93,7 +94,7 @@ public abstract class Solver<T> : Solver
         }
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public override void Dispose()
@@ -126,7 +127,7 @@ public abstract class Solver<T> : Solver
     /// </summary>
     /// <param name="rawInput">Input value</param>
     /// <returns>Target converted value</returns>
-    [Pure]
+    [System.Diagnostics.Contracts.Pure]
     protected abstract T Convert(string[] rawInput);
     #endregion
 }

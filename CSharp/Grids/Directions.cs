@@ -39,7 +39,7 @@ public static class DirectionsUtils
     /// </summary>
     /// <param name="directions">Direction to get the vector from</param>
     /// <returns>The resulting vector</returns>
-    public static Vector2<T> ToVector<T>(this Directions directions) where T : IBinaryNumber<T>
+    public static Vector2<T> ToVector<T>(this Directions directions) where T : IBinaryNumber<T>, IMinMaxValue<T>
     {
         return directions switch
         {

@@ -3,7 +3,6 @@ using System.Linq;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
@@ -25,43 +24,12 @@ public class Day02 : Solver<(string, int)[]>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        Vector3 position = Vector3.Zero;
-        foreach ((string direction, int amount) in Data)
-        {
-            switch (direction)
-            {
-                case "forward":
-                    position += new Vector2(amount, 0);
-                    break;
-                case "down":
-                    position += new Vector2(0, amount);
-                    break;
-                case "up":
-                    position -= new Vector2(0, amount);
-                    break;
-            }
-        }
+        Vector2<int> vector = new(3, 9);
+        Vector2<int> reduced = vector.Reduced;
 
-        AoCUtils.LogPart2(position.X * position.Y);
 
-        position = Vector3.Zero;
-        foreach ((string direction, int amount) in Data)
-        {
-            switch (direction)
-            {
-                case "forward":
-                    position += new Vector3(amount, position.Z * amount, 0);
-                    break;
-                case "down":
-                    position += new Vector3(0, 0, amount);
-                    break;
-                case "up":
-                    position -= new Vector3(0, 0, amount);
-                    break;
-            }
-        }
-
-        AoCUtils.LogPart2((long)position.X * position.Y);
+        Vector2<double> otherVector = new(3d, 9d);
+        Vector2<double> normalized = otherVector.Normalized;
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
