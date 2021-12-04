@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 17
 /// </summary>
-public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4> part2)>
+public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Vector4> part2)>
 {
     /// <summary>
     /// Four component integer vector
@@ -56,10 +56,10 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
         #region Methods
         /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
-            
+
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(Vector4 other) => this.X == other.X && this.Y == other.Y && this.Z == other.Z && this.W == other.W;
-            
+
         /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode() => HashCode.Combine(this.X, this.Y, this.Z, this.W);
 
@@ -95,7 +95,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
         /// <param name="b">Second vector</param>
         /// <returns>True if both are equals, false otherwise</returns>
         public static bool operator ==(Vector4 a, Vector4 b) => a.Equals(b);
-            
+
         /// <summary>
         /// Inequality operator on two vectors
         /// </summary>
@@ -105,7 +105,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
         public static bool operator !=(Vector4 a, Vector4 b) => !a.Equals(b);
         #endregion
     }
-        
+
     /// <summary>
     /// Conway cube implementation
     /// </summary>
@@ -126,7 +126,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
         /// <param name="value">Value to explore</param>
         /// <returns>It's surrounding values</returns>
         public delegate IEnumerable<T> Explorer(T value);
-            
+
         #region Fields
         private readonly HashSet<T> activeCubes;
         private readonly Dictionary<T, int> surrounding = new();
@@ -187,7 +187,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
                         this.activeCubes.Add(pos);
                     }
                 }
-                    
+
                 //Check all active cubes
                 foreach (T active in this.activeCubes.ToArray())
                 {
@@ -199,12 +199,12 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
                 }
                 this.surrounding.Clear();
             }
-                
+
             return this.activeCubes.Count;
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
@@ -223,10 +223,10 @@ public class Day17 : Solver<(Day17.Cube<Vector3> part1, Day17.Cube<Day17.Vector4
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Cube<Vector3>, Cube<Vector4>) Convert(string[] rawInput)
+    protected override (Cube<Vector3<int>>, Cube<Vector4>) Convert(string[] rawInput)
     {
-        Cube<Vector3> cube3 = new(rawInput, (x, y) => new Vector3(x, y, 0), v => v.Adjacent());
-        Cube<Vector4> cube4 = new(rawInput, (x, y) => new Vector4(x, y, 0, 0), v => v.Adjacent());
+        Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new(x, y, 0), v => v.Adjacent());
+        Cube<Vector4> cube4 = new(rawInput, (x, y) => new(x, y, 0, 0), v => v.Adjacent());
         return (cube3, cube4);
     }
     #endregion

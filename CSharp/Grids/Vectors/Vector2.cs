@@ -12,9 +12,8 @@ namespace AdventOfCode.Grids.Vectors;
 /// </summary>
 public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
                                     IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
-                                    IComparisonOperators<Vector2<T>, Vector2<T>>, IFormattable,
-                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, T, Vector2<T>>,
-                                    IAdditiveIdentity<Vector2<T>, Vector2<T>>, IMultiplicativeIdentity<Vector2<T>, Vector2<T>>, IMinMaxValue<Vector2<T>>
+                                    IComparisonOperators<Vector2<T>, Vector2<T>>, IMinMaxValue<Vector2<T>>, IFormattable,
+                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, T, Vector2<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
@@ -211,6 +210,13 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
     /// <inheritdoc cref="IComparable{T}"/>
     int IComparable<Vector2<T>>.CompareTo(Vector2<T> other) => CompareTo(other);
+
+    /// <summary>
+    /// Converts a vector to the target type
+    /// </summary>
+    /// <typeparam name="TResult">Number type</typeparam>
+    /// <returns>The vector converted to the specified type</returns>
+    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.Create(this.X), TResult.Create(this.Y));
     #endregion
 
     #region Static methods
@@ -409,13 +415,6 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="y">Y parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
     private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPoint<TResult> => TResult.Sqrt(TResult.Create((x * x) + (y * y)));
-
-    /// <summary>
-    /// Converts a vector to the target type
-    /// </summary>
-    /// <typeparam name="TResult">Number type</typeparam>
-    /// <returns>The vector converted to the specified type</returns>
-    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.Create(this.X), TResult.Create(this.Y));
     #endregion
 
     #region Operators
@@ -540,13 +539,5 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="b">Scalar to modulo by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
     public static Vector2<T> operator %(Vector2<T> a, T b) => new(a.X % b, a.Y % b);
-    #endregion
-
-    #region Explicit interface implementations
-    /// <inheritdoc cref="IAdditiveIdentity{TSelf,TResult}.AdditiveIdentity"/>
-    static Vector2<T> IAdditiveIdentity<Vector2<T>, Vector2<T>>.AdditiveIdentity => Zero;
-
-    /// <inheritdoc cref="IMultiplicativeIdentity{TSelf,TResult}.MultiplicativeIdentity"/>
-    static Vector2<T> IMultiplicativeIdentity<Vector2<T>, Vector2<T>>.MultiplicativeIdentity => One;
     #endregion
 }
