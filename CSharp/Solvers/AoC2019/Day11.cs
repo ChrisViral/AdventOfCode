@@ -6,6 +6,7 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -22,7 +23,7 @@ public class Day11 : IntcodeSolver
         BLACK = 0,
         WHITE = 1
     }
-        
+
     /// <summary>
     /// Painter robot
     /// </summary>
@@ -35,7 +36,7 @@ public class Day11 : IntcodeSolver
         private readonly IntcodeVM brain;
         private readonly HashSet<Vector2> painted = new();
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Amount of painted hull sections

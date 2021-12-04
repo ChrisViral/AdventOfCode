@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Grids.Vectors;
 
@@ -27,7 +27,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
     /// <summary>Backward vector</summary>
     public static readonly Vector3 Backwards = new(0, 0, -1);
     #endregion
-        
+
     #region Propeties
     /// <summary>
     /// X component of the Vector
@@ -38,7 +38,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
     /// Y component of the Vector
     /// </summary>
     public int Y { get; }
-        
+
     /// <summary>
     /// X component of the Vector
     /// </summary>
@@ -64,7 +64,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
         this.Z = z;
         this.Length = Math.Sqrt(x * x + y * y + z * z);
     }
-        
+
     /// <summary>
     /// Creates a new <see cref="Vector3"/> from a given three component tuple
     /// </summary>
@@ -83,7 +83,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
         this.Length = copy.Length;
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="object.Equals(object)"/>
     public override bool Equals(object? other) => other is Vector3 vector && Equals(vector);
@@ -103,7 +103,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => $"({this.X}, {this.Y}, {this.Z})";
-        
+
     /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
     public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
 
@@ -143,11 +143,11 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
 
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector3>.Equals(Vector3 other) => Equals(other);
-        
+
     /// <inheritdoc cref="IComparable{T}"/>
     int IComparable<Vector3>.CompareTo(Vector3 other) => CompareTo(other);
     #endregion
-        
+
     #region Static methods
     /// <summary>
     /// Calculates the distance between two vectors
@@ -207,7 +207,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are equal, false otherwise</returns>
     public static bool operator ==(in Vector3 a, in Vector3 b) => a.Equals(b);
-        
+
     /// <summary>
     /// Inequality between two vectors
     /// </summary>
@@ -231,7 +231,7 @@ public readonly struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<V
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than the second vector, false otherwise</returns>
     public static bool operator >(in Vector3 a, in Vector3 b) => a.CompareTo(b) > 0;
-        
+
     /// <summary>
     /// Less-than-or-equals between two vectors
     /// </summary>

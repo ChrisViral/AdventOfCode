@@ -5,6 +5,7 @@ using System.Text;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -45,7 +46,7 @@ public class Day20 : Solver<Day20.Tile[]>
             new(19, 1)
         };
         #endregion
-            
+
         #region Fields
         private readonly char[][] image;
         private char[] top;
@@ -54,19 +55,19 @@ public class Day20 : Solver<Day20.Tile[]>
         private char[] right;
         public bool ignoreBorders;
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Tile ID
         /// </summary>
         public int ID { get; }
-            
+
         /// <summary>
         /// Tile size length
         /// </summary>
         public int Size { get; }
         #endregion
-            
+
         #region Indexers
         /// <summary>
         /// Gets the character at the given position in the image
@@ -178,7 +179,7 @@ public class Day20 : Solver<Day20.Tile[]>
             (this.left, this.top) = (this.top, this.left);
             (this.bottom, this.top) = (this.top, this.bottom);
             (this.right, this.top) = (this.top, this.right);
-                
+
             Array.Reverse(this.left);
             Array.Reverse(this.right);
         }
@@ -217,7 +218,7 @@ public class Day20 : Solver<Day20.Tile[]>
             foreach (Tile tile in others)
             {
                 if (tile == this) continue;
-                    
+
                 foreach (int _ in ..4)
                 {
                     if (AdjacentBottom(tile))
@@ -226,7 +227,7 @@ public class Day20 : Solver<Day20.Tile[]>
                         {
                             return false;
                         }
-                            
+
                         adjacent++;
                         break;
                     }
@@ -250,7 +251,7 @@ public class Day20 : Solver<Day20.Tile[]>
         /// <param name="tile">Tile to check against</param>
         /// <returns>True if the other tile can be adjacent to the bottom, false otherwise</returns>
         public bool AdjacentBottom(Tile tile) => tile.AllLayouts().Any(_ => this.bottom.SequenceEqual(tile.top));
-            
+
         /// <summary>
         /// Strips the image from it's borders
         /// </summary>
@@ -264,7 +265,7 @@ public class Day20 : Solver<Day20.Tile[]>
             }
             return stripped;
         }
-            
+
         /// <summary>
         /// Calculates the roughness of the water by arranging the image correctly and counting the monsters found
         /// </summary>
@@ -313,7 +314,7 @@ public class Day20 : Solver<Day20.Tile[]>
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed

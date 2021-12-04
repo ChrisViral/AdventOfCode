@@ -6,6 +6,7 @@ using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -169,7 +170,7 @@ public class Day18 : Solver<Day18.Maze>
         /// </summary>
         private const char WALL = '#';
         #endregion
-            
+
         #region Fields
         /// <summary>Locks dictionary</summary>
         private readonly Dictionary<char, Lock> locks = new(26);
@@ -239,7 +240,7 @@ public class Day18 : Solver<Day18.Maze>
             this.Start = new Node(Vector2.Zero);
         }
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Finds the shortest path through the maze to collect all keys
@@ -285,7 +286,7 @@ public class Day18 : Solver<Day18.Maze>
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed

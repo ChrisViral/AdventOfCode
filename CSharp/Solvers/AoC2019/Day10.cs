@@ -5,6 +5,7 @@ using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -37,7 +38,7 @@ public class Day10 : GridSolver<bool>
                 }
             }
         }
-            
+
         Vector2 station = Vector2.Zero;
         Dictionary<Vector2, int> visible = new();
         foreach (Vector2 asteroid in asteroids)
@@ -69,7 +70,7 @@ public class Day10 : GridSolver<bool>
         Vector2 lastDirection = Vector2.Up;
         Vector2 lastPosition = Vaporize(visible, station, lastDirection);
         int totalVaporized = 1;
-            
+
         while (totalVaporized is not 200)
         {
             Angle bestAngle = Angle.FullCircle;
@@ -77,7 +78,7 @@ public class Day10 : GridSolver<bool>
             foreach (Vector2 direction in visible.Keys)
             {
                 if (direction == lastDirection) continue;
-                    
+
                 Angle angle = Vector2.Angle(lastDirection, direction).Circular;
                 if (angle < bestAngle)
                 {

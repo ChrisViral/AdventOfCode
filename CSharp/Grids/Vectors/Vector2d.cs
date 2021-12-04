@@ -112,7 +112,7 @@ public readonly struct Vector2d : IComparable, IComparable<Vector2d>, IEquatable
     /// </summary>
     /// <param name="directions">Direction to move in</param>
     /// <returns>The new, moved vector</returns>
-    public Vector2d Move(Directions directions) => this + directions.ToVector();
+    public Vector2d Move(Directions directions) => this + directions.ToVector<int>();
 
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector2d>.Equals(Vector2d other) => Equals(other);

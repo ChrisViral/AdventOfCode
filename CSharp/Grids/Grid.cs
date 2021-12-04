@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Grids;
 
@@ -30,7 +30,7 @@ public class Grid<T> : IEnumerable<T>
     /// Grid height
     /// </summary>
     public int Height { get; }
-        
+
     /// <summary>
     /// Size of the grid
     /// </summary>
@@ -72,7 +72,7 @@ public class Grid<T> : IEnumerable<T>
         set => this.grid[tuple.y, tuple.x] = value;
     }
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new grid with the specified size
@@ -85,7 +85,7 @@ public class Grid<T> : IEnumerable<T>
     {
         if (width <= 0)  throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
-            
+
         this.Width = width;
         this.Height = height;
         this.Size = width * height;
@@ -166,7 +166,7 @@ public class Grid<T> : IEnumerable<T>
     public void CopyFrom(Grid<T> other)
     {
         if (other.Size != this.Size) throw new InvalidOperationException("Cannot copy two grids with different sizes");
-            
+
         //Copy data over
         if (this.rowBufferSize > 0)
         {
@@ -177,7 +177,7 @@ public class Grid<T> : IEnumerable<T>
             Array.Copy(other.grid, this.grid, this.Size);
         }
     }
-        
+
     /// <summary>
     /// Gets the given row of the grid<br/>
     /// <b>NOTE</b>: This allocates a new array on each call
@@ -188,7 +188,7 @@ public class Grid<T> : IEnumerable<T>
     public T[] GetRow(int y)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-            
+
         T[] row = new T[this.Width];
         if (this.rowBufferSize != 0)
         {
@@ -232,8 +232,8 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public virtual Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
-        
+    public virtual Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+
     /// <summary>
     /// Moves the vector within the grid
     /// </summary>
