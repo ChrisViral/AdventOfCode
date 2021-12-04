@@ -1,4 +1,5 @@
 ﻿using System;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Grids.Vectors;
 
@@ -50,21 +51,25 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <summary>
     /// The angle as radians
     /// </summary>
+    // ReSharper disable once MemberCanBePrivate.Global
     public double Radians { get; }
 
     /// <summary>
     /// The angles as degrees
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public double Degrees => this.Radians * RAD_TO_DEG;
 
     /// <summary>
     /// The angle as gradians
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public double Gradians => this.Radians * RAD_TO_GRAD;
 
     /// <summary>
     /// The angle as DMS (degrees, minutes, seconds)
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public (int degrees, int minutes, double seconds) DMS
     {
         get
@@ -91,7 +96,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
                 rads -= Math.PI;
             }
 
-            return new Angle(Math.Abs(rads));
+            return new(Math.Abs(rads));
         }
     }
 
@@ -108,7 +113,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
                 rads -= FULL_CIRCLE;
             }
 
-            return new Angle(rads);
+            return new(rads);
         }
     }
 
@@ -125,7 +130,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
                 rads += FULL_CIRCLE;
             }
 
-            return new Angle(rads);
+            return new(rads);
         }
     }
     #endregion
@@ -227,11 +232,11 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
                 break;
             case < -Math.PI:
                 //Mathematical modulo
-                radians = ((radians % Math.PI) + Math.PI) % Math.PI;
+                radians = radians.Mod(Math.PI);
                 break;
         }
 
-        return new Angle(radians);
+        return new(radians);
     }
 
     /// <summary>
@@ -262,6 +267,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="m">Minutes of the angle</param>
     /// <param name="s">Seconds of the angle</param>
     /// <returns>The angle object</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG_TO_RAD);
     #endregion
 
@@ -328,7 +334,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
             angle -= FULL_CIRCLE;
         }
 
-        return new Angle(angle);
+        return new(angle);
     }
 
     /// <summary>
@@ -345,7 +351,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
             angle += FULL_CIRCLE;
         }
 
-        return new Angle(angle);
+        return new(angle);
     }
 
     /// <summary>
@@ -361,7 +367,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
             angle -= Math.PI;
         }
 
-        return new Angle(-angle);
+        return new(-angle);
     }
     #endregion
 }
