@@ -1,5 +1,7 @@
 ﻿using System;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;
@@ -22,7 +24,7 @@ public abstract class ArraySolver<T> : Solver<T[]>
 
     #region Methods
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected sealed override T[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, ConvertLine);
+    protected sealed override T[] Convert(string[] rawInput) => rawInput.ConvertAll(ConvertLine);
 
     /// <summary>
     /// Converts an input line into an array member<br/>

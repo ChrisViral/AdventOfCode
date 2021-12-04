@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode.Utils;
+namespace AdventOfCode.Utils.Extensions;
 
 /// <summary>
 /// Various extension methods
@@ -23,7 +24,7 @@ public static class Extensions
             action(t);
         }
     }
-        
+
     /// <summary>
     /// Checks if a collection is empty
     /// </summary>
@@ -45,7 +46,7 @@ public static class Extensions
         {
             case <= 0:
                 throw new ArgumentOutOfRangeException(nameof(count), count, "Count must be greater than zero");
-                
+
             case 1:
                 //For one simply loop through the elements
                 foreach (T t in e)
@@ -79,7 +80,7 @@ public static class Extensions
     {
         //Make sure the length is valid
         if (length < 1) yield break;
-            
+
         //Caching
         if (copy)
         {
@@ -102,7 +103,7 @@ public static class Extensions
                 }
             }
         }
-            
+
         //Not caching
         while (true)
         {
@@ -122,7 +123,7 @@ public static class Extensions
     /// <param name="node">Current node</param>
     /// <returns>The next node in the list, or the first one if at the end</returns>
     public static LinkedListNode<T> NextCircular<T>(this LinkedListNode<T> node) => node.Next ?? node.List!.First!;
-        
+
     /// <summary>
     /// Returns the previous node in a linked list in a circular fashion, wrapping back to the end after getting to the start
     /// </summary>
@@ -131,7 +132,7 @@ public static class Extensions
     /// <returns>The previous node in the list, or the last one if at the start</returns>
     public static LinkedListNode<T> PreviousCircular<T>(this LinkedListNode<T> node) => node.Previous ?? node.List!.Last!;
     #endregion
-        
+
     #region Range extensions
     /// <summary>
     /// Transforms the range into an enumerable over it's start and end
@@ -143,7 +144,7 @@ public static class Extensions
     {
         //Make sure the indices aren't from the end
         if (range.Start.IsFromEnd || range.End.IsFromEnd) throw new ArgumentException("Range indices cannot be from end for enumeration", nameof(range));
-            
+
         return range.End.Value > range.Start.Value ? Enumerable.Range(range.Start.Value, range.End.Value - range.Start.Value) : Enumerable.Range(0, 0);
     }
 
@@ -155,7 +156,7 @@ public static class Extensions
     /// <exception cref="ArgumentException">If any of the indices are marked as from the end</exception>
     public static IEnumerator<int> GetEnumerator(this Range range) => range.AsEnumerable().GetEnumerator();
     #endregion
-        
+
     #region Regex extensions
     /// <summary>
     /// Gets all the captured groups of the match
@@ -166,5 +167,67 @@ public static class Extensions
                                                                                  .Cast<Group>()
                                                                                  .Skip(1)
                                                                                  .Where(g => !string.IsNullOrEmpty(g.Value));
+    #endregion
+
+    #region ArrayExtensions
+    /// <inheritdoc cref="Array.AsReadOnly{T}"/>
+    public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array) => Array.AsReadOnly(array);
+
+    /// <inheritdoc cref="Array.BinarySearch{T}(T[], T)"/>
+    public static int BinarySearch<T>(this T[] array, T value) => Array.BinarySearch(array, value);
+
+    /// <inheritdoc cref="Array.BinarySearch{T}(T[], T, IComparer{T})"/>
+    public static int BinarySearch<T>(this T[] array, T value, IComparer<T>? comparer) => Array.BinarySearch(array, value, comparer);
+
+    /// <inheritdoc cref="Array.Clear(Array)"/>
+    public static void Clear<T>(this T[] array) => Array.Clear(array);
+
+    /// <inheritdoc cref="Array.ConvertAll{T, TOutput}"/>
+    public static TOutput[] ConvertAll<T, TOutput>(this T[] array, Converter<T, TOutput> converter) => Array.ConvertAll(array, converter);
+
+    /// <inheritdoc cref="Array.Copy(Array, Array, int)"/>
+    public static void CopyTo(this Array array, Array destination, int length) => Array.Copy(array, destination, length);
+
+    /// <inheritdoc cref="Array.Exists{T}"/>
+    public static bool Exists<T>(this T[] array, Predicate<T> predicate) => Array.Exists(array, predicate);
+
+    /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
+    public static void Fill<T>(this T[] array, T value) => Array.Fill(array, value);
+
+    /// <inheritdoc cref="Array.Find{T}"/>
+    public static T? Find<T>(this T[] array, Predicate<T> predicate) => Array.Find(array, predicate);
+
+    /// <inheritdoc cref="Array.FindIndex{T}(T[], Predicate{T})"/>
+    public static int FindIndex<T>(this T[] array, Predicate<T> predicate) => Array.FindIndex(array, predicate);
+
+    /// <inheritdoc cref="Array.FindLast{T}"/>
+    public static T? FindLast<T>(this T[] array, Predicate<T> predicate) => Array.FindLast(array, predicate);
+
+    /// <inheritdoc cref="Array.FindLastIndex{T}(T[], Predicate{T})"/>
+    public static int FindLastIndex<T>(this T[] array, Predicate<T> predicate) => Array.FindLastIndex(array, predicate);
+
+    /// <inheritdoc cref="Array.ForEach{T}"/>
+    public static void ForEach<T>(this T[] array, Action<T> action) => Array.ForEach(array, action);
+
+    /// <inheritdoc cref="Array.IndexOf{T}(T[], T)"/>
+    public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);
+
+    /// <inheritdoc cref="Array.LastIndexOf{T}(T[], T)"/>
+    public static int LastIndexOf<T>(this T[] array, T value) => Array.LastIndexOf(array, value);
+
+    /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
+    public static void Reverse<T>(this T[] array) => Array.Reverse(array);
+
+    /// <inheritdoc cref="Array.Sort{T}(T[])"/>
+    public static void Sort<T>(this T[] array) => Array.Sort(array);
+
+    /// <inheritdoc cref="Array.Sort{T}(T[], IComparer{T})"/>
+    public static void Sort<T>(this T[] array, IComparer<T> comparer) => Array.Sort(array, comparer);
+
+    /// <inheritdoc cref="Array.Sort{T}(T[], Comparison{T})"/>
+    public static void Sort<T>(this T[] array, Comparison<T> comparison) => Array.Sort(array, comparison);
+
+    /// <inheritdoc cref="Array.TrueForAll{T}"/>
+    public static bool TrueForAll<T>(this T[] array, Predicate<T> predicate) => Array.TrueForAll(array, predicate);
     #endregion
 }

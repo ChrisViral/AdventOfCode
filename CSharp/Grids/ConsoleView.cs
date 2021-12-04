@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Grids;
@@ -139,10 +140,10 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     private void FillDefault(Converter<T, char> converter, T defaultValue)
     {
         //View buffer
-        Array.Fill(this.viewBuffer, converter(defaultValue));
+        this.viewBuffer.Fill(converter(defaultValue));
         //Maze buffer
         T[] line = new T[this.Width];
-        Array.Fill(line, defaultValue);
+        line.Fill(defaultValue);
         //Set everything in the arrays
         foreach (int j in ..this.Height)
         {

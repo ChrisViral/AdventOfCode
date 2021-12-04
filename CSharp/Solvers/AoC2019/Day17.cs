@@ -8,6 +8,7 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -52,7 +53,7 @@ public class Day17 : IntcodeSolver
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
         this.hull = new(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
-        this.hull.Populate(view, s => Array.ConvertAll(s.ToCharArray(), c => (Hull)c));
+        this.hull.Populate(view, s => s.ToCharArray().ConvertAll(c => (Hull)c));
 
         //Setup what is visible
         Vector2<int>? position = Vector2<int>.Zero;
@@ -163,7 +164,7 @@ public class Day17 : IntcodeSolver
     private void Prompt(string response, int skip = 0)
     {
         this.VM.Run();
-        string prompt = new(Array.ConvertAll(this.VM.GetOutput()[skip..^1], i => (char)i));
+        string prompt = new(this.VM.GetOutput()[skip..^1].ConvertAll(i => (char)i));
         Console.Write($"{prompt} {response}");
         this.VM.AddInput(response);
     }
