@@ -137,7 +137,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="radians">Radians of the angle</param>
     private Angle(double radians) => this.Radians = radians;
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="IComparable.CompareTo"/>
     public int CompareTo(object? obj) => obj is Angle angle ? CompareTo(angle) : 0;
@@ -233,21 +233,21 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
 
         return new Angle(radians);
     }
-        
+
     /// <summary>
     /// Creates a new angle from degrees
     /// </summary>
     /// <param name="degrees">Degrees of the angle</param>
     /// <returns>The angle object</returns>
     public static Angle FromDegrees(double degrees) => FromRadians(degrees * DEG_TO_RAD);
-        
+
     /// <summary>
     /// Creates a new angle from gradians
     /// </summary>
     /// <param name="gradians">Gradians of the angle</param>
     /// <returns>The angle object</returns>
     public static Angle FromGradians(double gradians) => FromRadians(gradians * GRAD_TO_RAD);
-        
+
     /// <summary>
     /// Creates a new angle from DMS (degrees, minutes, seconds)
     /// </summary>
@@ -289,7 +289,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is less than the second, false otherwise</returns>
     public static bool operator <(in Angle a, in Angle b) => a.Radians < b.Radians;
-        
+
     /// <summary>
     /// Greater than on two vectors
     /// </summary>
@@ -297,7 +297,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is greater than the second, false otherwise</returns>
     public static bool operator >(in Angle a, in Angle b) => a.Radians > b.Radians;
-        
+
     /// <summary>
     /// Less than or equals on two vectors
     /// </summary>
@@ -305,7 +305,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is less than or equals the second, false otherwise</returns>
     public static bool operator <=(in Angle a, in Angle b) => a.Radians <= b.Radians;
-        
+
     /// <summary>
     /// Greater than or equals on two vectors
     /// </summary>
@@ -330,7 +330,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
 
         return new Angle(angle);
     }
-        
+
     /// <summary>
     /// Subtraction on two angles. The result is between 0 and 360 degrees
     /// </summary>

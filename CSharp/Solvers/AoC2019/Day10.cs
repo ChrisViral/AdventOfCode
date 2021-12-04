@@ -5,7 +5,6 @@ using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -27,28 +26,25 @@ public class Day10 : GridSolver<bool>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        HashSet<Vector2> asteroids = new();
+        HashSet<Vector2<int>> asteroids = new();
         foreach (int j in ..this.Grid.Height)
         {
             foreach (int i in ..this.Grid.Width)
             {
                 if (this.Grid[i, j])
                 {
-                    asteroids.Add(new Vector2(i, j));
+                    asteroids.Add(new Vector2<int>(i, j));
                 }
             }
         }
 
-        Vector2 station = Vector2.Zero;
-        Dictionary<Vector2, int> visible = new();
-        foreach (Vector2 asteroid in asteroids)
+        Vector2<int> station = Vector2<int>.Zero;
+        Dictionary<Vector2<int>, int> visible = new();
+        foreach (Vector2<int> asteroid in asteroids)
         {
-            Dictionary<Vector2, int> targets = new();
-            foreach (Vector2 target in asteroids)
+            Dictionary<Vector2<int>, int> targets = new();
+            foreach (Vector2<int> direction in asteroids.Where(t => t != asteroid).Select(t => (t - asteroid).Reduced))
             {
-                if (target == asteroid) continue;
-
-                Vector2 direction = (target - asteroid).Reduced;
                 if (targets.ContainsKey(direction))
                 {
                     targets[direction]++;
@@ -59,32 +55,28 @@ public class Day10 : GridSolver<bool>
                 }
             }
 
-            if (targets.Count > visible.Count)
-            {
-                station = asteroid;
-                visible = targets;
-            }
+            if (targets.Count <= visible.Count) continue;
+
+            station = asteroid;
+            visible = targets;
         }
         AoCUtils.LogPart1(visible.Count);
 
-        Vector2 lastDirection = Vector2.Up;
-        Vector2 lastPosition = Vaporize(visible, station, lastDirection);
+        Vector2<int> lastDirection = Vector2<int>.Up;
+        Vector2<int> lastPosition = Vaporize(visible, station, lastDirection);
         int totalVaporized = 1;
 
         while (totalVaporized is not 200)
         {
             Angle bestAngle = Angle.FullCircle;
-            Vector2 closestDirection = Vector2.Zero;
-            foreach (Vector2 direction in visible.Keys)
+            Vector2<int> closestDirection = Vector2<int>.Zero;
+            foreach (Vector2<int> direction in visible.Keys.Where(d => d != lastDirection))
             {
-                if (direction == lastDirection) continue;
+                Angle angle = Vector2<int>.Angle(lastDirection, direction).Circular;
+                if (angle >= bestAngle) continue;
 
-                Angle angle = Vector2.Angle(lastDirection, direction).Circular;
-                if (angle < bestAngle)
-                {
-                    bestAngle = angle;
-                    closestDirection = direction;
-                }
+                bestAngle = angle;
+                closestDirection = direction;
             }
             lastDirection = closestDirection;
             lastPosition = Vaporize(visible, station, closestDirection);
@@ -100,7 +92,7 @@ public class Day10 : GridSolver<bool>
     /// <param name="station">Position of the station</param>
     /// <param name="direction">Direction in which to vaporize</param>
     /// <returns>The position of the vaporized asteroid</returns>
-    private Vector2 Vaporize(IDictionary<Vector2, int> visible, in Vector2 station, in Vector2 direction)
+    private Vector2<int> Vaporize(IDictionary<Vector2<int>, int> visible, in Vector2<int> station, in Vector2<int> direction)
     {
         if (visible[direction] is 1)
         {
@@ -110,7 +102,7 @@ public class Day10 : GridSolver<bool>
         {
             visible[direction]--;
         }
-        Vector2 position = station + direction;
+        Vector2<int> position = station + direction;
         while (!this.Grid[position])
         {
             position += direction;

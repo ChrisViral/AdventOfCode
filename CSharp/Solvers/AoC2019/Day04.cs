@@ -17,7 +17,7 @@ public class Day04 : Solver<Range>
     private static readonly Regex adjacentPairMatch = new(@"(?:^|(\d)(?!\1))(\d)\2(?!\2)", RegexOptions.Compiled);
     private static readonly Regex increasingMatch = new(@"^1*2*3*4*5*6*7*8*9*$", RegexOptions.Compiled);
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
@@ -43,7 +43,7 @@ public class Day04 : Solver<Range>
     protected override Range Convert(string[] rawInput)
     {
         string[] splits = rawInput[0].Split('-', StringSplitOptions.TrimEntries);
-        return new Range(int.Parse(splits[0]), int.Parse(splits[1]));
+        return int.Parse(splits[0])..int.Parse(splits[1]);
     }
     #endregion
 }

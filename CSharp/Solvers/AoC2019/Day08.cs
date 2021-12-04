@@ -35,9 +35,9 @@ public class Day08 : Solver<Day08.Layer[]>
         #endregion
 
         #region Fields
-        public readonly int[,] image = new int[HEIGHT, WIDTH];
+        private readonly int[,] image = new int[HEIGHT, WIDTH];
         #endregion
-            
+
         #region Indexers
         /// <summary>
         /// Accesses the underlying image of the Layer
@@ -62,7 +62,7 @@ public class Day08 : Solver<Day08.Layer[]>
         {
             //Make sure the data passed if of the right length
             if (data.Length is not SIZE) throw new ArgumentOutOfRangeException(nameof(data), data.Length, $"Data length must be {SIZE}");
-                
+
             //Parse data
             foreach (int j in ..HEIGHT)
             {
@@ -83,7 +83,7 @@ public class Day08 : Solver<Day08.Layer[]>
         #region Methods
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<int> GetEnumerator() => this.image.Cast<int>().GetEnumerator();
-            
+
         /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() => this.image.GetEnumerator();
 
@@ -110,7 +110,7 @@ public class Day08 : Solver<Day08.Layer[]>
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
@@ -129,16 +129,15 @@ public class Day08 : Solver<Day08.Layer[]>
         foreach (Layer layer in this.Data[1..])
         {
             int z = layer.Count(i => i is 0);
-            if (z < zeroes)
-            {
-                zeroes = z;
-                smallest = layer;
-            }
+            if (z >= zeroes) continue;
+
+            zeroes = z;
+            smallest = layer;
         }
 
         int[] count = new int[3];
         smallest.ForEach(i => count[i]++);
-            
+
         AoCUtils.LogPart1(count[1] * count[2]);
 
         Layer image = new();
@@ -148,15 +147,14 @@ public class Day08 : Solver<Day08.Layer[]>
             {
                 foreach (Layer layer in this.Data)
                 {
-                    if (layer[i, j] is not 2)
-                    {
-                        image[i, j] = layer[i, j];
-                        break;
-                    }
+                    if (layer[i, j] is 2) continue;
+
+                    image[i, j] = layer[i, j];
+                    break;
                 }
             }
         }
-            
+
         AoCUtils.LogPart2(string.Empty);
         Trace.WriteLine(image);
     }
@@ -168,7 +166,7 @@ public class Day08 : Solver<Day08.Layer[]>
         List<Layer> layers = new();
         for (int i = 0, j = Layer.SIZE; j <= line.Length; i = j, j += Layer.SIZE)
         {
-            layers.Add(new Layer(line[i..j]));
+            layers.Add(new(line[i..j]));
         }
 
         return layers.ToArray();

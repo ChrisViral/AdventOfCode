@@ -24,7 +24,7 @@ public class Day12 : Solver<Day12.Moon[]>
         Z    = 0b100,
         ALL  = 0b111
     }
-        
+
     /// <summary>
     /// Moon object
     /// </summary>
@@ -36,8 +36,8 @@ public class Day12 : Solver<Day12.Moon[]>
         public readonly struct State : IEquatable<State>
         {
             #region Fields
-            public readonly Vector3 position;
-            public readonly Vector3 velocity;
+            private readonly Vector3 position;
+            private readonly Vector3 velocity;
             #endregion
 
             #region Constructors
@@ -51,7 +51,7 @@ public class Day12 : Solver<Day12.Moon[]>
                 this.velocity = moon.velocity;
             }
             #endregion
-                
+
             #region Methods
             /// <inheritdoc cref="object.Equals(object)"/>
             public override bool Equals(object? obj) => obj is State state && Equals(state);
@@ -87,7 +87,7 @@ public class Day12 : Solver<Day12.Moon[]>
             public static bool operator !=(State a, State b) => !a.Equals(b);
             #endregion
         }
-            
+
         #region Constants
         /// <summary>
         /// Moon match pattern
@@ -96,10 +96,10 @@ public class Day12 : Solver<Day12.Moon[]>
         #endregion
 
         #region Fields
-        public Vector3 position;
-        public Vector3 velocity = Vector3.Zero;
+        private Vector3 position;
+        private Vector3 velocity = Vector3.Zero;
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Gets the total energy of the Moon
@@ -114,7 +114,7 @@ public class Day12 : Solver<Day12.Moon[]>
             }
         }
         #endregion
-            
+
         #region Constructors
         /// <summary>
         /// Creates a new Moon at the given position
@@ -134,7 +134,7 @@ public class Day12 : Solver<Day12.Moon[]>
             this.velocity = other.velocity;
         }
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Updates the position of the Moon from it's velocity
@@ -199,13 +199,13 @@ public class Day12 : Solver<Day12.Moon[]>
                 }
 
             }
-                
+
             a.velocity = va;
             b.velocity = vb;
         }
         #endregion
     }
-        
+
     #region Constants
     /// <summary>
     /// Iterations of the simulation
@@ -240,7 +240,7 @@ public class Day12 : Solver<Day12.Moon[]>
         long x = CheckAxis(Axis.X);
         long y = CheckAxis(Axis.Y);
         long z = CheckAxis(Axis.Z);
-            
+
         AoCUtils.LogPart2(AoCUtils.LCM(x, y, z));
     }
 
