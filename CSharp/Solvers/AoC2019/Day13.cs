@@ -13,19 +13,19 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day13 : IntcodeSolver
 {
-    public enum Blocks
+    private enum Blocks
     {
-        EMPTY = 0,
-        WALL = 1,
-        BLOCK = 2,
+        EMPTY  = 0,
+        WALL   = 1,
+        BLOCK  = 2,
         PADDLE = 3,
-        BALL = 4
+        BALL   = 4
     }
-        
+
     /// <summary>
     /// Intcode Arcade game
     /// </summary>
-    public class Arcade : ConsoleView<Blocks>
+    private class Arcade : ConsoleView<Blocks>
     {
         #region Constants
         /// <summary>
@@ -40,15 +40,15 @@ public class Day13 : IntcodeSolver
             [Blocks.BALL]   = 'O'
         };
         #endregion
-            
+
         #region Fields
         private readonly IntcodeVM software;
         #endregion
-            
+
         #region Properties
-        public int Score { get; private set; }
+        private int Score { get; set; }
         #endregion
-            
+
         #region Constructors
         /// <summary>
         /// Creates and setups a new Arcade from the given software
@@ -56,12 +56,12 @@ public class Day13 : IntcodeSolver
         /// <param name="width">Width of the view</param>
         /// <param name="height">Height of the view</param>
         /// <param name="software">Software to run the arcade on</param>
-        public Arcade(int width, int height, IntcodeVM software) : base(width, height, b => toChar[b], Anchor.TOP_LEFT, Blocks.EMPTY)
+        public Arcade(int width, int height, IntcodeVM software) : base(width, height, b => toChar[b], Anchor.TOP_LEFT)
         {
             this.software = software;
         }
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Play the game until it's over and display the screen on the console
@@ -88,6 +88,7 @@ public class Day13 : IntcodeSolver
                     {
                         Blocks type = (Blocks)id;
                         this[(int)x, (int)y] = type;
+                        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                         switch (type)
                         {
                             case Blocks.BALL:
@@ -99,7 +100,7 @@ public class Day13 : IntcodeSolver
                         }
                     }
                 }
-                    
+
                 //Display
                 PrintToConsole();
                 //Handle input for next move
@@ -121,7 +122,7 @@ public class Day13 : IntcodeSolver
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed

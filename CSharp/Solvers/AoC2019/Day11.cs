@@ -6,7 +6,6 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -18,7 +17,7 @@ public class Day11 : IntcodeSolver
     /// <summary>
     /// Hull colours
     /// </summary>
-    public enum Colour
+    private enum Colour
     {
         BLACK = 0,
         WHITE = 1
@@ -27,14 +26,14 @@ public class Day11 : IntcodeSolver
     /// <summary>
     /// Painter robot
     /// </summary>
-    public class PainterRobot
+    private class PainterRobot
     {
         #region Fields
-        private Vector2 position;
-        private Vector2 direction = Vector2.Up;
+        private Vector2<int> position;
+        private Vector2<int> direction = Vector2<int>.Up;
         private Grid<Colour> hull;
         private readonly IntcodeVM brain;
-        private readonly HashSet<Vector2> painted = new();
+        private readonly HashSet<Vector2<int>> painted = new();
         #endregion
 
         #region Properties
@@ -54,8 +53,8 @@ public class Day11 : IntcodeSolver
         public PainterRobot(int hullWidth, int hullHeight, IntcodeVM brain)
         {
             this.brain = brain;
-            this.hull = new Grid<Colour>(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
-            this.position = new Vector2(hullWidth / 2, hullHeight / 2);
+            this.hull = new(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
+            this.position = new(hullWidth / 2, hullHeight / 2);
         }
         #endregion
 
@@ -77,7 +76,7 @@ public class Day11 : IntcodeSolver
                 this.hull[this.position] = (Colour)this.brain.GetNextOutput();
                 this.painted.Add(this.position);
                 //Rotate and move
-                this.direction = Vector2.Rotate(this.direction, this.brain.GetNextOutput() is 0L ? -90 : 90);
+                this.direction = Vector2<int>.Rotate(this.direction, this.brain.GetNextOutput() is 0L ? -90 : 90);
                 this.position += this.direction;
             }
 
@@ -91,9 +90,9 @@ public class Day11 : IntcodeSolver
         public void Reset()
         {
             this.brain.Reset();
-            this.position = new Vector2(this.hull.Width / 2, this.hull.Height / 2);
-            this.direction = Vector2.Up;
-            this.hull = new Grid<Colour>(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
+            this.position = new(this.hull.Width / 2, this.hull.Height / 2);
+            this.direction = Vector2<int>.Up;
+            this.hull = new(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
             this.painted.Clear();
         }
         #endregion

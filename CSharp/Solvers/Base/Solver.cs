@@ -69,7 +69,7 @@ public abstract class Solver<T> : Solver
     /// <summary>
     /// If the Solver has been disposed or not
     /// </summary>
-    public bool IsDisposed { get; protected set; }
+    private bool IsDisposed { get; set; }
     #endregion
 
     #region Constructors
@@ -127,7 +127,7 @@ public abstract class Solver<T> : Solver
     /// </summary>
     /// <param name="rawInput">Input value</param>
     /// <returns>Target converted value</returns>
-    [System.Diagnostics.Contracts.Pure]
+    [Pure]
     protected abstract T Convert(string[] rawInput);
     #endregion
 }

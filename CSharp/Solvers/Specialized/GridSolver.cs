@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using AdventOfCode.Grids;
 using AdventOfCode.Solvers.Base;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;
 

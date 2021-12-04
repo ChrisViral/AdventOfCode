@@ -46,11 +46,10 @@ public class Day02 : IntcodeSolver
                 this.VM.Reset();
                 (this.VM[1], this.VM[2]) = (noun, verb);
                 this.VM.Run();
-                if (this.VM[0] is TARGET)
-                {
-                    AoCUtils.LogPart2((100 * noun) + verb);
-                    return;
-                }
+                if (this.VM[0] is not TARGET) continue;
+
+                AoCUtils.LogPart2((100 * noun) + verb);
+                return;
             }
         }
     }

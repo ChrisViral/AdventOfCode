@@ -8,7 +8,6 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -17,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day17 : IntcodeSolver
 {
-    public enum Hull
+    private enum Hull
     {
         EMPTY       = '.',
         SCAFFOLD    = '#',
@@ -52,17 +51,18 @@ public class Day17 : IntcodeSolver
 
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        this.hull = new ConsoleView<Hull>(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
+        this.hull = new(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
         this.hull.Populate(view, s => Array.ConvertAll(s.ToCharArray(), c => (Hull)c));
 
         //Setup what is visible
-        Vector2? position = Vector2.Zero;
+        Vector2<int>? position = Vector2<int>.Zero;
         int alignment = 0;
         foreach (int y in ..this.hull.Height)
         {
             foreach (int x in ..this.hull.Width)
             {
-                Vector2 pos = new(x, y);
+                Vector2<int> pos = new(x, y);
+                // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                 switch (this.hull[pos])
                 {
                     //Intersections
@@ -89,7 +89,7 @@ public class Day17 : IntcodeSolver
         StringBuilder pathBuilder = new();
         while (true)
         {
-            Vector2? newPosition = this.hull.MoveWithinGrid(position!.Value, direction);
+            Vector2<int>? newPosition = this.hull.MoveWithinGrid(position.Value, direction);
             if (newPosition.HasValue && this.hull[newPosition.Value] is Hull.SCAFFOLD)
             {
                 //Movement valid
@@ -135,7 +135,7 @@ public class Day17 : IntcodeSolver
         foreach (int i in ..3)
         {
             string instruction = regex.Match(pathBuilder.ToString()).Groups[1].Value;
-            pathBuilder.Replace(instruction, new string((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
+            pathBuilder.Replace(instruction, new((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
             instructions[i] = instruction + "\n";
         }
 

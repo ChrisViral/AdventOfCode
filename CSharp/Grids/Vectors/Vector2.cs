@@ -137,6 +137,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     public override bool Equals(object? other) => other is Vector2<T> vector && Equals(vector);
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public bool Equals(in Vector2<T> other) => this.X == other.X && this.Y == other.Y;
 
     /// <inheritdoc cref="object.GetHashCode"/>
@@ -146,6 +147,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     public int CompareTo(object? other) => other is Vector2<T> vector ? CompareTo(vector) : 0;
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public int CompareTo(in Vector2<T> other) => this.Length.CompareTo(other.Length);
 
     /// <inheritdoc cref="object.ToString"/>
@@ -259,6 +261,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The dot product of both vectors</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static T Dot(in Vector2<T> a, in Vector2<T> b) => a.X * b.X + a.Y * b.Y;
 
     /// <summary>
@@ -270,7 +273,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, int angle)
     {
-        if (isInteger)
+        if (!isInteger)
         {
             return Rotate(vector, (double)angle);
         }
@@ -287,12 +290,12 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     }
 
     /// <summary>
-    /// Rotates a vector by a specified angle, must be a multiple of 90 degrees
+    /// Rotates a vector by a specified angle
     /// </summary>
     /// <param name="vector">Vector to rotate</param>
     /// <param name="angle">Angle to rotate by</param>
     /// <returns>The rotated vector</returns>
-    /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static Vector2<T> Rotate(in Vector2<T> vector, double angle)
     {
         if (isInteger)
@@ -300,17 +303,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
             return Rotate(vector, (int)Math.Round(angle));
         }
 
-
-
-        if (angle % 90 is not 0) throw new InvalidOperationException($"Can only rotate integer vectors by 90 degrees, got {angle} instead");
-        angle = ((angle % 360) + 360) % 360;
-        return angle switch
-        {
-            90  => new(-vector.Y, vector.X),
-            180 => -vector,
-            270 => new(vector.Y, -vector.X),
-            _   => vector
-        };
+        (double x, double y) = vector.Convert<double>();
+        double radians = angle * Vectors.Angle.DEG_TO_RAD;
+        Vector2<double> result = new(x * Math.Cos(radians) - y * Math.Sin(radians),
+                                     x * Math.Sin(radians) + y * Math.Cos(radians));
+        return result.Convert<T>();
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ public class Day07 : Solver<IntcodeVM[]>
     /// </summary>
     private static readonly long[] part2Phase = { 5L, 6L, 7L, 8L, 9L };
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
@@ -49,18 +49,18 @@ public class Day07 : Solver<IntcodeVM[]>
             }
             //Add input value
             this.Data[0].AddInput(0L);
-                
+
             //Run all amplifiers
             this.Data.ForEach(amp => amp.Run());
 
             //Get value from last amplifier
             max = Math.Max(max, this.Data[^1].GetNextOutput());
-                
+
             //Reset amplifiers
             this.Data.ForEach(amp => amp.Reset());
         }
         AoCUtils.LogPart1(max);
-            
+
         //Set last output as first input
         this.Data[0].In = this.Data[^1].Out;
         max = long.MinValue;
@@ -74,17 +74,17 @@ public class Day07 : Solver<IntcodeVM[]>
             }
             //Add input value
             this.Data[0].AddInput(0L);
-                
+
             //Run until the last amp has halted
             while (!this.Data[^1].IsHalted)
             {
                 //Run all amps
                 this.Data.ForEach(amp => amp.Run());
             }
-                
+
             //Get value from last amplifier
             max = Math.Max(max, this.Data[^1].GetNextOutput());
-                
+
             //Reset amplifiers
             this.Data.ForEach(amp => amp.Reset());
         }
