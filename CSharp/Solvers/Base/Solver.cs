@@ -8,6 +8,7 @@ namespace AdventOfCode.Solvers.Base;
 /// <summary>
 /// Solver base class
 /// </summary>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class Solver : ISolver
 {
     #region Constants
