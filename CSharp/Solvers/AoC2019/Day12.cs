@@ -36,8 +36,8 @@ public class Day12 : Solver<Day12.Moon[]>
         public readonly struct State : IEquatable<State>
         {
             #region Fields
-            private readonly Vector3 position;
-            private readonly Vector3 velocity;
+            private readonly Vector3<int> position;
+            private readonly Vector3<int> velocity;
             #endregion
 
             #region Constructors
@@ -96,8 +96,8 @@ public class Day12 : Solver<Day12.Moon[]>
         #endregion
 
         #region Fields
-        private Vector3 position;
-        private Vector3 velocity = Vector3.Zero;
+        private Vector3<int> position;
+        private Vector3<int> velocity = Vector3<int>.Zero;
         #endregion
 
         #region Properties
@@ -108,8 +108,8 @@ public class Day12 : Solver<Day12.Moon[]>
         {
             get
             {
-                (int px, int py, int pz) = Vector3.Abs(this.position);
-                (int vx, int vy, int vz) = Vector3.Abs(this.velocity);
+                (int px, int py, int pz) = Vector3<int>.Abs(this.position);
+                (int vx, int vy, int vz) = Vector3<int>.Abs(this.velocity);
                 return (px + py + pz) * (vx + vy + vz);
             }
         }
@@ -122,7 +122,7 @@ public class Day12 : Solver<Day12.Moon[]>
         /// <param name="x">X position</param>
         /// <param name="y">Y position</param>
         /// <param name="z">Z position</param>
-        public Moon(int x, int y, int z) => this.position = new Vector3(x, y, z);
+        public Moon(int x, int y, int z) => this.position = new(x, y, z);
 
         /// <summary>
         /// Copy constructor
