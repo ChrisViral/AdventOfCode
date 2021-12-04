@@ -15,7 +15,7 @@ public abstract class IntcodeSolver : Solver<IntcodeVM>
     /// </summary>
     protected IntcodeVM VM => this.Data;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="IntcodeSolver"/> Solver with the input data properly parsed

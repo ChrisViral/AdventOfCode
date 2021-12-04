@@ -10,13 +10,21 @@ namespace AdventOfCode.Grids.Vectors;
 /// <summary>
 /// Integer two component vector
 /// </summary>
-public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable where T : IBinaryNumber<T>
+public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
+                                    IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
+                                    IComparisonOperators<Vector2<T>, Vector2<T>>, IFormattable,
+                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, T, Vector2<T>>,
+                                    IAdditiveIdentity<Vector2<T>, Vector2<T>>, IMultiplicativeIdentity<Vector2<T>, Vector2<T>>, IMinMaxValue<Vector2<T>>
+    where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
+    // ReSharper disable once StaticMemberInGenericType
     private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly bool isInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
     /// <summary>Zero vector</summary>
     public static readonly Vector2<T> Zero  = new(T.Zero, T.Zero);
     /// <summary>One vector</summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static readonly Vector2<T> One   = new(T.One, T.One);
     /// <summary>Up vector</summary>
     public static readonly Vector2<T> Up    = new(T.Zero, -T.One);
@@ -26,7 +34,14 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     public static readonly Vector2<T> Left  = new(-T.One, T.Zero);
     /// <summary>Right vector</summary>
     public static readonly Vector2<T> Right = new(T.One, T.Zero);
-    private static readonly bool IsInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
+    /// <summary>
+    /// Minimum vector value
+    /// </summary>
+    public static Vector2<T> MinValue { get; } = new(T.MinValue, T.MinValue);
+    /// <summary>
+    /// Maximum vector value
+    /// </summary>
+    public static Vector2<T> MaxValue { get; } = new(T.MaxValue, T.MaxValue);
     #endregion
 
     #region Propeties
@@ -44,6 +59,46 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// Length of the Vector
     /// </summary>
     public double Length { get; }
+
+    /// <summary>
+    /// Creates an irreducible version of this vector<br/>
+    /// NOTE: If this is an floating point vector, the normalized version is returned instead.
+    /// </summary>
+    /// <returns>The fully reduced version of this vector</returns>
+    public Vector2<T> Reduced
+    {
+        get
+        {
+            if (!isInteger)
+            {
+                return Normalized;
+            }
+
+            T a = T.Abs(this.X);
+            T b = T.Abs(this.Y);
+            while (a != T.Zero && b != T.Zero)
+            {
+                if (a > b)
+                {
+                    a %= b;
+                }
+                else
+                {
+                    b %= a;
+                }
+            }
+
+            T gcd = a | b;
+            return this / gcd;
+        }
+    }
+
+    /// <summary>
+    /// Creates a normalized version of this vector<br/>
+    /// NOTE: If this is an integer vector, the reduced version is returned instead.
+    /// </summary>
+    /// <returns>The vector normalized</returns>
+    public Vector2<T> Normalized => isInteger ? this.Reduced : this / T.Create(this.Length);
     #endregion
 
     #region Constructors
@@ -88,7 +143,6 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     public override int GetHashCode() => HashCode.Combine(this.X, this.Y);
 
     /// <inheritdoc cref="IComparable.CompareTo"/>
-    /// ReSharper disable once TailRecursiveCall - not tail recursive
     public int CompareTo(object? other) => other is Vector2<T> vector ? CompareTo(vector) : 0;
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
@@ -124,7 +178,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <returns>Adjacent vectors</returns>
     public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false)
     {
-        if (!IsInteger)
+        if (!isInteger)
         {
             yield break;
         }
@@ -148,35 +202,6 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
             yield return this + Right;
             yield return this + Down;
         }
-    }
-
-    /// <summary>
-    /// Creates an irreducible version of this vector
-    /// </summary>
-    /// <returns>The fully reduced version of this vector</returns>
-    public Vector2<T> Reduced()
-    {
-        if (!IsInteger)
-        {
-            return this;
-        }
-
-        T a = T.Abs(this.X);
-        T b = T.Abs(this.Y);
-        while (a != T.Zero && b != T.Zero)
-        {
-            if (a > b)
-            {
-                a %= b;
-            }
-            else
-            {
-                b %= a;
-            }
-        }
-
-        T gcd = a | b;
-        return this / gcd;
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
@@ -245,7 +270,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, int angle)
     {
-        if (IsInteger)
+        if (isInteger)
         {
             return Rotate(vector, (double)angle);
         }
@@ -270,7 +295,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, double angle)
     {
-        if (IsInteger)
+        if (isInteger)
         {
             return Rotate(vector, (int)Math.Round(angle));
         }
@@ -368,7 +393,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <returns>An enumerable of all the vectors in the given range</returns>
     public static IEnumerable<Vector2<T>> Enumerate(T maxX, T maxY)
     {
-        if (!IsInteger) yield break;
+        if (!isInteger) yield break;
 
         for (T y = T.Zero; y < maxY; y++)
         {
@@ -379,15 +404,21 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
         }
     }
 
-    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPoint<TResult>
-    {
-        return TResult.Sqrt(TResult.Create((x * x) + (y * y)));
-    }
+    /// <summary>
+    /// Gets the length of this vector in the target floating point type
+    /// </summary>
+    /// <typeparam name="TResult">Floating point result type</typeparam>
+    /// <param name="x">X Parameter</param>
+    /// <param name="y">Y parameter</param>
+    /// <returns>The length of the vector, in the specified floating point type</returns>
+    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPoint<TResult> => TResult.Sqrt(TResult.Create((x * x) + (y * y)));
 
-    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryFloatingPoint<TResult>
-    {
-        return new(TResult.Create(this.X), TResult.Create(this.Y));
-    }
+    /// <summary>
+    /// Converts a vector to the target type
+    /// </summary>
+    /// <typeparam name="TResult">Number type</typeparam>
+    /// <returns>The vector converted to the specified type</returns>
+    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.Create(this.X), TResult.Create(this.Y));
     #endregion
 
     #region Operators
@@ -409,7 +440,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are equal, false otherwise</returns>
-    public static bool operator ==(in Vector2<T> a, in Vector2<T> b) => a.Equals(b);
+    public static bool operator ==(Vector2<T> a, Vector2<T> b) => a.Equals(b);
 
     /// <summary>
     /// Inequality between two vectors
@@ -417,7 +448,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are unequal, false otherwise</returns>
-    public static bool operator !=(in Vector2<T> a, in Vector2<T> b) => !a.Equals(b);
+    public static bool operator !=(Vector2<T> a, Vector2<T> b) => !a.Equals(b);
 
     /// <summary>
     /// Less-than between two vectors
@@ -425,7 +456,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is less than the second vector, false otherwise</returns>
-    public static bool operator <(in Vector2<T> a, in Vector2<T> b) => a.CompareTo(b) < 0;
+    public static bool operator <(Vector2<T> a, Vector2<T> b) => a.CompareTo(b) < 0;
 
     /// <summary>
     /// Greater-than between two vectors
@@ -433,7 +464,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than the second vector, false otherwise</returns>
-    public static bool operator >(in Vector2<T> a, in Vector2<T> b) => a.CompareTo(b) > 0;
+    public static bool operator >(Vector2<T> a, Vector2<T> b) => a.CompareTo(b) > 0;
 
     /// <summary>
     /// Less-than-or-equals between two vectors
@@ -441,7 +472,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is less than or equal to the second vector, false otherwise</returns>
-    public static bool operator <=(in Vector2<T> a, in Vector2<T> b) => a.CompareTo(b) <= 0;
+    public static bool operator <=(Vector2<T> a, Vector2<T> b) => a.CompareTo(b) <= 0;
 
     /// <summary>
     /// Greater-than-or-equals between two vectors
@@ -449,14 +480,21 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than or equal to the second vector, false otherwise</returns>
-    public static bool operator >=(in Vector2<T> a, in Vector2<T> b) => a.CompareTo(b) >= 0;
+    public static bool operator >=(Vector2<T> a, Vector2<T> b) => a.CompareTo(b) >= 0;
 
     /// <summary>
     /// Negate operation on a vector
     /// </summary>
     /// <param name="a">Vector to negate</param>
     /// <returns>The vector with all it's components negated</returns>
-    public static Vector2<T> operator -(in Vector2<T> a) => new(-a.X, -a.Y);
+    public static Vector2<T> operator -(Vector2<T> a) => new(-a.X, -a.Y);
+
+    /// <summary>
+    /// Plus operation on a vector
+    /// </summary>
+    /// <param name="a">Vector to apply the plus to</param>
+    /// <returns>The vector where all the components had the plus operator applied to</returns>
+    public static Vector2<T> operator +(Vector2<T> a) => new(+a.X, +a.Y);
 
     /// <summary>
     /// Add operation between two vectors
@@ -464,7 +502,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>The result of the component-wise addition on both Vectors</returns>
-    public static Vector2<T> operator +(in Vector2<T> a, in Vector2<T> b) => new(a.X + b.X, a.Y + b.Y);
+    public static Vector2<T> operator +(Vector2<T> a, Vector2<T> b) => new(a.X + b.X, a.Y + b.Y);
 
     /// <summary>
     /// Subtract operation between two vectors
@@ -472,7 +510,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>The result of the component-wise subtraction on both Vectors</returns>
-    public static Vector2<T> operator -(in Vector2<T> a, in Vector2<T> b) => new(a.X - b.X, a.Y - b.Y);
+    public static Vector2<T> operator -(Vector2<T> a, Vector2<T> b) => new(a.X - b.X, a.Y - b.Y);
 
     /// <summary>
     /// Add operation between a vector and a direction
@@ -480,7 +518,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">Vector</param>
     /// <param name="b">Direction</param>
     /// <returns>The result of the movement of the vector in the given direction</returns>
-    public static Vector2<T> operator +(in Vector2<T> a, Directions b) => a + b.ToVector<T>();
+    public static Vector2<T> operator +(Vector2<T> a, Directions b) => a + b.ToVector<T>();
 
     /// <summary>
     /// Scalar integer multiplication on a Vector
@@ -488,7 +526,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">Vector to scale</param>
     /// <param name="b">Scalar to multiply by</param>
     /// <returns>The scaled vector</returns>
-    public static Vector2<T> operator *(in Vector2<T> a, T b) => new(a.X * b, a.Y * b);
+    public static Vector2<T> operator *(Vector2<T> a, T b) => new(a.X * b, a.Y * b);
 
     /// <summary>
     /// Scalar integer division on a Vector
@@ -496,7 +534,7 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">Vector to scale</param>
     /// <param name="b">Scalar to divide by</param>
     /// <returns>The scaled vector</returns>
-    public static Vector2<T> operator /(in Vector2<T> a, T b) => new(a.X / b, a.Y / b);
+    public static Vector2<T> operator /(Vector2<T> a, T b) => new(a.X / b, a.Y / b);
 
     /// <summary>
     /// Modulo scalar operation on a Vector
@@ -504,6 +542,14 @@ public readonly struct Vector2<T> : IComparable, IComparable<Vector2<T>>, IEquat
     /// <param name="a">Vector to use the Modulo onto</param>
     /// <param name="b">Scalar to modulo by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
-    public static Vector2<T> operator %(in Vector2<T> a, T b) => new(a.X % b, a.Y % b);
+    public static Vector2<T> operator %(Vector2<T> a, T b) => new(a.X % b, a.Y % b);
+    #endregion
+
+    #region Explicit interface implementations
+    /// <inheritdoc cref="IAdditiveIdentity{TSelf,TResult}.AdditiveIdentity"/>
+    static Vector2<T> IAdditiveIdentity<Vector2<T>, Vector2<T>>.AdditiveIdentity => Zero;
+
+    /// <inheritdoc cref="IMultiplicativeIdentity{TSelf,TResult}.MultiplicativeIdentity"/>
+    static Vector2<T> IMultiplicativeIdentity<Vector2<T>, Vector2<T>>.MultiplicativeIdentity => One;
     #endregion
 }
