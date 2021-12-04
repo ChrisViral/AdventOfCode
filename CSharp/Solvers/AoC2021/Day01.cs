@@ -2,6 +2,7 @@
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
@@ -53,6 +54,6 @@ public class Day01 : Solver<int[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+    protected override int[] Convert(string[] rawInput) => rawInput.ConvertAll(int.Parse);
     #endregion
 }

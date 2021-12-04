@@ -4,6 +4,7 @@ using System.Linq;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -65,6 +66,6 @@ public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput) => (Array.ConvertAll(rawInput[0].Split(','), Vector2<int>.ParseFromDirection), Array.ConvertAll(rawInput[1].Split(','), Vector2<int>.ParseFromDirection));
+    protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput) => (rawInput[0].Split(',').ConvertAll(Vector2<int>.ParseFromDirection), rawInput[1].Split(',').ConvertAll(Vector2<int>.ParseFromDirection));
     #endregion
 }

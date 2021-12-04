@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -69,7 +70,7 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
             //Draw a card
             int c1 = p1.Dequeue();
             int c2 = p2.Dequeue();
-                
+
             //Check round winner
             if (c1 > c2)
             {
@@ -113,18 +114,18 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
                     p1.Enqueue(c1);
                     p1.Enqueue(c2);
                     break;
-                        
+
                 case Player.P2:
                     p2.Enqueue(c2);
                     p2.Enqueue(c1);
                     break;
             }
-                
+
             //Check for a winner
             if (p1.Count is 0) return (Player.P2, p2);
             if (p2.Count is 0) return (Player.P1, p1);
         }
-            
+
         //If an old state was reached, player 1 wins
         return (Player.P1, p1);
     }
@@ -141,7 +142,7 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
     protected override (int[], int[]) Convert(string[] rawInput)
     {
         int end = Enumerable.Range(1, rawInput.Length).First(i => rawInput[i][0] is 'P');
-        return (Array.ConvertAll(rawInput[1..end++], int.Parse), Array.ConvertAll(rawInput[end..], int.Parse));
+        return (rawInput[1..end++].ConvertAll(int.Parse), rawInput[end..].ConvertAll(int.Parse));
     }
     #endregion
 }

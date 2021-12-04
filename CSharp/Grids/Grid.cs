@@ -174,7 +174,7 @@ public class Grid<T> : IEnumerable<T>
         }
         else
         {
-            Array.Copy(other.grid, this.grid, this.Size);
+            other.grid.CopyTo(this.grid, this.Size);
         }
     }
 

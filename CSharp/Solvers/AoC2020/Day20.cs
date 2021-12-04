@@ -5,6 +5,7 @@ using System.Text;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
@@ -136,8 +137,8 @@ public class Day20 : Solver<Day20.Tile[]>
 
             if (this.ignoreBorders) return;
 
-            Array.Reverse(this.left);
-            Array.Reverse(this.right);
+            this.left.Reverse();
+            this.right.Reverse();
             (this.top, this.bottom) = (this.bottom, this.top);
         }
 
@@ -146,15 +147,12 @@ public class Day20 : Solver<Day20.Tile[]>
         /// </summary>
         public void FlipHorizontal()
         {
-            foreach (char[] row in this.image)
-            {
-                Array.Reverse(row);
-            }
+            this.image.ForEach(row => row.Reverse());
 
             if (this.ignoreBorders) return;
 
-            Array.Reverse(this.top);
-            Array.Reverse(this.bottom);
+            this.top.Reverse();
+            this.bottom.Reverse();
             (this.left, this.right) = (this.right, this.left);
         }
 
@@ -180,8 +178,8 @@ public class Day20 : Solver<Day20.Tile[]>
             (this.bottom, this.top) = (this.top, this.bottom);
             (this.right, this.top) = (this.top, this.right);
 
-            Array.Reverse(this.left);
-            Array.Reverse(this.right);
+            this.left.Reverse();
+            this.right.Reverse();
         }
 
         /// <summary>
