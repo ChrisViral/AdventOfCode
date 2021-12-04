@@ -7,7 +7,7 @@ using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -82,7 +82,7 @@ public class Day15 : IntcodeSolver
             [Status.PATH]    = '.'
         };
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Current position of the droid in the grid
@@ -274,10 +274,10 @@ public class Day15 : IntcodeSolver
             this.maze.DroidPosition = position;
             this.maze.PrintToConsole();
         }
-            
+
         //First part answer
         AoCUtils.LogPart1(this.maze.FindShortestPath(oxygenPosition));
-            
+
         //Adjust cursor
         Console.SetCursorPosition(0, Console.CursorTop - 1);
         //Get Cycles

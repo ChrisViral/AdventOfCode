@@ -8,6 +8,7 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -25,7 +26,7 @@ public class Day17 : IntcodeSolver
         ROBOT_LEFT  = '<',
         ROBOT_RIGHT = '>'
     }
-        
+
     #region Fields
     private (int x, int y) writePos = (0, -1);
     private ConsoleView<Hull> hull = null!;
@@ -48,7 +49,7 @@ public class Day17 : IntcodeSolver
         this.VM.Run();
         StringBuilder scaffoldBuilder = new();
         this.VM.GetOutput().Select(o => (char)o).ForEach(c => scaffoldBuilder.Append(c));
-            
+
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
         this.hull = new ConsoleView<Hull>(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
@@ -68,7 +69,7 @@ public class Day17 : IntcodeSolver
                     case Hull.SCAFFOLD when pos.Adjacent().All(p => this.hull.WithinGrid(p) && this.hull[p] is Hull.SCAFFOLD):
                         alignment += pos.X * pos.Y;
                         break;
-                        
+
                     //Robot position
                     case Hull.ROBOT_UP:
                     case Hull.ROBOT_DOWN:
@@ -81,7 +82,7 @@ public class Day17 : IntcodeSolver
             }
         }
         AoCUtils.LogPart1(alignment);
-            
+
         //Get pathing
         Directions direction = Directions.UP;
         int steps = 1;
@@ -102,7 +103,7 @@ public class Day17 : IntcodeSolver
                     pathBuilder.Append(steps).Append(',');
                     steps = 1;
                 }
-                    
+
                 //Try to turn left
                 direction = direction.TurnLeft();
                 newPosition = this.hull.MoveWithinGrid(position.Value, direction);
@@ -137,11 +138,11 @@ public class Day17 : IntcodeSolver
             pathBuilder.Replace(instruction, new string((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
             instructions[i] = instruction + "\n";
         }
-            
+
         //Setup for video feed
         this.VM.Reset();
         this.VM[0] = 2L;
-            
+
         //Print all prompts
         Prompt(pathBuilder.Append(",C,B,A\n").ToString(), this.hull.Size + this.hull.Height + 1);
         instructions.ForEach(s => Prompt(s));
@@ -191,7 +192,7 @@ public class Day17 : IntcodeSolver
                 this.hull[this.writePos] = (Hull)value;
                 this.writePos.x++;
                 break;
-                
+
             default:
                 //Final answer
                 AoCUtils.LogPart2(value);
