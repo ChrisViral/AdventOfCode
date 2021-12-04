@@ -16,7 +16,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     /// Reactant record, chemical and amount required
     /// </summary>
     public record Reactant(Chemical Chemical, int Amount);
-        
+
     /// <summary>
     /// Chemical compound, with all it's required reactants
     /// </summary>
@@ -27,18 +27,18 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         /// Name of the Chemical
         /// </summary>
         public string Name { get; }
-            
+
         /// <summary>
         /// Amount produced when created
         /// </summary>
         public int Produced { get; }
-            
+
         /// <summary>
         /// Required reactants
         /// </summary>
         public Reactant[] Reactants { get; set; } = Array.Empty<Reactant>();
         #endregion
-            
+
         #region Constructors
         /// <summary>
         /// Creates a new Chemical as specified
@@ -51,7 +51,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
             this.Produced = produced;
         }
         #endregion
-            
+
         #region Methods
         /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Chemical chemical && Equals(chemical);
@@ -89,7 +89,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     /// </summary>
     private const long CARGO = 1_000_000_000_000L;
     #endregion
-        
+
     #region Fields
     private readonly Dictionary<Chemical, int> toProduce = new();
     private readonly Dictionary<Chemical, int> surplus = new();
@@ -118,18 +118,18 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         //it another time.
         int produced = 0;
         long cargo = CARGO - ore;
-        long countdown = 900000000000;
+        long countdown = 900000000000L;
         while (cargo > 0L)
         {
             if (cargo < countdown)
             {
                 Console.WriteLine("Currently at " + cargo);
-                countdown -= 100000000000;
+                countdown -= 100000000000L;
             }
             produced++;
             cargo -= ProduceOneFuel();
         }
-            
+
         AoCUtils.LogPart2(produced);
     }
 
@@ -146,7 +146,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         {
             //Get the first reaction to take care of
             (Chemical product, int needed) = this.toProduce.First();
-                
+
             //Check if there is any product surplus
             if (RemoveSurplus(product, ref needed))
             {
@@ -165,25 +165,24 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
                     //Get total amount of reactant needed
                     int amount = required * multiplier;
                     //Check if we have any leftover surplus
-                    if (RemoveSurplus(reactant, ref amount))
+                    if (!RemoveSurplus(reactant, ref amount)) continue;
+
+                    //If Ore is the reactant
+                    if (reactant.Name is ORE)
                     {
-                        //If Ore is the reactant
-                        if (reactant.Name is ORE)
+                        //Add to the total amount of Ore needed
+                        totalOre += amount;
+                    }
+                    else
+                    {
+                        //Adjust amount to produce of the reactant
+                        if (this.toProduce.ContainsKey(reactant))
                         {
-                            //Add to the total amount of Ore needed
-                            totalOre += amount;
+                            this.toProduce[reactant] += amount;
                         }
                         else
                         {
-                            //Adjust amount to produce of the reactant
-                            if (this.toProduce.ContainsKey(reactant))
-                            {
-                                this.toProduce[reactant] += amount;
-                            }
-                            else
-                            {
-                                this.toProduce[reactant] = amount;
-                            }
+                            this.toProduce[reactant] = amount;
                         }
                     }
                 }
@@ -204,19 +203,18 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     /// <returns>True if there is still some chemical needed, false if the surplus covered it</returns>
     private bool RemoveSurplus(Chemical chemical, ref int needed)
     {
-        if (this.surplus.TryGetValue(chemical, out int extra))
+        if (!this.surplus.TryGetValue(chemical, out int extra)) return true;
+
+        if (needed >= extra)
         {
-            if (needed >= extra)
-            {
-                this.surplus.Remove(chemical);
-                needed -= extra;
-            }
-            else
-            {
-                this.surplus[chemical] -= needed;
-                needed = 0;
-                return false;
-            }
+            this.surplus.Remove(chemical);
+            needed -= extra;
+        }
+        else
+        {
+            this.surplus[chemical] -= needed;
+            needed = 0;
+            return false;
         }
 
         return true;
@@ -226,7 +224,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     protected override Dictionary<string, Chemical> Convert(string[] rawInput)
     {
         //Prep reactions
-        Dictionary<string, Chemical> chemicals = new(rawInput.Length) { ["ORE"] = new Chemical("ORE", 0) };
+        Dictionary<string, Chemical> chemicals = new(rawInput.Length) { ["ORE"] = new("ORE", 0) };
         List<(Chemical chemical, (int amount, string name)[] reactants)> reactions = new(rawInput.Length);
         //Parse reactions
         RegexFactory<(int, string)> reactantsFactory = new(REACTANTS_PATTERN, RegexOptions.Compiled);

@@ -3,6 +3,7 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -21,7 +22,7 @@ public class Day02 : IntcodeSolver
     /// </summary>
     private const long TARGET = 19_690_720L;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
@@ -46,11 +47,10 @@ public class Day02 : IntcodeSolver
                 this.VM.Reset();
                 (this.VM[1], this.VM[2]) = (noun, verb);
                 this.VM.Run();
-                if (this.VM[0] is TARGET)
-                {
-                    AoCUtils.LogPart2((100 * noun) + verb);
-                    return;
-                }
+                if (this.VM[0] is not TARGET) continue;
+
+                AoCUtils.LogPart2((100 * noun) + verb);
+                return;
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -21,7 +22,7 @@ public class Day10 : Solver<Day10.Adapter[]>
         /// </summary>
         private const int TOLERANCE = 3;
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Jolts rating of this adapter
@@ -66,7 +67,7 @@ public class Day10 : Solver<Day10.Adapter[]>
         public override string ToString() => this.Jolts.ToString();
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
@@ -80,14 +81,14 @@ public class Day10 : Solver<Day10.Adapter[]>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        Array.Sort(this.Data);
+        this.Data.Sort();
 
         //To make this simpler lets just store the results in an array, easier to code than vars, less waste than a dict
         int[] counts = new int[4];
         //Final and final jumps
-        counts[3]++;  
+        counts[3]++;
         counts[this.Data[1].Jolts]++;
-            
+
         for (int i = 1; i < this.Data.Length - 2; /*i++*/)
         {
             counts[-this.Data[i++].Jolts + this.Data[i].Jolts]++;
@@ -106,7 +107,7 @@ public class Day10 : Solver<Day10.Adapter[]>
         {
             adapters[i + 1] = new Adapter(int.Parse(rawInput[i]));
         }
-        Array.Sort(adapters);
+        adapters.Sort();
         adapters[^1].Jolts = adapters[^2].Jolts + 3;
 
         for (int i = adapters.Length - 2; i >= 0; i--)

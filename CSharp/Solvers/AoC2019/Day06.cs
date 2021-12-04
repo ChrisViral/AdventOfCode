@@ -22,7 +22,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
         /// Orbit name
         /// </summary>
         public string Name { get; }
-            
+
         /// <summary>
         /// Orbital parent
         /// </summary>
@@ -32,7 +32,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
         /// Orbital children
         /// </summary>
         public List<Orbit> Children { get; } = new();
-            
+
         /// <summary>
         /// Which Orbit this was visited from while searching
         /// </summary>
@@ -46,7 +46,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
         /// <param name="name">Name of the Orbit</param>
         public Orbit(string name) => this.Name = name;
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Gets the total depth of the orbit system
@@ -79,12 +79,12 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
                 yield return child;
             }
         }
-            
+
         /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         #endregion
     }
-        
+
     #region Constants
     /// <summary>
     /// Name of the root Orbit
@@ -99,7 +99,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     /// </summary>
     private const string SANTA = "SAN";
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
@@ -114,7 +114,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     public override void Run()
     {
         AoCUtils.LogPart1(this.Data.com.GetOrbits());
-            
+
         HashSet<Orbit> visited = new() { this.Data.you };
         Queue<Orbit> toVisit = new();
         toVisit.Enqueue(this.Data.you);
@@ -126,7 +126,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
                 santa = visiting;
                 break;
             }
-                
+
             foreach (Orbit sibling in visiting)
             {
                 if (visited.Add(sibling))
@@ -137,18 +137,17 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
             }
         }
 
-        if (santa is not null)
+        if (santa is null) return;
+
+        //No need to transfer to YOU and SAN
+        int travel = -2;
+        while (santa.VisitedFrom is not null)
         {
-            //No need to transfer to YOU and SAN
-            int travel = -2;
-            while (santa.VisitedFrom is not null)
-            {
-                santa = santa.VisitedFrom;
-                travel++;
-            }
-                
-            AoCUtils.LogPart2(travel);
+            santa = santa.VisitedFrom;
+            travel++;
         }
+
+        AoCUtils.LogPart2(travel);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
@@ -163,16 +162,16 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
 
             if (!orbits.TryGetValue(parentName, out Orbit? parent))
             {
-                parent = new Orbit(parentName);
+                parent = new(parentName);
                 orbits.Add(parentName, parent);
             }
-                
+
             if (!orbits.TryGetValue(childName, out Orbit? child))
             {
-                child = new Orbit(childName);
+                child = new(childName);
                 orbits.Add(childName, child);
             }
-                
+
             parent.Children.Add(child);
             child.Parent = parent;
         }

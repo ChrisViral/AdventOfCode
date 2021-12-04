@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using AdventOfCode.Grids;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -29,7 +29,7 @@ public class Day03: GridSolver<bool>
         //Part one
         long result = CheckSlope((3, 1));
         AoCUtils.LogPart1(result);
-            
+
         //Part two
         result *= CheckSlope((1, 1));
         result *= CheckSlope((5, 1));

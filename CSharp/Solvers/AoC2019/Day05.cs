@@ -27,7 +27,7 @@ public class Day05 : IntcodeSolver
         this.VM.AddInput(1L);
         this.VM.Run();
         AoCUtils.LogPart1(string.Join(' ', this.Data.GetOutput()));
-            
+
         this.VM.Reset();
         this.VM.AddInput(5L);
         this.VM.Run();

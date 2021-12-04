@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -30,17 +31,17 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// Rule index
         /// </summary>
         public int Index { get; }
-            
+
         /// <summary>
         /// Rule match value
         /// </summary>
         public string Pattern { get; set; } = string.Empty;
-            
+
         /// <summary>
         /// Values of the first match
         /// </summary>
         public int[]? FirstMatch { get; }
-            
+
         /// <summary>
         /// Values of the second match
         /// </summary>
@@ -53,7 +54,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// </summary>
         /// <param name="index">Index of the rule</param>
         private Rule(int index) => this.Index = index;
-            
+
         /// <summary>
         /// Creates a new rule from a single value
         /// </summary>
@@ -69,7 +70,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
             else
             {
                 //Pattern rules with a single match
-                this.FirstMatch = Array.ConvertAll(value.Split(' '), int.Parse);
+                this.FirstMatch = value.Split(' ').ConvertAll(int.Parse);
             }
         }
 
@@ -81,11 +82,11 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// <param name="second">Second pattern</param>
         public Rule(int index, string first, string second) : this(index)
         {
-            this.FirstMatch = Array.ConvertAll(first.Split(' '), int.Parse);
-            this.SecondMatch = Array.ConvertAll(second.Split(' '), int.Parse);
+            this.FirstMatch = first.Split(' ').ConvertAll(int.Parse);
+            this.SecondMatch = second.Split(' ').ConvertAll(int.Parse);
         }
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Setups the pattern for this rule by looking at it's matches
@@ -106,7 +107,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
                     }
                     builder.Append(rule.Pattern);
                 }
-                    
+
                 //Check for the second part of the match
                 if (this.SecondMatch is not null)
                 {
@@ -153,14 +154,14 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         origin.SetupPattern(rules);
         Regex match = new($"^{origin.Pattern}$", RegexOptions.Compiled);
         AoCUtils.LogPart1(this.Data.messages.Count(match.IsMatch));
-            
+
         //Setup the new special patterns
         string first = rules[42].Pattern;
         string second = rules[31].Pattern;
         rules[8].Pattern = $"(?:{first})+";
         rules[11].Pattern = $"(?<first>{first})+(?<-first>{second})+(?(first)(?!))"; //Gotta love balanced constructs
         rules.Where(r => r.Index is not 8 and not 11).ForEach(r => r.Pattern = string.Empty);
-            
+
         //Setup for the matches again
         origin.SetupPattern(rules);
         match = new Regex($"^{origin.Pattern}$", RegexOptions.Compiled);
@@ -179,7 +180,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
             //Stop matching rules when we get to an empty line
             string line = rawInput[i];
             if (string.IsNullOrEmpty(line)) break;
-                
+
             //Get and keep rule
             Rule rule = ruleFactory.ConstructObject(line);
             ruleList.Add(rule);
@@ -188,7 +189,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 
         //Move the rules to an array
         Rule[] rules = ruleList.OrderBy(r => r.Index).ToArray();
-            
+
         //Return the rules with the input to match
         return (rules, rawInput[(i + 1)..]);
     }

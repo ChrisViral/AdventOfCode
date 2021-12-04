@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2019;
@@ -8,14 +9,14 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 01
 /// </summary>
-public class Day01 : Solver<int[]>
+public class Day01 : ArraySolver<int>
 {
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
     public Day01(string input) : base(input) { }
     #endregion
 
@@ -32,11 +33,11 @@ public class Day01 : Solver<int[]>
     /// </summary>
     /// <param name="mass">Mass to calculate for</param>
     /// <returns>The total fuel required for the given mass</returns>
-    public static int CalculateFuel(int mass)
+    private static int CalculateFuel(int mass)
     {
         mass = (mass / 3) - 2;
         int totalFuel = 0;
-        while (mass is > 0)
+        while (mass > 0)
         {
             totalFuel += mass;
             mass = (mass / 3) - 2;
@@ -46,6 +47,6 @@ public class Day01 : Solver<int[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+    protected override int ConvertLine(string line) => int.Parse(line);
     #endregion
 }

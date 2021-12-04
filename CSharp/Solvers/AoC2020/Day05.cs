@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -19,12 +20,12 @@ public class Day05 : Solver<Day05.BoardingPass[]>
         public const int MAX_ROW = 127;
         public const int MAX_COLUMN = 7;
         #endregion
-            
+
         #region Properties
         public int Row { get; }
-            
+
         public int Column { get; }
-            
+
         public int Id { get; }
         #endregion
 
@@ -86,7 +87,7 @@ public class Day05 : Solver<Day05.BoardingPass[]>
             seats[pass.Row, pass.Column] = true;
         }
         AoCUtils.LogPart1(max);
-            
+
         //Part 2
         for (int row = 0; row <= BoardingPass.MAX_ROW; row++)
         {
@@ -107,6 +108,6 @@ public class Day05 : Solver<Day05.BoardingPass[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override BoardingPass[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new BoardingPass(s));
+    protected override BoardingPass[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new BoardingPass(s));
     #endregion
 }

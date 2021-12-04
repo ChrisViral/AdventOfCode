@@ -2,6 +2,7 @@
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -16,7 +17,7 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
     /// </summary>
     private const int NO_SERVICE = -1;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
@@ -42,7 +43,7 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
             }
         }
         AoCUtils.LogPart1(shortestId * shortestWait);
-            
+
         long lastStart = 0L;
         long lastFreq = this.Data.buses[0];
         for (int i = NextBus(0); i < this.Data.buses.Length; i = NextBus(i))
@@ -54,11 +55,11 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
             {
                 pos -= lastFreq;
             }
-                
+
             lastStart = pos - i;
             lastFreq = freq;
         }
-            
+
         AoCUtils.LogPart2(lastStart);
     }
 
@@ -75,6 +76,6 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (int, int[]) Convert(string[] rawInput) => (int.Parse(rawInput[0]),
-                                                                   Array.ConvertAll(rawInput[1].Split(','), s => s is not "x" ? int.Parse(s) : NO_SERVICE));
+                                                                   rawInput[1].Split(',').ConvertAll(s => s is not "x" ? int.Parse(s) : NO_SERVICE));
     #endregion
 }

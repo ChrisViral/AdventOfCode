@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using AdventOfCode.Grids;
 using AdventOfCode.Solvers.Base;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;
 
@@ -14,9 +14,9 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     /// <summary>
     /// Input Grid
     /// </summary>
-    public Grid<T> Grid => this.Data;
+    protected Grid<T> Grid => this.Data;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="GridSolver{T}"/> Solver with the input data properly parsed

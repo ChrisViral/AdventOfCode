@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -26,7 +27,7 @@ public class Day23 : Solver<int[]>
     /// </summary>
     private const int AMOUNT = 1000_000;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
@@ -78,7 +79,7 @@ public class Day23 : Solver<int[]>
             min = Math.Min(min, node.Value);
             max = Math.Max(max, node.Value);
         }
-            
+
         //Setup current cup as the first
         LinkedListNode<int> current = cups.First!;
         foreach (int _ in ..moves)
@@ -103,7 +104,7 @@ public class Day23 : Solver<int[]>
                 }
             }
             while (target == a.Value || target == b.Value || target == c.Value);
-                
+
             //Get target node and add after
             LinkedListNode<int> destination = nodes[target];
             cups.AddAfter(destination, a);
@@ -118,6 +119,6 @@ public class Day23 : Solver<int[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput[0].ToCharArray(), c => c - '0');
+    protected override int[] Convert(string[] rawInput) => rawInput[0].ToCharArray().ConvertAll(c => c - '0');
     #endregion
 }

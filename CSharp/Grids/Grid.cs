@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Grids;
 
@@ -55,7 +56,7 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="vector">Position vector in the grid</param>
     /// <returns>The element at the specified position</returns>
-    public virtual T this[Vector2 vector]
+    public virtual T this[Vector2<int> vector]
     {
         get => this.grid[vector.Y, vector.X];
         set => this.grid[vector.Y, vector.X] = value;
@@ -174,7 +175,7 @@ public class Grid<T> : IEnumerable<T>
         }
         else
         {
-            Array.Copy(other.grid, this.grid, this.Size);
+            other.grid.CopyTo(this.grid, this.Size);
         }
     }
 
@@ -278,7 +279,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public virtual Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
+    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
 
     /// <summary>
     /// Moves the vector within the grid
@@ -288,7 +289,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns>The resulting Vector after the move</returns>
-    public virtual Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
         (int x, int y) result = vector + travel;
         //Check if an invalid wrap must happen
@@ -322,7 +323,7 @@ public class Grid<T> : IEnumerable<T>
         }
 
         //Return result
-        return new Vector2(result);
+        return new Vector2<int>(result);
     }
 
     /// <summary>
@@ -330,7 +331,7 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="position">Position vector</param>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
-    public virtual bool WithinGrid(Vector2 position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
+    public virtual bool WithinGrid(Vector2<int> position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();

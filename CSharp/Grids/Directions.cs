@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using AdventOfCode.Grids.Vectors;
 
@@ -31,22 +32,22 @@ public static class DirectionsUtils
     /// </summary>
     public static ReadOnlyCollection<Directions> AllDirections { get; } = new(new[] { Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT });
     #endregion
-        
+
     #region Extension methods
     /// <summary>
     /// Gets a Vector2 from a given Directions
     /// </summary>
     /// <param name="directions">Direction to get the vector from</param>
     /// <returns>The resulting vector</returns>
-    public static Vector2 ToVector(this Directions directions)
+    public static Vector2<T> ToVector<T>(this Directions directions) where T : IBinaryNumber<T>, IMinMaxValue<T>
     {
         return directions switch
         {
-            Directions.UP    => Vector2.Up,
-            Directions.DOWN  => Vector2.Down,
-            Directions.LEFT  => Vector2.Left,
-            Directions.RIGHT => Vector2.Right,
-            _                => Vector2.Zero,
+            Directions.UP    => Vector2<T>.Up,
+            Directions.DOWN  => Vector2<T>.Down,
+            Directions.LEFT  => Vector2<T>.Left,
+            Directions.RIGHT => Vector2<T>.Right,
+            _                => Vector2<T>.Zero,
         };
     }
 
@@ -84,7 +85,7 @@ public static class DirectionsUtils
             _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
         };
     }
-        
+
     /// <summary>
     /// Turns the direction towards the right
     /// </summary>

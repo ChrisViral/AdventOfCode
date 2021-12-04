@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -37,9 +38,9 @@ public class Day01 : Solver<int[]>
         FindTwoMatching();
         FindThreeMatching();
     }
-        
+
     ///<inheritdoc cref="Solver{T}.Convert"/>
-    protected override int[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, int.Parse);
+    protected override int[] Convert(string[] rawInput) => rawInput.ConvertAll(int.Parse);
 
     /// <summary>
     /// First part solving
@@ -62,7 +63,7 @@ public class Day01 : Solver<int[]>
     /// </summary>
     private void FindThreeMatching()
     {
-        Array.Sort(this.Data);
+        this.Data.Sort();
         for (int i = 0; i < this.Data.Length - 2; /*i++*/)
         {
             int first = this.Data[i];

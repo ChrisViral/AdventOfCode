@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 using Modes = AdventOfCode.Intcode.Instructions.Modes;
 
@@ -187,7 +188,7 @@ public class IntcodeVM
     /// <param name="output">The output Queue for this Intcode VM</param>
     public IntcodeVM(string code, Queue<long> input, Queue<long> output)
     {
-        this.originalState = Array.ConvertAll(code.Split(splitters, OPTIONS), long.Parse);
+        this.originalState = code.Split(splitters, OPTIONS).ConvertAll(long.Parse);
         this.memory = new long[this.originalState.Length + BUFFER_SIZE];
         this.originalState.CopyTo(this.memory);
         this.In = input;

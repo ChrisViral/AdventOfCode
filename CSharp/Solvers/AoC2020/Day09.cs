@@ -2,6 +2,7 @@
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -73,6 +74,6 @@ public class Day09 : Solver<long[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override long[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, long.Parse);
+    protected override long[] Convert(string[] rawInput) => rawInput.ConvertAll(long.Parse);
     #endregion
 }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Grids;
+using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Intcode;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -19,7 +19,7 @@ public class Day15 : IntcodeSolver
     /// <summary>
     /// Droid status codes
     /// </summary>
-    public enum Status
+    private enum Status
     {
         UNKNOWN = -1,
         WALL    = 0,
@@ -33,7 +33,7 @@ public class Day15 : IntcodeSolver
     /// <summary>
     /// Repair droid
     /// </summary>
-    public class Droid
+    private class Droid
     {
         #region Fields
         private readonly IntcodeVM program;
@@ -65,7 +65,7 @@ public class Day15 : IntcodeSolver
     /// <summary>
     /// Maze view
     /// </summary>
-    public class Maze : ConsoleView<Status>
+    private class Maze : ConsoleView<Status>
     {
         #region Constants
         /// <summary>
@@ -82,12 +82,12 @@ public class Day15 : IntcodeSolver
             [Status.PATH]    = '.'
         };
         #endregion
-            
+
         #region Properties
         /// <summary>
         /// Current position of the droid in the grid
         /// </summary>
-        public Vector2 DroidPosition { get; set; }
+        public Vector2<int> DroidPosition { get; set; }
         #endregion
 
         #region Constructors
@@ -96,10 +96,10 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="width">Width of the maze</param>
         /// <param name="height">Height of the maze</param>
-        public Maze(int width, int height) : base(width, height, s => toChar[s], new Vector2((int)Math.Ceiling(width / 2d), (int)Math.Ceiling(height / 2d)), Status.UNKNOWN)
+        public Maze(int width, int height) : base(width, height, s => toChar[s], new Vector2<int>((int)Math.Ceiling(width / 2d), (int)Math.Ceiling(height / 2d)), Status.UNKNOWN)
         {
             //Set starting position
-            this[Vector2.Zero] = Status.START;
+            this[Vector2<int>.Zero] = Status.START;
         }
         #endregion
 
@@ -109,29 +109,25 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="target">Target to get to</param>
         /// <returns>The length of the shortest path, or -1 if no path is found</returns>
-        public int FindShortestPath(Vector2 target)
+        public int FindShortestPath(Vector2<int> target)
         {
             //Get path
-            Vector2[]? path = SearchUtils.Search(Vector2.Zero, target, v => (v - target).Length, FindNeighbours, MinSearchComparer.Comparer);
-            //If valid
-            if (path?.Length > 0)
-            {
-                //Print out the path
-                this.DroidPosition = path[0];
-                PrintToConsole();
-                foreach (Vector2 v in path[1..]!)
-                {
-                    this[this.DroidPosition] = Status.PATH;
-                    this.DroidPosition = v;
-                    PrintToConsole();
-                }
+            Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target, v => (v - target).Length, FindNeighbours, MinSearchComparer.Comparer);
+            //No path found, return -1
+            if (!(path?.Length > 0)) return -1;
 
-                //Return the path length;
-                return path.Length;
+            //Print out the path
+            this.DroidPosition = path[0];
+            PrintToConsole();
+            foreach (Vector2<int> v in path[1..])
+            {
+                this[this.DroidPosition] = Status.PATH;
+                this.DroidPosition = v;
+                PrintToConsole();
             }
 
-            //no path found, return -1
-            return -1;
+            //Return the path length;
+            return path.Length;
         }
 
         /// <summary>
@@ -139,21 +135,21 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="start">Starting point</param>
         /// <returns>The cycles taken to fill out the entire maze</returns>
-        public int FillFromPosition(Vector2 start)
+        public int FillFromPosition(Vector2<int> start)
         {
             //Positions to fill
-            HashSet<Vector2> toFill = new(start.Adjacent().Where(v => this[v] is not Status.WALL and not Status.OXYGEN));
-            HashSet<Vector2> fillNext = new();
+            HashSet<Vector2<int>> toFill = new(start.Adjacent().Where(v => this[v] is not Status.WALL and not Status.OXYGEN));
+            HashSet<Vector2<int>> fillNext = new();
             int cycles = 0;
             //Keep filling until none left
             while (toFill.Count is not 0)
             {
                 //Check all vectors to fill
-                foreach (Vector2 filling in toFill)
+                foreach (Vector2<int> filling in toFill)
                 {
                     //Set it to oxygen and add it's adjacent to next
                     this[filling] = Status.OXYGEN;
-                    foreach (Vector2 next in filling.Adjacent().Where(v => this[v] is not Status.WALL and not Status.OXYGEN))
+                    foreach (Vector2<int> next in filling.Adjacent().Where(v => this[v] is not Status.WALL and not Status.OXYGEN))
                     {
                         fillNext.Add(next);
                     }
@@ -175,14 +171,10 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="position">Position to look from</param>
         /// <returns>An enumerable of all the neighbours around a given node</returns>
-        private IEnumerable<(Vector2, double)> FindNeighbours(Vector2 position)
+        private IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position)
         {
             //Look through all neighbours
-            foreach (Vector2 neighbour in position.Adjacent().Where(n => this[n] is not Status.WALL))
-            {
-                //Return neighbours with a distance of 1
-                yield return (neighbour, 1d);
-            }
+            return position.Adjacent().Where(n => this[n] is not Status.WALL).Select(neighbour => (neighbour, 1d));
         }
 
         /// <inheritdoc cref="object.ToString"/>
@@ -210,8 +202,8 @@ public class Day15 : IntcodeSolver
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day15(string input) : base(input)
     {
-        this.droid = new Droid(this.VM);
-        this.maze = new Maze(41, 41); //Figured out size by visualization
+        this.droid = new(this.VM);
+        this.maze = new(41, 41); //Figured out size by visualization
     }
     #endregion
 
@@ -223,13 +215,13 @@ public class Day15 : IntcodeSolver
         Console.CursorVisible = false;
         this.maze.PrintToConsole();
         //Explored set
-        Vector2 position = Vector2.Zero;
-        HashSet<Vector2> explored = new() { position };
+        Vector2<int> position = Vector2<int>.Zero;
+        HashSet<Vector2<int>> explored = new() { position };
         //Pathing
         Stack<Directions> path = new();
         path.Push(Directions.NONE);
         //Target
-        Vector2 oxygenPosition = Vector2.Zero;
+        Vector2<int> oxygenPosition = Vector2<int>.Zero;
         while (true)
         {
             //Get direction and movement flag
@@ -239,25 +231,23 @@ public class Day15 : IntcodeSolver
             foreach (Directions dir in DirectionsUtils.AllDirections)
             {
                 //Position in given direction
-                Vector2 newPosition = position.Move(dir);
+                Vector2<int> newPosition = position.Move(dir);
                 //If not explored
-                if (explored.Add(newPosition))
+                if (!explored.Add(newPosition)) continue;
+
+                //Set status in maze
+                Status report = this.droid.Move(dir);
+                this.maze[newPosition] = report;
+                if (report is Status.WALL) continue;
+
+                path.Push(dir);
+                position += dir;
+                if (report is Status.OXYGEN)
                 {
-                    //Set status in maze
-                    Status report = this.droid.Move(dir);
-                    this.maze[newPosition] = report;
-                    if (report is not Status.WALL)
-                    {
-                        path.Push(dir);
-                        position += dir;
-                        if (report is Status.OXYGEN)
-                        {
-                            oxygenPosition = position;
-                        }
-                        moved = true;
-                        break;
-                    }
+                    oxygenPosition = position;
                 }
+                moved = true;
+                break;
             }
 
             if (!moved)
@@ -274,10 +264,10 @@ public class Day15 : IntcodeSolver
             this.maze.DroidPosition = position;
             this.maze.PrintToConsole();
         }
-            
+
         //First part answer
         AoCUtils.LogPart1(this.maze.FindShortestPath(oxygenPosition));
-            
+
         //Adjust cursor
         Console.SetCursorPosition(0, Console.CursorTop - 1);
         //Get Cycles

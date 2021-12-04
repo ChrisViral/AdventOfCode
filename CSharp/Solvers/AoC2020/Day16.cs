@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -22,7 +23,7 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
         /// </summary>
         public const string PATTERN = @"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$";
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Checks if a given value is in the range of the field
@@ -41,13 +42,13 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
         #region Fields
         public readonly int[] values;
         #endregion
-            
+
         #region Constructors
         /// <summary>
         /// Creates a new ticket from a given input line
         /// </summary>
         /// <param name="line">Input to create the ticket values from</param>
-        public Ticket(string line) => this.values = Array.ConvertAll(line.Split(','), int.Parse);
+        public Ticket(string line) => this.values = line.Split(',').ConvertAll(int.Parse);
         #endregion
 
         #region Methods
@@ -83,7 +84,7 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
     #region Constants
     private const string TARGET_START = "departure";
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
@@ -145,7 +146,7 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
                 result *= this.Data.ticket.values[i];
             }
         }
-            
+
         AoCUtils.LogPart2(result);
     }
 
