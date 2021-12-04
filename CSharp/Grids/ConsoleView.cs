@@ -101,7 +101,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by, defaults to MIDDLE</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor switch
         {
@@ -124,7 +124,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2 anchor, T defaultValue = default, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2 anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor;
         FillDefault(converter, defaultValue);
