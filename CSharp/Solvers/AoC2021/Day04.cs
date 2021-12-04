@@ -5,6 +5,7 @@ using AdventOfCode.Grids;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
@@ -71,9 +72,9 @@ public class Day04 : Solver<Day04.BingoData>
             for (int i = 0; i < Data.Boards.Count; i++)
             {
                 Grid<int> board = Data.Boards[i];
-                Vector2? position = Vector2.Enumerate(BingoData.SIZE, BingoData.SIZE)
-                                           .Cast<Vector2?>()
-                                           .FirstOrDefault(pos => board[pos!.Value] == drawn);
+                Vector2<int>? position = Vector2<int>.Enumerate(BingoData.SIZE, BingoData.SIZE)
+                                                     .Cast<Vector2<int>?>()
+                                                     .FirstOrDefault(pos => board[pos!.Value] == drawn);
                 if (!position.HasValue) continue;
 
                 board[position.Value] = MARKED;
@@ -100,7 +101,7 @@ public class Day04 : Solver<Day04.BingoData>
     /// <param name="board">Board to check</param>
     /// <param name="position">Board position</param>
     /// <returns>True if the board has a completed row or column at the specified location</returns>
-    private static bool CheckBoard(Grid<int> board, Vector2 position)
+    private static bool CheckBoard(Grid<int> board, Vector2<int> position)
     {
         (int x, int y) = position;
         board.GetColumnNoAlloc(x, buffer);

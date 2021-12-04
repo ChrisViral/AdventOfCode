@@ -17,14 +17,15 @@ public class Day18 : Solver<Day18.Maze>
     /// <summary>
     /// Lock record
     /// </summary>
-    public record Lock(char ID, Vector2 Key, Vector2 Door, int Bitwise, int Required)
+    /// ReSharper disable once NotAccessedPositionalProperty.Local
+    private record Lock(char ID, Vector2<int> Key, Vector2<int> Door, int Bitwise, int Required)
     {
         #region Constructors
         /// <summary>
         /// Creates a new default lock from the given ID, key, and door
         /// </summary>
         /// <param name="id">Character ID of the door</param>
-        public Lock(char id) : this(id, Vector2.Zero, Vector2.Zero, 1 << (id - 'a'), 0) { }
+        public Lock(char id) : this(id, Vector2<int>.Zero, Vector2<int>.Zero, 1 << (id - 'a'), 0) { }
         #endregion
 
         #region Methods
@@ -45,23 +46,23 @@ public class Day18 : Solver<Day18.Maze>
     /// </summary>
     public class Maze : ConsoleView<char>
     {
-        public class Node
+        private class Node
         {
             #region Properties
             /// <summary>
             /// Distance from the parent node to this node
             /// </summary>
-            public int FromParent { get; }
+            private int FromParent { get; }
 
             /// <summary>
             /// Position of the node
             /// </summary>
-            public Vector2 Position { get; }
+            private Vector2<int> Position { get; }
 
             /// <summary>
             /// Best child of the node
             /// </summary>
-            public Node? Child { get; private set; }
+            private Node? Child { get; set; }
 
             /// <summary>
             /// Total distance from the start to the end through this node
@@ -75,7 +76,7 @@ public class Day18 : Solver<Day18.Maze>
             /// </summary>
             /// <param name="position">Position of the node</param>
             /// <param name="fromParent">Distance from the parent node to this node, defaults to 0</param>
-            public Node(Vector2 position, int fromParent = 0)
+            public Node(Vector2<int> position, int fromParent = 0)
             {
                 this.Position = position;
                 this.FromParent = fromParent;
@@ -88,7 +89,7 @@ public class Day18 : Solver<Day18.Maze>
             /// <param name="fromParent">Distance from the parent node to this node</param>
             /// <param name="maze">Maze the node is in</param>
             /// <param name="keys">Currently available keys</param>
-            private Node(Vector2 position, int fromParent, Maze maze, int keys) : this(position, fromParent) => Explore(maze, keys);
+            private Node(Vector2<int> position, int fromParent, Maze maze, int keys) : this(position, fromParent) => Explore(maze, keys);
             #endregion
 
             #region Methods
@@ -112,7 +113,7 @@ public class Day18 : Solver<Day18.Maze>
                     //Look at every key that can be traveled to
                     foreach (Lock locked in maze.locks.Values.Where(l => l.IsReachable(keys)))
                     {
-                        (Vector2, Vector2) travel = (this.Position, locked.Key);
+                        (Vector2<int>, Vector2<int>) travel = (this.Position, locked.Key);
                         if (!maze.distances.TryGetValue(travel, out int distance))
                         {
                             int? path = SearchUtils.GetPathLength(this.Position, locked.Key, v => (v - locked.Key).Length, v => FindNeighbours(v, maze, locked.ID, keys), MinSearchComparer.Comparer, maze.distances);
@@ -147,10 +148,10 @@ public class Day18 : Solver<Day18.Maze>
             /// <param name="key">Searched key</param>
             /// <param name="keys">Hashset of currently unlocked keys</param>
             /// <returns>An enumerable of all the neighbours around a given node</returns>
-            private static IEnumerable<(Vector2, double)> FindNeighbours(Vector2 position, Maze maze, char key, int keys)
+            private static IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position, Maze maze, char key, int keys)
             {
                 //Look through all neighbours
-                foreach (Vector2 neighbour in position.Adjacent().Where(n => maze[n] is not WALL))
+                foreach (Vector2<int> neighbour in position.Adjacent().Where(n => maze[n] is not WALL))
                 {
                     char value = maze[neighbour];
                     if (!char.IsLetter(value) || value == key || (keys & (1 << (char.ToLower(value) - 'a'))) is not 0)
@@ -169,14 +170,14 @@ public class Day18 : Solver<Day18.Maze>
         /// </summary>
         private const char WALL = '#';
         #endregion
-            
+
         #region Fields
         /// <summary>Locks dictionary</summary>
         private readonly Dictionary<char, Lock> locks = new(26);
         /// <summary>Travel distance dictionary</summary>
-        private readonly Dictionary<(Vector2, Vector2), int> distances = new();
+        private readonly Dictionary<(Vector2<int>, Vector2<int>), int> distances = new();
         /// <summary>Maze search states</summary>
-        private readonly Dictionary<(Vector2, int), Node> states = new();
+        private readonly Dictionary<(Vector2<int>, int), Node> states = new();
         /// <summary>Bit mask for all keys</summary>
         private readonly int allKeys;
         #endregion
@@ -185,7 +186,7 @@ public class Day18 : Solver<Day18.Maze>
         /// <summary>
         /// Starting/root node
         /// </summary>
-        public Node Start { get; }
+        private Node Start { get; }
         #endregion
 
         #region Constructors
@@ -196,25 +197,24 @@ public class Day18 : Solver<Day18.Maze>
         /// <param name="height">Height of the maze</param>
         /// <param name="input">Maze data</param>
         /// <param name="start">Starting position</param>
-        public Maze(int width, int height, string[] input, Vector2 start) : base(width, height, ToChar, start)
+        public Maze(int width, int height, string[] input, Vector2<int> start) : base(width, height, ToChar, start)
         {
             //Setup the maze
             Populate(input, s => s.ToCharArray());
 
             //Get all the keys and locks
-            foreach (Vector2 pos in Vector2.Enumerate(width, height))
+            foreach (Vector2<int> pos in Vector2<int>.Enumerate(width, height))
             {
                 char value = this.grid[pos.Y, pos.X];
                 char key = char.ToLower(value);
-                if (key is >= 'a' and <= 'z')
+                if (key is < 'a' or > 'z') continue;
+
+                if (!this.locks.TryGetValue(key, out Lock? currentLock))
                 {
-                    if (!this.locks.TryGetValue(key, out Lock? currentLock))
-                    {
-                        currentLock = new Lock(key);
-                        this.allKeys |= 1 << (key - 'a');
-                    }
-                    this.locks[key] = char.IsLower(value) ? currentLock with { Key = pos - start } : currentLock with { Door = pos - start };
+                    currentLock = new(key);
+                    this.allKeys |= 1 << (key - 'a');
                 }
+                this.locks[key] = char.IsLower(value) ? currentLock with { Key = pos - start } : currentLock with { Door = pos - start };
             }
 
             //Get all the key requirements
@@ -223,23 +223,20 @@ public class Day18 : Solver<Day18.Maze>
             foreach (Lock target in allLocks)
             {
                 int required = 0;
-                Vector2[]? path = SearchUtils.Search(Vector2.Zero, target.Key, v => (v - target.Key).Length, FindNeighbours, MinSearchComparer.Comparer);
+                Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target.Key, v => (v - target.Key).Length, FindNeighbours, MinSearchComparer.Comparer);
                 if (path is not null)
                 {
-                    foreach (char door in path.Select(v => this[v]).Where(c => c is >= 'A' and <= 'Z'))
-                    {
-                        required |= 1 << (door - 'A');
-                    }
+                    required = path.Select(v => this[v]).Where(c => c is >= 'A' and <= 'Z').Aggregate(required, (current, door) => current | 1 << (door - 'A'));
                 }
 
                 this.locks[target.ID] = target with { Required = required };
             }
 
             //Create search graph
-            this.Start = new Node(Vector2.Zero);
+            this.Start = new(Vector2<int>.Zero);
         }
         #endregion
-            
+
         #region Methods
         /// <summary>
         /// Finds the shortest path through the maze to collect all keys
@@ -256,14 +253,10 @@ public class Day18 : Solver<Day18.Maze>
         /// </summary>
         /// <param name="position">Position to look from</param>
         /// <returns>An enumerable of all the neighbours around a given node</returns>
-        private IEnumerable<(Vector2, double)> FindNeighbours(Vector2 position)
+        private IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position)
         {
             //Look through all neighbours
-            foreach (Vector2 neighbour in position.Adjacent().Where(n => this[n] is not WALL))
-            {
-                //Return neighbours with a distance of 1
-                yield return (neighbour, 1d);
-            }
+            return position.Adjacent().Where(n => this[n] is not WALL).Select(neighbour => (neighbour, 1d));
         }
         #endregion
 
@@ -285,7 +278,7 @@ public class Day18 : Solver<Day18.Maze>
         }
         #endregion
     }
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
@@ -308,8 +301,8 @@ public class Day18 : Solver<Day18.Maze>
     {
         int height = rawInput.Length;
         int width = rawInput[0].Length;
-        Vector2 start = Vector2.Enumerate(width, height).First(v => rawInput[v.Y][v.X] is '@');
-        return new Maze(rawInput[0].Length, rawInput.Length, rawInput, start);
+        Vector2<int> start = Vector2<int>.Enumerate(width, height).First(v => rawInput[v.Y][v.X] is '@');
+        return new(rawInput[0].Length, rawInput.Length, rawInput, start);
     }
     #endregion
 }

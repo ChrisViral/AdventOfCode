@@ -5,7 +5,8 @@ using AdventOfCode.Grids;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2;
+using AdventOfCode.Utils.Extensions;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -20,7 +21,7 @@ public class Day11 : GridSolver<Day11.Seat>
         EMPTY,
         TAKEN
     }
-        
+
     #region Constants
     /// <summary>
     /// All cardinal and diagonal direction vectors
@@ -74,7 +75,7 @@ public class Day11 : GridSolver<Day11.Seat>
                                 changes = true;
                             }
                             break;
-                        
+
                         case Seat.TAKEN:
                             int taken = 0;
                             if (position.Adjacent(true).Where(current.WithinGrid).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
@@ -128,7 +129,7 @@ public class Day11 : GridSolver<Day11.Seat>
                                 changes = true;
                             }
                             break;
-                        
+
                         case Seat.TAKEN:
                             int taken = 0;
                             foreach (Vector2 direction in directions)
@@ -173,7 +174,7 @@ public class Day11 : GridSolver<Day11.Seat>
         }
         return seats;
     }
-        
+
     /// <inheritdoc cref="GridSolver{T}.StringConversion"/>
     protected override string StringConversion(Seat seat)
     {

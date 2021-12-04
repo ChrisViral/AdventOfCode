@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -20,7 +21,7 @@ public class Day18 : Solver<string[][]>
         ADD,
         MULTIPLY
     }
-        
+
     #region Constants
     /// <summary>
     /// Add symbol
@@ -192,7 +193,7 @@ public class Day18 : Solver<string[][]>
                     break;
             }
         }
-            
+
         return multipliers.Peek().Aggregate(1L, (a, b) => a * b) * total;
     }
 
@@ -213,13 +214,13 @@ public class Day18 : Solver<string[][]>
             case Operation.MULTIPLY:
                 multipliers.Add(a);
                 return b;
-                
+
             default:
                 throw new InvalidEnumArgumentException(nameof(operation), (int)operation, typeof(Operation));
         }
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override string[][] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => s.Split(' ', StringSplitOptions.TrimEntries));
+    protected override string[][] Convert(string[] rawInput) => rawInput.ConvertAll(s => s.Split(' ', StringSplitOptions.TrimEntries));
     #endregion
 }

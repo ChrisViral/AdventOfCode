@@ -4,9 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Grids;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -27,7 +28,7 @@ public class Day24 : Solver<Day24.Neighbour[][]>
         SOUTH_EAST,
         SOUTH_WEST
     }
-        
+
     #region Constants
     /// <summary>
     /// Neighbour pattern
@@ -50,7 +51,7 @@ public class Day24 : Solver<Day24.Neighbour[][]>
         ["sw"] = Neighbour.SOUTH_WEST
     };
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed

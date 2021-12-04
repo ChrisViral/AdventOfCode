@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -20,7 +21,7 @@ public class Day08 : Solver<Day08.Instruction[]>
         ACC,
         JMP
     }
-        
+
     /// <summary>
     /// Instruction structure
     /// </summary>
@@ -92,7 +93,7 @@ public class Day08 : Solver<Day08.Instruction[]>
             this.accumulator = 0;
             this.pointer = 0;
             this.visited.Clear();
-                
+
             if (this.Data[i].Operation is not Operations.ACC && RunProgram(i))
             {
                 AoCUtils.LogPart2(this.accumulator);
@@ -126,6 +127,6 @@ public class Day08 : Solver<Day08.Instruction[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Instruction[] Convert(string[] rawInput) => Array.ConvertAll(rawInput, s => new Instruction(s));
+    protected override Instruction[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new Instruction(s));
     #endregion
 }

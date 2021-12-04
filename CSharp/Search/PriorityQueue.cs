@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 /* ==================================================================================== *\
  * Copyright © 2020 Christophe Savard                                                   *
@@ -191,7 +193,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             T parent = this.heap[j];
             this.heap[i] = parent;
             this.indices[parent] = i;
-                
+
             //Swap child
             this.heap[j] = value;
             i = j;
@@ -310,7 +312,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>First Item in the queue</returns>
     /// <exception cref="InvalidOperationException">Cannot peek if the queue is empty</exception>
     public T Peek() => !this.IsEmpty ? this.heap[0] : throw new InvalidOperationException("Queue empty, operation invalid");
-        
+
     /// <summary>
     /// Tries to get and return the first element of the queue without removing it, if it has one
     /// </summary>
@@ -455,7 +457,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public void CopyTo(T[] array, int index)
     {
         this.heap.CopyTo(array, index);
-        Array.Sort(array, this.comparer);
+        array.Sort(this.comparer);
     }
 
     /// <summary>
@@ -466,9 +468,9 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public T[] ToArray()
     {
         if (this.IsEmpty) return Array.Empty<T>();
-            
+
         T[] a = this.heap.ToArray();
-        Array.Sort(a, this.comparer);
+        a.Sort(this.comparer);
         return a;
     }
 
@@ -480,7 +482,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public List<T> ToList()
     {
         if (this.IsEmpty) return new List<T>();
-            
+
         List<T> l = new(this.heap);
         l.Sort(this.comparer);
         return l;
@@ -516,7 +518,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>Iterator going through this sequence</returns>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     #endregion
-        
+
     #region Static methods
     /// <summary>
     /// Returns the index of the parent node

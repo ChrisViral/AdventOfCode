@@ -8,6 +8,7 @@ using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -16,7 +17,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day17 : IntcodeSolver
 {
-    public enum Hull
+    private enum Hull
     {
         EMPTY       = '.',
         SCAFFOLD    = '#',
@@ -25,7 +26,7 @@ public class Day17 : IntcodeSolver
         ROBOT_LEFT  = '<',
         ROBOT_RIGHT = '>'
     }
-        
+
     #region Fields
     private (int x, int y) writePos = (0, -1);
     private ConsoleView<Hull> hull = null!;
@@ -48,27 +49,28 @@ public class Day17 : IntcodeSolver
         this.VM.Run();
         StringBuilder scaffoldBuilder = new();
         this.VM.GetOutput().Select(o => (char)o).ForEach(c => scaffoldBuilder.Append(c));
-            
+
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        this.hull = new ConsoleView<Hull>(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
-        this.hull.Populate(view, s => Array.ConvertAll(s.ToCharArray(), c => (Hull)c));
+        this.hull = new(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
+        this.hull.Populate(view, s => s.ToCharArray().ConvertAll(c => (Hull)c));
 
         //Setup what is visible
-        Vector2? position = Vector2.Zero;
+        Vector2<int>? position = Vector2<int>.Zero;
         int alignment = 0;
         foreach (int y in ..this.hull.Height)
         {
             foreach (int x in ..this.hull.Width)
             {
-                Vector2 pos = new(x, y);
+                Vector2<int> pos = new(x, y);
+                // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                 switch (this.hull[pos])
                 {
                     //Intersections
                     case Hull.SCAFFOLD when pos.Adjacent().All(p => this.hull.WithinGrid(p) && this.hull[p] is Hull.SCAFFOLD):
                         alignment += pos.X * pos.Y;
                         break;
-                        
+
                     //Robot position
                     case Hull.ROBOT_UP:
                     case Hull.ROBOT_DOWN:
@@ -81,14 +83,14 @@ public class Day17 : IntcodeSolver
             }
         }
         AoCUtils.LogPart1(alignment);
-            
+
         //Get pathing
         Directions direction = Directions.UP;
         int steps = 1;
         StringBuilder pathBuilder = new();
         while (true)
         {
-            Vector2? newPosition = this.hull.MoveWithinGrid(position!.Value, direction);
+            Vector2<int>? newPosition = this.hull.MoveWithinGrid(position.Value, direction);
             if (newPosition.HasValue && this.hull[newPosition.Value] is Hull.SCAFFOLD)
             {
                 //Movement valid
@@ -102,7 +104,7 @@ public class Day17 : IntcodeSolver
                     pathBuilder.Append(steps).Append(',');
                     steps = 1;
                 }
-                    
+
                 //Try to turn left
                 direction = direction.TurnLeft();
                 newPosition = this.hull.MoveWithinGrid(position.Value, direction);
@@ -134,14 +136,14 @@ public class Day17 : IntcodeSolver
         foreach (int i in ..3)
         {
             string instruction = regex.Match(pathBuilder.ToString()).Groups[1].Value;
-            pathBuilder.Replace(instruction, new string((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
+            pathBuilder.Replace(instruction, new((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
             instructions[i] = instruction + "\n";
         }
-            
+
         //Setup for video feed
         this.VM.Reset();
         this.VM[0] = 2L;
-            
+
         //Print all prompts
         Prompt(pathBuilder.Append(",C,B,A\n").ToString(), this.hull.Size + this.hull.Height + 1);
         instructions.ForEach(s => Prompt(s));
@@ -162,7 +164,7 @@ public class Day17 : IntcodeSolver
     private void Prompt(string response, int skip = 0)
     {
         this.VM.Run();
-        string prompt = new(Array.ConvertAll(this.VM.GetOutput()[skip..^1], i => (char)i));
+        string prompt = new(this.VM.GetOutput()[skip..^1].ConvertAll(i => (char)i));
         Console.Write($"{prompt} {response}");
         this.VM.AddInput(response);
     }
@@ -191,7 +193,7 @@ public class Day17 : IntcodeSolver
                 this.hull[this.writePos] = (Hull)value;
                 this.writePos.x++;
                 break;
-                
+
             default:
                 //Final answer
                 AoCUtils.LogPart2(value);

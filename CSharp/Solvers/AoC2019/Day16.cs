@@ -2,6 +2,7 @@
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -20,7 +21,7 @@ public class Day16 : Solver<string>
     /// </summary>
     private const int REPEATS = 10_000;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
@@ -71,7 +72,7 @@ public class Day16 : Solver<string>
         //Get full input and cutoff at the offset
         int offset = int.Parse(this.Data[..7]);
         current = Enumerable.Repeat(this.Data, REPEATS).SelectMany(s => s).Skip(offset).ToArray();
-            
+
         //Regenerate old/new array
         length = current.Length;
         updated = new char[length];

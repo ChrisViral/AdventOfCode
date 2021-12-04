@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics.Contracts;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Base;
 
 /// <summary>
 /// Solver base class
 /// </summary>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class Solver : ISolver
 {
     #region Constants
@@ -57,6 +58,7 @@ public abstract class Solver : ISolver
 /// Solver generic class
 /// </summary>
 /// <typeparam name="T">The fully parse input type</typeparam>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class Solver<T> : Solver
 {
     #region Properties
@@ -64,11 +66,11 @@ public abstract class Solver<T> : Solver
     /// Parsed input data
     /// </summary>
     protected new T Data { get; }
-        
+
     /// <summary>
     /// If the Solver has been disposed or not
     /// </summary>
-    public bool IsDisposed { get; protected set; }
+    private bool IsDisposed { get; set; }
     #endregion
 
     #region Constructors
@@ -93,7 +95,7 @@ public abstract class Solver<T> : Solver
         }
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public override void Dispose()

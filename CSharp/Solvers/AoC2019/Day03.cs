@@ -4,13 +4,14 @@ using System.Linq;
 using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
 /// <summary>
 /// Solver for 2019 Day 03
 /// </summary>
-public class Day03 : Solver<(Vector2[] first, Vector2[] second)>
+public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 {
     #region Constructors
     /// <summary>
@@ -25,10 +26,10 @@ public class Day03 : Solver<(Vector2[] first, Vector2[] second)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        Dictionary<Vector2, int> firstVisited = GetVisited(this.Data.first);
-        Dictionary<Vector2, int> secondVisited = GetVisited(this.Data.second);
+        Dictionary<Vector2<int>, int> firstVisited = GetVisited(this.Data.first);
+        Dictionary<Vector2<int>, int> secondVisited = GetVisited(this.Data.second);
 
-        HashSet<Vector2> intersections = new(firstVisited.Keys);
+        HashSet<Vector2<int>> intersections = new(firstVisited.Keys);
         intersections.IntersectWith(secondVisited.Keys);
 
         int min = intersections.Min(i => Math.Abs(i.X) + Math.Abs(i.Y));
@@ -43,15 +44,15 @@ public class Day03 : Solver<(Vector2[] first, Vector2[] second)>
     /// </summary>
     /// <param name="movements">Sequence of movements made by the wire</param>
     /// <returns>A dictionary containing the visited location as key and steps amount as values</returns>
-    private static Dictionary<Vector2, int> GetVisited(IEnumerable<Vector2> movements)
+    private static Dictionary<Vector2<int>, int> GetVisited(IEnumerable<Vector2<int>> movements)
     {
         int steps = 0;
-        Vector2 position = Vector2.Zero;
-        Dictionary<Vector2, int> visited = new();
-        foreach (Vector2 movement in movements)
+        Vector2<int> position = Vector2<int>.Zero;
+        Dictionary<Vector2<int>, int> visited = new();
+        foreach (Vector2<int> movement in movements)
         {
-            Vector2 step = movement / Math.Max(Math.Abs(movement.X), Math.Abs(movement.Y));
-            Vector2 target = position + movement;
+            Vector2<int> step = movement / Math.Max(Math.Abs(movement.X), Math.Abs(movement.Y));
+            Vector2<int> target = position + movement;
             do
             {
                 steps++;
@@ -65,6 +66,6 @@ public class Day03 : Solver<(Vector2[] first, Vector2[] second)>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Vector2[], Vector2[]) Convert(string[] rawInput) => (Array.ConvertAll(rawInput[0].Split(','), Vector2.ParseFromDirection), Array.ConvertAll(rawInput[1].Split(','), Vector2.ParseFromDirection));
+    protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput) => (rawInput[0].Split(',').ConvertAll(Vector2<int>.ParseFromDirection), rawInput[1].Split(',').ConvertAll(Vector2<int>.ParseFromDirection));
     #endregion
 }

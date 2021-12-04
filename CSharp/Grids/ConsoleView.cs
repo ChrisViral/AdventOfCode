@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
+using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Grids;
 
@@ -18,7 +19,7 @@ public enum Anchor
     BOTTOM_RIGHT,
     MIDDLE
 }
-    
+
 /// <summary>
 /// Console interactive view
 /// </summary>
@@ -46,7 +47,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         get => this[new Vector2(x, y)];
         set => this[new Vector2(x, y)] = value;
     }
-        
+
     /// <summary>
     /// Gets or sets a position in the view
     /// </summary>
@@ -90,7 +91,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         this.toChar = toChar;
         this.sleepTime = 1000 / fps;
     }
-        
+
     /// <summary>
     /// Creates a new ConsoleView of the given height and width
     /// </summary>
@@ -100,20 +101,20 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by, defaults to MIDDLE</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor switch
         {
             Anchor.TOP_LEFT     => Vector2.Zero,
-            Anchor.TOP_RIGHT    => new Vector2(width - 1, 0),
-            Anchor.BOTTOM_LEFT  => new Vector2(0, height - 1),
-            Anchor.BOTTOM_RIGHT => new Vector2(width - 1, height - 1),
-            Anchor.MIDDLE       => new Vector2(width / 2, height / 2),
+            Anchor.TOP_RIGHT    => new(width - 1, 0),
+            Anchor.BOTTOM_LEFT  => new(0, height - 1),
+            Anchor.BOTTOM_RIGHT => new(width - 1, height - 1),
+            Anchor.MIDDLE       => new(width / 2, height / 2),
             _                   => throw new InvalidEnumArgumentException(nameof(anchor), (int)anchor, typeof(Anchor))
         };
         FillDefault(converter, defaultValue);
     }
-        
+
     /// <summary>
     /// Creates a new ConsoleView of the given height and width
     /// </summary>
@@ -123,7 +124,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2 anchor, T defaultValue = default, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2 anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor;
         FillDefault(converter, defaultValue);
@@ -139,10 +140,10 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     private void FillDefault(Converter<T, char> converter, T defaultValue)
     {
         //View buffer
-        Array.Fill(this.viewBuffer, converter(defaultValue));
+        this.viewBuffer.Fill(converter(defaultValue));
         //Maze buffer
         T[] line = new T[this.Width];
-        Array.Fill(line, defaultValue);
+        line.Fill(defaultValue);
         //Set everything in the arrays
         foreach (int j in ..this.Height)
         {
@@ -156,7 +157,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
                 foreach (int i in ..this.Width)
                 {
                     this.grid[j, i] = line[i];
-                }   
+                }
             }
         }
     }
@@ -165,7 +166,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     public new void Populate(string[] input, Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
-            
+
         for ((int x, int y) pos = (0, 0); pos.y < this.Height; pos.y++)
         {
             T[] result = converter(input[pos.y]);
@@ -177,7 +178,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
             }
         }
     }
-        
+
     /// <summary>
     /// Prints the view screen to the console and waits to hit the target FPS
     /// </summary>
@@ -206,7 +207,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public override Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
+    public override Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
 
     /// <summary>
     /// Moves the vector within the grid

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
 /// <summary>
 /// Solver for 2021 Day 03
 /// </summary>
-public class Day03 : Solver<string[]>
+public class Day03 : Solver
 {
     #region Constants
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>
@@ -59,8 +60,8 @@ public class Day03 : Solver<string[]>
         int[] countsCopy = new int[counts.Length];
         counts.CopyTo(countsCopy, 0);
         // Get oxygen generator and CO2 scrubber values
-        int generator = System.Convert.ToInt32(GetRating(counts,     '1', '0'), 2);
-        int scrubber  = System.Convert.ToInt32(GetRating(countsCopy, '0', '1'), 2);
+        int generator = Convert.ToInt32(GetRating(counts,     '1', '0'), 2);
+        int scrubber  = Convert.ToInt32(GetRating(countsCopy, '0', '1'), 2);
         AoCUtils.LogPart2(generator * scrubber);
     }
 
@@ -101,8 +102,5 @@ public class Day03 : Solver<string[]>
 
         return valid.First();
     }
-
-    /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override string[] Convert(string[] rawInput) => rawInput;
     #endregion
 }
