@@ -30,7 +30,7 @@ public class Grid<T> : IEnumerable<T>
     /// Grid height
     /// </summary>
     public int Height { get; }
-        
+
     /// <summary>
     /// Size of the grid
     /// </summary>
@@ -72,7 +72,7 @@ public class Grid<T> : IEnumerable<T>
         set => this.grid[tuple.y, tuple.x] = value;
     }
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new grid with the specified size
@@ -85,7 +85,7 @@ public class Grid<T> : IEnumerable<T>
     {
         if (width <= 0)  throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
-            
+
         this.Width = width;
         this.Height = height;
         this.Size = width * height;
@@ -166,7 +166,7 @@ public class Grid<T> : IEnumerable<T>
     public void CopyFrom(Grid<T> other)
     {
         if (other.Size != this.Size) throw new InvalidOperationException("Cannot copy two grids with different sizes");
-            
+
         //Copy data over
         if (this.rowBufferSize > 0)
         {
@@ -177,7 +177,7 @@ public class Grid<T> : IEnumerable<T>
             Array.Copy(other.grid, this.grid, this.Size);
         }
     }
-        
+
     /// <summary>
     /// Gets the given row of the grid<br/>
     /// <b>NOTE</b>: This allocates a new array on each call
@@ -188,9 +188,9 @@ public class Grid<T> : IEnumerable<T>
     public T[] GetRow(int y)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-            
+
         T[] row = new T[this.Width];
-        if (this.rowBufferSize != 0)
+        if (this.rowBufferSize is not 0)
         {
             //For primitives only
             Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
@@ -203,6 +203,33 @@ public class Grid<T> : IEnumerable<T>
             }
         }
         return row;
+    }
+
+    /// <summary>
+    /// Gets the given row of the grid without allocations
+    /// </summary>
+    /// <param name="y">Row index of the row to get</param>
+    /// <param name="row">Array in which to store the row data</param>
+    /// <returns>The specified row of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
+    /// <exception cref="ArgumentException">If <paramref name="row"/> is too small to fit the size of the row</exception>
+    public void GetRowNoAlloc(int y, T[] row)
+    {
+        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
+        if (row.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
+
+        if (this.rowBufferSize is not 0)
+        {
+            //For primitives only
+            Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
+        }
+        else
+        {
+            for (int i = 0; i < this.Width; i++)
+            {
+                row[i] = this[i, y];
+            }
+        }
     }
 
     /// <summary>
@@ -225,6 +252,25 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <summary>
+    /// Gets the given column of the grid without allocations
+    /// </summary>
+    /// <param name="x">Column index of the column to get</param>
+    /// <param name="column">Array in which to store the column data</param>
+    /// <returns>The specified column of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
+    /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
+    public void GetColumnNoAlloc(int x, T[] column)
+    {
+        if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
+        if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
+
+        for (int j = 0; j < this.Height; j++)
+        {
+            column[j] = this[x, j];
+        }
+    }
+
+    /// <summary>
     /// Moves the vector within the grid
     /// </summary>
     /// <param name="vector">Vector to move</param>
@@ -233,7 +279,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
     public virtual Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector(), wrapX, wrapY);
-        
+
     /// <summary>
     /// Moves the vector within the grid
     /// </summary>
