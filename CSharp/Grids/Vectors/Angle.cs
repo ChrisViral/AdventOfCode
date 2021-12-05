@@ -6,33 +6,40 @@ namespace AdventOfCode.Grids.Vectors;
 /// <summary>
 /// An angle object
 /// </summary>
-public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle>, IFormattable
+public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtractionOperators<Angle, Angle, Angle>,
+                               IUnaryNegationOperators<Angle, Angle>, IUnaryPlusOperators<Angle, Angle>,
+                               IComparisonOperators<Angle, Angle>, IFormattable
 {
     #region Constants
     /// <summary>
     /// Radians to degrees conversion factor
     /// </summary>
-    public const double RAD_TO_DEG = 180d / Math.PI;
+    /// ReSharper disable once InconsistentNaming MemberCanBePrivate.Global
+    public const double RAD2DEG = 180d / Math.PI;
     /// <summary>
     /// Degrees to radians conversion factor
     /// </summary>
-    public const double DEG_TO_RAD = Math.PI / 180d;
+    /// ReSharper disable once InconsistentNaming
+    public const double DEG2RAD = Math.PI / 180d;
     /// <summary>
     /// Radians to gradians conversion factor
     /// </summary>
-    public const double RAD_TO_GRAD = 200d / Math.PI;
+    /// ReSharper disable once InconsistentNaming MemberCanBePrivate.Global
+    public const double RAD2GRAD = 200d / Math.PI;
     /// <summary>
     /// Gradians to radians conversion factor
     /// </summary>
-    public const double GRAD_TO_RAD = Math.PI / 200d;
+    /// ReSharper disable once InconsistentNaming MemberCanBePrivate.Global
+    public const double GRAD2RAD = Math.PI / 200d;
     /// <summary>
     /// Total angles in radians in a circle
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public const double FULL_CIRCLE = 2d * Math.PI;
     /// <summary>
     /// Equality angle tolerance
     /// </summary>
-    private const double TOLERANCE = 1E-5;
+    private const double TOLERANCE = 1E-10d;
     /// <summary>
     /// Zero angle
     /// </summary>
@@ -58,13 +65,13 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// The angles as degrees
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public double Degrees => this.Radians * RAD_TO_DEG;
+    public double Degrees => this.Radians * RAD2DEG;
 
     /// <summary>
     /// The angle as gradians
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public double Gradians => this.Radians * RAD_TO_GRAD;
+    public double Gradians => this.Radians * RAD2GRAD;
 
     /// <summary>
     /// The angle as DMS (degrees, minutes, seconds)
@@ -154,7 +161,8 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     public override bool Equals(object? obj) => obj is Angle angle && Equals(angle);
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-    public bool Equals(Angle other) => Math.Abs(this.Radians - other.Radians) < TOLERANCE;
+    /// ReSharper disable once CompareOfFloatsByEqualityOperator
+    public bool Equals(Angle other) => this.Radians == other.Radians;
 
     /// <inheritdoc cref="object.GetHashCode"/>
     public override int GetHashCode() => this.Radians.GetHashCode();
@@ -195,19 +203,15 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
             }
         }
 
-        switch (format)
+        switch (format?.ToUpper())
         {
             case "R":
-            case "r":
                 return $"{this.Radians}rad";
             case "D":
-            case "d":
                 return $"{this.Degrees}°";
             case "G":
-            case "g":
                 return $"{this.Gradians}gon";
             case "A":
-            case "a":
                 (int d, int m, double s) = this.DMS;
                 return $"{d}°{m}'{s}\"";
             default:
@@ -244,14 +248,14 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// </summary>
     /// <param name="degrees">Degrees of the angle</param>
     /// <returns>The angle object</returns>
-    public static Angle FromDegrees(double degrees) => FromRadians(degrees * DEG_TO_RAD);
+    public static Angle FromDegrees(double degrees) => FromRadians(degrees * DEG2RAD);
 
     /// <summary>
     /// Creates a new angle from gradians
     /// </summary>
     /// <param name="gradians">Gradians of the angle</param>
     /// <returns>The angle object</returns>
-    public static Angle FromGradians(double gradians) => FromRadians(gradians * GRAD_TO_RAD);
+    public static Angle FromGradians(double gradians) => FromRadians(gradians * GRAD2RAD);
 
     /// <summary>
     /// Creates a new angle from DMS (degrees, minutes, seconds)
@@ -268,25 +272,25 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="s">Seconds of the angle</param>
     /// <returns>The angle object</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG_TO_RAD);
+    public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG2RAD);
     #endregion
 
     #region Operators
     /// <summary>
-    /// Equality on two angles
+    /// Equality on two angles, accounting for floating point errors
     /// </summary>
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both angles are equal, false otherwise</returns>
-    public static bool operator ==(in Angle a, in Angle b) => a.Equals(b);
+    public static bool operator ==(Angle a, Angle b) => Math.Abs(a.Radians - b.Radians) < TOLERANCE;
 
     /// <summary>
-    /// Inequality on two angles
+    /// Inequality on two angles, accounting for floating point errors
     /// </summary>
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both angles are unequal, false otherwise</returns>
-    public static bool operator !=(in Angle a, in Angle b) => !a.Equals(b);
+    public static bool operator !=(Angle a, Angle b) => Math.Abs(a.Radians - b.Radians) < TOLERANCE;
 
     /// <summary>
     /// Less than on two vectors
@@ -294,7 +298,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is less than the second, false otherwise</returns>
-    public static bool operator <(in Angle a, in Angle b) => a.Radians < b.Radians;
+    public static bool operator <(Angle a, Angle b) => a.Radians < b.Radians;
 
     /// <summary>
     /// Greater than on two vectors
@@ -302,7 +306,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is greater than the second, false otherwise</returns>
-    public static bool operator >(in Angle a, in Angle b) => a.Radians > b.Radians;
+    public static bool operator >(Angle a, Angle b) => a.Radians > b.Radians;
 
     /// <summary>
     /// Less than or equals on two vectors
@@ -310,7 +314,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is less than or equals the second, false otherwise</returns>
-    public static bool operator <=(in Angle a, in Angle b) => a.Radians <= b.Radians;
+    public static bool operator <=(Angle a, Angle b) => a.Radians <= b.Radians;
 
     /// <summary>
     /// Greater than or equals on two vectors
@@ -318,7 +322,30 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is greater than or equals the second, false otherwise</returns>
-    public static bool operator >=(in Angle a, in Angle b) => a.Radians >= b.Radians;
+    public static bool operator >=(Angle a, Angle b) => a.Radians >= b.Radians;
+
+    /// <summary>
+    /// Negation of an angle. The result is between -180 and 180 degrees
+    /// </summary>
+    /// <param name="a">Angle to negate</param>
+    /// <returns>The negated angle, between -180 and 180 degrees</returns>
+    public static Angle operator -(Angle a)
+    {
+        double angle = a.Radians;
+        if (angle > Math.PI)
+        {
+            angle -= Math.PI;
+        }
+
+        return new(-angle);
+    }
+
+    /// <summary>
+    /// Plus angle operator, does not affect the angle
+    /// </summary>
+    /// <param name="a">Angle to apply the operator to</param>
+    /// <returns>Same as <paramref name="a"/></returns>
+    public static Angle operator +(Angle a) => a;
 
     /// <summary>
     /// Addition on two angles. The result is between 0 and 360 degrees
@@ -326,7 +353,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>The sum angle of a and b, between 0 and 360 degrees</returns>
-    public static Angle operator +(in Angle a, in Angle b)
+    public static Angle operator +(Angle a, Angle b)
     {
         double angle = a.Radians + b.Radians;
         if (angle > FULL_CIRCLE)
@@ -343,7 +370,7 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>The subtracted angle of a and b, between 0 and 360 degrees</returns>
-    public static Angle operator -(in Angle a, in Angle b)
+    public static Angle operator -(Angle a, Angle b)
     {
         double angle = a.Radians - b.Radians;
         if (angle < 0d)
@@ -352,22 +379,6 @@ public readonly struct Angle : IComparable, IComparable<Angle>, IEquatable<Angle
         }
 
         return new(angle);
-    }
-
-    /// <summary>
-    /// Negation of an angle. The result is between -180 and 180 degrees
-    /// </summary>
-    /// <param name="a">Angle to negate</param>
-    /// <returns>The negated angle, between -180 and 180 degrees</returns>
-    public static Angle operator -(in Angle a)
-    {
-        double angle = a.Radians;
-        if (angle > Math.PI)
-        {
-            angle -= Math.PI;
-        }
-
-        return new(-angle);
     }
     #endregion
 }
