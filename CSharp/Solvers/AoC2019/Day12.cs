@@ -242,7 +242,7 @@ public class Day12 : Solver<Day12.Moon[]>
         long y = CheckAxis(Axis.Y);
         long z = CheckAxis(Axis.Z);
 
-        AoCUtils.LogPart2(AoCUtils.LCM(x, y, z));
+        AoCUtils.LogPart2(MathUtils.LCM(x, y, z));
     }
 
     /// <summary>

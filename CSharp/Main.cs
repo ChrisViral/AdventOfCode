@@ -70,6 +70,10 @@ Trace.AutoFlush = true;
 
 Trace.WriteLine("Running Solver for " + solverData);
 
+#if DEBUG
+solver.Run();
+solver.Dispose();
+#else
 try
 {
     //Run solver
@@ -85,6 +89,7 @@ finally
 {
     solver.Dispose();
 }
+#endif
 
 //Cleanup and exit
 Trace.Close();

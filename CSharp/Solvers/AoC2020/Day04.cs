@@ -24,7 +24,7 @@ public class Day04 : Solver<Day04.Passport[]>
         private static readonly Regex idMatch     = new(@"^\d{9}$", OPTIONS);
         private static readonly HashSet<string> validEyeColours = new() { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
         #endregion
-            
+
         #region Fields
         public string? byr;
         public string? iyr;
@@ -34,7 +34,7 @@ public class Day04 : Solver<Day04.Passport[]>
         public string? ecl;
         public string? pid;
         #endregion
-            
+
         #region Properties
         public bool IsValid => this.byr is not null
                             && this.iyr is not null
@@ -64,7 +64,7 @@ public class Day04 : Solver<Day04.Passport[]>
                 case "in":
                     if (height is < 59 or > 76) return false;
                     break;
-                    
+
                 default:
                     return false;
             }

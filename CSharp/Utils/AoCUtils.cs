@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace AdventOfCode.Utils;
@@ -52,6 +51,12 @@ public static class AoCUtils
     /// </summary>
     /// <param name="answer">Answer to log</param>
     public static void LogPart2(object answer) => Trace.WriteLine($"Part 2: {answer}");
+
+    /// <summary>
+    /// Logs a message to the console and the log file
+    /// </summary>
+    /// <param name="message">Message to log</param>
+    public static void Log(object message) => Trace.WriteLine(message);
 
     /// <summary>
     /// Iterates over all the permutations of the given array
@@ -113,49 +118,6 @@ public static class AoCUtils
     }
 
     /// <summary>
-    /// Greatest Common Divisor function
-    /// </summary>
-    /// <param name="a">First number</param>
-    /// <param name="b">Second number</param>
-    /// <returns>Gets the GCD of a and b</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public static T GCD<T>(T a, T b) where T : IBinaryInteger<T>
-    {
-        a = T.Abs(a);
-        b = T.Abs(b);
-        while (a != T.Zero && b != T.Zero)
-        {
-            if (a > b)
-            {
-                a %= b;
-            }
-            else
-            {
-                b %= a;
-            }
-        }
-
-        return a | b;
-    }
-
-    public static T GCD<T>(params T[] numbers) where T : IBinaryInteger<T> => numbers.Aggregate(T.Zero, GCD);
-
-    /// <summary>
-    /// Least Common Multiple function
-    /// </summary>
-    /// <param name="a">First number</param>
-    /// <param name="b">Second number</param>
-    /// <returns>The LCM of a and b</returns>
-    public static T LCM<T>(T a, T b) where T : IBinaryInteger<T> => a * b / GCD(a, b);
-
-    /// <summary>
-    /// Least Common Multiple function
-    /// </summary>
-    /// <param name="numbers">Numbers to get the LCM for</param>
-    /// <returns>LCM of all the numbers in the array</returns>
-    public static T LCM<T>(params T[] numbers) where T : IBinaryInteger<T> => numbers.Aggregate(T.One, LCM);
-
-    /// <summary>
     /// Gets the size of the object in bytes for a given primitive type
     /// </summary>
     /// <typeparam name="T">Type of object</typeparam>
@@ -170,6 +132,21 @@ public static class AoCUtils
         return type == typeof(bool) ? 1 : (type == typeof(char) ? 2 : Marshal.SizeOf<T>());
 
         //Normal behaviour
+    }
+
+    /// <summary>
+    /// Enumerates all the elements in the passed enumerable, along with the enumeration index
+    /// </summary>
+    /// <typeparam name="T">Type of element to enumerate</typeparam>
+    /// <param name="enumerable">Enumerable</param>
+    /// <returns></returns>
+    public static IEnumerable<(int index, T value)> Enumerate<T>(IEnumerable<T> enumerable)
+    {
+        int index = 0;
+        foreach (T value in enumerable)
+        {
+            yield return (index++, value);
+        }
     }
     #endregion
 }
