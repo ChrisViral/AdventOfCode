@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils;
 
 namespace AdventOfCode.Grids.Vectors;
 
@@ -97,6 +96,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// NOTE: If this is an integer vector, the reduced version is returned instead.
     /// </summary>
     /// <returns>The vector normalized</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public Vector2<T> Normalized => isInteger ? this.Reduced : this / T.Create(this.Length);
     #endregion
 
@@ -310,7 +310,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         }
 
         (double x, double y) = vector.Convert<double>();
-        double radians = angle * Vectors.Angle.DEG_TO_RAD;
+        double radians = angle * Vectors.Angle.DEG2RAD;
         Vector2<double> result = new(x * Math.Cos(radians) - y * Math.Sin(radians),
                                      x * Math.Sin(radians) + y * Math.Cos(radians));
         return result.Convert<T>();
