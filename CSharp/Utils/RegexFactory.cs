@@ -18,7 +18,7 @@ public class RegexFactory<T> where T : notnull
     private readonly Dictionary<int, ConstructorInfo> constructors;
     private readonly Dictionary<string, FieldInfo> fields;
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Creates a new RegexFactory with a given pattern for the specified type.<br/>
@@ -47,7 +47,7 @@ public class RegexFactory<T> where T : notnull
                           .ToDictionary(f => f.Name, f => f);
     }
     #endregion
-        
+
     #region Methods
     /// <summary>
     /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
@@ -123,7 +123,7 @@ public class RegexFactory<T> where T : notnull
 
         return results;
     }
-        
+
     /// <summary>
     /// Constructs <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
     /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
@@ -149,7 +149,7 @@ public class RegexFactory<T> where T : notnull
 
         return results;
     }
-        
+
     /// <summary>
     /// Populates a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
     /// To populate, all matches from the regex are found in the input string, then are separated<br/>
@@ -183,7 +183,7 @@ public class RegexFactory<T> where T : notnull
                 field.SetValue(obj, result);
             }
         }
-                
+
         //Set the object
         return obj;
     }
@@ -203,7 +203,7 @@ public class RegexFactory<T> where T : notnull
     {
         //Make sure some input is passed
         if (input.Count == 0) return Array.Empty<T>();
-            
+
         T[] results = new T[input.Count];
         for (int i = 0; i < input.Count; i++)
         {
@@ -213,7 +213,7 @@ public class RegexFactory<T> where T : notnull
         return results;
     }
     #endregion
-        
+
     #region Static methods
     /// <summary>
     /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
@@ -231,9 +231,10 @@ public class RegexFactory<T> where T : notnull
     /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
     public static T[] ConstructObjects(string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
     {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(pattern, options).ConstructObjects(input);
     }
-        
+
     /// <summary>
     /// Populates <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
     /// To populate, all matches from the regex are found in the input string, then are separated<br/>
@@ -250,6 +251,7 @@ public class RegexFactory<T> where T : notnull
     /// <exception cref="MissingMethodException">If no default constructor is found</exception>
     public static T[] PopulateObjects(string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
     {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(pattern, options).PopulateObjects(input);
     }
     #endregion
