@@ -14,7 +14,7 @@ public interface ISearchNode
     public double Cost { get; }
     #endregion
 }
-    
+
 /// <summary>
 /// Generic search node
 /// </summary>
@@ -32,7 +32,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     /// <summary>Heuristic function of the node</summary>
     private readonly Heuristic? heuristic;
     #endregion
-        
+
     #region Properties
     /// <summary>
     /// Cost to reach the node so far
@@ -62,7 +62,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
         this.CostSoFar = 0d;
         this.Value = value;
     }
-        
+
     /// <summary>
     /// Creates a new SearchNode for the specified value
     /// </summary>
@@ -78,7 +78,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
         this.Parent = parent;
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="object.Equals(object)"/>
     public override bool Equals(object? obj) => obj is SearchNode<T> other && this.Value.Equals(other.Value);
@@ -112,7 +112,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     /// <param name="b">Second node</param>
     /// <returns>True if both nodes are unequal, false otherwise</returns>
     public static bool operator !=(SearchNode<T> a, SearchNode<T> b) => !a.Equals(b);
-        
+
     /// <summary>
     /// Equality operator between a search node and a value
     /// </summary>
@@ -120,7 +120,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     /// <param name="b">Value</param>
     /// <returns>True if the value of the node equals the other value, false otherwise</returns>
     public static bool operator ==(SearchNode<T> a, T b) => a.Value.Equals(b);
-        
+
     /// <summary>
     /// Inequality operator between a search node and a value
     /// </summary>
