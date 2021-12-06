@@ -8,6 +8,7 @@ namespace AdventOfCode.Solvers.Specialized;
 /// <summary>
 /// Grid Solver base
 /// </summary>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class GridSolver<T> : Solver<Grid<T>>
 {
     #region Properties

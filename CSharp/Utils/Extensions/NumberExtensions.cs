@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Utils.Extensions;
 
@@ -52,6 +53,7 @@ public static class NumberExtensions
     /// <param name="n">Number to mod</param>
     /// <param name="mod">Mod value</param>
     /// <returns>The true mod of <paramref name="n"/> and <paramref name="mod"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Mod<T>(this T n, T mod) where T : INumber<T> => ((n % mod) + mod) % mod;
 
     /// <summary>
@@ -60,6 +62,7 @@ public static class NumberExtensions
     /// <typeparam name="T">Type of integer</typeparam>
     /// <param name="n">Nth triangular number to get</param>
     /// <returns>The <paramref name="n"/>th triangular number</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Triangular<T>(this T n) where T : IBinaryInteger<T> => (n * (n + T.One)) / Numbers<T>.Two;
 
     /// <summary>

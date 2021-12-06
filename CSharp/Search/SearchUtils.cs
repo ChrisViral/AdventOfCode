@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Grids.Vectors;
 
 namespace AdventOfCode.Search;
 
@@ -33,7 +32,7 @@ public static class SearchUtils
     public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer) where T : IEquatable<T>
     {
         SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer) { new SearchNode<T>(start) };
+        PriorityQueue<SearchNode<T>> search = new(comparer) { new(start) };
         Dictionary<SearchNode<T>, double> explored = new();
         while (search.TryPop(out SearchNode<T> current))
         {
@@ -51,12 +50,11 @@ public static class SearchUtils
                 if (explored.TryGetValue(neighbour, out double distance))
                 {
                     //If it is, check if we found a quicker way
-                    if (distance > neighbour.CostSoFar)
-                    {
-                        //If so, remove from closed list, and add back to open list
-                        explored.Remove(neighbour);
-                        search.Add(neighbour);
-                    }
+                    if (!(distance > neighbour.CostSoFar)) continue;
+
+                    //If so, remove from closed list, and add back to open list
+                    explored.Remove(neighbour);
+                    search.Add(neighbour);
                 }
                 //Check if it is in the open list
                 else if (search.Contains(neighbour))
@@ -70,30 +68,28 @@ public static class SearchUtils
                     search.Add(neighbour);
                 }
             }
-                
+
             //Add to the closed list after exploring
             explored.Add(current, current.CostSoFar);
         }
 
         //If we found the goal
-        if (foundGoal is not null)
-        {
-            //Trace the path and backtrack
-            Stack<T> path = new();
-            //While the parent is not null
-            while (foundGoal.Parent is not null)
-            {
-                //Push back and go deeper
-                path.Push(foundGoal.Value);
-                foundGoal = foundGoal.Parent;
-            }
+        if (foundGoal is null) return null;
 
-            //Copy the path back to an array and return
-            return path.ToArray();
+        //Trace the path and backtrack
+        Stack<T> path = new();
+        //While the parent is not null
+        while (foundGoal.Parent is not null)
+        {
+            //Push back and go deeper
+            path.Push(foundGoal.Value);
+            foundGoal = foundGoal.Parent;
         }
 
+        //Copy the path back to an array and return
+        return path.ToArray();
+
         //If the path is not found, return null
-        return null;
     }
 
     /// <summary>
@@ -113,7 +109,7 @@ public static class SearchUtils
     {
         int foundDistance = 0;
         SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer) { new SearchNode<T>(start) };
+        PriorityQueue<SearchNode<T>> search = new(comparer) { new(start) };
         Dictionary<SearchNode<T>, double> explored = new();
         while (search.TryPop(out SearchNode<T> current))
         {
@@ -131,12 +127,11 @@ public static class SearchUtils
                 if (explored.TryGetValue(neighbour, out double distance))
                 {
                     //If it is, check if we found a quicker way
-                    if (distance > neighbour.CostSoFar)
-                    {
-                        //If so, remove from closed list, and add back to open list
-                        explored.Remove(neighbour);
-                        search.Add(neighbour);
-                    }
+                    if (!(distance > neighbour.CostSoFar)) continue;
+
+                    //If so, remove from closed list, and add back to open list
+                    explored.Remove(neighbour);
+                    search.Add(neighbour);
                 }
                 //Check if it is in the open list
                 else if (search.Contains(neighbour))
@@ -150,28 +145,26 @@ public static class SearchUtils
                     search.Add(neighbour);
                 }
             }
-                
+
             //Add to the closed list after exploring
             explored.Add(current, current.CostSoFar);
         }
 
         //If we found the goal
-        if (foundGoal is not null)
-        {
-            //While the parent is not null
-            while (foundGoal.Parent is not null)
-            {
-                //Push back and go deeper
-                foundGoal = foundGoal.Parent;
-                distances.Add((foundGoal.Value, goal), ++foundDistance);
-            }
+        if (foundGoal is null) return null;
 
-            //Copy the path back to an array and return
-            return foundDistance;
+        //While the parent is not null
+        while (foundGoal.Parent is not null)
+        {
+            //Push back and go deeper
+            foundGoal = foundGoal.Parent;
+            distances.Add((foundGoal.Value, goal), ++foundDistance);
         }
 
+        //Copy the path back to an array and return
+        return foundDistance;
+
         //If the path is not found, return null
-        return null;
     }
     #endregion
 }

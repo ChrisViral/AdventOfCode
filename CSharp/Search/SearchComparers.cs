@@ -13,7 +13,7 @@ public sealed class MinSearchComparer : IComparer<ISearchNode>
     /// </summary>
     public static MinSearchComparer Comparer { get; } = new();
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Private constructor, prevents instantiation
@@ -26,10 +26,11 @@ public sealed class MinSearchComparer : IComparer<ISearchNode>
     public int Compare(ISearchNode? a, ISearchNode? b) => a?.Cost.CompareTo(b?.Cost) ?? 0;
     #endregion
 }
-    
+
 /// <summary>
 /// Maximum value search comparer
 /// </summary>
+/// ReSharper disable once UnusedType.Global
 public sealed class MaxSearchComparer : IComparer<ISearchNode>
 {
     #region Static properties
@@ -38,7 +39,7 @@ public sealed class MaxSearchComparer : IComparer<ISearchNode>
     /// </summary>
     public static MaxSearchComparer Comparer { get; } = new();
     #endregion
-        
+
     #region Constructors
     /// <summary>
     /// Private constructor, prevents instantiation
