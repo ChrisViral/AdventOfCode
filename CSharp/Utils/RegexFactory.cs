@@ -13,6 +13,14 @@ namespace AdventOfCode.Utils;
 /// <typeparam name="T">Type of objects created</typeparam>
 public class RegexFactory<T> where T : notnull
 {
+    #region Constants
+    /// <summary>Convertible type</summary>
+    /// ReSharper disable once StaticMemberInGenericType
+    private static readonly Type convertibleType = typeof(IConvertible);
+    /// <summary>Stored object type</summary>
+    private static readonly Type objectType      = typeof(T);
+    #endregion
+
     #region Fields
     private readonly Regex regex;
     private readonly Dictionary<int, ConstructorInfo> constructors;
@@ -34,17 +42,15 @@ public class RegexFactory<T> where T : notnull
         //Create Regex
         this.regex = new(pattern, options);
         //Get types
-        Type type = typeof(T);
-        Type convertible = typeof(IConvertible);
         //Get potential constructors
-        this.constructors = type.GetConstructors()
-                                .Where(c => c.GetParameters()
-                                             .All(p => convertible.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
-                                .ToDictionary(c => c.GetParameters().Length, c => c);
+        this.constructors = objectType.GetConstructors()
+                                      .Where(c => c.GetParameters()
+                                                   .All(p => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
+                                      .ToDictionary(c => c.GetParameters().Length, c => c);
         //Get potential fields
-        this.fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance)
-                          .Where(f => convertible.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
-                          .ToDictionary(f => f.Name, f => f);
+        this.fields = objectType.GetFields(BindingFlags.Public | BindingFlags.Instance)
+                                .Where(f => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
+                                .ToDictionary(f => f.Name, f => f);
     }
     #endregion
 
@@ -135,6 +141,7 @@ public class RegexFactory<T> where T : notnull
     /// <returns>An array of the created <typeparamref name="T"/> objects</returns>
     /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
     /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public T[] ConstructObjects(IReadOnlyList<string> input)
     {
         //Make sure some input is passed
@@ -161,6 +168,7 @@ public class RegexFactory<T> where T : notnull
     /// <returns>The populated <typeparamref name="T"/> object</returns>
     /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
     /// <exception cref="MissingMethodException">If no default constructor is found</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public T PopulateObject(string input)
     {
         //Find all matches, extract key/value pairs
@@ -174,14 +182,13 @@ public class RegexFactory<T> where T : notnull
         foreach ((string key, string value) in matches)
         {
             //If the key matches to a field
-            if (this.fields.TryGetValue(key, out FieldInfo? field))
-            {
-                //Get the underlying type if a nullable
-                Type fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
-                //Create and set the value
-                object result = Convert.ChangeType(value, fieldType) ?? throw new InvalidCastException($"Could not convert {value} to {fieldType}");
-                field.SetValue(obj, result);
-            }
+            if (!this.fields.TryGetValue(key, out FieldInfo? field)) continue;
+
+            //Get the underlying type if a nullable
+            Type fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+            //Create and set the value
+            object result = Convert.ChangeType(value, fieldType) ?? throw new InvalidCastException($"Could not convert {value} to {fieldType}");
+            field.SetValue(obj, result);
         }
 
         //Set the object
@@ -199,6 +206,7 @@ public class RegexFactory<T> where T : notnull
     /// <returns>An array of the populated <typeparamref name="T"/> objects</returns>
     /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
     /// <exception cref="MissingMethodException">If no default constructor is found</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public T[] PopulateObjects(IReadOnlyList<string> input)
     {
         //Make sure some input is passed

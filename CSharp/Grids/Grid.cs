@@ -56,6 +56,7 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="vector">Position vector in the grid</param>
     /// <returns>The element at the specified position</returns>
+    /// ReSharper disable once VirtualMemberNeverOverridden.Global
     public virtual T this[Vector2<int> vector]
     {
         get => this.grid[vector.Y, vector.X];
@@ -84,7 +85,7 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
     public Grid(int width, int height, Converter<T, string>? toString = null)
     {
-        if (width <= 0)  throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
+        if (width  <= 0) throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
 
         this.Width = width;
@@ -110,7 +111,11 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
     /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
     /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
-    public Grid(int width, int height, string[] input, Converter<string, T[]> converter, Converter<T, string>? toString = null) : this(width, height, toString) => Populate(input, converter);
+    public Grid(int width, int height, string[] input, Converter<string, T[]> converter, Converter<T, string>? toString = null)
+        : this(width, height, toString)
+    {
+        Populate(input, converter);
+    }
 
     /// <summary>
     /// Grid copy constructor
@@ -136,6 +141,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="converter">Conversion function from the input string to a full row</param>
     /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
     /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public void Populate(string[] input, Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
@@ -279,6 +285,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
+    /// ReSharper disable once UnusedMemberInSuper.Global
     public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
 
     /// <summary>
@@ -310,20 +317,19 @@ public class Grid<T> : IEnumerable<T>
         }
 
         //Wrap y axis
-        if (wrapY)
+        if (!wrapY) return new(result);
+
+        if (result.y >= this.Height)
         {
-            if (result.y >= this.Height)
-            {
-                result.y -= this.Height;
-            }
-            else if (result.y < 0)
-            {
-                result.y += this.Height;
-            }
+            result.y -= this.Height;
+        }
+        else if (result.y < 0)
+        {
+            result.y += this.Height;
         }
 
         //Return result
-        return new Vector2<int>(result);
+        return new(result);
     }
 
     /// <summary>

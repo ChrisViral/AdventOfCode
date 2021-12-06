@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
 
 /* ==================================================================================== *\
@@ -60,6 +59,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// If the queue is currently empty
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public bool IsEmpty => this.heap.Count is 0;
 
     /// <summary>
@@ -103,11 +103,12 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <param name="capacity">Capacity of the queue</param>
     /// <param name="comparer">Comparer to sort the Queue</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="capacity"/> is lower or equal to zero</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public PriorityQueue(int capacity, IComparer<T> comparer)
     {
         this.comparer = comparer;
-        this.heap = new List<T>(capacity);
-        this.indices = new Dictionary<T, int>(capacity);
+        this.heap     = new(capacity);
+        this.indices  = new(capacity);
     }
 
     /// <summary>
@@ -123,12 +124,13 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <param name="enumerable">Enumerable to make the PriorityQueue from</param>
     /// <param name="comparer">Comparer to sort the values</param>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public PriorityQueue(IEnumerable<T> enumerable, IComparer<T> comparer)
     {
         //Create the comparer and heap
         this.comparer = comparer;
-        this.heap = new List<T>(enumerable);
-        this.indices = new Dictionary<T, int>(this.heap.Count);
+        this.heap     = new(enumerable);
+        this.indices  = new(this.heap.Count);
 
         //Heapify the list
         for (int i = this.heap.Count / 2; i >= 1; i--)
@@ -147,10 +149,11 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// This constructor runs in <b>O(n)</b>
     /// </summary>
     /// <param name="queue">Queue to copy from</param>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public PriorityQueue(PriorityQueue<T> queue)
     {
-        this.heap = new List<T>(queue.heap);
-        this.indices = new Dictionary<T, int>(queue.indices);
+        this.heap     = new(queue.heap);
+        this.indices  = new(queue.indices);
         this.comparer = queue.comparer;
     }
     #endregion
@@ -182,7 +185,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     private void HeapUp(int i)
     {
         //If index is zero it's already at the top
-        if (i is 0) { return; }
+        if (i is 0) return;
 
         //Store value to move
         T value = this.heap[i];
@@ -199,6 +202,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             i = j;
             j = Parent(i);
         }
+
         //Set value to final index
         this.heap[i] = value;
         this.indices[value] = i;
@@ -272,6 +276,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <returns>The first element of the queue</returns>
     /// <exception cref="InvalidOperationException">Cannot pop if the queue is empty</exception>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public T Pop()
     {
         //Make sure the queue isn't empty
@@ -285,6 +290,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
         {
             HeapDown(0);
         }
+
         return value;
     }
 
@@ -353,15 +359,13 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public bool Remove(T value)
     {
         //Get the index in the list of the value
-        if (this.indices.TryGetValue(value, out int i))
-        {
-            //Remove it from the heap and update the heap position of the displaced object
-            RemoveAt(i, value);
-            Update(i);
-            return true;
-        }
+        if (!this.indices.TryGetValue(value, out int i)) return false;
+
+        //Remove it from the heap and update the heap position of the displaced object
+        RemoveAt(i, value);
+        Update(i);
+        return true;
         //If not found, return false
-        return false;
     }
 
     /// <summary>
@@ -371,17 +375,14 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>True if the value was successfully replaced, false otherwise</returns>
     public bool Replace(T value)
     {
-        if (this.indices.TryGetValue(value, out int i))
-        {
-            T old = this.heap[i];
-            if (this.comparer.Compare(value, old) < 0)
-            {
-                this.heap[i] = value;
-                HeapUp(i);
-                return true;
-            }
-        }
-        return false;
+        if (!this.indices.TryGetValue(value, out int i)) return false;
+
+        T old = this.heap[i];
+        if (this.comparer.Compare(value, old) >= 0) return false;
+
+        this.heap[i] = value;
+        HeapUp(i);
+        return true;
     }
 
     /// <summary>
@@ -409,14 +410,12 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public bool Update(T value)
     {
         //Makes sure object is within
-        if (this.indices.TryGetValue(value, out int i))
-        {
-            //Update the position
-            Update(i);
-            return true;
-        }
+        if (!this.indices.TryGetValue(value, out int i)) return false;
+
+        //Update the position
+        Update(i);
+        return true;
         //If the object was not found, return false
-        return false;
     }
 
     /// <summary>
@@ -428,6 +427,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     {
         //Get the parent of this index
         int j = Parent(i);
+
         //If needs to be moved up
         if (j >= 0 && j < this.heap.Count && CompareUp(i, j))
         {
@@ -481,7 +481,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>List of this queue</returns>
     public List<T> ToList()
     {
-        if (this.IsEmpty) return new List<T>();
+        if (this.IsEmpty) return new();
 
         List<T> l = new(this.heap);
         l.Sort(this.comparer);

@@ -1,6 +1,5 @@
 ﻿using System;
 using AdventOfCode.Solvers.Base;
-using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
 using JetBrains.Annotations;
 
@@ -9,6 +8,7 @@ namespace AdventOfCode.Solvers.Specialized;
 /// <summary>
 /// Array solver base
 /// </summary>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class ArraySolver<T> : Solver<T[]>
 {
     #region Constructors

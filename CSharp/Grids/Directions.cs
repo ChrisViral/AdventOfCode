@@ -30,7 +30,13 @@ public static class DirectionsUtils
     /// <summary>
     /// All possible directions
     /// </summary>
-    public static ReadOnlyCollection<Directions> AllDirections { get; } = new(new[] { Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT });
+    public static ReadOnlyCollection<Directions> AllDirections { get; } = new(new[]
+    {
+        Directions.UP,
+        Directions.DOWN,
+        Directions.LEFT,
+        Directions.RIGHT
+    });
     #endregion
 
     #region Extension methods

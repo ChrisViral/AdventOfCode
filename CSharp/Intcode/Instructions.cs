@@ -13,7 +13,7 @@ public static class Instructions
     /// <summary>
     /// Intcode Opcodes
     /// </summary>
-    public enum Opcodes
+    private enum Opcodes
     {
         ADD = 1, //Add
         MUL = 2, //Multiply
@@ -55,18 +55,19 @@ public static class Instructions
 
         #region Constructors
         /// <summary>
-        /// Creates a new set of Modes from the given input string
+        /// Creates a new set of Modes from the given number
         /// </summary>
-        /// <param name="modes">Value to parse the modes from</param>
-        /// <exception cref="ArgumentException">If the input string has the inappropriate length</exception>
+        /// <param name="modes">Value to extract the modes from</param>
         /// <exception cref="InvalidEnumArgumentException">If one of the parsed modes is not a valid member of the enum</exception>
-        public Modes(string modes)
+        public Modes(int modes)
         {
-            if (modes.Length is not 3) throw new ArgumentException($"Modes length is invalid, got {modes.Length}, expected 3", nameof(modes));
-
-            this.first  = (ParamModes)(modes[2] - '0');
-            this.second = (ParamModes)(modes[1] - '0');
-            this.third  = (ParamModes)(modes[0] - '0');
+            // ReSharper disable LocalVariableHidesMember
+            (modes,     int first)  = Math.DivRem(modes, 10);
+            (int third, int second) = Math.DivRem(modes, 10);
+            this.first  = (ParamModes)first;
+            this.second = (ParamModes)second;
+            this.third  = (ParamModes)third;
+            // ReSharper restore LocalVariableHidesMember
         }
         #endregion
     }
@@ -101,9 +102,9 @@ public static class Instructions
     /// <exception cref="InvalidEnumArgumentException">If an invalid Opcodes or ParamModes is detected</exception>
     public static (Instruction instruction, Modes modes) Decode(long opcode)
     {
-        string padded = opcode.ToString("D5");
-        Modes modes = new(padded[..3]);
-        Opcodes op = (Opcodes)int.Parse(padded[3..]);
+        (int mode, opcode) = Math.DivRem((int)opcode, 100);
+        Modes modes = new(mode);
+        Opcodes op = (Opcodes)(opcode - (mode * 100));
         Instruction instruction = op switch
         {
             //Instructions
@@ -135,12 +136,12 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Add(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
 
         c = a + b;
-        pointer += 4;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -153,12 +154,12 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Mul(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
 
         c = a * b;
-        pointer += 4;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -174,10 +175,10 @@ public static class Instructions
         //Make sure we can get the input first
         if (!data.getInput(out long input)) return VMStates.STALLED;
 
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
 
         a = input;
-        pointer += 2;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -190,10 +191,10 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Out(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
 
         data.setOutput(a);
-        pointer += 2;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -206,10 +207,10 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Jnz(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
 
-        pointer = a is not FALSE ? (int)b : pointer + 3;
+        pointer = a is not 0L ? (int)b : pointer + 1;
         return VMStates.RUNNING;
     }
 
@@ -222,10 +223,10 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Jez(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
 
-        pointer = a is FALSE ? (int)b : pointer + 3;
+        pointer = a is 0L ? (int)b : pointer + 1;
         return VMStates.RUNNING;
     }
 
@@ -238,12 +239,12 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Tlt(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
 
         c = a < b ? TRUE : FALSE;
-        pointer += 4;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -256,12 +257,12 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Teq(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(pointer + 2, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(pointer + 3, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
 
         c = a == b ? TRUE : FALSE;
-        pointer += 4;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -274,10 +275,10 @@ public static class Instructions
     /// <param name="modes">Parameter modes</param>
     private static VMStates Rel(ref int pointer, ref int relative, in VMData data, in Modes modes)
     {
-        ref long a = ref GetOperand(pointer + 1, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
 
         relative += (int)a;
-        pointer += 2;
+        pointer++;
         return VMStates.RUNNING;
     }
 
@@ -318,17 +319,17 @@ public static class Instructions
     /// <returns>The operand for the given instruction</returns>
     /// <exception cref="InvalidEnumArgumentException">If an invalid ParamModes is detected</exception>
     /// ReSharper disable once SuggestBaseTypeForParameter - Cannot be IList because of the ref return
-    private static ref long GetOperand(int pointer, int relative, long[] memory, ParamModes mode)
+    private static ref long GetOperand(int pointer, int relative, Memory<long> memory, ParamModes mode)
     {
         //ReSharper disable once ConvertSwitchStatementToSwitchExpression - Cannot use a switch expression because of the ref return
         switch (mode)
         {
             case ParamModes.POSITION:
-                return ref memory[memory[pointer]];
+                return ref memory.Span[(int)memory.Span[pointer]];
             case ParamModes.IMMEDIATE:
-                return ref memory[pointer];
+                return ref memory.Span[pointer];
             case ParamModes.RELATIVE:
-                return ref memory[memory[pointer] + relative];
+                return ref memory.Span[(int)memory.Span[pointer] + relative];
 
             default:
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamModes));

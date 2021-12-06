@@ -1,12 +1,14 @@
 ﻿using System;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;
 
 /// <summary>
 /// IntcodeVM solver base
 /// </summary>
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public abstract class IntcodeSolver : Solver<IntcodeVM>
 {
     #region Properties

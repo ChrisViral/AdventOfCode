@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace AdventOfCode.Utils;
 
+/// <summary>
+/// Mathematics utils
+/// </summary>
 public static class MathUtils
 {
     /// <summary>
@@ -55,6 +58,7 @@ public static class MathUtils
     /// <param name="a">First number</param>
     /// <param name="b">Second number</param>
     /// <returns>The minimum from both numbers</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static T Min<T>(T a, T b) where T : INumber<T> => T.Min(a, b);
 
     /// <summary>
@@ -72,6 +76,7 @@ public static class MathUtils
     /// <param name="a">First number</param>
     /// <param name="b">Second number</param>
     /// <returns>The maximum from both numbers</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public static T Max<T>(T a, T b) where T : INumber<T> => T.Max(a, b);
 
     /// <summary>

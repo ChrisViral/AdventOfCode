@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using AdventOfCode.Utils;
+using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Utils.Extensions;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Grids;
 
@@ -27,7 +26,7 @@ public enum Anchor
 public class ConsoleView<T> : Grid<T> where T : notnull
 {
     #region Fields
-    private readonly Vector2 anchor;
+    private readonly Vector2<int> anchor;
     private readonly char[] viewBuffer;
     private readonly Converter<T, char> toChar;
     private readonly int sleepTime;
@@ -44,8 +43,8 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[int x, int y]
     {
-        get => this[new Vector2(x, y)];
-        set => this[new Vector2(x, y)] = value;
+        get => this[new(x, y)];
+        set => this[new(x, y)] = value;
     }
 
     /// <summary>
@@ -53,7 +52,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// </summary>
     /// <param name="pos">Position vector</param>
     /// <returns>The value in the view at the given location</returns>
-    public T this[in Vector2 pos]
+    public T this[in Vector2<int> pos]
     {
         get => base[pos + this.anchor];
         set
@@ -71,8 +70,8 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[(int x, int y) tuple]
     {
-        get => this[new Vector2(tuple)];
-        set => this[new Vector2(tuple)] = value;
+        get => this[new(tuple)];
+        set => this[new(tuple)] = value;
     }
     #endregion
 
@@ -105,7 +104,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     {
         this.anchor = anchor switch
         {
-            Anchor.TOP_LEFT     => Vector2.Zero,
+            Anchor.TOP_LEFT     => Vector2<int>.Zero,
             Anchor.TOP_RIGHT    => new(width - 1, 0),
             Anchor.BOTTOM_LEFT  => new(0, height - 1),
             Anchor.BOTTOM_RIGHT => new(width - 1, height - 1),
@@ -124,7 +123,8 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2 anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
+    /// ReSharper disable once MemberCanBeProtected.Global
+    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2<int> anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor;
         FillDefault(converter, defaultValue);
@@ -207,7 +207,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public override Vector2? MoveWithinGrid(in Vector2 vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
 
     /// <summary>
     /// Moves the vector within the grid
@@ -217,14 +217,14 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns>The resulting Vector after the move</returns>
-    public override Vector2? MoveWithinGrid(in Vector2 vector, in Vector2 travel, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
-        Vector2? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
+        Vector2<int>? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
         return result.HasValue ? result.Value + this.anchor : null;
     }
 
     /// <inheritdoc cref="Grid{T}.WithinGrid"/>
-    public override bool WithinGrid(Vector2 position) => base.WithinGrid(position - this.anchor);
+    public override bool WithinGrid(Vector2<int> position) => base.WithinGrid(position - this.anchor);
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => new(this.viewBuffer);

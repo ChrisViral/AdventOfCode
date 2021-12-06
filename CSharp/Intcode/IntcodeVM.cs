@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 using Modes = AdventOfCode.Intcode.Instructions.Modes;
@@ -31,7 +30,7 @@ public class IntcodeVM
     {
         #region Fields
         /// <summary>Memory of the VM</summary>
-        public readonly long[] memory;
+        public readonly Memory<long> memory;
         /// <summary>Input function of the VM</summary>
         public readonly InputGetter getInput;
         /// <summary>Output function of the VM</summary>
@@ -45,8 +44,8 @@ public class IntcodeVM
         /// <param name="vm">VM to create the data for</param>
         public VMData(IntcodeVM vm)
         {
-            this.memory = vm.memory;
-            this.getInput = vm.GetNextInput;
+            this.memory    = vm.memory;
+            this.getInput  = vm.GetNextInput;
             this.setOutput = vm.AddOutput;
         }
         #endregion
@@ -78,15 +77,15 @@ public class IntcodeVM
     /// <summary>
     /// Default pointer state
     /// </summary>
-    public const int DEFAULT = 0;
+    private const int DEFAULT = 0;
     /// <summary>
     /// Default output stream size
     /// </summary>
-    public const int DEFAULT_SIZE = 16;
+    private const int DEFAULT_SIZE = 16;
     /// <summary>
     /// Extra buffer memory added to the VM (2k integers, 16kb memory)
     /// </summary>
-    public const int BUFFER_SIZE = 2048;
+    private const int BUFFER_SIZE = 2048;
     /// <summary>
     /// Input parsing splitting options
     /// </summary>
@@ -103,7 +102,7 @@ public class IntcodeVM
     /// <summary>Relative base of the VM</summary>
     private int relative = DEFAULT;
     /// <summary>Intcode program memory</summary>
-    private readonly long[] memory;
+    private readonly Memory<long> memory;
     /// <summary>Original memory state of the program</summary>
     private readonly ReadOnlyMemory<long> originalState;
     /// <summary>Data relating to the VM</summary>
@@ -114,6 +113,7 @@ public class IntcodeVM
     /// <summary>
     /// The current VM State
     /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public VMStates State { get; private set; }
 
     /// <summary>
@@ -124,7 +124,7 @@ public class IntcodeVM
     /// <summary>
     /// Fetches the current instruction in memory
     /// </summary>
-    private long Fetch => this.memory[this.pointer];
+    private long Fetch => this.memory.Span[this.pointer];
 
     /// <summary>
     /// The input queue of the IntcodeVM
@@ -134,6 +134,7 @@ public class IntcodeVM
     /// <summary>
     /// The output queue of the IntcodeVM
     /// </summary>
+    /// ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
     public Queue<long> Out { get; set; }
 
     /// <summary>
@@ -150,8 +151,8 @@ public class IntcodeVM
     /// <returns>Value in the memory at the specified index</returns>
     public long this[int index]
     {
-        get => this.memory[index];
-        set => this.memory[index] = value;
+        get => this.memory.Span[index];
+        set => this.memory.Span[index] = value;
     }
 
     /// <summary>
@@ -161,8 +162,8 @@ public class IntcodeVM
     /// <returns>Value in the memory at the specified index</returns>
     public long this[Index index]
     {
-        get => this.memory[index];
-        set => this.memory[index] = value;
+        get => this.memory.Span[index];
+        set => this.memory.Span[index] = value;
     }
     #endregion
 
@@ -186,13 +187,15 @@ public class IntcodeVM
     /// <param name="code">Comma separated Intcode to parse</param>
     /// <param name="input">The input Queue for this Intcode VM</param>
     /// <param name="output">The output Queue for this Intcode VM</param>
+    /// ReSharper disable once MemberCanBePrivate.Global
     public IntcodeVM(string code, Queue<long> input, Queue<long> output)
     {
         this.originalState = code.Split(splitters, OPTIONS).ConvertAll(long.Parse);
-        this.memory = new long[this.originalState.Length + BUFFER_SIZE];
+        this.memory        = new long[this.originalState.Length + BUFFER_SIZE];
         this.originalState.CopyTo(this.memory);
-        this.In = input;
-        this.Out = output;
+
+        this.In   = input;
+        this.Out  = output;
         this.data = new(this);
     }
     #endregion
@@ -204,6 +207,7 @@ public class IntcodeVM
     /// <returns>Current state of the VM</returns>
     /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
     /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
+    /// ReSharper disable once UnusedMethodReturnValue.Global
     public VMStates Run()
     {
         //Make sure we aren't already halted
