@@ -17,27 +17,27 @@ public static class NumberExtensions
         /// <summary>
         /// Two constant
         /// </summary>
-        public static T Two { get; } = T.One + T.One;
+        public static T Two { get; }   = T.One + T.One;
         /// <summary>
         /// Three constant
         /// </summary>
-        public static T Three { get; } = Two + T.One;
+        public static T Three { get; } = Two   + T.One;
         /// <summary>
         /// Four constant
         /// </summary>
-        public static T Four { get; } = Three + T.One;
+        public static T Four { get; }  = Three + T.One;
         /// <summary>
         /// Five constant
         /// </summary>
-        public static T Five { get; } = Four + T.One;
+        public static T Five { get; }  = Four  + T.One;
         /// <summary>
         /// Six constant
         /// </summary>
-        public static T Six { get; } = Five + T.One;
+        public static T Six { get; }   = Five  + T.One;
         /// <summary>
         /// Seven constant
         /// </summary>
-        public static T Seven { get; } = Six + T.One;
+        public static T Seven { get; } = Six   + T.One;
 
         /// <summary>
         /// Creates a number of this type from another number
