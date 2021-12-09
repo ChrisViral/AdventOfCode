@@ -32,9 +32,10 @@ public static class SearchUtils
     public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer) where T : IEquatable<T>
     {
         SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer) { new(start) };
+        PriorityQueue<SearchNode<T>> search = new(comparer);
+        search.Enqueue(new(start));
         Dictionary<SearchNode<T>, double> explored = new();
-        while (search.TryPop(out SearchNode<T> current))
+        while (search.TryDequeue(out SearchNode<T> current))
         {
             //If we found the goal
             if (current == goal)
@@ -54,7 +55,7 @@ public static class SearchUtils
 
                     //If so, remove from closed list, and add back to open list
                     explored.Remove(neighbour);
-                    search.Add(neighbour);
+                    search.Enqueue(neighbour);
                 }
                 //Check if it is in the open list
                 else if (search.Contains(neighbour))
@@ -65,7 +66,7 @@ public static class SearchUtils
                 else
                 {
                     //Otherwise just add it
-                    search.Add(neighbour);
+                    search.Enqueue(neighbour);
                 }
             }
 
@@ -109,9 +110,10 @@ public static class SearchUtils
     {
         int foundDistance = 0;
         SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer) { new(start) };
+        PriorityQueue<SearchNode<T>> search = new(comparer);
+        search.Enqueue(new(start));
         Dictionary<SearchNode<T>, double> explored = new();
-        while (search.TryPop(out SearchNode<T> current))
+        while (search.TryDequeue(out SearchNode<T> current))
         {
             //If we found the goal or the distance is cached
             if (current == goal || distances.TryGetValue((current.Value, goal), out foundDistance))
@@ -131,7 +133,7 @@ public static class SearchUtils
 
                     //If so, remove from closed list, and add back to open list
                     explored.Remove(neighbour);
-                    search.Add(neighbour);
+                    search.Enqueue(neighbour);
                 }
                 //Check if it is in the open list
                 else if (search.Contains(neighbour))
@@ -142,7 +144,7 @@ public static class SearchUtils
                 else
                 {
                     //Otherwise just add it
-                    search.Add(neighbour);
+                    search.Enqueue(neighbour);
                 }
             }
 
