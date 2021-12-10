@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AdventOfCode.Utils.Extensions;
@@ -21,6 +22,20 @@ public static class EnumerableExtensions
             action(t);
         }
     }
+
+    /// <summary>
+    /// Checks if a stack is empty
+    /// </summary>
+    /// <param name="stack">Stack to check</param>
+    /// <returns>True if the stack is empty, false otherwise</returns>
+    public static bool IsEmpty<T>(this Stack<T> stack) => stack.Count is 0;
+
+    /// <summary>
+    /// Checks if a queue is empty
+    /// </summary>
+    /// <param name="stack">Queue to check</param>
+    /// <returns>True if the queue is empty, false otherwise</returns>
+    public static bool IsEmpty<T>(this Queue<T> stack) => stack.Count is 0;
 
     /// <summary>
     /// Checks if a collection is empty

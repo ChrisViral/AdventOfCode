@@ -10,6 +10,9 @@ namespace AdventOfCode.Utils;
 /// </summary>
 public static class AoCUtils
 {
+    private static readonly long nanosecondsPerTick  = Stopwatch.Frequency / 1000000L;
+    private static readonly long millisecondsPerTick = Stopwatch.Frequency / 1000L;
+
     #region Static methods
     /// <summary>
     /// Combines input lines into sequences, separated by empty lines
@@ -57,6 +60,37 @@ public static class AoCUtils
     /// </summary>
     /// <param name="message">Message to log</param>
     public static void Log(object message) => Trace.WriteLine(message);
+
+    /// <summary>
+    /// Logs the elapsed time on the stopwatch
+    /// </summary>
+    /// <param name="watch">Stopwatch to log the time for</param>
+    public static void LogElapsed(Stopwatch watch)
+    {
+        string elapsed;
+        switch (watch.ElapsedMilliseconds)
+        {
+            case <= 1L:
+                elapsed = $"{watch.ElapsedTicks / nanosecondsPerTick}ns";
+                break;
+
+            case < 10L:
+                (long ms, long remaining) = Math.DivRem(watch.ElapsedTicks, millisecondsPerTick);
+                long ns = remaining / nanosecondsPerTick;
+                elapsed = $"{ms}ms {ns}ns";
+                break;
+
+            case < 1000L:
+                elapsed = $"{watch.ElapsedMilliseconds}ms";
+                break;
+
+            default:
+                elapsed = $"{watch.Elapsed.Seconds}s {watch.Elapsed.Milliseconds}ms";
+                break;
+        }
+
+        Trace.WriteLine($"Elapsed time: {elapsed}");
+    }
 
     /// <summary>
     /// Iterates over all the permutations of the given array
@@ -112,10 +146,7 @@ public static class AoCUtils
     /// <typeparam name="T">Type of value to swap</typeparam>
     /// <param name="a">First value</param>
     /// <param name="b">Second value</param>
-    public static void Swap<T>(ref T a, ref T b)
-    {
-        (a, b) = (b, a);
-    }
+    public static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
 
     /// <summary>
     /// Gets the size of the object in bytes for a given primitive type

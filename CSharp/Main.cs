@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using AdventOfCode;
 using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
 
 #region Main
 Console.Title = "Advent of Code";
@@ -69,15 +71,19 @@ Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
 Trace.WriteLine("Running Solver for " + solverData);
+Stopwatch watch = Stopwatch.StartNew();
 
 #if DEBUG
+//In debug mode we want to break at the exception location
 solver.Run();
+watch.Stop();
 solver.Dispose();
 #else
 try
 {
     //Run solver
     solver.Run();
+    watch.Stop();
 }
 catch (Exception e)
 {
@@ -90,6 +96,9 @@ finally
     solver.Dispose();
 }
 #endif
+
+//Write total timer
+AoCUtils.LogElapsed(watch);
 
 //Cleanup and exit
 Trace.Close();
