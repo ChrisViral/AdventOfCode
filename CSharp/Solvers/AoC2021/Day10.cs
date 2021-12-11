@@ -74,8 +74,7 @@ public class Day10 : Solver
                 incompleteScore *= 5L;
                 incompleteScore += incompletePoints[c];
             }
-
-            incompleteScores.Add(incompleteScore, incompleteScore);
+            incompleteScores.Add(incompleteScore);
         }
 
         AoCUtils.LogPart1(brokenScore);
