@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
 
-namespace AdventOfCode.Grids.Vectors;
+namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// Integer three component vector
@@ -75,7 +74,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         {
             if (!isInteger)
             {
-                return Normalized;
+                return this.Normalized;
             }
 
             T a = T.Abs(this.X);

@@ -1,5 +1,5 @@
 ﻿using System;
-using AdventOfCode.Grids;
+using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using JetBrains.Annotations;
 

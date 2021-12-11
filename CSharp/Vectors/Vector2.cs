@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode.Grids.Vectors;
+namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// Integer two component vector
@@ -69,7 +69,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         {
             if (!isInteger)
             {
-                return Normalized;
+                return this.Normalized;
             }
 
             T a = T.Abs(this.X);

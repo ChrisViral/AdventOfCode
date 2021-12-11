@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using AdventOfCode.Grids;
-using AdventOfCode.Grids.Vectors;
+using AdventOfCode.Collections;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2019;
 

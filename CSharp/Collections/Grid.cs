@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Vectors;
 
-namespace AdventOfCode.Grids;
+namespace AdventOfCode.Collections;
 
 /// <summary>
 /// Generic grid structure

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Grids;
-using AdventOfCode.Grids.Vectors;
+using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
