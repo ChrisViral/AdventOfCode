@@ -34,6 +34,20 @@ public static class ArrayExtensions
     /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
     public static void Fill<T>(this T[] array, T value) => Array.Fill(array, value);
 
+    /// <summary>
+    /// Fills the array with new values
+    /// </summary>
+    /// <typeparam name="T">Type of values in the array</typeparam>
+    /// <param name="array">Array to fill</param>
+    /// <param name="getValue">Value getter function</param>
+    public static void Fill<T>(this T[] array, Func<T> getValue)
+    {
+        foreach (int i in ..array.Length)
+        {
+            array[i] = getValue();
+        }
+    }
+
     /// <inheritdoc cref="Array.Find{T}"/>
     public static T? Find<T>(this T[] array, Predicate<T> predicate) => Array.Find(array, predicate);
 
