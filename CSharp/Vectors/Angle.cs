@@ -1,7 +1,7 @@
 ﻿using System;
 using AdventOfCode.Utils.Extensions;
 
-namespace AdventOfCode.Grids.Vectors;
+namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// An angle object

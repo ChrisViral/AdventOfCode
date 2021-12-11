@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AdventOfCode.Grids.Vectors;
 
-namespace AdventOfCode.Grids;
+namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// Cardinal Directions

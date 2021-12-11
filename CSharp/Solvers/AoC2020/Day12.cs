@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AdventOfCode.Grids.Vectors;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
-using Vector2 = AdventOfCode.Grids.Vectors.Vector2<int>;
+using Vector2 = AdventOfCode.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
