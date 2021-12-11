@@ -11,6 +11,20 @@ public static class EnumerableExtensions
 {
     #region Extension methods
     /// <summary>
+    /// Adds a set of values to the collection
+    /// </summary>
+    /// <typeparam name="T">Type of values in the collection</typeparam>
+    /// <param name="collection">Collection to add to</param>
+    /// <param name="values">Values to add</param>
+    public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> values)
+    {
+        foreach (T value in values)
+        {
+            collection.Add(value);
+        }
+    }
+
+    /// <summary>
     /// Applies an action to every member of the enumerable
     /// </summary>
     /// <param name="e">Enumerable to iterate over</param>
