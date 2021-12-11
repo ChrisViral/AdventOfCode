@@ -12,7 +12,6 @@ public static class RangeExtensions
     #region Extension methods
     /// <summary>
     /// Transforms the range into an enumerable from <see cref="Range.Start"/> to <see cref="Range.End"/><br/>
-    /// If <see cref="Range.End"/> is less than <see cref="Range.Start"/>, then it enumerates from <see cref="Range.End"/> to <see cref="Range.Start"/> instead<br/>
     /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
     /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
     /// </summary>
@@ -20,18 +19,13 @@ public static class RangeExtensions
     /// <returns>An enumerable over the specified range</returns>
     public static IEnumerable<int> AsEnumerable(this Range range)
     {
-        (Index start, Index end) = (range.Start, range.End);
-        if (start.Value > end.Value)
+        int sign = Math.Sign(range.End.Value - range.Start.Value);
+        int startValue = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
+        int endValue   = range.End.IsFromEnd   ? range.End.Value   + sign : range.End.Value;
+        for (int i = startValue; i < endValue; i += sign)
         {
-            (start, end) = (end, start);
+            yield return i;
         }
-
-        int startValue = start.Value;
-        int length = end.Value - start.Value;
-        if (range.Start.IsFromEnd) startValue++;
-        if (range.End.IsFromEnd)   length++;
-
-        return Enumerable.Range(startValue, length);
     }
 
     /// <summary>

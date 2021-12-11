@@ -58,6 +58,7 @@ public class Day11 : GridSolver<byte>
         Vector2<int>.Enumerate(this.Grid.Width, this.Grid.Height)
                     .Where(WillFlash)
                     .ForEach(toFlash.Enqueue);
+        flashed.AddRange(toFlash);
 
         // Check all positions that are flashing
         while (toFlash.TryDequeue(out Vector2<int> position))
