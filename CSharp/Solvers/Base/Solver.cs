@@ -83,6 +83,11 @@ public abstract class Solver<T> : Solver
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/> fails</exception>
     protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options)
     {
+        #if DEBUG
+        //Convert is intended to be a Pure function, therefore it should be safe to call in the constructor
+        //ReSharper disable once VirtualMemberCallInConstructor
+        this.Data = Convert(base.Data);
+        #else
         try
         {
             //Convert is intended to be a Pure function, therefore it should be safe to call in the constructor
@@ -93,6 +98,7 @@ public abstract class Solver<T> : Solver
         {
             throw new InvalidOperationException($"Could not convert the string array input to the {typeof(T)} type using the {nameof(Convert)} method.", e);
         }
+        #endif
     }
     #endregion
 
