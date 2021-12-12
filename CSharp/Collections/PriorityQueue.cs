@@ -25,7 +25,7 @@ using AdventOfCode.Utils.Extensions;
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                      *
 \* ==================================================================================== */
 
-namespace AdventOfCode.Collections;
+namespace AdventOfCode.Search;
 
 /// <summary>
 /// A generic Min Priority Queue implementation using a binary heap.
@@ -44,6 +44,8 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     #region Fields
     //List containing the binary heap
     private readonly List<T> heap;
+    //Item-index map
+    private readonly Dictionary<T, int> indices;
     //Comparer to sort the items
     private readonly IComparer<T> comparer;
     #endregion
@@ -106,6 +108,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     {
         this.comparer = comparer;
         this.heap     = new(capacity);
+        this.indices  = new(capacity);
     }
 
     /// <summary>
@@ -127,11 +130,17 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
         //Create the comparer and heap
         this.comparer = comparer;
         this.heap     = new(enumerable);
+        this.indices  = new(this.heap.Count);
 
         //Heapify the list
         for (int i = this.heap.Count / 2; i >= 1; i--)
         {
             HeapDown(i);
+        }
+        //Setup index map
+        for (int i = 0; i < this.Count; i++)
+        {
+            this.indices.Add(this.heap[i], i);
         }
     }
 
@@ -144,6 +153,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public PriorityQueue(PriorityQueue<T> queue)
     {
         this.heap     = new(queue.heap);
+        this.indices  = new(queue.indices);
         this.comparer = queue.comparer;
     }
     #endregion
@@ -185,6 +195,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             //Swap parent
             T parent = this.heap[j];
             this.heap[i] = parent;
+            this.indices[parent] = i;
 
             //Swap child
             this.heap[j] = value;
@@ -194,6 +205,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
 
         //Set value to final index
         this.heap[i] = value;
+        this.indices[value] = i;
     }
 
     /// <summary>
@@ -224,12 +236,22 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             }
 
             //Check if the new target index is further than the current index
-            if (largest <= i) continue;
-
-            //Swap and keep moving down
-            (this.heap[largest], this.heap[i]) = (this.heap[i], this.heap[largest]);
-            i = largest;
-            moving = true;
+            if (largest > i)
+            {
+                //Swap and keep moving down
+                T parent = this.heap[largest];
+                this.heap[largest] = this.heap[i];
+                //Swap parent and update index
+                this.heap[i] = parent;
+                this.indices[parent] = i;
+                i = largest;
+                moving = true;
+            }
+            else if (i >= 0 && i < this.heap.Count)
+            {
+                //Otherwise set
+                this.indices[this.heap[i]] = i;
+            }
         }
         while (moving);
     }
@@ -243,9 +265,11 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     {
         //Add to the end and heap upwards
         this.heap.Add(value);
+        this.indices.Add(value, 0);
         HeapUp(this.Last);
     }
 
+    /// <inheritdoc cref="ICollection{T}.Add"/>
     void ICollection<T>.Add(T value) => Enqueue(value);
 
     /// <summary>
@@ -263,7 +287,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
 
         //Remove the top value and return it
         T value = this.heap[0];
-        RemoveAt(0);
+        RemoveAt(0, value);
         //If needed, heap the top value back down to it's new place
         if (this.Count > 0)
         {
@@ -320,27 +344,28 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// This operation is O(1)
     /// </summary>
     /// <param name="i">Index of the value to remove</param>
-    private void RemoveAt(int i)
+    /// <param name="value">Value to remove</param>
+    private void RemoveAt(int i, T value)
     {
         //Swap the value to the end then remove it
         this.heap[i] = this.heap[this.Last];
         this.heap.RemoveAt(this.Last);
+        this.indices.Remove(value);
     }
 
     /// <summary>
     /// Removes the provided <typeparamref name="T"/> from the queue, if null is passed, the function returns false<br/>
-    /// This is an <b>O(n)</b> operation
+    /// This is an <b>O(log n)</b> operation
     /// </summary>
     /// <param name="value">Value to remove</param>
     /// <returns>If the value was successfully removed</returns>
     public bool Remove(T value)
     {
         //Get the index in the list of the value
-        int i = this.heap.IndexOf(value);
-        if (i < 0) return false;
+        if (!this.indices.TryGetValue(value, out int i)) return false;
 
         //Remove it from the heap and update the heap position of the displaced object
-        RemoveAt(i);
+        RemoveAt(i, value);
         Update(i);
         return true;
         //If not found, return false
@@ -353,8 +378,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>True if the value was successfully replaced, false otherwise</returns>
     public bool Replace(T value)
     {
-        int i = this.heap.IndexOf(value);
-        if (i < 0) return false;
+        if (!this.indices.TryGetValue(value, out int i)) return false;
 
         T old = this.heap[i];
         if (this.comparer.Compare(value, old) >= 0) return false;
@@ -366,16 +390,20 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
 
     /// <summary>
     /// If the queue contains the given value<br/>
-    /// This is an <b>O(n)</b> operation
+    /// This is an <b>O(1)</b> operation
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns>True when the queue contains the value, false otherwise</returns>
-    public bool Contains(T value) => this.heap.Contains(value);
+    public bool Contains(T value) => this.indices.ContainsKey(value);
 
     /// <summary>
     /// Clears the memory of the queue
     /// </summary>
-    public void Clear() => this.heap.Clear();
+    public void Clear()
+    {
+        this.heap.Clear();
+        this.indices.Clear();
+    }
 
     /// <summary>
     /// Updates the position of an element that has been modified
@@ -385,8 +413,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public bool Update(T value)
     {
         //Makes sure object is within
-        int i = this.heap.IndexOf(value);
-        if (i < 0) return false;
+        if (!this.indices.TryGetValue(value, out int i)) return false;
 
         //Update the position
         Update(i);
