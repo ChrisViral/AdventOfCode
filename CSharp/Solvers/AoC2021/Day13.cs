@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AdventOfCode.Collections;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Specialized;
+using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Vectors;
+
+namespace AdventOfCode.Solvers.AoC2021;
+
+/// <summary>
+/// Solver for 2021 Day 13
+/// </summary>
+public class Day13 : Solver<List<Day13.Fold>>
+{
+    public enum Axis
+    {
+        X,
+        Y
+    }
+
+    public record Fold(Axis Axis, int Value);
+
+    private Grid<bool> grid = new(0, 0);
+
+    #region Constructors
+    /// <summary>
+    /// Creates a new <see cref="Day13"/> Solver for 2021 - 13 with the input data properly parsed
+    /// </summary>
+    /// <param name="input">Puzzle input</param>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="List{T}"/> fails</exception>
+    public Day13(string input) : base(input) { }
+    #endregion
+
+    #region Methods
+    /// <inheritdoc cref="Solver.Run"/>
+    public override void Run()
+    {
+        ApplyFold(this.Data[0]);
+        int enabled = this.grid.Count(b => b);
+        AoCUtils.LogPart1(enabled);
+
+        foreach (int i in 1..this.Data.Count)
+        {
+            ApplyFold(this.Data[i]);
+        }
+        AoCUtils.LogPart2($"\n{this.grid}");
+    }
+
+    private void ApplyFold(Fold fold)
+    {
+        Grid<bool> updated = null!;
+        (Axis axis, int value) = fold;
+        switch (axis)
+        {
+            case Axis.X:
+                updated = new(value, this.grid.Height, b => b ? "▓" : "░");
+                foreach (int x in 1..(this.grid.Width - value))
+                {
+                    foreach (int y in ..this.grid.Height)
+                    {
+                        updated[value - x, y] = this.grid[value + x, y] || this.grid[value - x, y];
+                    }
+                }
+                break;
+
+            case Axis.Y:
+                updated = new(this.grid.Width, value, b => b ? "▓" : "░");
+                foreach (int x in ..this.grid.Width)
+                {
+                    foreach (int y in 1..(this.grid.Height - value))
+                    {
+                        updated[x, value - y] = this.grid[x, value + y] || this.grid[x, value - y];
+                    }
+                }
+                break;
+        }
+
+        this.grid = updated;
+    }
+
+    /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
+    protected override List<Fold> Convert(string[] rawInput)
+    {
+        List<Vector2<int>> marks = new();
+        int maxX = 0, maxY = 0, i;
+        for (i = 0; i < rawInput.Length; i++)
+        {
+            string[] splits = rawInput[i].Split(',');
+            if (splits.Length is not 2) break;
+            Vector2<int> mark = new(int.Parse(splits[0]), int.Parse(splits[1]));
+            maxX = Math.Max(maxX, mark.X);
+            maxY = Math.Max(maxY, mark.Y);
+            marks.Add(mark);
+        }
+
+        this.grid = new(maxX + 1, maxY + 1, b => b ? "▓" : "░");
+        marks.ForEach(mark => this.grid[mark] = true);
+
+        List<Fold> folds = new();
+        for ( /*int i*/; i < rawInput.Length; i++)
+        {
+            string[] splits = rawInput[i].Remove(0, 11).Split('=');
+            folds.Add(new(splits[0] is "x" ? Axis.X : Axis.Y, int.Parse(splits[1])));
+        }
+
+        return folds;
+    }
+    #endregion
+}

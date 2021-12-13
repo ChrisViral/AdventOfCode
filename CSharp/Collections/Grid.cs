@@ -277,6 +277,36 @@ public class Grid<T> : IEnumerable<T>
         }
     }
 
+    public void SetRow(int y, T[] row)
+    {
+        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
+        if (row.Length != this.Width)  throw new ArgumentException("Row is not the same width as grid", nameof(row));
+
+        if (this.rowBufferSize is not 0)
+        {
+            //For primitives only
+            Buffer.BlockCopy(row, 0, this.grid, y * this.rowBufferSize, this.rowBufferSize);
+        }
+        else
+        {
+            for (int i = 0; i < this.Width; i++)
+            {
+                this[i, y] = row[i];
+            }
+        }
+    }
+
+    public void SetColumn(int x, T[] column)
+    {
+        if (x < 0 || x >= this.Width)     throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
+        if (column.Length != this.Height) throw new ArgumentException("Column is not the same width as grid", nameof(column));
+
+        for (int j = 0; j < this.Height; j++)
+        {
+            this[x, j] = column[j];
+        }
+    }
+
     /// <summary>
     /// Moves the vector within the grid
     /// </summary>
