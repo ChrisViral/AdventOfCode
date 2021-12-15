@@ -60,7 +60,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// Length of the Vector
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public double Length { get; }
+    public double Length => GetLength<double>(this.X, this.Y, this.Z);
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
@@ -132,7 +132,6 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         this.X = x;
         this.Y = y;
         this.Z = z;
-        this.Length = GetLength<double>(x, y, z);
     }
 
     /// <summary>
@@ -152,7 +151,6 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         this.X = copy.X;
         this.Y = copy.Y;
         this.Z = copy.Z;
-        this.Length = copy.Length;
     }
     #endregion
 
@@ -219,6 +217,15 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
             }
         }
     }
+
+    /// <summary>
+    /// Scales the components of the vector by the specified factors
+    /// </summary>
+    /// <param name="scaleX">X component scale</param>
+    /// <param name="scaleY">Y component scale</param>
+    /// <param name="scaleZ">Z component scale</param>
+    /// <returns>The scaled vector</returns>
+    public Vector3<T> Scale(T scaleX, T scaleY, T scaleZ) => new(this.X * scaleX, this.Y * scaleY, this.Z * scaleZ);
 
     /// <summary>
     /// Converts a vector to the target type
