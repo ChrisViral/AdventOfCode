@@ -75,7 +75,7 @@ public static class SearchUtils
             explored.Add(current, current.CostSoFar);
         }
 
-        //If we found the goal
+        //If the path is not found, return null
         if (foundGoal is null) return null;
 
         //Trace the path and backtrack
@@ -90,8 +90,6 @@ public static class SearchUtils
 
         //Copy the path back to an array and return
         return path.ToArray();
-
-        //If the path is not found, return null
     }
 
     /// <summary>
