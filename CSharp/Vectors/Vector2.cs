@@ -56,7 +56,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <summary>
     /// Length of the Vector
     /// </summary>
-    public double Length { get; }
+    public double Length  => GetLength<double>(this.X, this.Y);
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
@@ -110,7 +110,6 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     {
         this.X = x;
         this.Y = y;
-        this.Length = GetLength<double>(x, y);
     }
 
     /// <summary>
@@ -127,7 +126,6 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     {
         this.X = copy.X;
         this.Y = copy.Y;
-        this.Length = copy.Length;
     }
     #endregion
 
@@ -204,6 +202,14 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
             yield return this + Down;
         }
     }
+
+    /// <summary>
+    /// Scales the components of the vector by the specified factors
+    /// </summary>
+    /// <param name="scaleX">X component scale</param>
+    /// <param name="scaleY">Y component scale</param>
+    /// <returns>The scaled vector</returns>
+    public Vector2<T> Scale(T scaleX, T scaleY) => new(this.X * scaleX, this.Y * scaleY);
 
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector2<T>>.Equals(Vector2<T> other) => Equals(other);

@@ -114,7 +114,7 @@ public class Day15 : IntcodeSolver
             //Get path
             Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target, v => (v - target).Length, FindNeighbours, MinSearchComparer.Comparer);
             //No path found, return -1
-            if (!(path?.Length > 0)) return -1;
+            if (path is null || path.Length <= 0) return -1;
 
             //Print out the path
             this.DroidPosition = path[0];

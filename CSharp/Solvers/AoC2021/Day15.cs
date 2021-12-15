@@ -30,8 +30,9 @@ public class Day15 : GridSolver<byte>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        Vector2<int> start   = Vector2<int>.Zero, end = (this.Grid.Width - 1, this.Grid.Height - 1);
-        Vector2<int>[] path = SearchUtils.Search(start, end, p => this.Grid[p],  node => FindNeighbours(node, this.Grid), MinSearchComparer.Comparer)!;
+        Vector2<int> start  = Vector2<int>.Zero, end = (this.Grid.Width - 1, this.Grid.Height - 1);
+        // ReSharper disable once AccessToModifiedClosure
+        Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer.Comparer)!;
         int total = path.Sum(p => this.Grid[p]);
         AoCUtils.LogPart1(total);
 
@@ -39,17 +40,16 @@ public class Day15 : GridSolver<byte>
         foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
         {
             int risk = this.Data[position];
-            foreach ((int x, int y) in Vector2<int>.Enumerate(FULL_SIZE, FULL_SIZE))
+            foreach (Vector2<int> offset in Vector2<int>.Enumerate(FULL_SIZE, FULL_SIZE))
             {
-                Vector2<int> pos = (position.X + (this.Grid.Width * x), position.Y + (this.Grid.Height * y));
-                int newRisk = risk + x + y;
+                Vector2<int> pos = position + offset.Scale(this.Data.Width, this.Data.Height);
+                int newRisk = risk + offset.X + offset.Y;
                 fullMap[pos] = (byte)(newRisk > 9 ? newRisk - 9 : newRisk);
             }
         }
 
-        start = Vector2<int>.Zero;
         end   = (fullMap.Width - 1, fullMap.Height - 1);
-        path  = SearchUtils.Search(start, end, p => fullMap[p], node => FindNeighbours(node, fullMap), MinSearchComparer.Comparer)!;
+        path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer.Comparer)!;
         total = path.Sum(p => fullMap[p]);
         AoCUtils.LogPart2(total);
     }
@@ -62,9 +62,6 @@ public class Day15 : GridSolver<byte>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override byte[] LineConverter(string line)
-    {
-        return line.Select(c => (byte)(c - '0')).ToArray();
-    }
+    protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
     #endregion
 }
