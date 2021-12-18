@@ -11,6 +11,25 @@ public static class RangeExtensions
 {
     #region Extension methods
     /// <summary>
+    /// Checks if a value is contained within the range<br/>
+    /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
+    /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
+    /// </summary>
+    /// <param name="range">Range to check within</param>
+    /// <param name="value">Value to check</param>
+    /// <returns>True if the value is within the range, false otherwise</returns>
+    public static bool IsInRange(this Range range, int value)
+    {
+        int start = range.Start.IsFromEnd ? range.Start.Value : range.Start.Value + 1;
+        int end   = range.End.IsFromEnd   ? range.End.Value   : range.End.Value   + 1;
+        if (start > end)
+        {
+            (start, end) = (end, start);
+        }
+        return value >= start && value <= end;
+    }
+
+    /// <summary>
     /// Transforms the range into an enumerable from <see cref="Range.Start"/> to <see cref="Range.End"/><br/>
     /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
     /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included

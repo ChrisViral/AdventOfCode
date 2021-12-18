@@ -79,6 +79,7 @@ public class Day16 : Solver<Day16.Packet>
             }
             else
             {
+                packet.SubPackets.EnsureCapacity(length);
                 foreach (int _ in ..length)
                 {
                     (Packet subPacket, int subUsed) = ParsePacket(bits, i);
