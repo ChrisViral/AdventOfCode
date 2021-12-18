@@ -158,4 +158,108 @@ public static class EnumerableExtensions
     /// <returns>The previous node in the list, or the last one if at the start</returns>
     public static LinkedListNode<T> PreviousCircular<T>(this LinkedListNode<T> node) => node.Previous ?? node.List!.Last!;
     #endregion
+
+    #region LINQ extensions
+    /// <summary>
+    /// Sums the given values and returns the result
+    /// </summary>
+    /// <typeparam name="T">Type of value to sum</typeparam>
+    /// <param name="e">Enumerator to sum</param>
+    /// <returns>The sum of all the values</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
+    /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+    public static T Sum<T>(this IEnumerable<T> e) where T : IAdditionOperators<T, T, T>
+    {
+        if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
+
+        using IEnumerator<T> enumerator = e.GetEnumerator();
+        if (!enumerator.MoveNext()) throw new InvalidOperationException("Cannot sum an empty collection");
+
+        T result = enumerator.Current;
+        while (enumerator.MoveNext())
+        {
+            result += enumerator.Current;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Sums the given values and returns the result
+    /// </summary>
+    /// <typeparam name="TValue">Type of value to enumerator</typeparam>
+    /// <typeparam name="TResult">Type of value to sum</typeparam>
+    /// <param name="e">Enumerator to sum</param>
+    /// <param name="selector">Selector function for the enumerated values</param>
+    /// <returns>The sum of all the values</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="e"/> or <paramref name="selector"/> is null</exception>
+    /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+    public static TResult Sum<TValue, TResult>(this IEnumerable<TValue> e, Func<TValue, TResult> selector) where TResult : IAdditionOperators<TResult, TResult, TResult>
+    {
+        if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
+        if (selector is null) throw new ArgumentNullException(nameof(selector), "Selector function cannot be null");
+
+        using IEnumerator<TValue> enumerator = e.GetEnumerator();
+        if (!enumerator.MoveNext()) throw new InvalidOperationException("Cannot sum an empty collection");
+
+        TResult result = selector(enumerator.Current);
+        while (enumerator.MoveNext())
+        {
+            result += selector(enumerator.Current);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Multiplies the given values and returns the result
+    /// </summary>
+    /// <typeparam name="T">Type of value to multiply</typeparam>
+    /// <param name="e">Enumerator to multiply</param>
+    /// <returns>The product of all the values</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
+    /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+    public static T Multiply<T>(this IEnumerable<T> e) where T : IMultiplyOperators<T, T, T>
+    {
+        if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
+
+        using IEnumerator<T> enumerator = e.GetEnumerator();
+        if (!enumerator.MoveNext()) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+        T result = enumerator.Current;
+        while (enumerator.MoveNext())
+        {
+            result *= enumerator.Current;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Multiplied the given values and returns the result
+    /// </summary>
+    /// <typeparam name="TValue">Type of value to enumerator</typeparam>
+    /// <typeparam name="TResult">Type of value to multiply</typeparam>
+    /// <param name="e">Enumerator to multiply</param>
+    /// <param name="selector">Selector function for the enumerated values</param>
+    /// <returns>The product of all the values</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="e"/> or <paramref name="selector"/> is null</exception>
+    /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+    public static TResult Multiply<TValue, TResult>(this IEnumerable<TValue> e, Func<TValue, TResult> selector) where TResult : IMultiplyOperators<TResult, TResult, TResult>
+    {
+        if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
+        if (selector is null) throw new ArgumentNullException(nameof(selector), "Selector function cannot be null");
+
+        using IEnumerator<TValue> enumerator = e.GetEnumerator();
+        if (!enumerator.MoveNext()) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+        TResult result = selector(enumerator.Current);
+        while (enumerator.MoveNext())
+        {
+            result *= selector(enumerator.Current);
+        }
+
+        return result;
+    }
+    #endregion
 }

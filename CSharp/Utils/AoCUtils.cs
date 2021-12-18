@@ -71,13 +71,13 @@ public static class AoCUtils
         switch (watch.ElapsedMilliseconds)
         {
             case <= 1L:
-                elapsed = $"{watch.ElapsedTicks / nanosecondsPerTick}ns";
+                elapsed = $"{watch.ElapsedTicks / nanosecondsPerTick}μs";
                 break;
 
             case < 10L:
                 (long ms, long remaining) = Math.DivRem(watch.ElapsedTicks, millisecondsPerTick);
                 long ns = remaining / nanosecondsPerTick;
-                elapsed = $"{ms}ms {ns}ns";
+                elapsed = $"{ms}ms {ns}μs";
                 break;
 
             case < 1000L:
