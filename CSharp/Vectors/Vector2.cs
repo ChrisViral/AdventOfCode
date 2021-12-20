@@ -175,7 +175,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// Gets all the adjacent Vector2 to this one
     /// </summary>
     /// <returns>Adjacent vectors</returns>
-    public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false)
+    public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
     {
         if (!isInteger)
         {
@@ -184,11 +184,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
         if (includeDiagonals)
         {
-            for (T x = this.X - T.One; x <= this.X + T.One; x++)
+            for (T y = this.Y - T.One; y <= this.Y + T.One; y++)
             {
-                for (T y = this.Y - T.One; y <= this.Y + T.One; y++)
+                for (T x = this.X - T.One; x <= this.X + T.One; x++)
                 {
-                    if (x == this.X && y == this.Y) continue;
+                    if (!includeSelf && x == this.X && y == this.Y) continue;
 
                     yield return new(x, y);
                 }

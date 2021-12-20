@@ -17,7 +17,7 @@ public readonly struct SolverData
     /// </summary>
     private const string QUALIFIER = $"{nameof(AdventOfCode)}.{nameof(Solvers)}.AoC";
     #endregion
-    
+
     #region Fields
     public readonly int year;
     public readonly int day;
@@ -37,12 +37,12 @@ public readonly struct SolverData
         if (args.Length is not ARGS) throw new ArgumentException($"Arguments have invalid data, {args.Length} arguments when expected {ARGS}.", nameof(args));
         if (!int.TryParse(args[0], out this.year)) throw new ArgumentException($"Year ({args[0]}) could not be parsed to integer.", $"{nameof(args)}[0]");
         if (!int.TryParse(args[1], out this.day))  throw new ArgumentException($"Day ({args[1]}) could not be parsed to integer.",  $"{nameof(args)}[1]");
-            
+
         this.input = InputFetcher.EnsureInput(this.year, this.day);
         this.fullName = $"{QUALIFIER}{this.year}.Day{this.day:D2}";
     }
     #endregion
-        
+
     #region Methods
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => $"{this.year} Day{this.day}";

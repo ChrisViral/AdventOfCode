@@ -93,5 +93,13 @@ public static class NumberExtensions
 
         return true;
     }
+
+    /// <summary>
+    /// Checks if an integer is even or not
+    /// </summary>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <param name="n">Number to check</param>
+    /// <returns><see langword="true"/> if <paramref name="n"/> is event, <see langword="false"/> otherwise</returns>
+    public static bool IsEven<T>(this T n) where T : IBinaryInteger<T> => (n % Numbers<T>.Two) == T.Zero;
     #endregion
 }

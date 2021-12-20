@@ -1,0 +1,86 @@
+﻿using System;
+using System.Linq;
+using System.Numerics;
+using AdventOfCode.Collections;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Vectors;
+
+namespace AdventOfCode.Solvers.AoC2021;
+
+/// <summary>
+/// Solver for 2021 Day 20
+/// </summary>
+public class Day20 : Solver<(string algorithm, Grid<bool> image)>
+{
+    private const int PASSES      = 2;
+    private const int LONG_PASSES = 50;
+    private const char LIGHT      = '#';
+    private static readonly Vector2<int> offset = new(3, 3);
+
+    #region Constructors
+    /// <summary>
+    /// Creates a new <see cref="Day20"/> Solver for 2021 - 20 with the input data properly parsed
+    /// </summary>
+    /// <param name="input">Puzzle input</param>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    public Day20(string input) : base(input) { }
+    #endregion
+
+    #region Methods
+    /// <inheritdoc cref="Solver.Run"/>
+    public override void Run()
+    {
+        bool first = this.Data.algorithm[0] is LIGHT;
+        Grid<bool> image = this.Data.image;
+        foreach (int i in ..PASSES)
+        {
+            image = ApplyAlgorithm(image, !i.IsEven() && first);
+        }
+        AoCUtils.LogPart1(image.Count(b => b));
+
+        foreach (int i in PASSES..LONG_PASSES)
+        {
+            image = ApplyAlgorithm(image, !i.IsEven() && first);
+        }
+        AoCUtils.LogPart2(image.Count(b => b));
+    }
+
+    private Grid<bool> ApplyAlgorithm(Grid<bool> image, bool externStatus)
+    {
+        Grid<bool> newImage = new(image.Width + 6, image.Height + 6);
+        foreach (Vector2<int> position in Vector2<int>.Enumerate(image.Width, image.Height))
+        {
+            newImage[position + offset] = image[position];
+        }
+
+        foreach (Vector2<int> position in Vector2<int>.Enumerate(newImage.Width, newImage.Height))
+        {
+            int n = 0;
+            foreach (Vector2<int> adjacent in position.Adjacent(true, true))
+            {
+                n <<= 1;
+                Vector2<int> matching = adjacent - offset;
+                if (image.WithinGrid(matching) ? image[matching] : externStatus)
+                {
+                    n |= 1;
+                }
+            }
+
+            newImage[position] = this.Data.algorithm[n] is LIGHT;
+        }
+
+        return newImage;
+    }
+
+    /// <inheritdoc cref="Solver{T}.Convert"/>
+    protected override (string, Grid<bool>) Convert(string[] rawInput)
+    {
+        int width = rawInput[1].Length;
+        int height = rawInput.Length - 1;
+        Grid<bool> grid = new(width, height, rawInput[1..], line => line.Select(c => c is LIGHT).ToArray());
+        return (rawInput[0], grid);
+    }
+    #endregion
+}
