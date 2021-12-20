@@ -414,6 +414,53 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     }
 
     /// <summary>
+    /// Parses the two component vector using the given value and number separator
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns>The parsed vector</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
+    /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
+    public static Vector2<T> Parse(string value, string separator = ",")
+    {
+        if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
+        if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
+
+        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (splits.Length is not 2) throw new FormatException("String to parse not properly formatted");
+
+        T x = T.Parse(splits[0], null);
+        T y = T.Parse(splits[1], null);
+        return new(x, y);
+    }
+
+    /// <summary>
+    /// Tries to parse the two component vector using the given value and returns the success
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="result">Resulting vector, if any</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
+    public static bool TryParse(string? value, out Vector2<T> result, string separator = ",")
+    {
+        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(separator))
+        {
+            result = Zero;
+            return false;
+        }
+
+        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (splits.Length is not 2 || !T.TryParse(splits[0], null, out T x) || !T.TryParse(splits[0], null, out T y))
+        {
+            result = Zero;
+            return false;
+        }
+
+        result = new(x, y);
+        return true;
+    }
+
+    /// <summary>
     /// Gets the length of this vector in the target floating point type
     /// </summary>
     /// <typeparam name="TResult">Floating point result type</typeparam>

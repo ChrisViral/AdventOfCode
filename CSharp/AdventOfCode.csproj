@@ -3,8 +3,8 @@
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-	<LangVersion>preview</LangVersion>
-	<Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>preview</LangVersion>
@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.103" />
     <PackageReference Include="System.Runtime.Experimental" Version="6.0.0" />
   </ItemGroup>
 </Project>

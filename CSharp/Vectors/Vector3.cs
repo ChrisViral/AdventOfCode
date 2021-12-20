@@ -283,6 +283,53 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="z">Z parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
     private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPoint<TResult> => TResult.Sqrt(TResult.Create((x * x) + (y * y) + (z * z)));
+
+    /// <summary>
+    /// Parses the two component vector using the given value and number separator
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns>The parsed vector</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
+    /// <exception cref="FormatException">If there isn't exactly two or three values present after the split</exception>
+    public static Vector3<T> Parse(string value, string separator = ",")
+    {
+        if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
+        if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
+
+        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (splits.Length is < 2 or > 3) throw new FormatException("String to parse not properly formatted");
+
+        T x = T.Parse(splits[0], null);
+        T y = T.Parse(splits[1], null);
+        return new(x, y, splits.Length is 3 ? T.Parse(splits[2], null) : T.Zero);
+    }
+
+    /// <summary>
+    /// Tries to parse the two component vector using the given value and returns the success
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="result">Resulting vector, if any</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
+    public static bool TryParse(string? value, out Vector3<T> result, string separator = ",")
+    {
+        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(separator))
+        {
+            result = Zero;
+            return false;
+        }
+
+        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (splits.Length is < 2 or > 3 || !T.TryParse(splits[0], null, out T x) || !T.TryParse(splits[0], null, out T y))
+        {
+            result = Zero;
+            return false;
+        }
+
+        result = new(x, y, splits.Length is 3 && T.TryParse(splits[2], null, out T z) ? z : T.Zero);
+        return true;
+    }
     #endregion
 
     #region Operators

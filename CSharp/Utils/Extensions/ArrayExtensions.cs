@@ -10,6 +10,20 @@ namespace AdventOfCode.Utils.Extensions;
 public static class ArrayExtensions
 {
     #region Extension methods
+    /// <summary>
+    /// Applies the given function to all members of the array
+    /// </summary>
+    /// <typeparam name="T">Type of element in the array</typeparam>
+    /// <param name="array">Array to apply to</param>
+    /// <param name="modification">Modification function</param>
+    public static void Apply<T>(this IList<T> array, Func<T, T> modification)
+    {
+        foreach (int i in ..array.Count)
+        {
+            array[i] = modification(array[i]);
+        }
+    }
+
     /// <inheritdoc cref="Array.AsReadOnly{T}"/>
     public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array) => Array.AsReadOnly(array);
 
@@ -24,6 +38,19 @@ public static class ArrayExtensions
 
     /// <inheritdoc cref="Array.ConvertAll{T, TOutput}"/>
     public static TOutput[] ConvertAll<T, TOutput>(this T[] array, Converter<T, TOutput> converter) => Array.ConvertAll(array, converter);
+
+    /// <summary>
+    /// Creates a shallow copy of the specified array
+    /// </summary>
+    /// <typeparam name="T">Type of element in the array</typeparam>
+    /// <param name="array">The array to copy</param>
+    /// <returns>The copy of <paramref name="array"/></returns>
+    public static T[] Copy<T>(this T[] array)
+    {
+        T[] copy = new T[array.Length];
+        array.CopyTo(copy, 0);
+        return copy;
+    }
 
     /// <inheritdoc cref="Array.Copy(Array, Array, int)"/>
     public static void CopyTo(this Array array, Array destination, int length) => Array.Copy(array, destination, length);
