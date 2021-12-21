@@ -14,7 +14,8 @@ namespace AdventOfCode.Solvers.AoC2021;
 public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 {
     #region Constants
-    private const string PATTERN = @"(\d+),(\d+) -> (\d+),(\d+)";
+    /// <summary>Vector matching pattern</summary>
+    private const string PATTERN = @"(\d+,\d+) -> (\d+,\d+)";
     #endregion
 
     #region Fields
@@ -28,7 +29,7 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
     /// Creates a new <see cref="Day05"/> Solver for 2021 - 05 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day05(string input) : base(input)  => this.grid = new(this.maxX + 1, this.maxY + 1);
     #endregion
 
@@ -36,21 +37,23 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        // ReSharper disable UseDeconstruction
-        foreach ((Vector2<int> from, Vector2<int> to) in this.Data)
+        // Loop through all lines
+        foreach (((int fromX, int fromY), (int toX, int toY)) in this.Data)
         {
-            if (from.X == to.X)
+            if (fromX == toX)
             {
-                foreach (int y in from.Y..^to.Y)
+                // Vertical lines
+                foreach (int y in fromY..^toY)
                 {
-                    grid[from.X, y]++;
+                    grid[fromX, y]++;
                 }
             }
-            else if (from.Y == to.Y)
+            else if (fromY == toY)
             {
-                foreach (int x in from.X..^to.X)
+                // Horizontal lines
+                foreach (int x in fromX..^toX)
                 {
-                    grid[x, from.Y]++;
+                    grid[x, fromY]++;
                 }
             }
         }
@@ -58,13 +61,15 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
         int crosses = grid.Count(n => n > 1);
         AoCUtils.LogPart1(crosses);
 
+        // Check diagonal lines
         foreach ((Vector2<int> from, Vector2<int> to) in this.Data.Where(d => d.from.X != d.to.X && d.from.Y != d.to.Y))
         {
+            // Check sign and direction
             (int x, int y) = from;
-            Vector2<int> diff = to - from;
-            int xInc   = Math.Sign(diff.X);
-            int yInc   = Math.Sign(diff.Y);
-            int length = Math.Abs(diff.X);
+            (int diffX, int diffY) = to - from;
+            int xInc   = Math.Sign(diffX);
+            int yInc   = Math.Sign(diffY);
+            int length = Math.Abs(diffX);
             foreach (int _ in ..^length)
             {
                 grid[x, y]++;
@@ -80,9 +85,11 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Vector2<int> from, Vector2<int> to)[] Convert(string[] rawInput)
     {
+        // Extract digits
         (int x1, int y1, int x2, int y2)[] vents = RegexFactory<(int, int, int, int)>.ConstructObjects(PATTERN, rawInput);
-        (Vector2<int>, Vector2<int>)[] data = new (Vector2<int>, Vector2<int>)[vents.Length];
+        (Vector2<int>, Vector2<int>)[] data      = new (Vector2<int>, Vector2<int>)[vents.Length];
 
+        // Get max values for the grid
         this.maxX = int.MinValue;
         this.maxY = int.MinValue;
         foreach (int i in ..vents.Length)

@@ -13,15 +13,19 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
+    #region Constants
+    /// <summary>Signal/output separator</summary>
     private static readonly char[] separatorSplit = { '|' };
+    /// <summary>Segments separator</summary>
     private static readonly char[] segmentSplit   = { ' ' };
+    #endregion
 
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver for 2021 - 08 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day08(string input) : base(input) { }
     #endregion
 
@@ -29,9 +33,11 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
+        // Count outputs with known segments length
         int count = this.Data.SelectMany(data => data.outputs).Count(segments => segments.Length is 2 or 3 or 4 or 7);
         AoCUtils.LogPart1(count);
 
+        // Create sets for every digit
         long total = 0L;
         HashSet<char>[] values = new HashSet<char>[10];
         values.Fill(() => new(7));
@@ -51,12 +57,14 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
             values[5] = new(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && values[9].Count(signal.Contains) is 5)!);
             values[2] = new(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && !values[5].SetEquals(signal))!);
 
+            // Create output value
             int final = values.FindIndex(value => value.SetEquals(outputs[0])) * 1000;
             final    += values.FindIndex(value => value.SetEquals(outputs[1])) * 100;
             final    += values.FindIndex(value => value.SetEquals(outputs[2])) * 10;
             final    += values.FindIndex(value => value.SetEquals(outputs[3]));
             total    += final;
 
+            // Clear all
             values.ForEach(value => value.Clear());
         }
 

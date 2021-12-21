@@ -9,19 +9,32 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 12
 /// </summary>
-public class Day12 : Solver<(Day12.Cave start, Day12.Cave end)>
+public class Day12 : Solver<Dictionary<string, Day12.Cave>>
 {
+    /// <summary>
+    /// Cave node
+    /// </summary>
+    /// <param name="Name">Name of the node</param>
+    /// <param name="IsSmall">If it is a small node or not</param>
     public record Cave(string Name, bool IsSmall)
     {
+        /// <summary>
+        /// If visiting this small node twice is allowed
+        /// </summary>
         public bool AllowTwice { get; set; }
 
+        /// <summary>
+        /// Set of all the neighbours of this cave
+        /// </summary>
         public HashSet<Cave> Neighbours { get; } = new();
     }
 
+    #region Constants
+    /// <summary>Start cave name</summary>
     private const string START = "start";
+    /// <summary>End cave name</summary>
     private const string END   = "end";
-
-    private Dictionary<string, Cave> Caves { get; } = new();
+    #endregion
 
     #region Constructors
     /// <summary>
@@ -36,35 +49,49 @@ public class Day12 : Solver<(Day12.Cave start, Day12.Cave end)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        HashSet<Cave> visited = new() { this.Data.start };
+        Cave start = this.Data[START];
+        HashSet<Cave> visited = new() { start };
         Stack<Cave> path      = new();
-        path.Push(this.Data.start);
-        HashSet<string> paths = new(ExploreCave(this.Data.start, visited, path));
+
+        // Explore the caves and list the paths
+        path.Push(start);
+        HashSet<string> paths = new(ExploreCave(start, visited, path));
         AoCUtils.LogPart1(paths.Count);
 
-        foreach (Cave cave in Caves.Values.Where(cave => cave.IsSmall && cave.Name is not START or END))
+        foreach (Cave cave in this.Data.Values.Where(cave => cave.IsSmall && cave.Name is not START or END))
         {
+            // Set one small cave to be allowed twice and test
             cave.AllowTwice = true;
-            paths.UnionWith(ExploreCave(this.Data.start, visited, path));
+            paths.UnionWith(ExploreCave(start, visited, path));
             cave.AllowTwice = false;
         }
 
         AoCUtils.LogPart2(paths.Count);
     }
 
+    /// <summary>
+    /// Explores the cave and finds all the paths possible from this node to the end
+    /// </summary>
+    /// <param name="cave">Currently explored cave</param>
+    /// <param name="visited">Set of all visited caves</param>
+    /// <param name="path">Current caving path</param>
+    /// <returns>An enumerable of all the paths</returns>
     private static IEnumerable<string> ExploreCave(Cave cave, ISet<Cave> visited, Stack<Cave> path)
     {
+        // Look through neighbours
         foreach (Cave neighbour in cave.Neighbours.Where(n => !n.IsSmall || n.AllowTwice || !visited.Contains(n)))
         {
             path.Push(neighbour);
             if (neighbour.Name is END)
             {
+                // If found end, return the path
                 yield return string.Join("-", path.Select(p => p.Name));
 
                 path.Pop();
                 continue;
             }
 
+            // If was allowed twice, disallow now
             bool allowed = neighbour.AllowTwice;
             if (neighbour.AllowTwice)
             {
@@ -75,11 +102,13 @@ public class Day12 : Solver<(Day12.Cave start, Day12.Cave end)>
                 visited.Add(neighbour);
             }
 
+            // Explore neighbour caves
             foreach (string found in ExploreCave(neighbour, visited, path))
             {
                 yield return found;
             }
 
+            // Reset allowed twice flag
             neighbour.AllowTwice = allowed;
             path.Pop();
             visited.Remove(neighbour);
@@ -87,30 +116,30 @@ public class Day12 : Solver<(Day12.Cave start, Day12.Cave end)>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Cave, Cave) Convert(string[] rawInput)
+    protected override Dictionary<string, Cave> Convert(string[] rawInput)
     {
+        Dictionary<string, Cave> caves = new();
         foreach (string line in rawInput)
         {
             string[] splits = line.Split('-');
             string fromName = splits[0], toName = splits[1];
-
-            if (!Caves.TryGetValue(fromName, out Cave? from))
+            if (!caves.TryGetValue(fromName, out Cave? from))
             {
                 from = new(fromName, char.IsLower(fromName[0]));
-                Caves.Add(fromName, from);
+                caves.Add(fromName, from);
             }
 
-            if (!Caves.TryGetValue(toName, out Cave? to))
+            if (!caves.TryGetValue(toName, out Cave? to))
             {
                 to = new(toName, char.IsLower(toName[0]));
-                Caves.Add(toName, to);
+                caves.Add(toName, to);
             }
 
             from.Neighbours.Add(to);
             to.Neighbours.Add(from);
         }
 
-        return (Caves[START], Caves[END]);
+        return caves;
     }
     #endregion
 }
