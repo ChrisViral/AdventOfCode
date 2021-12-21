@@ -78,14 +78,14 @@ public static class NumberExtensions
         // Check low primes
         if (n == Numbers<T>.Two || n == Numbers<T>.Three || n == Numbers<T>.Five) return true;
         // Check factors for low primes
-        if (n % Numbers<T>.Two == T.Zero || n % Numbers<T>.Three == T.Zero || n % Numbers<T>.Five == T.Zero) return false;
+        if (n.IsEven() || n.IsMultiple(Numbers<T>.Three) || n.IsMultiple(Numbers<T>.Five)) return false;
 
         // Get square root of n
-        T limit = T.Create(Math.Sqrt(Numbers<double>.Create(n)));
+        T limit = T.Create(Math.Ceiling(Math.Sqrt(Numbers<double>.Create(n))));
         for (T i = Numbers<T>.Seven; i <= limit; i += Numbers<T>.Six)
         {
             // We don't need to check anything that is a multiple of two, three, or five
-            if (n % i == T.Zero || n % (i + Numbers<T>.Four) == T.Zero)
+            if (n.IsMultiple(i) || n.IsMultiple(i + Numbers<T>.Four))
             {
                 return false;
             }
@@ -100,6 +100,27 @@ public static class NumberExtensions
     /// <typeparam name="T">Integer type</typeparam>
     /// <param name="n">Number to check</param>
     /// <returns><see langword="true"/> if <paramref name="n"/> is event, <see langword="false"/> otherwise</returns>
-    public static bool IsEven<T>(this T n) where T : IBinaryInteger<T> => (n % Numbers<T>.Two) == T.Zero;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsEven<T>(this T n) where T : IBinaryInteger<T> => n % Numbers<T>.Two == T.Zero;
+
+    /// <summary>
+    /// Check if this integer is a multiple of <paramref name="n"/>
+    /// </summary>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <param name="num">Number to check</param>
+    /// <param name="n">Multiple value to check</param>
+    /// <returns><see langword="true"/> if this is a multiple of <paramref name="n"/>, <see langword="false"/> otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsMultiple<T>(this T num, T n) where T : IBinaryInteger<T> => num % n == T.Zero;
+
+    /// <summary>
+    /// Check if this integer is a factor of <paramref name="n"/>
+    /// </summary>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <param name="num">Factor to check</param>
+    /// <param name="n">Number to check against</param>
+    /// <returns><see langword="true"/> if this is a factor of <paramref name="n"/>, <see langword="false"/> otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsFactor<T>(this T num, T n) where T : IBinaryInteger<T> => n % num == T.Zero;
     #endregion
 }

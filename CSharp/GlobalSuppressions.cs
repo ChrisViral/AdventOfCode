@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "<Pending>", Scope = "member", Target = "~M:AdventOfCode.SolverData.#ctor(System.String[])")]
+[assembly: SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Because", Scope = "member", Target = "~M:AdventOfCode.SolverData.#ctor(System.String[])")]

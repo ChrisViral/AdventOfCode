@@ -10,20 +10,6 @@ namespace AdventOfCode.Utils.Extensions;
 public static class ArrayExtensions
 {
     #region Extension methods
-    /// <summary>
-    /// Applies the given function to all members of the array
-    /// </summary>
-    /// <typeparam name="T">Type of element in the array</typeparam>
-    /// <param name="array">Array to apply to</param>
-    /// <param name="modification">Modification function</param>
-    public static void Apply<T>(this IList<T> array, Func<T, T> modification)
-    {
-        foreach (int i in ..array.Count)
-        {
-            array[i] = modification(array[i]);
-        }
-    }
-
     /// <inheritdoc cref="Array.AsReadOnly{T}"/>
     public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array) => Array.AsReadOnly(array);
 

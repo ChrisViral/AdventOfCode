@@ -17,7 +17,8 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
     private const int PASSES      = 2;
     private const int LONG_PASSES = 50;
     private const char LIGHT      = '#';
-    private static readonly Vector2<int> offset = new(3, 3);
+    private const int BUFFER      = 6;
+    private static readonly Vector2<int> offset = new(BUFFER / 2, BUFFER / 2);
 
     #region Constructors
     /// <summary>
@@ -32,24 +33,23 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        bool first = this.Data.algorithm[0] is LIGHT;
         Grid<bool> image = this.Data.image;
         foreach (int i in ..PASSES)
         {
-            image = ApplyAlgorithm(image, !i.IsEven() && first);
+            image = ApplyAlgorithm(image, !i.IsEven());
         }
         AoCUtils.LogPart1(image.Count(b => b));
 
         foreach (int i in PASSES..LONG_PASSES)
         {
-            image = ApplyAlgorithm(image, !i.IsEven() && first);
+            image = ApplyAlgorithm(image, !i.IsEven());
         }
         AoCUtils.LogPart2(image.Count(b => b));
     }
 
     private Grid<bool> ApplyAlgorithm(Grid<bool> image, bool externStatus)
     {
-        Grid<bool> newImage = new(image.Width + 6, image.Height + 6);
+        Grid<bool> newImage = new(image.Width + BUFFER, image.Height + BUFFER);
         foreach (Vector2<int> position in Vector2<int>.Enumerate(image.Width, image.Height))
         {
             newImage[position + offset] = image[position];

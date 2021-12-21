@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
+using static System.Convert;
 
 namespace AdventOfCode.Solvers.AoC2021;
 
@@ -23,7 +23,7 @@ public class Day03 : Solver
     /// Creates a new <see cref="Day03"/> Solver for 2021 - 03 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[] fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day03(string input) : base(input) { }
     #endregion
 
@@ -57,11 +57,10 @@ public class Day03 : Solver
         AoCUtils.LogPart1(gamma * epsilon);
 
         // Create a copy of the counts
-        int[] countsCopy = new int[counts.Length];
-        counts.CopyTo(countsCopy, 0);
+        int[] countsCopy = counts.Copy();
         // Get oxygen generator and CO2 scrubber values
-        int generator = Convert.ToInt32(GetRating(counts,     '1', '0'), 2);
-        int scrubber  = Convert.ToInt32(GetRating(countsCopy, '0', '1'), 2);
+        int generator = ToInt32(GetRating(counts,     '1', '0'), 2);
+        int scrubber  = ToInt32(GetRating(countsCopy, '0', '1'), 2);
         AoCUtils.LogPart2(generator * scrubber);
     }
 
@@ -74,7 +73,7 @@ public class Day03 : Solver
     /// <returns>The resulting report</returns>
     private string GetRating(IList<int> counts, char positive, char negative)
     {
-        HashSet<string> valid = new(Data);
+        HashSet<string> valid   = new(Data);
         HashSet<string> invalid = new();
         foreach (int i in ..counts.Count)
         {
