@@ -17,7 +17,7 @@ public class Day01 : ArraySolver<int>
     /// Creates a new <see cref="Day01"/> Solver for 2021 - 01 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day01(string input) : base(input) { }
     #endregion
 
@@ -25,7 +25,7 @@ public class Day01 : ArraySolver<int>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        // Part 1
+        // Check the one window differences
         int total = 0;
         foreach (int i in 1..Data.Length)
         {
@@ -37,7 +37,7 @@ public class Day01 : ArraySolver<int>
 
         AoCUtils.LogPart1(total);
 
-        // Part 2
+        // Check the three window differences
         total = 0;
         int previous = Data[..3].Sum();
         foreach (int i in 3..Data.Length)

@@ -34,6 +34,11 @@ public static class MathUtils
         return a | b;
     }
 
+    /// <summary>
+    /// Greatest Common Divisor of all passed numbers
+    /// </summary>
+    /// <param name="numbers">Numbers to get the GCD for</param>
+    /// <returns>Gets the GCD of all the passed numbers</returns>
     public static T GCD<T>(params T[] numbers) where T : IBinaryInteger<T> => numbers.Aggregate(GCD);
 
     /// <summary>

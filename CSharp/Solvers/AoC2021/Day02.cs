@@ -15,9 +15,9 @@ public class Day02 : ArraySolver<(string command, int value)>
     /// <summary>Forward command</summary>
     private const string FORWARD = "forward";
     /// <summary>Down command</summary>
-    private const string DOWN = "down";
+    private const string DOWN    = "down";
     /// <summary>Up command</summary>
-    private const string UP = "up";
+    private const string UP      = "up";
     #endregion
 
     #region Constructors
@@ -25,7 +25,7 @@ public class Day02 : ArraySolver<(string command, int value)>
     /// Creates a new <see cref="Day02"/> Solver for 2021 - 02 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[] fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day02(string input) : base(input) { }
     #endregion
 
@@ -33,6 +33,7 @@ public class Day02 : ArraySolver<(string command, int value)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
+        // Handle cardinal movement
         Vector3<long> position = Vector3<long>.Zero;
         foreach ((string command, int value) in Data)
         {
@@ -52,6 +53,7 @@ public class Day02 : ArraySolver<(string command, int value)>
 
         AoCUtils.LogPart2(position.X * position.Y);
 
+        // Handle heading based movement
         position = Vector3<long>.Zero;
         foreach ((string direction, int value) in Data)
         {

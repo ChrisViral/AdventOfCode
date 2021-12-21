@@ -19,9 +19,12 @@ public class Day04 : Solver<Day04.BingoData>
     /// </summary>
     public class BingoData
     {
+        #region Constants
         /// <summary>Bingo board size</summary>
         public const int SIZE   = 5;
+        #endregion
 
+        #region Properties
         /// <summary>
         /// Drawn bingo numbers, in order
         /// </summary>
@@ -31,7 +34,9 @@ public class Day04 : Solver<Day04.BingoData>
         /// All available bingo boards
         /// </summary>
         public List<Grid<int>> Boards { get; } = new();
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Creates a new bingo board from the input
         /// </summary>
@@ -41,14 +46,16 @@ public class Day04 : Solver<Day04.BingoData>
             DrawnNumbers = Array.ConvertAll(input[0].Split(',', DEFAULT_OPTIONS), int.Parse);
             for (int i = 1; i < input.Length; i += SIZE)
             {
-                Boards.Add(new(SIZE, SIZE, input[i..(i + SIZE)], line => Array.ConvertAll(line.Split(' ', DEFAULT_OPTIONS), int.Parse)));
+                Boards.Add(new(SIZE, SIZE, input[i..(i + SIZE)], line => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse)));
             }
         }
+        #endregion
     }
 
     #region Constants
     /// <summary>Marked bingo location value</summary>
-    public const int MARKED = -1;
+    private const int MARKED = -1;
+    /// <summary>Temp bingo buffer</summary>
     private static readonly int[] buffer = new int[BingoData.SIZE];
     #endregion
 
@@ -57,7 +64,7 @@ public class Day04 : Solver<Day04.BingoData>
     /// Creates a new <see cref="Day04"/> Solver for 2021 - 04 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day04(string input) : base(input) { }
     #endregion
 
@@ -105,13 +112,13 @@ public class Day04 : Solver<Day04.BingoData>
     {
         (int x, int y) = position;
         board.GetColumnNoAlloc(x, buffer);
-        if (Array.TrueForAll(buffer, n => n is MARKED))
+        if (buffer.TrueForAll(n => n is MARKED))
         {
             return true;
         }
 
         board.GetRowNoAlloc(y, buffer);
-        return Array.TrueForAll(buffer, n => n is MARKED);
+        return buffer.TrueForAll(n => n is MARKED);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
