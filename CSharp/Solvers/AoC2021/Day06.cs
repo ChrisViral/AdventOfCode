@@ -13,8 +13,11 @@ namespace AdventOfCode.Solvers.AoC2021;
 public class Day06 : Solver<int[]>
 {
     #region Constants
+    /// <summary>Part 1 days</summary>
     private const int DAYS = 80;
+    /// <summary>Part 2 days</summary>
     private const int LONG_DAYS = 256;
+    /// <summary>Fish spawn cache</summary>
     private static readonly Dictionary<int, long> cache = new();
     #endregion
 
@@ -23,7 +26,7 @@ public class Day06 : Solver<int[]>
     /// Creates a new <see cref="Day06"/> Solver for 2021 - 06 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day06(string input) : base(input) { }
     #endregion
 
@@ -34,7 +37,7 @@ public class Day06 : Solver<int[]>
         long count = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(DAYS - fish - 1));
         AoCUtils.LogPart1(count);
 
-        count = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(LONG_DAYS - fish - 1));
+        count      = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(LONG_DAYS - fish - 1));
         AoCUtils.LogPart2(count);
     }
 
@@ -45,16 +48,21 @@ public class Day06 : Solver<int[]>
     /// <returns>The amount of descendants a fish will have</returns>
     private static long CalculateDescendantsCount(int timeRemaining)
     {
+        // Return if no time is left
         if (timeRemaining < 0L) return 0L;
+        // Try to get from cache if possible
         if (cache.TryGetValue(timeRemaining, out long children)) return children;
 
+        // Get spawned amount during lifetime
         int spawned = (timeRemaining / 7) + 1;
         children = spawned;
         for (int timer = timeRemaining - 9; timer >= 0; timer -= 7)
         {
+            // Get all descendants count for each child
             children += CalculateDescendantsCount(timer);
         }
 
+        // Cache result
         cache.Add(timeRemaining, children);
         return children;
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
@@ -15,14 +14,21 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day11 : GridSolver<byte>
 {
+    #region Constants
+    /// <summary>Simulation days</summary>
     private const int DAYS = 100;
+    /// <summary>Queue to store the octopi that mush flash</summary>
+    private static readonly Queue<Vector2<int>> toFlash   = new();
+    /// <summary>Set containing all octopi that have flashed</summary>
+    private static readonly HashSet<Vector2<int>> flashed = new();
+    #endregion
 
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver for 2021 - 11 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day11(string input) : base(input) { }
     #endregion
 
@@ -31,27 +37,29 @@ public class Day11 : GridSolver<byte>
     public override void Run()
     {
         int flashes = 0;
-        Queue<Vector2<int>> toFlash   = new();
-        HashSet<Vector2<int>> flashed = new();
         foreach (int _ in ..DAYS)
         {
-            flashes += SimulateFlashes(toFlash, flashed);
-            flashed.Clear();
+            // Simulate flashes for each day
+            flashes += SimulateFlashes();
         }
         AoCUtils.LogPart1(flashes);
 
         int day = DAYS;
         do
         {
+            // Simulate until everything has flashed
             day++;
-            flashed.Clear();
-            SimulateFlashes(toFlash, flashed);
+            flashes = SimulateFlashes();
         }
-        while (flashed.Count != this.Grid.Size);
+        while (flashes != this.Grid.Size);
         AoCUtils.LogPart2(day);
     }
 
-    private int SimulateFlashes(Queue<Vector2<int>> toFlash, ISet<Vector2<int>> flashed)
+    /// <summary>
+    /// Simulates flashes on the entire board
+    /// </summary>
+    /// <returns>The amount of flashes that occurred</returns>
+    private int SimulateFlashes()
     {
         // Check all octopi that will flash
         int flashes = 0;
@@ -72,9 +80,15 @@ public class Day11 : GridSolver<byte>
 
         // Clear all flashed octopi
         flashed.ForEach(p => this.Grid[p] = 0);
+        flashed.Clear();
         return flashes;
     }
 
+    /// <summary>
+    /// Check if a given octopi will flash on the given turn
+    /// </summary>
+    /// <param name="position">Position to check</param>
+    /// <returns><see langword="true"/> if the octopi will flash, <see langword="false"/> otherwise</returns>
     private bool WillFlash(Vector2<int> position)
     {
         // If at nine, will be flashing

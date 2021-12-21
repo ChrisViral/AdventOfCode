@@ -12,6 +12,8 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day10 : Solver
 {
+    #region Constants
+    /// <summary>Points for broken chunks</summary>
     private static readonly Dictionary<char, int> brokenPoints = new(4)
     {
         [')'] = 3,
@@ -19,6 +21,7 @@ public class Day10 : Solver
         ['}'] = 1197,
         ['>'] = 25137
     };
+    /// <summary>Points for incomplete chunks</summary>
     private static readonly Dictionary<char, int> incompletePoints = new(4)
     {
         ['('] = 1,
@@ -26,6 +29,7 @@ public class Day10 : Solver
         ['{'] = 3,
         ['<'] = 4,
     };
+    /// <summary>Matching closing brackets</summary>
     private static readonly Dictionary<char, char> matching = new(4)
     {
         [')'] = '(',
@@ -33,13 +37,14 @@ public class Day10 : Solver
         ['}'] = '{',
         ['>'] = '<',
     };
+    #endregion
 
     #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver for 2021 - 10 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day10(string input) : base(input) { }
     #endregion
 
@@ -56,18 +61,22 @@ public class Day10 : Solver
             {
                 if (c is '(' or '[' or '{' or '<')
                 {
+                    // Push opening brackets
                     brackets.Push(c);
                 }
                 else if (brackets.Pop() != matching[c])
                 {
+                    // If popped closing bracket mismatched, add score
                     brokenScore += brokenPoints[c];
                     brackets.Clear();
                     break;
                 }
             }
 
+            // If some brackets were not closed
             if (brackets.IsEmpty()) continue;
 
+            // Calculate score for incomplete brackets
             long incompleteScore = 0L;
             while (brackets.TryPop(out char c))
             {
