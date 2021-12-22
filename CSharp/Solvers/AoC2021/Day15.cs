@@ -15,7 +15,10 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day15 : GridSolver<byte>
 {
+    #region Constants
+    /// <summary>Full size of the map</summary>
     private const int FULL_SIZE = 5;
+    #endregion
 
     #region Constructors
     /// <summary>
@@ -30,12 +33,14 @@ public class Day15 : GridSolver<byte>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
+        // Search for best path to the end
         Vector2<int> start  = Vector2<int>.Zero, end = (this.Grid.Width - 1, this.Grid.Height - 1);
         // ReSharper disable once AccessToModifiedClosure
         Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer.Comparer)!;
         int total = path.Sum(p => this.Grid[p]);
         AoCUtils.LogPart1(total);
 
+        // Create scaled map
         Grid<byte> fullMap = new(this.Data.Width * FULL_SIZE, this.Data.Height * FULL_SIZE);
         foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
         {
@@ -48,12 +53,19 @@ public class Day15 : GridSolver<byte>
             }
         }
 
+        // Search for new best path
         end   = (fullMap.Width - 1, fullMap.Height - 1);
         path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer.Comparer)!;
         total = path.Sum(p => fullMap[p]);
         AoCUtils.LogPart2(total);
     }
 
+    /// <summary>
+    /// Neighbours function for the map
+    /// </summary>
+    /// <param name="node">Current node position</param>
+    /// <param name="map">Map to find the neighbours in</param>
+    /// <returns>An enumerable of all the neighbours of the current node</returns>
     private static IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> node, Grid<byte> map)
     {
         return node.Adjacent()
