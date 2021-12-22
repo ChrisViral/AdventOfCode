@@ -15,12 +15,48 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day16 : Solver<Day16.Packet>
 {
+    /// <summary>
+    /// Packet operation type
+    /// </summary>
+    public enum PacketType : byte
+    {
+        SUM = 0,
+        MUL = 1,
+        MIN = 2,
+        MAX = 3,
+        VAL = 4,
+        GTG = 5,
+        LST = 6,
+        EQU = 7
+    }
+
+    /// <summary>
+    /// Packet object
+    /// </summary>
+    /// <param name="Version">Packet version</param>
+    /// <param name="Type">Packet type</param>
+    /// <param name="Size">Sub-packets size</param>
     public record Packet(byte Version, PacketType Type, long Size)
     {
+        #region Static fields
+        /// <summary>Parsing StringBuilder</summary>
+        private static readonly StringBuilder builder = new();
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Sub-packets of this packet
+        /// </summary>
         private List<Packet>? SubPackets { get; init; }
 
+        /// <summary>
+        /// Sum of the version of this packet and it's sub-packets
+        /// </summary>
         public int VersionSum => Version + (SubPackets?.Sum(p => p.VersionSum) ?? 0);
 
+        /// <summary>
+        /// Value of this packet
+        /// </summary>
         public long Value => Type switch
         {
             PacketType.SUM => SubPackets!.Sum(p => p.Value),
@@ -33,11 +69,22 @@ public class Day16 : Solver<Day16.Packet>
             PacketType.EQU => SubPackets![0].Value == SubPackets[1].Value ? 1L : 0L,
             _              => throw new InvalidEnumArgumentException(nameof(Type), (int)Type, typeof(PacketType))
         };
+        #endregion
 
-        private static readonly StringBuilder builder = new();
-
+        #region Static methods
+        /// <summary>
+        /// Parses the packet from the given binary string value
+        /// </summary>
+        /// <param name="bits">Binary string to parse the packet from</param>
+        /// <returns>The parsed packet</returns>
         public static Packet ParsePacket(string bits) => ParsePacket(bits, 0).packet;
 
+        /// <summary>
+        /// Parses the packet from the given binary string value and starting position in the string
+        /// </summary>
+        /// <param name="bits">Binary string to parse the packet from</param>
+        /// <param name="i">Current position within the string</param>
+        /// <returns>The parsed packet, and the count of bits used while parsing</returns>
         private static (Packet packet, int used) ParsePacket(string bits, int i)
         {
             byte version    = ToByte(bits[i..(i += 3)], 2);
@@ -91,18 +138,7 @@ public class Day16 : Solver<Day16.Packet>
 
             return (packet, used);
         }
-    }
-
-    public enum PacketType : byte
-    {
-        SUM = 0,
-        MUL = 1,
-        MIN = 2,
-        MAX = 3,
-        VAL = 4,
-        GTG = 5,
-        LST = 6,
-        EQU = 7
+        #endregion
     }
 
     #region Constructors
@@ -122,6 +158,11 @@ public class Day16 : Solver<Day16.Packet>
         AoCUtils.LogPart2(this.Data.Value);
     }
 
+    /// <summary>
+    /// Convert a byte value to a binary string
+    /// </summary>
+    /// <param name="value">Value to convert</param>
+    /// <returns></returns>
     private static string ToBinaryString(byte value) => System.Convert.ToString(value, 2).PadLeft(8, '0');
 
     /// <inheritdoc cref="Solver{T}.Convert"/>

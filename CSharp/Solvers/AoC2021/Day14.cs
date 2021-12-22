@@ -12,8 +12,12 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)>
 {
+    #region Constants
+    /// <summary>Cycles for the first part</summary>
     private const int CYCLES      = 10;
+    /// <summary>Cycles for the second part</summary>
     private const int LONG_CYCLES = 40;
+    #endregion
 
     #region Constructors
     /// <summary>
@@ -68,6 +72,11 @@ public class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)
         AoCUtils.LogPart2(diff);
     }
 
+    /// <summary>
+    /// Update pairs for the next cycle
+    /// </summary>
+    /// <param name="pairs">Current pairs dictionary</param>
+    /// <param name="counter">Character counter</param>
     private void GetNextPairs(ref Dictionary<(char, char), long> pairs, IDictionary<char, long> counter)
     {
         // Copy old pairs data and clear counts

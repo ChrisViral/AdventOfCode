@@ -13,17 +13,23 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 13
 /// </summary>
-public class Day13 : Solver<List<Day13.Fold>>
+public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 {
+    /// <summary>
+    /// Folding axis
+    /// </summary>
     public enum Axis
     {
         X,
         Y
     }
 
-    public record Fold(Axis Axis, int Value);
-
-    private Grid<bool> grid = new(0, 0);
+    /// <summary>
+    /// Fold structure
+    /// </summary>
+    /// <param name="Axis">Fold axis</param>
+    /// <param name="Value">Fold position</param>
+    public record struct Fold(Axis Axis, int Value);
 
     #region Constructors
     /// <summary>
@@ -38,52 +44,63 @@ public class Day13 : Solver<List<Day13.Fold>>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        ApplyFold(this.Data[0]);
-        int enabled = this.grid.Count(b => b);
+        // Apply the first fold and check how many sections are still marked
+        Grid<bool> grid = ApplyFold(this.Data.folds[0], this.Data.grid);
+        int enabled = grid.Count(b => b);
         AoCUtils.LogPart1(enabled);
 
-        foreach (int i in 1..this.Data.Count)
+        // Apply the rest of the folds
+        foreach (int i in 1..this.Data.folds.Count)
         {
-            ApplyFold(this.Data[i]);
+            grid = ApplyFold(this.Data.folds[i], grid);
         }
-        AoCUtils.LogPart2($"\n{this.grid}");
+        AoCUtils.LogPart2($"\n{grid}");
     }
 
-    private void ApplyFold(Fold fold)
+    /// <summary>
+    /// Applies a given fold to the grid
+    /// </summary>
+    /// <param name="fold">Fold to apply</param>
+    /// <param name="grid">Grid to fold</param>
+    /// <returns>The folded grid result</returns>
+    private static Grid<bool> ApplyFold(Fold fold, Grid<bool> grid)
     {
         Grid<bool> updated = null!;
         (Axis axis, int value) = fold;
         switch (axis)
         {
             case Axis.X:
-                updated = new(value, this.grid.Height, b => b ? "▓" : "░");
-                foreach (int x in 1..(this.grid.Width - value))
+                updated = new(value, grid.Height, b => b ? "▓" : "░");
+                foreach (int x in 1..(grid.Width - value))
                 {
-                    foreach (int y in ..this.grid.Height)
+                    foreach (int y in ..grid.Height)
                     {
-                        updated[value - x, y] = this.grid[value + x, y] || this.grid[value - x, y];
+                        // Reflect the values leftwards from the fold axis
+                        updated[value - x, y] = grid[value + x, y] || grid[value - x, y];
                     }
                 }
                 break;
 
             case Axis.Y:
-                updated = new(this.grid.Width, value, b => b ? "▓" : "░");
-                foreach (int x in ..this.grid.Width)
+                updated = new(grid.Width, value, b => b ? "▓" : "░");
+                foreach (int x in ..grid.Width)
                 {
-                    foreach (int y in 1..(this.grid.Height - value))
+                    foreach (int y in 1..(grid.Height - value))
                     {
-                        updated[x, value - y] = this.grid[x, value + y] || this.grid[x, value - y];
+                        // Reflect the values upwards from the fold axis
+                        updated[x, value - y] = grid[x, value + y] || grid[x, value - y];
                     }
                 }
                 break;
         }
 
-        this.grid = updated;
+        return updated;
     }
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
-    protected override List<Fold> Convert(string[] rawInput)
+    protected override (List<Fold>, Grid<bool>) Convert(string[] rawInput)
     {
+        // Get all the shaded position
         List<Vector2<int>> marks = new();
         int maxX = 0, maxY = 0, i;
         for (i = 0; i < rawInput.Length; i++)
@@ -96,17 +113,19 @@ public class Day13 : Solver<List<Day13.Fold>>
             marks.Add(mark);
         }
 
-        this.grid = new(maxX + 1, maxY + 1, b => b ? "▓" : "░");
-        marks.ForEach(mark => this.grid[mark] = true);
+        // Mark all in the grid
+        Grid<bool> grid = new(maxX + 1, maxY + 1, b => b ? "▓" : "░");
+        marks.ForEach(mark => grid[mark] = true);
 
+        // Read all folds
         List<Fold> folds = new();
-        for ( /*int i*/; i < rawInput.Length; i++)
+        for (/*int i*/; i < rawInput.Length; i++)
         {
             string[] splits = rawInput[i].Remove(0, 11).Split('=');
             folds.Add(new(splits[0] is "x" ? Axis.X : Axis.Y, int.Parse(splits[1])));
         }
 
-        return folds;
+        return (folds, grid);
     }
     #endregion
 }
