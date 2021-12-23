@@ -227,14 +227,6 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <returns>The scaled vector</returns>
     public Vector3<T> Scale(T scaleX, T scaleY, T scaleZ) => new(this.X * scaleX, this.Y * scaleY, this.Z * scaleZ);
 
-    /// <summary>
-    /// Converts a vector to the target type
-    /// </summary>
-    /// <typeparam name="TResult">Number type</typeparam>
-    /// <returns>The vector converted to the specified type</returns>
-    /// ReSharper disable once UnusedMember.Local
-    private Vector3<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.Create(this.X), TResult.Create(this.Y), TResult.Create(this.Z));
-
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector3<T>>.Equals(Vector3<T> other) => Equals(other);
 
@@ -273,6 +265,29 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="vector">Vector to get the absolute value of</param>
     /// <returns>Absolute value of the vector</returns>
     public static Vector3<T> Abs(in Vector3<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y), T.Abs(vector.Z));
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
+    /// </summary>
+    /// <param name="maxX">Max value for the x component, exclusive</param>
+    /// <param name="maxY">Max value for the y component, exclusive</param>
+    /// <param name="maxZ">Max value for the z component, exclusive</param>
+    /// <returns>An enumerable of all the vectors in the given range</returns>
+    public static IEnumerable<Vector3<T>> Enumerate(T maxX, T maxY, T maxZ)
+    {
+        if (!isInteger) yield break;
+
+        for (T z = T.Zero; z < maxZ; z++)
+        {
+            for (T y = T.Zero; y < maxY; y++)
+            {
+                for (T x = T.Zero; x < maxX; x++)
+                {
+                    yield return new(x, y, z);
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Gets the length of this vector in the target floating point type
