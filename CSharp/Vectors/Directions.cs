@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Numerics;
 
 namespace AdventOfCode.Vectors;
 

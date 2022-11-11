@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Utils.Extensions;
@@ -42,7 +43,10 @@ public static class NumberExtensions
         /// <summary>
         /// Creates a number of this type from another number
         /// </summary>
-        public static T Create<TFrom>(TFrom from) where TFrom : INumber<TFrom> => T.Create(from);
+        public static T Create<TFrom>(TFrom from) where TFrom : INumber<TFrom>
+        {
+            return T.CreateChecked(from);
+        }
     }
 
     #region Extension methods
@@ -81,7 +85,7 @@ public static class NumberExtensions
         if (n.IsEven() || n.IsMultiple(Numbers<T>.Three) || n.IsMultiple(Numbers<T>.Five)) return false;
 
         // Get square root of n
-        T limit = T.Create(Math.Ceiling(Math.Sqrt(Numbers<double>.Create(n))));
+        T limit = T.CreateChecked(Math.Ceiling(Math.Sqrt(Numbers<double>.Create(n))));
         for (T i = Numbers<T>.Seven; i <= limit; i += Numbers<T>.Six)
         {
             // We don't need to check anything that is a multiple of two, three, or five

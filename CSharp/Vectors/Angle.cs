@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Vectors;
@@ -8,7 +9,7 @@ namespace AdventOfCode.Vectors;
 /// </summary>
 public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtractionOperators<Angle, Angle, Angle>,
                                IUnaryNegationOperators<Angle, Angle>, IUnaryPlusOperators<Angle, Angle>,
-                               IComparisonOperators<Angle, Angle>, IFormattable
+                               IComparisonOperators<Angle, Angle, bool>, IFormattable
 {
     #region Constants
     /// <summary>

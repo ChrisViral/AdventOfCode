@@ -11,8 +11,9 @@ namespace AdventOfCode.Vectors;
 /// </summary>
 public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
                                     IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
-                                    IComparisonOperators<Vector2<T>, Vector2<T>>, IMinMaxValue<Vector2<T>>, IFormattable,
-                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, T, Vector2<T>>
+                                    IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>, IFormattable,
+                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>,
+                                    IModulusOperators<Vector2<T>, T, Vector2<T>>, IComparable<Vector2<T>>, IEquatable<Vector2<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
@@ -97,7 +98,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <returns>The vector normalized</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public Vector2<T> Normalized => isInteger ? this.Reduced : this / T.Create(this.Length);
+    public Vector2<T> Normalized => isInteger ? this.Reduced : this / T.CreateChecked(this.Length);
     #endregion
 
     #region Constructors
@@ -222,7 +223,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <typeparam name="TResult">Number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
-    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.Create(this.X), TResult.Create(this.Y));
+    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
     #endregion
 
     #region Static methods
@@ -364,7 +365,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
         GroupCollection groups = match.Groups;
         if (groups.Count is not 3) return false;
-        if (!T.TryParse(groups[2].Value, NumberStyles.Number, null, out T distance)) return false;
+        if (!T.TryParse(groups[2].Value, NumberStyles.Number, null, out T? distance)) return false;
         Vector2<T> dir;
         switch (groups[1].Value)
         {
@@ -450,7 +451,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         }
 
         string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is not 2 || !T.TryParse(splits[0], null, out T x) || !T.TryParse(splits[0], null, out T y))
+        if (splits.Length is not 2 || !T.TryParse(splits[0], null, out T? x) || !T.TryParse(splits[0], null, out T? y))
         {
             result = Zero;
             return false;
@@ -467,7 +468,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="x">X Parameter</param>
     /// <param name="y">Y parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPoint<TResult> => TResult.Sqrt(TResult.Create((x * x) + (y * y)));
+    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPointIeee754<TResult> => TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y)));
     #endregion
 
     #region Operators
