@@ -68,7 +68,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// If the collection is read only. Since we are using List{T}, it never is.
     /// </summary>
-    bool ICollection<T>.IsReadOnly { get; } = false;
+    bool ICollection<T>.IsReadOnly => false;
 
     /// <summary>
     /// Index of the last member
@@ -224,7 +224,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             }
 
             //Check if the new target index is further than the current index
-            if (largest <= i) continue;
+            if (largest == i) continue;
 
             //Swap and keep moving down
             (this.heap[largest], this.heap[i]) = (this.heap[i], this.heap[largest]);
