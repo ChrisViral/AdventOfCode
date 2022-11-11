@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Extensions;
 
 /* ==================================================================================== *\
  * Copyright © 2020 Christophe Savard                                                   *

@@ -1,14 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace AdventOfCode.Utils.Extensions;
+namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Range extension methods
 /// </summary>
 public static class RangeExtensions
 {
+    /// <summary>
+    /// Optimized Range enumerator struct
+    /// </summary>
+    public ref struct RangeEnumerator
+    {
+        private readonly int end;
+        private readonly int sign;
+
+        /// <summary>
+        /// Current iteration pointer
+        /// </summary>
+        public int Current { get; private set; }
+
+        /// <summary>
+        /// Creates a new range iterator from the given range
+        /// </summary>
+        /// <param name="range">Range to create the iterator for</param>
+        public RangeEnumerator(Range range)
+        {
+            this.sign    = Math.Sign(range.End.Value - range.Start.Value);
+            this.Current = range.Start.IsFromEnd ? range.Start.Value           : range.Start.Value - this.sign;
+            this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign : range.End.Value;
+        }
+
+        /// <summary>
+        /// Moves the iteration forwards one step
+        /// </summary>
+        /// <returns>True if the iterator is still within bounds, otherwise false</returns>
+        public bool MoveNext()
+        {
+            this.Current += this.sign;
+            return this.Current == this.end;
+        }
+    }
+
     #region Extension methods
     /// <summary>
     /// Checks if a value is contained within the range<br/>
@@ -38,10 +72,10 @@ public static class RangeExtensions
     /// <returns>An enumerable over the specified range</returns>
     public static IEnumerable<int> AsEnumerable(this Range range)
     {
-        int sign = Math.Sign(range.End.Value - range.Start.Value);
-        int startValue = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
-        int endValue   = range.End.IsFromEnd   ? range.End.Value   + sign : range.End.Value;
-        for (int i = startValue; i < endValue; i += sign)
+        int sign  = Math.Sign(range.End.Value - range.Start.Value);
+        int start = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
+        int end   = range.End.IsFromEnd   ? range.End.Value + sign   : range.End.Value;
+        for (int i = start; i != end; i += sign)
         {
             yield return i;
         }
@@ -53,6 +87,6 @@ public static class RangeExtensions
     /// <param name="range">Range to get the Enumerator for</param>
     /// <returns>An enumerator over the entire range</returns>
     /// <exception cref="ArgumentException">If any of the indices are marked as from the end</exception>
-    public static IEnumerator<int> GetEnumerator(this Range range) => range.AsEnumerable().GetEnumerator();
+    public static RangeEnumerator GetEnumerator(this Range range) => new(range);
     #endregion
 }

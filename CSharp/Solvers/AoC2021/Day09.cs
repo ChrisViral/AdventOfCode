@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
+using AdventOfCode.Extensions;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
 using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2021;

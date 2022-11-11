@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode.Utils.Extensions;
+namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Regex extension methods

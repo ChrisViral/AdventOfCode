@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace AdventOfCode.Utils.Extensions;
+namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Number extensions
