@@ -49,30 +49,30 @@ public static class InputFetcher
     {
         //Check for the input file
         FileInfo inputFile = new($"Input/{year}/day{day:D2}.txt");
-        if (!inputFile.Exists)
+        if (inputFile.Exists)
         {
-            //Make sure the directory exists
-            if (!inputFile.Directory?.Exists ?? false)
-            {
-                inputFile.Directory!.Create();
-            }
-
-            //Get input and write to file
-            string input = GetInput(year, day);
-            using StreamWriter writer = inputFile.CreateText();
-            writer.Write(input);
-            #if DEBUG
-            //Additionally write to project if in debug
-            writer.Flush();
-            inputFile.CopyTo(@$"..\..\..\Input\{year}\{inputFile.Name}", true);
-            #endif
-
-            //Return the fetched input
-            return input;
+            using StreamReader reader = inputFile.OpenText();
+            return reader.ReadToEnd();
         }
 
-        using StreamReader reader = inputFile.OpenText();
-        return reader.ReadToEnd();
+        //Make sure the directory exists
+        if (!inputFile.Directory?.Exists ?? false)
+        {
+            inputFile.Directory!.Create();
+        }
+
+        //Get input and write to file
+        string input = GetInput(year, day);
+        using StreamWriter writer = inputFile.CreateText();
+        writer.Write(input);
+        #if DEBUG
+        //Additionally write to project if in debug
+        writer.Flush();
+        inputFile.CopyTo(@$"..\..\..\Input\{year}\{inputFile.Name}", true);
+        #endif
+
+        //Return the fetched input
+        return input;
     }
 
     /// <summary>
@@ -84,8 +84,8 @@ public static class InputFetcher
     private static string GetInput(int year, int day)
     {
         using HttpResponseMessage response = HttpClient.GetAsync($"{year}/day/{day}/input").Result;
-        using Stream responseStream = response.Content.ReadAsStream();
-        using StreamReader responseReader = new(responseStream, Encoding.UTF8);
+        using Stream responseStream        = response.Content.ReadAsStream();
+        using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
         return responseReader.ReadToEnd().Trim();
     }
     #endregion
