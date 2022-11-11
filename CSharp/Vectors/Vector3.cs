@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace AdventOfCode.Vectors;
 
@@ -8,8 +9,9 @@ namespace AdventOfCode.Vectors;
 /// </summary>
 public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
                                     IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
-                                    IComparisonOperators<Vector3<T>, Vector3<T>>, IMinMaxValue<Vector3<T>>, IFormattable,
-                                    IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, T, Vector3<T>>
+                                    IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
+                                    IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
+                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IComparable<Vector3<T>>, IEquatable<Vector3<T>>
                                     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
@@ -117,7 +119,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>The vector normalized</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public Vector3<T> Normalized => isInteger ? this.Reduced : this / T.Create(this.Length);
+    public Vector3<T> Normalized => isInteger ? this.Reduced : this / T.CreateChecked(this.Length);
     #endregion
 
     #region Constructors
@@ -297,7 +299,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="y">Y parameter</param>
     /// <param name="z">Z parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPoint<TResult> => TResult.Sqrt(TResult.Create((x * x) + (y * y) + (z * z)));
+    private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPointIeee754<TResult> => TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y) + (z * z)));
 
     /// <summary>
     /// Parses the two component vector using the given value and number separator
@@ -336,13 +338,13 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         }
 
         string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is < 2 or > 3 || !T.TryParse(splits[0], null, out T x) || !T.TryParse(splits[0], null, out T y))
+        if (splits.Length is < 2 or > 3 || !T.TryParse(splits[0], null, out T? x) || !T.TryParse(splits[0], null, out T? y))
         {
             result = Zero;
             return false;
         }
 
-        result = new(x, y, splits.Length is 3 && T.TryParse(splits[2], null, out T z) ? z : T.Zero);
+        result = new(x, y, splits.Length is 3 && T.TryParse(splits[2], null, out T? z) ? z : T.Zero);
         return true;
     }
     #endregion
