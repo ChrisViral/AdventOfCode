@@ -1,8 +1,8 @@
 ﻿using System;
+using AdventOfCode.Extensions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Intcode;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 

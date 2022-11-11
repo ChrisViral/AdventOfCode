@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Extensions;
 using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Collections;

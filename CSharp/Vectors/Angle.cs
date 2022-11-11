@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Extensions;
 
 namespace AdventOfCode.Vectors;
 

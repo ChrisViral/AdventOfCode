@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace AdventOfCode.Utils.Extensions;
+namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Enumerable extension methods
@@ -147,7 +147,7 @@ public static class EnumerableExtensions
                 //Otherwise repeat each element the right amount of times
                 foreach (T t in e)
                 {
-                    foreach (int _ in ..count)
+                    for (int i = 0; i < count; i++)
                     {
                         yield return t;
                     }

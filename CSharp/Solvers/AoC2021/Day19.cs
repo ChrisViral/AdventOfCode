@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode.Extensions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
 using AdventOfCode.Vectors;
 using Transformation = System.Func<AdventOfCode.Vectors.Vector3<int>, AdventOfCode.Vectors.Vector3<int>>;
 

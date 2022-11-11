@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AdventOfCode.Extensions;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
 using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Collections;

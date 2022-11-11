@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Linq;
 using AdventOfCode.Collections;
+using AdventOfCode.Extensions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
 using Vector2 = AdventOfCode.Vectors.Vector2<int>;
 
 namespace AdventOfCode.Solvers.AoC2020;

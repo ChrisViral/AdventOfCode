@@ -1,6 +1,6 @@
 ﻿using System;
+using AdventOfCode.Extensions;
 using AdventOfCode.Solvers.Base;
-using AdventOfCode.Utils.Extensions;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;
