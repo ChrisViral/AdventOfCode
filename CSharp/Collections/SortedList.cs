@@ -47,7 +47,7 @@ namespace AdventOfCode.Collections
         /// and uses the default <see cref="IComparer{T}"/>
         /// </summary>
         /// <param name="range">Range of elements to add to the list</param>
-        public SortedList(IEnumerable<T> range) => this.list = new(range.ToDictionary(key => key, value => default(T)!));
+        public SortedList(IEnumerable<T> range) => this.list = new(range.ToDictionary(key => key, _ => default(T)!));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SortedList{T}"/> class that contains elements copied from
@@ -56,7 +56,7 @@ namespace AdventOfCode.Collections
         /// </summary>
         /// <param name="range">Range of elements to add to the list</param>
         /// <param name="comparer">Element comparer to sort the list</param>
-        public SortedList(IEnumerable<T> range, IComparer<T>? comparer) => this.list = new(range.ToDictionary(key => key, value => default(T)!), comparer);
+        public SortedList(IEnumerable<T> range, IComparer<T>? comparer) => this.list = new(range.ToDictionary(key => key, _ => default(T)!), comparer);
 
         /// <inheritdoc cref="SortedList{TKey,TValue}(int)"/>
         public SortedList(int capacity) => this.list = new(capacity);
