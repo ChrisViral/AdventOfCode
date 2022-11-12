@@ -17,6 +17,8 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 {
     #region Constants
     private static readonly bool isInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
+    /// <summary>Small comparison value for floating point numbers</summary>
+    private static readonly T epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
     public static readonly Vector3<T> Zero      = new(T.Zero, T.Zero, T.Zero);
     /// <summary>One vector</summary>
@@ -36,11 +38,11 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <summary>
     /// Minimum vector value
     /// </summary>
-    public static Vector3<T> MinValue { get; } = new(T.MinValue, T.MinValue, T.MinValue);
+    public static Vector3<T> MinValue  { get; } = new(T.MinValue, T.MinValue, T.MinValue);
     /// <summary>
     /// Maximum vector value
     /// </summary>
-    public static Vector3<T> MaxValue { get; } = new(T.MaxValue, T.MaxValue, T.MaxValue);
+    public static Vector3<T> MaxValue  { get; } = new(T.MaxValue, T.MaxValue, T.MaxValue);
     #endregion
 
     #region Propeties
@@ -71,45 +73,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector3<T> Reduced
-    {
-        get
-        {
-            if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-
-            T a = T.Abs(this.X);
-            T b = T.Abs(this.Y);
-            while (a != T.Zero && b != T.Zero)
-            {
-                if (a > b)
-                {
-                    a %= b;
-                }
-                else
-                {
-                    b %= a;
-                }
-            }
-
-            b |= a;
-            T c = T.Abs(this.Z);
-            while (b != T.Zero && c != T.Zero)
-            {
-                if (b > c)
-                {
-                    b %= c;
-                }
-                else
-                {
-                    c %= b;
-                }
-            }
-
-            T gcd = b | c;
-
-            return this / gcd;
-        }
-    }
+    public Vector3<T> Reduced => isInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
@@ -160,7 +124,8 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool Equals(in Vector3<T> other) => this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+    public bool Equals(in Vector3<T> other) => isInteger ? this.X == other.X && this.Y == other.Y && this.Z == other.Z
+                                                         : Approximately(this.X, other.X) && Approximately(this.Y, other.Y) && Approximately(this.Z, other.Z);
 
     /// <inheritdoc cref="object.GetHashCode"/>
     public override int GetHashCode() => HashCode.Combine(this.X, this.Y, this.Z);
@@ -177,7 +142,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public override string ToString() => $"({this.X}, {this.Y}, {this.Z})";
 
     /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
-    public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
+    public string ToString(string? format, IFormatProvider? provider)
+    {
+        return $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
+    }
 
     /// <summary>
     /// Deconstructs this vector into a tuple
@@ -347,6 +315,39 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         result = new(x, y, splits.Length is 3 && T.TryParse(splits[2], null, out T? z) ? z : T.Zero);
         return true;
     }
+
+    /// <summary>
+    /// Greatest Common Divisor function
+    /// </summary>
+    /// <param name="a">First number</param>
+    /// <param name="b">Second number</param>
+    /// <returns>Gets the GCD of a and b</returns>
+    private static T GCD(T a, T b)
+    {
+        a = T.Abs(a);
+        b = T.Abs(b);
+        while (a != T.Zero && b != T.Zero)
+        {
+            if (a > b)
+            {
+                a %= b;
+            }
+            else
+            {
+                b %= a;
+            }
+        }
+
+        return a | b;
+    }
+
+    /// <summary>
+    /// Compares two numbers to see if they are nearly identical
+    /// </summary>
+    /// <param name="a">First number to test</param>
+    /// <param name="b">Second number to test</param>
+    /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
+    private static bool Approximately(T a, T b) => T.Abs(a - b) <= epsilon;
     #endregion
 
     #region Operators

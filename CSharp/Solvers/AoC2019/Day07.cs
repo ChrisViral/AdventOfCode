@@ -41,7 +41,7 @@ public class Day07 : Solver<IntcodeVM[]>
     {
         long max = long.MinValue;
         //Go through all permutations of part 1 settings
-        foreach (long[] perm in AoCUtils.Permutations(part1Phase))
+        foreach (long[] perm in part1Phase.Permutations())
         {
             //Add phase settings
             foreach (int i in ..AMPS)
@@ -66,7 +66,7 @@ public class Day07 : Solver<IntcodeVM[]>
         this.Data[0].In = this.Data[^1].Out;
         max = long.MinValue;
         //Go through all permutations of part 2 settings
-        foreach (long[] perm in AoCUtils.Permutations(part2Phase))
+        foreach (long[] perm in part2Phase.Permutations())
         {
             //Add phase settings
             foreach (int i in ..AMPS)
