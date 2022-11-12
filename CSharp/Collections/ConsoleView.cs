@@ -141,9 +141,11 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     {
         //View buffer
         this.viewBuffer.Fill(converter(defaultValue));
+
         //Maze buffer
         T[] line = new T[this.Width];
         line.Fill(defaultValue);
+
         //Set everything in the arrays
         foreach (int j in ..this.Height)
         {
@@ -151,13 +153,12 @@ public class ConsoleView<T> : Grid<T> where T : notnull
             if (this.rowBufferSize is not 0)
             {
                 Buffer.BlockCopy(line, 0, this.grid, j * this.rowBufferSize, this.rowBufferSize);
+                continue;
             }
-            else
+
+            foreach (int i in ..this.Width)
             {
-                foreach (int i in ..this.Width)
-                {
-                    this.grid[j, i] = line[i];
-                }
+                this.grid[j, i] = line[i];
             }
         }
     }
@@ -207,7 +208,10 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false)
+    {
+        return MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+    }
 
     /// <summary>
     /// Moves the vector within the grid

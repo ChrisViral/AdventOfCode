@@ -10,9 +10,6 @@ namespace AdventOfCode.Extensions;
 public static class ArrayExtensions
 {
     #region Extension methods
-    /// <inheritdoc cref="Array.AsReadOnly{T}"/>
-    public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array) => Array.AsReadOnly(array);
-
     /// <inheritdoc cref="Array.BinarySearch{T}(T[], T)"/>
     public static int BinarySearch<T>(this T[] array, T value) => Array.BinarySearch(array, value);
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
 
@@ -45,69 +44,57 @@ public static class DirectionsUtils
     /// </summary>
     /// <param name="directions">Direction to get the vector from</param>
     /// <returns>The resulting vector</returns>
-    public static Vector2<T> ToVector<T>(this Directions directions) where T : IBinaryNumber<T>, IMinMaxValue<T>
+    public static Vector2<T> ToVector<T>(this Directions directions) where T : IBinaryNumber<T>, IMinMaxValue<T> => directions switch
     {
-        return directions switch
-        {
-            Directions.UP    => Vector2<T>.Up,
-            Directions.DOWN  => Vector2<T>.Down,
-            Directions.LEFT  => Vector2<T>.Left,
-            Directions.RIGHT => Vector2<T>.Right,
-            _                => Vector2<T>.Zero,
-        };
-    }
+        Directions.UP    => Vector2<T>.Up,
+        Directions.DOWN  => Vector2<T>.Down,
+        Directions.LEFT  => Vector2<T>.Left,
+        Directions.RIGHT => Vector2<T>.Right,
+        _                => Vector2<T>.Zero
+    };
 
     /// <summary>
     /// Inverts the direction
     /// </summary>
     /// <param name="directions">Direction to invert</param>
     /// <returns>Reverse direction from the current one</returns>
-    public static Directions Invert(this Directions directions)
+    public static Directions Invert(this Directions directions) => directions switch
     {
-        return directions switch
-        {
-            Directions.UP    => Directions.DOWN,
-            Directions.DOWN  => Directions.UP,
-            Directions.LEFT  => Directions.RIGHT,
-            Directions.RIGHT => Directions.LEFT,
-            _                => directions
-        };
-    }
+        Directions.UP    => Directions.DOWN,
+        Directions.DOWN  => Directions.UP,
+        Directions.LEFT  => Directions.RIGHT,
+        Directions.RIGHT => Directions.LEFT,
+        _                => directions
+    };
 
     /// <summary>
     /// Turns the direction towards the left
     /// </summary>
     /// <param name="directions">Direction to turn</param>
     /// <returns>The new direction after turning to the left</returns>
-    public static Directions TurnLeft(this Directions directions)
+    public static Directions TurnLeft(this Directions directions) => directions switch
     {
-        return directions switch
-        {
-            Directions.NONE  => Directions.NONE,
-            Directions.UP    => Directions.LEFT,
-            Directions.LEFT  => Directions.DOWN,
-            Directions.DOWN  => Directions.RIGHT,
-            Directions.RIGHT => Directions.UP,
-            _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
-        };
-    }
+        Directions.NONE  => Directions.NONE,
+        Directions.UP    => Directions.LEFT,
+        Directions.LEFT  => Directions.DOWN,
+        Directions.DOWN  => Directions.RIGHT,
+        Directions.RIGHT => Directions.UP,
+        _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
+    };
 
     /// <summary>
     /// Turns the direction towards the right
     /// </summary>
     /// <param name="directions">Direction to turn</param>
     /// <returns>The new direction after turning to the right</returns>
-    public static Directions TurnRight(this Directions directions)
+    public static Directions TurnRight(this Directions directions) => directions switch
     {
-        return directions switch
-        {
-            Directions.NONE  => Directions.NONE,
-            Directions.UP    => Directions.RIGHT,
-            Directions.RIGHT => Directions.DOWN,
-            Directions.DOWN  => Directions.LEFT,
-            Directions.LEFT  => Directions.UP,
-            _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
-        };
-    }
+        Directions.NONE  => Directions.NONE,
+        Directions.UP    => Directions.RIGHT,
+        Directions.RIGHT => Directions.DOWN,
+        Directions.DOWN  => Directions.LEFT,
+        Directions.LEFT  => Directions.UP,
+        _                => throw new InvalidEnumArgumentException(nameof(directions), (int)directions, typeof(Directions))
+    };
     #endregion
 }

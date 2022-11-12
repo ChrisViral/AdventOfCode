@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using static AdventOfCode.Vectors.WrongNumericalTypeException;
 
 namespace AdventOfCode.Vectors;
 
@@ -66,18 +67,15 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
-    /// NOTE: If this is an floating point vector, the normalized version is returned instead.
+    /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public Vector3<T> Reduced
     {
         get
         {
-            if (!isInteger)
-            {
-                return this.Normalized;
-            }
+            if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
             T a = T.Abs(this.X);
             T b = T.Abs(this.Y);
@@ -115,11 +113,11 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
-    /// NOTE: If this is an integer vector, the reduced version is returned instead.
+    /// NOTE: If this is an integer vector, an exception will be thrown, use <see cref="Reduced"/> instead
     /// </summary>
     /// <returns>The vector normalized</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public Vector3<T> Normalized => isInteger ? this.Reduced : this / T.CreateChecked(this.Length);
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
+    public Vector3<T> Normalized => !isInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
     #endregion
 
     #region Constructors
@@ -198,12 +196,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// Lists out the 27 vectors adjacent to this one
     /// </summary>
     /// <returns>An enumerable of the adjacent vectors</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public IEnumerable<Vector3<T>> Adjacent()
     {
-        if (!isInteger)
-        {
-            yield break;
-        }
+        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         for (T x = -T.One; x <= T.One; x++)
         {
@@ -275,9 +271,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="maxY">Max value for the y component, exclusive</param>
     /// <param name="maxZ">Max value for the z component, exclusive</param>
     /// <returns>An enumerable of all the vectors in the given range</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public static IEnumerable<Vector3<T>> Enumerate(T maxX, T maxY, T maxZ)
     {
-        if (!isInteger) yield break;
+        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         for (T z = T.Zero; z < maxZ; z++)
         {
@@ -299,7 +296,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="y">Y parameter</param>
     /// <param name="z">Z parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPointIeee754<TResult> => TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y) + (z * z)));
+    private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPointIeee754<TResult>
+    {
+        return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y) + (z * z)));
+    }
 
     /// <summary>
     /// Parses the two component vector using the given value and number separator

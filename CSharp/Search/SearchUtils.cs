@@ -36,6 +36,7 @@ public static class SearchUtils
         PriorityQueue<SearchNode<T>> search = new(comparer);
         search.Enqueue(new(start));
         Dictionary<SearchNode<T>, double> explored = new();
+
         while (search.TryDequeue(out SearchNode<T> current))
         {
             //If we found the goal
@@ -46,7 +47,8 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance, n.value, heuristic, current)))
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+                                                                                                        n.value, heuristic, current)))
             {
                 //Check if it's in the closed list
                 if (explored.TryGetValue(neighbour, out double distance))
@@ -112,6 +114,7 @@ public static class SearchUtils
         PriorityQueue<SearchNode<T>> search = new(comparer);
         search.Enqueue(new(start));
         Dictionary<SearchNode<T>, double> explored = new();
+
         while (search.TryDequeue(out SearchNode<T> current))
         {
             //If we found the goal or the distance is cached
@@ -122,7 +125,8 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance, n.value, heuristic, current)))
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+                                                                                                        n.value, heuristic, current)))
             {
                 //Check if it's in the closed list
                 if (explored.TryGetValue(neighbour, out double distance))
@@ -164,8 +168,6 @@ public static class SearchUtils
 
         //Copy the path back to an array and return
         return foundDistance;
-
-        //If the path is not found, return null
     }
     #endregion
 }

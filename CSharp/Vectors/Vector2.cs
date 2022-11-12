@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using AdventOfCode.Extensions;
+using NumericalType = AdventOfCode.Vectors.WrongNumericalTypeException.NumericalType;
 
 namespace AdventOfCode.Vectors;
 
@@ -61,17 +63,15 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
-    /// NOTE: If this is an floating point vector, the normalized version is returned instead.
+    /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public Vector2<T> Reduced
     {
         get
         {
-            if (!isInteger)
-            {
-                return this.Normalized;
-            }
+            if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
             T a = T.Abs(this.X);
             T b = T.Abs(this.Y);
@@ -94,11 +94,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
-    /// NOTE: If this is an integer vector, the reduced version is returned instead.
+    /// NOTE: If this is an integer vector, an exception will be thrown, use <see cref="Reduced"/> instead
     /// </summary>
     /// <returns>The vector normalized</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public Vector2<T> Normalized => isInteger ? this.Reduced : this / T.CreateChecked(this.Length);
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
+    public Vector2<T> Normalized => !isInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
     #endregion
 
     #region Constructors
@@ -176,12 +176,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// Gets all the adjacent Vector2 to this one
     /// </summary>
     /// <returns>Adjacent vectors</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
     {
-        if (!isInteger)
-        {
-            yield break;
-        }
+        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         if (includeDiagonals)
         {
@@ -223,7 +221,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <typeparam name="TResult">Number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
-    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult> => new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
+    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
+    }
     #endregion
 
     #region Static methods
@@ -286,13 +287,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, int angle)
     {
-        if (!isInteger)
-        {
-            return Rotate(vector, (double)angle);
-        }
+        if (!isInteger) return Rotate(vector, (double)angle);
 
-        if (angle % 90 is not 0) throw new InvalidOperationException($"Can only rotate integer vectors by 90 degrees, got {angle} instead");
-        angle = ((angle % 360) + 360) % 360;
+        if (!angle.IsMultiple(90)) throw new InvalidOperationException($"Can only rotate integer vectors by 90 degrees, got {angle} instead");
+
+        angle = angle.Mod(360);
         return angle switch
         {
             90  => new(-vector.Y, vector.X),
@@ -308,13 +307,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="vector">Vector to rotate</param>
     /// <param name="angle">Angle to rotate by</param>
     /// <returns>The rotated vector</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, double angle)
     {
-        if (isInteger)
-        {
-            return Rotate(vector, (int)Math.Round(angle));
-        }
+        if (isInteger) throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
 
         (double x, double y) = vector.Convert<double>();
         double radians = angle * Vectors.Angle.DEG2RAD;
@@ -322,6 +318,15 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
                                      x * Math.Sin(radians) + y * Math.Cos(radians));
         return result.Convert<T>();
     }
+
+    /// <summary>
+    /// Rotates a vector by a specified angle
+    /// </summary>
+    /// <param name="vector">Vector to rotate</param>
+    /// <param name="angle">Angle to rotate by</param>
+    /// <returns>The rotated vector</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
+    public static Vector2<T> Rotate(in Vector2<T> vector, Angle angle) => Rotate(vector, angle.Radians);
 
     /// <summary>
     /// Parses the Vector2 from a direction and distance
@@ -401,9 +406,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="maxX">Max value for the x component, exclusive</param>
     /// <param name="maxY">Max value for the y component, exclusive</param>
     /// <returns>An enumerable of all the vectors in the given range</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public static IEnumerable<Vector2<T>> Enumerate(T maxX, T maxY)
     {
-        if (!isInteger) yield break;
+        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         for (T y = T.Zero; y < maxY; y++)
         {
@@ -468,7 +474,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="x">X Parameter</param>
     /// <param name="y">Y parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPointIeee754<TResult> => TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y)));
+    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPointIeee754<TResult>
+    {
+        return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y)));
+    }
     #endregion
 
     #region Operators

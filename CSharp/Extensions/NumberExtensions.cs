@@ -43,10 +43,7 @@ public static class NumberExtensions
         /// <summary>
         /// Creates a number of this type from another number
         /// </summary>
-        public static T Create<TFrom>(TFrom from) where TFrom : INumber<TFrom>
-        {
-            return T.CreateChecked(from);
-        }
+        public static T Create<TFrom>(TFrom from) where TFrom : INumber<TFrom> => T.CreateChecked(from);
     }
 
     #region Extension methods
@@ -79,8 +76,10 @@ public static class NumberExtensions
     {
         // Check for one, zero, or negatives
         if (n <= T.One) return false;
+
         // Check low primes
         if (n == Numbers<T>.Two || n == Numbers<T>.Three || n == Numbers<T>.Five) return true;
+
         // Check factors for low primes
         if (n.IsEven() || n.IsMultiple(Numbers<T>.Three) || n.IsMultiple(Numbers<T>.Five)) return false;
 
