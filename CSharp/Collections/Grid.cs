@@ -18,7 +18,8 @@ public class Grid<T> : IEnumerable<T>
     #region Fields
     protected readonly T[,] grid;
     protected readonly int rowBufferSize;
-    private readonly Converter<T, string> toString;
+    protected readonly Converter<T, string> toString;
+    protected readonly StringBuilder toStringBuilder = new();
     #endregion
 
     #region Properties
@@ -88,10 +89,10 @@ public class Grid<T> : IEnumerable<T>
         if (width  <= 0) throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
 
-        this.Width = width;
+        this.Width  = width;
         this.Height = height;
-        this.Size = width * height;
-        this.grid = new T[height, width];
+        this.Size   = width * height;
+        this.grid   = new T[height, width];
 
         if (typeof(T).IsPrimitive)
         {
@@ -155,13 +156,12 @@ public class Grid<T> : IEnumerable<T>
             {
                 //For primitives only
                 Buffer.BlockCopy(result, 0, this.grid, j * this.rowBufferSize, this.rowBufferSize);
+                continue;
             }
-            else
+
+            for (int i = 0; i < this.Width; i++)
             {
-                for (int i = 0; i < this.Width; i++)
-                {
-                    this[i, j] = result[i];
-                }
+                this[i, j] = result[i];
             }
         }
     }
@@ -209,6 +209,7 @@ public class Grid<T> : IEnumerable<T>
                 row[i] = this[i, y];
             }
         }
+
         return row;
     }
 
@@ -229,13 +230,12 @@ public class Grid<T> : IEnumerable<T>
         {
             //For primitives only
             Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
+            return;
         }
-        else
+
+        for (int i = 0; i < this.Width; i++)
         {
-            for (int i = 0; i < this.Width; i++)
-            {
-                row[i] = this[i, y];
-            }
+            row[i] = this[i, y];
         }
     }
 
@@ -255,6 +255,7 @@ public class Grid<T> : IEnumerable<T>
         {
             column[j] = this[x, j];
         }
+
         return column;
     }
 
@@ -286,13 +287,12 @@ public class Grid<T> : IEnumerable<T>
         {
             //For primitives only
             Buffer.BlockCopy(row, 0, this.grid, y * this.rowBufferSize, this.rowBufferSize);
+            return;
         }
-        else
+
+        for (int i = 0; i < this.Width; i++)
         {
-            for (int i = 0; i < this.Width; i++)
-            {
-                this[i, y] = row[i];
-            }
+            this[i, y] = row[i];
         }
     }
 
@@ -316,7 +316,10 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
     /// ReSharper disable once UnusedMemberInSuper.Global
-    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false) => MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false)
+    {
+        return MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+    }
 
     /// <summary>
     /// Moves the vector within the grid
@@ -367,7 +370,10 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="position">Position vector</param>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
-    public virtual bool WithinGrid(Vector2<int> position) => position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
+    public virtual bool WithinGrid(Vector2<int> position)
+    {
+        return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
+    }
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
@@ -378,18 +384,17 @@ public class Grid<T> : IEnumerable<T>
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString()
     {
-        StringBuilder sb = new();
         foreach (int j in ..this.Height)
         {
             foreach (int i in ..this.Width)
             {
-                sb.Append(this.toString(this[i, j]));
+                this.toStringBuilder.Append(this.toString(this[i, j]));
             }
 
-            sb.AppendLine();
+            this.toStringBuilder.AppendLine();
         }
 
-        return sb.ToString();
+        return this.toStringBuilder.ToStringAndClear();
     }
     #endregion
 }

@@ -30,10 +30,7 @@ public static class InputFetcher
     #region Constructors
     static InputFetcher()
     {
-        HttpClient = new()
-        {
-            BaseAddress = new(BASE_URL)
-        };
+        HttpClient = new() { BaseAddress = new(BASE_URL) };
         HttpClient.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(COOKIE)}");
     }
     #endregion

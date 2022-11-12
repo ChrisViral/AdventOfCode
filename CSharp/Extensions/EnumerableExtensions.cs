@@ -39,6 +39,21 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// Enumerates all the elements in the passed enumerable, along with the enumeration index
+    /// </summary>
+    /// <typeparam name="T">Type of element to enumerate</typeparam>
+    /// <param name="enumerable">Enumerable</param>
+    /// <returns></returns>
+    public static IEnumerable<(int index, T value)> Enumerate<T>(this IEnumerable<T> enumerable)
+    {
+        int index = 0;
+        foreach (T value in enumerable)
+        {
+            yield return (index++, value);
+        }
+    }
+
+    /// <summary>
     /// Applies an action to every member of the enumerable
     /// </summary>
     /// <param name="e">Enumerable to iterate over</param>
@@ -94,6 +109,7 @@ public static class EnumerableExtensions
             {
                 yield return t;
                 if (--length is 0) yield break;
+
                 cache.Add(t);
             }
 

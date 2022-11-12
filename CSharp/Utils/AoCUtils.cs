@@ -164,20 +164,5 @@ public static class AoCUtils
 
         //Normal behaviour
     }
-
-    /// <summary>
-    /// Enumerates all the elements in the passed enumerable, along with the enumeration index
-    /// </summary>
-    /// <typeparam name="T">Type of element to enumerate</typeparam>
-    /// <param name="enumerable">Enumerable</param>
-    /// <returns></returns>
-    public static IEnumerable<(int index, T value)> Enumerate<T>(IEnumerable<T> enumerable)
-    {
-        int index = 0;
-        foreach (T value in enumerable)
-        {
-            yield return (index++, value);
-        }
-    }
     #endregion
 }
