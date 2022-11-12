@@ -96,7 +96,7 @@ public class Grid<T> : IEnumerable<T>
 
         if (typeof(T).IsPrimitive)
         {
-            this.rowBufferSize = this.Width * AoCUtils.GetSizeOfPrimitive<T>();
+            this.rowBufferSize = this.Width * PrimitiveUtils<T>.BufferSize;
         }
         this.toString = toString ?? (t => t?.ToString() ?? string.Empty);
     }

@@ -22,10 +22,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     // ReSharper disable once StaticMemberInGenericType
     private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly bool isInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
+    /// <summary>Small comparison value for floating point numbers</summary>
+    private static readonly T epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
     public static readonly Vector2<T> Zero  = new(T.Zero, T.Zero);
     /// <summary>One vector</summary>
-    /// ReSharper disable once MemberCanBePrivate.Global
     public static readonly Vector2<T> One   = new(T.One, T.One);
     /// <summary>Up vector</summary>
     public static readonly Vector2<T> Up    = new(T.Zero, -T.One);
@@ -67,30 +68,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector2<T> Reduced
-    {
-        get
-        {
-            if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-
-            T a = T.Abs(this.X);
-            T b = T.Abs(this.Y);
-            while (a != T.Zero && b != T.Zero)
-            {
-                if (a > b)
-                {
-                    a %= b;
-                }
-                else
-                {
-                    b %= a;
-                }
-            }
-
-            T gcd = a | b;
-            return this / gcd;
-        }
-    }
+    public Vector2<T> Reduced => isInteger ? this / GCD(this.X, this.Y) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
@@ -136,7 +114,8 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool Equals(in Vector2<T> other) => this.X == other.X && this.Y == other.Y;
+    public bool Equals(in Vector2<T> other) => isInteger ? this.X == other.X && this.Y == other.Y
+                                                         : Approximately(this.X, other.X) && Approximately(this.Y, other.Y);
 
     /// <inheritdoc cref="object.GetHashCode"/>
     public override int GetHashCode() => HashCode.Combine(this.X, this.Y);
@@ -478,6 +457,39 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     {
         return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y)));
     }
+
+    /// <summary>
+    /// Greatest Common Divisor function
+    /// </summary>
+    /// <param name="a">First number</param>
+    /// <param name="b">Second number</param>
+    /// <returns>Gets the GCD of a and b</returns>
+    private static T GCD(T a, T b)
+    {
+        a = T.Abs(a);
+        b = T.Abs(b);
+        while (a != T.Zero && b != T.Zero)
+        {
+            if (a > b)
+            {
+                a %= b;
+            }
+            else
+            {
+                b %= a;
+            }
+        }
+
+        return a | b;
+    }
+
+    /// <summary>
+    /// Compares two numbers to see if they are nearly identical
+    /// </summary>
+    /// <param name="a">First number to test</param>
+    /// <param name="b">Second number to test</param>
+    /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
+    private static bool Approximately(T a, T b) => T.Abs(a - b) <= epsilon;
     #endregion
 
     #region Operators

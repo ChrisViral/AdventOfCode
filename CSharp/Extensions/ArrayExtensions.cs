@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace AdventOfCode.Extensions;
 
@@ -31,12 +30,9 @@ public static class ArrayExtensions
     public static T[] Copy<T>(this T[] array)
     {
         T[] copy = new T[array.Length];
-        array.CopyTo(copy, 0);
+        Array.Copy(array, copy, array.Length);
         return copy;
     }
-
-    /// <inheritdoc cref="Array.Copy(Array, Array, int)"/>
-    public static void CopyTo(this Array array, Array destination, int length) => Array.Copy(array, destination, length);
 
     /// <inheritdoc cref="Array.Exists{T}"/>
     public static bool Exists<T>(this T[] array, Predicate<T> predicate) => Array.Exists(array, predicate);
@@ -78,6 +74,37 @@ public static class ArrayExtensions
 
     /// <inheritdoc cref="Array.LastIndexOf{T}(T[], T)"/>
     public static int LastIndexOf<T>(this T[] array, T value) => Array.LastIndexOf(array, value);
+
+    /// <summary>
+    /// Iterates over all the permutations of the given array
+    /// </summary>
+    /// <typeparam name="T">Type of element in the array</typeparam>
+    /// <param name="array">Array to get the permutations for</param>
+    /// <returns>An enumerable returning all the permutations of the original array</returns>
+    public static IEnumerable<T[]> Permutations<T>(this T[] array)
+    {
+        static IEnumerable<T[]> GetPermutations(T[] working, int k)
+        {
+            if (k == working.Length - 1)
+            {
+                T[] perm = working.Copy();
+                yield return perm;
+                yield break;
+            }
+
+            for (int i = k; i < working.Length; i++)
+            {
+                (working[k], working[i]) = (working[i], working[k]);
+                foreach (T[] perm in GetPermutations(working, k + 1))
+                {
+                    yield return perm;
+                }
+                (working[k], working[i]) = (working[i], working[k]);
+            }
+        }
+
+        return GetPermutations(array.Copy(), 0);
+    }
 
     /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
     public static void Reverse<T>(this T[] array) => Array.Reverse(array);
