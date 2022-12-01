@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace AdventOfCode.Utils;
 
@@ -44,16 +44,28 @@ public static class AoCUtils
     }
 
     /// <summary>
-    /// Logs the answer to Part 1 to the console and results file
+    /// Logs the answer to Part 1 to the console and results file.<br/>
+    /// This also adds the answer to the clipboard.
     /// </summary>
     /// <param name="answer">Answer to log</param>
-    public static void LogPart1(object answer) => Trace.WriteLine($"Part 1: {answer}");
+    public static void LogPart1(object answer)
+    {
+        string text = answer.ToString() ?? string.Empty;
+        Clipboard.SetText(text);
+        Trace.WriteLine($"Part 1: {text}");
+    }
 
     /// <summary>
-    /// Logs the answer to Part 3 to the console and results file
+    /// Logs the answer to Part 2 to the console and results file<br/>
+    /// This also adds the answer to the clipboard.
     /// </summary>
     /// <param name="answer">Answer to log</param>
-    public static void LogPart2(object answer) => Trace.WriteLine($"Part 2: {answer}");
+    public static void LogPart2(object answer)
+    {
+        string text = answer.ToString() ?? string.Empty;
+        Clipboard.SetText(text);
+        Trace.WriteLine($"Part 2: {text}");
+    }
 
     /// <summary>
     /// Logs a message to the console and the log file
