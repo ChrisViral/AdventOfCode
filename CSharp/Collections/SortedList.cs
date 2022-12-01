@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode.Extensions;
 
 namespace AdventOfCode.Collections
 {
@@ -32,6 +34,20 @@ namespace AdventOfCode.Collections
         /// <param name="index">Index to get at</param>
         /// <returns>The value at the given index</returns>
         public T this[int index] => this.list.Keys[index];
+
+        /// <summary>
+        /// Gets the value at the given index in the list
+        /// </summary>
+        /// <param name="index">Index to get at</param>
+        /// <returns>The value at the given index</returns>
+        public T this[Index index] => this.list.Keys[index];
+
+        /// <summary>
+        /// Gets a slice from the <see cref="SortedList{T}"/>
+        /// </summary>
+        /// <param name="range">Range to get the values from</param>
+        /// <returns>An enumerable of the values in the given range</returns>
+        public IEnumerable<T> this[Range range] => range.AsEnumerable().Select(index => this.list.Keys[index]);
         #endregion
 
         #region Constructors
