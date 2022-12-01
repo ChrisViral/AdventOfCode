@@ -39,7 +39,7 @@ public static class RangeExtensions
         public bool MoveNext()
         {
             this.Current += this.sign;
-            return this.Current == this.end;
+            return this.Current != this.end;
         }
     }
 
