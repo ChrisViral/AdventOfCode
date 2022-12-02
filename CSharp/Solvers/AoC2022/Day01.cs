@@ -14,7 +14,7 @@ public class Day01 : Solver<SortedList<int>>
 {
     #region Constructors
     /// <summary>
-    /// Creates a new <see cref="Day01"/> Solver for 2021 - 01 with the input data properly parsed
+    /// Creates a new <see cref="Day01"/> Solver for 2022 - 01 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>

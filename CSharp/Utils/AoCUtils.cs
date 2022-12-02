@@ -51,7 +51,10 @@ public static class AoCUtils
     public static void LogPart1(object answer)
     {
         string text = answer.ToString() ?? string.Empty;
-        Clipboard.SetText(text);
+        if (!string.IsNullOrEmpty(text))
+        {
+            Clipboard.SetText(text);
+        }
         Trace.WriteLine($"Part 1: {text}");
     }
 
@@ -63,7 +66,10 @@ public static class AoCUtils
     public static void LogPart2(object answer)
     {
         string text = answer.ToString() ?? string.Empty;
-        Clipboard.SetText(text);
+        if (!string.IsNullOrEmpty(text))
+        {
+            Clipboard.SetText(text);
+        }
         Trace.WriteLine($"Part 2: {text}");
     }
 
