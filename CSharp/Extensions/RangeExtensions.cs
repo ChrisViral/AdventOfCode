@@ -88,5 +88,17 @@ public static class RangeExtensions
     /// <returns>An enumerator over the entire range</returns>
     /// <exception cref="ArgumentException">If any of the indices are marked as from the end</exception>
     public static RangeEnumerator GetEnumerator(this Range range) => new(range);
+
+    /// <summary>
+    /// Deconstructs the range into a tuple containing the start and end values
+    /// </summary>
+    /// <param name="range">Range to deconstruct</param>
+    /// <param name="start">Start value output</param>
+    /// <param name="end">End value output</param>
+    public static void Deconstruct(this Range range, out int start, out int end)
+    {
+        start = range.Start.Value;
+        end   = range.End.Value;
+    }
     #endregion
 }
