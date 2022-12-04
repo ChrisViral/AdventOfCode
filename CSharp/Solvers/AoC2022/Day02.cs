@@ -83,7 +83,7 @@ public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
         AoCUtils.LogPart2(score);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
     protected override (Move, Move) ConvertLine(string line)
     {
         return (new(line[0] - 'A'), new(line[2] - 'X'));
