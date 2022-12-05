@@ -39,6 +39,20 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// Creates a copy of the given stack, preserving order
+    /// </summary>
+    /// <typeparam name="T">Type of element in the stack</typeparam>
+    /// <param name="stack">Stack to reverse</param>
+    /// <returns>A shallow copy of the stack</returns>
+    public static Stack<T> CreateCopy<T>(this Stack<T> stack)
+    {
+        T[] array = new T[stack.Count];
+        stack.CopyTo(array, 0);
+        array.Reversed();
+        return new(array);
+    }
+
+    /// <summary>
     /// Enumerates all the elements in the passed enumerable, along with the enumeration index
     /// </summary>
     /// <typeparam name="T">Type of element to enumerate</typeparam>
