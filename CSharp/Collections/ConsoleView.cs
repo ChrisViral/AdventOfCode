@@ -137,7 +137,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// </summary>
     /// <param name="converter">Value to char converter</param>
     /// <param name="defaultValue">Value to fill in</param>
-    private void FillDefault(Converter<T, char> converter, T defaultValue)
+    public void FillDefault(Converter<T, char> converter, T defaultValue)
     {
         //View buffer
         this.viewBuffer.Fill(converter(defaultValue));
@@ -188,7 +188,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         //Clear anything already printed
         if (this.printedLines is not 0)
         {
-            Console.SetCursorPosition(0, Console.CursorTop - this.printedLines);
+            Console.SetCursorPosition(0, Math.Max(0, Console.CursorTop - this.printedLines));
         }
 
         //Write to console
