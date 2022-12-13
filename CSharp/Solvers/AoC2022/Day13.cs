@@ -29,8 +29,8 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         public int CompareTo(IPacketElement? other) => other switch
         {
             PacketValue integer => this.Value.CompareTo(integer.Value),
-            PacketList            => new PacketList(this).CompareTo(other),
-            _               => throw new UnreachableException("Unknown packet element type")
+            PacketList          => new PacketList(this).CompareTo(other),
+            _                   => throw new UnreachableException("Unknown packet element type")
         };
 
         /// <inheritdoc cref="object.ToString"/>
@@ -109,8 +109,8 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         public int CompareTo(IPacketElement? other) => other switch
         {
             PacketValue integer => CompareTo(new(integer)),
-            PacketList list       => CompareTo(list),
-            _               => throw new UnreachableException("Unknown packet element type")
+            PacketList list     => CompareTo(list),
+            _                   => throw new UnreachableException("Unknown packet element type")
         };
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
