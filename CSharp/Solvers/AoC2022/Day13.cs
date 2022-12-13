@@ -28,9 +28,9 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(IPacketElement? other) => other switch
         {
-            PacketValue integer => this.Value.CompareTo(integer.Value),
-            PacketList          => new PacketList(this).CompareTo(other),
-            _                   => throw new UnreachableException("Unknown packet element type")
+            PacketValue value => this.Value.CompareTo(value.Value),
+            PacketList  list  => new PacketList(this).CompareTo(list),
+            _                 => throw new UnreachableException("Unknown packet element type")
         };
 
         /// <inheritdoc cref="object.ToString"/>
@@ -63,7 +63,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         private PacketList(ReadOnlySpan<char> data)
         {
             int? sliceStart = 0;
-            int depth      = 0;
+            int depth       = 0;
             foreach (int i in ..data.Length)
             {
                 switch (data[i])
@@ -108,9 +108,9 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(IPacketElement? other) => other switch
         {
-            PacketValue integer => CompareTo(new(integer)),
-            PacketList list     => CompareTo(list),
-            _                   => throw new UnreachableException("Unknown packet element type")
+            PacketValue value => CompareTo(new(value)),
+            PacketList  list  => CompareTo(list),
+            _                 => throw new UnreachableException("Unknown packet element type")
         };
 
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
@@ -170,7 +170,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         AoCUtils.LogPart1(inOrder);
 
         packets.Sort();
-        int firstDivider  = packets.FindIndex(p => p.Elements.Count is 1 && p.Elements[0] is PacketList inner
+        int firstDivider  = packets.FindIndex(p => p.Elements is [PacketList inner]
                                                 && inner.Elements is [PacketValue value]
                                                 && value.Value is 2);
         int secondDivider = packets.FindIndex(p => p.Elements is [PacketList inner]
