@@ -278,6 +278,13 @@ public class Grid<T> : IEnumerable<T>
         }
     }
 
+    /// <summary>
+    /// Set the given row of the grid by the specified array
+    /// </summary>
+    /// <param name="y">Row index</param>
+    /// <param name="row">Row values</param>
+    /// <exception cref="ArgumentOutOfRangeException">If the row index is out of bounds of the grid</exception>
+    /// <exception cref="ArgumentException">If the row values array is larger than the width of the grid</exception>
     public void SetRow(int y, T[] row)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
@@ -296,6 +303,13 @@ public class Grid<T> : IEnumerable<T>
         }
     }
 
+    /// <summary>
+    /// Set the given row of the grid by the specified array
+    /// </summary>
+    /// <param name="x">Column index</param>
+    /// <param name="column">Column values</param>
+    /// <exception cref="ArgumentOutOfRangeException">If the column index is out of bounds of the grid</exception>
+    /// <exception cref="ArgumentException">If the column values array is larger than the width of the grid</exception>
     public void SetColumn(int x, T[] column)
     {
         if (x < 0 || x >= this.Width)     throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
@@ -306,6 +320,12 @@ public class Grid<T> : IEnumerable<T>
             this[x, j] = column[j];
         }
     }
+
+    /// <summary>
+    /// Fill the grid with the given value
+    /// </summary>
+    /// <param name="value">Value to fill with</param>
+    public void Fill(T value) => Vector2<int>.Enumerate(this.Width, this.Height).ForEach(v => this[v] = value);
 
     /// <summary>
     /// Moves the vector within the grid
