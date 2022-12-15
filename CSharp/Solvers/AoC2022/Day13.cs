@@ -176,7 +176,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         int secondDivider = packets.FindIndex(p => p.Elements is [PacketList inner]
                                                 && inner.Elements is [PacketValue value]
                                                 && value.Value is 6);
-        AoCUtils.LogPart2(++firstDivider * ++secondDivider);
+        AoCUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
