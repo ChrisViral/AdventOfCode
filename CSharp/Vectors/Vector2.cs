@@ -399,6 +399,44 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         }
     }
 
+    public static IEnumerable<Vector2<T>> EnumerateAtDistance(Vector2<T> from, T distance)
+    {
+        if (distance <= T.Zero) throw new ArgumentOutOfRangeException(nameof(distance), "Distance mus be greater than zero");
+
+        Vector2<T> position = new(from.X - distance, from.Y);
+        Vector2<T> direction = Up + Right;
+        do
+        {
+            yield return position;
+            position += direction;
+        }
+        while (position.X != from.X);
+
+        direction = Down + Right;
+        do
+        {
+            yield return position;
+            position += direction;
+        }
+        while (position.Y != from.Y);
+
+        direction = Down + Left;
+        do
+        {
+            yield return position;
+            position += direction;
+        }
+        while (position.X != from.X);
+
+        direction = Up + Left;
+        do
+        {
+            yield return position;
+            position += direction;
+        }
+        while (position.Y != from.Y);
+    }
+
     /// <summary>
     /// Parses the two component vector using the given value and number separator
     /// </summary>
