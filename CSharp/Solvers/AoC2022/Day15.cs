@@ -31,11 +31,6 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     public Day15(string input) : base(input) { }
     #endregion
 
-    /// <summary>
-    /// Result for part 2
-    /// </summary>
-    private Vector2<long> found;
-
     #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
@@ -54,18 +49,18 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
 
         AoCUtils.LogPart1(invalids.Count);
 
-        //Parallel.For(0, SIZE, () => new int[SIZE], CheckRow, a => { });
+        //Parallel.For(0, LIMIT + 1, () => new int[LIMIT + 1], CheckRow, null);
 
+        long frequency = 0L;
         foreach ((Vector2<int> sensor, int distance) in this.Data)
         {
-            if (FindLocation(sensor, distance)) break;
+            if (FindLocation(sensor, distance, ref frequency)) break;
         }
-        long frequency = (found.X * LIMIT) + found.Y;
+
         AoCUtils.LogPart2(frequency);
     }
 
-    /*
-     * I'm leaving this brute force brilliance in for the sole reason that it actually fucking worked lmao
+    /* I'm leaving this brute force brilliance in for the sole reason that it actually fucking worked lmao
     private int[] CheckRow(int y, ParallelLoopState state, int[] space)
     {
         if (state.IsStopped) return space;
@@ -103,7 +98,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     }
     */
 
-    private bool FindLocation(Vector2<int> sensor, int distance)
+    private bool FindLocation(Vector2<int> sensor, int distance, ref long result)
     {
         // Look one out from each sensor max distance
         foreach (Vector2<int> position in Vector2<int>.EnumerateAtDistance(sensor, distance + 1))
@@ -114,7 +109,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
             // Check that all sensors are out of bounds
             if (this.Data.TrueForAll(t => Vector2<int>.ManhattanDistance(t.sensor, position) > t.distance))
             {
-                this.found = new(position);
+                result = (position.X * (long)LIMIT) + position.Y;
                 return true;
             }
         }

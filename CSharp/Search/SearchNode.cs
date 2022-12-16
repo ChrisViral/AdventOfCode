@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 
 namespace AdventOfCode.Search;
 
@@ -49,7 +50,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     /// <summary>
     /// Cost of this node
     /// </summary>
-    public double Cost => this.CostSoFar + this.heuristic?.Invoke(this.Value) ?? 0d;
+    public double Cost => this.CostSoFar + (this.heuristic?.Invoke(this.Value) ?? 0d);
     #endregion
 
     #region Constructors
@@ -70,7 +71,7 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     /// <param name="value">Value of the node</param>
     /// <param name="heuristic">Heuristic function for this node</param>
     /// <param name="parent">Parent node</param>
-    public SearchNode(double cost, T value, Heuristic heuristic, SearchNode<T> parent)
+    public SearchNode(double cost, T value, Heuristic? heuristic, SearchNode<T> parent)
     {
         this.CostSoFar = cost;
         this.Value = value;
