@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -107,7 +108,7 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="distances">Cached distances dictionary</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static int? GetPathLength<T>(T start, T goal, SearchNode<T>.Heuristic heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer, Dictionary<(T, T), int> distances) where T : IEquatable<T>
+    public static int? GetPathLength<T>(T start, T goal, SearchNode<T>.Heuristic? heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer, Dictionary<(T, T), int> distances) where T : IEquatable<T>
     {
         int foundDistance = 0;
         SearchNode<T>? foundGoal = null;
@@ -164,6 +165,53 @@ public static class SearchUtils
             //Push back and go deeper
             foundGoal = foundGoal.Parent;
             distances.Add((foundGoal.Value, goal), ++foundDistance);
+        }
+
+        //Copy the path back to an array and return
+        return foundDistance;
+    }
+
+    public static int? GetPathLengthBFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
+    {
+        int foundDistance = 0;
+        SearchNode<T>? foundGoal = null;
+        Queue<SearchNode<T>> search = new();
+        search.Enqueue(new(start));
+        HashSet<SearchNode<T>> explored = new();
+
+        while (search.TryDequeue(out SearchNode<T>? current))
+        {
+            //If we found the goal or the distance is cached
+            if (current == goal)
+            {
+                foundGoal = current;
+                break;
+            }
+
+            //Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+                                                                                                        n.value, null, current)))
+            {
+                //Check if it's in the closed or open list
+                if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
+
+                //Otherwise just add it
+                search.Enqueue(neighbour);
+            }
+
+            //Add to the closed list after exploring
+            explored.Add(current);
+        }
+
+        //If we found the goal
+        if (foundGoal is null) return null;
+
+        //While the parent is not null
+        while (foundGoal.Parent is not null)
+        {
+            //Push back and go deeper
+            foundGoal = foundGoal.Parent;
+            foundDistance++;
         }
 
         //Copy the path back to an array and return
