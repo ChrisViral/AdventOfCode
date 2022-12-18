@@ -64,7 +64,7 @@ public class Day16 : Solver<Dictionary<string, Day16.Valve>>
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
-        int pressure = ExploreTunnels(this.Data["AA"], 0, 30, new());
+        int pressure = ExploreTunnels(this.Data["AA"], 0, 30);
         AoCUtils.LogPart1(pressure);
 
         AoCUtils.LogPart2("");
@@ -72,21 +72,20 @@ public class Day16 : Solver<Dictionary<string, Day16.Valve>>
 
     private static IEnumerable<(Valve value, double distance)> Neighbours(Valve node) => node.Connections.Select(connection => (connection, 1d));
 
-    private int ExploreTunnels(Valve current, int currentPressure, int time, Dictionary<(Valve, Valve), int> distances)
+    private int ExploreTunnels(Valve current, int currentPressure, int time)
     {
-        if (time == 0) return currentPressure;
+        if (time <= 2) return currentPressure;
 
         int maxReleased = currentPressure;
         foreach (Valve valve in this.Data.Values.Where(v => v.CanRelease))
         {
             int timeSpent = SearchUtils.GetPathLengthBFS(current, valve, Neighbours)!.Value + 1;
-            distances.Clear();
             if (timeSpent > time) continue;
 
             int timeLeft = time - timeSpent;
             int released = timeLeft * valve.FlowRate;
             valve.IsOpen = true;
-            maxReleased  = Math.Max(maxReleased, ExploreTunnels(valve, currentPressure + released, timeLeft, distances));
+            maxReleased  = Math.Max(maxReleased, ExploreTunnels(valve, currentPressure + released, timeLeft));
             valve.IsOpen = false;
         }
 

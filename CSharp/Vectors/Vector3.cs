@@ -165,22 +165,34 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>An enumerable of the adjacent vectors</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public IEnumerable<Vector3<T>> Adjacent()
+    public IEnumerable<Vector3<T>> Adjacent(bool includeDiagonals = true)
     {
         if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
-        for (T x = -T.One; x <= T.One; x++)
+        if (includeDiagonals)
         {
-            for (T y = -T.One; y <= T.One; y++)
+            for (T x = -T.One; x <= T.One; x++)
             {
-                for (T z = -T.One; z <= T.One; z++)
+                for (T y = -T.One; y <= T.One; y++)
                 {
-                    Vector3<T> v = new(x, y, z);
-                    if (v == Zero) continue;
+                    for (T z = -T.One; z <= T.One; z++)
+                    {
+                        Vector3<T> v = new(x, y, z);
+                        if (v == Zero) continue;
 
-                    yield return this + v;
+                        yield return this + v;
+                    }
                 }
             }
+        }
+        else
+        {
+            yield return this + Left;
+            yield return this + Right;
+            yield return this + Up;
+            yield return this + Down;
+            yield return this + Backwards;
+            yield return this + Forwards;
         }
     }
 

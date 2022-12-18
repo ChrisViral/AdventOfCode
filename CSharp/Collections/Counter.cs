@@ -150,6 +150,12 @@ namespace AdventOfCode.Collections
         /// <param name="count">Value count output parameter</param>
         /// <returns><see langword="true"/> if the value was in the Counter and the count was found, otherwise <see langword="false"/></returns>
         public bool TryGetCount(T value, out int count) => this.dictionary.TryGetValue(value, out count);
+
+        /// <summary>
+        /// Returns this counter as a dictionary specific implementation
+        /// </summary>
+        /// <returns>Dictionary implementation of the Counter</returns>
+        public IDictionary<T, int> AsDictionary() => this;
         #endregion
 
         #region Explicit implementations
