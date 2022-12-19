@@ -36,13 +36,11 @@ public class Day18 : ArraySolver<Vector3<int>>
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
         HashSet<Vector3<int>> empty   = new(Vector3<int>.Enumerate(max.X, max.Y, max.Z).Where(p => !points.Contains(p)));
-        HashSet<Vector3<int>> pockets = new();
-        HashSet<Vector3<int>> outside = new();
-        HashSet<Vector3<int>> visited = new();
+        HashSet<Vector3<int>> pockets = new(), outside = new(), visited = new();
         Stack<Vector3<int>>   search  = new();
         foreach (Vector3<int> point in empty)
         {
-            if (IsInPocket(point, points, empty, pockets, outside, search, visited))
+            if (IsInPocket(point, search, points, empty, pockets, outside, visited))
             {
                 pockets.Add(point);
             }
@@ -56,10 +54,13 @@ public class Day18 : ArraySolver<Vector3<int>>
         AoCUtils.LogPart2(surface);
     }
 
-    private static bool IsInPocket(Vector3<int> point, HashSet<Vector3<int>> points, HashSet<Vector3<int>> empty,
+    private static bool IsInPocket(Vector3<int> point,            Stack<Vector3<int>> search,
+                                   HashSet<Vector3<int>> points,  HashSet<Vector3<int>> empty,
                                    HashSet<Vector3<int>> pockets, HashSet<Vector3<int>> outside,
-                                   Stack<Vector3<int>> search, HashSet<Vector3<int>> visited)
+                                   HashSet<Vector3<int>> visited)
     {
+        if (pockets.Contains(point)) return true;
+
         search.Clear();
         search.Push(point);
         visited.Clear();
