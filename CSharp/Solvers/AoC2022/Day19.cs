@@ -134,7 +134,7 @@ public class Day19 : Solver<Day19.Blueprint[]>
             }
 
             this.OpenedGeodesCache = GetMaxOpenedGeodesInternal(maxTime, State.Default);
-            AoCUtils.Log($"Blueprint {this.ID} opened geodes: {OpenedGeodesCache}");
+            AoCUtils.Log($"Blueprint {this.ID} opened geodes: {this.OpenedGeodesCache}");
         }
     }
 

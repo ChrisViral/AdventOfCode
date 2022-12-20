@@ -201,6 +201,25 @@ public static class EnumerableExtensions
     /// <param name="node">Current node</param>
     /// <returns>The previous node in the list, or the last one if at the start</returns>
     public static LinkedListNode<T> PreviousCircular<T>(this LinkedListNode<T> node) => node.Previous ?? node.List!.Last!;
+
+    /// <summary>
+    /// Creates an array containing all the nodes of the LinkedList
+    /// </summary>
+    /// <typeparam name="T">Type of element in the LinkedList</typeparam>
+    /// <param name="list">List to get the nodes array for</param>
+    /// <returns>An array containing all the <see cref="LinkedListNode{T}"/> contained within <paramref name="list"/></returns>
+    public static LinkedListNode<T>[] ToNodeArray<T>(this LinkedList<T> list)
+    {
+        LinkedListNode<T>[] nodes = new LinkedListNode<T>[list.Count];
+        LinkedListNode<T> current = list.First!;
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            nodes[i] = current;
+            current = current.Next!;
+        }
+
+        return nodes;
+    }
     #endregion
 
     #region LINQ extensions
