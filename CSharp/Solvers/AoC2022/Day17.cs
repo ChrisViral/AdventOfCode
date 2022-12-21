@@ -224,28 +224,29 @@ public class Day17 : Solver<Directions[]>
 
         // Find a cycle of at least length 50
         int cycleStart = 0;
-        int cycleEnd = 0;
+        int cycleEnd   = 0;
         foreach (int i in ..states.Count)
         {
             // Find the next index that matches
-            int other = states.FindIndex(i + 1, states.Count - i - 1, s => states[i] == s);
+            int next = i + 1;
+            int other = states.FindIndex(next, states.Count - next, s => states[i] == s);
             if (other is not -1 && (..50).AsEnumerable()
                                          .All(j => states[i + j] == states[other + j]))
             {
                 cycleStart = i;
-                cycleEnd = other;
+                cycleEnd   = other;
                 break;
             }
         }
 
         // Calculate the size of the tower from the cycle
-        Span<(int shape, int jet, int gain)> statesSpan = CollectionsMarshal.AsSpan(states);
+        (int shape, int jet, int gain)[] statesArray = states.ToArray();
         int cycleLength     = cycleEnd - cycleStart;
-        int heightAtStart   = statesSpan[..cycleStart].ToArray().Sum(s => s.gain);
-        int cycleHeight     = statesSpan[cycleStart..cycleEnd].ToArray().Sum(s => s.gain);
+        int heightAtStart   = statesArray[..cycleStart].Sum(s => s.gain);
+        int cycleHeight     = statesArray[cycleStart..cycleEnd].Sum(s => s.gain);
         long cycles         = Math.DivRem(SECOND_LIMIT - cycleStart, cycleLength, out long remainder);
         long cyclesHeight   = cycles * cycleHeight;
-        int remainderHeight = statesSpan[cycleStart..(cycleStart + (int)remainder)].ToArray().Sum(s => s.gain);
+        int remainderHeight = statesArray[cycleStart..(cycleStart + (int)remainder)].Sum(s => s.gain);
         long totalHeight    = heightAtStart + cyclesHeight + remainderHeight;
         AoCUtils.LogPart2(totalHeight);
     }
