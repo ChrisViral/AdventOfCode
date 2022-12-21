@@ -130,4 +130,3 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     }
     #endregion
 }
-

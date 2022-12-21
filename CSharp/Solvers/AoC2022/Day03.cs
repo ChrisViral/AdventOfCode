@@ -60,4 +60,3 @@ public class Day03 : Solver<string[]>
     private static int GetPriority(char item) => char.IsLower(item) ? item - 'a' + 1 : item - 'A' + 27;
     #endregion
 }
-

@@ -193,4 +193,3 @@ public class Day07 : Solver<Day07.Directory>
     }
     #endregion
 }
-

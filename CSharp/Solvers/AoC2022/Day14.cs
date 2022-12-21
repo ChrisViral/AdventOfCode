@@ -122,4 +122,3 @@ public class Day14 : ArraySolver<Vector2<int>[]>
     }
     #endregion
 }
-

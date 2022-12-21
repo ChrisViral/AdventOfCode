@@ -65,4 +65,3 @@ public class Day06 : Solver<string>
     }
     #endregion
 }
-

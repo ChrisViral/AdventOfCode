@@ -86,4 +86,3 @@ public class Day18 : ArraySolver<Vector3<int>>
     protected override Vector3<int> ConvertLine(string line) => Vector3<int>.Parse(line);
     #endregion
 }
-
