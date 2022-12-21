@@ -192,4 +192,3 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
     }
     #endregion
 }
-

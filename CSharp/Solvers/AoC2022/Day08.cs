@@ -137,4 +137,3 @@ public class Day08 : GridSolver<int>
     }
     #endregion
 }
-

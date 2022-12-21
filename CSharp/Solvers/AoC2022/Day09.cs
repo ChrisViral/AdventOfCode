@@ -78,4 +78,3 @@ public class Day09 : ArraySolver<Vector2<int>>
     }
     #endregion
 }
-

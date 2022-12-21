@@ -56,4 +56,3 @@ public class Day04 : Solver<((int, int) first, (int, int) second)[]>
     }
     #endregion
 }
-

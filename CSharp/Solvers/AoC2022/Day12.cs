@@ -94,4 +94,3 @@ public class Day12 : GridSolver<int>
     protected override int[] LineConverter(string line) => line.Select(c => c - 'a').ToArray();
     #endregion
 }
-

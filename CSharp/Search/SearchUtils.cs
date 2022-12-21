@@ -171,6 +171,14 @@ public static class SearchUtils
         return foundDistance;
     }
 
+    /// <summary>
+    /// Breadth First Search path finding
+    /// </summary>
+    /// <typeparam name="T">Type of element to search for</typeparam>
+    /// <param name="start">Starting point</param>
+    /// <param name="goal">Ending point</param>
+    /// <param name="neighbours">Neighbours function</param>
+    /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
     public static int? GetPathLengthBFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
         int foundDistance = 0;
@@ -197,6 +205,61 @@ public static class SearchUtils
 
                 //Otherwise just add it
                 search.Enqueue(neighbour);
+            }
+
+            //Add to the closed list after exploring
+            explored.Add(current);
+        }
+
+        //If we found the goal
+        if (foundGoal is null) return null;
+
+        //While the parent is not null
+        while (foundGoal.Parent is not null)
+        {
+            //Push back and go deeper
+            foundGoal = foundGoal.Parent;
+            foundDistance++;
+        }
+
+        //Copy the path back to an array and return
+        return foundDistance;
+    }
+
+    /// <summary>
+    /// Depth First Search path finding
+    /// </summary>
+    /// <typeparam name="T">Type of element to search for</typeparam>
+    /// <param name="start">Starting point</param>
+    /// <param name="goal">Ending point</param>
+    /// <param name="neighbours">Neighbours function</param>
+    /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
+    public static int? GetPathLengthDFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
+    {
+        int foundDistance = 0;
+        SearchNode<T>? foundGoal = null;
+        Stack<SearchNode<T>> search = new();
+        search.Push(new(start));
+        HashSet<SearchNode<T>> explored = new();
+
+        while (search.TryPop(out SearchNode<T>? current))
+        {
+            //If we found the goal or the distance is cached
+            if (current == goal)
+            {
+                foundGoal = current;
+                break;
+            }
+
+            //Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+                                                                                                        n.value, null, current)))
+            {
+                //Check if it's in the closed or open list
+                if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
+
+                //Otherwise just add it
+                search.Push(neighbour);
             }
 
             //Add to the closed list after exploring

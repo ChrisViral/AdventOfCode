@@ -190,4 +190,3 @@ public class Day11 : Solver<Day11.Monkey[]>
     }
     #endregion
 }
-

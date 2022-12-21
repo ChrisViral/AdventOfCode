@@ -112,4 +112,3 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     }
     #endregion
 }
-
