@@ -83,7 +83,7 @@ public static class InputFetcher
         using HttpResponseMessage response = HttpClient.GetAsync($"{year}/day/{day}/input").Result;
         using Stream responseStream        = response.Content.ReadAsStream();
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
-        return responseReader.ReadToEnd().Trim();
+        return responseReader.ReadToEnd();
     }
     #endregion
 }
