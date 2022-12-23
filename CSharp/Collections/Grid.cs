@@ -395,6 +395,11 @@ public class Grid<T> : IEnumerable<T>
         return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
     }
 
+    /// <summary>
+    /// Clears this grid
+    /// </summary>
+    public void Clear() => Array.Clear(this.grid);
+
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
