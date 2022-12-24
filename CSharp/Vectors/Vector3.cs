@@ -12,7 +12,8 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
                                     IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
                                     IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
                                     IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
-                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IComparable<Vector3<T>>, IEquatable<Vector3<T>>
+                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
+                                    IComparable<Vector3<T>>, IEquatable<Vector3<T>>
                                     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
@@ -482,5 +483,13 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="b">Scalar to modulo by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
     public static Vector3<T> operator %(Vector3<T> a, T b) => new(a.X % b, a.Y % b, a.Z % b);
+
+    /// <summary>
+    /// Per component modulo operator
+    /// </summary>
+    /// <param name="a">Vector to use the Modulo onto</param>
+    /// <param name="b">Vector containing which values to modulo the components by</param>
+    /// <returns>The vector with the results of the modulo operation component wise</returns>
+    public static Vector3<T> operator %(Vector3<T> a, Vector3<T> b) => new(a.X % b.X, a.Y % b.Y, a.Z % b.Z);
     #endregion
 }
