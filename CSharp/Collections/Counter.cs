@@ -21,10 +21,14 @@ namespace AdventOfCode.Collections
         #endregion
 
         #region Indexers
-        /// <inheritdoc cref="Dictionary{TKey, TValue}.this[TKey]"/>
+        /// <summary>
+        /// Gets the count for a given key in the dictionary. If the key is not present, 0 is returned
+        /// </summary>
+        /// <param name="key">Value to find in the Counter</param>
+        /// <returns>The amount of that value stored in the counter, or 0 if none is</returns>
         public int this[T key]
         {
-            get => this.dictionary[key];
+            get => this.dictionary.TryGetValue(key, out int count) ? count : 0;
             set => this.dictionary[key] = value;
         }
         #endregion

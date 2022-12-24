@@ -54,8 +54,8 @@ public static class RangeExtensions
     /// <returns>True if the value is within the range, false otherwise</returns>
     public static bool IsInRange(this Range range, int value)
     {
-        int start = range.Start.IsFromEnd ? range.Start.Value : range.Start.Value + 1;
-        int end   = range.End.IsFromEnd   ? range.End.Value   : range.End.Value   + 1;
+        int start = range.Start.IsFromEnd ? range.Start.Value + 1 : range.Start.Value;
+        int end   = range.End.IsFromEnd   ? range.End.Value       : range.End.Value - 1;
         if (start > end)
         {
             (start, end) = (end, start);
