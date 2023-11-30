@@ -22,7 +22,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     #region Constants
     // ReSharper disable once StaticMemberInGenericType
     private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly bool isInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
+    private static readonly bool isInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
     private static readonly T epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
@@ -51,12 +51,12 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T X { get; }
+    public T X { get; init; }
 
     /// <summary>
     /// Y component of the Vector
     /// </summary>
-    public T Y { get; }
+    public T Y { get; init; }
 
     /// <summary>
     /// Length of the Vector
