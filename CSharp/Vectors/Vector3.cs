@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventOfCode.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using static AdventOfCode.Vectors.WrongNumericalTypeException;
@@ -17,7 +18,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
                                     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
-    private static readonly bool isInteger = typeof(T).IsAssignableTo(typeof(IBinaryInteger<>));
+    private static readonly bool isInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
     private static readonly T epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
@@ -50,17 +51,17 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T X { get; }
+    public T X { get; init; }
 
     /// <summary>
     /// Y component of the Vector
     /// </summary>
-    public T Y { get; }
+    public T Y { get; init; }
 
     /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T Z { get; }
+    public T Z { get; init; }
 
     /// <summary>
     /// Length of the Vector

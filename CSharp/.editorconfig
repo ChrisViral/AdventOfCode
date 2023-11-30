@@ -4,3 +4,6 @@
 dotnet_style_qualification_for_field = true
 dotnet_style_qualification_for_property=true:silent
 dotnet_style_qualification_for_event=true:silent
+
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none

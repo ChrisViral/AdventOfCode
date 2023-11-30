@@ -81,6 +81,16 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
         //AoCUtils.Log(this.Data.board);
         AoCUtils.LogPart1(row + column + facing);
 
+        Grid<Element>[] cube =
+        {
+            this.Data.board[050..100, 000..050],
+            this.Data.board[100..150, 000..050],
+            this.Data.board[050..100, 050..100],
+            this.Data.board[000..050, 100..150],
+            this.Data.board[050..100, 100..150],
+            this.Data.board[000..050, 150..200]
+        };
+
         AoCUtils.LogPart2("");
     }
 
@@ -118,5 +128,86 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
         Directions.DOWN  => Element.DOWN,
         _                => throw new UnreachableException("Unexpected direction")
     };
+
+    private static void TransitionGrids(ref Vector2<int> position, ref int face, ref Directions direction)
+    {
+        const int max = 49;
+        switch (face, direction)
+        {
+            case (0, Directions.LEFT):
+                break;
+            case (0, Directions.RIGHT):
+                face = 1;
+                position = position with { X = 0 };
+                break;
+            case (0, Directions.UP):
+                break;
+            case (0, Directions.DOWN):
+                face = 2;
+                position = position with { Y = 0 };
+                break;
+
+            case (1, Directions.LEFT):
+                face = 0;
+                position = position with { X = max };
+                break;
+            case (1, Directions.RIGHT):
+                break;
+            case (1, Directions.UP):
+                break;
+            case (1, Directions.DOWN):
+                break;
+
+            case (2, Directions.LEFT):
+                break;
+            case (2, Directions.RIGHT):
+                break;
+            case (2, Directions.UP):
+                face = 0;
+                position = position with { Y = max };
+                break;
+            case (2, Directions.DOWN):
+                face = 4;
+                position = position with { Y = 0 };
+                break;
+
+            case (3, Directions.LEFT):
+                break;
+            case (3, Directions.RIGHT):
+                face = 4;
+                position = position with { X = 0 };
+                break;
+            case (3, Directions.UP):
+                break;
+            case (3, Directions.DOWN):
+                face = 5;
+                position = position with { Y = 0 };
+                break;
+
+            case (4, Directions.LEFT):
+                face = 3;
+                position = position with { X = max };
+                break;
+            case (4, Directions.RIGHT):
+                break;
+            case (4, Directions.UP):
+                face = 2;
+                position = position with { Y = max };
+                break;
+            case (4, Directions.DOWN):
+                break;
+
+            case (5, Directions.LEFT):
+                break;
+            case (5, Directions.RIGHT):
+                break;
+            case (5, Directions.UP):
+                face = 3;
+                position = position with { Y = max };
+                break;
+            case (5, Directions.DOWN):
+                break;
+        }
+    }
     #endregion
 }
