@@ -10,8 +10,10 @@ namespace AdventOfCode.Utils;
 /// </summary>
 public static class AoCUtils
 {
-    private static readonly long microsecondsPerTick  = Stopwatch.Frequency / 1000000L;
-    private static readonly long millisecondsPerTick = Stopwatch.Frequency / 1000L;
+    /// <summary>
+    /// The Stopwatch for individual parts
+    /// </summary>
+    public static Stopwatch PartsWatch { get; } = new();
 
     #region Static methods
     /// <summary>
@@ -48,14 +50,17 @@ public static class AoCUtils
     /// This also adds the answer to the clipboard.
     /// </summary>
     /// <param name="answer">Answer to log</param>
-    public static void LogPart1(object answer)
+    public static void LogPart1<T>(T answer) where T : notnull
     {
+        PartsWatch.Stop();
         string text = answer.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(text))
         {
             Clipboard.SetText(text);
         }
-        Trace.WriteLine($"Part 1: {text}");
+
+        Trace.WriteLine($"Part 1: {text}\nin {GetElapsedString(PartsWatch.Elapsed)}\n");
+        PartsWatch.Restart();
     }
 
     /// <summary>
@@ -63,52 +68,44 @@ public static class AoCUtils
     /// This also adds the answer to the clipboard.
     /// </summary>
     /// <param name="answer">Answer to log</param>
-    public static void LogPart2(object answer)
+    public static void LogPart2<T>(T answer) where T : notnull
     {
+        PartsWatch.Stop();
         string text = answer.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(text))
         {
             Clipboard.SetText(text);
         }
-        Trace.WriteLine($"Part 2: {text}");
+        Trace.WriteLine($"Part 2: {text}\nin {GetElapsedString(PartsWatch.Elapsed)}\n");
     }
 
     /// <summary>
     /// Logs a message to the console and the log file
     /// </summary>
     /// <param name="message">Message to log</param>
-    public static void Log(object message) => Trace.WriteLine(message);
+    public static void Log<T>(T message) where T : notnull => Trace.WriteLine(message);
 
     /// <summary>
     /// Logs the elapsed time on the stopwatch
     /// </summary>
     /// <param name="watch">Stopwatch to log the time for</param>
-    public static void LogElapsed(Stopwatch watch)
+    public static void LogElapsed(Stopwatch watch) => Trace.WriteLine($"Total elapsed time: {GetElapsedString(watch.Elapsed)}\n");
+
+    /// <summary>
+    /// Produces a interval-based formatted time string
+    /// </summary>
+    /// <param name="timespan">Timespan to get the elapsed time string for</param>
+    /// <returns>An elapsed time string whose units are based on the total elapsed duration</returns>
+    public static string GetElapsedString(in TimeSpan timespan) => timespan switch
     {
-        string elapsed;
-        switch (watch.ElapsedMilliseconds)
-        {
-            case <= 1L:
-                elapsed = $"{watch.ElapsedTicks / microsecondsPerTick}μs";
-                break;
-
-            case < 10L:
-                (long ms, long remaining) = Math.DivRem(watch.ElapsedTicks, millisecondsPerTick);
-                long us = remaining / microsecondsPerTick;
-                elapsed = $"{ms}ms {us}μs";
-                break;
-
-            case < 1000L:
-                elapsed = $"{watch.ElapsedMilliseconds}ms";
-                break;
-
-            default:
-                elapsed = $"{watch.Elapsed.Seconds}s {watch.Elapsed.Milliseconds}ms";
-                break;
-        }
-
-        Trace.WriteLine($"Elapsed time: {elapsed}");
-    }
+        { TotalMicroseconds: <  10d }   => $"{timespan.Microseconds}µs {timespan.Nanoseconds}ns",
+        { TotalMicroseconds: <= 1000d } => $"{timespan.Microseconds}μs",
+        { TotalMilliseconds: <  10d }   => $"{timespan.Milliseconds}ms {timespan.Microseconds}μs",
+        { TotalMilliseconds: <= 1000d } => $"{timespan.Milliseconds}ms",
+        { TotalSeconds:      <  10d }   => $"{timespan.Seconds}s {timespan.Milliseconds}ms",
+        { TotalSeconds:      <= 60d }   => $"{timespan.Seconds}s",
+        _                               => $"{timespan.Minutes}m {timespan.Seconds}s"
+    };
 
     /// <summary>
     /// Swaps two values in memory

@@ -42,22 +42,22 @@ public class Day01 : Solver
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    public Day01(string input) : base(input)
-    {
-    }
+    public Day01(string input) : base(input) { }
     #endregion
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
+        base.Run();
+
         int total = 0;
         foreach (ReadOnlySpan<char> value in this.Data)
         {
+            // Get the first match values on both ends
             total += (value[value.IndexOfAny(digits)] - '0') * 10;
             total += value[value.LastIndexOfAny(digits)] - '0';
         }
-
         AoCUtils.LogPart1(total);
 
         total = this.Data.Sum(GetCalibrationValue);
@@ -69,21 +69,28 @@ public class Day01 : Solver
         ReadOnlySpan<char> value = data;
         int calibration = 0;
         bool first = false, last = false;
+
+        // Check from both ends of the string, moving inwards
         foreach (int i in ..value.Length)
         {
+            // Check each possible number value
             foreach ((string s, int n) in numberValues)
             {
+                // Check if there is a match at the current start point
                 if (!first && value[i..].StartsWith(s))
                 {
                     calibration += n * 10;
+                    // If the last value has been found already, return
                     if (last) return calibration;
 
                     first = true;
                 }
 
+                // Check if there is a match at the current End point
                 if (!last && value[..^i].EndsWith(s))
                 {
                     calibration += n;
+                    // If the first value has been found already, return
                     if (first) return calibration;
 
                     last = true;

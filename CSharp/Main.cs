@@ -39,10 +39,9 @@ try
     //Get solver types
     Type? solverType = Assembly.GetCallingAssembly()
                                .GetTypes()
-                               .Where(t => !t.IsAbstract
-                                        && !t.IsGenericType
-                                        && t.IsAssignableTo(baseSolverType)
-                                        && t.GetConstructor(constructorParamTypes) is not null)
+                               .Where(t => t is { IsAbstract: false, IsGenericType: false }
+                                           && t.IsAssignableTo(baseSolverType)
+                                           && t.GetConstructor(constructorParamTypes) is not null)
                                .SingleOrDefault(t => t.FullName == solverData.fullName);
 
     //Make sure the type exists
@@ -62,6 +61,12 @@ catch (Exception e)
     return;
 }
 
+// Preheat logging methods for timing reasons
+AoCUtils.LogPart1(0);
+AoCUtils.LogPart2(0);
+AoCUtils.Log(0);
+AoCUtils.LogElapsed(AoCUtils.PartsWatch);
+
 //Setup trace file
 #if DEBUG
 using TextWriterTraceListener textListener = new(File.CreateText(@"..\..\..\results.txt"));
@@ -73,8 +78,9 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
-Trace.WriteLine("Running Solver for " + solverData);
+AoCUtils.Log($"Running Solver for {solverData}\n");
 Stopwatch watch = Stopwatch.StartNew();
+AoCUtils.PartsWatch.Restart();
 
 #if DEBUG
 //In debug mode we want to break at the exception location
