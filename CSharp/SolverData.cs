@@ -45,6 +45,6 @@ public readonly struct SolverData
 
     #region Methods
     /// <inheritdoc cref="object.ToString"/>
-    public override string ToString() => $"{this.year} Day{this.day}";
+    public override string ToString() => $"{this.year} Day{this.day:D2}";
     #endregion
 }

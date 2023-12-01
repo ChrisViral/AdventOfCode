@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Base;
@@ -44,10 +45,11 @@ public abstract class Solver : ISolver
     #endregion
 
     #region Virtual methods
+
     /// <summary>
     /// Runs the solver on the problem input
     /// </summary>
-    public abstract void Run();
+    public virtual void Run() => AoCUtils.PartsWatch.Restart();
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public virtual void Dispose() { }
