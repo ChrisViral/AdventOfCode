@@ -80,18 +80,17 @@ Trace.AutoFlush = true;
 
 AoCUtils.Log($"Running Solver for {solverData}\n");
 Stopwatch watch = Stopwatch.StartNew();
-AoCUtils.PartsWatch.Restart();
 
 #if DEBUG
 //In debug mode we want to break at the exception location
-solver.Run();
+solver.RunAndStartStopwatch();
 watch.Stop();
 solver.Dispose();
 #else
 try
 {
     //Run solver
-    solver.Run();
+    solver.RunAndStartStopwatch();
     watch.Stop();
 }
 catch (Exception e)

@@ -45,11 +45,19 @@ public abstract class Solver : ISolver
     #endregion
 
     #region Virtual methods
+    /// <summary>
+    /// Runs the solver and starts the Part 1 stopwatch
+    /// </summary>
+    public void RunAndStartStopwatch()
+    {
+        AoCUtils.PartsWatch.Restart();
+        Run();
+    }
 
     /// <summary>
     /// Runs the solver on the problem input
     /// </summary>
-    public virtual void Run() => AoCUtils.PartsWatch.Restart();
+    public abstract void Run();
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public virtual void Dispose() { }
