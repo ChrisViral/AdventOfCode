@@ -49,8 +49,6 @@ public class Day01 : Solver
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        base.Run();
-
         int total = 0;
         foreach (ReadOnlySpan<char> value in this.Data)
         {
