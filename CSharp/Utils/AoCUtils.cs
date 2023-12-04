@@ -98,6 +98,7 @@ public static class AoCUtils
     /// <returns>An elapsed time string whose units are based on the total elapsed duration</returns>
     public static string GetElapsedString(in TimeSpan timespan) => timespan switch
     {
+        { TotalNanoseconds:  <  1000d } => $"{timespan.Nanoseconds}ns",
         { TotalMicroseconds: <  10d }   => $"{timespan.Microseconds}µs {timespan.Nanoseconds}ns",
         { TotalMicroseconds: <= 1000d } => $"{timespan.Microseconds}μs",
         { TotalMilliseconds: <  10d }   => $"{timespan.Milliseconds}ms {timespan.Microseconds}μs",
