@@ -38,7 +38,7 @@ namespace AdventOfCode.Solvers.AoC2023
             long totalSteps = this.Data.map.Keys
                                        .Where(n => n[^1] is 'A')
                                        .Select(s => (long)CalculateSteps(s, endNodes.Contains))
-                                       .Aggregate(1L, MathUtils.LCM);
+                                       .Aggregate(MathUtils.LCM);
             AoCUtils.LogPart2(totalSteps);
         }
 
