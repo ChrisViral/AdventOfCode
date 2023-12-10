@@ -15,6 +15,10 @@ namespace AdventOfCode.Collections;
 /// <typeparam name="T">Type of element within the grid</typeparam>
 public class Grid<T> : IEnumerable<T>
 {
+    #region Static fields
+    private static readonly EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+    #endregion
+
     #region Fields
     protected readonly T[,] grid;
     protected readonly int rowBufferSize;
@@ -432,6 +436,32 @@ public class Grid<T> : IEnumerable<T>
     {
         return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
     }
+
+    /// <summary>
+    /// Gets the position of the given value in the grid, if it exists
+    /// </summary>
+    /// <param name="value">Value to find</param>
+    /// <returns>The first position in the grid that the value is found at, or <c>(-1, -1)</c> if it wasn't</returns>
+    public Vector2<int> PositionOf(T value)
+    {
+        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
+        {
+            if (comparer.Equals(value, this[pos]))
+            {
+                return pos;
+            }
+        }
+
+        return new(-1, -1);
+    }
+
+    /// <summary>
+    /// Checks if the given value is in the grid or not
+    /// </summary>
+    /// <param name="value">Value to find</param>
+    /// <returns><see langword="true"/> if the value was in the grid, otherwise <see langword="false"/></returns>
+    public bool Contains(T value) => Vector2<int>.Enumerate(this.Width, this.Height)
+                                                 .Any(pos => comparer.Equals(value, this[pos]));
 
     /// <summary>
     /// Clears this grid
