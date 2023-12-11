@@ -7,80 +7,79 @@ using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
 
-namespace AdventOfCode.Solvers.AoC2023
+namespace AdventOfCode.Solvers.AoC2023;
+
+/// <summary>
+/// Solver for 2023 Day 03
+/// </summary>
+public class Day03 : GridSolver<char>
 {
+    private const char EMPTY = '.';
+    private const char GEAR = '*';
+
+    #region Constructors
     /// <summary>
-    /// Solver for 2023 Day 03
+    /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
-    public class Day03 : GridSolver<char>
+    /// <param name="input">Puzzle input</param>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="char"/> fails</exception>
+    public Day03(string input) : base(input) { }
+    #endregion
+
+    #region Methods
+    /// <inheritdoc cref="Solver.Run"/>
+    public override void Run()
     {
-        private const char EMPTY = '.';
-        private const char GEAR = '*';
-
-        #region Constructors
-        /// <summary>
-        /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
-        /// </summary>
-        /// <param name="input">Puzzle input</param>
-        /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="char"/> fails</exception>
-        public Day03(string input) : base(input) { }
-        #endregion
-
-        #region Methods
-        /// <inheritdoc cref="Solver.Run"/>
-        public override void Run()
+        int total = 0;
+        HashSet<Vector2<int>> explored = new();
+        Dictionary<Vector2<int>, List<int>> gears = new();
+        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
         {
-            int total = 0;
-            HashSet<Vector2<int>> explored = new();
-            Dictionary<Vector2<int>, List<int>> gears = new();
-            foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
+            char value = this.Data[pos];
+            if (value is EMPTY || char.IsNumber(value)) continue;
+
+            List<int>? numbers = null;
+            if (value is GEAR)
             {
-                char value = this.Data[pos];
-                if (value is EMPTY || char.IsNumber(value)) continue;
-
-                List<int>? numbers = null;
-                if (value is GEAR)
-                {
-                    numbers = new();
-                    gears[pos] = numbers;
-                }
-
-                foreach (Vector2<int> adjacent in pos.Adjacent(true))
-                {
-                    if (explored.Contains(adjacent) || !this.Data.WithinGrid(adjacent)) continue;
-
-                    char c = this.Data[adjacent];
-                    if (!char.IsNumber(c)) continue;
-
-                    Vector2<int> current = adjacent + Vector2<int>.Left;
-                    while (IsValid(current)) current += Vector2<int>.Left;
-
-                    int number = 0;
-                    current += Vector2<int>.Right;
-                    do
-                    {
-                        number *= 10;
-                        number += this.Data[current] - '0';
-                        explored.Add(current);
-                        current += Vector2<int>.Right;
-                    }
-                    while (IsValid(current));
-
-                    total += number;
-                    numbers?.Add(number);
-                }
+                numbers = new();
+                gears[pos] = numbers;
             }
-            AoCUtils.LogPart1(total);
 
-            long gearRatio = gears.Values.Where(n => n.Count is 2).Sum(n => n[0] * n[1]);
-            AoCUtils.LogPart2(gearRatio);
+            foreach (Vector2<int> adjacent in pos.Adjacent(true))
+            {
+                if (explored.Contains(adjacent) || !this.Data.WithinGrid(adjacent)) continue;
+
+                char c = this.Data[adjacent];
+                if (!char.IsNumber(c)) continue;
+
+                Vector2<int> current = adjacent + Vector2<int>.Left;
+                while (IsValid(current)) current += Vector2<int>.Left;
+
+                int number = 0;
+                current += Vector2<int>.Right;
+                do
+                {
+                    number *= 10;
+                    number += this.Data[current] - '0';
+                    explored.Add(current);
+                    current += Vector2<int>.Right;
+                }
+                while (IsValid(current));
+
+                total += number;
+                numbers?.Add(number);
+            }
         }
+        AoCUtils.LogPart1(total);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsValid(Vector2<int> pos) => this.Data.WithinGrid(pos) && char.IsNumber(this.Data[pos]);
-
-        /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
-        protected override char[] LineConverter(string line) => line.ToCharArray();
-        #endregion
+        long gearRatio = gears.Values.Where(n => n.Count is 2).Sum(n => n[0] * n[1]);
+        AoCUtils.LogPart2(gearRatio);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool IsValid(Vector2<int> pos) => this.Data.WithinGrid(pos) && char.IsNumber(this.Data[pos]);
+
+    /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
+    protected override char[] LineConverter(string line) => line.ToCharArray();
+    #endregion
 }
