@@ -40,6 +40,9 @@ public static class ArrayExtensions
     /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
     public static void Fill<T>(this T[] array, T value) => Array.Fill(array, value);
 
+    /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
+    public static void Fill<T>(this ArraySegment<T> array, T value) => array.AsSpan().Fill(value);
+
     /// <summary>
     /// Fills the array with new values
     /// </summary>
