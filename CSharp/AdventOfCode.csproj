@@ -7,10 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>preview</LangVersion>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>preview</LangVersion>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Input\**">
