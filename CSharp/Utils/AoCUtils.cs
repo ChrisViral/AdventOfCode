@@ -115,5 +115,18 @@ public static class AoCUtils
     /// <param name="a">First value</param>
     /// <param name="b">Second value</param>
     public static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
+
+    /// <summary>
+    /// Swaps two spans in memory
+    /// </summary>
+    /// <typeparam name="T">Type of element within the span</typeparam>
+    /// <param name="a">First span</param>
+    /// <param name="b">Second span</param>
+    public static void SwapSpans<T>(ref Span<T> a, ref Span<T> b)
+    {
+        Span<T> temp = a;
+        a = b;
+        b = temp;
+    }
     #endregion
 }
