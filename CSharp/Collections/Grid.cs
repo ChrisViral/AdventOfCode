@@ -266,7 +266,7 @@ public class Grid<T> : IEnumerable<T>
     public void GetRowNoAlloc(int y, T[] row)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
+        if (row.Length < this.Width) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
 
         if (this.rowBufferSize is not 0)
         {
@@ -274,6 +274,25 @@ public class Grid<T> : IEnumerable<T>
             Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
             return;
         }
+
+        for (int i = 0; i < this.Width; i++)
+        {
+            row[i] = this[i, y];
+        }
+    }
+
+    /// <summary>
+    /// Gets the given row of the grid without allocations
+    /// </summary>
+    /// <param name="y">Row index of the row to get</param>
+    /// <param name="row">Array in which to store the row data</param>
+    /// <returns>The specified row of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
+    /// <exception cref="ArgumentException">If <paramref name="row"/> is too small to fit the size of the row</exception>
+    public void GetRowNoAlloc(int y, ref Span<T> row)
+    {
+        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
+        if (row.Length < this.Width) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
 
         for (int i = 0; i < this.Width; i++)
         {
@@ -310,6 +329,25 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
     public void GetColumnNoAlloc(int x, T[] column)
+    {
+        if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
+        if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
+
+        for (int j = 0; j < this.Height; j++)
+        {
+            column[j] = this[x, j];
+        }
+    }
+
+    /// <summary>
+    /// Gets the given column of the grid without allocations
+    /// </summary>
+    /// <param name="x">Column index of the column to get</param>
+    /// <param name="column">Array in which to store the column data</param>
+    /// <returns>The specified column of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
+    /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
+    public void GetColumnNoAlloc(int x, ref Span<T> column)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
         if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
