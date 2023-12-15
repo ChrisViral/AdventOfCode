@@ -6,6 +6,7 @@ namespace AdventOfCode.Extensions;
 /// <summary>
 /// Range extension methods
 /// </summary>
+/// ReSharper disable once UnusedMember.Global
 public static class RangeExtensions
 {
     /// <summary>
@@ -28,6 +29,7 @@ public static class RangeExtensions
         public RangeEnumerator(Range range)
         {
             this.sign    = Math.Sign(range.End.Value - range.Start.Value);
+            if (this.sign is 0) this.sign = 1;
             this.Current = range.Start.IsFromEnd ? range.Start.Value           : range.Start.Value - this.sign;
             this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign : range.End.Value;
         }
@@ -73,6 +75,7 @@ public static class RangeExtensions
     public static IEnumerable<int> AsEnumerable(this Range range)
     {
         int sign  = Math.Sign(range.End.Value - range.Start.Value);
+        if (sign is 0) sign = 1;
         int start = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
         int end   = range.End.IsFromEnd   ? range.End.Value + sign   : range.End.Value;
         for (int i = start; i != end; i += sign)
