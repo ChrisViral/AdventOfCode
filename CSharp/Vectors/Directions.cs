@@ -17,8 +17,8 @@ public enum Directions
     RIGHT = 4,
     NORTH = UP,
     SOUTH = DOWN,
-    EAST  = LEFT,
-    WEST  = RIGHT
+    EAST  = RIGHT,
+    WEST  = LEFT
 }
 
 /// <summary>
