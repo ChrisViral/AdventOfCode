@@ -46,6 +46,7 @@ public class Day16 : GridSolver<Day16.Element>
     }
 
     private readonly Grid<bool> energized;
+    private readonly HashSet<State> visited = [];
 
     #region Constructors
     /// <summary>
@@ -87,7 +88,9 @@ public class Day16 : GridSolver<Day16.Element>
     public int EnergizeGrid(Vector2<int> startPosition, Directions startDirection)
     {
         State state = new(startPosition, startDirection);
-        PropagateBeam(state, [state]);
+        this.visited.Add(state);
+        PropagateBeam(state);
+        this.visited.Clear();
         int count = 0;
         foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.energized.Width, this.energized.Height))
         {
@@ -99,13 +102,13 @@ public class Day16 : GridSolver<Day16.Element>
         return count;
     }
 
-    public void PropagateBeam(State state, HashSet<State> visited)
+    public void PropagateBeam(State state)
     {
         bool CanContinue(ref State s)
         {
             // Check if the move within the grid is valid, and that there has not been an identical state seen before
             return this.Data.TryMoveWithinGrid(s.position, s.direction, out s.position)
-                && visited.Add(s);
+                && this.visited.Add(s);
         }
 
         do
@@ -134,7 +137,7 @@ public class Day16 : GridSolver<Day16.Element>
 
                     if (CanContinue(ref splitState))
                     {
-                        PropagateBeam(splitState, visited);
+                        PropagateBeam(splitState);
                     }
                     break;
 
