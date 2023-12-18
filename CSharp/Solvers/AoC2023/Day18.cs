@@ -4,17 +4,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
-using static AdventOfCode.Solvers.AoC2023.Day18;
 
 namespace AdventOfCode.Solvers.AoC2023;
 
 /// <summary>
 /// Solver for 2023 Day 18
 /// </summary>
-public class Day18 : Solver<DigInstruction[]>
+public class Day18 : Solver<Day18.DigInstruction[]>
 {
     public readonly struct DigInstruction
     {
