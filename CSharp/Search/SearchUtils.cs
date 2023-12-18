@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -17,7 +16,7 @@ public static class SearchUtils
     /// <typeparam name="T">Type of object to explore</typeparam>
     /// <param name="node">Node to explore</param>
     /// <returns>An enumerable of all neighbouring node values and their distances</returns>
-    public delegate IEnumerable<(T value, double distance)> Neighbours<T>(T node);
+    public delegate IEnumerable<(T value, double cost)> Neighbours<T>(T node);
 
     #region Methods
     /// <summary>
@@ -30,25 +29,29 @@ public static class SearchUtils
     /// <param name="heuristic">Heuristic function on the nodes</param>
     /// <param name="neighbours">Function finding neighbours for a given node</param>
     /// <param name="comparer">Comparer between different search nodes</param>
+    /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer) where T : IEquatable<T>
+    public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic heuristic,
+                                 Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer,
+                                 Func<T, T, bool>? goalFound = null) where T : IEquatable<T>
     {
         SearchNode<T>? foundGoal = null;
         PriorityQueue<SearchNode<T>> search = new(comparer);
         search.Enqueue(new(start));
         Dictionary<SearchNode<T>, double> explored = new();
+        goalFound ??= (a, b) => a.Equals(b);
 
         while (search.TryDequeue(out SearchNode<T> current))
         {
             //If we found the goal
-            if (current == goal)
+            if (goalFound(current.Value, goal))
             {
                 foundGoal = current;
                 break;
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
                                                                                                         n.value, heuristic, current)))
             {
                 //Check if it's in the closed list
@@ -126,7 +129,7 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
                                                                                                         n.value, heuristic, current)))
             {
                 //Check if it's in the closed list
@@ -197,7 +200,7 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
                                                                                                         n.value, null, current)))
             {
                 //Check if it's in the closed or open list
@@ -252,7 +255,7 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.distance,
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
                                                                                                         n.value, null, current)))
             {
                 //Check if it's in the closed or open list

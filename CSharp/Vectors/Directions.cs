@@ -162,6 +162,21 @@ public static class DirectionsUtils
     };
 
     /// <summary>
+    /// Gets a Vector2 from a given Directions
+    /// </summary>
+    /// <param name="directions">Direction to get the vector from</param>
+    /// <param name="length">DThe length of the direction vector</param>
+    /// <returns>The resulting vector</returns>
+    public static Vector2<T> ToVector<T>(this Directions directions, T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => directions switch
+    {
+        Directions.UP    => new(T.Zero, -length),
+        Directions.DOWN  => new(T.Zero,  length),
+        Directions.LEFT  => new(-length, T.Zero),
+        Directions.RIGHT => new(length,  T.Zero),
+        _                => Vector2<T>.Zero
+    };
+
+    /// <summary>
     /// Inverts the direction
     /// </summary>
     /// <param name="directions">Direction to invert</param>
