@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 17
 /// </summary>
-public class Day17 : Solver<Directions[]>
+public class Day17 : Solver<Direction[]>
 {
     /// <summary>
     /// Rock struct
@@ -50,11 +50,11 @@ public class Day17 : Solver<Directions[]>
         /// </summary>
         /// <param name="direction">Direction to push the rock in</param>
         /// <param name="rocks">Other rocks in the pit</param>
-        public void Push(Directions direction, List<Rock> rocks)
+        public void Push(Direction direction, List<Rock> rocks)
         {
             // Check walls first
-            if ((direction is not Directions.LEFT || this.LeftPoint <= 0)
-             && (direction is not Directions.RIGHT || this.RightPoint >= 6)) return;
+            if ((direction is not Direction.LEFT || this.LeftPoint <= 0)
+             && (direction is not Direction.RIGHT || this.RightPoint >= 6)) return;
 
             // Make sure we're not intersecting with another rock
             Vector2<int> original = this.Anchor;
@@ -206,7 +206,7 @@ public class Day17 : Solver<Directions[]>
             do
             {
                 // Move according to jets as long as can move down
-                Directions direction = this.Data[jetsIndex++];
+                Direction direction = this.Data[jetsIndex++];
                 rock.Push(direction, rocks);
                 jetsIndex %= this.Data.Length;
             }
@@ -252,7 +252,7 @@ public class Day17 : Solver<Directions[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Directions[] Convert(string[] lines) => lines[0].Select(c => c is '<' ? Directions.LEFT : Directions.RIGHT)
+    protected override Direction[] Convert(string[] lines) => lines[0].Select(c => c is '<' ? Direction.LEFT : Direction.RIGHT)
                                                                        .ToArray();
     #endregion
 }

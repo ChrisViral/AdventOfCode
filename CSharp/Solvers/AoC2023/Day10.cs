@@ -42,9 +42,9 @@ public class Day10 : GridSolver<Day10.Pipe>
     public override void Run()
     {
         Vector2<int> start = this.Data.PositionOf(Pipe.START);
-        List<(Vector2<int> pos, Directions dir)> heads = new();
+        List<(Vector2<int> pos, Direction dir)> heads = new();
 
-        foreach (Directions dir in DirectionsUtils.AllDirections)
+        foreach (Direction dir in DirectionsUtils.AllDirections)
         {
             Vector2<int> targetPos = start + dir;
             if (!this.Data.WithinGrid(targetPos)) continue;
@@ -52,16 +52,16 @@ public class Day10 : GridSolver<Day10.Pipe>
 
             switch (dir)
             {
-                case Directions.UP when target is Pipe.VERTICAL or Pipe.BEND_SW or Pipe.BEND_SE:
+                case Direction.UP when target is Pipe.VERTICAL or Pipe.BEND_SW or Pipe.BEND_SE:
                     heads.Add((start, dir));
                     break;
-                case Directions.DOWN when target is Pipe.VERTICAL or Pipe.BEND_NW or Pipe.BEND_NE:
+                case Direction.DOWN when target is Pipe.VERTICAL or Pipe.BEND_NW or Pipe.BEND_NE:
                     heads.Add((start, dir));
                     break;
-                case Directions.LEFT when target is Pipe.HORIZONTAL or Pipe.BEND_NE or Pipe.BEND_SE:
+                case Direction.LEFT when target is Pipe.HORIZONTAL or Pipe.BEND_NE or Pipe.BEND_SE:
                     heads.Add((start, dir));
                     break;
-                case Directions.RIGHT when target is Pipe.HORIZONTAL or Pipe.BEND_NW or Pipe.BEND_SW:
+                case Direction.RIGHT when target is Pipe.HORIZONTAL or Pipe.BEND_NW or Pipe.BEND_SW:
                     heads.Add((start, dir));
                     break;
             }
@@ -74,7 +74,7 @@ public class Day10 : GridSolver<Day10.Pipe>
         {
             foreach (int i in ..heads.Count)
             {
-                (Vector2<int> pos, Directions dir) = heads[i];
+                (Vector2<int> pos, Direction dir) = heads[i];
                 pos += dir;
                 dir = GetNewDirection(dir, this.Data[pos]);
                 heads[i] = (pos, dir);
@@ -112,30 +112,30 @@ public class Day10 : GridSolver<Day10.Pipe>
         AoCUtils.LogPart2(total);
     }
 
-    public Directions GetNewDirection(Directions facing, Pipe junction)
+    public Direction GetNewDirection(Direction facing, Pipe junction)
     {
         if (junction is Pipe.HORIZONTAL or Pipe.VERTICAL) return facing;
 
         return facing switch
         {
-            Directions.UP    => junction is Pipe.BEND_SE ? Directions.RIGHT : Directions.LEFT,
-            Directions.DOWN  => junction is Pipe.BEND_NE ? Directions.RIGHT : Directions.LEFT,
-            Directions.LEFT  => junction is Pipe.BEND_NE ? Directions.UP    : Directions.DOWN,
-            Directions.RIGHT => junction is Pipe.BEND_NW ? Directions.UP    : Directions.DOWN,
+            Direction.UP    => junction is Pipe.BEND_SE ? Direction.RIGHT : Direction.LEFT,
+            Direction.DOWN  => junction is Pipe.BEND_NE ? Direction.RIGHT : Direction.LEFT,
+            Direction.LEFT  => junction is Pipe.BEND_NE ? Direction.UP    : Direction.DOWN,
+            Direction.RIGHT => junction is Pipe.BEND_NW ? Direction.UP    : Direction.DOWN,
             _                => throw new UnreachableException("Invalid direction detected")
         };
     }
 
-    public void ReplaceStart(in Vector2<int> start, IEnumerable<Directions> directions)
+    public void ReplaceStart(in Vector2<int> start, IEnumerable<Direction> directions)
     {
-        HashSet<Directions> dirs = new(directions);
-        if (dirs.Contains(Directions.UP))
+        HashSet<Direction> dirs = new(directions);
+        if (dirs.Contains(Direction.UP))
         {
-            if (dirs.Contains(Directions.DOWN))
+            if (dirs.Contains(Direction.DOWN))
             {
                 this.Data[start] = Pipe.VERTICAL;
             }
-            else if (dirs.Contains(Directions.LEFT))
+            else if (dirs.Contains(Direction.LEFT))
             {
                 this.Data[start] = Pipe.BEND_NW;
             }
@@ -144,9 +144,9 @@ public class Day10 : GridSolver<Day10.Pipe>
                 this.Data[start] = Pipe.BEND_NE;
             }
         }
-        else if (dirs.Contains(Directions.DOWN))
+        else if (dirs.Contains(Direction.DOWN))
         {
-            if (dirs.Contains(Directions.LEFT))
+            if (dirs.Contains(Direction.LEFT))
             {
                 this.Data[start] = Pipe.BEND_SW;
             }

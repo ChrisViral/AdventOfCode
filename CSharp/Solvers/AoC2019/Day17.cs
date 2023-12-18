@@ -85,7 +85,7 @@ public class Day17 : IntcodeSolver
         AoCUtils.LogPart1(alignment);
 
         //Get pathing
-        Directions direction = Directions.UP;
+        Direction direction = Direction.UP;
         int steps = 1;
         StringBuilder pathBuilder = new();
         while (true)

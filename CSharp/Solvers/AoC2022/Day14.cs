@@ -100,7 +100,7 @@ public class Day14 : ArraySolver<Vector2<int>[]>
 
     public bool FillSand(Vector2<int> source, Grid<CaveElement> cave, ref int count, ref Vector2<int> position)
     {
-        Vector2<int>? newPosition = cave.MoveWithinGrid(position, Directions.DOWN);
+        Vector2<int>? newPosition = cave.MoveWithinGrid(position, Direction.DOWN);
         if (newPosition is null) return false;
 
         position = newPosition.Value;

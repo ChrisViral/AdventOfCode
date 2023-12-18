@@ -204,13 +204,13 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// Moves the vector within the grid
     /// </summary>
     /// <param name="vector">Vector to move</param>
-    /// <param name="directions">Direction to move in</param>
+    /// <param name="direction">Direction to move in</param>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
-        return MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+        return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
     }
 
     /// <summary>

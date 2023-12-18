@@ -411,13 +411,13 @@ public class Grid<T> : IEnumerable<T>
     /// Moves the vector within the grid
     /// </summary>
     /// <param name="vector">Vector to move</param>
-    /// <param name="directions">Direction to move in</param>
+    /// <param name="direction">Direction to move in</param>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Directions directions, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
-        return MoveWithinGrid(vector, directions.ToVector<int>(), wrapX, wrapY);
+        return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
     }
 
     /// <summary>
@@ -468,14 +468,14 @@ public class Grid<T> : IEnumerable<T>
     /// Tries to move the vector within the grid
     /// </summary>
     /// <param name="vector">Vector to move</param>
-    /// <param name="directions">Direction to move in</param>
+    /// <param name="direction">Direction to move in</param>
     /// <param name="moved">The resulting moved vector, if succeeded</param>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns><see langword="true"/> if the move succeeded, else <see langword="false"/></returns>
-    public virtual bool TryMoveWithinGrid(in Vector2<int> vector, Directions directions, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
+    public virtual bool TryMoveWithinGrid(in Vector2<int> vector, Direction direction, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
     {
-        Vector2<int>? move = MoveWithinGrid(vector, directions, wrapX, wrapY);
+        Vector2<int>? move = MoveWithinGrid(vector, direction, wrapX, wrapY);
         if (move.HasValue)
         {
             moved = move.Value;

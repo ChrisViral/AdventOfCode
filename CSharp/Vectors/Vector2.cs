@@ -148,9 +148,9 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <summary>
     /// Creates a new vector resulting in the moving of this vector in the specified direction
     /// </summary>
-    /// <param name="directions">Direction to move in</param>
+    /// <param name="direction">Direction to move in</param>
     /// <returns>The new, moved vector</returns>
-    public Vector2<T> Move(Directions directions) => this + directions;
+    public Vector2<T> Move(Direction direction) => this + direction;
 
     /// <summary>
     /// Gets all the adjacent Vector2 to this one
@@ -629,7 +629,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="a">Vector</param>
     /// <param name="b">Direction</param>
     /// <returns>The result of the movement of the vector in the given direction</returns>
-    public static Vector2<T> operator +(Vector2<T> a, Directions b) => a + b.ToVector<T>();
+    public static Vector2<T> operator +(Vector2<T> a, Direction b) => a + b.ToVector<T>();
 
     /// <summary>
     /// Scalar integer multiplication on a Vector

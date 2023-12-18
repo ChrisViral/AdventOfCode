@@ -80,7 +80,7 @@ public class Day24 : Solver<Day24.Neighbour[][]>
                     Neighbour.NORTH_EAST => Vector2.Left + Vector2.Up,
                     Neighbour.NORTH_WEST => Vector2.Up,
                     Neighbour.SOUTH_EAST => Vector2.Down,
-                    Neighbour.SOUTH_WEST => Vector2.Right + Directions.DOWN,
+                    Neighbour.SOUTH_WEST => Vector2.Right + Direction.DOWN,
                     _                    => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Neighbour))
                 };
             }
