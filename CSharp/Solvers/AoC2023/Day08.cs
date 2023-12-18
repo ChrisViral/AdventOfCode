@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 08
 /// </summary>
-public class Day08 : Solver<(Directions[] directions, Dictionary<string, (string left, string right)> map)>
+public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
 {
     private const string NODE_PATTERN = @"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)";
     private const string START = "AAA";
@@ -49,10 +49,10 @@ public class Day08 : Solver<(Directions[] directions, Dictionary<string, (string
         string current = start;
         do
         {
-            Directions dir = this.Data.directions[i];
+            Direction dir = this.Data.directions[i];
             i = (i + 1).Mod(this.Data.directions.Length);
             (string left, string right) = this.Data.map[current];
-            current = dir is Directions.LEFT ? left : right;
+            current = dir is Direction.LEFT ? left : right;
             steps++;
         }
         while (!reachedEnd(current));
@@ -61,9 +61,9 @@ public class Day08 : Solver<(Directions[] directions, Dictionary<string, (string
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Directions[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
+    protected override (Direction[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
     {
-        Directions[] directions = rawInput[0].ToCharArray().ConvertAll(DirectionsUtils.Parse);
+        Direction[] directions = rawInput[0].ToCharArray().ConvertAll(DirectionsUtils.Parse);
         (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NODE_PATTERN, rawInput[1..], RegexOptions.Compiled);
         Dictionary<string, (string, string)> map = new(nodes.Length);
 

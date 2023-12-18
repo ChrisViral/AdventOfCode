@@ -27,10 +27,10 @@ public class Day16 : GridSolver<Day16.Element>
     }
     // ReSharper restore IdentifierTypo
 
-    public struct State(Vector2<int> position, Directions direction) : IEquatable<State>
+    public struct State(Vector2<int> position, Direction direction) : IEquatable<State>
     {
         public Vector2<int> position  = position;
-        public Directions   direction = direction;
+        public Direction   direction = direction;
 
         #region Equality members
         /// <inheritdoc />
@@ -64,28 +64,28 @@ public class Day16 : GridSolver<Day16.Element>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        int count = EnergizeGrid(Vector2<int>.Zero, Directions.RIGHT);
+        int count = EnergizeGrid(Vector2<int>.Zero, Direction.RIGHT);
         AoCUtils.LogPart1(count);
 
         int max = this.Data.Width - 1;
-        int maxCount = Math.Max(count, EnergizeGrid(new(max, 0), Directions.LEFT));
+        int maxCount = Math.Max(count, EnergizeGrid(new(max, 0), Direction.LEFT));
         foreach (int y in 1..this.Data.Height)
         {
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(0, y), Directions.RIGHT));
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(max, y), Directions.LEFT));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new(0, y), Direction.RIGHT));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new(max, y), Direction.LEFT));
         }
 
         max = this.Data.Height - 1;
         foreach (int x in ..this.Data.Width)
         {
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, 0), Directions.DOWN));
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, max), Directions.UP));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, 0), Direction.DOWN));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, max), Direction.UP));
         }
 
         AoCUtils.LogPart2(maxCount);
     }
 
-    public int EnergizeGrid(Vector2<int> startPosition, Directions startDirection)
+    public int EnergizeGrid(Vector2<int> startPosition, Direction startDirection)
     {
         State state = new(startPosition, startDirection);
         this.visited.Add(state);
@@ -118,20 +118,20 @@ public class Day16 : GridSolver<Day16.Element>
             switch (this.Data[state.position])
             {
                 // Reflected -> turns left
-                case Element.RMIRROR when state.direction is Directions.LEFT or Directions.RIGHT:
-                case Element.LMIRROR when state.direction is Directions.DOWN or Directions.UP:
+                case Element.RMIRROR when state.direction is Direction.LEFT or Direction.RIGHT:
+                case Element.LMIRROR when state.direction is Direction.DOWN or Direction.UP:
                     state.direction = state.direction.TurnLeft();
                     break;
 
                 // Reflected -> turns right
-                case Element.RMIRROR when state.direction is Directions.DOWN or Directions.UP:
-                case Element.LMIRROR when state.direction is Directions.LEFT or Directions.RIGHT:
+                case Element.RMIRROR when state.direction is Direction.DOWN or Direction.UP:
+                case Element.LMIRROR when state.direction is Direction.LEFT or Direction.RIGHT:
                     state.direction = state.direction.TurnRight();
                     break;
 
                 // Split -> turns left, spawns child turns right
-                case Element.HSPLITTER when state.direction is Directions.DOWN or Directions.UP:
-                case Element.VSPLITTER when state.direction is Directions.LEFT or Directions.RIGHT:
+                case Element.HSPLITTER when state.direction is Direction.DOWN or Direction.UP:
+                case Element.VSPLITTER when state.direction is Direction.LEFT or Direction.RIGHT:
                     State splitState = new(state.position, state.direction.TurnRight());
                     state.direction = state.direction.TurnLeft();
 
@@ -142,8 +142,8 @@ public class Day16 : GridSolver<Day16.Element>
                     break;
 
                 // Do nothing
-                case Element.HSPLITTER when state.direction is Directions.LEFT or Directions.RIGHT:
-                case Element.VSPLITTER when state.direction is Directions.DOWN or Directions.UP:
+                case Element.HSPLITTER when state.direction is Direction.LEFT or Direction.RIGHT:
+                case Element.VSPLITTER when state.direction is Direction.DOWN or Direction.UP:
                 case Element.EMPTY:
                         break;
 

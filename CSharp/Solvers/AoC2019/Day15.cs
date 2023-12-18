@@ -53,7 +53,7 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="direction">Direction to move in</param>
         /// <returns>The status from the resulting movement</returns>
-        public Status Move(Directions direction)
+        public Status Move(Direction direction)
         {
             this.program.AddInput((int)direction);
             this.program.Run();
@@ -218,17 +218,17 @@ public class Day15 : IntcodeSolver
         Vector2<int> position = Vector2<int>.Zero;
         HashSet<Vector2<int>> explored = new() { position };
         //Pathing
-        Stack<Directions> path = new();
-        path.Push(Directions.NONE);
+        Stack<Direction> path = new();
+        path.Push(Direction.NONE);
         //Target
         Vector2<int> oxygenPosition = Vector2<int>.Zero;
         while (true)
         {
             //Get direction and movement flag
-            Directions direction = path.Peek();
+            Direction direction = path.Peek();
             bool moved = false;
             //Check all directions
-            foreach (Directions dir in DirectionsUtils.AllDirections)
+            foreach (Direction dir in DirectionsUtils.AllDirections)
             {
                 //Position in given direction
                 Vector2<int> newPosition = position.Move(dir);
@@ -253,7 +253,7 @@ public class Day15 : IntcodeSolver
             if (!moved)
             {
                 //Done
-                if (direction is Directions.NONE) break;
+                if (direction is Direction.NONE) break;
                 //Backtrack
                 direction = direction.Invert();
                 path.Pop();

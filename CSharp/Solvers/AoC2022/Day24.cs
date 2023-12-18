@@ -37,10 +37,10 @@ public class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzar
             this.Position  = position;
             this.direction = (direction switch
             {
-                '<' => Directions.LEFT,
-                '>' => Directions.RIGHT,
-                '^' => Directions.UP,
-                'v' => Directions.DOWN,
+                '<' => Direction.LEFT,
+                '>' => Direction.RIGHT,
+                '^' => Direction.UP,
+                'v' => Direction.DOWN,
                 _   => throw new UnreachableException("Unknown direction")
             }).ToVector<int>();
         }

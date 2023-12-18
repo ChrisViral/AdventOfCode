@@ -26,7 +26,7 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
         DOWN  = 'v'
     }
 
-    public readonly record struct Movement(int Distance, Directions Turn);
+    public readonly record struct Movement(int Distance, Direction Turn);
 
     private static readonly Regex match = new(@"(\d+)([RL])|(\d+)$", RegexOptions.Compiled);
 
@@ -44,8 +44,8 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
     public override void Run()
     {
         Vector2<int> position = Vector2<int>.Enumerate(this.Data.board.Width, this.Data.board.Height).First(p => this.Data.board[p] is Element.OPEN);
-        Directions direction  = Directions.RIGHT;
-        foreach ((int distance, Directions turn) in this.Data.movements)
+        Direction direction  = Direction.RIGHT;
+        foreach ((int distance, Direction turn) in this.Data.movements)
         {
             //this.Data.board[position] = GetDirectionElement(direction);
             foreach (int _ in ..distance)
@@ -63,7 +63,7 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
                 //this.Data.board[position] = GetDirectionElement(direction);
             }
 
-            direction = turn is Directions.LEFT ? direction.TurnLeft() : direction.TurnRight();
+            direction = turn is Direction.LEFT ? direction.TurnLeft() : direction.TurnRight();
         }
 
         // Since we do a right turn at the end
@@ -72,10 +72,10 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
         int column = (position.X + 1) * 4;
         int facing = direction switch
         {
-            Directions.RIGHT => 0,
-            Directions.DOWN  => 1,
-            Directions.LEFT  => 2,
-            Directions.UP    => 3,
+            Direction.RIGHT => 0,
+            Direction.DOWN  => 1,
+            Direction.LEFT  => 2,
+            Direction.UP    => 3,
             _                => throw new UnreachableException("Unknown direction")
         };
         //AoCUtils.Log(this.Data.board);
@@ -113,99 +113,99 @@ public class Day22 : Solver<(Grid<Day22.Element> board, Day22.Movement[] movemen
                                         .Select(g => g.Value)
                                         .ToArray();
             int distance = int.Parse(groups[0]);
-            Directions turn = groups is [_, "L"] ? Directions.LEFT : Directions.RIGHT;
+            Direction turn = groups is [_, "L"] ? Direction.LEFT : Direction.RIGHT;
             movements[i] = new(distance, turn);
         }
 
         return (board, movements);
     }
 
-    private static Element GetDirectionElement(Directions direction) => direction switch
+    private static Element GetDirectionElement(Direction direction) => direction switch
     {
-        Directions.RIGHT => Element.RIGHT,
-        Directions.LEFT  => Element.LEFT,
-        Directions.UP    => Element.UP,
-        Directions.DOWN  => Element.DOWN,
+        Direction.RIGHT => Element.RIGHT,
+        Direction.LEFT  => Element.LEFT,
+        Direction.UP    => Element.UP,
+        Direction.DOWN  => Element.DOWN,
         _                => throw new UnreachableException("Unexpected direction")
     };
 
-    private static void TransitionGrids(ref Vector2<int> position, ref int face, ref Directions direction)
+    private static void TransitionGrids(ref Vector2<int> position, ref int face, ref Direction direction)
     {
         const int max = 49;
         switch (face, direction)
         {
-            case (0, Directions.LEFT):
+            case (0, Direction.LEFT):
                 break;
-            case (0, Directions.RIGHT):
+            case (0, Direction.RIGHT):
                 face = 1;
                 position = position with { X = 0 };
                 break;
-            case (0, Directions.UP):
+            case (0, Direction.UP):
                 break;
-            case (0, Directions.DOWN):
+            case (0, Direction.DOWN):
                 face = 2;
                 position = position with { Y = 0 };
                 break;
 
-            case (1, Directions.LEFT):
+            case (1, Direction.LEFT):
                 face = 0;
                 position = position with { X = max };
                 break;
-            case (1, Directions.RIGHT):
+            case (1, Direction.RIGHT):
                 break;
-            case (1, Directions.UP):
+            case (1, Direction.UP):
                 break;
-            case (1, Directions.DOWN):
+            case (1, Direction.DOWN):
                 break;
 
-            case (2, Directions.LEFT):
+            case (2, Direction.LEFT):
                 break;
-            case (2, Directions.RIGHT):
+            case (2, Direction.RIGHT):
                 break;
-            case (2, Directions.UP):
+            case (2, Direction.UP):
                 face = 0;
                 position = position with { Y = max };
                 break;
-            case (2, Directions.DOWN):
+            case (2, Direction.DOWN):
                 face = 4;
                 position = position with { Y = 0 };
                 break;
 
-            case (3, Directions.LEFT):
+            case (3, Direction.LEFT):
                 break;
-            case (3, Directions.RIGHT):
+            case (3, Direction.RIGHT):
                 face = 4;
                 position = position with { X = 0 };
                 break;
-            case (3, Directions.UP):
+            case (3, Direction.UP):
                 break;
-            case (3, Directions.DOWN):
+            case (3, Direction.DOWN):
                 face = 5;
                 position = position with { Y = 0 };
                 break;
 
-            case (4, Directions.LEFT):
+            case (4, Direction.LEFT):
                 face = 3;
                 position = position with { X = max };
                 break;
-            case (4, Directions.RIGHT):
+            case (4, Direction.RIGHT):
                 break;
-            case (4, Directions.UP):
+            case (4, Direction.UP):
                 face = 2;
                 position = position with { Y = max };
                 break;
-            case (4, Directions.DOWN):
+            case (4, Direction.DOWN):
                 break;
 
-            case (5, Directions.LEFT):
+            case (5, Direction.LEFT):
                 break;
-            case (5, Directions.RIGHT):
+            case (5, Direction.RIGHT):
                 break;
-            case (5, Directions.UP):
+            case (5, Direction.UP):
                 face = 3;
                 position = position with { Y = max };
                 break;
-            case (5, Directions.DOWN):
+            case (5, Direction.DOWN):
                 break;
         }
     }
