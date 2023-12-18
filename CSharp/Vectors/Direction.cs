@@ -10,11 +10,11 @@ namespace AdventOfCode.Vectors;
 /// </summary>
 public enum Direction
 {
-    NONE  = 0,
-    UP    = 1,
-    DOWN  = 2,
-    LEFT  = 3,
-    RIGHT = 4,
+    NONE  = 0b0000,
+    UP    = 0b0101,
+    DOWN  = 0b0110,
+    LEFT  = 0b1001,
+    RIGHT = 0b1010,
     NORTH = UP,
     SOUTH = DOWN,
     EAST  = RIGHT,
@@ -26,17 +26,22 @@ public enum Direction
 /// </summary>
 public static class DirectionsUtils
 {
+    /// <summary> Vertical direction mask </summary>
+    public const int VERTICAL_MASK = 0b0100;
+    /// <summary> Horizontal direction mask </summary>
+    public const int HORIZONTAL_MASK = 0b1000;
+
     #region Static properties
     /// <summary>
     /// All possible directions
     /// </summary>
-    public static ReadOnlyCollection<Direction> AllDirections { get; } = new(new[]
-    {
+    public static ReadOnlyCollection<Direction> AllDirections { get; } = new(
+    [
         Direction.UP,
         Direction.DOWN,
         Direction.LEFT,
         Direction.RIGHT
-    });
+    ]);
     #endregion
 
     #region Static Methods
@@ -219,5 +224,19 @@ public static class DirectionsUtils
         Direction.LEFT  => Direction.UP,
         _                => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
     };
+
+    /// <summary>
+    /// Checks if the given direction is vertical or not
+    /// </summary>
+    /// <param name="direction">Direction to check</param>
+    /// <returns><see langword="true"/> if the direction is vertical, else <see langword="false"/></returns>
+    public static bool IsVertical(this Direction direction) => ((int)direction & VERTICAL_MASK) is not 0;
+
+    /// <summary>
+    /// Checks if the given direction is horizontal or not
+    /// </summary>
+    /// <param name="direction">Direction to check</param>
+    /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
+    public static bool IsHorizontal(this Direction direction) => ((int)direction & HORIZONTAL_MASK) is not 0;
     #endregion
 }

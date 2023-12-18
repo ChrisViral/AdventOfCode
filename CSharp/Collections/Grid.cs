@@ -41,6 +41,11 @@ public class Grid<T> : IEnumerable<T>
     /// Size of the grid
     /// </summary>
     public int Size { get; }
+
+    /// <summary>
+    /// Dimensions of the grid
+    /// </summary>
+    public Vector2<int> Dimensions { get; }
     #endregion
 
     #region Indexers
@@ -135,6 +140,7 @@ public class Grid<T> : IEnumerable<T>
         this.Height = height;
         this.Size   = width * height;
         this.grid   = new T[height, width];
+        this.Dimensions = new(width, height);
 
         if (typeof(T).IsPrimitive)
         {
@@ -166,9 +172,10 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="other">Other grid to create a copy of</param>
     public Grid(Grid<T> other)
     {
-        this.Width = other.Width;
+        this.Width  = other.Width;
         this.Height = other.Height;
-        this.Size = other.Size;
+        this.Size   = other.Size;
+        this.Dimensions    = other.Dimensions;
         this.rowBufferSize = other.rowBufferSize;
         this.toString = other.toString;
         this.grid = new T[this.Height, this.Width];
