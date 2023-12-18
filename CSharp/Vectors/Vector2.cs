@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
@@ -19,6 +20,50 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
                                     IComparable<Vector2<T>>, IEquatable<Vector2<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
+    /// <summary>
+    /// Two dimensional vector space enumerator
+    /// </summary>
+    /// <param name="maxX">Max space X value (exclusive)</param>
+    /// <param name="maxY">Max space Y value (exclusive)</param>
+    public struct VectorSpaceEnumerator(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
+    {
+        private readonly T maxX = maxX;
+        private readonly T maxY = maxY;
+
+        private T x = maxX - T.One;
+        private T y = -T.One;
+
+        /// <inheritdoc />
+        object IEnumerator.Current => this.Current;
+
+        /// <inheritdoc />
+        public Vector2<T> Current => new(this.x, this.y);
+
+        /// <inheritdoc />
+        public bool MoveNext()
+        {
+            if (++this.x == this.maxX)
+            {
+                this.x = T.Zero;
+                this.y++;
+            }
+
+            return this.y < this.maxY;
+        }
+
+        /// <inheritdoc />
+        public void Dispose() { }
+
+        /// <inheritdoc />
+        public void Reset() => throw new NotSupportedException();
+
+        /// <inheritdoc />
+        public IEnumerator<Vector2<T>> GetEnumerator() => this;
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => this;
+    }
+
     #region Constants
     // ReSharper disable once StaticMemberInGenericType
     private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -190,6 +235,19 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="scaleY">Y component scale</param>
     /// <returns>The scaled vector</returns>
     public Vector2<T> Scale(T scaleX, T scaleY) => new(this.X * scaleX, this.Y * scaleY);
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
+    /// </summary>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/> or <see cref="Y"/> are smaller or equal to zero</exception>
+    public VectorSpaceEnumerator EnumerateOver()
+    {
+        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
+
+        return new(this.X, this.Y);
+    }
 
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector2<T>>.Equals(Vector2<T> other) => Equals(other);
@@ -386,24 +444,28 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <param name="maxX">Max value for the x component, exclusive</param>
     /// <param name="maxY">Max value for the y component, exclusive</param>
-    /// <returns>An enumerable of all the vectors in the given range</returns>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public static IEnumerable<Vector2<T>> Enumerate(T maxX, T maxY)
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
+    public static VectorSpaceEnumerator Enumerate(T maxX, T maxY)
     {
         if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
 
-        for (T y = T.Zero; y < maxY; y++)
-        {
-            for (T x = T.Zero; x < maxX; x++)
-            {
-                yield return new(x, y);
-            }
-        }
+        return new(maxX, maxY);
     }
 
+    /// <summary>
+    /// Enumerates all the points in a square at a certain distance from the point given
+    /// </summary>
+    /// <param name="from">Point to enumerate around</param>
+    /// <param name="distance">Distance from the point to start at</param>
+    /// <returns>An enumerable of all the points at the given distance</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If the distance is less than zero</exception>
     public static IEnumerable<Vector2<T>> EnumerateAtDistance(Vector2<T> from, T distance)
     {
-        if (distance <= T.Zero) throw new ArgumentOutOfRangeException(nameof(distance), "Distance mus be greater than zero");
+        if (distance <= T.Zero) throw new ArgumentOutOfRangeException(nameof(distance), "Distance must be greater than zero");
 
         Vector2<T> position = new(from.X - distance, from.Y);
         Vector2<T> direction = Up + Right;

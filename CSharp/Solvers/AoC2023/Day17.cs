@@ -26,20 +26,20 @@ public class Day17 : GridSolver<int>
         static abstract double Heuristic(T current);
     }
 
-    public readonly struct CruciblePath(Grid<int> grid, Vector2<int> position, Directions direction, int currentSteps) : ICrucible<CruciblePath>
+    public readonly struct CruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps) : ICrucible<CruciblePath>
     {
         public const int MAX_STEPS = 3;
 
         public readonly Grid<int> grid        = grid;
         public readonly Vector2<int> position = position;
-        public readonly Directions direction  = direction;
+        public readonly Direction direction  = direction;
         public readonly int currentSteps      = currentSteps;
 
         public int Loss { get; } = grid[position];
 
-        public CruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Directions.RIGHT, 0) { }
+        public CruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Direction.RIGHT, 0) { }
 
-        public CruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Directions.RIGHT, 0) { }
+        public CruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Direction.RIGHT, 0) { }
 
         public override string ToString() => $"{position} - {this.direction}";
 
@@ -60,7 +60,7 @@ public class Day17 : GridSolver<int>
             }
         }
 
-        private static bool TryGenerateSearchNode(in CruciblePath current, Directions newDirection, int newSteps, out (CruciblePath, double)? node)
+        private static bool TryGenerateSearchNode(in CruciblePath current, Direction newDirection, int newSteps, out (CruciblePath, double)? node)
         {
             Vector2<int> newPosition = current.position + newDirection;
             if (!current.grid.WithinGrid(newPosition))
@@ -93,21 +93,21 @@ public class Day17 : GridSolver<int>
         #endregion
     }
 
-    public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Directions direction, int currentSteps, int loss) : ICrucible<UltraCruciblePath>
+    public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps, int loss) : ICrucible<UltraCruciblePath>
     {
         public const int MIN_STEPS = 4;
         public const int MAX_STEPS = 10;
 
         public readonly Grid<int> grid        = grid;
         public readonly Vector2<int> position = position;
-        public readonly Directions direction  = direction;
+        public readonly Direction direction  = direction;
         public readonly int currentSteps      = currentSteps;
 
         public int Loss { get; } = loss;
 
-        public UltraCruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Directions.RIGHT, 0, 0) { }
+        public UltraCruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Direction.RIGHT, 0, 0) { }
 
-        public UltraCruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Directions.RIGHT, 0, 0) { }
+        public UltraCruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Direction.RIGHT, 0, 0) { }
 
         public override string ToString() => $"{position} - {this.direction}";
 
@@ -128,7 +128,7 @@ public class Day17 : GridSolver<int>
             }
         }
 
-        private static bool TryGenerateSearchNode(in UltraCruciblePath current, Directions newDirection, int travelDistance, int newSteps, out (UltraCruciblePath, double)? node)
+        private static bool TryGenerateSearchNode(in UltraCruciblePath current, Direction newDirection, int travelDistance, int newSteps, out (UltraCruciblePath, double)? node)
         {
             Vector2<int> newPosition = current.position + newDirection.ToVector(travelDistance);
             if (!current.grid.WithinGrid(newPosition))
