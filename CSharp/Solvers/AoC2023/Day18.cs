@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
