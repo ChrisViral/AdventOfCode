@@ -18,7 +18,7 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
 
     public enum Operation
     {
-        LESS = '<',
+        LESS    = '<',
         GREATER = '>'
     }
 
@@ -178,11 +178,11 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
         Range defaultRange = MIN..MAX;
         PartRange range    = new(defaultRange, defaultRange, defaultRange, defaultRange);
         Workflow start     = this.Data.workflows[START];
-        long variations    = CountValidParts(range, start);
+        long variations    = CountRangeSize(range, start);
         AoCUtils.LogPart2(variations);
     }
 
-    public long CountValidParts(PartRange partRange, in Workflow workflow)
+    public long CountRangeSize(PartRange partRange, in Workflow workflow)
     {
         long valid = 0L;
         foreach (Rule rule in workflow.rules)
@@ -192,10 +192,10 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
             {
                 valid += rule.target switch
                 {
-                    ACCEPTED   => accepted.ValidCount,
-                    REJECTED   => 0L,
-                    { } target => CountValidParts(accepted, this.Data.workflows[target]),
-                    _          => throw new UnreachableException("Invalid workflow detected")
+                    ACCEPTED => accepted.ValidCount,
+                    REJECTED => 0L,
+                    { } next => CountRangeSize(accepted, this.Data.workflows[next]),
+                    _        => throw new UnreachableException("Invalid workflow detected")
                 };
             }
 
@@ -204,10 +204,10 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
 
         valid += workflow.noMatch switch
         {
-            ACCEPTED   => partRange.ValidCount,
-            REJECTED   => 0L,
-            { } target => CountValidParts(partRange, this.Data.workflows[target]),
-            _          => throw new UnreachableException("Invalid workflow detected")
+            ACCEPTED => partRange.ValidCount,
+            REJECTED => 0L,
+            { } next => CountRangeSize(partRange, this.Data.workflows[next]),
+            _        => throw new UnreachableException("Invalid workflow detected")
         };
 
         return valid;
