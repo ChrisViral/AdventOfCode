@@ -166,6 +166,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         Module final = this.Data.Values.First(m => m.Listeners.Contains(TARGET));
         HashSet<Module> triggers = [..this.Data.Values.Where(m => m.Listeners.Contains(final.Label))];
         Dictionary<Module, int> firstTriggerHit = new(triggers.Count);
+
         int buttonPresses = 0;
         while (firstTriggerHit.Count != triggers.Count)
         {
