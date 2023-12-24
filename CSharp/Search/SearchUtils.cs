@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
+using AdventOfCode.Extensions;
 
 namespace AdventOfCode.Search;
 
@@ -31,7 +32,7 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic heuristic,
+    public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic? heuristic,
                                  Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer,
                                  Func<T, T, bool>? goalFound = null) where T : IEquatable<T>
     {
@@ -58,7 +59,7 @@ public static class SearchUtils
                 if (explored.TryGetValue(neighbour, out double distance))
                 {
                     //If it is, check if we found a quicker way
-                    if (!(distance > neighbour.CostSoFar)) continue;
+                    if (distance <= neighbour.CostSoFar) continue;
 
                     //If so, remove from closed list, and add back to open list
                     explored.Remove(neighbour);
@@ -282,6 +283,46 @@ public static class SearchUtils
 
         //Copy the path back to an array and return
         return foundDistance;
+    }
+
+    /// <summary>
+    /// Depth First Search path finding
+    /// </summary>
+    /// <typeparam name="T">Type of element to search for</typeparam>
+    /// <param name="start">Starting point</param>
+    /// <param name="goal">Ending point</param>
+    /// <param name="neighbours">Neighbours function</param>
+    /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
+    public static double? GetMaxPathLengthDFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
+    {
+        List<SearchNode<T>> foundEndNodes = [];
+        Stack<SearchNode<T>> search = new();
+        search.Push(new(start));
+
+        while (search.TryPop(out SearchNode<T>? current))
+        {
+            //If we found the goal or the distance is cached
+            if (current == goal)
+            {
+                foundEndNodes.Add(current);
+                continue;
+            }
+
+            //Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Where(n => !current.HasParent(n.value))
+                                                                         .Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
+                                                                                                        n.value, null, current)))
+            {
+                //Otherwise just add it
+                search.Push(neighbour);
+            }
+        }
+
+        //If we found the goal
+        if (foundEndNodes.IsEmpty()) return null;
+
+        //Copy the path back to an array and return
+        return foundEndNodes.Max(n => n.Cost);
     }
     #endregion
 }
