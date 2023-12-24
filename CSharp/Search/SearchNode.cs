@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode.Search;
 
@@ -81,6 +82,13 @@ public class SearchNode<T> : ISearchNode, IEquatable<SearchNode<T>>, IComparable
     #endregion
 
     #region Methods
+    /// <summary>
+    /// Check if the parent node or any of its parents has the given search value
+    /// </summary>
+    /// <param name="value">Search value to find</param>
+    /// <returns><see langword="true"/> true if any of the parents contain the given value, else <see langword="false"/></returns>
+    public bool HasParent(T value) => this.Parent is not null && (this.Parent == value || this.Parent.HasParent(value));
+
     /// <inheritdoc cref="object.Equals(object)"/>
     public override bool Equals(object? obj) => obj is SearchNode<T> other && this.Value.Equals(other.Value);
 

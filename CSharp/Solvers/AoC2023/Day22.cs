@@ -16,9 +16,6 @@ namespace AdventOfCode.Solvers.AoC2023
     {
         public class Brick : IComparable<Brick>, IEquatable<Brick>
         {
-            private static readonly Vector3<int> up   = new(0, 0, 1);
-            private static readonly Vector3<int> down = new(0, 0, -1);
-
             private readonly string data;
 
             public Vector3<int> Min { get; private set; }
@@ -51,13 +48,11 @@ namespace AdventOfCode.Solvers.AoC2023
                 this.Max = max;
             }
 
-            private void Move(in Vector3<int> movement)
+            public void MoveDown()
             {
-                this.Min += movement;
-                this.Max += movement;
+                this.Min += Vector3<int>.Backwards;
+                this.Max += Vector3<int>.Backwards;
             }
-
-            public void MoveDown() => Move(down);
 
             public bool OverlapsWith(Brick other) => this.Min.X <= other.Max.X
                                                   && this.Max.X >= other.Min.X
