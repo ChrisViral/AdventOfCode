@@ -1,9 +1,9 @@
 ﻿using System;
 using AdventOfCode.Extensions;
-using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
+using Microsoft.Z3;
 
 namespace AdventOfCode.Solvers.AoC2023
 {
@@ -14,60 +14,49 @@ namespace AdventOfCode.Solvers.AoC2023
     {
         public readonly struct Hail
         {
-            private readonly long a;
-            private readonly long b;
-            private readonly long c;
+            public Vector3<long> V { get; }
 
-            public Vector3<long> Position { get; }
-
-            public Vector3<long> Velocity { get; }
+            public Vector3<long> P { get; }
 
             public Hail(string data)
             {
                 string[] splits = data.Split('@', DEFAULT_OPTIONS);
-                this.Position = Vector3<long>.Parse(splits[0]);
-                this.Velocity = Vector3<long>.Parse(splits[1]);
-
-                this.a = this.Velocity.Y;
-                this.b = -this.Velocity.X;
-                this.c = (this.Velocity.X * this.Position.Y) - (this.Velocity.Y * this.Position.X);
+                this.V = Vector3<long>.Parse(splits[0]);
+                this.P = Vector3<long>.Parse(splits[1]);
             }
 
-            public static bool FindIntersection(in Hail first, in Hail second, out (decimal x, decimal y) result)
+            public static bool FindIntersection(in Hail h1, in Hail h2, out Vector2<double> result)
             {
-                if ((first.Velocity.Y / (decimal)first.Velocity.X) == (second.Velocity.Y / (decimal)second.Velocity.X))
+                if (MathUtils.Approximately(h1.P.Y / (double)h1.P.X, h2.P.Y / (double)h2.P.X))
                 {
                     // Parallel
-                    result = (0m, 0m);
+                    result = Vector2<double>.Zero;
                     return false;
                 }
 
-                decimal denominator = (first.a * second.b) - (second.a * first.b);
-                decimal x = ((first.b * second.c) - (second.b * first.c)) / denominator;
-                decimal t1 = (x - first.Position.X) / first.Velocity.X;
-                if (t1 < 0m)
+                (long a, long b, long c, long d) = (h1.P.X, h1.V.X, h2.P.X, h2.V.X);
+                (long e, long f, long g, long h) = (h1.P.Y, h1.V.Y, h2.P.Y, h2.V.Y);
+
+                double s = ((a * h) - (a * f) - (e * d) + e * b) / (double)((e * c) - (a * g));
+                double t = ((c * s) + d - b) / a;
+
+                if (s < 0d || t < 0d)
                 {
-                    // Past first
-                    result = (0m, 0m);
+                    // Past
+                    result = Vector2<double>.Zero;
                     return false;
                 }
 
-                decimal t2 = (x - second.Position.X) / second.Velocity.X;
-                if (t2 < 0m)
-                {
-                    // Past second
-                    result = (0m, 0m);
-                    return false;
-                }
-
-                decimal y = ((first.c * second.a) - (second.c * first.a)) / denominator;
+                double x = (a * t) + b;
+                double y = (e * t) + f;
                 result = (x, y);
                 return true;
             }
         }
 
-        private const long MIN = 7L;
-        private const long MAX = 27L;
+        private const long MIN = 200000000000000L;
+        private const long MAX = 400000000000000L;
+        private const int SAMPLE = 3;
 
         #region Constructors
         /// <summary>
@@ -89,12 +78,10 @@ namespace AdventOfCode.Solvers.AoC2023
                 foreach (int j in (i + 1)..this.Data.Length)
                 {
                     Hail b = this.Data[j];
-                    if (!Hail.FindIntersection(a, b, out (decimal x, decimal y) intersection)) continue;
-
-                    if (intersection.x is >= MIN and <= MAX
-                     && intersection.y is >= MIN and <= MAX)
+                    if (Hail.FindIntersection(a, b, out Vector2<double> intersection)
+                     && intersection.X is >= MIN and <= MAX
+                     && intersection.Y is >= MIN and <= MAX)
                     {
-                        AoCUtils.Log($"{intersection.x:0.00}, {intersection.y:0.00}");
                         collisions++;
                     }
                 }
@@ -102,7 +89,31 @@ namespace AdventOfCode.Solvers.AoC2023
 
             AoCUtils.LogPart1(collisions);
 
-            AoCUtils.LogPart2("");
+            // Yeah, I hate using a package this way, but I am absolutely fucking not solving a system of nine unknown variables by hand
+            // ReSharper disable once RedundantNameQualifier
+            using Microsoft.Z3.Context ctx = new();
+
+            IntExpr px = ctx.MkIntConst("px");
+            IntExpr py = ctx.MkIntConst("py");
+            IntExpr pz = ctx.MkIntConst("pz");
+            IntExpr vx = ctx.MkIntConst("vx");
+            IntExpr vy = ctx.MkIntConst("vy");
+            IntExpr vz = ctx.MkIntConst("vz");
+
+            Solver solver = ctx.MkSolver();
+            foreach (int i in ..SAMPLE)
+            {
+                Hail hi     = this.Data[i];
+                IntExpr ti  = ctx.MkIntConst($"t{i}");
+                BoolExpr xi = ctx.MkEq((vx * ti) + px, (ctx.MkInt(hi.P.X) * ti) + ctx.MkInt(hi.V.X));
+                BoolExpr yi = ctx.MkEq((vy * ti) + py, (ctx.MkInt(hi.P.Y) * ti) + ctx.MkInt(hi.V.Y));
+                BoolExpr zi = ctx.MkEq((vz * ti) + pz, (ctx.MkInt(hi.P.Z) * ti) + ctx.MkInt(hi.V.Z));
+                solver.Add(xi, yi, zi);
+            }
+
+            solver.Check();
+            Expr result = solver.Model.Evaluate(px + py + pz);
+            AoCUtils.LogPart2(result);
         }
 
         /// <inheritdoc />
