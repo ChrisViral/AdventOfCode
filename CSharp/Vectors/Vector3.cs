@@ -362,6 +362,16 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="b">Second number to test</param>
     /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
     private static bool Approximately(T a, T b) => T.Abs(a - b) <= epsilon;
+
+    /// <summary>
+    /// Converts the vector to the target type
+    /// </summary>
+    /// <typeparam name="TResult">Number type</typeparam>
+    /// <returns>The vector converted to the specified type</returns>
+    public Vector3<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y), TResult.CreateChecked(this.Z));
+    }
     #endregion
 
     #region Operators

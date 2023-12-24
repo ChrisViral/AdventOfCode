@@ -256,11 +256,11 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     int IComparable<Vector2<T>>.CompareTo(Vector2<T> other) => CompareTo(other);
 
     /// <summary>
-    /// Converts a vector to the target type
+    /// Converts the vector to the target type
     /// </summary>
     /// <typeparam name="TResult">Number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
-    private Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    public Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
     {
         return new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
     }
