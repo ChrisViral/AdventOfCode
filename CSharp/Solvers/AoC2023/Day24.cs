@@ -68,7 +68,7 @@ namespace AdventOfCode.Solvers.AoC2023
         #endregion
 
         #region Methods
-        /// <inheritdoc cref="Solver.Run"/>
+        /// <inheritdoc cref="AdventOfCode.Solvers.Base.Solver.Run"/>
         public override void Run()
         {
             int collisions = 0;
@@ -79,8 +79,7 @@ namespace AdventOfCode.Solvers.AoC2023
                 {
                     Hail b = this.Data[j];
                     if (Hail.FindIntersection(a, b, out Vector2<double> intersection)
-                     && intersection.X is >= MIN and <= MAX
-                     && intersection.Y is >= MIN and <= MAX)
+                     && intersection is  { X: > MIN and < MAX, Y: > MIN and < MAX })
                     {
                         collisions++;
                     }
