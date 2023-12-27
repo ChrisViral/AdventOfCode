@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace AdventOfCode.Search;
 
 /// <summary>
 /// Minimum value search comparer
 /// </summary>
-public sealed class MinSearchComparer : IComparer<ISearchNode>
+public sealed class MinSearchComparer<T> : IComparer<ISearchNode<T>> where T : INumber<T>
 {
     #region Static properties
     /// <summary>
     /// Comparer instance
     /// </summary>
-    public static MinSearchComparer Comparer { get; } = new();
+    public static MinSearchComparer<T> Comparer { get; } = new();
     #endregion
 
     #region Constructors
@@ -23,7 +24,7 @@ public sealed class MinSearchComparer : IComparer<ISearchNode>
 
     #region Methods
     /// <inheritdoc cref="IComparer{T}"/>
-    public int Compare(ISearchNode? a, ISearchNode? b) => a?.Cost.CompareTo(b?.Cost) ?? 0;
+    public int Compare(ISearchNode<T>? a, ISearchNode<T>? b) => a?.Cost.CompareTo(b is not null ? b.Cost : T.Zero) ?? 0;
     #endregion
 }
 
@@ -31,13 +32,13 @@ public sealed class MinSearchComparer : IComparer<ISearchNode>
 /// Maximum value search comparer
 /// </summary>
 /// ReSharper disable once UnusedType.Global
-public sealed class MaxSearchComparer : IComparer<ISearchNode>
+public sealed class MaxSearchComparer<T> : IComparer<ISearchNode<T>> where T : INumber<T>
 {
     #region Static properties
     /// <summary>
     /// Comparer instance
     /// </summary>
-    public static MaxSearchComparer Comparer { get; } = new();
+    public static MaxSearchComparer<T> Comparer { get; } = new();
     #endregion
 
     #region Constructors
@@ -49,6 +50,6 @@ public sealed class MaxSearchComparer : IComparer<ISearchNode>
 
     #region Methods
     /// <inheritdoc cref="IComparer{T}"/>
-    public int Compare(ISearchNode? a, ISearchNode? b) => b?.Cost.CompareTo(a?.Cost) ?? 0;
+    public int Compare(ISearchNode<T>? a, ISearchNode<T>? b) => b?.Cost.CompareTo(a is not null ? a.Cost : T.Zero) ?? 0;
     #endregion
 }

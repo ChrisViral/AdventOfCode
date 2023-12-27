@@ -19,7 +19,7 @@ public class Day17 : GridSolver<int>
     {
         int Loss { get; }
 
-        static abstract IEnumerable<(T, double)> Neighbours(T current);
+        static abstract IEnumerable<MoveData<T, double>> Neighbours(T current);
 
         static abstract bool IsGoal(T current, T goal);
 
@@ -43,10 +43,10 @@ public class Day17 : GridSolver<int>
 
         public override string ToString() => $"{position} - {this.direction}";
 
-        public static IEnumerable<(CruciblePath, double)> Neighbours(CruciblePath current)
+        public static IEnumerable<MoveData<CruciblePath, double>> Neighbours(CruciblePath current)
         {
             if (current.currentSteps < MAX_STEPS
-             && TryGenerateSearchNode(current, current.direction, current.currentSteps + 1, out (CruciblePath, double)? node))
+             && TryGenerateSearchNode(current, current.direction, current.currentSteps + 1, out MoveData<CruciblePath, double>? node))
             {
                 yield return node!.Value;
             }
@@ -60,7 +60,7 @@ public class Day17 : GridSolver<int>
             }
         }
 
-        private static bool TryGenerateSearchNode(in CruciblePath current, Direction newDirection, int newSteps, out (CruciblePath, double)? node)
+        private static bool TryGenerateSearchNode(in CruciblePath current, Direction newDirection, int newSteps, out MoveData<CruciblePath, double>? node)
         {
             Vector2<int> newPosition = current.position + newDirection;
             if (!current.grid.WithinGrid(newPosition))
@@ -70,7 +70,7 @@ public class Day17 : GridSolver<int>
             }
 
             CruciblePath newPath = new(current.grid, newPosition, newDirection, newSteps);
-            node = (newPath, newPath.Loss);
+            node = new(newPath, newPath.Loss);
             return true;
         }
 
@@ -111,10 +111,10 @@ public class Day17 : GridSolver<int>
 
         public override string ToString() => $"{position} - {this.direction}";
 
-        public static IEnumerable<(UltraCruciblePath, double)> Neighbours(UltraCruciblePath current)
+        public static IEnumerable<MoveData<UltraCruciblePath, double>> Neighbours(UltraCruciblePath current)
         {
             if (current.currentSteps < MAX_STEPS
-             && TryGenerateSearchNode(current, current.direction, 1, current.currentSteps + 1, out (UltraCruciblePath, double)? node))
+             && TryGenerateSearchNode(current, current.direction, 1, current.currentSteps + 1, out MoveData<UltraCruciblePath, double>? node))
             {
                 yield return node!.Value;
             }
@@ -128,7 +128,7 @@ public class Day17 : GridSolver<int>
             }
         }
 
-        private static bool TryGenerateSearchNode(in UltraCruciblePath current, Direction newDirection, int travelDistance, int newSteps, out (UltraCruciblePath, double)? node)
+        private static bool TryGenerateSearchNode(in UltraCruciblePath current, Direction newDirection, int travelDistance, int newSteps, out MoveData<UltraCruciblePath, double>? node)
         {
             Vector2<int> newPosition = current.position + newDirection.ToVector(travelDistance);
             if (!current.grid.WithinGrid(newPosition))
@@ -147,7 +147,7 @@ public class Day17 : GridSolver<int>
             }
 
             UltraCruciblePath newPath = new(current.grid, newPosition, newDirection, newSteps, incurredLoss);
-            node = (newPath, incurredLoss);
+            node = new(newPath, incurredLoss);
             return true;
         }
 
@@ -196,7 +196,7 @@ public class Day17 : GridSolver<int>
         T[]? path = SearchUtils.Search(start, goal,
                                        T.Heuristic,
                                        T.Neighbours,
-                                       MinSearchComparer.Comparer,
+                                       MinSearchComparer<double>.Comparer,
                                        T.IsGoal);
 
         return path!.Sum(p => p.Loss);

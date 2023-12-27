@@ -310,7 +310,7 @@ public static class Instructions
     }
 
     /// <summary>
-    /// Returns the an operands in memory for the instruction at the given pointer
+    /// Returns the operands in memory for the instruction at the given pointer
     /// </summary>
     /// <param name="pointer">Pointer address of the operand to get</param>
     /// <param name="relative">Current VM relative base</param>

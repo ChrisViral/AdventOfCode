@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions;
 
 namespace AdventOfCode.Search;
+
+public record struct MoveData<TValue, TCost>(TValue Value, TCost Cost) where TCost : INumber<TCost>;
 
 /// <summary>
 /// Searching utility methods
@@ -14,17 +17,21 @@ public static class SearchUtils
     /// <summary>
     /// Neighbours exploration function
     /// </summary>
-    /// <typeparam name="T">Type of object to explore</typeparam>
+    /// <typeparam name="TValue">Type of object to explore</typeparam>
+    /// <typeparam name="TCost">Cost type</typeparam>
     /// <param name="node">Node to explore</param>
     /// <returns>An enumerable of all neighbouring node values and their distances</returns>
-    public delegate IEnumerable<(T value, double cost)> Neighbours<T>(T node);
+    public delegate IEnumerable<MoveData<TValue, TCost>> WeightedNeighbours<TValue, TCost>(TValue node) where TCost : INumber<TCost>;
+
+    public delegate IEnumerable<T> Neighbours<T>(T node);
 
     #region Methods
     /// <summary>
     /// A* Search<br/>
     /// Searches from the starting node to the goal node, and retrieves the optimal path
     /// </summary>
-    /// <typeparam name="T">Type of node being searched</typeparam>
+    /// <typeparam name="TValue">Type of node being searched</typeparam>
+    /// <typeparam name="TCost">Cost type</typeparam>
     /// <param name="start">Starting node</param>
     /// <param name="goal">Goal node</param>
     /// <param name="heuristic">Heuristic function on the nodes</param>
@@ -32,17 +39,18 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static T[]? Search<T>(T start, T goal, SearchNode<T>.Heuristic? heuristic,
-                                 Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer,
-                                 Func<T, T, bool>? goalFound = null) where T : IEquatable<T>
+    public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal, SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                  WeightedNeighbours<TValue, TCost> neighbours, IComparer<SearchNode<TValue, TCost>> comparer,
+                                                  Func<TValue, TValue, bool>? goalFound = null) where TValue : IEquatable<TValue>
+                                                                                                where TCost : INumber<TCost>
     {
-        SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer);
+        SearchNode<TValue, TCost>? foundGoal = null;
+        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
         search.Enqueue(new(start));
-        Dictionary<SearchNode<T>, double> explored = new();
+        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
         goalFound ??= (a, b) => a.Equals(b);
 
-        while (search.TryDequeue(out SearchNode<T> current))
+        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
         {
             //If we found the goal
             if (goalFound(current.Value, goal))
@@ -52,11 +60,11 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
-                                                                                                        n.value, heuristic, current)))
+            foreach (SearchNode<TValue, TCost> neighbour in neighbours(current.Value).Select(n => new SearchNode<TValue, TCost>(current.CostSoFar + n.Cost,
+                                                                                                                                n.Value, heuristic, current)))
             {
                 //Check if it's in the closed list
-                if (explored.TryGetValue(neighbour, out double distance))
+                if (explored.TryGetValue(neighbour, out TCost? distance))
                 {
                     //If it is, check if we found a quicker way
                     if (distance <= neighbour.CostSoFar) continue;
@@ -86,7 +94,7 @@ public static class SearchUtils
         if (foundGoal is null) return null;
 
         //Trace the path and backtrack
-        Stack<T> path = new();
+        Stack<TValue> path = new();
         //While the parent is not null
         while (foundGoal.Parent is not null)
         {
@@ -104,7 +112,8 @@ public static class SearchUtils
     /// Searches from the starting node to the goal node, and retrieves the optimal path<br/>
     /// The search only cares about final path length, and the distances in each node of the final path is cached in the <paramref name="distances"/> dictionary
     /// </summary>
-    /// <typeparam name="T">Type of node being searched</typeparam>
+    /// <typeparam name="TValue">Type of node being searched</typeparam>
+    /// <typeparam name="TCost">Cost type</typeparam>
     /// <param name="start">Starting node</param>
     /// <param name="goal">Goal node</param>
     /// <param name="heuristic">Heuristic function on the nodes</param>
@@ -112,15 +121,21 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="distances">Cached distances dictionary</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static int? GetPathLength<T>(T start, T goal, SearchNode<T>.Heuristic? heuristic, Neighbours<T> neighbours, IComparer<SearchNode<T>> comparer, Dictionary<(T, T), int> distances) where T : IEquatable<T>
+    public static int? GetPathLength<TValue, TCost>(TValue start, TValue goal,
+                                                    SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                    WeightedNeighbours<TValue, TCost> neighbours,
+                                                    IComparer<SearchNode<TValue, TCost>> comparer,
+                                                    Dictionary<(TValue, TValue), int> distances)
+        where TValue : IEquatable<TValue>
+        where TCost : INumber<TCost>
     {
         int foundDistance = 0;
-        SearchNode<T>? foundGoal = null;
-        PriorityQueue<SearchNode<T>> search = new(comparer);
+        SearchNode<TValue, TCost>? foundGoal = null;
+        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
         search.Enqueue(new(start));
-        Dictionary<SearchNode<T>, double> explored = new();
+        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
 
-        while (search.TryDequeue(out SearchNode<T> current))
+        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
         {
             //If we found the goal or the distance is cached
             if (current == goal || distances.TryGetValue((current.Value, goal), out foundDistance))
@@ -130,11 +145,11 @@ public static class SearchUtils
             }
 
             //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
-                                                                                                        n.value, heuristic, current)))
+            foreach (SearchNode<TValue, TCost> neighbour in neighbours(current.Value).Select(n => new SearchNode<TValue, TCost>(current.CostSoFar + n.Cost,
+                                                                                                                                n.Value, heuristic, current)))
             {
                 //Check if it's in the closed list
-                if (explored.TryGetValue(neighbour, out double distance))
+                if (explored.TryGetValue(neighbour, out TCost? distance))
                 {
                     //If it is, check if we found a quicker way
                     if (!(distance > neighbour.CostSoFar)) continue;
@@ -185,24 +200,22 @@ public static class SearchUtils
     /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
     public static int? GetPathLengthBFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
-        int foundDistance = 0;
         SearchNode<T>? foundGoal = null;
         Queue<SearchNode<T>> search = new();
         search.Enqueue(new(start));
-        HashSet<SearchNode<T>> explored = new();
+        HashSet<SearchNode<T>> explored = [];
 
         while (search.TryDequeue(out SearchNode<T>? current))
         {
-            //If we found the goal or the distance is cached
+            // If we found the goal or the distance is cached
             if (current == goal)
             {
                 foundGoal = current;
                 break;
             }
 
-            //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
-                                                                                                        n.value, null, current)))
+            // Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
                 //Check if it's in the closed or open list
                 if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
@@ -211,23 +224,12 @@ public static class SearchUtils
                 search.Enqueue(neighbour);
             }
 
-            //Add to the closed list after exploring
+            // Add to the closed list after exploring
             explored.Add(current);
         }
 
-        //If we found the goal
-        if (foundGoal is null) return null;
-
-        //While the parent is not null
-        while (foundGoal.Parent is not null)
-        {
-            //Push back and go deeper
-            foundGoal = foundGoal.Parent;
-            foundDistance++;
-        }
-
-        //Copy the path back to an array and return
-        return foundDistance;
+        // Return path length
+        return foundGoal?.Cost;
     }
 
     /// <summary>
@@ -240,24 +242,22 @@ public static class SearchUtils
     /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
     public static int? GetPathLengthDFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
-        int foundDistance = 0;
         SearchNode<T>? foundGoal = null;
         Stack<SearchNode<T>> search = new();
         search.Push(new(start));
-        HashSet<SearchNode<T>> explored = new();
+        HashSet<SearchNode<T>> explored = [];
 
         while (search.TryPop(out SearchNode<T>? current))
         {
-            //If we found the goal or the distance is cached
+            // If we found the goal or the distance is cached
             if (current == goal)
             {
                 foundGoal = current;
                 break;
             }
 
-            //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
-                                                                                                        n.value, null, current)))
+            // Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
                 //Check if it's in the closed or open list
                 if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
@@ -266,23 +266,12 @@ public static class SearchUtils
                 search.Push(neighbour);
             }
 
-            //Add to the closed list after exploring
+            // Add to the closed list after exploring
             explored.Add(current);
         }
 
-        //If we found the goal
-        if (foundGoal is null) return null;
-
-        //While the parent is not null
-        while (foundGoal.Parent is not null)
-        {
-            //Push back and go deeper
-            foundGoal = foundGoal.Parent;
-            foundDistance++;
-        }
-
-        //Copy the path back to an array and return
-        return foundDistance;
+        // Return path length
+        return foundGoal?.Cost;
     }
 
     /// <summary>
@@ -301,28 +290,24 @@ public static class SearchUtils
 
         while (search.TryPop(out SearchNode<T>? current))
         {
-            //If we found the goal or the distance is cached
+            // If we found the goal or the distance is cached
             if (current == goal)
             {
                 foundEndNodes.Add(current);
                 continue;
             }
 
-            //Look through all neighbouring nodes
-            foreach (SearchNode<T> neighbour in neighbours(current.Value).Where(n => !current.HasParent(n.value))
-                                                                         .Select(n => new SearchNode<T>(current.CostSoFar + n.cost,
-                                                                                                        n.value, null, current)))
+            // Look through all neighbouring nodes
+            foreach (SearchNode<T> neighbour in neighbours(current.Value).Where(n => !current.HasParent(n))
+                                                                         .Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
-                //Otherwise just add it
+                // Otherwise just add it
                 search.Push(neighbour);
             }
         }
 
-        //If we found the goal
-        if (foundEndNodes.IsEmpty()) return null;
-
-        //Copy the path back to an array and return
-        return foundEndNodes.Max(n => n.Cost);
+        // Return path length
+        return !foundEndNodes.IsEmpty() ? foundEndNodes.Max(n => n.Cost) : null;
     }
     #endregion
 }

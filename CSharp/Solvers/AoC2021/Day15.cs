@@ -36,7 +36,7 @@ public class Day15 : GridSolver<byte>
         // Search for best path to the end
         Vector2<int> start  = Vector2<int>.Zero, end = (this.Grid.Width - 1, this.Grid.Height - 1);
         // ReSharper disable once AccessToModifiedClosure
-        Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer.Comparer)!;
+        Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer<double>.Comparer)!;
         int total = path.Sum(p => this.Grid[p]);
         AoCUtils.LogPart1(total);
 
@@ -55,7 +55,7 @@ public class Day15 : GridSolver<byte>
 
         // Search for new best path
         end   = (fullMap.Width - 1, fullMap.Height - 1);
-        path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer.Comparer)!;
+        path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer<double>.Comparer)!;
         total = path.Sum(p => fullMap[p]);
         AoCUtils.LogPart2(total);
     }
@@ -66,11 +66,11 @@ public class Day15 : GridSolver<byte>
     /// <param name="node">Current node position</param>
     /// <param name="map">Map to find the neighbours in</param>
     /// <returns>An enumerable of all the neighbours of the current node</returns>
-    private static IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> node, Grid<byte> map)
+    private static IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node, Grid<byte> map)
     {
         return node.Adjacent()
                    .Where(map.WithinGrid)
-                   .Select(neighbour => (neighbour, (double)map[neighbour]));
+                   .Select(n => new MoveData<Vector2<int>, double>(n, map[n]));
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>

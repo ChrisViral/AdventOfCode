@@ -1,10 +1,8 @@
 ﻿namespace AdventOfCode.Utils;
 
-public class Ref<T> where T : struct
+public class Ref<T>(T value) where T : struct
 {
-    public T Value { get; set; }
-
-    public Ref(T value) => this.Value = value;
+    public T Value { get; set; } = value;
 
     public static implicit operator T(Ref<T> value) => value.Value;
 

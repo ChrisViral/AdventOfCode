@@ -32,7 +32,7 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
             b.Connections.Remove(a);
         }
 
-        public static IEnumerable<(Component, double)> GetNeighbours(Component component) => component.Connections.Select(c => (c, 1d));
+        public static IEnumerable<MoveData<Component, double>> GetNeighbours(Component component) => component.Connections.Select(c => new MoveData<Component, double>(c, 1d));
 
         /// <inheritdoc />
         public bool Equals(Component? other) => !ReferenceEquals(null, other)
@@ -92,7 +92,7 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
                 Component a = components[i];
                 Component b = components[j];
 
-                Component[] path = SearchUtils.Search(a, b, null, Component.GetNeighbours, MinSearchComparer.Comparer)!;
+                Component[] path = SearchUtils.Search(a, b, null, Component.GetNeighbours, MinSearchComparer<double>.Comparer)!;
                 Component previous = path[0];
                 foreach (int k in ..(path.Length - 1))
                 {

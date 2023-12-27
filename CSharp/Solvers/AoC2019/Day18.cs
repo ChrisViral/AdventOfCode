@@ -116,7 +116,7 @@ public class Day18 : Solver<Day18.Maze>
                         (Vector2<int>, Vector2<int>) travel = (this.Position, locked.Key);
                         if (!maze.distances.TryGetValue(travel, out int distance))
                         {
-                            int? path = SearchUtils.GetPathLength(this.Position, locked.Key, v => (v - locked.Key).Length, v => FindNeighbours(v, maze, locked.ID, keys), MinSearchComparer.Comparer, maze.distances);
+                            int? path = SearchUtils.GetPathLength(this.Position, locked.Key, v => (v - locked.Key).Length, v => FindNeighbours(v, maze, locked.ID, keys), MinSearchComparer<double>.Comparer, maze.distances);
                             if (!path.HasValue) continue;
 
                             distance = path.Value;
@@ -148,7 +148,7 @@ public class Day18 : Solver<Day18.Maze>
             /// <param name="key">Searched key</param>
             /// <param name="keys">Hashset of currently unlocked keys</param>
             /// <returns>An enumerable of all the neighbours around a given node</returns>
-            private static IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position, Maze maze, char key, int keys)
+            private static IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> position, Maze maze, char key, int keys)
             {
                 //Look through all neighbours
                 foreach (Vector2<int> neighbour in position.Adjacent().Where(n => maze[n] is not WALL))
@@ -157,7 +157,7 @@ public class Day18 : Solver<Day18.Maze>
                     if (!char.IsLetter(value) || value == key || (keys & (1 << (char.ToLower(value) - 'a'))) is not 0)
                     {
                         //Return neighbours with a distance of 1
-                        yield return (neighbour, 1d);
+                        yield return new(neighbour, 1d);
                     }
                 }
             }
@@ -223,7 +223,7 @@ public class Day18 : Solver<Day18.Maze>
             foreach (Lock target in allLocks)
             {
                 int required = 0;
-                Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target.Key, v => (v - target.Key).Length, FindNeighbours, MinSearchComparer.Comparer);
+                Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target.Key, v => (v - target.Key).Length, FindNeighbours, MinSearchComparer<double>.Comparer);
                 if (path is not null)
                 {
                     required = path.Select(v => this[v]).Where(c => c is >= 'A' and <= 'Z').Aggregate(required, (current, door) => current | 1 << (door - 'A'));
@@ -253,10 +253,10 @@ public class Day18 : Solver<Day18.Maze>
         /// </summary>
         /// <param name="position">Position to look from</param>
         /// <returns>An enumerable of all the neighbours around a given node</returns>
-        private IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position)
+        private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> position)
         {
             //Look through all neighbours
-            return position.Adjacent().Where(n => this[n] is not WALL).Select(neighbour => (neighbour, 1d));
+            return position.Adjacent().Where(n => this[n] is not WALL).Select(neighbour => new MoveData<Vector2<int>, double>(neighbour, 1d));
         }
         #endregion
 

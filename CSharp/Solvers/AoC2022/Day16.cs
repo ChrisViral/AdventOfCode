@@ -6,6 +6,7 @@ using AdventOfCode.Extensions;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2022;
 
@@ -70,7 +71,7 @@ public class Day16 : Solver<Dictionary<string, Day16.Valve>>
         AoCUtils.LogPart2("");
     }
 
-    private static IEnumerable<(Valve value, double distance)> Neighbours(Valve node) => node.Connections.Select(connection => (connection, 1d));
+    private static IEnumerable<Valve> Neighbours(Valve node) => node.Connections;
 
     private int ExploreTunnels(Valve current, int currentPressure, int time)
     {
