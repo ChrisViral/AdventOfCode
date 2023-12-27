@@ -112,7 +112,7 @@ public class Day15 : IntcodeSolver
         public int FindShortestPath(Vector2<int> target)
         {
             //Get path
-            Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target, v => (v - target).Length, FindNeighbours, MinSearchComparer.Comparer);
+            Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, target, v => (v - target).Length, FindNeighbours, MinSearchComparer<double>.Comparer);
             //No path found, return -1
             if (path is null || path.Length <= 0) return -1;
 
@@ -171,10 +171,10 @@ public class Day15 : IntcodeSolver
         /// </summary>
         /// <param name="position">Position to look from</param>
         /// <returns>An enumerable of all the neighbours around a given node</returns>
-        private IEnumerable<(Vector2<int>, double)> FindNeighbours(Vector2<int> position)
+        private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> position)
         {
             //Look through all neighbours
-            return position.Adjacent().Where(n => this[n] is not Status.WALL).Select(neighbour => (neighbour, 1d));
+            return position.Adjacent().Where(n => this[n] is not Status.WALL).Select(n => new MoveData<Vector2<int>, double>(n, 1d));
         }
 
         /// <inheritdoc cref="object.ToString"/>

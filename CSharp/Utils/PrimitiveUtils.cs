@@ -23,7 +23,7 @@ public static class PrimitiveUtils<T>
         {
             var t when t == typeof(bool) => 1,
             var t when t == typeof(char) => 2,
-            var t when t.IsPrimitive     => Marshal.SizeOf<T>(),
+            { IsPrimitive: true }        => Marshal.SizeOf<T>(),
             _                            => 0
         };
     }

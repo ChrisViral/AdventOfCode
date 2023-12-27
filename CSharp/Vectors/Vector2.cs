@@ -14,10 +14,10 @@ namespace AdventOfCode.Vectors;
 /// </summary>
 public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
                                     IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
-                                    IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>, IFormattable,
+                                    IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>,
                                     IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>,
                                     IModulusOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
-                                    IComparable<Vector2<T>>, IEquatable<Vector2<T>>
+                                    IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>
@@ -106,7 +106,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <summary>
     /// Length of the Vector
     /// </summary>
-    public double Length  => GetLength<double>(this.X, this.Y);
+    public double Length => GetLength<double>();
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
@@ -247,6 +247,16 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
 
         return new(this.X, this.Y);
+    }
+
+    /// <summary>
+    /// Gets the length of this vector in the specified floating point type
+    /// </summary>
+    /// <typeparam name="TResult">Floating point type to get the length in</typeparam>
+    /// <returns>The length of the vector</returns>
+    public TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>
+    {
+        return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y)));
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
@@ -390,8 +400,9 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
             "E" => Right,
             _   => throw new FormatException($"Direction value ({groups[1].Value}) cannot be parsed into a direction")
         };
+
         //Return with correct length
-        return direction * T.Parse(groups[2].Value, NumberStyles.Number, null);
+        return direction * T.Parse(groups[2].ValueSpan, NumberStyles.Number, null);
     }
 
     /// <summary>
@@ -409,7 +420,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
         GroupCollection groups = match.Groups;
         if (groups.Count is not 3) return false;
-        if (!T.TryParse(groups[2].Value, NumberStyles.Number, null, out T? distance)) return false;
+        if (!T.TryParse(groups[2].ValueSpan, NumberStyles.Number, null, out T? distance)) return false;
         Vector2<T> dir;
         switch (groups[1].Value)
         {
@@ -514,11 +525,29 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
 
-        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is not 2) throw new FormatException("String to parse not properly formatted");
+        return Parse(value.AsSpan(), separator);
+    }
 
-        T x = T.Parse(splits[0], null);
-        T y = T.Parse(splits[1], null);
+    /// <summary>
+    /// Parses the two component vector using the given value and number separator
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns>The parsed vector</returns>
+    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty</exception>
+    /// <exception cref="ArgumentNullException">If <paramref name="separator"/> is null or empty</exception>
+    /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
+    public static Vector2<T> Parse(ReadOnlySpan<char> value, string separator = ",")
+    {
+        if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Value cannot be empty", nameof(value));
+        if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
+
+        Span<Range> ranges = stackalloc Range[2];
+        int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (written is not 2) throw new FormatException("String to parse not properly formatted");
+
+        T x = T.Parse(value[ranges[0]], null);
+        T y = T.Parse(value[ranges[1]], null);
         return new(x, y);
     }
 
@@ -531,14 +560,35 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
     public static bool TryParse(string? value, out Vector2<T> result, string separator = ",")
     {
-        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(separator))
+        if (string.IsNullOrEmpty(value))
         {
             result = Zero;
             return false;
         }
 
-        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is not 2 || !T.TryParse(splits[0], null, out T? x) || !T.TryParse(splits[0], null, out T? y))
+        return TryParse(value.AsSpan(),  out result, separator);
+    }
+
+    /// <summary>
+    /// Tries to parse the two component vector using the given value and returns the success
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="result">Resulting vector, if any</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
+    public static bool TryParse(ReadOnlySpan<char> value, out Vector2<T> result, string separator = ",")
+    {
+        if (value.IsEmpty || value.IsWhiteSpace() || string.IsNullOrEmpty(separator))
+        {
+            result = Zero;
+            return false;
+        }
+
+        Span<Range> ranges = stackalloc Range[2];
+        int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (written is not 2
+         || !T.TryParse(value[ranges[0]], null, out T? x)
+         || !T.TryParse(value[ranges[1]], null, out T? y))
         {
             result = Zero;
             return false;
@@ -546,18 +596,6 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
         result = new(x, y);
         return true;
-    }
-
-    /// <summary>
-    /// Gets the length of this vector in the target floating point type
-    /// </summary>
-    /// <typeparam name="TResult">Floating point result type</typeparam>
-    /// <param name="x">X Parameter</param>
-    /// <param name="y">Y parameter</param>
-    /// <returns>The length of the vector, in the specified floating point type</returns>
-    private static TResult GetLength<TResult>(T x, T y) where TResult : IBinaryFloatingPointIeee754<TResult>
-    {
-        return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y)));
     }
 
     /// <summary>

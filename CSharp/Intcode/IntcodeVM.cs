@@ -90,10 +90,6 @@ public class IntcodeVM
     /// Input parsing splitting options
     /// </summary>
     private const StringSplitOptions OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-    /// <summary>
-    /// Input parsing splitting character
-    /// </summary>
-    private static readonly char[] splitters = { ',' };
     #endregion
 
     #region Fields
@@ -190,7 +186,18 @@ public class IntcodeVM
     /// ReSharper disable once MemberCanBePrivate.Global
     public IntcodeVM(string code, Queue<long> input, Queue<long> output)
     {
-        this.originalState = code.Split(splitters, OPTIONS).ConvertAll(long.Parse);
+        ReadOnlySpan<char> codeSpan = code;
+        int count = codeSpan.Count(',') + 1;
+        Span<Range> ranges = stackalloc Range[count];
+        int written = codeSpan.Split(ranges, ',', OPTIONS);
+
+        long[] parsed = new long[written];
+        for (int i = 0; i < written; i++)
+        {
+            parsed[i] = long.Parse(codeSpan[ranges[i]]);
+        }
+
+        this.originalState = parsed;
         this.memory        = new long[this.originalState.Length + BUFFER_SIZE];
         this.originalState.CopyTo(this.memory);
 

@@ -51,7 +51,7 @@ public class Day12 : GridSolver<int>
         int path = SearchUtils.GetPathLength(start, end,
                                              p => Vector2<int>.ManhattanDistance(p, end),
                                              FindNeighbours,
-                                             MinSearchComparer.Comparer,
+                                             MinSearchComparer<double>.Comparer,
                                              distances)
                               .GetValueOrDefault(-1);
         AoCUtils.LogPart1(path);
@@ -64,7 +64,7 @@ public class Day12 : GridSolver<int>
             path = SearchUtils.GetPathLength(position, end,
                                              p => Vector2<int>.ManhattanDistance(p, end),
                                              FindNeighbours,
-                                             MinSearchComparer.Comparer,
+                                             MinSearchComparer<double>.Comparer,
                                              distances)
                               .GetValueOrDefault(-1);
             if (path is -1) continue;
@@ -75,7 +75,7 @@ public class Day12 : GridSolver<int>
         AoCUtils.LogPart2(shortestPath);
     }
 
-    private IEnumerable<(Vector2<int> value, double distance)> FindNeighbours(Vector2<int> node)
+    private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node)
     {
         int current = this.Grid[node];
         foreach (Vector2<int> adjacent in node.Adjacent())
@@ -85,7 +85,7 @@ public class Day12 : GridSolver<int>
             int neighbour = this.Grid[adjacent];
             if (neighbour <= current + 1)
             {
-                yield return (adjacent, 1d);
+                yield return new(adjacent, 1d);
             }
         }
     }

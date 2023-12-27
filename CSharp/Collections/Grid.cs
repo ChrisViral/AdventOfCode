@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using AdventOfCode.Extensions;
 using AdventOfCode.Utils;
@@ -412,7 +413,7 @@ public class Grid<T> : IEnumerable<T>
     /// Fill the grid with the given value
     /// </summary>
     /// <param name="value">Value to fill with</param>
-    public void Fill(T value) => Vector2<int>.Enumerate(this.Width, this.Height).ForEach(v => this[v] = value);
+    public void Fill(T value) => this.Dimensions.EnumerateOver().ForEach(v => this[v] = value);
 
     /// <summary>
     /// Moves the vector within the grid
@@ -520,6 +521,7 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="position">Position vector</param>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual bool WithinGrid(Vector2<int> position)
     {
         return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;

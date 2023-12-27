@@ -126,7 +126,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     {
         //Create the comparer and heap
         this.comparer = comparer;
-        this.heap     = new(enumerable);
+        this.heap     = [..enumerable];
 
         //Heapify the list
         for (int i = this.heap.Count / 2; i >= 1; i--)
@@ -323,7 +323,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     private void RemoveAt(int i)
     {
         //Swap the value to the end then remove it
-        this.heap[i] = this.heap[this.Last];
+        this.heap[i] = this.heap[^1];
         this.heap.RemoveAt(this.Last);
     }
 

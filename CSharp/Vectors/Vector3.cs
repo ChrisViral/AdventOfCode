@@ -67,7 +67,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// Length of the Vector
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public double Length => GetLength<double>(this.X, this.Y, this.Z);
+    public double Length => GetLength<double>();
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
@@ -207,6 +207,16 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <returns>The scaled vector</returns>
     public Vector3<T> Scale(T scaleX, T scaleY, T scaleZ) => new(this.X * scaleX, this.Y * scaleY, this.Z * scaleZ);
 
+    /// <summary>
+    /// Gets the length of this vector in the target floating point type
+    /// </summary>
+    /// <typeparam name="TResult">Floating point result type</typeparam>
+    /// <returns>The length of the vector, in the specified floating point type</returns>
+    private TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>
+    {
+        return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z)));
+    }
+
     /// <inheritdoc cref="IEquatable{T}"/>
     bool IEquatable<Vector3<T>>.Equals(Vector3<T> other) => Equals(other);
 
@@ -296,12 +306,29 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
 
-        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is < 2 or > 3) throw new FormatException("String to parse not properly formatted");
+        return Parse(value.AsSpan(), separator);
+    }
 
-        T x = T.Parse(splits[0], null);
-        T y = T.Parse(splits[1], null);
-        return new(x, y, splits.Length is 3 ? T.Parse(splits[2], null) : T.Zero);
+    /// <summary>
+    /// Parses the two component vector using the given value and number separator
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns>The parsed vector</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
+    /// <exception cref="FormatException">If there isn't exactly two or three values present after the split</exception>
+    public static Vector3<T> Parse(ReadOnlySpan<char> value, string separator = ",")
+    {
+        if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Value cannot be null or empty", nameof(value));
+        if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
+
+        Span<Range> ranges = stackalloc Range[3];
+        int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (written is < 2 or > 3) throw new FormatException("String to parse not properly formatted");
+
+        T x = T.Parse(value[ranges[0]], null);
+        T y = T.Parse(value[ranges[1]], null);
+        return new(x, y, written is 3 ? T.Parse(value[ranges[2]], null) : T.Zero);
     }
 
     /// <summary>
@@ -319,14 +346,33 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
             return false;
         }
 
-        string[] splits = value.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (splits.Length is < 2 or > 3 || !T.TryParse(splits[0], null, out T? x) || !T.TryParse(splits[0], null, out T? y))
+        return TryParse(value.AsSpan(), out result, separator);
+    }
+
+    /// <summary>
+    /// Tries to parse the two component vector using the given value and returns the success
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="result">Resulting vector, if any</param>
+    /// <param name="separator">Number separator, defaults to ","</param>
+    /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
+    public static bool TryParse(ReadOnlySpan<char> value, out Vector3<T> result, string separator = ",")
+    {
+        if (value.IsEmpty || value.IsWhiteSpace() || string.IsNullOrEmpty(separator))
         {
             result = Zero;
             return false;
         }
 
-        result = new(x, y, splits.Length is 3 && T.TryParse(splits[2], null, out T? z) ? z : T.Zero);
+        Span<Range> ranges = stackalloc Range[3];
+        int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (written is < 2 or > 3 || !T.TryParse(value[ranges[0]], null, out T? x) || !T.TryParse(value[ranges[1]], null, out T? y))
+        {
+            result = Zero;
+            return false;
+        }
+
+        result = new(x, y, written is 3 && T.TryParse(value[ranges[2]], null, out T? z) ? z : T.Zero);
         return true;
     }
 

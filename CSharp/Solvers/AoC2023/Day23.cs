@@ -45,7 +45,7 @@ public class Day23 : GridSolver<Day23.Element>
 
         public override string ToString() => this.Value.ToString();
 
-        public static IEnumerable<(Node, double)> GetNeighbours(Node node) => node.Neighbours.Select(p => (p.Key, (double)p.Value));
+        public static IEnumerable<Node> GetNeighbours(Node node) => node.Neighbours.Keys;
     }
 
     #region Constructors
@@ -107,9 +107,9 @@ public class Day23 : GridSolver<Day23.Element>
         AoCUtils.LogPart2(longestPath);
     }
 
-    public IEnumerable<(Vector2<int>, double)> GetNeighboursWithSlopes(Vector2<int> position)
+    public IEnumerable<Vector2<int>> GetNeighboursWithSlopes(Vector2<int> position)
     {
-        return (this.Data[position] switch
+        return this.Data[position] switch
         {
             Element.PATH  => position.Adjacent().Where(p => this.Data.WithinGrid(p) && this.Data[p] is not Element.FOREST),
             Element.UP    => Enumerable.Repeat(position + Direction.UP, 1),
@@ -117,7 +117,7 @@ public class Day23 : GridSolver<Day23.Element>
             Element.LEFT  => Enumerable.Repeat(position + Direction.LEFT, 1),
             Element.RIGHT => Enumerable.Repeat(position + Direction.RIGHT, 1),
             _             => throw new UnreachableException("Unknown current tile")
-        }).Select(p => (p, 1d));
+        };
     }
 
     /// <inheritdoc />
