@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
+using TextCopy;
 
 namespace AdventOfCode.Utils;
 
@@ -56,7 +56,7 @@ public static class AoCUtils
         string text = answer.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(text))
         {
-            Clipboard.SetText(text);
+            ClipboardService.SetText(text);
         }
 
         Trace.WriteLine($"Part 1: {text}\nin {GetElapsedString(PartsWatch.Elapsed)}\n");
@@ -74,7 +74,7 @@ public static class AoCUtils
         string text = answer.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(text))
         {
-            Clipboard.SetText(text);
+            ClipboardService.SetText(text);
         }
         Trace.WriteLine($"Part 2: {text}\nin {GetElapsedString(PartsWatch.Elapsed)}\n");
     }

@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AdventOfCode;
 
@@ -11,27 +13,31 @@ public static class InputFetcher
 {
     #region Constants
     /// <summary>
-    /// Session cookie file
-    /// </summary>
-    private const string COOKIE = @"Input\cookie.txt";
-    /// <summary>
     /// Base Advent of Code URL
     /// </summary>
     private const string BASE_URL = "https://adventofcode.com/";
+    /// <summary>
+    /// Input folder name
+    /// </summary>
+    private const string INPUT_FOLDER = "Input";
+    /// <summary>
+    /// Session cookie file
+    /// </summary>
+    private static readonly string CookiePath = Path.Join(INPUT_FOLDER, "cookie.txt");
     #endregion
 
     #region Properties
     /// <summary>
     /// Input HTTP client
     /// </summary>
-    private static HttpClient HttpClient { get; }
+    private static HttpClient Client { get; }
     #endregion
 
     #region Constructors
     static InputFetcher()
     {
-        HttpClient = new() { BaseAddress = new(BASE_URL) };
-        HttpClient.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(COOKIE)}");
+        Client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
+        Client.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(CookiePath)}");
     }
     #endregion
 
@@ -42,30 +48,46 @@ public static class InputFetcher
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The Input file for the problem</returns>
-    public static string EnsureInput(int year, int day)
+    public static async Task<string> EnsureInput(int year, int day)
     {
         //Check for the input file
-        FileInfo inputFile = new($"Input/{year}/day{day:D2}.txt");
+        FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
+        string input;
         if (inputFile.Exists)
         {
             using StreamReader reader = inputFile.OpenText();
-            return reader.ReadToEnd();
+            input = await reader.ReadToEndAsync();
         }
-
-        //Make sure the directory exists
-        if (!inputFile.Directory?.Exists ?? false)
+        else
         {
-            inputFile.Directory!.Create();
+            //Make sure the directory exists
+            if (!inputFile.Directory?.Exists ?? false)
+            {
+                inputFile.Directory!.Create();
+            }
+
+            //Get input and write to file
+            input = await GetInput(year, day);
+            await using StreamWriter writer = inputFile.CreateText();
+            await writer.WriteAsync(input);
         }
 
-        //Get input and write to file
-        string input = GetInput(year, day);
-        using StreamWriter writer = inputFile.CreateText();
-        writer.Write(input);
         #if DEBUG
         //Additionally write to project if in debug
-        writer.Flush();
-        inputFile.CopyTo(@$"..\..\..\Input\{year}\{inputFile.Name}", true);
+        string debugFilePath = Path.GetFullPath(Path.Combine("..", "..", "..", INPUT_FOLDER, year.ToString(), inputFile.Name));
+        FileInfo debugFile = new(debugFilePath);
+
+        // ReSharper disable once InvertIf
+        if (!debugFile.Exists)
+        {
+            if (!debugFile.Directory!.Exists)
+            {
+                debugFile.Directory.Create();
+            }
+
+            await using StreamWriter debugWriter = debugFile.CreateText();
+            await debugWriter.WriteAsync(input);
+        }
         #endif
 
         //Return the fetched input
@@ -78,12 +100,12 @@ public static class InputFetcher
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The input for the problem</returns>
-    private static string GetInput(int year, int day)
+    private static async Task<string> GetInput(int year, int day)
     {
-        using HttpResponseMessage response = HttpClient.GetAsync($"{year}/day/{day}/input").Result;
-        using Stream responseStream        = response.Content.ReadAsStream();
+        using HttpResponseMessage response = await Client.GetAsync($"{year}/day/{day}/input");
+        await using Stream responseStream  = await response.Content.ReadAsStreamAsync();
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
-        return responseReader.ReadToEnd();
+        return await responseReader.ReadToEndAsync();
     }
     #endregion
 }

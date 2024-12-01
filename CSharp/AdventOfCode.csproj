@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <LangVersion>12.0</LangVersion>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
+    <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>12</LangVersion>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug'">
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LangVersion>12</LangVersion>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release'">
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>12</LangVersion>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>none</DebugType>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LangVersion>12</LangVersion>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Input\**">
@@ -28,5 +29,6 @@
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
     <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.120" />
     <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
+    <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 </Project>

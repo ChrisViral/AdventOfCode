@@ -3,20 +3,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using AdventOfCode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
 #region Main
-Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
-Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
-
 Console.Title = "Advent of Code";
 SolverData solverData;
 try
 {
-    solverData = new(args);
+    solverData = await SolverData.CreateData(args);
 }
 catch (Exception e)
 {
@@ -31,17 +27,17 @@ try
     //Helpful types
     Type   solverInterfaceType   = typeof(ISolver);
     Type   baseSolverType        = typeof(Solver);
-    Type[] constructorParamTypes = { typeof(string) };
+    Type[] constructorParamTypes = [typeof(string)];
 
     //Making sure our solver types are valid
     Debug.Assert(solverInterfaceType.IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {solverInterfaceType}");
 
     //Get solver types
-    Type? solverType = Assembly.GetCallingAssembly()
+    Type? solverType = Assembly.GetExecutingAssembly()!
                                .GetTypes()
                                .Where(t => t is { IsAbstract: false, IsGenericType: false }
-                                           && t.IsAssignableTo(baseSolverType)
-                                           && t.GetConstructor(constructorParamTypes) is not null)
+                                        && t.IsAssignableTo(baseSolverType)
+                                        && t.GetConstructor(constructorParamTypes) is not null)
                                .SingleOrDefault(t => t.FullName == solverData.fullName);
 
     //Make sure the type exists
@@ -52,7 +48,7 @@ try
     }
 
     //Instantiate the solver
-    solver = (ISolver)Activator.CreateInstance(solverType, solverData.input)!; //Throw if cast fails
+    solver = (ISolver)Activator.CreateInstance(solverType, solverData.input)!;  //Throw if cast fails
 }
 catch (Exception e)
 {
@@ -69,7 +65,7 @@ AoCUtils.LogElapsed(AoCUtils.PartsWatch);
 
 //Setup trace file
 #if DEBUG
-using TextWriterTraceListener textListener = new(File.CreateText(@"..\..\..\results.txt"));
+using TextWriterTraceListener textListener = new(File.CreateText(Path.Combine("..", "..", "..", "results.txt")));
 #else
 using TextWriterTraceListener textListener = new(File.CreateText("results.txt"));
 #endif
