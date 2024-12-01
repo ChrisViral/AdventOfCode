@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.Base;
 /// <summary>
 /// Solver base class
 /// </summary>
-[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
+[PublicAPI]
 public abstract class Solver : ISolver
 {
     #region Constants
@@ -20,7 +20,7 @@ public abstract class Solver : ISolver
     /// <summary>
     /// Default split characters
     /// </summary>
-    private static readonly char[] defaultSplitters = { '\n' };
+    private static readonly char[] DefaultSplitters = ['\n'];
     #endregion
 
     #region Properties
@@ -39,7 +39,7 @@ public abstract class Solver : ISolver
     /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
     protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS)
     {
-        this.Data = input.Split(splitters ?? defaultSplitters, options)
+        this.Data = input.Split(splitters ?? DefaultSplitters, options)
                          .ToArray();
     }
     #endregion
@@ -60,7 +60,7 @@ public abstract class Solver : ISolver
     public abstract void Run();
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
-    public virtual void Dispose() { }
+    public virtual void Dispose() => GC.SuppressFinalize(this);
     #endregion
 }
 
@@ -68,7 +68,7 @@ public abstract class Solver : ISolver
 /// Solver generic class
 /// </summary>
 /// <typeparam name="T">The fully parse input type</typeparam>
-[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
+[PublicAPI]
 public abstract class Solver<T> : Solver
 {
     #region Properties

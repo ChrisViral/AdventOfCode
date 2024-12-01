@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -6,6 +7,7 @@ namespace AdventOfCode.Utils;
 /// Number value utils
 /// </summary>
 /// <typeparam name="T">Number type</typeparam>
+[PublicAPI]
 public static class NumberUtils<T> where T : INumber<T>
 {
     /// <summary>

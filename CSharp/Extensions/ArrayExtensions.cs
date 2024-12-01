@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Array extension methods
 /// </summary>
+[PublicAPI]
 public static class ArrayExtensions
 {
     #region Extension methods

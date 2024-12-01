@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.Threading;
 using AdventOfCode.Extensions;
 using AdventOfCode.Vectors;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
 
 /// <summary>
 /// View anchors
 /// </summary>
+[PublicAPI]
 public enum Anchor
 {
     TOP_LEFT,
@@ -23,6 +25,7 @@ public enum Anchor
 /// Console interactive view
 /// </summary>
 /// <typeparam name="T">Type of object in the view</typeparam>
+[PublicAPI]
 public class ConsoleView<T> : Grid<T> where T : notnull
 {
     #region Fields

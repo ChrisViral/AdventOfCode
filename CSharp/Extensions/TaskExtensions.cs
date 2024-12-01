@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// <see cref="Task"/> Extensions
 /// </summary>
+[PublicAPI]
 public static class TaskExtensions
 {
     #region Extension methods

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Regex extension methods
 /// </summary>
+[PublicAPI]
 public static class RegexExtensions
 {
     #region Extension methods

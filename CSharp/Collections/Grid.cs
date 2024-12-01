@@ -7,6 +7,7 @@ using System.Text;
 using AdventOfCode.Extensions;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
 
@@ -14,10 +15,11 @@ namespace AdventOfCode.Collections;
 /// Generic grid structure
 /// </summary>
 /// <typeparam name="T">Type of element within the grid</typeparam>
+[PublicAPI]
 public class Grid<T> : IEnumerable<T>
 {
     #region Static fields
-    private static readonly EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+    private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
     #endregion
 
     #region Fields
@@ -536,7 +538,7 @@ public class Grid<T> : IEnumerable<T>
     {
         foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
         {
-            if (comparer.Equals(value, this[pos]))
+            if (Comparer.Equals(value, this[pos]))
             {
                 return pos;
             }
@@ -551,7 +553,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="value">Value to find</param>
     /// <returns><see langword="true"/> if the value was in the grid, otherwise <see langword="false"/></returns>
     public bool Contains(T value) => Vector2<int>.Enumerate(this.Width, this.Height)
-                                                 .Any(pos => comparer.Equals(value, this[pos]));
+                                                 .Any(pos => Comparer.Equals(value, this[pos]));
 
     /// <summary>
     /// Clears this grid

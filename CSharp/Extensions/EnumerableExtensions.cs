@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Enumerable extension methods
 /// </summary>
+[PublicAPI]
 public static class EnumerableExtensions
 {
     #region Extension methods

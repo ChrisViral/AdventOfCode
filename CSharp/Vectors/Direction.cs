@@ -2,12 +2,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// Cardinal Directions
 /// </summary>
+[PublicAPI]
 public enum Direction
 {
     NONE  = 0b0000,
@@ -24,6 +26,7 @@ public enum Direction
 /// <summary>
 /// Direction extension methods
 /// </summary>
+[PublicAPI]
 public static class DirectionsUtils
 {
     /// <summary> Vertical direction mask </summary>
@@ -174,11 +177,11 @@ public static class DirectionsUtils
     /// <returns>The resulting vector</returns>
     public static Vector2<T> ToVector<T>(this Direction direction, T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
     {
-        Direction.UP    => new(T.Zero, -length),
-        Direction.DOWN  => new(T.Zero,  length),
-        Direction.LEFT  => new(-length, T.Zero),
-        Direction.RIGHT => new(length,  T.Zero),
-        _                => Vector2<T>.Zero
+        Direction.UP    => new Vector2<T>(T.Zero, -length),
+        Direction.DOWN  => new Vector2<T>(T.Zero,  length),
+        Direction.LEFT  => new Vector2<T>(-length, T.Zero),
+        Direction.RIGHT => new Vector2<T>(length,  T.Zero),
+        _               => Vector2<T>.Zero
     };
 
     /// <summary>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils
 {
@@ -6,9 +8,11 @@ namespace AdventOfCode.Utils
     /// Thread-safe object reference
     /// </summary>
     /// <typeparam name="T">Reference type</typeparam>
+    [PublicAPI]
     public class Safe<T>
     {
-        private readonly object locker = new();
+        /// <summary>Sync object</summary>
+        private readonly Lock locker = new();
 
         private T? value;
         /// <summary>
@@ -23,14 +27,14 @@ namespace AdventOfCode.Utils
         {
             get
             {
-                lock (locker)
+                lock (this.locker)
                 {
                     return this.value;
                 }
             }
             set
             {
-                lock (locker)
+                lock (this.locker)
                 {
                     this.value = value;
                 }
@@ -54,7 +58,7 @@ namespace AdventOfCode.Utils
         /// <param name="updater"></param>
         public void Update(Func<T?, T?> updater)
         {
-            lock (locker)
+            lock (this.locker)
             {
                 this.value = updater(this.value);
             }
@@ -63,7 +67,7 @@ namespace AdventOfCode.Utils
         /// <inheritdoc/>
         public override string ToString()
         {
-            lock (locker)
+            lock (this.locker)
             {
                 return this.value?.ToString() ?? string.Empty;
             }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 
 /* ==================================================================================== *\
  * Copyright © 2020 Christophe Savard                                                   *
@@ -32,6 +33,7 @@ namespace AdventOfCode.Collections;
 /// Most operations are O(log n), while full enumeration or copying to an array is O(n log n)
 /// </summary>
 /// <typeparam name="T">Type of the queue</typeparam>
+[PublicAPI]
 public class PriorityQueue<T> : ICollection<T> where T : notnull
 {
     #region Constants
@@ -143,7 +145,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// ReSharper disable once MemberCanBePrivate.Global
     public PriorityQueue(PriorityQueue<T> queue)
     {
-        this.heap     = new(queue.heap);
+        this.heap     = [..queue.heap];
         this.comparer = queue.comparer;
     }
     #endregion
@@ -443,7 +445,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>Array of the queue</returns>
     public T[] ToArray()
     {
-        if (this.IsEmpty) return Array.Empty<T>();
+        if (this.IsEmpty) return [];
 
         T[] a = this.heap.ToArray();
         a.Sort(this.comparer);
@@ -457,9 +459,9 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>List of this queue</returns>
     public List<T> ToList()
     {
-        if (this.IsEmpty) return new();
+        if (this.IsEmpty) return [];
 
-        List<T> l = new(this.heap);
+        List<T> l = [..this.heap];
         l.Sort(this.comparer);
         return l;
     }

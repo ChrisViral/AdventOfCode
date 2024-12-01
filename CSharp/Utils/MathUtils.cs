@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using AdventOfCode.Vectors;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
 /// <summary>
 /// Mathematics utils
 /// </summary>
+[PublicAPI]
 public static class MathUtils
 {
     /// <summary>

@@ -2,12 +2,14 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Utils;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
 /// <summary>
 /// Number extensions
 /// </summary>
+[PublicAPI]
 public static class NumberExtensions
 {
     #region Extension methods

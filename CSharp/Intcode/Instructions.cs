@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using JetBrains.Annotations;
 using VMData = AdventOfCode.Intcode.IntcodeVM.VMData;
 using VMStates = AdventOfCode.Intcode.IntcodeVM.VMStates;
 
@@ -8,6 +9,7 @@ namespace AdventOfCode.Intcode;
 /// <summary>
 /// Intcode Instructions
 /// </summary>
+[PublicAPI]
 public static class Instructions
 {
     /// <summary>

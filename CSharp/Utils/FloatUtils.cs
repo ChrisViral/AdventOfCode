@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -6,6 +7,7 @@ namespace AdventOfCode.Utils;
 /// Float number utils
 /// </summary>
 /// <typeparam name="T">Floating point number type</typeparam>
+[PublicAPI]
 public static class FloatUtils<T> where T : IFloatingPoint<T>
 {
     /// <summary>

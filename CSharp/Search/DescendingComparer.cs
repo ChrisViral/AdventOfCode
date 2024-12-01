@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
 
@@ -6,6 +7,7 @@ namespace AdventOfCode.Search;
 /// A descending order comparer, using the default comparer of <typeparamref name="T"/>
 /// </summary>
 /// <typeparam name="T">Type to compare</typeparam>
+[PublicAPI]
 public class DescendingComparer<T> : IComparer<T>
 {
     /// <summary>

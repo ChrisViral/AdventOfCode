@@ -31,4 +31,7 @@
     <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Solvers\AoC2024\" />
+  </ItemGroup>
 </Project>

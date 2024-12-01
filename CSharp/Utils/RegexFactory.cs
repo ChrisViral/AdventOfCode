@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -11,14 +12,15 @@ namespace AdventOfCode.Utils;
 /// Regex object creation factory
 /// </summary>
 /// <typeparam name="T">Type of objects created</typeparam>
+[PublicAPI]
 public class RegexFactory<T> where T : notnull
 {
     #region Constants
     /// <summary>Convertible type</summary>
     /// ReSharper disable once StaticMemberInGenericType
-    private static readonly Type convertibleType = typeof(IConvertible);
+    private static readonly Type ConvertibleType = typeof(IConvertible);
     /// <summary>Stored object type</summary>
-    private static readonly Type objectType      = typeof(T);
+    private static readonly Type ObjectType      = typeof(T);
     #endregion
 
     #region Fields
@@ -43,13 +45,13 @@ public class RegexFactory<T> where T : notnull
         this.regex = new(pattern, options);
         //Get types
         //Get potential constructors
-        this.constructors = objectType.GetConstructors()
+        this.constructors = ObjectType.GetConstructors()
                                       .Where(c => c.GetParameters()
-                                                   .All(p => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
+                                                   .All(p => ConvertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
                                       .ToDictionary(c => c.GetParameters().Length, c => c);
         //Get potential fields
-        this.fields = objectType.GetFields(BindingFlags.Public | BindingFlags.Instance)
-                                .Where(f => convertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
+        this.fields = ObjectType.GetFields(BindingFlags.Public | BindingFlags.Instance)
+                                .Where(f => ConvertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
                                 .ToDictionary(f => f.Name, f => f);
     }
     #endregion
@@ -145,7 +147,7 @@ public class RegexFactory<T> where T : notnull
     public T[] ConstructObjects(IReadOnlyList<string> input)
     {
         //Make sure some input is passed
-        if (input.Count == 0) return Array.Empty<T>();
+        if (input.Count == 0) return [];
 
         //Parse results
         T[] results = new T[input.Count];
@@ -210,7 +212,7 @@ public class RegexFactory<T> where T : notnull
     public T[] PopulateObjects(IReadOnlyList<string> input)
     {
         //Make sure some input is passed
-        if (input.Count == 0) return Array.Empty<T>();
+        if (input.Count == 0) return [];
 
         T[] results = new T[input.Count];
         for (int i = 0; i < input.Count; i++)

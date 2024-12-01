@@ -4,14 +4,24 @@ using System.Linq;
 using System.Numerics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
 
+/// <summary>
+/// Movement data container struct
+/// </summary>
+/// <param name="Value">Movement value</param>
+/// <param name="Cost">Movement cost</param>
+/// <typeparam name="TValue">Value type</typeparam>
+/// <typeparam name="TCost">Cost numerical type</typeparam>
+[PublicAPI]
 public record struct MoveData<TValue, TCost>(TValue Value, TCost Cost) where TCost : INumber<TCost>;
 
 /// <summary>
 /// Searching utility methods
 /// </summary>
+[PublicAPI]
 public static class SearchUtils
 {
     /// <summary>

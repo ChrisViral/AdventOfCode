@@ -8,7 +8,7 @@ namespace AdventOfCode.Solvers.Specialized;
 /// <summary>
 /// IntcodeVM solver base
 /// </summary>
-[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
+[PublicAPI]
 public abstract class IntcodeSolver : Solver<IntcodeVM>
 {
     #region Properties

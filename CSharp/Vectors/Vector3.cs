@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using JetBrains.Annotations;
 using static AdventOfCode.Vectors.WrongNumericalTypeException;
 
 namespace AdventOfCode.Vectors;
@@ -9,6 +10,7 @@ namespace AdventOfCode.Vectors;
 /// <summary>
 /// Integer three component vector
 /// </summary>
+[PublicAPI]
 public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
                                     IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
                                     IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
@@ -18,9 +20,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
                                     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     #region Constants
-    private static readonly bool isInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
+    /// <summary>If this is an integer vector type</summary>
+    private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
-    private static readonly T epsilon = T.CreateChecked(1E-5);
+    private static readonly T Epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
     public static readonly Vector3<T> Zero      = new(T.Zero, T.Zero, T.Zero);
     /// <summary>One vector</summary>
@@ -75,7 +78,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector3<T> Reduced => isInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+    public Vector3<T> Reduced => IsInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
@@ -83,7 +86,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>The vector normalized</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public Vector3<T> Normalized => !isInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
+    public Vector3<T> Normalized => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
     #endregion
 
     #region Constructors
@@ -126,7 +129,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool Equals(in Vector3<T> other) => isInteger ? this.X == other.X && this.Y == other.Y && this.Z == other.Z
+    public bool Equals(in Vector3<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y && this.Z == other.Z
                                                          : Approximately(this.X, other.X) && Approximately(this.Y, other.Y) && Approximately(this.Z, other.Z);
 
     /// <inheritdoc cref="object.GetHashCode"/>
@@ -169,7 +172,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public IEnumerable<Vector3<T>> Adjacent(bool includeDiagonals = true)
     {
-        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         if (includeDiagonals)
         {
@@ -266,7 +269,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public static IEnumerable<Vector3<T>> Enumerate(T maxX, T maxY, T maxZ)
     {
-        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         for (T z = T.Zero; z < maxZ; z++)
         {
@@ -274,7 +277,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
             {
                 for (T x = T.Zero; x < maxX; x++)
                 {
-                    yield return new(x, y, z);
+                    yield return new Vector3<T>(x, y, z);
                 }
             }
         }
@@ -407,7 +410,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="a">First number to test</param>
     /// <param name="b">Second number to test</param>
     /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
-    private static bool Approximately(T a, T b) => T.Abs(a - b) <= epsilon;
+    private static bool Approximately(T a, T b) => T.Abs(a - b) <= Epsilon;
 
     /// <summary>
     /// Converts the vector to the target type
@@ -416,7 +419,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <returns>The vector converted to the specified type</returns>
     public Vector3<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
     {
-        return new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y), TResult.CreateChecked(this.Z));
+        return new Vector3<TResult>(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y), TResult.CreateChecked(this.Z));
     }
     #endregion
 

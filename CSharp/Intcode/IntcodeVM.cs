@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 using Modes = AdventOfCode.Intcode.Instructions.Modes;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.Intcode;
 /// <summary>
 /// Intcode computer Virtual Machine, using a Fetch/Decode/Execute architecture, and input and output queues
 /// </summary>
+[PublicAPI]
 public class IntcodeVM
 {
     /// <summary>

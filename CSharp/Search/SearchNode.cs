@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
 
@@ -8,6 +9,7 @@ namespace AdventOfCode.Search;
 /// Search node basic implementation interface
 /// </summary>
 /// <typeparam name="TCost">Cost type</typeparam>
+[PublicAPI]
 public interface ISearchNode<out TCost>
 {
     #region Properties
@@ -23,6 +25,7 @@ public interface ISearchNode<out TCost>
 /// </summary>
 /// <typeparam name="TValue">Type of element stored by the node</typeparam>
 /// <typeparam name="TCost">Cost type</typeparam>
+[PublicAPI]
 public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNode<TValue, TCost>>, IComparable<SearchNode<TValue, TCost>>
     where TValue : IEquatable<TValue>
     where TCost : INumber<TCost>

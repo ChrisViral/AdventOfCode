@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
 
 /// <summary>
 /// Minimum value search comparer
 /// </summary>
+[PublicAPI]
 public sealed class MinSearchComparer<T> : IComparer<ISearchNode<T>> where T : INumber<T>
 {
     #region Static properties
@@ -32,6 +34,7 @@ public sealed class MinSearchComparer<T> : IComparer<ISearchNode<T>> where T : I
 /// Maximum value search comparer
 /// </summary>
 /// ReSharper disable once UnusedType.Global
+[PublicAPI]
 public sealed class MaxSearchComparer<T> : IComparer<ISearchNode<T>> where T : INumber<T>
 {
     #region Static properties

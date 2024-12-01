@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using JetBrains.Annotations;
 using TextCopy;
 
 namespace AdventOfCode.Utils;
@@ -8,6 +9,7 @@ namespace AdventOfCode.Utils;
 /// <summary>
 /// General Advent of Code utility methods
 /// </summary>
+[PublicAPI]
 public static class AoCUtils
 {
     /// <summary>
@@ -23,7 +25,7 @@ public static class AoCUtils
     /// <returns>An enumerable of the packed input</returns>
     public static IEnumerable<List<string>> CombineLines(IEnumerable<string> input)
     {
-        List<string> pack = new();
+        List<string> pack = [];
         foreach (string line in input)
         {
             if (string.IsNullOrWhiteSpace(line))

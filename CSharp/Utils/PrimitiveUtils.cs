@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -6,6 +7,7 @@ namespace AdventOfCode.Utils;
 /// Primitive type utils
 /// </summary>
 /// <typeparam name="T">Primitive type</typeparam>
+[PublicAPI]
 public static class PrimitiveUtils<T>
 {
     /// <summary>

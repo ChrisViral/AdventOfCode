@@ -8,7 +8,7 @@ namespace AdventOfCode.Solvers.Specialized;
 /// <summary>
 /// Array solver base
 /// </summary>
-[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
+[PublicAPI]
 public abstract class ArraySolver<T> : Solver<T[]>
 {
     #region Constructors

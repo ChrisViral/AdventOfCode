@@ -1,10 +1,12 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Base;
 
 /// <summary>
 /// Solver interface
 /// </summary>
+[PublicAPI, UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithInheritors)]
 public interface ISolver : IDisposable
 {
     /// <summary>

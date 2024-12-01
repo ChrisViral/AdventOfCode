@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Extensions;
 
@@ -7,6 +8,7 @@ namespace AdventOfCode.Extensions;
 /// Range extension methods
 /// </summary>
 /// ReSharper disable once UnusedMember.Global
+[PublicAPI]
 public static class RangeExtensions
 {
     /// <summary>

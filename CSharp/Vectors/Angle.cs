@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Numerics;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
 
 /// <summary>
 /// An angle object
 /// </summary>
+[PublicAPI]
 public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtractionOperators<Angle, Angle, Angle>,
                                IUnaryNegationOperators<Angle, Angle>, IUnaryPlusOperators<Angle, Angle>,
                                IComparisonOperators<Angle, Angle, bool>, IFormattable
@@ -104,7 +106,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                 rads -= Math.PI;
             }
 
-            return new(Math.Abs(rads));
+            return new Angle(Math.Abs(rads));
         }
     }
 
@@ -121,7 +123,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                 rads -= FULL_CIRCLE;
             }
 
-            return new(rads);
+            return new Angle(rads);
         }
     }
 
@@ -138,7 +140,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                 rads += FULL_CIRCLE;
             }
 
-            return new(rads);
+            return new Angle(rads);
         }
     }
     #endregion
@@ -184,7 +186,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <returns>A formatted string representation of the angle</returns>
     public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
-        string[] splits = format?.Split('-', StringSplitOptions.TrimEntries) ?? Array.Empty<string>();
+        string[] splits = format?.Split('-', StringSplitOptions.TrimEntries) ?? [];
         if (splits.Length is 2)
         {
             switch (splits[0].ToUpper())

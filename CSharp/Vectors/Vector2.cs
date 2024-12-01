@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions;
+using JetBrains.Annotations;
 using NumericalType = AdventOfCode.Vectors.WrongNumericalTypeException.NumericalType;
 
 namespace AdventOfCode.Vectors;
@@ -12,12 +13,13 @@ namespace AdventOfCode.Vectors;
 /// <summary>
 /// Integer two component vector
 /// </summary>
-public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
-                                    IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
-                                    IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>,
-                                    IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>,
-                                    IModulusOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
-                                    IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable
+[PublicAPI]
+public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
+                                            IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
+                                            IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>,
+                                            IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>,
+                                            IModulusOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
+                                            IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>
@@ -65,11 +67,10 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     }
 
     #region Constants
-    // ReSharper disable once StaticMemberInGenericType
-    private static readonly Regex directionMatch = new(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly bool isInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
+    /// <summary>If this is an integer vector type</summary>
+    private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
-    private static readonly T epsilon = T.CreateChecked(1E-5);
+    private static readonly T Epsilon = T.CreateChecked(1E-5);
     /// <summary>Zero vector</summary>
     public static readonly Vector2<T> Zero  = new(T.Zero, T.Zero);
     /// <summary>One vector</summary>
@@ -82,6 +83,12 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     public static readonly Vector2<T> Left  = new(-T.One, T.Zero);
     /// <summary>Right vector</summary>
     public static readonly Vector2<T> Right = new(T.One, T.Zero);
+
+    /// <summary>
+    /// Regex direction match
+    /// </summary>
+    [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
+    private static partial Regex DirectionMatch { get; }
     /// <summary>
     /// Minimum vector value
     /// </summary>
@@ -114,7 +121,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector2<T> Reduced => isInteger ? this / GCD(this.X, this.Y) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+    public Vector2<T> Reduced => IsInteger ? this / GCD(this.X, this.Y) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
@@ -122,7 +129,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// </summary>
     /// <returns>The vector normalized</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public Vector2<T> Normalized => !isInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
+    public Vector2<T> Normalized => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
     #endregion
 
     #region Constructors
@@ -160,7 +167,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool Equals(in Vector2<T> other) => isInteger ? this.X == other.X && this.Y == other.Y
+    public bool Equals(in Vector2<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y
                                                          : Approximately(this.X, other.X) && Approximately(this.Y, other.Y);
 
     /// <inheritdoc cref="object.GetHashCode"/>
@@ -204,7 +211,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
     {
-        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
 
         if (includeDiagonals)
         {
@@ -336,7 +343,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, int angle)
     {
-        if (!isInteger) return Rotate(vector, (double)angle);
+        if (!IsInteger) return Rotate(vector, (double)angle);
 
         if (!angle.IsMultiple(90)) throw new InvalidOperationException($"Can only rotate integer vectors by 90 degrees, got {angle} instead");
 
@@ -359,7 +366,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
     public static Vector2<T> Rotate(in Vector2<T> vector, double angle)
     {
-        if (isInteger) throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
+        if (IsInteger) throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
 
         (double x, double y) = vector.Convert<double>();
         double radians = angle * Vectors.Angle.DEG2RAD;
@@ -386,7 +393,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="OverflowException">If the number parse causes an overflow</exception>
     public static Vector2<T> ParseFromDirection(string value)
     {
-        GroupCollection groups = directionMatch.Match(value).Groups;
+        GroupCollection groups = DirectionMatch.Match(value).Groups;
         //Parse direction first
         Vector2<T> direction = groups[1].Value switch
         {
@@ -415,7 +422,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     {
         //Check if it matches at all
         direction = Zero;
-        Match match = directionMatch.Match(value);
+        Match match = DirectionMatch.Match(value);
         if (!match.Success) return false;
 
         GroupCollection groups = match.Groups;
@@ -460,7 +467,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
     public static VectorSpaceEnumerator Enumerate(T maxX, T maxY)
     {
-        if (!isInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
         if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
         if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
 
@@ -629,7 +636,7 @@ public readonly struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, V
     /// <param name="a">First number to test</param>
     /// <param name="b">Second number to test</param>
     /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
-    private static bool Approximately(T a, T b) => T.Abs(a - b) <= epsilon;
+    private static bool Approximately(T a, T b) => T.Abs(a - b) <= Epsilon;
     #endregion
 
     #region Operators
