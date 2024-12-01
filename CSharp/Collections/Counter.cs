@@ -10,7 +10,7 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">Type of value stored in the counter</typeparam>
 [PublicAPI]
-public class Counter<T> : IDictionary<T, int>, ICollection<T> where T : notnull
+public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
 {
     #region Fields
     /// <summary>Backing dictionary</summary>
@@ -39,52 +39,52 @@ public class Counter<T> : IDictionary<T, int>, ICollection<T> where T : notnull
     /// <summary>
     /// Creates a new Counter
     /// </summary>
-    public Counter() => this.dictionary = new();
+    public Counter() => this.dictionary = new Dictionary<T, int>();
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
-    public Counter(IDictionary<T, int> source) => this.dictionary = new(source);
+    public Counter(IDictionary<T, int> source) => this.dictionary = new Dictionary<T, int>(source);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IDictionary<T, int> source, IEqualityComparer<T> comparer) => this.dictionary = new(source, comparer);
+    public Counter(IDictionary<T, int> source, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(source, comparer);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data enumerable</param>
-    public Counter(IEnumerable<KeyValuePair<T, int>> source) => this.dictionary = new(source);
+    public Counter(IEnumerable<KeyValuePair<T, int>> source) => this.dictionary = new Dictionary<T, int>(source);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IEnumerable<KeyValuePair<T, int>> source, IEqualityComparer<T> comparer) => this.dictionary = new(source, comparer);
+    public Counter(IEnumerable<KeyValuePair<T, int>> source, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(source, comparer);
 
     /// <summary>
     /// Creates a new Counter with the given capacity
     /// </summary>
     /// <param name="capacity">Counter capacity</param>
-    public Counter(int capacity) => this.dictionary = new(capacity);
+    public Counter(int capacity) => this.dictionary = new Dictionary<T, int>(capacity);
 
     /// <summary>
     /// Creates a new Counter with a specific <see cref="EqualityComparer{T}"/>
     /// </summary>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IEqualityComparer<T> comparer) => this.dictionary = new(comparer);
+    public Counter(IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(comparer);
 
     /// <summary>
     /// Creates a new Counter with the given capacity
     /// </summary>
     /// <param name="capacity">Counter capacity</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(int capacity, IEqualityComparer<T> comparer) => this.dictionary = new(capacity, comparer);
+    public Counter(int capacity, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(capacity, comparer);
 
     /// <summary>
     /// Creates a new Counter from existing data
@@ -100,8 +100,8 @@ public class Counter<T> : IDictionary<T, int>, ICollection<T> where T : notnull
     public Counter(IEnumerable<T> source, IEqualityComparer<T> comparer)
     {
         this.dictionary = source is ICollection<T> collection
-                              ? new(collection.Count, comparer)
-                              : new(comparer);
+                              ? new Dictionary<T, int>(collection.Count, comparer)
+                              : new Dictionary<T, int>(comparer);
         AddRange(source);
     }
     #endregion
@@ -177,6 +177,12 @@ public class Counter<T> : IDictionary<T, int>, ICollection<T> where T : notnull
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
     ICollection<int> IDictionary<T, int>.Values => this.dictionary.Values;
 
+    /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Keys"/>
+    IEnumerable<T> IReadOnlyDictionary<T, int>.Keys => this.dictionary.Keys;
+
+    /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Values"/>
+    IEnumerable<int> IReadOnlyDictionary<T, int>.Values => this.dictionary.Values;
+
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
     void IDictionary<T, int>.Add(T key, int value) => this.dictionary.Add(key, value);
 
@@ -210,8 +216,14 @@ public class Counter<T> : IDictionary<T, int>, ICollection<T> where T : notnull
         return ((ICollection<KeyValuePair<T, int>>)this.dictionary).Remove(item);
     }
 
+    /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.ContainsKey"/>
+    bool IReadOnlyDictionary<T, int>.ContainsKey(T value) => this.dictionary.ContainsKey(value);
+
     /// <inheritdoc cref="IDictionary{TKey, TValue}.TryGetValue"/>
     bool IDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
+
+    /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.TryGetValue"/>
+    bool IReadOnlyDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
