@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;

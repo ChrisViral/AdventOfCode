@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Enumerables;
 
 namespace AdventOfCode.Solvers.AoC2020;
 

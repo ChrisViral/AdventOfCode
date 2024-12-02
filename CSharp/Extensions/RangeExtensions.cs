@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Extensions;
+namespace AdventOfCode.Extensions.Ranges;
 
 /// <summary>
 /// Range extension methods
@@ -30,8 +30,9 @@ public static class RangeExtensions
         /// <param name="range">Range to create the iterator for</param>
         public RangeEnumerator(Range range)
         {
-            this.sign    = Math.Sign(range.End.Value - range.Start.Value);
+            this.sign = Math.Sign(range.End.Value - range.Start.Value);
             if (this.sign is 0) this.sign = 1;
+
             this.Current = range.Start.IsFromEnd ? range.Start.Value           : range.Start.Value - this.sign;
             this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign : range.End.Value;
         }

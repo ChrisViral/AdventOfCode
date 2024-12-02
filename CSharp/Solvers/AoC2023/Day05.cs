@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Extensions.Regexes;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 

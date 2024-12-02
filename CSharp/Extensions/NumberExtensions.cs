@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Extensions;
+// ReSharper disable once CheckNamespace
+namespace AdventOfCode.Extensions.Numbers;
 
 /// <summary>
 /// Number extensions

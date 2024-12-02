@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Delegates;
+using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Extensions;
+// ReSharper disable once CheckNamespace
+namespace AdventOfCode.Extensions.Enumerables;
 
 /// <summary>
 /// Enumerable extension methods
@@ -60,6 +65,7 @@ public static class EnumerableExtensions
     /// <typeparam name="T">Type of element to enumerate</typeparam>
     /// <param name="enumerable">Enumerable</param>
     /// <returns></returns>
+    [Pure, LinqTunnel]
     public static IEnumerable<(int index, T value)> Enumerate<T>(this IEnumerable<T> enumerable)
     {
         int index = 0;
@@ -111,6 +117,7 @@ public static class EnumerableExtensions
     /// <param name="length">Total length to reach</param>
     /// <param name="copy">If a local copy of the enumerator should be cached, defaults to true</param>
     /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+    [Pure, LinqTunnel]
     public static IEnumerable<T> Loop<T>(this IEnumerable<T> e, int length, bool copy = true)
     {
         //Make sure the length is valid
@@ -160,6 +167,7 @@ public static class EnumerableExtensions
     /// <param name="count">Amount of times to repeat each element</param>
     /// <returns>An enumerable where all the elements of the original sequence are repeated the specified amount of times</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is less than or equal to zero</exception>
+    [Pure, LinqTunnel]
     public static IEnumerable<T> RepeatElements<T>(this IEnumerable<T> e, int count)
     {
         switch (count)
@@ -325,6 +333,32 @@ public static class EnumerableExtensions
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Filters a sequence of values based on a negated predicate.
+    /// </summary>
+    /// <param name="e">An <see cref="IEnumerable{T}"/> to filter</param>
+    /// <param name="predicate">A function to test each element for a condition</param>
+    /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+    /// <returns>An <see cref="IEnumerable{T}"/> that contains elements from the input sequence that do not satisfy the condition.</returns>
+    [Pure, LinqTunnel]
+    public static IEnumerable<TSource> WhereNot<TSource>(this IEnumerable<TSource> e, Func<TSource, bool> predicate)
+    {
+        return e.Where(predicate.Invert());
+    }
+
+    /// <summary>
+    /// Filters a sequence of values based on a negated predicate. Each element's index is used in the logic of the predicate function.
+    /// </summary>
+    /// <param name="e">An <see cref="IEnumerable{T}"/> to filter</param>
+    /// <param name="predicate">A function to test each source element for a condition; the second parameter of the function represents the index of the source element.</param>
+    /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+    /// <returns>An <see cref="IEnumerable{T}"/> that contains elements from the input sequence that do not satisfy the condition.</returns>
+    [Pure, LinqTunnel]
+    public static IEnumerable<TSource> WhereNot<TSource>(this IEnumerable<TSource> e, Func<TSource, int, bool> predicate)
+    {
+        return e.Where(predicate.Invert());
     }
     #endregion
 }

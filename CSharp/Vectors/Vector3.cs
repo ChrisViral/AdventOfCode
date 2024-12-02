@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;
 using static AdventOfCode.Vectors.WrongNumericalTypeException;
 

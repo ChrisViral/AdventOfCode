@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -36,7 +37,7 @@ namespace AdventOfCode.Solvers.AoC2024
 
             Counter<int> left = new(this.Data.leftList);
             Counter<int> right = new(this.Data.rightList);
-            long similarity = left.Sum<int>(v => v * left[v] * right.GetValueOrDefault(v));
+            int similarity = left.Sum<int>(v => v * left[v] * right.GetValueOrDefault(v));
             AoCUtils.LogPart2(similarity);
         }
 

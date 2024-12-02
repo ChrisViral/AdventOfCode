@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Extensions;
+// ReSharper disable once CheckNamespace
+namespace AdventOfCode.Extensions.Arrays;
 
 /// <summary>
 /// Array extension methods

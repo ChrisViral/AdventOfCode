@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using Vector2 = AdventOfCode.Vectors.Vector2<int>;

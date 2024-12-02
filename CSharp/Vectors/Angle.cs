@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;

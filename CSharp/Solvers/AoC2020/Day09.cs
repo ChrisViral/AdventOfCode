@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 

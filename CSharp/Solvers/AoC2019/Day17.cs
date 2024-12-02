@@ -4,6 +4,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
@@ -53,7 +56,7 @@ public class Day17 : IntcodeSolver
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
         this.hull = new(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
-        this.hull.Populate(view, s => s.ToCharArray().ConvertAll(c => (Hull)c));
+        this.hull.Populate(view, s => ArrayExtensions.ConvertAll(s.ToCharArray(), c => (Hull)c));
 
         //Setup what is visible
         Vector2<int>? position = Vector2<int>.Zero;

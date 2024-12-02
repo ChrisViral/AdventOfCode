@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;

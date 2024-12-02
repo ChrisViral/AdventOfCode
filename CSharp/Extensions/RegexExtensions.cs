@@ -3,7 +3,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Extensions;
+// ReSharper disable once CheckNamespace
+namespace AdventOfCode.Extensions.Regexes;
 
 /// <summary>
 /// Regex extension methods

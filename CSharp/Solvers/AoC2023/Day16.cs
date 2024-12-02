@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using AdventOfCode.Extensions;
+using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
 using Modes = AdventOfCode.Intcode.Instructions.Modes;
