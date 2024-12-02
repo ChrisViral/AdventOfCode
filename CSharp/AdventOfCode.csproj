@@ -26,12 +26,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AndanteSoft.SpanLinq" Version="1.0.1" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
     <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.120" />
     <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Solvers\AoC2024\" />
   </ItemGroup>
 </Project>

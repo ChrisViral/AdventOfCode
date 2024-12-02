@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using AdventOfCode.Extensions.Spans;
 using AdventOfCode.Vectors;
 using JetBrains.Annotations;
+using SpanLinq;
 
 namespace AdventOfCode.Utils;
 
