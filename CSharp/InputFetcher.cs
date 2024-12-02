@@ -9,7 +9,7 @@ namespace AdventOfCode;
 /// <summary>
 /// Input fetching helper class
 /// </summary>
-public static class InputFetcher
+public class InputFetcher : IDisposable
 {
     #region Constants
     /// <summary>
@@ -30,25 +30,25 @@ public static class InputFetcher
     /// <summary>
     /// Input HTTP client
     /// </summary>
-    private static HttpClient Client { get; }
+    private HttpClient Client { get; }
     #endregion
 
     #region Constructors
-    static InputFetcher()
+    public InputFetcher()
     {
         Client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
         Client.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(CookiePath)}");
     }
     #endregion
 
-    #region Static methods
+    #region Methods
     /// <summary>
     /// Gets the associated input file, or fetches it from the AoC website if needed
     /// </summary>
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The Input file for the problem</returns>
-    public static async Task<string> EnsureInput(int year, int day)
+    public async Task<string> EnsureInput(int year, int day)
     {
         //Check for the input file
         FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
@@ -100,12 +100,21 @@ public static class InputFetcher
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The input for the problem</returns>
-    private static async Task<string> GetInput(int year, int day)
+    private async Task<string> GetInput(int year, int day)
     {
         using HttpResponseMessage response = await Client.GetAsync($"{year}/day/{day}/input");
         await using Stream responseStream  = await response.Content.ReadAsStreamAsync();
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
         return await responseReader.ReadToEndAsync();
+    }
+    #endregion
+
+    #region IDisposable
+    /// <inheritdoc cref="IDisposable.Dispose" />
+    public void Dispose()
+    {
+        this.Client.Dispose();
+        GC.SuppressFinalize(this);
     }
     #endregion
 }

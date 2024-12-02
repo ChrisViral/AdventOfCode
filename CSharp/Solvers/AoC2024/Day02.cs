@@ -38,37 +38,36 @@ namespace AdventOfCode.Solvers.AoC2024
 
         private static bool IsSafe(ICollection<int> report)
         {
-            Span<int> diffs = stackalloc int[report.Count - 1];
+            Span<int> signs = stackalloc int[report.Count - 1];
 
             int i = 0;
             int previous = report.First();
             foreach (int current in report.Skip(1))
             {
-                diffs[i++] = current - previous;
+                int diff = current - previous;
+                if (Math.Abs(diff) is < 1 or > 3) return false;
+
+                signs[i++] = Math.Sign(diff);
                 previous   = current;
             }
 
-            return diffs.All(d => d is >= 1 and <= 3) || diffs.All(d => d is <= -1 and >= -3);
+            int sign = signs[0];
+            return signs[1..].All(d => Math.Sign(d) == sign);
         }
 
         private static bool IsSafeDampened(int[] report)
         {
             LinkedList<int> linkedReport = new(report);
-
-            linkedReport.RemoveFirst();
-            if (IsSafe(linkedReport)) return true;
-
-            linkedReport.AddFirst(report[0]);
-            for (LinkedListNode<int> current = linkedReport.First!; current.Next is not null; current = current.Next)
+            for (LinkedListNode<int>? removed = linkedReport.First!, current = removed.Next; current is not null; removed = current, current = current.Next)
             {
-                LinkedListNode<int> removed = current.Next;
                 linkedReport.Remove(removed);
                 if (IsSafe(linkedReport)) return true;
 
-                linkedReport.AddAfter(current, removed);
+                linkedReport.AddBefore(current, removed);
             }
 
-            return false;
+            linkedReport.RemoveLast();
+            return IsSafe(linkedReport);
         }
 
         /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>

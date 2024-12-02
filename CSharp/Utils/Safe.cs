@@ -44,7 +44,7 @@ namespace AdventOfCode.Utils
         /// <summary>
         /// Creates a new default value safe reference
         /// </summary>
-        public Safe() => this.value = default;
+        public Safe() { }
 
         /// <summary>
         /// Creates a new safe reference of the specified value

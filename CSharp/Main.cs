@@ -12,7 +12,8 @@ Console.Title = "Advent of Code";
 SolverData solverData;
 try
 {
-    solverData = await SolverData.CreateData(args);
+    using InputFetcher fetcher = new();
+    solverData = await SolverData.CreateData(args, fetcher);
 }
 catch (Exception e)
 {
@@ -25,15 +26,14 @@ ISolver solver;
 try
 {
     //Helpful types
-    Type   solverInterfaceType   = typeof(ISolver);
     Type   baseSolverType        = typeof(Solver);
     Type[] constructorParamTypes = [typeof(string)];
 
     //Making sure our solver types are valid
-    Debug.Assert(solverInterfaceType.IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {solverInterfaceType}");
+    Debug.Assert(typeof(ISolver).IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {typeof(ISolver)}");
 
     //Get solver types
-    Type? solverType = Assembly.GetExecutingAssembly()!
+    Type? solverType = Assembly.GetExecutingAssembly()
                                .GetTypes()
                                .Where(t => t is { IsAbstract: false, IsGenericType: false }
                                         && t.IsAssignableTo(baseSolverType)
