@@ -19,14 +19,11 @@ public static class PrimitiveUtils<T>
     /// <summary>
     /// Initializes the primitive buffer size
     /// </summary>
-    static PrimitiveUtils()
+    static PrimitiveUtils() => BufferSize = typeof(T) switch
     {
-        BufferSize = typeof(T) switch
-        {
-            var t when t == typeof(bool) => 1,
-            var t when t == typeof(char) => 2,
-            { IsPrimitive: true }        => Marshal.SizeOf<T>(),
-            _                            => 0
-        };
-    }
+        var t when t == typeof(bool) => 1,
+        var t when t == typeof(char) => 2,
+        { IsPrimitive: true }        => Marshal.SizeOf<T>(),
+        _                            => 0
+    };
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.StringBuilders;
@@ -198,7 +197,7 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
     /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public void Populate(string[] input, Converter<string, T[]> converter)
+    public void Populate(string[] input, [InstantHandle] Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
 

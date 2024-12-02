@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.Regexes;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2022;
 

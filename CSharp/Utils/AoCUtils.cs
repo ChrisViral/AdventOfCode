@@ -23,7 +23,7 @@ public static class AoCUtils
     /// </summary>
     /// <param name="input">Input lines</param>
     /// <returns>An enumerable of the packed input</returns>
-    public static IEnumerable<List<string>> CombineLines(IEnumerable<string> input)
+    public static IEnumerable<List<string>> CombineLines([InstantHandle] IEnumerable<string> input)
     {
         List<string> pack = [];
         foreach (string line in input)

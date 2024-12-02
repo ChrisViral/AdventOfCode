@@ -1,5 +1,4 @@
-﻿using AdventOfCode.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
 using AdventOfCode.Extensions.Types;

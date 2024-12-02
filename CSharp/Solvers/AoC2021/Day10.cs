@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;

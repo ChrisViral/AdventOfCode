@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;

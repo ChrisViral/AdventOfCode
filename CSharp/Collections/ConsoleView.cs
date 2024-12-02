@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Vectors;
@@ -142,7 +141,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// </summary>
     /// <param name="converter">Value to char converter</param>
     /// <param name="defaultValue">Value to fill in</param>
-    public void FillDefault(Converter<T, char> converter, T defaultValue)
+    public void FillDefault([InstantHandle] Converter<T, char> converter, T defaultValue)
     {
         //View buffer
         this.viewBuffer.Fill(converter(defaultValue));
@@ -169,7 +168,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     }
 
     /// <inheritdoc cref="Grid{T}.Populate"/>
-    public new void Populate(string[] input, Converter<string, T[]> converter)
+    public new void Populate(string[] input, [InstantHandle] Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
 

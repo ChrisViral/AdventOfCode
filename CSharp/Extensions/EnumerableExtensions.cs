@@ -23,7 +23,7 @@ public static class EnumerableExtensions
     /// <typeparam name="T">Type of values in the collection</typeparam>
     /// <param name="collection">Collection to add to</param>
     /// <param name="values">Values to add</param>
-    public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> values)
+    public static void AddRange<T>(this ICollection<T> collection, [InstantHandle] IEnumerable<T> values)
     {
         foreach (T value in values)
         {
@@ -37,7 +37,7 @@ public static class EnumerableExtensions
     /// <typeparam name="T">Type of element in the array</typeparam>
     /// <param name="array">Array to apply to</param>
     /// <param name="modification">Modification function</param>
-    public static void Apply<T>(this IList<T> array, Func<T, T> modification)
+    public static void Apply<T>(this IList<T> array, [InstantHandle] Func<T, T> modification)
     {
         foreach (int i in ..array.Count)
         {
@@ -56,7 +56,7 @@ public static class EnumerableExtensions
         T[] array = new T[stack.Count];
         stack.CopyTo(array, 0);
         array.Reversed();
-        return new(array);
+        return new Stack<T>(array);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public static class EnumerableExtensions
     /// <param name="enumerable">Enumerable</param>
     /// <returns></returns>
     [Pure, LinqTunnel]
-    public static IEnumerable<(int index, T value)> Enumerate<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<(int index, T value)> Enumerate<T>([InstantHandle] this IEnumerable<T> enumerable)
     {
         int index = 0;
         foreach (T value in enumerable)
@@ -80,7 +80,7 @@ public static class EnumerableExtensions
     /// </summary>
     /// <param name="e">Enumerable to iterate over</param>
     /// <param name="action">Action to apply</param>
-    public static void ForEach<T>(this IEnumerable<T> e, Action<T> action)
+    public static void ForEach<T>([InstantHandle] this IEnumerable<T> e, [InstantHandle] Action<T> action)
     {
         foreach (T t in e)
         {
@@ -118,7 +118,7 @@ public static class EnumerableExtensions
     /// <param name="copy">If a local copy of the enumerator should be cached, defaults to true</param>
     /// <returns>A sequence looping over the input sequence and of the specified length</returns>
     [Pure, LinqTunnel]
-    public static IEnumerable<T> Loop<T>(this IEnumerable<T> e, int length, bool copy = true)
+    public static IEnumerable<T> Loop<T>([InstantHandle] this IEnumerable<T> e, int length, bool copy = true)
     {
         //Make sure the length is valid
         if (length < 1) yield break;
@@ -168,7 +168,7 @@ public static class EnumerableExtensions
     /// <returns>An enumerable where all the elements of the original sequence are repeated the specified amount of times</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is less than or equal to zero</exception>
     [Pure, LinqTunnel]
-    public static IEnumerable<T> RepeatElements<T>(this IEnumerable<T> e, int count)
+    public static IEnumerable<T> RepeatElements<T>([InstantHandle] this IEnumerable<T> e, int count)
     {
         switch (count)
         {
@@ -241,7 +241,7 @@ public static class EnumerableExtensions
     /// <returns>The sum of all the values</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
     /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
-    public static T Sum<T>(this IEnumerable<T> e) where T : IAdditionOperators<T, T, T>
+    public static T Sum<T>([InstantHandle] this IEnumerable<T> e) where T : IAdditionOperators<T, T, T>
     {
         if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
 
@@ -267,7 +267,7 @@ public static class EnumerableExtensions
     /// <returns>The sum of all the values</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="e"/> or <paramref name="selector"/> is null</exception>
     /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
-    public static TResult Sum<TValue, TResult>(this IEnumerable<TValue> e, Func<TValue, TResult> selector) where TResult : IAdditionOperators<TResult, TResult, TResult>
+    public static TResult Sum<TValue, TResult>([InstantHandle] this IEnumerable<TValue> e, [InstantHandle] Func<TValue, TResult> selector) where TResult : IAdditionOperators<TResult, TResult, TResult>
     {
         if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
         if (selector is null) throw new ArgumentNullException(nameof(selector), "Selector function cannot be null");
@@ -292,7 +292,7 @@ public static class EnumerableExtensions
     /// <returns>The product of all the values</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
     /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
-    public static T Multiply<T>(this IEnumerable<T> e) where T : IMultiplyOperators<T, T, T>
+    public static T Multiply<T>([InstantHandle] this IEnumerable<T> e) where T : IMultiplyOperators<T, T, T>
     {
         if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
 
@@ -318,7 +318,7 @@ public static class EnumerableExtensions
     /// <returns>The product of all the values</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="e"/> or <paramref name="selector"/> is null</exception>
     /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
-    public static TResult Multiply<TValue, TResult>(this IEnumerable<TValue> e, Func<TValue, TResult> selector) where TResult : IMultiplyOperators<TResult, TResult, TResult>
+    public static TResult Multiply<TValue, TResult>([InstantHandle] this IEnumerable<TValue> e, [InstantHandle] Func<TValue, TResult> selector) where TResult : IMultiplyOperators<TResult, TResult, TResult>
     {
         if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
         if (selector is null) throw new ArgumentNullException(nameof(selector), "Selector function cannot be null");
@@ -343,7 +343,7 @@ public static class EnumerableExtensions
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
     /// <returns>An <see cref="IEnumerable{T}"/> that contains elements from the input sequence that do not satisfy the condition.</returns>
     [Pure, LinqTunnel]
-    public static IEnumerable<TSource> WhereNot<TSource>(this IEnumerable<TSource> e, Func<TSource, bool> predicate)
+    public static IEnumerable<TSource> WhereNot<TSource>([InstantHandle] this IEnumerable<TSource> e, [InstantHandle] Func<TSource, bool> predicate)
     {
         return e.Where(predicate.Invert());
     }
@@ -356,7 +356,7 @@ public static class EnumerableExtensions
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
     /// <returns>An <see cref="IEnumerable{T}"/> that contains elements from the input sequence that do not satisfy the condition.</returns>
     [Pure, LinqTunnel]
-    public static IEnumerable<TSource> WhereNot<TSource>(this IEnumerable<TSource> e, Func<TSource, int, bool> predicate)
+    public static IEnumerable<TSource> WhereNot<TSource>([InstantHandle] this IEnumerable<TSource> e, [InstantHandle] Func<TSource, int, bool> predicate)
     {
         return e.Where(predicate.Invert());
     }

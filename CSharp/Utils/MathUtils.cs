@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using AdventOfCode.Extensions.Spans;
 using AdventOfCode.Vectors;
 using JetBrains.Annotations;
 
@@ -79,7 +80,14 @@ public static class MathUtils
     /// </summary>
     /// <param name="numbers">Numbers to get the GCD for</param>
     /// <returns>Gets the GCD of all the passed numbers</returns>
-    public static T GCD<T>(params T[] numbers) where T : IBinaryInteger<T> => numbers.Aggregate(GCD);
+    public static T GCD<T>(params Span<T> numbers) where T : IBinaryInteger<T> => numbers.Aggregate(GCD);
+
+    /// <summary>
+    /// Greatest Common Divisor of all passed numbers
+    /// </summary>
+    /// <param name="numbers">Numbers to get the GCD for</param>
+    /// <returns>Gets the GCD of all the passed numbers</returns>
+    public static T GCD<T>([InstantHandle] params IEnumerable<T> numbers) where T : IBinaryInteger<T> => numbers.Aggregate(GCD);
 
     /// <summary>
     /// Least Common Multiple function
@@ -94,7 +102,14 @@ public static class MathUtils
     /// </summary>
     /// <param name="numbers">Numbers to get the LCM for</param>
     /// <returns>LCM of all the numbers in the array</returns>
-    public static T LCM<T>(params T[] numbers) where T : IBinaryInteger<T> => numbers.Aggregate(LCM);
+    public static T LCM<T>(params Span<T> numbers) where T : IBinaryInteger<T> => numbers.Aggregate(LCM);
+
+    /// <summary>
+    /// Least Common Multiple function
+    /// </summary>
+    /// <param name="numbers">Numbers to get the LCM for</param>
+    /// <returns>LCM of all the numbers in the array</returns>
+    public static T LCM<T>([InstantHandle] params IEnumerable<T> numbers) where T : IBinaryInteger<T> => numbers.Aggregate(LCM);
 
     /// <summary>
     /// Gets the maximum value between <paramref name="a"/> and <paramref name="b"/>
@@ -112,7 +127,15 @@ public static class MathUtils
     /// <typeparam name="T">Type of numbers</typeparam>
     /// <param name="numbers">List of numbers to get the maximum of</param>
     /// <returns>The maximum of all the passed numbers</returns>
-    public static T Max<T>(params T[] numbers) where T : INumber<T> => numbers.Aggregate(Max);
+    public static T Max<T>(params Span<T> numbers) where T : INumber<T> => numbers.Aggregate(Max);
+
+    /// <summary>
+    /// Gets the maximum of all numbers passed
+    /// </summary>
+    /// <typeparam name="T">Type of numbers</typeparam>
+    /// <param name="numbers">List of numbers to get the maximum of</param>
+    /// <returns>The maximum of all the passed numbers</returns>
+    public static T Max<T>([InstantHandle] params IEnumerable<T> numbers) where T : INumber<T> => numbers.Aggregate(Max);
 
     /// <summary>
     /// Gets the minimum value between <paramref name="a"/> and <paramref name="b"/>
@@ -130,7 +153,15 @@ public static class MathUtils
     /// <typeparam name="T">Type of numbers</typeparam>
     /// <param name="numbers">List of numbers to get the minimum of</param>
     /// <returns>The minimum of all the passed numbers</returns>
-    public static T Min<T>(params T[] numbers) where T : INumber<T> => numbers.Aggregate(Min);
+    public static T Min<T>(params Span<T> numbers) where T : INumber<T> => numbers.Aggregate(Min);
+
+    /// <summary>
+    /// Gets the minimum of all numbers passed
+    /// </summary>
+    /// <typeparam name="T">Type of numbers</typeparam>
+    /// <param name="numbers">List of numbers to get the minimum of</param>
+    /// <returns>The minimum of all the passed numbers</returns>
+    public static T Min<T>([InstantHandle] params IEnumerable<T> numbers) where T : INumber<T> => numbers.Aggregate(Min);
 
     /// <summary>
     /// Calculates the area of a polygon from its vertices using the Shoelace formula

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 
@@ -50,14 +49,14 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal, SearchNode<TValue, TCost>.Heuristic? heuristic,
-                                                  WeightedNeighbours<TValue, TCost> neighbours, IComparer<SearchNode<TValue, TCost>> comparer,
-                                                  Func<TValue, TValue, bool>? goalFound = null) where TValue : IEquatable<TValue>
-                                                                                                where TCost : INumber<TCost>
+    public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal, [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                  [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours, IComparer<SearchNode<TValue, TCost>> comparer,
+                                                  [InstantHandle] Func<TValue, TValue, bool>? goalFound = null) where TValue : IEquatable<TValue>
+                                                                                                                where TCost : INumber<TCost>
     {
         SearchNode<TValue, TCost>? foundGoal = null;
         PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
-        search.Enqueue(new(start));
+        search.Enqueue(new SearchNode<TValue, TCost>(start));
         Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
         goalFound ??= (a, b) => a.Equals(b);
 
@@ -133,8 +132,8 @@ public static class SearchUtils
     /// <param name="distances">Cached distances dictionary</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
     public static int? GetPathLength<TValue, TCost>(TValue start, TValue goal,
-                                                    SearchNode<TValue, TCost>.Heuristic? heuristic,
-                                                    WeightedNeighbours<TValue, TCost> neighbours,
+                                                    [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                    [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                     IComparer<SearchNode<TValue, TCost>> comparer,
                                                     Dictionary<(TValue, TValue), int> distances)
         where TValue : IEquatable<TValue>

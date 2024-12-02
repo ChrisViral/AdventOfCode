@@ -23,7 +23,7 @@ public static class ArrayExtensions
     public static void Clear<T>(this T[] array) => Array.Clear(array);
 
     /// <inheritdoc cref="Array.ConvertAll{T, TOutput}"/>
-    public static TOutput[] ConvertAll<T, TOutput>(this T[] array, Converter<T, TOutput> converter) => Array.ConvertAll(array, converter);
+    public static TOutput[] ConvertAll<T, TOutput>(this T[] array, [InstantHandle] Converter<T, TOutput> converter) => Array.ConvertAll(array, converter);
 
     /// <summary>
     /// Creates a shallow copy of the specified array
@@ -39,7 +39,7 @@ public static class ArrayExtensions
     }
 
     /// <inheritdoc cref="Array.Exists{T}"/>
-    public static bool Exists<T>(this T[] array, Predicate<T> predicate) => Array.Exists(array, predicate);
+    public static bool Exists<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.Exists(array, predicate);
 
     /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
     public static void Fill<T>(this T[] array, T value) => Array.Fill(array, value);
@@ -53,7 +53,7 @@ public static class ArrayExtensions
     /// <typeparam name="T">Type of values in the array</typeparam>
     /// <param name="array">Array to fill</param>
     /// <param name="getValue">Value getter function</param>
-    public static void Fill<T>(this T[] array, Func<T> getValue)
+    public static void Fill<T>(this T[] array, [InstantHandle] Func<T> getValue)
     {
         foreach (int i in ..array.Length)
         {
@@ -62,19 +62,19 @@ public static class ArrayExtensions
     }
 
     /// <inheritdoc cref="Array.Find{T}"/>
-    public static T? Find<T>(this T[] array, Predicate<T> predicate) => Array.Find(array, predicate);
+    public static T? Find<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.Find(array, predicate);
 
     /// <inheritdoc cref="Array.FindIndex{T}(T[], Predicate{T})"/>
-    public static int FindIndex<T>(this T[] array, Predicate<T> predicate) => Array.FindIndex(array, predicate);
+    public static int FindIndex<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.FindIndex(array, predicate);
 
     /// <inheritdoc cref="Array.FindLast{T}"/>
-    public static T? FindLast<T>(this T[] array, Predicate<T> predicate) => Array.FindLast(array, predicate);
+    public static T? FindLast<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.FindLast(array, predicate);
 
     /// <inheritdoc cref="Array.FindLastIndex{T}(T[], Predicate{T})"/>
-    public static int FindLastIndex<T>(this T[] array, Predicate<T> predicate) => Array.FindLastIndex(array, predicate);
+    public static int FindLastIndex<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.FindLastIndex(array, predicate);
 
     /// <inheritdoc cref="Array.ForEach{T}"/>
-    public static void ForEach<T>(this T[] array, Action<T> action) => Array.ForEach(array, action);
+    public static void ForEach<T>(this T[] array, [InstantHandle] Action<T> action) => Array.ForEach(array, action);
 
     /// <inheritdoc cref="Array.IndexOf{T}(T[], T)"/>
     public static int IndexOf<T>(this T[] array, T value) => Array.IndexOf(array, value);
@@ -123,9 +123,9 @@ public static class ArrayExtensions
     public static void Sort<T>(this T[] array, IComparer<T> comparer) => Array.Sort(array, comparer);
 
     /// <inheritdoc cref="Array.Sort{T}(T[], Comparison{T})"/>
-    public static void Sort<T>(this T[] array, Comparison<T> comparison) => Array.Sort(array, comparison);
+    public static void Sort<T>(this T[] array, [InstantHandle] Comparison<T> comparison) => Array.Sort(array, comparison);
 
     /// <inheritdoc cref="Array.TrueForAll{T}"/>
-    public static bool TrueForAll<T>(this T[] array, Predicate<T> predicate) => Array.TrueForAll(array, predicate);
+    public static bool TrueForAll<T>(this T[] array, [InstantHandle] Predicate<T> predicate) => Array.TrueForAll(array, predicate);
     #endregion
 }

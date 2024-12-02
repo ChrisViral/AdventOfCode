@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;

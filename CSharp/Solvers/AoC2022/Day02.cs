@@ -1,5 +1,4 @@
 ﻿using System;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Solvers.Base;

@@ -1,5 +1,4 @@
 ﻿using System;
-using AdventOfCode.Extensions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
