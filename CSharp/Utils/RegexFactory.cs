@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -38,7 +39,7 @@ public class RegexFactory<T> where T : notnull
     /// <param name="pattern">Pattern of the Regex match</param>
     /// <param name="options">Regex options</param>
     /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
-    public RegexFactory(string pattern, RegexOptions options = RegexOptions.None)
+    public RegexFactory([StringSyntax("regex", "options"), RegexPattern] string pattern, RegexOptions options = RegexOptions.None)
     {
         if (pattern.Length is 0) throw new ArgumentException("Pattern length cannot be zero");
 
@@ -240,7 +241,7 @@ public class RegexFactory<T> where T : notnull
     /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
     /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
     /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
-    public static T[] ConstructObjects(string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
+    public static T[] ConstructObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
     {
         // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(pattern, options).ConstructObjects(input);
@@ -260,7 +261,7 @@ public class RegexFactory<T> where T : notnull
     /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
     /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
     /// <exception cref="MissingMethodException">If no default constructor is found</exception>
-    public static T[] PopulateObjects(string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
+    public static T[] PopulateObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
     {
         // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(pattern, options).PopulateObjects(input);
