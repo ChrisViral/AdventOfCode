@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -12,11 +10,8 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public partial class Day03 : Solver<string>
 {
-    [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)", RegexOptions.Compiled)]
+    [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)", RegexOptions.Compiled)]
     private static partial Regex MulRegex { get; }
-
-    [GeneratedRegex(@"do(?:n't)?\(\)", RegexOptions.Compiled)]
-    private static partial Regex ConditionalRegex { get; }
 
     #region Constructors
     /// <summary>
@@ -32,38 +27,35 @@ public partial class Day03 : Solver<string>
     public override void Run()
     {
         int result = 0;
-        MatchCollection mulMatches = MulRegex.Matches(this.Data);
-        (int value, int index)[] operations = new (int, int)[mulMatches.Count];
-        foreach (int i in ..mulMatches.Count)
+        int conditionalResult = 0;
+        bool flag = true;
+        foreach (Match match in MulRegex.Matches(this.Data))
         {
-            Match mulMatch = mulMatches[i];
-            int x = int.Parse(mulMatch.Groups[1].ValueSpan);
-            int y = int.Parse(mulMatch.Groups[2].ValueSpan);
-            int value = x * y;
-            operations[i] = (value, mulMatch.Index);
-            result += value;
-        }
-        AoCUtils.LogPart1(result);
-
-        MatchCollection conditionalMatches = ConditionalRegex.Matches(this.Data);
-        (int index, bool state)[] conditionals = new (int index, bool state)[conditionalMatches.Count + 1];
-        conditionals[0] = (0, true);
-        foreach (int i in ..conditionalMatches.Count)
-        {
-            Match conditionalMatch = conditionalMatches[i];
-            conditionals[i + 1] = (conditionalMatch.Index, conditionalMatch.Value == "do()");
-        }
-        conditionals.Reversed();
-
-        foreach ((int value, int index) in operations)
-        {
-            int i = conditionals.FindIndex(c => c.index < index);
-            if (!conditionals[i].state)
+            switch (match.ValueSpan)
             {
-                result -= value;
+                case "do()":
+                    flag = true;
+                    break;
+
+                case "don't()":
+                    flag = false;
+                    break;
+
+                default:
+                    int x = int.Parse(match.Groups[1].ValueSpan);
+                    int y = int.Parse(match.Groups[2].ValueSpan);
+                    int value = x * y;
+                    result += value;
+                    if (flag)
+                    {
+                        conditionalResult += value;
+                    }
+                    break;
             }
         }
-        AoCUtils.LogPart2(result);
+
+        AoCUtils.LogPart1(result);
+        AoCUtils.LogPart2(conditionalResult);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
