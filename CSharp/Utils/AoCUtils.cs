@@ -33,7 +33,7 @@ public static class AoCUtils
                 if (pack.Count is 0) continue;
 
                 yield return pack;
-                pack = new();
+                pack = [];
             }
             else
             {
