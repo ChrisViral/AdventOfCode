@@ -3,12 +3,14 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace AdventOfCode;
 
 /// <summary>
 /// Input fetching helper class
 /// </summary>
+[PublicAPI]
 public class InputFetcher : IDisposable
 {
     #region Constants

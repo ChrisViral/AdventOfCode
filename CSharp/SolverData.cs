@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace AdventOfCode;
 
 /// <summary>
 /// SolverData info
 /// </summary>
+[PublicAPI]
 public readonly struct SolverData
 {
     #region Constants
