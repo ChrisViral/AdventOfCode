@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -12,27 +14,13 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day05 : Solver<Day05.Rule[][]>
 {
-    public class Rule(int value) : IEquatable<Rule>
+    public class Rule(byte value, SearchValues<byte> mustFollow)
     {
-        public int Value { get; } = value;
+        public byte Value { get; } = value;
 
-        public HashSet<Rule> MustFollow { get; } = [];
+        public SearchValues<byte> MustFollow { get; } = mustFollow;
 
         public override string ToString() => $"Rule({this.Value})";
-
-        /// <inheritdoc />
-        public bool Equals(Rule? other)
-        {
-            if (other is null) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return this.Value == other.Value;
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj) => obj is Rule rule && Equals(rule);
-
-        /// <inheritdoc />
-        public override int GetHashCode() => this.Value;
     }
 
     #region Constructors
@@ -63,8 +51,7 @@ public class Day05 : Solver<Day05.Rule[][]>
             Rule before = update[i];
             foreach (int j in ^i..update.Length)
             {
-                Rule after = update[j];
-                if (before.MustFollow.Contains(after)) return false;
+                if (before.MustFollow.Contains(update[j].Value)) return false;
             }
         }
         return true;
@@ -78,7 +65,7 @@ public class Day05 : Solver<Day05.Rule[][]>
             foreach (int j in ^i..^update.Length)
             {
                 ref Rule before = ref update[^j];
-                if (before.MustFollow.Contains(tail))
+                if (before.MustFollow.Contains(tail.Value))
                 {
                     AoCUtils.Swap(ref tail, ref before);
                 }
@@ -91,27 +78,30 @@ public class Day05 : Solver<Day05.Rule[][]>
     protected override Rule[][] Convert(string[] rawInput)
     {
         int i = 0;
-        Rule?[] rules = new Rule?[100];
+        List<byte>?[] rulesData = new List<byte>?[100];
         for (ReadOnlySpan<char> line = rawInput[i]; line.Length is 5; line = rawInput[++i])
         {
-            int pageBefore = int.Parse(line[..2]);
-            int pageAfter = int.Parse(line[3..]);
+            byte pageBefore = byte.Parse(line[..2]);
+            byte pageAfter  = byte.Parse(line[3..]);
 
-            Rule? ruleBefore = rules[pageBefore];
-            if (ruleBefore is null)
-            {
-                ruleBefore        = new Rule(pageBefore);
-                rules[pageBefore] = ruleBefore;
-            }
-
-            Rule? ruleAfter = rules[pageAfter];
+            List<byte>? ruleAfter = rulesData[pageAfter];
             if (ruleAfter is null)
             {
-                ruleAfter        = new Rule(pageAfter);
-                rules[pageAfter] = ruleAfter;
+                ruleAfter            = new List<byte>(20);
+                rulesData[pageAfter] = ruleAfter;
             }
 
-            ruleAfter.MustFollow.Add(ruleBefore);
+            ruleAfter.Add(pageBefore);
+        }
+
+        Rule?[] rules = new Rule?[100];
+        foreach (byte id in ..100)
+        {
+            List<byte>? ruleData = rulesData[id];
+            if (ruleData is not null)
+            {
+                rules[id] = new Rule(id, SearchValues.Create(CollectionsMarshal.AsSpan(ruleData)));
+            }
         }
 
         Rule[][] updates = new Rule[rawInput.Length - i][];
