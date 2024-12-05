@@ -91,40 +91,43 @@ public class Day05 : Solver<Day05.Rule[][]>
     protected override Rule[][] Convert(string[] rawInput)
     {
         int i = 0;
-        Dictionary<int, Rule> rules = [];
+        Rule?[] rules = new Rule?[100];
         for (ReadOnlySpan<char> line = rawInput[i]; line.Length is 5; line = rawInput[++i])
         {
             int pageBefore = int.Parse(line[..2]);
             int pageAfter = int.Parse(line[3..]);
 
-            if (!rules.TryGetValue(pageBefore, out Rule? ruleBefore))
+            Rule? ruleBefore = rules[pageBefore];
+            if (ruleBefore is null)
             {
-                ruleBefore = new Rule(pageBefore);
-                rules.Add(pageBefore, ruleBefore);
+                ruleBefore        = new Rule(pageBefore);
+                rules[pageBefore] = ruleBefore;
             }
 
-            if (!rules.TryGetValue(pageAfter, out Rule? ruleAfter))
+            Rule? ruleAfter = rules[pageAfter];
+            if (ruleAfter is null)
             {
-                ruleAfter = new Rule(pageAfter);
-                rules.Add(pageAfter, ruleAfter);
+                ruleAfter        = new Rule(pageAfter);
+                rules[pageAfter] = ruleAfter;
             }
 
             ruleAfter.MustFollow.Add(ruleBefore);
         }
 
-        List<Rule[]> updates = [];
-        foreach (ReadOnlySpan<char> line in rawInput.AsSpan(i..))
+        Rule[][] updates = new Rule[rawInput.Length - i][];
+        foreach (int j in ..updates.Length)
         {
-            List<Rule> update = [];
-            foreach (Range splitRange in line.Split(','))
+            ReadOnlySpan<char> line = rawInput[i + j];
+            Rule[] update = new Rule[(line.Length + 1) / 3];
+            updates[j] = update;
+            foreach (int k in ..update.Length)
             {
-                update.Add(rules[int.Parse(line[splitRange])]);
+                int ruleValue = int.Parse(line.Slice(k * 3, 2));
+                update[k] = rules[ruleValue]!;
             }
-
-            updates.Add(update.ToArray());
         }
 
-        return updates.ToArray();
+        return updates;
     }
     #endregion
 }

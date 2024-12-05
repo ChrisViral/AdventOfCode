@@ -77,8 +77,8 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
-AoCUtils.LogParse(parseWatch);
 AoCUtils.Log($"Running Solver for {solverData}\n");
+AoCUtils.LogParse(parseWatch);
 Stopwatch watch = Stopwatch.StartNew();
 
 #if DEBUG
