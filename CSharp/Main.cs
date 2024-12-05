@@ -12,8 +12,7 @@ Console.Title = "Advent of Code";
 SolverData solverData;
 try
 {
-    using InputFetcher fetcher = new();
-    solverData = await SolverData.CreateData(args, fetcher);
+    solverData = await SolverData.CreateData(args);
 }
 catch (Exception e)
 {

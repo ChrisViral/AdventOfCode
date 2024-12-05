@@ -112,7 +112,7 @@ public class Day05 : Solver<Day05.Rule[][]>
             updates[j] = update;
             foreach (int k in ..update.Length)
             {
-                int ruleValue = int.Parse(line.Slice(k * 3, 2));
+                byte ruleValue = byte.Parse(line.Slice(k * 3, 2));
                 update[k] = rules[ruleValue]!;
             }
         }

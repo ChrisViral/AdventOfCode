@@ -7,6 +7,9 @@
     <Platforms>x64</Platforms>
     <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyVersion>2024.1.*</AssemblyVersion>
+    <FileVersion>2024.1.0.0</FileVersion>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>none</DebugType>

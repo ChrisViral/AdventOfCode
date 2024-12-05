@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using InvalidOperationException = System.InvalidOperationException;
 
 namespace AdventOfCode;
 
@@ -11,8 +16,22 @@ namespace AdventOfCode;
 /// Input fetching helper class
 /// </summary>
 [PublicAPI]
-public class InputFetcher : IDisposable
+public static partial class InputFetcher
 {
+    /// <summary>
+    /// <see cref="Settings"/> JSON source generation context
+    /// </summary>
+    [JsonSerializable(typeof(Settings)), JsonSourceGenerationOptions(WriteIndented = true)]
+    private partial class SettingsJsonContext : JsonSerializerContext;
+
+    /// <summary>
+    /// Input fetcher settings struct
+    /// </summary>
+    /// <param name="Cookie">Request cookie</param>
+    /// <param name="LastRequestTimestamp">Last request timestamp</param>
+    [method: JsonConstructor]
+    private readonly record struct Settings(string Cookie, long LastRequestTimestamp);
+
     #region Constants
     /// <summary>
     /// Base Advent of Code URL
@@ -25,22 +44,7 @@ public class InputFetcher : IDisposable
     /// <summary>
     /// Session cookie file
     /// </summary>
-    private static readonly string CookiePath = Path.Join(INPUT_FOLDER, "cookie.txt");
-    #endregion
-
-    #region Properties
-    /// <summary>
-    /// Input HTTP client
-    /// </summary>
-    private HttpClient Client { get; }
-    #endregion
-
-    #region Constructors
-    public InputFetcher()
-    {
-        Client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
-        Client.DefaultRequestHeaders.Add("cookie", $"session={File.ReadAllText(CookiePath)}");
-    }
+    private static readonly string SettingsPath = Path.Join(INPUT_FOLDER, "settings.json");
     #endregion
 
     #region Methods
@@ -50,7 +54,7 @@ public class InputFetcher : IDisposable
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The Input file for the problem</returns>
-    public async Task<string> EnsureInput(int year, int day)
+    public static async Task<string> EnsureInput(int year, int day)
     {
         //Check for the input file
         FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
@@ -69,27 +73,14 @@ public class InputFetcher : IDisposable
             }
 
             //Get input and write to file
-            input = await GetInput(year, day);
+            input = await GetInputFromWebsite(year, day);
             await using StreamWriter writer = inputFile.CreateText();
             await writer.WriteAsync(input);
         }
 
         #if DEBUG
         //Additionally write to project if in debug
-        string debugFilePath = Path.GetFullPath(Path.Combine("..", "..", "..", INPUT_FOLDER, year.ToString(), inputFile.Name));
-        FileInfo debugFile = new(debugFilePath);
-
-        // ReSharper disable once InvertIf
-        if (!debugFile.Exists)
-        {
-            if (!debugFile.Directory!.Exists)
-            {
-                debugFile.Directory.Create();
-            }
-
-            await using StreamWriter debugWriter = debugFile.CreateText();
-            await debugWriter.WriteAsync(input);
-        }
+        await CopyFileToProject(inputFile, Path.Combine(INPUT_FOLDER, year.ToString()), false);
         #endif
 
         //Return the fetched input
@@ -102,21 +93,98 @@ public class InputFetcher : IDisposable
     /// <param name="year">Event year</param>
     /// <param name="day">Problem day</param>
     /// <returns>The input for the problem</returns>
-    private async Task<string> GetInput(int year, int day)
+    /// <exception cref="FileNotFoundException">If the settings file is not found</exception>
+    /// <exception cref="InvalidOperationException">If the fetch is being rate limited</exception>
+    private static async Task<string> GetInputFromWebsite(int year, int day)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{year}/day/{day}/input");
+        // Check if settings exist
+        FileInfo settingsFile = new(SettingsPath);
+        if (!settingsFile.Exists)
+        {
+            // Create empty settings file
+            Settings emptySettings = new(string.Empty, 0L);
+            FileStream emptyFileWriteStream = settingsFile.Create();
+            await JsonSerializer.SerializeAsync(emptyFileWriteStream, emptySettings, SettingsJsonContext.Default.Settings);
+            await emptyFileWriteStream.DisposeAsync();
+
+            #if DEBUG
+            // Copy to project folder
+            await CopyFileToProject(settingsFile, INPUT_FOLDER);
+            #endif
+
+            // Prompt user to add cookie to file
+            await Console.Error.WriteLineAsync("Could not find the input fetcher settings file, please add your cookie to the generated file.\n" + settingsFile.FullName);
+            throw new FileNotFoundException("Could not find input fetcher settings file", settingsFile.FullName);
+        }
+
+        // Get settings
+        FileStream settingsReadFileStream = settingsFile.OpenRead();
+        Settings settings = await JsonSerializer.DeserializeAsync(settingsReadFileStream, SettingsJsonContext.Default.Settings);
+        await settingsReadFileStream.DisposeAsync();
+
+        // Validate rate limit
+        TimeSpan timeSinceLastRequest = Stopwatch.GetElapsedTime(settings.LastRequestTimestamp);
+        if (timeSinceLastRequest.TotalSeconds < 900d)
+        {
+            await Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.");
+            throw new InvalidOperationException("Rate limited, less than 900 seconds (15 minutes) elapsed since last request.");
+        }
+
+        // Create client
+        using HttpClient client = new();
+        client.BaseAddress = new Uri(BASE_URL);
+
+        // Add cookie header
+        client.DefaultRequestHeaders.Add("cookie", "session=" + settings.Cookie);
+
+        // Add User-Agent header
+        string version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion!).ToString(2);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd($"ChrisViral.{typeof(InputFetcher).FullName}Bot/{version} (https://github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)");
+
+        // Fetch input
+        using HttpResponseMessage response = await client.GetAsync($"{year}/day/{day}/input");
         await using Stream responseStream  = await response.Content.ReadAsStreamAsync();
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
+
+        // Write back settings with new timestamp
+        Settings updatedSettings = settings with { LastRequestTimestamp = Stopwatch.GetTimestamp() };
+        FileStream settingsWriteFileStream = settingsFile.OpenWrite();
+        await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings);
+        await settingsWriteFileStream.DisposeAsync();
+
+        #if DEBUG
+        // Copy to project folder
+        await CopyFileToProject(settingsFile, INPUT_FOLDER);
+        #endif
+
+        // Return fetched input
         return await responseReader.ReadToEndAsync();
     }
-    #endregion
 
-    #region IDisposable
-    /// <inheritdoc cref="IDisposable.Dispose" />
-    public void Dispose()
+    /// <summary>
+    /// Copies the given file to the project folder
+    /// </summary>
+    /// <param name="sourceFile">Source file to copy</param>
+    /// <param name="subfolder">Subfolder to copy the file to</param>
+    /// <param name="overwrite">If existing files should be overwritten</param>
+    private static async Task CopyFileToProject(FileInfo sourceFile, string subfolder, bool overwrite = true)
     {
-        this.Client.Dispose();
-        GC.SuppressFinalize(this);
+        // Get target path in project
+        string targetPath = Path.GetFullPath(Path.Combine("..", "..", "..", subfolder, sourceFile.Name));
+        FileInfo targetFile = new(targetPath);
+
+        // Don't clobber unless requested to
+        if (!overwrite && targetFile.Exists) return;
+
+        // Create directory if needed
+        if (!targetFile.Directory!.Exists)
+        {
+            targetFile.Directory.Create();
+        }
+
+        // Copy file over
+        byte[] fileData = await File.ReadAllBytesAsync(sourceFile.FullName);
+        await File.WriteAllBytesAsync(targetPath, fileData);
     }
     #endregion
 }
