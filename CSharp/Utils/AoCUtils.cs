@@ -88,6 +88,12 @@ public static class AoCUtils
     public static void Log<T>(T message) where T : notnull => Trace.WriteLine(message);
 
     /// <summary>
+    /// Logs the parse time elapsed time
+    /// </summary>
+    /// <param name="watch">Stopwatch measuring the parsing time</param>
+    public static void LogParse(Stopwatch watch) => Trace.WriteLine($"Problem input parsed in: {GetElapsedString(watch.Elapsed)}\n");
+
+    /// <summary>
     /// Logs the elapsed time on the stopwatch
     /// </summary>
     /// <param name="watch">Stopwatch to log the time for</param>

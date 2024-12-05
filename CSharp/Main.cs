@@ -23,6 +23,7 @@ catch (Exception e)
 }
 
 ISolver solver;
+Stopwatch parseWatch;
 try
 {
     //Helpful types
@@ -47,8 +48,10 @@ try
         return;
     }
 
+    parseWatch = Stopwatch.StartNew();
     //Instantiate the solver
     solver = (ISolver)Activator.CreateInstance(solverType, solverData.input)!;  //Throw if cast fails
+    parseWatch.Stop();
 }
 catch (Exception e)
 {
@@ -74,6 +77,7 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
+AoCUtils.LogParse(parseWatch);
 AoCUtils.Log($"Running Solver for {solverData}\n");
 Stopwatch watch = Stopwatch.StartNew();
 
