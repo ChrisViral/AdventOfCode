@@ -37,8 +37,8 @@ public class Day06 : GridSolver<Day06.Element>
     public override void Run()
     {
         // Get starting position
-        Vector2<int> startPosition = this.Data.PositionOf(Element.GUARD);
-        this.Data[startPosition] = Element.EMPTY;
+        Vector2<int> startPosition = this.Grid.PositionOf(Element.GUARD);
+        this.Grid[startPosition] = Element.EMPTY;
         HashSet<Vector2<int>> visited = new(100) { startPosition };
 
         // Current state
@@ -46,10 +46,10 @@ public class Day06 : GridSolver<Day06.Element>
         Vector2<int> position = startPosition;
 
         // Iterate until we leave the grid
-        while (this.Data.TryMoveWithinGrid(position, direction, out Vector2<int> newPosition))
+        while (this.Grid.TryMoveWithinGrid(position, direction, out Vector2<int> newPosition))
         {
             // If we hit a wall, cancel movement and turn right
-            if (this.Data[newPosition] is Element.WALL)
+            if (this.Grid[newPosition] is Element.WALL)
             {
                 direction = direction.TurnRight();
                 continue;
@@ -63,27 +63,36 @@ public class Day06 : GridSolver<Day06.Element>
 
         // We can't place an obstacle on the start position
         visited.Remove(startPosition);
-        int loops = visited.Count(v => CheckIfObstructionCausesLoop(startPosition, v));
+        // Create hashset for direction-bound visits
+        int loops = 0;
+        HashSet<(Direction, Vector2<int>)> visitedWithObstacle = new(100);
+        // Try placing an obstacle on any visited position
+        foreach (Vector2<int> visitedPosition in visited)
+        {
+            visitedWithObstacle.Add((Direction.UP, visitedPosition));
+            if (CheckIfObstructionCausesLoop(startPosition, visitedPosition, visitedWithObstacle))
+            {
+                loops++;
+            }
+            visitedWithObstacle.Clear();
+        }
         AoCUtils.LogPart2(loops);
     }
 
-    private bool CheckIfObstructionCausesLoop(in Vector2<int> startPosition, in Vector2<int> obstaclePosition)
+    private bool CheckIfObstructionCausesLoop(in Vector2<int> startPosition, in Vector2<int> obstaclePosition, HashSet<(Direction, Vector2<int>)> visited)
     {
         // Place obstacle
-        this.Data[obstaclePosition] = Element.WALL;
-
-        // Visited hashset
-        HashSet<(Direction, Vector2<int>)> visited = new(100) { (Direction.UP, startPosition) };
+        this.Grid[obstaclePosition] = Element.WALL;
 
         // Start data
         Direction direction = Direction.UP;
         Vector2<int> position = startPosition;
 
         // Iterate until we leave the grid
-        while (this.Data.TryMoveWithinGrid(position, direction, out Vector2<int> newPosition))
+        while (this.Grid.TryMoveWithinGrid(position, direction, out Vector2<int> newPosition))
         {
             // If we hit a wall, cancel movement and turn right
-            if (this.Data[newPosition] is Element.WALL)
+            if (this.Grid[newPosition] is Element.WALL)
             {
                 direction = direction.TurnRight();
             }
@@ -97,13 +106,13 @@ public class Day06 : GridSolver<Day06.Element>
             // ReSharper disable once InvertIf
             if (!visited.Add((direction, position)))
             {
-                this.Data[obstaclePosition] = Element.EMPTY;
+                this.Grid[obstaclePosition] = Element.EMPTY;
                 return true;
             }
         }
 
         // If we left the grid, we haven't formed a loop
-        this.Data[obstaclePosition] = Element.EMPTY;
+        this.Grid[obstaclePosition] = Element.EMPTY;
         return false;
     }
 
