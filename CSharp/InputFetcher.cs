@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using AdventOfCode.Extensions.Assemblies;
 using JetBrains.Annotations;
 using InvalidOperationException = System.InvalidOperationException;
 
@@ -80,7 +81,7 @@ public static partial class InputFetcher
 
         #if DEBUG
         //Additionally write to project if in debug
-        await CopyFileToProject(inputFile, Path.Combine(INPUT_FOLDER, year.ToString()), false);
+        await CopyFileToProject(inputFile, Path.Combine(INPUT_FOLDER, year.ToString()), overwrite: false);
         #endif
 
         //Return the fetched input
@@ -102,9 +103,8 @@ public static partial class InputFetcher
         if (!settingsFile.Exists)
         {
             // Create empty settings file
-            Settings emptySettings = new(string.Empty, 0L);
             FileStream emptyFileWriteStream = settingsFile.Create();
-            await JsonSerializer.SerializeAsync(emptyFileWriteStream, emptySettings, SettingsJsonContext.Default.Settings);
+            await JsonSerializer.SerializeAsync(emptyFileWriteStream, default, SettingsJsonContext.Default.Settings);
             await emptyFileWriteStream.DisposeAsync();
 
             #if DEBUG
@@ -138,8 +138,9 @@ public static partial class InputFetcher
         client.DefaultRequestHeaders.Add("cookie", "session=" + settings.Cookie);
 
         // Add User-Agent header
-        string version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion!).ToString(2);
-        client.DefaultRequestHeaders.UserAgent.ParseAdd($"ChrisViral.{typeof(InputFetcher).FullName}Bot/{version} (https://github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)");
+        Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion();
+        string userAgentValue = $"ChrisViral.{typeof(InputFetcher).FullName}Bot/{fileVersion.ToString(2)} (github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)";
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgentValue);
 
         // Fetch input
         using HttpResponseMessage response = await client.GetAsync($"{year}/day/{day}/input");
