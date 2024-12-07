@@ -15,6 +15,24 @@ public static class NumberExtensions
 {
     #region Extension methods
     /// <summary>
+    /// Concatenates the specified number at the end of the current number
+    /// </summary>
+    /// <param name="n">Current number</param>
+    /// <param name="other">Number to concatenate</param>
+    /// <typeparam name="T">Number type</typeparam>
+    /// <returns>The concatenated result</returns>
+    public static T ConcatNum<T>(this T n, T other) where T : INumber<T>
+    {
+        T pow = T.One;
+        while (pow <= other)
+        {
+            pow *= NumberUtils<T>.Ten;
+        }
+
+        return (n * pow) + other;
+    }
+
+    /// <summary>
     /// True mod function (so clamped from [0, mod[
     /// </summary>
     /// <typeparam name="T">Number type</typeparam>

@@ -34,6 +34,10 @@ public static class NumberUtils<T> where T : INumber<T>
     /// Seven constant
     /// </summary>
     public static T Seven { get; } = T.One + Six;
+    /// <summary>
+    /// Ten constant
+    /// </summary>
+    public static T Ten { get; }   = Seven + Three;
 
     /// <summary>
     /// Creates a number of this type from another number
