@@ -76,6 +76,27 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// Enumerate pairs of items in the given list
+    /// </summary>
+    /// <param name="list">List to enumerate pairs from</param>
+    /// <typeparam name="T">List element type</typeparam>
+    /// <returns>An exhaustive list of all item pairs in <paramref name="list"/></returns>
+    public static IEnumerable<(T, T)> EnumeratePairs<T>(this IList<T> list)
+    {
+        if (list.Count <= 1) yield break;
+
+        int end = list.Count - 1;
+        for (int i = 0; i < end; i++)
+        {
+            T first = list[i];
+            for (int j = i + 1; j < list.Count; j++)
+            {
+                yield return (first, list[j]);
+            }
+        }
+    }
+
+    /// <summary>
     /// Applies an action to every member of the enumerable
     /// </summary>
     /// <param name="e">Enumerable to iterate over</param>
