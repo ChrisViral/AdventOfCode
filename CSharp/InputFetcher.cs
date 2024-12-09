@@ -123,7 +123,7 @@ public static partial class InputFetcher
         await settingsReadFileStream.DisposeAsync();
 
         // Validate rate limit
-        TimeSpan timeSinceLastRequest = Stopwatch.GetElapsedTime(settings.LastRequestTimestamp);
+        TimeSpan timeSinceLastRequest = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(settings.LastRequestTimestamp);
         if (timeSinceLastRequest.TotalSeconds < 900d)
         {
             await Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.");
@@ -148,7 +148,7 @@ public static partial class InputFetcher
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
 
         // Write back settings with new timestamp
-        Settings updatedSettings = settings with { LastRequestTimestamp = Stopwatch.GetTimestamp() };
+        Settings updatedSettings = settings with { LastRequestTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() };
         FileStream settingsWriteFileStream = settingsFile.OpenWrite();
         await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings);
         await settingsWriteFileStream.DisposeAsync();
