@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -26,7 +27,7 @@ namespace AdventOfCode.Solvers.AoC2024
         {
             // Store locally in span
             Span<int> fileChunks = stackalloc int[this.Data.Length + 1];
-            foreach (int i in ..(fileChunks.Length - 1))
+            foreach (int i in ..this.Data.Length)
             {
                 fileChunks[i] = this.Data[i] - '0';
             }
@@ -60,7 +61,7 @@ namespace AdventOfCode.Solvers.AoC2024
                     else
                     {
                         // Tail block depleted, move to next
-                        tailIndex   -= 2;
+                        tailIndex -= 2;
                         blockId = tailIndex / 2;
                         if (headIndex >= tailIndex)
                         {
@@ -68,6 +69,7 @@ namespace AdventOfCode.Solvers.AoC2024
                             remainingTail = 0;
                             break;
                         }
+
                         remainingTail = fileChunks[tailIndex];
                     }
                 }
@@ -82,7 +84,7 @@ namespace AdventOfCode.Solvers.AoC2024
 
             // Create chunk ranges and filesystem
             int chunkIndex = 0;
-            Span<Range> blocks   = stackalloc Range[fileChunks.Length / 2];
+            Span<Range> blocks = stackalloc Range[fileChunks.Length / 2];
             Span<int> fileSystem = stackalloc int[fileChunks.Sum()];
             for (int id = 0, i = 0; id < blocks.Length; id++)
             {
@@ -98,7 +100,7 @@ namespace AdventOfCode.Solvers.AoC2024
 
             // Loop over all blocks backwards
             int packedIndex = blocks[0].End.Value;
-            for (int i = blocks.Length - 1; blocks[i].Start.Value > packedIndex; i--)
+            for (int i = blocks.Length - 1; packedIndex < blocks[i].Start.Value; i--)
             {
                 // Check for gaps from the earliest known packed index
                 ref Range block = ref blocks[i];
@@ -111,8 +113,7 @@ namespace AdventOfCode.Solvers.AoC2024
                     Span<int> target = fileSystem[targetBlock];
 
                     // Check if all values in target are 0
-                    int firstNonZero = target.FirstOrDefault(c => c is not 0);
-                    if (firstNonZero is 0)
+                    if (OnlyHasZeroValues(target, out int nonZero))
                     {
                         // Copy source span to target
                         Span<int> source = fileSystem[block];
@@ -131,7 +132,7 @@ namespace AdventOfCode.Solvers.AoC2024
                     }
 
                     // If not, set the next start index from the end of the encroaching block
-                    startIndex = blocks[firstNonZero].End.Value;
+                    startIndex = blocks[nonZero].End.Value;
                 }
             }
 
@@ -142,6 +143,24 @@ namespace AdventOfCode.Solvers.AoC2024
                 checksum += i * fileSystem[i];
             }
             AoCUtils.LogPart2(checksum);
+        }
+
+        /// <summary>
+        /// Checks if the given span has only zeroes or not
+        /// </summary>
+        /// <param name="span">Span to check</param>
+        /// <param name="lastNonZero">The last non-zero value in the span, if any</param>
+        /// <returns><see langword="true"/> if all values in the span were zero, otherwise <see langword="false"/></returns>
+        private static bool OnlyHasZeroValues(in ReadOnlySpan<int> span, out int lastNonZero)
+        {
+            int i = span.Length - 1;
+            lastNonZero = span[i];
+            while (lastNonZero is 0)
+            {
+                if (i is 0) return true;
+                lastNonZero = span[--i];
+            }
+            return false;
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>

@@ -52,6 +52,15 @@ public static class NumberExtensions
     public static T Triangular<T>(this T n) where T : IBinaryInteger<T> => (n * (n + T.One)) / NumberUtils<T>.Two;
 
     /// <summary>
+    /// Gets the <paramref name="n"/>th - 1 triangular number
+    /// </summary>
+    /// <typeparam name="T">Type of integer</typeparam>
+    /// <param name="n">Nth - 1 triangular number to get</param>
+    /// <returns>The <paramref name="n"/>th - 1 triangular number</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T PreviousTriangular<T>(this T n) where T : IBinaryInteger<T> => (n * (n - T.One)) / NumberUtils<T>.Two;
+
+    /// <summary>
     /// Checks if an integer is prime or not
     /// </summary>
     /// <typeparam name="T">Type of number</typeparam>
