@@ -36,7 +36,7 @@ public class Day09 : GridSolver<byte>
             // Check if the position is a low point
             byte value = this.Grid[position];
             if (position.Adjacent()
-                        .Where(this.Grid.WithinGrid)
+                        .Where(this.Grid.WithinGridCpy)
                         .Any(pos => value >= this.Grid[pos])) continue;
 
             lowPoints.Add(position);

@@ -123,12 +123,6 @@ static void Exit(string? message = null, int exitCode = 0)
         Console.WriteLine(message);
     }
 
-    #if !DEBUG
-    //Wait for keypress
-    Console.WriteLine("Press any key to continue...");
-    Console.ReadKey(true);
-    #endif
-
     //Exit
     Environment.Exit(exitCode);
 }

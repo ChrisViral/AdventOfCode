@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
@@ -232,7 +233,12 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     }
 
     /// <inheritdoc cref="Grid{T}.WithinGrid"/>
-    public override bool WithinGrid(Vector2<int> position) => base.WithinGrid(position - this.anchor);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override bool WithinGrid(in Vector2<int> position) => base.WithinGrid(position - this.anchor);
+
+    /// <inheritdoc cref="Grid{T}.WithinGrid"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override bool WithinGridCpy(Vector2<int> position) => base.WithinGridCpy(position - this.anchor);
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => new(this.viewBuffer);
