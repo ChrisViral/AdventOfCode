@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -9,7 +8,6 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using AdventOfCode.Extensions.Assemblies;
 using JetBrains.Annotations;
-using InvalidOperationException = System.InvalidOperationException;
 
 namespace AdventOfCode;
 
@@ -103,9 +101,10 @@ public static partial class InputFetcher
         if (!settingsFile.Exists)
         {
             // Create empty settings file
-            FileStream emptyFileWriteStream = settingsFile.Create();
-            await JsonSerializer.SerializeAsync(emptyFileWriteStream, default, SettingsJsonContext.Default.Settings);
-            await emptyFileWriteStream.DisposeAsync();
+            await using (FileStream emptyFileWriteStream = settingsFile.Create())
+            {
+                await JsonSerializer.SerializeAsync(emptyFileWriteStream, default, SettingsJsonContext.Default.Settings);
+            }
 
             #if DEBUG
             // Copy to project folder
@@ -118,16 +117,18 @@ public static partial class InputFetcher
         }
 
         // Get settings
-        FileStream settingsReadFileStream = settingsFile.OpenRead();
-        Settings settings = await JsonSerializer.DeserializeAsync(settingsReadFileStream, SettingsJsonContext.Default.Settings);
-        await settingsReadFileStream.DisposeAsync();
+        Settings settings;
+        await using (FileStream settingsReadFileStream = settingsFile.OpenRead())
+        {
+            settings = await JsonSerializer.DeserializeAsync(settingsReadFileStream, SettingsJsonContext.Default.Settings);
+        }
 
         // Validate rate limit
         TimeSpan timeSinceLastRequest = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(settings.LastRequestTimestamp);
         if (timeSinceLastRequest.TotalSeconds < 900d)
         {
             await Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.");
-            throw new InvalidOperationException("Rate limited, less than 900 seconds (15 minutes) elapsed since last request.");
+            throw new InvalidOperationException("Request rate limited");
         }
 
         // Create client
@@ -148,10 +149,11 @@ public static partial class InputFetcher
         using StreamReader responseReader  = new(responseStream, Encoding.UTF8);
 
         // Write back settings with new timestamp
-        Settings updatedSettings = settings with { LastRequestTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() };
-        FileStream settingsWriteFileStream = settingsFile.OpenWrite();
-        await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings);
-        await settingsWriteFileStream.DisposeAsync();
+        await using (FileStream settingsWriteFileStream = settingsFile.OpenWrite())
+        {
+            Settings updatedSettings = settings with { LastRequestTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() };
+            await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings);
+        }
 
         #if DEBUG
         // Copy to project folder
