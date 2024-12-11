@@ -37,10 +37,5 @@ public static class NumberUtils<T> where T : INumber<T>
     /// <summary>
     /// Ten constant
     /// </summary>
-    public static T Ten { get; }   = Seven + Three;
-
-    /// <summary>
-    /// Creates a number of this type from another number
-    /// </summary>
-    public static T Create<TFrom>(TFrom from) where TFrom : INumber<TFrom> => T.CreateChecked(from);
+    public static T Ten { get; }   = Five + Five;
 }

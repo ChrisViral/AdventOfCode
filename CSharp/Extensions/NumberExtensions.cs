@@ -15,20 +15,59 @@ public static class NumberExtensions
 {
     #region Extension methods
     /// <summary>
+    /// Counts the digits in a given number
+    /// </summary>
+    /// <param name="n">Number to count the digits of</param>
+    /// <typeparam name="T">Number type</typeparam>
+    /// <returns>The amount of digits in <paramref name="n"/></returns>
+    public static int DigitsCount<T>(this T n) where T : IBinaryInteger<T>
+    {
+        if (n == T.Zero) return 1;
+
+        n = T.Abs(n);
+        int digits = 1;
+        while (n >= NumberUtils<T>.Ten)
+        {
+            digits++;
+            n /= NumberUtils<T>.Ten;
+        }
+        return digits;
+    }
+
+    /// <summary>
+    /// Calculates the Nth power of 10
+    /// </summary>
+    /// <param name="n">Nth power to get</param>
+    /// <typeparam name="T">Number type</typeparam>
+    /// <returns>Nth power of 10</returns>
+    public static T Pow10<T>(this T n) where T : IBinaryInteger<T>
+    {
+        if (n < T.Zero) return T.Zero;
+        if (n == T.Zero) return T.One;
+
+        T pow = NumberUtils<T>.Ten;
+        while (n --> T.One)
+        {
+            pow *= NumberUtils<T>.Ten;
+        }
+
+        return pow;
+    }
+
+    /// <summary>
     /// Concatenates the specified number at the end of the current number
     /// </summary>
     /// <param name="n">Current number</param>
     /// <param name="other">Number to concatenate</param>
     /// <typeparam name="T">Number type</typeparam>
     /// <returns>The concatenated result</returns>
-    public static T ConcatNum<T>(this T n, T other) where T : INumber<T>
+    public static T ConcatNum<T>(this T n, T other) where T : IBinaryInteger<T>
     {
         T pow = T.One;
         while (pow <= other)
         {
             pow *= NumberUtils<T>.Ten;
         }
-
         return (n * pow) + other;
     }
 
@@ -78,7 +117,7 @@ public static class NumberExtensions
         if (n.IsEven() || n.IsMultiple(NumberUtils<T>.Three) || n.IsMultiple(NumberUtils<T>.Five)) return false;
 
         // Get square root of n
-        T limit = MathUtils.CeilToInt<double, T>(Math.Sqrt(NumberUtils<double>.Create(n)));
+        T limit = MathUtils.CeilToInt<double, T>(Math.Sqrt(double.CreateChecked(n)));
         for (T i = NumberUtils<T>.Seven; i <= limit; i += NumberUtils<T>.Six)
         {
             // We don't need to check anything that is a multiple of two, three, or five
