@@ -170,7 +170,7 @@ public static class MathUtils
     /// <param name="vertices">List of vertices</param>
     /// <returns>The total area of the polygon</returns>
     /// <exception cref="ArgumentOutOfRangeException">If there are not enough vertices to make a proper 2D polygon</exception>
-    public static T Shoelace<T>(IList<Vector2<T>> vertices) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public static T Shoelace<T>(List<Vector2<T>> vertices) where T : IBinaryInteger<T>, IMinMaxValue<T>
     {
         // Make sure we have enough vertices
         if (vertices.Count <= 0) throw new ArgumentOutOfRangeException(nameof(vertices), vertices.Count, "A 2D polygon requires a minimum of 3 vertices");

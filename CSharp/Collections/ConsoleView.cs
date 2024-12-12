@@ -236,10 +236,6 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool WithinGrid(in Vector2<int> position) => base.WithinGrid(position - this.anchor);
 
-    /// <inheritdoc cref="Grid{T}.WithinGrid"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override bool WithinGridCpy(Vector2<int> position) => base.WithinGridCpy(position - this.anchor);
-
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => new(this.viewBuffer);
     #endregion

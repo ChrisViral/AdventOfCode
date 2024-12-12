@@ -69,7 +69,7 @@ public class Day11 : GridSolver<Day11.Seat>
                     switch (current[position])
                     {
                         case Seat.EMPTY:
-                            if (position.Adjacent(true).Where(current.WithinGridCpy).All(p => previous[p] is not Seat.TAKEN))
+                            if (position.Adjacent(true).Where(p => current.WithinGrid(p)).All(p => previous[p] is not Seat.TAKEN))
                             {
                                 current[position] = Seat.TAKEN;
                                 changes = true;
@@ -78,7 +78,7 @@ public class Day11 : GridSolver<Day11.Seat>
 
                         case Seat.TAKEN:
                             int taken = 0;
-                            if (position.Adjacent(true).Where(current.WithinGridCpy).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
+                            if (position.Adjacent(true).Where(p => current.WithinGrid(p)).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
                             {
                                 current[position] = Seat.EMPTY;
                                 changes = true;

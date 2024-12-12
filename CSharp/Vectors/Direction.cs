@@ -38,7 +38,7 @@ public static class DirectionsUtils
     /// <summary>
     /// All possible directions
     /// </summary>
-    public static ReadOnlyCollection<Direction> AllDirections { get; } = new(
+    public static ReadOnlyCollection<Direction> CardinalDirections { get; } = new(
     [
         Direction.UP,
         Direction.DOWN,

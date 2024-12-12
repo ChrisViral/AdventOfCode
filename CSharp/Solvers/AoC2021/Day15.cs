@@ -69,7 +69,7 @@ public class Day15 : GridSolver<byte>
     private static IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node, Grid<byte> map)
     {
         return node.Adjacent()
-                   .Where(map.WithinGridCpy)
+                   .Where(n => map.WithinGrid(n))
                    .Select(n => new MoveData<Vector2<int>, double>(n, map[n]));
     }
 

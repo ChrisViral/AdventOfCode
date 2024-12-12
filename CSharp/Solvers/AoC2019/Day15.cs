@@ -228,7 +228,7 @@ public class Day15 : IntcodeSolver
             Direction direction = path.Peek();
             bool moved = false;
             //Check all directions
-            foreach (Direction dir in DirectionsUtils.AllDirections)
+            foreach (Direction dir in DirectionsUtils.CardinalDirections)
             {
                 //Position in given direction
                 Vector2<int> newPosition = position.Move(dir);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -420,6 +421,24 @@ public class Grid<T> : IEnumerable<T>
     public void Fill(T value) => this.Dimensions.EnumerateOver().ForEach(v => this[v] = value);
 
     /// <summary>
+    /// Tries to get a value in the grid at the given position
+    /// </summary>
+    /// <param name="position">Position to get the value for</param>
+    /// <param name="value">The value, if it was found</param>
+    /// <returns><see langword="true"/> if the value was found, otherwise <see langword="false"/></returns>
+    public virtual bool TryGetPosition(in Vector2<int> position, [MaybeNullWhen(false)] out T value)
+    {
+        if (WithinGrid(position))
+        {
+            value = this[position];
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    /// <summary>
     /// Moves the vector within the grid
     /// </summary>
     /// <param name="vector">Vector to move</param>
@@ -527,17 +546,6 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual bool WithinGrid(in Vector2<int> position)
-    {
-        return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
-    }
-
-    /// <summary>
-    /// Checks if a given position Vector2 is within the grid
-    /// </summary>
-    /// <param name="position">Position vector</param>
-    /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual bool WithinGridCpy(Vector2<int> position)
     {
         return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
     }
