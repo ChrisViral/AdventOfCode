@@ -188,17 +188,25 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <summary>
     /// Prints the view screen to the console and waits to hit the target FPS
     /// </summary>
-    public virtual void PrintToConsole()
+    /// <param name="message">Header message</param>
+    public virtual void PrintToConsole(string? message = null)
     {
         //Clear anything already printed
         if (this.printedLines is not 0)
         {
             Console.SetCursorPosition(0, Math.Max(0, Console.CursorTop - this.printedLines));
+            this.printedLines = 0;
+        }
+
+        if (message is not null)
+        {
+            Console.WriteLine(message);
+            this.printedLines++;
         }
 
         //Write to console
         Console.Write(ToString());
-        this.printedLines = this.Height;
+        this.printedLines += this.Height;
         //Display at target fps
         this.timer.Stop();
         Thread.Sleep(Math.Max(0, this.sleepTime - (int)this.timer.ElapsedMilliseconds));

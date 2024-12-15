@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -21,10 +20,12 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
     /// </summary>
     public enum Element : ushort
     {
-        EMPTY = '.',
-        WALL  = '#',
-        BOX   = 'O',
-        ROBOT = '@'
+        EMPTY     = '.',
+        WALL      = '#',
+        BOX       = 'O',
+        ROBOT     = '@',
+        BOX_LEFT  = '[',
+        BOX_RIGHT = ']'
     }
 
     #region Constructors
@@ -63,6 +64,8 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
                 case Element.BOX:
                     break;
 
+                case Element.BOX_LEFT:
+                case Element.BOX_RIGHT:
                 case Element.ROBOT:
                 default:
                     throw new UnreachableException("This shouldn't happen.");
@@ -70,59 +73,62 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         }
 
         // Calculate final coordinates
-        int boxCount = 0;
-        int coordinates = 0;
-        foreach (Vector2<int> pos in warehouse.Dimensions.EnumerateOver().Where(p => warehouse[p] is Element.BOX))
-        {
-            coordinates += (100 * pos.Y) + pos.X;
-            boxCount++;
-        }
+        int coordinates = warehouse.Dimensions.EnumerateOver().Where(p => warehouse[p] is Element.BOX).Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart1(coordinates);
-        //AoCUtils.Log(warehouse);
 
         // Double warehouse size horizontally
-        HashSet<Vector2<int>> boxes = new(boxCount);
-        Grid<Element> bigWarehouse = new(this.Data.warehouse.Width * 2, this.Data.warehouse.Height, e => ((char)e).ToString());
+        ConsoleView<Element> bigWarehouse = new(this.Data.warehouse.Width * 2, this.Data.warehouse.Height, e => (char)e, Anchor.TOP_LEFT, Element.EMPTY, 60);
         foreach (Vector2<int> pos in this.Data.warehouse.Dimensions.EnumerateOver())
         {
             Element currentElement    = this.Data.warehouse[pos];
             Vector2<int> doubledPosA  = pos with { X = pos.X * 2 };
             Vector2<int> doubledPosB  = doubledPosA + Vector2<int>.Right;
-            bigWarehouse[doubledPosA] = currentElement;
-            bigWarehouse[doubledPosB] = currentElement;
             if (currentElement is Element.BOX)
             {
-                boxes.Add(doubledPosA);
+                bigWarehouse[doubledPosA] = Element.BOX_LEFT;
+                bigWarehouse[doubledPosB] = Element.BOX_RIGHT;
+            }
+            else
+            {
+                bigWarehouse[doubledPosA] = currentElement;
+                bigWarehouse[doubledPosB] = currentElement;
             }
         }
 
         // Setup start position and iterate through moves
         position = startPosition with { X = startPosition.X * 2 };
+        //int turn = 0;
+        //bigWarehouse[position] = Element.ROBOT;
+        //bigWarehouse.PrintToConsole($"Move {turn++}");
+        //bigWarehouse[position] = Element.EMPTY;
         foreach (Direction move in this.Data.moves)
         {
             Vector2<int> newPosition = position + move;
             switch (bigWarehouse[newPosition])
             {
                 case Element.EMPTY:
-                case Element.BOX when TryMoveBigBox(newPosition, bigWarehouse, boxes, move):
+                case Element.BOX_LEFT  when TryMoveBigBox(newPosition, bigWarehouse, move):
+                case Element.BOX_RIGHT when TryMoveBigBox(newPosition, bigWarehouse, move):
                     position = newPosition;
                     break;
 
-                case Element.BOX:
+                case Element.BOX_LEFT:
+                case Element.BOX_RIGHT:
                 case Element.WALL:
                     break;
 
+                case Element.BOX:
                 case Element.ROBOT:
                 default:
                     throw new UnreachableException("This shouldn't happen.");
             }
+            //bigWarehouse[position] = Element.ROBOT;
+            //bigWarehouse.PrintToConsole($"Move {turn++}");
+            //bigWarehouse[position] = Element.EMPTY;
         }
-
         // Calculate final coordinates
-        coordinates = boxes.Where(pos => bigWarehouse[pos] is Element.BOX).Sum(pos => (100 * pos.Y) + pos.X);
-
+        coordinates = bigWarehouse.Dimensions.EnumerateOver().Where(p => bigWarehouse[p] is Element.BOX_LEFT).Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart2(coordinates);
-        //AoCUtils.Log(bigWarehouse);
     }
 
     private static bool TryMoveBox(Vector2<int> boxStart, Grid<Element> warehouse, Direction direction)
@@ -143,6 +149,8 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
                 case Element.BOX:
                     break;
 
+                case Element.BOX_LEFT:
+                case Element.BOX_RIGHT:
                 case Element.ROBOT:
                 default:
                     throw new UnreachableException("This shouldn't happen.");
@@ -150,24 +158,24 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         }
     }
 
-    private static bool TryMoveBigBox(Vector2<int> boxStart, Grid<Element> warehouse, HashSet<Vector2<int>> boxes, Direction direction)
+    private static bool TryMoveBigBox(Vector2<int> boxStart, ConsoleView<Element> warehouse, Direction direction)
     {
         if (direction.IsHorizontal())
         {
             // Horizontal movement
-            return TryMoveBoxHorizontal(boxStart, warehouse, boxes, direction);
+            return TryMoveBoxHorizontal(boxStart, warehouse, direction);
         }
 
         // Vertical movement, check first
-        if (!CheckBoxPushableVertical(boxStart, warehouse, boxes, direction)) return false;
+        if (!CheckBoxPushableVertical(boxStart, warehouse, direction)) return false;
 
         // Then push if valid
-        PushBoxVertically(boxStart, warehouse, boxes, direction);
+        PushBoxVertically(boxStart, warehouse, direction);
         return true;
 
     }
 
-    private static bool TryMoveBoxHorizontal(Vector2<int> boxStart, Grid<Element> warehouse, HashSet<Vector2<int>> boxes, Direction direction)
+    private static bool TryMoveBoxHorizontal(Vector2<int> boxStart, ConsoleView<Element> warehouse, Direction direction)
     {
         // Check two ahead
         Vector2<int> pushPos = boxStart + direction;
@@ -175,53 +183,58 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         switch (warehouse[checkPos])
         {
             case Element.EMPTY:
-            case Element.BOX when TryMoveBigBox(checkPos, warehouse, boxes, direction):
+            case Element.BOX_LEFT  when TryMoveBigBox(checkPos, warehouse, direction):
+            case Element.BOX_RIGHT when TryMoveBigBox(checkPos, warehouse, direction):
                 // Push box along
-                warehouse[checkPos] = Element.BOX;
-                warehouse[boxStart] = Element.EMPTY;
                 if (direction is Direction.RIGHT)
                 {
-                    boxes.Remove(boxStart);
-                    boxes.Add(pushPos);
+                    warehouse[pushPos]  = Element.BOX_LEFT;
+                    warehouse[checkPos] = Element.BOX_RIGHT;
                 }
                 else
                 {
-                    boxes.Remove(pushPos);
-                    boxes.Add(checkPos);
+                    warehouse[pushPos]  = Element.BOX_RIGHT;
+                    warehouse[checkPos] = Element.BOX_LEFT;
                 }
+                warehouse[boxStart] = Element.EMPTY;
                 return true;
 
             case Element.WALL:
-            case Element.BOX:
+            case Element.BOX_LEFT:
+            case Element.BOX_RIGHT:
                 return false;
 
+            case Element.BOX:
             case Element.ROBOT:
             default:
                 throw new UnreachableException("This shouldn't happen.");
         }
     }
 
-    private static bool CheckBoxPushableVertical(Vector2<int> boxPos, Grid<Element> warehouse, HashSet<Vector2<int>> boxes, Direction direction)
+    private static bool CheckBoxPushableVertical(Vector2<int> boxPos, ConsoleView<Element> warehouse, Direction direction)
     {
         // Check the first push
         Vector2<int> pushPos = boxPos + direction;
         switch (warehouse[pushPos])
         {
             case Element.EMPTY:
-            case Element.BOX when CheckBoxPushableVertical(pushPos, warehouse, boxes, direction):
+            case Element.BOX_LEFT  when CheckBoxPushableVertical(pushPos, warehouse, direction):
+            case Element.BOX_RIGHT when CheckBoxPushableVertical(pushPos, warehouse, direction):
                 break;
 
-            case Element.BOX:
+            case Element.BOX_LEFT:
+            case Element.BOX_RIGHT:
             case Element.WALL:
                 return false;
 
+            case Element.BOX:
             case Element.ROBOT:
             default:
                 throw new UnreachableException("This shouldn't happen.");
         }
 
         // Get the second push location
-        if (boxes.Contains(boxPos))
+        if (warehouse[boxPos] is Element.BOX_LEFT)
         {
             pushPos += Vector2<int>.Right;
         }
@@ -234,26 +247,29 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         switch (warehouse[pushPos])
         {
             case Element.EMPTY:
-            case Element.BOX when CheckBoxPushableVertical(pushPos, warehouse, boxes, direction):
+            case Element.BOX_LEFT  when CheckBoxPushableVertical(pushPos, warehouse, direction):
+            case Element.BOX_RIGHT when CheckBoxPushableVertical(pushPos, warehouse, direction):
                 return true;
 
-            case Element.BOX:
+            case Element.BOX_LEFT:
+            case Element.BOX_RIGHT:
             case Element.WALL:
                 return false;
 
+            case Element.BOX:
             case Element.ROBOT:
             default:
                 throw new UnreachableException("This shouldn't happen.");
         }
     }
 
-    private static void PushBoxVertically(Vector2<int> boxPos, Grid<Element> warehouse, HashSet<Vector2<int>> boxes, Direction direction)
+    private static void PushBoxVertically(Vector2<int> boxPos, ConsoleView<Element> warehouse, Direction direction)
     {
         // Get both box and push locations
         Vector2<int> leftPos = boxPos;
         Vector2<int> leftPush = boxPos + direction;
         Vector2<int> rightPos, rightPush;
-        if (boxes.Contains(leftPos))
+        if (warehouse[leftPos] is Element.BOX_LEFT)
         {
             rightPos  = boxPos + Vector2<int>.Right;
             rightPush = leftPush + Vector2<int>.Right;
@@ -268,20 +284,18 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         }
 
         // Push down if needed
-        if (warehouse[leftPush] is Element.BOX)
+        if (warehouse[leftPush] is Element.BOX_LEFT or Element.BOX_RIGHT)
         {
-            PushBoxVertically(leftPush, warehouse, boxes, direction);
+            PushBoxVertically(leftPush, warehouse, direction);
         }
-        if (warehouse[rightPush] is Element.BOX)
+        if (warehouse[rightPush] is Element.BOX_LEFT or Element.BOX_RIGHT)
         {
-            PushBoxVertically(rightPush, warehouse, boxes, direction);
+            PushBoxVertically(rightPush, warehouse, direction);
         }
 
         // Complete push
-        boxes.Remove(leftPos);
-        boxes.Add(leftPush);
-        warehouse[leftPush]  = Element.BOX;
-        warehouse[rightPush] = Element.BOX;
+        warehouse[leftPush]  = Element.BOX_LEFT;
+        warehouse[rightPush] = Element.BOX_RIGHT;
         warehouse[leftPos]   = Element.EMPTY;
         warehouse[rightPos]  = Element.EMPTY;
     }

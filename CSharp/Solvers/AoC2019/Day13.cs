@@ -114,12 +114,7 @@ public class Day13 : IntcodeSolver
         }
 
         /// <inheritdoc cref="object.ToString"/>
-        public override void PrintToConsole()
-        {
-            base.PrintToConsole();
-            Console.WriteLine("              Score: " + this.Score);
-            this.printedLines++;
-        }
+        public override void PrintToConsole(string? message = null) => base.PrintToConsole("              Score: " + this.Score);
         #endregion
     }
 
