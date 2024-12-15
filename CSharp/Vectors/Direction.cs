@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
@@ -38,13 +39,14 @@ public static class DirectionsUtils
     /// <summary>
     /// All possible directions
     /// </summary>
-    public static ReadOnlyCollection<Direction> CardinalDirections { get; } = new(
+    public static ImmutableArray<Direction> CardinalDirections { get; } =
     [
+
         Direction.UP,
         Direction.DOWN,
         Direction.LEFT,
         Direction.RIGHT
-    ]);
+    ];
     #endregion
 
     #region Static Methods
@@ -79,7 +81,7 @@ public static class DirectionsUtils
     /// <returns>The parsed direction</returns>
     /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
     /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(in ReadOnlySpan<char> value)
+    public static Direction Parse(ReadOnlySpan<char> value)
     {
         if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Parse value cannot be empty", nameof(value));
 
@@ -88,11 +90,11 @@ public static class DirectionsUtils
         trimmed.ToLowerInvariant(lowered);
         return lowered switch
         {
-            "u" or "up"    or "n" or "north" => Direction.UP,
-            "d" or "down"  or "s" or "south" => Direction.DOWN,
-            "l" or "left"  or "e" or "east"  => Direction.LEFT,
-            "r" or "right" or "w" or "west"  => Direction.RIGHT,
-            _                                => throw new FormatException("Direction could not properly be parsed from input")
+            "u" or "up"    or "n" or "north" or "^" => Direction.UP,
+            "d" or "down"  or "s" or "south" or "v" => Direction.DOWN,
+            "l" or "left"  or "e" or "east"  or "<" => Direction.LEFT,
+            "r" or "right" or "w" or "west"  or ">" => Direction.RIGHT,
+            _                                       => throw new FormatException("Direction could not properly be parsed from input")
         };
     }
 
@@ -118,7 +120,7 @@ public static class DirectionsUtils
     /// <param name="value">Value to parse</param>
     /// <param name="direction">The parsed direction output</param>
     /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-    public static bool TryParse(in ReadOnlySpan<char> value, out Direction direction)
+    public static bool TryParse(ReadOnlySpan<char> value, out Direction direction)
     {
         if (value.IsEmpty || value.IsWhiteSpace())
         {
@@ -131,19 +133,19 @@ public static class DirectionsUtils
         trimmed.ToLowerInvariant(lowered);
         switch (lowered)
         {
-            case "u" or "up" or "n" or "north":
+            case "u" or "up" or "n" or "north" or "^":
                 direction = Direction.UP;
                 return true;
 
-            case "d" or "down" or "s" or "south":
+            case "d" or "down" or "s" or "south" or "v":
                 direction = Direction.DOWN;
                 return true;
 
-            case "l" or "left" or "e" or "east":
+            case "l" or "left" or "e" or "east" or ">":
                 direction = Direction.LEFT;
                 return true;
 
-            case "r" or "right" or "w" or "west":
+            case "r" or "right" or "w" or "west" or "<":
                 direction = Direction.RIGHT;
                 return true;
 
