@@ -49,10 +49,13 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
-    public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal, [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
-                                                  [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours, IComparer<SearchNode<TValue, TCost>> comparer,
-                                                  [InstantHandle] Func<TValue, TValue, bool>? goalFound = null) where TValue : IEquatable<TValue>
-                                                                                                                where TCost : INumber<TCost>
+    public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal,
+                                                  [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                  [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
+                                                  IComparer<SearchNode<TValue, TCost>> comparer,
+                                                  [InstantHandle] Func<TValue, TValue, bool>? goalFound = null)
+        where TValue : IEquatable<TValue>
+        where TCost : INumber<TCost>
     {
         SearchNode<TValue, TCost>? foundGoal = null;
         PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
@@ -115,6 +118,138 @@ public static class SearchUtils
 
         //Copy the path back to an array and return
         return path.ToArray();
+    }
+
+    /// <summary>
+    /// A* Search<br/>
+    /// Searches from the starting node to the goal node, and retrieves the optimal path<br/>
+    /// All the various paths that can reach the target node are also returned
+    /// </summary>
+    /// <typeparam name="TValue">Type of node being searched</typeparam>
+    /// <typeparam name="TCost">Cost type</typeparam>
+    /// <param name="start">Starting node</param>
+    /// <param name="goal">Goal node</param>
+    /// <param name="heuristic">Heuristic function on the nodes</param>
+    /// <param name="neighbours">Function finding neighbours for a given node</param>
+    /// <param name="comparer">Comparer between different search nodes</param>
+    /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
+    /// <returns>A tuple containing the optimal found path as well as a set of all nodes on a other optimal paths, or null if no path was found</returns>
+    public static (TValue[]?, HashSet<TValue>?) SearchEquivalentPaths<TValue, TCost>(TValue start, TValue goal,
+                                                                                     [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
+                                                                                     [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
+                                                                                     IComparer<SearchNode<TValue, TCost>> comparer,
+                                                                                     [InstantHandle] Func<TValue, TValue, bool>? goalFound = null)
+        where TValue : IEquatable<TValue>
+        where TCost : INumber<TCost>
+    {
+        SearchNode<TValue, TCost>? foundGoal = null;
+        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
+        search.Enqueue(new SearchNode<TValue, TCost>(start));
+        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
+        Dictionary<SearchNode<TValue, TCost>, List<SearchNode<TValue, TCost>>> equivalentNodes = [];
+        goalFound ??= (a, b) => a.Equals(b);
+
+        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
+        {
+            //If we found the goal
+            if (goalFound(current.Value, goal))
+            {
+                foundGoal = current;
+                break;
+            }
+
+            //Look through all neighbouring nodes
+            foreach (SearchNode<TValue, TCost> neighbour in neighbours(current.Value).Select(n => new SearchNode<TValue, TCost>(current.CostSoFar + n.Cost,
+                                                                                                                                n.Value, heuristic, current)))
+            {
+                //Check if it's in the closed list
+                if (explored.TryGetValue(neighbour, out TCost? distance))
+                {
+                    //If it is, check if we found a quicker way
+                    if (distance <= neighbour.CostSoFar) continue;
+
+                    //If so, remove from closed list, and add back to open list
+                    explored.Remove(neighbour);
+                    search.Enqueue(neighbour);
+                    equivalentNodes[neighbour] = [neighbour];
+                }
+                //Check if it is in the open list
+                else if (search.Contains(neighbour))
+                {
+                    //If so, update the value if necessary
+                    search.Replace(neighbour);
+
+                    List<SearchNode<TValue, TCost>> otherBranches = equivalentNodes[neighbour];
+                    SearchNode<TValue, TCost> previous = otherBranches[0];
+                    if (previous.CostSoFar == neighbour.CostSoFar)
+                    {
+                        otherBranches.Add(neighbour);
+                    }
+                    else if (previous.CostSoFar > neighbour.CostSoFar)
+                    {
+                        equivalentNodes[neighbour] = [neighbour];
+                    }
+                }
+                else
+                {
+                    //Otherwise just add it
+                    search.Enqueue(neighbour);
+                    equivalentNodes[neighbour] = [neighbour];
+                }
+            }
+
+            //Add to the closed list after exploring
+            explored.Add(current, current.CostSoFar);
+        }
+
+        //If the path is not found, return null
+        if (foundGoal is null) return (null, null);
+
+
+        //Trace the path and backtrack
+        Stack<TValue> path = [];
+        HashSet<TValue> unique = [];
+        Queue<SearchNode<TValue, TCost>> branchesQueue = [];
+
+        //While the parent is not null
+        while (foundGoal.Parent is not null)
+        {
+            //Push back and go deeper
+            path.Push(foundGoal.Value);
+            unique.Add(foundGoal.Value);
+            foundGoal = foundGoal.Parent;
+            if (!equivalentNodes.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
+
+            foreach (SearchNode<TValue, TCost> branch in branches.Where(branch => !ReferenceEquals(branch, foundGoal)))
+            {
+                branchesQueue.Enqueue(branch);
+            }
+        }
+
+        unique.Add(foundGoal.Value);
+
+        while (branchesQueue.TryDequeue(out foundGoal))
+        {
+            //While the parent is not null
+            while (foundGoal.Parent is not null)
+            {
+                //Push back and go deeper
+                unique.Add(foundGoal.Value);
+                foundGoal = foundGoal.Parent;
+
+                if (!equivalentNodes.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
+
+                foreach (SearchNode<TValue, TCost> branch in branches.Where(branch => !ReferenceEquals(branch, foundGoal)))
+                {
+                    branchesQueue.Enqueue(branch);
+                }
+            }
+
+            unique.Add(foundGoal.Value);
+        }
+
+        //Copy the path back to an array and return
+        return (path.ToArray(), unique);
     }
 
     /// <summary>
