@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using Microsoft.Z3;
 
 namespace AdventOfCode.Solvers.AoC2024
 {
@@ -25,12 +25,12 @@ namespace AdventOfCode.Solvers.AoC2024
             CDV = 7     // C <- A / 2^Op
         }
 
-        private long a;
-        private long b;
-        private long c;
+        private long registerA;
+        private long registerB;
+        private long registerC;
         private int ip;
         private int[] code = null!;
-        private List<int> output = null!;
+        private readonly List<int> output = new(16);
 
         #region Constructors
         /// <summary>
@@ -45,109 +45,55 @@ namespace AdventOfCode.Solvers.AoC2024
         /// <inheritdoc cref="Base.Solver.Run"/>
         public override void Run()
         {
-            (this.a, this.b, this.c, this.code) = this.Data;
-            this.output = new List<int>(this.code.Length);
-            AoCUtils.LogPart1(RunProgram());
+            // Run with initial params
+            this.code = this.Data.program;
+            RunProgram(this.Data.a, this.Data.b, this.Data.c);
+            AoCUtils.LogPart1(string.Join(',', this.output));
 
-            // Looks like it's Z3 time again
-            Context context = new();
-            Optimize optimize = context.MkOptimize();
-
-            Symbol initASymbol = context.MkSymbol("initA");
-            BitVecExpr initA   = context.MkBVConst(initASymbol, 64);
-            BitVecExpr ra = context.MkBVConst(initASymbol, 64);
-            BitVecExpr rb = MakeIntBV(context, 0);
-            BitVecExpr rc = MakeIntBV(context, 0);
-
-            foreach (int bytecode in this.code)
+            // Search from 0
+            long minInitialA = long.MaxValue;
+            Queue<(int chunkSize, long initialA)> search = new();
+            search.Enqueue((1, 0L));
+            while (search.TryDequeue(out (int chunkSize, long initialA) test))
             {
-                BitVecExpr x = MakeIntBV(context, bytecode);
-                for (this.ip = 0; ip < this.code.Length; /* i+ = 2 */)
+                // Try matching only last few values from output
+                Index startIndex = ^test.chunkSize;
+                ReadOnlySpan<int> programChunk = this.code.AsSpan(startIndex);
+                // Test eight options from current initial A value
+                foreach (int offset in ..8)
                 {
-                    Opcode opcode = (Opcode)this.code[this.ip++];
-                    int operand = this.code[this.ip++];
-                    switch (opcode)
+                    // Run program with specified parameters
+                    long initialA = test.initialA + offset;
+                    RunProgram(initialA, this.Data.b, this.Data.c);
+                    if (this.output.Count < test.chunkSize) continue;
+
+                    // Check if the last output chunk matches
+                    ReadOnlySpan<int> outputChunk = CollectionsMarshal.AsSpan(this.output)[startIndex..];
+                    if (!programChunk.SequenceEqual(outputChunk)) continue;
+
+                    if (test.chunkSize == this.code.Length)
                     {
-                        case Opcode.ADV:
-                        {
-                            // a = a / 1 << op
-                            BitVecExpr one   = MakeIntBV(context, 1);
-                            BitVecExpr shift = context.MkBVSHL(one,  GetComboBVOperand(operand, ra, rb, rc, context));
-                            ra = context.MkBVSDiv(ra, shift);
-                            break;
-                        }
-
-                        case Opcode.BXL:
-                        {
-                            // b = b ^ lit
-                            BitVecExpr lit = MakeIntBV(context, operand);
-                            rb = context.MkBVXOR(rb, lit);
-                            break;
-                        }
-
-                        case Opcode.BST:
-                        {
-                            // b = op % 8
-                            BitVecExpr eight = MakeIntBV(context, 8);
-                            BitVecExpr value = GetComboBVOperand(operand, ra, rb, rc, context);
-                            rb = context.MkBVSMod(value, eight);
-                            break;
-                        }
-
-                        case Opcode.JNZ:
-                            // Ignored for the solver
-                            break;
-
-                        case Opcode.BXC:
-                            // b = b ^c
-                            rb = context.MkBVXOR(rb, rc);
-                            break;
-
-                        case Opcode.OUT:
-                        {
-                            // out(b % 8)
-                            BitVecExpr eight    = MakeIntBV(context, 8);
-                            BitVecExpr outValue = context.MkBVSMod(rb, eight);
-                            optimize.Assert(context.MkEq(outValue, x));
-                            break;
-                        }
-
-                        case Opcode.BDV:
-                        {
-                            // b = a / 1 << op
-                            BitVecExpr one   = MakeIntBV(context, 1);
-                            BitVecExpr shift = GetComboBVOperand(operand, ra, rb, rc, context);
-                            rb = context.MkBVSDiv(ra, context.MkBVSHL(one, shift));
-                            break;
-                        }
-
-                        case Opcode.CDV:
-                        {
-                            // c = a / 1 << op
-                            BitVecExpr one   = MakeIntBV(context, 1);
-                            BitVecExpr shift = GetComboBVOperand(operand, ra, rb, rc, context);
-                            rc = context.MkBVSDiv(ra, context.MkBVSHL(one, shift));
-                            break;
-                        }
-
-                        default:
-                            throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
+                        // If we have the same total output size, we have a candidate
+                        minInitialA = Math.Min(minInitialA, initialA);
                     }
+                    else
+                    {
+                        // Else increase chunk size and add to search queue
+                        search.Enqueue((test.chunkSize + 1, initialA * 8L));
+                    }
+
                 }
-
             }
-            // Ensure that a is 0
-            optimize.Assert(context.MkEq(ra, MakeIntBV(context, 0)));
-
-            // Minimize initial a
-            optimize.MkMinimize(initA);
-            optimize.Check();
-            Expr result = optimize.Model.Evaluate(initA, true);
-            AoCUtils.LogPart2(result);
+            AoCUtils.LogPart2(minInitialA);
         }
 
-        private string RunProgram()
+        private void RunProgram(long a, long b, long c)
         {
+            this.registerA = a;
+            this.registerB = b;
+            this.registerC = c;
+            this.ip        = 0;
+            this.output.Clear();
             int eod = this.code.Length;
             while (this.ip < eod)
             {
@@ -155,7 +101,7 @@ namespace AdventOfCode.Solvers.AoC2024
                 switch (opcode)
                 {
                     case Opcode.ADV:
-                        Div(out this.a);
+                        Div(out this.registerA);
                         break;
 
                     case Opcode.BXL:
@@ -163,10 +109,10 @@ namespace AdventOfCode.Solvers.AoC2024
                         break;
 
                     case Opcode.BST:
-                        this.b = GetComboOperand() % 8;
+                        this.registerB = GetComboOperand() % 8;
                         break;
 
-                    case Opcode.JNZ when this.a is not 0:
+                    case Opcode.JNZ when this.registerA is not 0:
                         this.ip = this.code[this.ip];
                         break;
 
@@ -176,7 +122,7 @@ namespace AdventOfCode.Solvers.AoC2024
 
                     case Opcode.BXC:
                         this.ip++;
-                        Xor(this.c);
+                        Xor(this.registerC);
                         break;
 
                     case Opcode.OUT:
@@ -184,24 +130,22 @@ namespace AdventOfCode.Solvers.AoC2024
                         break;
 
                     case Opcode.BDV:
-                        Div(out this.b);
+                        Div(out this.registerB);
                         break;
 
                     case Opcode.CDV:
-                        Div(out this.c);
+                        Div(out this.registerC);
                         break;
 
                     default:
                         throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
                 }
             }
-
-            return string.Join(',', this.output);
         }
 
-        private void Div(out long register) => register = this.a / (1L << checked((int)GetComboOperand()));
+        private void Div(out long register) => register = this.registerA / (1L << (int)GetComboOperand());
 
-        private void Xor(long value) => this.b ^= value;
+        private void Xor(long value) => this.registerB ^= value;
 
         private long GetComboOperand()
         {
@@ -209,24 +153,9 @@ namespace AdventOfCode.Solvers.AoC2024
             return operand switch
             {
                 0 or 1 or 2 or 3 => operand,
-                4                => this.a,
-                5                => this.b,
-                6                => this.c,
-                7                => throw new InvalidOperationException("Combo operator 7 is not supported"),
-                _                => throw new InvalidOperationException("Invalid combo operator")
-            };
-        }
-
-        private static BitVecExpr MakeIntBV(Context context, int value) => context.MkInt2BV(64, context.MkInt(value));
-
-        private static BitVecExpr GetComboBVOperand(int operand, BitVecExpr ra, BitVecExpr rb, BitVecExpr rc, Context context)
-        {
-            return operand switch
-            {
-                0 or 1 or 2 or 3 => MakeIntBV(context, operand),
-                4                => ra,
-                5                => rb,
-                6                => rc,
+                4                => this.registerA,
+                5                => this.registerB,
+                6                => this.registerC,
                 7                => throw new InvalidOperationException("Combo operator 7 is not supported"),
                 _                => throw new InvalidOperationException("Invalid combo operator")
             };
@@ -236,9 +165,9 @@ namespace AdventOfCode.Solvers.AoC2024
         protected override (long, long, long, int[]) Convert(string[] rawInput)
         {
             // Registers
-            long registerA = long.Parse(rawInput[0].AsSpan(12));
-            long registerB = long.Parse(rawInput[1].AsSpan(12));
-            long registerC = long.Parse(rawInput[2].AsSpan(12));
+            long a = long.Parse(rawInput[0].AsSpan(12));
+            long b = long.Parse(rawInput[1].AsSpan(12));
+            long c = long.Parse(rawInput[2].AsSpan(12));
 
             // Bytecode
             ReadOnlySpan<char> programSpan = rawInput[3].AsSpan(9);
@@ -247,7 +176,7 @@ namespace AdventOfCode.Solvers.AoC2024
             {
                 program[i] = programSpan[i * 2] - '0';
             }
-            return (registerA, registerB, registerC, program);
+            return (a, b, c, program);
         }
         #endregion
     }
