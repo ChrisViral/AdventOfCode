@@ -15,21 +15,16 @@ namespace AdventOfCode.Solvers.AoC2024
     {
         private enum Opcode
         {
-            ADV = 0,    // A <- A / 2^Op
-            BXL = 1,    // B <- B Xor Lit
-            BST = 2,    // B <- Op Mod 8
-            JNZ = 3,    // A not 0 => Jump Lit
-            BXC = 4,    // B <- B Xor C
-            OUT = 5,    // B Mod 8 -> Out
-            BDV = 6,    // B <- A / 2^Op
-            CDV = 7     // C <- A / 2^Op
+            ADV = 0,    // A   <- A / 2^Op
+            BXL = 1,    // B   <- B Xor Lit
+            BST = 2,    // B   <- Op Mod 8
+            JNZ = 3,    // A != 0 => Jump Lit
+            BXC = 4,    // B   <- B Xor C
+            OUT = 5,    // Out <- B Mod 8
+            BDV = 6,    // B   <- A / 2^Op
+            CDV = 7     // C   <- A / 2^Op
         }
 
-        private long registerA;
-        private long registerB;
-        private long registerC;
-        private int ip;
-        private int[] code = null!;
         private readonly List<int> output = new(16);
 
         #region Constructors
@@ -46,7 +41,6 @@ namespace AdventOfCode.Solvers.AoC2024
         public override void Run()
         {
             // Run with initial params
-            this.code = this.Data.program;
             RunProgram(this.Data.a, this.Data.b, this.Data.c);
             AoCUtils.LogPart1(string.Join(',', this.output));
 
@@ -58,7 +52,7 @@ namespace AdventOfCode.Solvers.AoC2024
             {
                 // Try matching only last few values from output
                 Index startIndex = ^test.chunkSize;
-                ReadOnlySpan<int> programChunk = this.code.AsSpan(startIndex);
+                ReadOnlySpan<int> programChunk = this.Data.program.AsSpan(startIndex);
                 // Test eight options from current initial A value
                 foreach (int offset in ..8)
                 {
@@ -71,7 +65,7 @@ namespace AdventOfCode.Solvers.AoC2024
                     ReadOnlySpan<int> outputChunk = CollectionsMarshal.AsSpan(this.output)[startIndex..];
                     if (!programChunk.SequenceEqual(outputChunk)) continue;
 
-                    if (test.chunkSize == this.code.Length)
+                    if (test.chunkSize == this.Data.program.Length)
                     {
                         // If we have the same total output size, we have a candidate
                         minInitialA = Math.Min(minInitialA, initialA);
@@ -89,76 +83,62 @@ namespace AdventOfCode.Solvers.AoC2024
 
         private void RunProgram(long a, long b, long c)
         {
-            this.registerA = a;
-            this.registerB = b;
-            this.registerC = c;
-            this.ip        = 0;
-            this.output.Clear();
-            int eod = this.code.Length;
-            while (this.ip < eod)
+            long GetOperand(long operand) => operand switch
             {
-                Opcode opcode = (Opcode)this.code[this.ip++];
+                0 or 1 or 2 or 3 => operand,
+                4                => a,
+                5                => b,
+                6                => c,
+                7                => throw new NotSupportedException("Combo operator 7 is not supported"),
+                _                => throw new InvalidOperationException("Invalid combo operator")
+            };
+
+            this.output.Clear();
+            for (int ip = 0; ip < this.Data.program.Length; /* ip += 2 */)
+            {
+                Opcode opcode = (Opcode)this.Data.program[ip++];
+                int operand   = this.Data.program[ip++];
                 switch (opcode)
                 {
                     case Opcode.ADV:
-                        Div(out this.registerA);
+                        a >>= (int)GetOperand(operand);
                         break;
 
                     case Opcode.BXL:
-                        Xor(this.code[this.ip++]);
+                        b ^= operand;
                         break;
 
                     case Opcode.BST:
-                        this.registerB = GetComboOperand() % 8;
+                        b = GetOperand(operand) % 8L;
                         break;
 
-                    case Opcode.JNZ when this.registerA is not 0:
-                        this.ip = this.code[this.ip];
+                    case Opcode.JNZ when a is not 0L:
+                        ip = operand;
                         break;
 
                     case Opcode.JNZ:
-                        this.ip++;
                         break;
 
                     case Opcode.BXC:
-                        this.ip++;
-                        Xor(this.registerC);
+                        b ^= c;
                         break;
 
                     case Opcode.OUT:
-                        this.output.Add((int)(GetComboOperand() % 8));
+                        this.output.Add((int)(GetOperand(operand) % 8L));
                         break;
 
                     case Opcode.BDV:
-                        Div(out this.registerB);
+                        b = a >> (int)GetOperand(operand);
                         break;
 
                     case Opcode.CDV:
-                        Div(out this.registerC);
+                        c = a >> (int)GetOperand(operand);
                         break;
 
                     default:
                         throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
                 }
             }
-        }
-
-        private void Div(out long register) => register = this.registerA / (1L << (int)GetComboOperand());
-
-        private void Xor(long value) => this.registerB ^= value;
-
-        private long GetComboOperand()
-        {
-            long operand = this.code[this.ip++];
-            return operand switch
-            {
-                0 or 1 or 2 or 3 => operand,
-                4                => this.registerA,
-                5                => this.registerB,
-                6                => this.registerC,
-                7                => throw new InvalidOperationException("Combo operator 7 is not supported"),
-                _                => throw new InvalidOperationException("Invalid combo operator")
-            };
         }
 
         /// <inheritdoc cref="Solver{T}.Convert"/>
