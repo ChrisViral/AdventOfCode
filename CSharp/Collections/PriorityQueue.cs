@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using AdventOfCode.Extensions.Arrays;
 using JetBrains.Annotations;
 
@@ -40,7 +42,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// Base capacity of the heap list
     /// </summary>
-    private const int BASE_CAPACITY = 4;
+    private const int BASE_CAPACITY = 8;
     #endregion
 
     #region Fields
@@ -212,17 +214,19 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             //Reset moving flag
             moving = false;
             //Index of the left, right, and current nodes
-            int l = LeftChild(i), r = RightChild(i), largest = i;
-            if (CompareDown(i, l))
+            int left = LeftChild(i);
+            int largest = i;
+            if (CompareDown(largest, left))
             {
                 //If left smaller, possibly move this way
-                largest = l;
+                largest = left;
             }
 
-            if (CompareDown(largest, r))
+            int right = RightChild(i);
+            if (CompareDown(largest, right))
             {
                 //If right smaller, move this way
-                largest = r;
+                largest = right;
             }
 
             //Check if the new target index is further than the current index
@@ -230,7 +234,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
 
             //Swap and keep moving down
             (this.heap[largest], this.heap[i]) = (this.heap[i], this.heap[largest]);
-            i = largest;
+            i      = largest;
             moving = true;
         }
         while (moving);
@@ -280,7 +284,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <param name="value">Popped value, or the default value if nothing was present</param>
     /// <returns>True if a value was popped, false otherwise</returns>
-    public bool TryDequeue(out T value)
+    public bool TryDequeue([MaybeNullWhen(false)] out T value)
     {
         if (!this.IsEmpty)
         {
@@ -288,7 +292,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             return true;
         }
 
-        value = default!;
+        value = default;
         return false;
     }
 
@@ -298,14 +302,14 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <returns>First Item in the queue</returns>
     /// <exception cref="InvalidOperationException">Cannot peek if the queue is empty</exception>
-    public T Peek() => !this.IsEmpty ? this.heap[0] : throw new InvalidOperationException("Queue empty, operation invalid");
+    public T Peek() => !this.IsEmpty ? this.heap[0] : throw new InvalidOperationException("Queue is empty");
 
     /// <summary>
     /// Tries to get and return the first element of the queue without removing it, if it has one
     /// </summary>
     /// <param name="value">First value of the queue, or the default value if nothing was present</param>
     /// <returns>True if there was a value, false otherwise</returns>
-    public bool TryPeek(out T value)
+    public bool TryPeek([MaybeNullWhen(false)] out T value)
     {
         if (!this.IsEmpty)
         {
@@ -313,7 +317,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
             return true;
         }
 
-        value = default!;
+        value = default;
         return false;
     }
 

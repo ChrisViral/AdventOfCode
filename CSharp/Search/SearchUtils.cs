@@ -16,7 +16,7 @@ namespace AdventOfCode.Search;
 /// <typeparam name="TValue">Value type</typeparam>
 /// <typeparam name="TCost">Cost numerical type</typeparam>
 [PublicAPI]
-public record struct MoveData<TValue, TCost>(TValue Value, TCost Cost) where TCost : INumber<TCost>;
+public readonly record struct MoveData<TValue, TCost>(TValue Value, TCost Cost) where TCost : INumber<TCost>;
 
 /// <summary>
 /// Searching utility methods
