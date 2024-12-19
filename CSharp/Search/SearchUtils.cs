@@ -63,7 +63,7 @@ public static class SearchUtils
         Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
         goalFound ??= (a, b) => a.Equals(b);
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
+        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal
             if (goalFound(current.Value, goal))
@@ -149,7 +149,7 @@ public static class SearchUtils
         Dictionary<SearchNode<TValue, TCost>, List<SearchNode<TValue, TCost>>> equivalentNodes = [];
         goalFound ??= (a, b) => a.Equals(b);
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
+        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal
             if (goalFound(current.Value, goal))
@@ -280,7 +280,7 @@ public static class SearchUtils
         search.Enqueue(new(start));
         Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost> current))
+        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal or the distance is cached
             if (current == goal || distances.TryGetValue((current.Value, goal), out foundDistance))
