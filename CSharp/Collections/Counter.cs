@@ -20,6 +20,11 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
     #region Properties
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count"/>
     public int Count => this.dictionary.Count;
+
+    /// <summary>
+    /// The keys stored within this counter
+    /// </summary>
+    public Dictionary<T, int>.KeyCollection Keys => this.dictionary.Keys;
     #endregion
 
     #region Indexers
