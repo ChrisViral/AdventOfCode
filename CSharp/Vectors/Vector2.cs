@@ -244,6 +244,8 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>The scaled vector</returns>
     public Vector2<T> Scale(T scaleX, T scaleY) => new(this.X * scaleX, this.Y * scaleY);
 
+
+
     /// <summary>
     /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
     /// </summary>
