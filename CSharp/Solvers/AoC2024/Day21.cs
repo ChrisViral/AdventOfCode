@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
@@ -16,9 +16,26 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day21 : ArraySolver<(string code, int value)>
 {
-    private static readonly StringBuilder Builder = new(256);
-    private static readonly ImmutableArray<Direction> NumpadMoveOrder = [Direction.DOWN, Direction.LEFT, Direction.RIGHT, Direction.UP];
-    private static readonly ImmutableArray<Direction> KeypadMoveOrder = [Direction.RIGHT, Direction.UP, Direction.DOWN, Direction.LEFT];
+    /// <summary>
+    /// Part 1 depth
+    /// </summary>
+    private const int PART1_DEPTH = 2;
+    /// <summary>
+    /// Part 2 depth
+    /// </summary>
+    private const int PART2_DEPTH = 25;
+
+    /// <summary>
+    /// Move string builder
+    /// </summary>
+    private static readonly StringBuilder MoveBuilder = new(32);
+    /// <summary>
+    /// Move sequence length cache per depth
+    /// </summary>
+    private static readonly Dictionary<(string, int), long> MoveLengthsCache = new(1000);
+    /// <summary>
+    /// Direction -> character map
+    /// </summary>
     private static readonly FrozenDictionary<Direction, char> Directions = new Dictionary<Direction, char>
     {
         [Direction.UP]    = '^',
@@ -26,6 +43,9 @@ public class Day21 : ArraySolver<(string code, int value)>
         [Direction.LEFT]  = '<',
         [Direction.RIGHT] = '>'
     }.ToFrozenDictionary();
+    /// <summary>
+    /// Numpad key locations
+    /// </summary>
     private static readonly FrozenDictionary<char, Vector2<int>> Numpad = new Dictionary<char, Vector2<int>>
     {
         ['0'] = (1, 3),
@@ -40,6 +60,9 @@ public class Day21 : ArraySolver<(string code, int value)>
         ['9'] = (2, 0),
         ['A'] = (2, 3)
     }.ToFrozenDictionary();
+    /// <summary>
+    /// Keypad key locations
+    /// </summary>
     private static readonly FrozenDictionary<char, Vector2<int>> Keypad = new Dictionary<char, Vector2<int>>
     {
         ['<'] = (0, 1),
@@ -62,126 +85,173 @@ public class Day21 : ArraySolver<(string code, int value)>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        long complexity = 0L;
-        foreach ((string code, int value) in this.Data)
-        {
-            string moves = GetMovesSequence(code, 2);
-            AoCUtils.Log(moves);
-            complexity += value * moves.Length;
-        }
-
+        long complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART1_DEPTH) * t.value);
         AoCUtils.LogPart1(complexity);
 
-        complexity = 0L;
-        foreach ((string code, int value) in this.Data)
-        {
-            string moves = GetMovesSequence(code, 25);
-            AoCUtils.Log(moves);
-            complexity += value * moves.Length;
-        }
-
-        AoCUtils.LogPart2("");
+        complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART2_DEPTH) * t.value);
+        AoCUtils.LogPart2(complexity);
     }
 
-    private static string GetMovesSequence(ReadOnlySpan<char> code, int depth)
+    /// <summary>
+    /// Gets the length of the final move sequence
+    /// </summary>
+    /// <param name="code">Code to input</param>
+    /// <param name="depth">Proxy robots depth</param>
+    /// <returns>The length of the final code to input</returns>
+    private static long GetMovesSequenceLength(string code, int depth)
     {
-        string moves = GetNumpadMoveSequence(code);
-        foreach (int i in ..depth)
-        {
-            moves = GetKeypadMoveSequence(moves);
-            AoCUtils.Log($"{i}: {moves.Length}");
-        }
-        return moves;
+        string[][] candidateMoves = GetNumpadMoveSequence(code);
+        return candidateMoves.Sum(moves => moves.Min(m => GetKeypadMoveLength(m, depth)));
     }
 
-    private static string GetNumpadMoveSequence(ReadOnlySpan<char> keys)
+    /// <summary>
+    /// Gets the possible move sequences for each digit of a numpad code
+    /// </summary>
+    /// <param name="code">Numpad code to enter</param>
+    /// <returns>The possible sequences for each move</returns>
+    private static string[][] GetNumpadMoveSequence(string code)
     {
+        string[][] moves = new string[code.Length][];
         Vector2<int> position = Numpad['A'];
-        foreach (char c in keys)
+        foreach (int i in ..moves.Length)
         {
-            Vector2<int> destination = Numpad[c];
+            Vector2<int> destination = Numpad[code[i]];
             DirectionVector<int> directions = (destination - position).ToDirectionVector();
             switch (directions.X.length, directions.Y.length)
             {
+                // Horizontal only movement
                 case (> 0, 0):
-                    Builder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
                     break;
 
+                // Vertical only movement
                 case (0, > 0):
-                    Builder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
                     break;
 
-                case (> 0, > 0) when position.Y is 3 && destination.X is 0 || position.X is 0 && destination.Y is 3:
-                    if (KeypadMoveOrder.IndexOf(directions.X.direction) < KeypadMoveOrder.IndexOf(directions.Y.direction))
-                    {
-                        Builder.Append(Directions[directions.X.direction], directions.X.length);
-                        Builder.Append(Directions[directions.Y.direction], directions.Y.length);
-                    }
-                    else
-                    {
-                        Builder.Append(Directions[directions.Y.direction], directions.Y.length);
-                        Builder.Append(Directions[directions.X.direction], directions.X.length);
-                    }
+                // Moving from bottom row to left column
+                case (> 0, > 0) when position.Y is 3 && destination.X is 0:
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
                     break;
 
+                // Moving from left column to bottom row
+                case (> 0, > 0) when position.X is 0 && destination.Y is 3:
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    break;
+
+                // Other moves
                 case (> 0, > 0):
-                    if (NumpadMoveOrder.IndexOf(directions.X.direction) < NumpadMoveOrder.IndexOf(directions.Y.direction))
-                    {
-                        Builder.Append(Directions[directions.X.direction], directions.X.length);
-                        Builder.Append(Directions[directions.Y.direction], directions.Y.length);
-                    }
-                    else
-                    {
-                        Builder.Append(Directions[directions.Y.direction], directions.Y.length);
-                        Builder.Append(Directions[directions.X.direction], directions.X.length);
-                    }
-                    break;
+                    // Horizontal first move
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append('A');
+                    string horizontalFirst = MoveBuilder.ToString();
+                    MoveBuilder.Clear();
+
+                    // Vertical first move
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append('A');
+                    string verticalFirst = MoveBuilder.ToString();
+                    MoveBuilder.Clear();
+
+                    // Add both for consideration, then skip tail part of the loop
+                    moves[i] = [horizontalFirst, verticalFirst];
+                    position = destination;
+                    continue;
             }
 
-            Builder.Append('A');
+            // Finalize single move
+            MoveBuilder.Append('A');
+            moves[i] = [MoveBuilder.ToString()];
+            MoveBuilder.Clear();
             position = destination;
         }
 
-        string result = Builder.ToString();
-        Builder.Clear();
-        return result;
+        return moves;
     }
 
-    private static string GetKeypadMoveSequence(ReadOnlySpan<char> keys)
+    /// <summary>
+    /// Gets the minimum keypad move length for a certain sequence and proxy depth
+    /// </summary>
+    /// <param name="move">Move sequence</param>
+    /// <param name="depth">Proxy robot depth</param>
+    /// <returns>The minimum move sequence length</returns>
+    private static long GetKeypadMoveLength(string move, int depth)
     {
+        // At depth 0, no more recursion to do
+        if (depth is 0) return move.Length;
+        // Check if the move is cached
+        if (MoveLengthsCache.TryGetValue((move, depth), out long length)) return length;
+
         Vector2<int> position = Keypad['A'];
-        foreach (char c in keys)
+        foreach (char c in move)
         {
             Vector2<int> destination = Keypad[c];
             DirectionVector<int> directions = (destination - position).ToDirectionVector();
             switch (directions.X.length, directions.Y.length)
             {
+                // Horizontal only move
                 case (> 0, 0):
-                    Builder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
                     break;
 
+                // Vertical only move
                 case (0, > 0):
-                    Builder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
                     break;
 
-                case (> 0, > 0) when KeypadMoveOrder.IndexOf(directions.X.direction) < KeypadMoveOrder.IndexOf(directions.Y.direction):
-                    Builder.Append(Directions[directions.X.direction], directions.X.length);
-                    Builder.Append(Directions[directions.Y.direction], directions.Y.length);
+                // Moving from > key
+                case (> 0, > 0) when position is (0, 1):
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
                     break;
 
+                // Moving to < key
+                case (> 0, > 0) when destination is (0, 1):
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    break;
+
+                // Other moves
                 case (> 0, > 0):
-                    Builder.Append(Directions[directions.Y.direction], directions.Y.length);
-                    Builder.Append(Directions[directions.X.direction], directions.X.length);
-                    break;
+                    // Try going horizontally first
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append('A');
+                    string horizontalFirst = MoveBuilder.ToString();
+                    MoveBuilder.Clear();
+
+                    // Try going vertically first
+                    MoveBuilder.Append(Directions[directions.Y.direction], directions.Y.length);
+                    MoveBuilder.Append(Directions[directions.X.direction], directions.X.length);
+                    MoveBuilder.Append('A');
+                    string verticalFirst = MoveBuilder.ToString();
+                    MoveBuilder.Clear();
+
+                    // We try both and see which is best
+                    long horizontalFirstLength = GetKeypadMoveLength(horizontalFirst, depth - 1);
+                    long verticalFirstLength   = GetKeypadMoveLength(verticalFirst,   depth - 1);
+                    length  += Math.Min(horizontalFirstLength, verticalFirstLength);
+
+                    // Skip tail end of loop
+                    position =  destination;
+                    continue;
             }
 
-            Builder.Append('A');
+            // Get length for subsequence
+            MoveBuilder.Append('A');
+            string subMove = MoveBuilder.ToString();
+            MoveBuilder.Clear();
+            length  += GetKeypadMoveLength(subMove, depth - 1);
             position = destination;
         }
 
-        string result = Builder.ToString();
-        Builder.Clear();
-        return result;
+        // Cache result
+        MoveLengthsCache[(move, depth)] = length;
+        return length;
     }
 
     /// <inheritdoc />
