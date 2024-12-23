@@ -6,7 +6,6 @@ using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2024;
 
@@ -15,40 +14,30 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day22 : ArraySolver<long>
 {
-    private record ParallelData(byte[] SearchValues)
-    {
-        public int BestValue { get; set; }
-    }
-
-    private class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(Vector2<sbyte> a, Vector2<sbyte> b), ParallelData>
+    private class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(byte a, byte b, byte c, byte d), Ref<int>>
     {
         public ConcurrentBag<int> Results { get; } = [];
 
         /// <inheritdoc />
-        protected override ParallelData Setup() => new(new byte[4]);
+        protected override Ref<int> Setup() => new(0);
 
         /// <inheritdoc />
-        protected override void Process((Vector2<sbyte> a, Vector2<sbyte> b) element, in IterationData iteration)
+        protected override void Process((byte a, byte b, byte c, byte d) element, in IterationData iteration)
         {
-            Span<byte> search = iteration.data.SearchValues;
-            search[0] = (byte)element.a.X;
-            search[1] = (byte)element.a.Y;
-            search[2] = (byte)element.b.X;
-            search[3] = (byte)element.b.Y;
             int bananas = 0;
+            Span<byte> search = [element.a, element.b, element.c, element.d];
             foreach ((int[] prices, byte[] diffs) in secrets)
             {
-                ReadOnlySpan<byte> diffSpan = diffs.AsSpan(1);
-                int index = diffSpan.IndexOf(search);
+                int index = diffs.AsSpan().IndexOf(search);
                 if (index is -1) continue;
 
-                bananas += prices[index + 4];
+                bananas += prices[index + 3];
             }
-            iteration.data.BestValue = Math.Max(iteration.data.BestValue, bananas);
+            iteration.data.Value = Math.Max(iteration.data, bananas);
         }
 
         /// <inheritdoc />
-        protected override void Finalize(ParallelData data) => Results.Add(data.BestValue);
+        protected override void Finalize(Ref<int> data) => Results.Add(data);
     }
 
     /// <summary>
@@ -81,13 +70,12 @@ public class Day22 : ArraySolver<long>
     private static (int[] prices, byte[] diffs, long secret) GeneratePrices(long seed)
     {
         // Create generation arrays
-        int[] prices  = new int[GEN_COUNT + 1];
-        byte[] diffs = new byte[GEN_COUNT + 1];
+        int[] prices  = new int[GEN_COUNT];
+        byte[] diffs = new byte[GEN_COUNT];
 
         int previousPrice = (int)(seed % 10);
-        prices[0]   = previousPrice;
         long secret = seed;
-        foreach (int i in 1..^GEN_COUNT)
+        foreach (int i in ..GEN_COUNT)
         {
             secret ^= secret << 6;  // * 64
             secret &= 0xFFFFFF;     // % 16777216
@@ -105,13 +93,19 @@ public class Day22 : ArraySolver<long>
         return (prices, diffs, secret);
     }
 
-    private static IEnumerable<(Vector2<sbyte>, Vector2<sbyte>)> EnumerateSequences()
+    private static IEnumerable<(byte, byte, byte, byte)> EnumerateSequences()
     {
-        foreach (Vector2<sbyte> a in Vector2<sbyte>.Enumerate(19, 19))
+        for (byte a = 0; a <= 18; a++)
         {
-            foreach (Vector2<sbyte> b in Vector2<sbyte>.Enumerate(19, 19))
+            for (byte b = 0; b <= 18; b++)
             {
-                yield return (a, b);
+                for (byte c = 0; c <= 18; c++)
+                {
+                    for (byte d = 0; d <= 18; d++)
+                    {
+                        yield return (a, b, c, d);
+                    }
+                }
             }
         }
     }
