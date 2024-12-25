@@ -4,7 +4,6 @@ using System.ComponentModel;
 using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
-using Modes = AdventOfCode.Intcode.Instructions.Modes;
 
 namespace AdventOfCode.Intcode;
 
@@ -15,9 +14,9 @@ namespace AdventOfCode.Intcode;
 public class IntcodeVM
 {
     /// <summary>
-    /// VM states
+    /// VM state
     /// </summary>
-    public enum VMStates
+    public enum VMState
     {
         READY,
         RUNNING,
@@ -26,45 +25,33 @@ public class IntcodeVM
     }
 
     /// <summary>
-    /// VM specific data
-    /// </summary>
-    public readonly struct VMData
-    {
-        #region Fields
-        /// <summary>Memory of the VM</summary>
-        public readonly Memory<long> memory;
-        /// <summary>Input function of the VM</summary>
-        public readonly InputGetter getInput;
-        /// <summary>Output function of the VM</summary>
-        public readonly OutputSetter setOutput;
-        #endregion
-
-        #region constructors
-        /// <summary>
-        /// Creates new VM data from the given IntcodeVM
-        /// </summary>
-        /// <param name="vm">VM to create the data for</param>
-        public VMData(IntcodeVM vm)
-        {
-            this.memory    = vm.memory;
-            this.getInput  = vm.GetNextInput;
-            this.setOutput = vm.AddOutput;
-        }
-        #endregion
-    }
-
-    /// <summary>
     /// Delegate which gets the next input value
     /// </summary>
     /// <param name="input">The returned input</param>
     /// <returns>True if an input was fetched, false otherwise</returns>
-    public delegate bool InputGetter(out long input);
+    public delegate bool Input(out long input);
 
     /// <summary>
     /// Delegate which sets the next output value
     /// </summary>
     /// <param name="output">Output value to set</param>
-    public delegate void OutputSetter(long output);
+    public delegate void Output(long output);
+
+    /// <summary>
+    /// VM specific data
+    /// </summary>
+    /// <param name="vm">VM to create the data for</param>
+    public readonly struct VMData(IntcodeVM vm)
+    {
+        #region Fields
+        /// <summary>Memory of the VM</summary>
+        public readonly Memory<long> memory = vm.memory;
+        /// <summary>Input function of the VM</summary>
+        public readonly Input input = vm.GetNextInput;
+        /// <summary>Output function of the VM</summary>
+        public readonly Output output = vm.AddOutput;
+        #endregion
+    }
 
     /// <summary>
     /// Output event
@@ -112,17 +99,12 @@ public class IntcodeVM
     /// The current VM State
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public VMStates State { get; private set; }
+    public VMState State { get; private set; }
 
     /// <summary>
     /// If the Intcode VM is currently halted
     /// </summary>
-    public bool IsHalted => this.State is VMStates.HALTED;
-
-    /// <summary>
-    /// Fetches the current instruction in memory
-    /// </summary>
-    private long Fetch => this.memory.Span[this.pointer];
+    public bool IsHalted => this.State is VMState.HALTED;
 
     /// <summary>
     /// The input queue of the IntcodeVM
@@ -147,22 +129,14 @@ public class IntcodeVM
     /// </summary>
     /// <param name="index">Index to access</param>
     /// <returns>Value in the memory at the specified index</returns>
-    public long this[int index]
-    {
-        get => this.memory.Span[index];
-        set => this.memory.Span[index] = value;
-    }
+    public ref long this[int index]  => ref this.memory.Span[index];
 
     /// <summary>
     /// Accesses the memory of the VM
     /// </summary>
     /// <param name="index">Index to access</param>
     /// <returns>Value in the memory at the specified index</returns>
-    public long this[Index index]
-    {
-        get => this.memory.Span[index];
-        set => this.memory.Span[index] = value;
-    }
+    public ref long this[Index index] => ref this.memory.Span[index];
     #endregion
 
     #region Constructors
@@ -170,14 +144,14 @@ public class IntcodeVM
     /// Creates a new Intcode VM by parsing the given code, and with empty input and output queues
     /// </summary>
     /// <param name="code">Comma separated Intcode to parse</param>
-    public IntcodeVM(string code) : this(code, new(DEFAULT_SIZE), new(DEFAULT_SIZE)) { }
+    public IntcodeVM(string code) : this(code, new Queue<long>(DEFAULT_SIZE), new Queue<long>(DEFAULT_SIZE)) { }
 
     /// <summary>
     /// Creates a new Intcode VM by parsing the given code, and with the input and output values
     /// </summary>
     /// <param name="code">Comma separated Intcode to parse</param>
     /// <param name="input">Input values</param>
-    public IntcodeVM(string code, IEnumerable<long> input) : this(code, new(input), new(DEFAULT_SIZE)) { }
+    public IntcodeVM(string code, IEnumerable<long> input) : this(code, new Queue<long>(input), new Queue<long>(DEFAULT_SIZE)) { }
 
     /// <summary>
     /// Creates a new Intcode VM by parsing the given code, and with the specified input and output Queues
@@ -205,7 +179,7 @@ public class IntcodeVM
 
         this.In   = input;
         this.Out  = output;
-        this.data = new(this);
+        this.data = new VMData(this);
     }
     #endregion
 
@@ -217,25 +191,31 @@ public class IntcodeVM
     /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
     /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
     /// ReSharper disable once UnusedMethodReturnValue.Global
-    public VMStates Run()
+    public VMState Run()
     {
         //Make sure we aren't already halted
         if (this.IsHalted) throw new InvalidOperationException("Intcode program is already in a halted state and must be reset to run again");
 
         //Program loop
-        this.State = VMStates.RUNNING;
-        while (this.State is VMStates.RUNNING)
+        this.State = VMState.RUNNING;
+        while (this.State is VMState.RUNNING)
         {
             //Fetch
-            long opcode = this.Fetch;
+            long opcode = MoveNextValue();
             //Decode
-            (Instruction instruction, Modes modes) = Instructions.Decode(opcode);
+            (Instruction instruction, Instructions.Modes modes) = Instructions.Decode(opcode);
             //Execute
             this.State = instruction(ref this.pointer, ref this.relative, this.data, modes);
         }
 
         return this.State;
     }
+
+    /// <summary>
+    /// Gets the next value in the intcode VM and increments the pointer
+    /// </summary>
+    /// <returns></returns>
+    private long MoveNextValue() => this.memory.Span[this.pointer++];
 
     /// <summary>
     /// Resets the Intcode VM to it's original state so it can be run again
@@ -249,14 +229,14 @@ public class IntcodeVM
         this.In.Clear();
         this.Out.Clear();
 
-        this.State = VMStates.READY;
+        this.State = VMState.READY;
     }
 
     /// <summary>
     /// Sets a new input queue with the specified data
     /// </summary>
     /// <param name="input">Data to set as input</param>
-    public void SetInput(IEnumerable<long> input) => this.In = new(input);
+    public void SetInput(IEnumerable<long> input) => this.In = new Queue<long>(input);
 
     /// <summary>
     /// Adds the given value to the input queue
@@ -299,7 +279,7 @@ public class IntcodeVM
     /// <returns>A new copy of the current output  of the VM in an array</returns>
     public long[] GetOutput()
     {
-        if (this.Out.Count is 0) return Array.Empty<long>();
+        if (this.Out.Count is 0) return [];
 
         long[] output = new long[this.Out.Count];
         this.Out.CopyTo(output, 0);

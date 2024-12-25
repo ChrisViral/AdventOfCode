@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using JetBrains.Annotations;
-using VMData = AdventOfCode.Intcode.IntcodeVM.VMData;
-using VMStates = AdventOfCode.Intcode.IntcodeVM.VMStates;
 
 namespace AdventOfCode.Intcode;
 
@@ -42,6 +40,15 @@ public static class Instructions
     }
 
     /// <summary>
+    /// Intcode operation delegate
+    /// </summary>
+    /// <param name="pointer">Pointer of the VM</param>
+    /// <param name="relative">Relative base of the VM</param>
+    /// <param name="data">Intcode VM data</param>
+    /// <param name="modes">Operand modes</param>
+    public delegate IntcodeVM.VMState Instruction(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes);
+
+    /// <summary>
     /// Operand Modes
     /// </summary>
     public readonly struct Modes
@@ -73,15 +80,6 @@ public static class Instructions
         }
         #endregion
     }
-
-    /// <summary>
-    /// Intcode operation delegate
-    /// </summary>
-    /// <param name="pointer">Pointer of the VM</param>
-    /// <param name="relative">Relative base of the VM</param>
-    /// <param name="data">Intcode VM data</param>
-    /// <param name="modes">Operand modes</param>
-    public delegate VMStates Instruction(ref int pointer, ref int relative, in VMData data, in Modes modes);
 
     #region Constants
     /// <summary>
@@ -136,15 +134,14 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Add(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Add(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(pointer++, relative, data.memory, modes.third);
 
         c = a + b;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -154,15 +151,14 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Mul(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Mul(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(pointer++, relative, data.memory, modes.third);
 
         c = a * b;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -172,16 +168,15 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Inp(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Inp(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
         //Make sure we can get the input first
-        if (!data.getInput(out long input)) return VMStates.STALLED;
+        if (!data.input(out long input)) return IntcodeVM.VMState.STALLED;
 
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
 
         a = input;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -191,13 +186,12 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Out(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Out(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
 
-        data.setOutput(a);
-        pointer++;
-        return VMStates.RUNNING;
+        data.output(a);
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -207,13 +201,13 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Jnz(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Jnz(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
 
-        pointer = a is not 0L ? (int)b : pointer + 1;
-        return VMStates.RUNNING;
+        pointer = a is not 0L ? (int)b : pointer;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -223,13 +217,13 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Jez(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Jez(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
 
-        pointer = a is 0L ? (int)b : pointer + 1;
-        return VMStates.RUNNING;
+        pointer = a is 0L ? (int)b : pointer;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -239,15 +233,14 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Tlt(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Tlt(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(pointer++, relative, data.memory, modes.third);
 
         c = a < b ? TRUE : FALSE;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -257,15 +250,14 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Teq(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Teq(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
-        ref long b = ref GetOperand(++pointer, relative, data.memory, modes.second);
-        ref long c = ref GetOperand(++pointer, relative, data.memory, modes.third);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
+        ref long b = ref GetOperand(pointer++, relative, data.memory, modes.second);
+        ref long c = ref GetOperand(pointer++, relative, data.memory, modes.third);
 
         c = a == b ? TRUE : FALSE;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -275,13 +267,12 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Rel(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Rel(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        ref long a = ref GetOperand(++pointer, relative, data.memory, modes.first);
+        ref long a = ref GetOperand(pointer++, relative, data.memory, modes.first);
 
         relative += (int)a;
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -291,10 +282,9 @@ public static class Instructions
     /// <param name="relative">Current VM relative base</param>
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
-    private static VMStates Nop(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Nop(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
-        pointer++;
-        return VMStates.RUNNING;
+        return IntcodeVM.VMState.RUNNING;
     }
 
     /// <summary>
@@ -305,10 +295,10 @@ public static class Instructions
     /// <param name="data">VM specific data</param>
     /// <param name="modes">Parameter modes</param>
     /// ReSharper disable once RedundantAssignment
-    private static VMStates Hlt(ref int pointer, ref int relative, in VMData data, in Modes modes)
+    private static IntcodeVM.VMState Hlt(ref int pointer, ref int relative, in IntcodeVM.VMData data, Modes modes)
     {
         pointer = IntcodeVM.HALT;
-        return VMStates.HALTED;
+        return IntcodeVM.VMState.HALTED;
     }
 
     /// <summary>
