@@ -231,6 +231,22 @@ public static class DirectionsUtils
     };
 
     /// <summary>
+    /// Turns the direction towards the right
+    /// </summary>
+    /// <param name="direction">Direction to turn</param>
+    /// <param name="turn">Direction to turn into</param>
+    /// <returns>The new direction after turning by the specified direction</returns>
+    public static Direction TurnBy(this Direction direction, Direction turn) => turn switch
+    {
+        Direction.NONE  => direction,
+        Direction.UP    => direction,
+        Direction.RIGHT => direction.TurnRight(),
+        Direction.DOWN  => direction.Invert(),
+        Direction.LEFT  => direction.TurnLeft(),
+        _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+    };
+
+    /// <summary>
     /// Checks if the given direction is vertical or not
     /// </summary>
     /// <param name="direction">Direction to check</param>

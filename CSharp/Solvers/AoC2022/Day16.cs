@@ -71,7 +71,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     /// </summary>
     private const int PART2_TIME = 26;
 
-    [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d+); (?:tunnels lead to valves|tunnel leads to valve) ([A-Z, ]+)", RegexOptions.Compiled)]
+    [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d{1,2}); (?:tunnel leads to valve ([A-Z]{2})|tunnels lead to valves ([A-Z, ]+))", RegexOptions.Compiled)]
     private static partial Regex Pattern { get; }
 
     #region Constructors

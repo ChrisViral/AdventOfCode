@@ -96,30 +96,24 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="xRange">X range of the slice</param>
     /// <param name="yRange">Y range of the slice</param>
     /// <returns>The grid slice</returns>
-    /// <exception cref="InvalidOperationException">If any part of the slice is outside of the grid's range</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If any part of the slice is outside of the grid's range</exception>
+    /// <exception cref="InvalidOperationException">If the grid slice is of size 0 in one dimension</exception>
     public virtual Grid<T> this[Range xRange, Range yRange]
     {
         get
         {
+            // Get offsets and lengths by dimension
+            (int xStart, int xLength) = xRange.GetOffsetAndLength(this.Width);
+            (int yStart, int yLength) = yRange.GetOffsetAndLength(this.Height);
+
+            if (xLength <= 0 || yLength <= 0) throw new InvalidOperationException("Grid slice has at least one zero sized dimension");
+
             // Get starting point
-            int startX = xRange.Start.IsFromEnd ? Width  - xRange.Start.Value : xRange.Start.Value;
-            int startY = yRange.Start.IsFromEnd ? Height - yRange.Start.Value : yRange.Start.Value;
-            Vector2<int> start = new(startX, startY);
-            if (!WithinGrid(start)) throw new InvalidOperationException("Starting point of the grid slice outside of the original grid");
-
-            // Get ending point
-            int endX = xRange.End.IsFromEnd ? Width  - xRange.End.Value : xRange.End.Value;
-            int endY = yRange.End.IsFromEnd ? Height - yRange.End.Value : yRange.End.Value;
-            Vector2<int> end = new(endX, endY);
-            if (!WithinGrid(end - Vector2<int>.One)) throw new InvalidOperationException("Ending point of the grid slice outside of the original grid");
-
-            // Get slice size
-            Vector2<int> size = end - start;
-            if (size.X <= 0 || size.Y <= 0) throw new InvalidOperationException("Grid slice has at least one zero sized dimension");
+            Vector2<int> start = new(xStart, yStart);
 
             // Create and fill slice
-            Grid<T> slice = new(size.X, size.Y, this.toString);
-            foreach (Vector2<int> position in Vector2<int>.Enumerate(size.X, size.Y))
+            Grid<T> slice = new(xLength, yLength, this.toString);
+            foreach (Vector2<int> position in Vector2<int>.Enumerate(xLength, yLength))
             {
                 slice[position] = this[start + position];
             }
