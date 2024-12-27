@@ -12,9 +12,9 @@ using SpanLinq;
 namespace AdventOfCode.Solvers.AoC2021;
 
 /// <summary>
-/// Solver for 2021 Day 22
+/// Solver for 2021 Day 23
 /// </summary>
-public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, Stack<Day23.Amphipod> c, Stack<Day23.Amphipod> d)>
+public class Day23 : Solver<Stack<Day23.Amphipod>[]>
 {
     /// <summary>
     /// Amphipod types
@@ -22,10 +22,10 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
     public enum Amphipod
     {
         NONE = 0,
-        A = 1,
-        B = 10,
-        C = 100,
-        D = 1000
+        A    = 1,
+        B    = 10,
+        C    = 100,
+        D    = 1000
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
     public override void Run()
     {
         // Setup graph nodes
-        GraphData data = SetupGraph(this.Data.a, this.Data.b, this.Data.c, this.Data.d);
+        GraphData data = SetupGraph();
 
         // Sort into respective rooms
         int minEnergy = SortAmphipods(data.Rooms, data.Hallways, data.Paths);
@@ -256,9 +256,9 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
     /// </summary>
     /// <param name="rooms"></param>
     /// <param name="hallways"></param>
-    /// <param name="pathLengths"></param>
+    /// <param name="paths"></param>
     /// <returns></returns>
-    private static int SortAmphipods(RoomNode[] rooms, HallwayNode[] hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> pathLengths)
+    private static int SortAmphipods(RoomNode[] rooms, HallwayNode[] hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> paths)
     {
         void FindLeastEnergySort(int usedEnergy, ref int minEnergy)
         {
@@ -281,7 +281,7 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
 
                 // Try and accomodate the amphipod
                 RoomNode target = rooms[index];
-                if (target.TryAccomodate(hallway, out int moveEnergy, pathLengths))
+                if (target.TryAccomodate(hallway, out int moveEnergy, paths))
                 {
                     // Recurse down
                     FindLeastEnergySort(usedEnergy + moveEnergy, ref minEnergy);
@@ -305,7 +305,7 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
 
                 // Try and accomodate the amphipod
                 RoomNode target = rooms[index];
-                if (target.TryAccomodate(room, out int moveEnergy, pathLengths))
+                if (target.TryAccomodate(room, out int moveEnergy, paths))
                 {
                     // Recurse down
                     FindLeastEnergySort(usedEnergy + moveEnergy, ref minEnergy);
@@ -327,7 +327,7 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
                 foreach (HallwayNode hallway in hallways)
                 {
                     // Check if the hallway can take the amphipod
-                    if (hallway.TryAccomodate(room, out int moveEnergy, pathLengths))
+                    if (hallway.TryAccomodate(room, out int moveEnergy, paths))
                     {
                         // If it can, recurse down
                         FindLeastEnergySort(usedEnergy + moveEnergy, ref minEnergy);
@@ -362,20 +362,16 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
     /// <summary>
     /// Sets up the rooms graph data
     /// </summary>
-    /// <param name="a">Room A stack</param>
-    /// <param name="b">Room B stack</param>
-    /// <param name="c">Room C stack</param>
-    /// <param name="d">Room D stack</param>
     /// <returns>The initialized graph data for the given starting room stacks</returns>
-    private static GraphData SetupGraph(Stack<Amphipod> a, Stack<Amphipod> b, Stack<Amphipod> c, Stack<Amphipod> d)
+    private GraphData SetupGraph()
     {
         // All room nodes
         RoomNode[] rooms =
         [
-            new("A", Amphipod.A, a.CreateCopy()),
-            new("B", Amphipod.B, b.CreateCopy()),
-            new("C", Amphipod.C, c.CreateCopy()),
-            new("D", Amphipod.D, d.CreateCopy()),
+            new("A", Amphipod.A, this.Data[0]),
+            new("B", Amphipod.B, this.Data[1]),
+            new("C", Amphipod.C, this.Data[2]),
+            new("D", Amphipod.D, this.Data[3]),
         ];
 
         // All hallway nodes
@@ -391,7 +387,7 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
         ];
 
         // All nodes in the order they appear in horizontally
-        AmphipodNode[] nodes =
+        Span<AmphipodNode> nodes =
         [
             hallways[0],
             hallways[1],
@@ -418,11 +414,10 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
 
                 // Get the distance and blockers
                 int distance = Math.Abs(i - j) + 1;
-                HallwayNode[] blockers = (i < j ? nodes.AsSpan((i + 1)..j)
-                                                : nodes.AsSpan((j + 1)..i))
-                                        .Where(n => n is HallwayNode)
-                                        .Cast<HallwayNode>()
-                                        .ToArray();
+                HallwayNode[] blockers = (i < j ? nodes[(i + 1)..j]
+                                                : nodes[(j + 1)..i]).Where(n => n is HallwayNode)
+                                                                    .Cast<HallwayNode>()
+                                                                    .ToArray();
 
                 // Add 1 to distance if target is a room
                 AmphipodNode node = nodes[j];
@@ -449,23 +444,19 @@ public class Day23 : Solver<(Stack<Day23.Amphipod> a, Stack<Day23.Amphipod> b, S
     private static bool IsPassable(HallwayNode[] blockers) => blockers.All(n => n.Current is Amphipod.NONE);
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Stack<Amphipod> a, Stack<Amphipod> b, Stack<Amphipod> c, Stack<Amphipod> d) Convert(string[] rawInput)
+    protected override Stack<Amphipod>[] Convert(string[] rawInput)
     {
-        Stack<Amphipod> a = new(4);
-        Stack<Amphipod> b = new(4);
-        Stack<Amphipod> c = new(4);
-        Stack<Amphipod> d = new(4);
-
+        Stack<Amphipod>[] rooms = [new(4), new(4), new(4), new(4)];
         for (int i = 3; i >= 2; i--)
         {
             ReadOnlySpan<char> line = rawInput[i];
-            a.Push(Enum.Parse<Amphipod>(line.Slice(3, 1)));
-            b.Push(Enum.Parse<Amphipod>(line.Slice(5, 1)));
-            c.Push(Enum.Parse<Amphipod>(line.Slice(7, 1)));
-            d.Push(Enum.Parse<Amphipod>(line.Slice(9, 1)));
+            rooms[0].Push(Enum.Parse<Amphipod>(line.Slice(3, 1)));
+            rooms[1].Push(Enum.Parse<Amphipod>(line.Slice(5, 1)));
+            rooms[2].Push(Enum.Parse<Amphipod>(line.Slice(7, 1)));
+            rooms[3].Push(Enum.Parse<Amphipod>(line.Slice(9, 1)));
         }
 
-        return (a, b, c, d);
+        return rooms;
     }
     #endregion
 }
