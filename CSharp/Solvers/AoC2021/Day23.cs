@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 23
 /// </summary>
-public class Day23 : Solver<Stack<Day23.Amphipod>[]>
+public class Day23 : Solver<Day23.GraphData>
 {
     /// <summary>
     /// Amphipod types
@@ -29,25 +29,25 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
     }
 
     /// <summary>
-    /// Node move data
-    /// </summary>
-    /// <param name="Blockers">Hallway nodes that might block the move</param>
-    /// <param name="Distance">Move distance</param>
-    private readonly record struct MoveData(HallwayNode[] Blockers, int Distance);
-
-    /// <summary>
     /// Amphipod graph nodes data
     /// </summary>
     /// <param name="Rooms">Room nodes</param>
     /// <param name="Hallways">Hallway nodes</param>
     /// <param name="Paths">Moves data map</param>
-    private readonly record struct GraphData(RoomNode[] Rooms, HallwayNode[] Hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> Paths);
+    public readonly record struct GraphData(RoomNode[] Rooms, HallwayNode[] Hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> Paths);
+
+    /// <summary>
+    /// Node move data
+    /// </summary>
+    /// <param name="Blockers">Hallway nodes that might block the move</param>
+    /// <param name="Distance">Move distance</param>
+    public readonly record struct MoveData(HallwayNode[] Blockers, int Distance);
 
     /// <summary>
     /// Amphipod location node
     /// </summary>
     /// <param name="id">Node identifier</param>
-    private abstract class AmphipodNode(string id) : IEquatable<AmphipodNode>
+    public abstract class AmphipodNode(string id) : IEquatable<AmphipodNode>
     {
         /// <summary>
         /// Node identifier
@@ -98,7 +98,7 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
     /// Amphipod hallway node
     /// </summary>
     /// <param name="id">Node identifier</param>
-    private sealed class HallwayNode(string id) : AmphipodNode(id)
+    public sealed class HallwayNode(string id) : AmphipodNode(id)
     {
         /// <inheritdoc />
         public override bool TryAccomodate(AmphipodNode from, out int energy, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> paths)
@@ -138,7 +138,7 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
     /// <param name="id">Node identifier</param>
     /// <param name="type">Amphipod type</param>
     /// <param name="room">Room stack</param>
-    private sealed class RoomNode(string id, Amphipod type, Stack<Amphipod> room) : AmphipodNode(id)
+    public sealed class RoomNode(string id, Amphipod type, Stack<Amphipod> room) : AmphipodNode(id)
     {
         /// <inheritdoc />
         public override Amphipod Current
@@ -158,12 +158,12 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
         /// <summary>
         /// Checks if this room is sorted
         /// </summary>
-        public bool IsSorted => room.Count == this.RoomCapacity && room.All(a => a == type);
+        public bool IsSorted { get; private set; }
 
         /// <summary>
         /// If this room has intruders
         /// </summary>
-        public bool HasIntruders => room.Any(a => a != type);
+        public bool HasIntruders { get; private set; } = true;
 
         /// <inheritdoc />
         public override bool TryAccomodate(AmphipodNode from, out int energy, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> paths)
@@ -177,6 +177,8 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
                     from.RemoveCurrent();
                     energy = (distance + this.NodeTravel + from.NodeTravel) * (int)arriving;
                     room.Push(arriving);
+
+                    this.IsSorted = room.Count == this.RoomCapacity;
                     return true;
                 }
             }
@@ -186,10 +188,31 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
         }
 
         /// <inheritdoc />
-        public override Amphipod RemoveCurrent() => room.Pop();
+        public override Amphipod RemoveCurrent()
+        {
+            Amphipod current = room.Pop();
+            this.IsSorted = false;
+            if (current != type)
+            {
+                this.HasIntruders = room.Any(a => a != type);
+            }
+            return current;
+        }
 
         /// <inheritdoc />
-        public override void ForceSet(Amphipod amphipod) => room.Push(amphipod);
+        public override void ForceSet(Amphipod amphipod)
+        {
+            room.Push(amphipod);
+            if (amphipod == type)
+            {
+                this.IsSorted = !this.HasIntruders && room.Count == this.RoomCapacity;
+            }
+            else
+            {
+                this.IsSorted     = false;
+                this.HasIntruders = true;
+            }
+        }
 
         /// <inheritdoc />
         public override string ToString() => $"[Room {this.id}]: {string.Join(',', room)}";
@@ -208,58 +231,54 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
     /// <inheritdoc cref="Solver.Run"/>
     public override void Run()
     {
-        // Setup graph nodes
-        GraphData data = SetupGraph();
-
         // Sort into respective rooms
-        int minEnergy = SortAmphipods(data.Rooms, data.Hallways, data.Paths);
+        int minEnergy = SortAmphipods();
         AoCUtils.LogPart1(minEnergy);
 
         // Update room capacities
-        data.Rooms.ForEach(r => r.RoomCapacity = 4);
+        this.Data.Rooms.ForEach(r => r.RoomCapacity = 4);
 
         // Room A
-        RoomNode room = data.Rooms[0];
+        RoomNode room = this.Data.Rooms[0];
         Amphipod top  = room.RemoveCurrent();
         room.ForceSet(Amphipod.D);
         room.ForceSet(Amphipod.D);
         room.ForceSet(top);
 
         // Room B
-        room = data.Rooms[1];
+        room = this.Data.Rooms[1];
         top  = room.RemoveCurrent();
         room.ForceSet(Amphipod.B);
         room.ForceSet(Amphipod.C);
         room.ForceSet(top);
 
         // Room C
-        room = data.Rooms[2];
+        room = this.Data.Rooms[2];
         top  = room.RemoveCurrent();
         room.ForceSet(Amphipod.A);
         room.ForceSet(Amphipod.B);
         room.ForceSet(top);
 
         // Room D
-        room = data.Rooms[3];
+        room = this.Data.Rooms[3];
         top  = room.RemoveCurrent();
         room.ForceSet(Amphipod.C);
         room.ForceSet(Amphipod.A);
         room.ForceSet(top);
 
         // Sort into respective rooms
-        minEnergy = SortAmphipods(data.Rooms, data.Hallways, data.Paths);
+        minEnergy = SortAmphipods();
         AoCUtils.LogPart2(minEnergy);
     }
 
     /// <summary>
     /// Sorts the amphipods into their respective rooms
     /// </summary>
-    /// <param name="rooms"></param>
-    /// <param name="hallways"></param>
-    /// <param name="paths"></param>
-    /// <returns></returns>
-    private static int SortAmphipods(RoomNode[] rooms, HallwayNode[] hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> paths)
+    /// <returns>The minimum energy expanded to sort the amphipods</returns>
+    private int SortAmphipods()
     {
+        // Deconstruct data
+        (RoomNode[] rooms, HallwayNode[] hallways, FrozenDictionary<(AmphipodNode, AmphipodNode), MoveData> paths) = this.Data;
         void FindLeastEnergySort(int usedEnergy, ref int minEnergy)
         {
             // If we've used more energy than the best we've found so far, no need to keep looking
@@ -360,18 +379,33 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
     };
 
     /// <summary>
-    /// Sets up the rooms graph data
+    /// Checks if the given set of hallways is passable
     /// </summary>
-    /// <returns>The initialized graph data for the given starting room stacks</returns>
-    private GraphData SetupGraph()
+    /// <param name="blockers">Hallway nodes that might be blocking movement</param>
+    /// <returns><see langword="true"/> if the hallways are passable, otherwise <see langword="false"/></returns>
+    private static bool IsPassable(HallwayNode[] blockers) => blockers.All(n => n.Current is Amphipod.NONE);
+
+    /// <inheritdoc cref="Solver{T}.Convert"/>
+    protected override GraphData Convert(string[] rawInput)
     {
+        // Get stacks
+        Stack<Amphipod>[] roomStacks = [new(4), new(4), new(4), new(4)];
+        for (int i = 3; i >= 2; i--)
+        {
+            ReadOnlySpan<char> line = rawInput[i];
+            roomStacks[0].Push(Enum.Parse<Amphipod>(line.Slice(3, 1)));
+            roomStacks[1].Push(Enum.Parse<Amphipod>(line.Slice(5, 1)));
+            roomStacks[2].Push(Enum.Parse<Amphipod>(line.Slice(7, 1)));
+            roomStacks[3].Push(Enum.Parse<Amphipod>(line.Slice(9, 1)));
+        }
+
         // All room nodes
         RoomNode[] rooms =
         [
-            new("A", Amphipod.A, this.Data[0]),
-            new("B", Amphipod.B, this.Data[1]),
-            new("C", Amphipod.C, this.Data[2]),
-            new("D", Amphipod.D, this.Data[3]),
+            new("A", Amphipod.A, roomStacks[0]),
+            new("B", Amphipod.B, roomStacks[1]),
+            new("C", Amphipod.C, roomStacks[2]),
+            new("D", Amphipod.D, roomStacks[3]),
         ];
 
         // All hallway nodes
@@ -418,7 +452,6 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
                                                 : nodes[(j + 1)..i]).Where(n => n is HallwayNode)
                                                                     .Cast<HallwayNode>()
                                                                     .ToArray();
-
                 // Add 1 to distance if target is a room
                 AmphipodNode node = nodes[j];
                 if (node is RoomNode)
@@ -432,31 +465,8 @@ public class Day23 : Solver<Stack<Day23.Amphipod>[]>
             }
         }
 
-
+        // Finalize data
         return new GraphData(rooms, hallways, paths.ToFrozenDictionary());
-    }
-
-    /// <summary>
-    /// Checks if the given set of hallways is passable
-    /// </summary>
-    /// <param name="blockers">Hallway nodes that might be blocking movement</param>
-    /// <returns><see langword="true"/> if the hallways are passable, otherwise <see langword="false"/></returns>
-    private static bool IsPassable(HallwayNode[] blockers) => blockers.All(n => n.Current is Amphipod.NONE);
-
-    /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Stack<Amphipod>[] Convert(string[] rawInput)
-    {
-        Stack<Amphipod>[] rooms = [new(4), new(4), new(4), new(4)];
-        for (int i = 3; i >= 2; i--)
-        {
-            ReadOnlySpan<char> line = rawInput[i];
-            rooms[0].Push(Enum.Parse<Amphipod>(line.Slice(3, 1)));
-            rooms[1].Push(Enum.Parse<Amphipod>(line.Slice(5, 1)));
-            rooms[2].Push(Enum.Parse<Amphipod>(line.Slice(7, 1)));
-            rooms[3].Push(Enum.Parse<Amphipod>(line.Slice(9, 1)));
-        }
-
-        return rooms;
     }
     #endregion
 }
