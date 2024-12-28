@@ -371,10 +371,10 @@ public class Day23 : Solver<Day23.GraphData>
     private static int GetRoomIndex(Amphipod amphipod) => amphipod switch
     {
         Amphipod.NONE => -1,
-        Amphipod.A    => 0,
-        Amphipod.B    => 1,
-        Amphipod.C    => 2,
-        Amphipod.D    => 3,
+        Amphipod.A    =>  0,
+        Amphipod.B    =>  1,
+        Amphipod.C    =>  2,
+        Amphipod.D    =>  3,
         _             => throw new InvalidEnumArgumentException(nameof(amphipod), (int)amphipod, typeof(Amphipod))
     };
 
