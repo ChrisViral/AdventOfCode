@@ -19,6 +19,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     public enum State
     {
         READY,
+        RUNNING,
+        STALLED,
         HALTED,
     }
 
@@ -108,6 +110,11 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     public State Status { get; private set; }
 
     /// <summary>
+    /// If this VM is in a halted state
+    /// </summary>
+    public bool IsHalted => this.Status is State.HALTED;
+
+    /// <summary>
     /// VM's input provider
     /// </summary>
     public IInputProvider InputProvider { get; set; }
@@ -157,6 +164,29 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     }
 
     /// <summary>
+    /// Clones an IntcodeVM from another one
+    /// </summary>
+    /// <param name="other">Other VM to clone from</param>
+    public IntcodeVM(IntcodeVM other)
+    {
+        ObjectDisposedException.ThrowIf(other.isDisposed, other);
+
+        // Copy fields
+        this.initialState   = other.initialState;
+        this.bufferSize     = other.bufferSize;
+        this.Status         = other.Status;
+
+        // Create clones of input/output providers
+        this.InputProvider  = other.InputProvider.Clone();
+        this.OutputProvider = other.OutputProvider.Clone();
+
+        // Create buffer
+        this.handle = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
+        this.buffer = (long*)this.handle;
+        Reset();
+    }
+
+    /// <summary>
     /// Finalizer
     /// </summary>
     ~IntcodeVM() => ReleaseUnmanagedResources();
@@ -169,8 +199,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     public void Run()
     {
         ObjectDisposedException.ThrowIf(this.isDisposed, this);
-        if (this.Status is State.HALTED) return;
+        if (this.Status is State.HALTED or State.RUNNING) return;
 
+        this.Status = State.RUNNING;
         while (true)
         {
             (int modes, Opcode opcode) = ReadOpcode();
@@ -188,8 +219,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     Multiply(modes);
                     break;
 
-                case Opcode.IN:
-                    Input(modes);
+                case Opcode.INP:
+                    if (!Input(modes)) return;
                     break;
 
                 case Opcode.OUT:
@@ -200,7 +231,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     JumpNotZero(modes);
                     break;
 
-                case Opcode.JZ:
+                case Opcode.JEZ:
                     JumpZero(modes);
                     break;
 
@@ -227,9 +258,13 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// </summary>
     public void Reset()
     {
+        ObjectDisposedException.ThrowIf(this.isDisposed, this);
+
         this.ip     = this.buffer;
         this.Status = State.READY;
         this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
+        this.InputProvider.Clear();
+        this.OutputProvider.Clear();
     }
 
     /// <summary>

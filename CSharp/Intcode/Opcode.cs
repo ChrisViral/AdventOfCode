@@ -20,7 +20,7 @@ public enum Opcode
     /// <summary>
     /// Input
     /// </summary>
-    IN  = 3,
+    INP  = 3,
     /// <summary>
     /// Output
     /// </summary>
@@ -30,9 +30,9 @@ public enum Opcode
     /// </summary>
     JNZ = 5,
     /// <summary>
-    /// Jump zero
+    /// Jump equals zero
     /// </summary>
-    JZ  = 6,
+    JEZ  = 6,
     /// <summary>
     /// Test lest than
     /// </summary>

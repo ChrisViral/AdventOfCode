@@ -65,6 +65,12 @@ public sealed class QueueInput : IInputProvider
     }
 
     /// <inheritdoc />
-    public long Input() => this.inputQueue.Dequeue();
+    public bool TryGetInput(out long input) => this.inputQueue.TryDequeue(out input);
+
+    /// <inheritdoc />
+    public void Clear() => this.inputQueue.Clear();
+
+    /// <inheritdoc />
+    public IInputProvider Clone() => new QueueInput(this.inputQueue);
     #endregion
 }

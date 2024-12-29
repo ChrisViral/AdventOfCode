@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AdventOfCode.Intcode.Output;
 
@@ -29,4 +30,15 @@ public interface IOutputProvider
     /// </summary>
     /// <returns>Enumerable of the output values</returns>
     IEnumerable<long> GetAllOutput();
+
+    /// <summary>
+    /// Clears the output provider
+    /// </summary>
+    void Clear();
+
+    /// <summary>
+    /// Creates a copy of the current output provider
+    /// </summary>
+    /// <returns>A shallow copy of the output provider</returns>
+    IOutputProvider Clone();
 }

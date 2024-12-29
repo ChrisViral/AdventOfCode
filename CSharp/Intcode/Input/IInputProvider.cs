@@ -15,8 +15,9 @@ public interface IInputProvider
     /// <summary>
     /// Provides an input value to the Intcode VM
     /// </summary>
-    /// <returns>The next provided Input value</returns>
-    long Input();
+    /// <param name="input">Returned input</param>
+    /// <returns><see langword="true"/> if an input was returned, otherwise <see langword="false"/></returns>
+    bool TryGetInput(out long input);
 
     /// <summary>
     /// Adds the given value to the input
@@ -29,4 +30,15 @@ public interface IInputProvider
     /// </summary>
     /// <param name="values">Values to add</param>
     void FillInput(IEnumerable<long> values);
+
+    /// <summary>
+    /// Clears the input provider
+    /// </summary>
+    void Clear();
+
+    /// <summary>
+    /// Creates a copy of the current input provider
+    /// </summary>
+    /// <returns>A shallow copy of the input provider</returns>
+    IInputProvider Clone();
 }

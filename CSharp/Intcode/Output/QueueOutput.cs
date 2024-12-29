@@ -57,5 +57,11 @@ public sealed class QueueOutput : IOutputProvider
             yield return value;
         }
     }
+
+    /// <inheritdoc />
+    public void Clear() => this.outputQueue.Clear();
+
+    /// <inheritdoc />
+    public IOutputProvider Clone() => new QueueOutput(this.outputQueue);
     #endregion
 }
