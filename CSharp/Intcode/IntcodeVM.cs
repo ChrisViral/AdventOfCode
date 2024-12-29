@@ -18,9 +18,21 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// </summary>
     public enum State
     {
+        /// <summary>
+        /// Ready to run
+        /// </summary>
         READY,
+        /// <summary>
+        /// Currently running
+        /// </summary>
         RUNNING,
+        /// <summary>
+        /// Stalled for input
+        /// </summary>
         STALLED,
+        /// <summary>
+        /// Execution halted
+        /// </summary>
         HALTED,
     }
 
