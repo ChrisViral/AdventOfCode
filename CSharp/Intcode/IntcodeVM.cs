@@ -3,6 +3,8 @@ using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using AdventOfCode.Intcode.Input;
+using AdventOfCode.Intcode.Output;
 
 namespace AdventOfCode.Intcode;
 
@@ -25,6 +27,14 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// VM Memory buffer size (8kb of long values)
     /// </summary>
     private const int BUFFER_SIZE = 1024;
+    /// <summary>
+    /// True literal
+    /// </summary>
+    private const long TRUE  = 1L;
+    /// <summary>
+    /// False literal
+    /// </summary>
+    private const long FALSE = 0L;
     #endregion
 
     #region Fields
@@ -96,6 +106,16 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// Current VM state
     /// </summary>
     public State Status { get; private set; }
+
+    /// <summary>
+    /// VM's input provider
+    /// </summary>
+    public IInputProvider InputProvider { get; set; }
+
+    /// <summary>
+    /// VM's output provider
+    /// </summary>
+    public IOutputProvider OutputProvider { get; set; }
     #endregion
 
     #region Constructors
@@ -103,8 +123,14 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// Creates a new VM from the specified Intcode source
     /// </summary>
     /// <param name="source">Intcode source</param>
-    public IntcodeVM(ReadOnlySpan<char> source)
+    /// <param name="inputProvider">VM input provider</param>
+    /// <param name="outputProvider">VM output provider</param>
+    public IntcodeVM(ReadOnlySpan<char> source, IInputProvider? inputProvider = null, IOutputProvider? outputProvider = null)
     {
+        // Initialize the input and output
+        this.InputProvider  = inputProvider  ?? new QueueInput();
+        this.OutputProvider = outputProvider ?? new QueueOutput();
+
         // Get parsed code length
         int count = source.Count(',') + 1;
         Span<Range> splits = stackalloc Range[count];
@@ -136,6 +162,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     ~IntcodeVM() => ReleaseUnmanagedResources();
     #endregion
 
+    #region Methods
     /// <summary>
     /// Runs the Intcode VM
     /// </summary>
@@ -146,7 +173,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
 
         while (true)
         {
-            Opcode opcode = ReadOpcode();
+            (int modes, Opcode opcode) = ReadOpcode();
             switch (opcode)
             {
                 case Opcode.NOP:
@@ -154,15 +181,39 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     break;
 
                 case Opcode.ADD:
-                    Add();
+                    Add(modes);
                     break;
 
                 case Opcode.MUL:
-                    Multiply();
+                    Multiply(modes);
+                    break;
+
+                case Opcode.IN:
+                    Input(modes);
+                    break;
+
+                case Opcode.OUT:
+                    Output(modes);
+                    break;
+
+                case Opcode.JNZ:
+                    JumpNotZero(modes);
+                    break;
+
+                case Opcode.JZ:
+                    JumpZero(modes);
+                    break;
+
+                case Opcode.TLT:
+                    TestLessThan(modes);
+                    break;
+
+                case Opcode.TEQ:
+                    TestEquals(modes);
                     break;
 
                 case Opcode.HLT:
-                    this.Status = State.HALTED;
+                    Halt();
                     return;
 
                 default:
@@ -186,27 +237,41 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// </summary>
     /// <returns>The read <see cref="Opcode"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Opcode ReadOpcode() => (Opcode)(*this.ip++);
+    private (int modes, Opcode opcode) ReadOpcode()
+    {
+        (long modes, long opcode) = Math.DivRem(*this.ip++, 100);
+        return ((int)modes, (Opcode)opcode);
+    }
 
     /// <summary>
     /// Reads the next <see cref="long"/> in the VM's buffer
     /// </summary>
     /// <returns>The read <see cref="long"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private long ReadNextInt64() => *this.ip++;
+    private ref long ReadNextInt64() => ref *this.ip++;
 
     /// <summary>
-    /// Reads the <see cref="long"/> at the given offset the VM's buffer
+    /// Gets a reference to the operand in the specified mode
     /// </summary>
-    /// <returns>The read <see cref="long"/></returns>
+    /// <param name="mode">Mode to get the operand for</param>
+    /// <returns>A reference to the operand value</returns>
+    /// <exception cref="InvalidEnumArgumentException">For unknown values of <paramref name="mode"/></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private long ReadInt64(long offset) => *(this.buffer + offset);
+    private ref long GetOperand(ParamMode mode)
+    {
+        // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+        switch (mode)
+        {
+            case ParamMode.POSITION:
+                return ref *(this.buffer + ReadNextInt64());
 
-    /// <summary>
-    /// Writes the given <see cref="long"/> value at the given offset the VM's buffer
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void WriteInt64(long offset, long value) => *(this.buffer + offset) = value;
+            case ParamMode.IMMEDIATE:
+                return ref ReadNextInt64();
+
+            default:
+                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+        }
+    }
 
     /// <inheritdoc />
     public void Dispose()
@@ -230,4 +295,5 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         Marshal.FreeHGlobal(this.handle);
         this.ip = null;
     }
+    #endregion
 }
