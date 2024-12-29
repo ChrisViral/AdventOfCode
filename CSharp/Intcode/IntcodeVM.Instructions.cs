@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+// ReSharper disable RedundantOverflowCheckingContext
 
 namespace AdventOfCode.Intcode;
 
@@ -75,7 +76,7 @@ public partial class IntcodeVM
         Modes modes = Modes.TwoOperands(modesValue);
         if (GetOperand(modes.first) is not 0L)
         {
-            this.ip = this.buffer + GetOperand(modes.second);
+            this.ip = unchecked(this.buffer + GetOperand(modes.second));
         }
         else
         {
@@ -93,7 +94,7 @@ public partial class IntcodeVM
         Modes modes = Modes.TwoOperands(modesValue);
         if (GetOperand(modes.first) is 0L)
         {
-            this.ip = this.buffer + GetOperand(modes.second);
+            this.ip = unchecked(this.buffer + GetOperand(modes.second));
         }
         else
         {
@@ -137,7 +138,7 @@ public partial class IntcodeVM
     private unsafe void RelativeSet(int modesValue)
     {
         Modes modes = Modes.OneOperand(modesValue);
-        this.relative += GetOperand(modes.first);
+        this.relative = unchecked(this.relative + GetOperand(modes.first));
     }
 
     /// <summary>

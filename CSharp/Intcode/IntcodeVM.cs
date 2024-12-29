@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;
+// ReSharper disable RedundantOverflowCheckingContext
 
 namespace AdventOfCode.Intcode;
 
@@ -320,12 +321,12 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ref long GetOperand(ParamMode mode)
     {
-        #if DEBUG
         // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+        #if DEBUG
         switch (mode)
         {
             case ParamMode.POSITION:
-                long* address = this.buffer + ReadNextInt64();
+                long* address = unchecked(this.buffer + ReadNextInt64());
                 if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
                 return ref *address;
 
@@ -333,7 +334,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                 return ref ReadNextInt64();
 
             case ParamMode.RELATIVE:
-                address = this.relative + ReadNextInt64();
+                address = unchecked(this.relative + ReadNextInt64());
                 if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
                 return ref *address;
 
@@ -341,7 +342,6 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
         }
         #else
-        // ReSharper disable once ConvertSwitchStatementToSwitchExpression
         switch (mode)
         {
             case ParamMode.POSITION:
