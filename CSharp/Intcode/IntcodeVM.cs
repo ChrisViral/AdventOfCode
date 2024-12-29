@@ -38,9 +38,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
 
     #region Constants
     /// <summary>
-    /// VM Memory buffer size (8kb of long values)
+    /// VM Memory buffer size (4kb of long values)
     /// </summary>
-    private const int BUFFER_SIZE = 1024;
+    private const int BUFFER_SIZE = 128;
     /// <summary>
     /// True literal
     /// </summary>
@@ -68,6 +68,10 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// Instruction pointer
     /// </summary>
     private long* ip;
+    /// <summary>
+    /// Relative base
+    /// </summary>
+    private long* relative;
     /// <summary>
     /// If the VM is disposed or not
     /// </summary>
@@ -151,15 +155,16 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.OutputProvider = outputProvider ?? new QueueOutput();
 
         // Get parsed code length
-        int count = source.Count(',') + 1;
+        int count          = source.Count(',') + 1;
         Span<Range> splits = stackalloc Range[count];
-        int splitCount = source.Split(splits, ',');
+        int splitCount     = source.Split(splits, ',');
 
         // Create unmanaged buffer
-        this.bufferSize   = splitCount + BUFFER_SIZE;
-        this.handle       = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
-        this.buffer       = (long*)this.handle;
-        this.ip           = this.buffer;
+        this.bufferSize = splitCount + BUFFER_SIZE;
+        this.handle     = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
+        this.buffer     = (long*)this.handle;
+        this.ip         = this.buffer;
+        this.relative   = this.buffer;
 
         // Populate buffer
         ImmutableArray<long>.Builder initialStateBuilder = ImmutableArray.CreateBuilder<long>(this.bufferSize);
@@ -193,9 +198,13 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.OutputProvider = other.OutputProvider.Clone();
 
         // Create buffer
-        this.handle = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
-        this.buffer = (long*)this.handle;
-        Reset();
+        this.handle   = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
+        this.buffer   = (long*)this.handle;
+        this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
+
+        // Initialize pointers to correct address
+        this.ip       = this.buffer + (other.ip - other.buffer);
+        this.relative = this.buffer + (other.relative - other.buffer);
     }
 
     /// <summary>
@@ -255,6 +264,10 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     TestEquals(modes);
                     break;
 
+                case Opcode.REL:
+                    RelativeSet(modes);
+                    break;
+
                 case Opcode.HLT:
                     Halt();
                     return;
@@ -272,8 +285,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     {
         ObjectDisposedException.ThrowIf(this.isDisposed, this);
 
-        this.ip     = this.buffer;
-        this.Status = State.READY;
+        this.ip       = this.buffer;
+        this.relative = this.buffer;
+        this.Status   = State.READY;
         this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
         this.InputProvider.Clear();
         this.OutputProvider.Clear();
@@ -306,6 +320,27 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ref long GetOperand(ParamMode mode)
     {
+        #if DEBUG
+        // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+        switch (mode)
+        {
+            case ParamMode.POSITION:
+                long* address = this.buffer + ReadNextInt64();
+                if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
+                return ref *address;
+
+            case ParamMode.IMMEDIATE:
+                return ref ReadNextInt64();
+
+            case ParamMode.RELATIVE:
+                address = this.relative + ReadNextInt64();
+                if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
+                return ref *address;
+
+            default:
+                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+        }
+        #else
         // ReSharper disable once ConvertSwitchStatementToSwitchExpression
         switch (mode)
         {
@@ -315,9 +350,13 @@ public sealed unsafe partial class IntcodeVM : IDisposable
             case ParamMode.IMMEDIATE:
                 return ref ReadNextInt64();
 
+            case ParamMode.RELATIVE:
+                return ref *(this.relative + ReadNextInt64());
+
             default:
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
         }
+        #endif
     }
 
     /// <inheritdoc />

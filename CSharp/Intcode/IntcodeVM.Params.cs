@@ -16,7 +16,11 @@ public partial class IntcodeVM
         /// <summary>
         /// Immediate (literal) value mode
         /// </summary>
-        IMMEDIATE = 1
+        IMMEDIATE = 1,
+        /// <summary>
+        /// Relative offset mode
+        /// </summary>
+        RELATIVE = 2
     }
 
     /// <summary>

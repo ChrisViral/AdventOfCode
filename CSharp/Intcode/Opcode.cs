@@ -20,7 +20,7 @@ public enum Opcode
     /// <summary>
     /// Input
     /// </summary>
-    INP  = 3,
+    INP = 3,
     /// <summary>
     /// Output
     /// </summary>
@@ -32,7 +32,7 @@ public enum Opcode
     /// <summary>
     /// Jump equals zero
     /// </summary>
-    JEZ  = 6,
+    JEZ = 6,
     /// <summary>
     /// Test lest than
     /// </summary>
@@ -41,6 +41,10 @@ public enum Opcode
     /// Test equals
     /// </summary>
     TEQ = 8,
+    /// <summary>
+    /// Relative base set
+    /// </summary>
+    REL = 9,
     /// <summary>
     /// Halt
     /// </summary>
