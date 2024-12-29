@@ -104,7 +104,7 @@ public static class Instructions
     {
         (int mode, opcode) = Math.DivRem((int)opcode, 100);
         Modes modes = new(mode);
-        Opcodes op = (Opcodes)(opcode - (mode * 100));
+        Opcodes op = (Opcodes)opcode;
         Instruction instruction = op switch
         {
             //Instructions
