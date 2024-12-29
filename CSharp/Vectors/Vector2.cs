@@ -117,6 +117,11 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     public double Length => GetLength<double>();
 
     /// <summary>
+    /// Absolute length of both vector components summed
+    /// </summary>
+    public T ManhattanLength => T.Abs(this.X) + T.Abs(this.Y);
+
+    /// <summary>
     /// Creates an irreducible version of this vector<br/>
     /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
     /// </summary>
