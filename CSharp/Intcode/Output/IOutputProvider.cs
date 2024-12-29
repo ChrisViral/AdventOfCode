@@ -14,6 +14,11 @@ public interface IOutputProvider
     int Count { get; }
 
     /// <summary>
+    /// If this output provider has any output
+    /// </summary>
+    bool HasOutput => this.Count > 0;
+
+    /// <summary>
     /// Receives an output value from the Intcode VM
     /// </summary>
     /// <param name="value">Outputted value</param>

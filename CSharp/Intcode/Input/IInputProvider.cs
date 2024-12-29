@@ -13,6 +13,11 @@ public interface IInputProvider
     int Count { get; }
 
     /// <summary>
+    /// If this input provider has any input
+    /// </summary>
+    bool HasInput => this.Count > 0;
+
+    /// <summary>
     /// Provides an input value to the Intcode VM
     /// </summary>
     /// <param name="input">Returned input</param>

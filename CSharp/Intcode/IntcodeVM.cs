@@ -41,7 +41,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <summary>
     /// VM Memory buffer size (4kb of long values)
     /// </summary>
-    private const int BUFFER_SIZE = 128;
+    private const int BUFFER_SIZE = 512;
     /// <summary>
     /// True literal
     /// </summary>
