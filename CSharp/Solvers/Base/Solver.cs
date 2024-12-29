@@ -39,8 +39,15 @@ public abstract class Solver : ISolver
     /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
     protected Solver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS)
     {
-        this.Data = input.Split(splitters ?? DefaultSplitters, options)
-                         .ToArray();
+        if (splitters?.Length is 0)
+        {
+            this.Data = (options & StringSplitOptions.TrimEntries) is not 0 ? [input] : [input.Trim()];
+        }
+        else
+        {
+            this.Data = input.Split(splitters ?? DefaultSplitters, options)
+                             .ToArray();
+        }
     }
     #endregion
 
