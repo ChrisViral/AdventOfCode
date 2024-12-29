@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
@@ -53,12 +52,18 @@ public class Day11 : IntcodeSolver
         // Run
         PaintHull(painted);
 
-        // Get size of painted area
-        Dictionary<Vector2<int>, Colour>.KeyCollection paintedPositions = painted.Keys;
-        int minX = paintedPositions.Min(p => p.X);
-        int minY = paintedPositions.Min(p => p.Y);
-        int maxX = paintedPositions.Max(p => p.X);
-        int maxY = paintedPositions.Max(p => p.Y);
+        // Get the min and max values of the painted area
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+        foreach (Vector2<int> position in painted.Keys)
+        {
+            minX = Math.Min(minX, position.X);
+            minY = Math.Min(minY, position.Y);
+            maxX = Math.Max(maxX, position.X);
+            maxY = Math.Max(maxY, position.Y);
+        }
 
         // Get size vector
         Vector2<int> min  = (minX, minY);
