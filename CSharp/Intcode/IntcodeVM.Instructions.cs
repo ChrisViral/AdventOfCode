@@ -38,11 +38,20 @@ public partial class IntcodeVM
     /// </summary>
     /// <param name="modesValue">Operand modes value</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void Input(int modesValue)
+    private unsafe bool Input(int modesValue)
     {
-        Modes modes = Modes.OneOperand(modesValue);
-        ref long destination = ref GetOperand(modes.first);
-        destination = this.InputProvider.Input();
+        if (this.InputProvider.TryGetInput(out long input))
+        {
+            Modes modes = Modes.OneOperand(modesValue);
+            ref long destination = ref GetOperand(modes.first);
+            destination = input;
+            return true;
+        }
+
+        // If there is no input, flag as stalled
+        this.ip--;
+        this.Status = State.STALLED;
+        return false;
     }
 
     /// <summary>
