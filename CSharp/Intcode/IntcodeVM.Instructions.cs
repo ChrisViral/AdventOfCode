@@ -130,6 +130,17 @@ public partial class IntcodeVM
     }
 
     /// <summary>
+    /// Set relative base
+    /// </summary>
+    /// <param name="modesValue">Operand modes value</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private unsafe void RelativeSet(int modesValue)
+    {
+        Modes modes = Modes.OneOperand(modesValue);
+        this.relative += GetOperand(modes.first);
+    }
+
+    /// <summary>
     /// Halts execution
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
