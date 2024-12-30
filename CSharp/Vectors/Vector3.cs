@@ -73,6 +73,11 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public double Length => GetLength<double>();
 
     /// <summary>
+    /// Absolute length of all three vector components summed
+    /// </summary>
+    public T ManhattanLength => T.Abs(this.X) + T.Abs(this.Y)+ T.Abs(this.Z);
+
+    /// <summary>
     /// Creates an irreducible version of this vector<br/>
     /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
     /// </summary>
