@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
 using JetBrains.Annotations;
@@ -35,7 +34,6 @@ public static class DirectionsUtils
     /// <summary> Horizontal direction mask </summary>
     public const int HORIZONTAL_MASK = 0b1000;
 
-    #region Static properties
     /// <summary>
     /// All possible directions
     /// </summary>
@@ -46,23 +44,6 @@ public static class DirectionsUtils
         Direction.LEFT,
         Direction.RIGHT
     ];
-    #endregion
-
-    #region Static Methods
-    /// <summary>
-    /// Parses the given string into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <returns>The parsed direction</returns>
-    /// <exception cref="ArgumentNullException">If <paramref name="value"/> is null</exception>
-    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
-    /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(string value)
-    {
-        if (value is null) throw new ArgumentNullException(nameof(value), "Parse value is null");
-
-        return Parse(value.AsSpan());
-    }
 
     /// <summary>
     /// Parses the given char into a direction
@@ -71,7 +52,26 @@ public static class DirectionsUtils
     /// <returns>The parsed direction</returns>
     /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
     /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(char value) => Parse(new ReadOnlySpan<char>(ref value));
+    public static Direction Parse(char value) => char.ToLowerInvariant(value) switch
+    {
+        'u' or 'n' or '^' => Direction.UP,
+        'd' or 's' or 'v' => Direction.DOWN,
+        'l' or 'e' or '<' => Direction.LEFT,
+        'r' or 'w' or '>' => Direction.RIGHT,
+        _                 => throw new FormatException("Direction could not properly be parsed from input")
+    };
+
+    /// <summary>
+    /// Parses the given string into a direction
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <returns>The parsed direction</returns>
+    /// <exception cref="ArgumentNullException">If <paramref name="value"/> is null</exception>
+    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
+    /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+    public static Direction Parse(string value) => value is not null
+                                                       ? Parse(value.AsSpan())
+                                                       : throw new ArgumentNullException(nameof(value), "Parse value is null");
 
     /// <summary>
     /// Parses the given char span into a direction
@@ -98,20 +98,50 @@ public static class DirectionsUtils
     }
 
     /// <summary>
+    /// Tries to parse the given char into a direction
+    /// </summary>
+    /// <param name="value">Value to parse</param>
+    /// <param name="direction">The parsed direction output</param>
+    /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
+    public static bool TryParse(char value, out Direction direction)
+    {
+        if (value is char.MinValue || char.IsWhiteSpace(value))
+        {
+            direction = Direction.NONE;
+            return false;
+        }
+
+        switch (char.ToLowerInvariant(value))
+        {
+            case 'u' or 'n' or '^':
+                direction = Direction.UP;
+                return true;
+
+            case 'd' or 's' or 'v':
+                direction = Direction.DOWN;
+                return true;
+
+            case 'l' or 'e' or '<':
+                direction = Direction.LEFT;
+                return true;
+
+            case 'r' or 'w' or '>':
+                direction = Direction.RIGHT;
+                return true;
+
+            default:
+                direction = Direction.NONE;
+                return false;
+        }
+    }
+
+    /// <summary>
     /// Tries to parse the given string into a direction
     /// </summary>
     /// <param name="value">Value to parse</param>
     /// <param name="direction">The parsed direction output</param>
     /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
     public static bool TryParse(string value, out Direction direction) => TryParse(value.AsSpan(), out direction);
-
-    /// <summary>
-    /// Tries to parse the given char into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <param name="direction">The parsed direction output</param>
-    /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-    public static bool TryParse(char value, out Direction direction) => TryParse(new ReadOnlySpan<char>(ref value), out direction);
 
     /// <summary>
     /// Tries to parse the given char span into a direction
@@ -153,110 +183,102 @@ public static class DirectionsUtils
                 return false;
         }
     }
-    #endregion
 
-    #region Extension methods
-    /// <summary>
-    /// Gets a Vector2 from a given Direction
-    /// </summary>
-    /// <param name="direction">Direction to get the vector from</param>
-    /// <returns>The resulting vector</returns>
-    public static Vector2<T> ToVector<T>(this Direction direction) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
+    extension(Direction direction)
     {
-        Direction.UP    => Vector2<T>.Up,
-        Direction.DOWN  => Vector2<T>.Down,
-        Direction.LEFT  => Vector2<T>.Left,
-        Direction.RIGHT => Vector2<T>.Right,
-        _                => Vector2<T>.Zero
-    };
+        /// <summary>
+        /// Gets a Vector2 from a given Direction
+        /// </summary>
+        /// <returns>The resulting vector</returns>
+        public Vector2<T> ToVector<T>() where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
+        {
+            Direction.UP    => Vector2<T>.Up,
+            Direction.DOWN  => Vector2<T>.Down,
+            Direction.LEFT  => Vector2<T>.Left,
+            Direction.RIGHT => Vector2<T>.Right,
+            _               => Vector2<T>.Zero
+        };
 
-    /// <summary>
-    /// Gets a Vector2 from a given Direction
-    /// </summary>
-    /// <param name="direction">Direction to get the vector from</param>
-    /// <param name="length">DThe length of the direction vector</param>
-    /// <returns>The resulting vector</returns>
-    public static Vector2<T> ToVector<T>(this Direction direction, T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
-    {
-        Direction.UP    => new Vector2<T>(T.Zero, -length),
-        Direction.DOWN  => new Vector2<T>(T.Zero,  length),
-        Direction.LEFT  => new Vector2<T>(-length, T.Zero),
-        Direction.RIGHT => new Vector2<T>(length,  T.Zero),
-        _               => Vector2<T>.Zero
-    };
+        /// <summary>
+        /// Gets a Vector2 from a given Direction
+        /// </summary>
+        /// <param name="length">DThe length of the direction vector</param>
+        /// <returns>The resulting vector</returns>
+        public Vector2<T> ToVector<T>(T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
+        {
+            Direction.UP    => new Vector2<T>(T.Zero, -length),
+            Direction.DOWN  => new Vector2<T>(T.Zero,  length),
+            Direction.LEFT  => new Vector2<T>(-length, T.Zero),
+            Direction.RIGHT => new Vector2<T>(length,  T.Zero),
+            _               => Vector2<T>.Zero
+        };
 
-    /// <summary>
-    /// Inverts the direction
-    /// </summary>
-    /// <param name="direction">Direction to invert</param>
-    /// <returns>Reverse direction from the current one</returns>
-    public static Direction Invert(this Direction direction) => direction switch
-    {
-        Direction.UP    => Direction.DOWN,
-        Direction.DOWN  => Direction.UP,
-        Direction.LEFT  => Direction.RIGHT,
-        Direction.RIGHT => Direction.LEFT,
-        _                => direction
-    };
+        /// <summary>
+        /// Inverts the direction
+        /// </summary>
+        /// <returns>Reverse direction from the current one</returns>
+        public Direction Invert() => direction switch
+        {
+            Direction.UP    => Direction.DOWN,
+            Direction.DOWN  => Direction.UP,
+            Direction.LEFT  => Direction.RIGHT,
+            Direction.RIGHT => Direction.LEFT,
+            _               => direction
+        };
 
-    /// <summary>
-    /// Turns the direction towards the left
-    /// </summary>
-    /// <param name="direction">Direction to turn</param>
-    /// <returns>The new direction after turning to the left</returns>
-    public static Direction TurnLeft(this Direction direction) => direction switch
-    {
-        Direction.NONE  => Direction.NONE,
-        Direction.UP    => Direction.LEFT,
-        Direction.LEFT  => Direction.DOWN,
-        Direction.DOWN  => Direction.RIGHT,
-        Direction.RIGHT => Direction.UP,
-        _                => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
-    };
+        /// <summary>
+        /// Turns the direction towards the left
+        /// </summary>
+        /// <returns>The new direction after turning to the left</returns>
+        public Direction TurnLeft() => direction switch
+        {
+            Direction.NONE  => Direction.NONE,
+            Direction.UP    => Direction.LEFT,
+            Direction.LEFT  => Direction.DOWN,
+            Direction.DOWN  => Direction.RIGHT,
+            Direction.RIGHT => Direction.UP,
+            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+        };
 
-    /// <summary>
-    /// Turns the direction towards the right
-    /// </summary>
-    /// <param name="direction">Direction to turn</param>
-    /// <returns>The new direction after turning to the right</returns>
-    public static Direction TurnRight(this Direction direction) => direction switch
-    {
-        Direction.NONE  => Direction.NONE,
-        Direction.UP    => Direction.RIGHT,
-        Direction.RIGHT => Direction.DOWN,
-        Direction.DOWN  => Direction.LEFT,
-        Direction.LEFT  => Direction.UP,
-        _                => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
-    };
+        /// <summary>
+        /// Turns the direction towards the right
+        /// </summary>
+        /// <returns>The new direction after turning to the right</returns>
+        public Direction TurnRight() => direction switch
+        {
+            Direction.NONE  => Direction.NONE,
+            Direction.UP    => Direction.RIGHT,
+            Direction.RIGHT => Direction.DOWN,
+            Direction.DOWN  => Direction.LEFT,
+            Direction.LEFT  => Direction.UP,
+            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+        };
 
-    /// <summary>
-    /// Turns the direction towards the right
-    /// </summary>
-    /// <param name="direction">Direction to turn</param>
-    /// <param name="turn">Direction to turn into</param>
-    /// <returns>The new direction after turning by the specified direction</returns>
-    public static Direction TurnBy(this Direction direction, Direction turn) => turn switch
-    {
-        Direction.NONE  => direction,
-        Direction.UP    => direction,
-        Direction.RIGHT => direction.TurnRight(),
-        Direction.DOWN  => direction.Invert(),
-        Direction.LEFT  => direction.TurnLeft(),
-        _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
-    };
+        /// <summary>
+        /// Turns the direction towards the right
+        /// </summary>
+        /// <param name="turn">Direction to turn into</param>
+        /// <returns>The new direction after turning by the specified direction</returns>
+        public Direction TurnBy(Direction turn) => turn switch
+        {
+            Direction.NONE  => direction,
+            Direction.UP    => direction,
+            Direction.RIGHT => direction.TurnRight(),
+            Direction.DOWN  => direction.Invert(),
+            Direction.LEFT  => direction.TurnLeft(),
+            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+        };
 
-    /// <summary>
-    /// Checks if the given direction is vertical or not
-    /// </summary>
-    /// <param name="direction">Direction to check</param>
-    /// <returns><see langword="true"/> if the direction is vertical, else <see langword="false"/></returns>
-    public static bool IsVertical(this Direction direction) => ((int)direction & VERTICAL_MASK) is not 0;
+        /// <summary>
+        /// Checks if the given direction is vertical or not
+        /// </summary>
+        /// <returns><see langword="true"/> if the direction is vertical, else <see langword="false"/></returns>
+        public bool IsVertical() => ((int)direction & VERTICAL_MASK) is not 0;
 
-    /// <summary>
-    /// Checks if the given direction is horizontal or not
-    /// </summary>
-    /// <param name="direction">Direction to check</param>
-    /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
-    public static bool IsHorizontal(this Direction direction) => ((int)direction & HORIZONTAL_MASK) is not 0;
-    #endregion
+        /// <summary>
+        /// Checks if the given direction is horizontal or not
+        /// </summary>
+        /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
+        public bool IsHorizontal() => ((int)direction & HORIZONTAL_MASK) is not 0;
+    }
 }

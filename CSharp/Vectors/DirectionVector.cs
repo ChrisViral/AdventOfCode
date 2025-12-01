@@ -45,14 +45,13 @@ public readonly record struct DirectionVector<T>((Direction direction, T length)
 /// </summary>
 public static class DirectionVectorExtensions
 {
-    /// <summary>
-    /// Converts a vector to a direction vector
-    /// </summary>
-    /// <param name="vector">Vector to convert</param>
     /// <typeparam name="T">Integer type</typeparam>
-    /// <returns>The converted <see cref="DirectionVector{T}"/></returns>
-    public static DirectionVector<T> ToDirectionVector<T>(in this Vector2<T> vector) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    extension<T>(in Vector2<T> vector) where T : IBinaryInteger<T>, IMinMaxValue<T>
     {
-        return new DirectionVector<T>(vector);
+        /// <summary>
+        /// Converts a vector to a direction vector
+        /// </summary>
+        /// <returns>The converted <see cref="DirectionVector{T}"/></returns>
+        public DirectionVector<T> ToDirectionVector() => new(vector);
     }
 }
