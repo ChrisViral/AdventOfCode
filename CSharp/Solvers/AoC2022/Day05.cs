@@ -140,7 +140,7 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         int moveIndex = lines.FindIndex(string.IsNullOrWhiteSpace);
 
         // Work up from the bottom of stacks
-        foreach (string line in lines[..(moveIndex - 1)].Reverse())
+        foreach (string line in lines[..(moveIndex - 1)].AsEnumerable().Reverse())
         {
             // Fill out stacks
             foreach (int stackIndex in ..stackCount)

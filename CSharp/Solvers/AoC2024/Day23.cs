@@ -166,7 +166,7 @@ public class Day23 : Solver<Day23.NetworkNode[]>
         HashSet<NetworkNode> nodes = [..this.Data];
         List<NetworkNode[]> cliques = FindAllCliques(nodes);
         NetworkNode[] largestGroup = cliques.MaxBy(c => c.Length)!;
-        AoCUtils.LogPart2(string.Join(',', largestGroup.OrderBy(n => n.ID)));
+        AoCUtils.LogPart2(string.Join(',', largestGroup.AsEnumerable().OrderBy(n => n.ID)));
     }
 
     /// <summary>
