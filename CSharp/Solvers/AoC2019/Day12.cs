@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -198,7 +199,7 @@ public class Day12 : Solver<Day12.Moon[]>
         }
         while (axes is not Axes.NONE);
 
-        long repeatTime = MathUtils.LCM<long>(xStates.Count, yStates.Count, zStates.Count);
+        long repeatTime = long.LCM(xStates.Count, yStates.Count, zStates.Count);
         AoCUtils.LogPart2(repeatTime);
     }
 

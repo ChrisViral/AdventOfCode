@@ -111,7 +111,7 @@ public class Day15 : IntcodeSolver
             (spread, nextSpread) = (nextSpread, spread);
             this.map.PrintToConsole();
         }
-        while (!spread.IsEmpty());
+        while (!spread.IsEmpty);
 
         //Adjust back down
         Console.SetCursorPosition(0, Console.CursorTop + 3);

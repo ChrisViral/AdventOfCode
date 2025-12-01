@@ -114,40 +114,43 @@ public static class ArrayExtensions
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
         public void Reverse() => Array.Reverse(array);
 
-    /// <summary>
-    /// Iterates over all the permutations of the given array without allocating new memory for each permutation
-    /// </summary>
-    /// <typeparam name="T">Type of element in the array</typeparam>
-    /// <param name="array">Array to get the permutations for</param>
-    /// <returns>An enumerable returning all the permutations of the original array</returns>
-    public static IEnumerable<T[]> PermutationsInPlace<T>(this T[] array)
-    {
-        static IEnumerable<T[]> GetPermutations(T[] output, int k)
+        /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
+        /// <returns>The array reversed in place</returns>
+        public T[] Reversed()
         {
-            if (k == output.Length - 1)
-            {
-                yield return output;
-                yield break;
-            }
-
-            for (int i = k; i < output.Length; i++)
-            {
-                (output[k], output[i]) = (output[i], output[k]);
-                foreach (T[] perm in GetPermutations(output, k + 1))
-                {
-                    yield return perm;
-                }
-                (output[k], output[i]) = (output[i], output[k]);
-            }
+            Array.Reverse(array);
+            return array;
         }
 
-        T[] output = new T[array.Length];
-        array.CopyTo(output, 0);
-        return GetPermutations(output, 0);
-    }
+        /// <summary>
+        /// Iterates over all the permutations of the given array without allocating new memory for each permutation
+        /// </summary>
+        /// <returns>An enumerable returning all the permutations of the original array</returns>
+        public IEnumerable<T[]> PermutationsInPlace()
+        {
+            static IEnumerable<T[]> GetPermutations(T[] output, int k)
+            {
+                if (k == output.Length - 1)
+                {
+                    yield return output;
+                    yield break;
+                }
 
-    /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
-    public static void Reverse<T>(this T[] array) => Array.Reverse(array);
+                for (int i = k; i < output.Length; i++)
+                {
+                    (output[k], output[i]) = (output[i], output[k]);
+                    foreach (T[] perm in GetPermutations(output, k + 1))
+                    {
+                        yield return perm;
+                    }
+                    (output[k], output[i]) = (output[i], output[k]);
+                }
+            }
+
+            T[] output = new T[array.Length];
+            array.CopyTo(output, 0);
+            return GetPermutations(output, 0);
+        }
 
         /// <inheritdoc cref="Array.Sort{T}(T[])"/>
         public void Sort() => Array.Sort(array);
