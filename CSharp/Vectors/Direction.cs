@@ -41,7 +41,6 @@ public static class DirectionsUtils
     /// </summary>
     public static ImmutableArray<Direction> CardinalDirections { get; } =
     [
-
         Direction.UP,
         Direction.DOWN,
         Direction.LEFT,
