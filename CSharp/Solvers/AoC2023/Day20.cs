@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -189,7 +190,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
             }
         }
 
-        long total = MathUtils.LCM(firstTriggerHit.Values.Select(h => (long)h).ToArray());
+        long total = long.LCM(firstTriggerHit.Values.Select(h => (long)h).ToArray());
         AoCUtils.LogPart2(total);
     }
 

@@ -10,7 +10,7 @@ namespace AdventOfCode.Extensions.StringBuilders;
 [PublicAPI]
 public static class StringBuilderExtensions
 {
-    extension(StringBuilder sb)
+    extension(StringBuilder stringBuilder)
     {
         /// <summary>
         /// Compiles the StringBuilder to it's contained value, then clears it
@@ -18,8 +18,8 @@ public static class StringBuilderExtensions
         /// <returns>The compiled string contained in this StringBuilder</returns>
         public string ToStringAndClear()
         {
-            string toString = sb.ToString();
-            sb.Clear();
+            string toString = stringBuilder.ToString();
+            stringBuilder.Clear();
             return toString;
         }
     }

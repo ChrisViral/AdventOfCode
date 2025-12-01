@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -243,7 +244,7 @@ public class Day12 : Solver<Day12.Moon[]>
         long y = CheckAxis(Axis.Y);
         long z = CheckAxis(Axis.Z);
 
-        AoCUtils.LogPart2(MathUtils.LCM(x, y, z));
+        AoCUtils.LogPart2(long.LCM(x, y, z));
     }
 
     /// <summary>

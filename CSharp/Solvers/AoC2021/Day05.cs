@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AdventOfCode.Collections;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -95,9 +96,9 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
         foreach (int i in ..vents.Length)
         {
             (int x1, int y1, int x2, int y2) = vents[i];
-            data[i] = (new(x1, y1), new(x2, y2));
-            this.maxX = MathUtils.Max(x1, x2, this.maxX);
-            this.maxY = MathUtils.Max(y1, y2, this.maxY);
+            data[i]   = (new Vector2<int>(x1, y1), new Vector2<int>(x2, y2));
+            this.maxX = int.Max(x1, x2, this.maxX);
+            this.maxY = int.Max(y1, y2, this.maxY);
         }
         return data;
     }

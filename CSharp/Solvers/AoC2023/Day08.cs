@@ -40,7 +40,7 @@ public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string 
         long totalSteps = this.Data.map.Keys
             .Where(n => n[^1] is 'A')
             .Select(s => (long)CalculateSteps(s, endNodes.Contains))
-            .Aggregate(MathUtils.LCM);
+            .Aggregate(long.LCM);
         AoCUtils.LogPart2(totalSteps);
     }
 
@@ -65,7 +65,7 @@ public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Direction[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
     {
-        Direction[] directions = rawInput[0].ToCharArray().ConvertAll(DirectionsUtils.Parse);
+        Direction[] directions = rawInput[0].ToCharArray().ConvertAll(Direction.Parse);
         (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NODE_PATTERN, rawInput[1..], RegexOptions.Compiled);
         Dictionary<string, (string, string)> map = new(nodes.Length);
 

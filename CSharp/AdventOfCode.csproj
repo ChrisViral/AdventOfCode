@@ -15,10 +15,12 @@
     <DebugType>none</DebugType>
     <OutputPath>bin\Release\</OutputPath>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <NoWarn>1701;1702;8620</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>bin\Debug\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <NoWarn>1701;1702;8620</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Input\**">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -49,7 +50,7 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
         for (int i = NextBus(0); i < this.Data.buses.Length; i = NextBus(i))
         {
             long current = this.Data.buses[i];
-            long freq = MathUtils.LCM(lastFreq, current);
+            long freq = long.LCM(lastFreq, current);
             long pos = freq - lastFreq + lastStart + i;
             while (pos % current is not 0)
             {

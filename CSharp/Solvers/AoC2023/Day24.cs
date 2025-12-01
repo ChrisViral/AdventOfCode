@@ -1,4 +1,5 @@
 ﻿using System;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
@@ -27,7 +28,7 @@ public class Day24 : ArraySolver<Day24.Hail>
 
         public static bool FindIntersection(in Hail h1, in Hail h2, out Vector2<double> result)
         {
-            if (MathUtils.Approximately(h1.P.Y / (double)h1.P.X, h2.P.Y / (double)h2.P.X))
+            if (double.Approximately(h1.P.Y / (double)h1.P.X, h2.P.Y / (double)h2.P.X))
             {
                 // Parallel
                 result = Vector2<double>.Zero;

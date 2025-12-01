@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
+using SpanLinq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Extensions.Numbers;
@@ -13,7 +16,6 @@ namespace AdventOfCode.Extensions.Numbers;
 [PublicAPI]
 public static class NumberExtensions
 {
-    #region Extension methods
     /// <param name="value">Number to count the digits of</param>
     /// <typeparam name="T">Number type</typeparam>
     extension<T>(T value) where T : IBinaryInteger<T>
@@ -111,7 +113,7 @@ public static class NumberExtensions
             if (value.IsEven || value.IsMultiple(NumberUtils<T>.Three) || value.IsMultiple(NumberUtils<T>.Five)) return false;
 
             // Get square root of n
-            T limit = MathUtils.CeilToInt<double, T>(Math.Sqrt(double.CreateChecked(value)));
+            T limit = double.CeilToInt<double, T>(Math.Sqrt(double.CreateChecked(value)));
             for (T i = NumberUtils<T>.Seven; i <= limit; i += NumberUtils<T>.Six)
             {
                 // We don't need to check anything that is a multiple of two, three, or five
@@ -139,6 +141,68 @@ public static class NumberExtensions
         /// <returns><see langword="true"/> if this is a factor of <paramref name="n"/>, <see langword="false"/> otherwise</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsFactor(T n) => n % value == T.Zero;
+
+        /// <summary>
+        /// Greatest Common Divisor function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>Gets the GCD of a and b</returns>
+        /// ReSharper disable once MemberCanBePrivate.Global
+        public static T GCD(T a, T b)
+        {
+            a = T.Abs(a);
+            b = T.Abs(b);
+            while (a != T.Zero && b != T.Zero)
+            {
+                if (a > b)
+                {
+                    a %= b;
+                }
+                else
+                {
+                    b %= a;
+                }
+            }
+
+            return a | b;
+        }
+
+        /// <summary>
+        /// Greatest Common Divisor of all passed numbers
+        /// </summary>
+        /// <param name="numbers">Numbers to get the GCD for</param>
+        /// <returns>Gets the GCD of all the passed numbers</returns>
+        public static T GCD(params Span<T> numbers) => numbers.Aggregate(GCD);
+
+        /// <summary>
+        /// Greatest Common Divisor of all passed numbers
+        /// </summary>
+        /// <param name="numbers">Numbers to get the GCD for</param>
+        /// <returns>Gets the GCD of all the passed numbers</returns>
+        public static T GCD([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(GCD);
+
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>The LCM of a and b</returns>
+        public static T LCM(T a, T b) => a * b / GCD(a, b);
+
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="numbers">Numbers to get the LCM for</param>
+        /// <returns>LCM of all the numbers in the array</returns>
+        public static T LCM(params Span<T> numbers) => numbers.Aggregate(LCM);
+
+        /// <summary>
+        /// Least Common Multiple function
+        /// </summary>
+        /// <param name="numbers">Numbers to get the LCM for</param>
+        /// <returns>LCM of all the numbers in the array</returns>
+        public static T LCM([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(LCM);
     }
 
     /// <typeparam name="T">Number type</typeparam>
@@ -151,6 +215,71 @@ public static class NumberExtensions
         /// <returns>The true mod of <paramref name="n"/> and <paramref name="mod"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Mod(T mod) => ((n % mod) + mod) % mod;
+
+        /// <summary>
+        /// Gets the maximum of all numbers passed
+        /// </summary>
+        /// <typeparam name="T">Type of numbers</typeparam>
+        /// <param name="numbers">List of numbers to get the maximum of</param>
+        /// <returns>The maximum of all the passed numbers</returns>
+        public static T Max(params Span<T> numbers) => numbers.Aggregate(T.Max);
+
+        /// <summary>
+        /// Gets the maximum of all numbers passed
+        /// </summary>
+        /// <typeparam name="T">Type of numbers</typeparam>
+        /// <param name="numbers">List of numbers to get the maximum of</param>
+        /// <returns>The maximum of all the passed numbers</returns>
+        public static T Max([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(T.Max);
+
+        /// <summary>
+        /// Gets the minimum of all numbers passed
+        /// </summary>
+        /// <typeparam name="T">Type of numbers</typeparam>
+        /// <param name="numbers">List of numbers to get the minimum of</param>
+        /// <returns>The minimum of all the passed numbers</returns>
+        public static T Min(params Span<T> numbers) => numbers.Aggregate(T.Min);
+
+        /// <summary>
+        /// Gets the minimum of all numbers passed
+        /// </summary>
+        /// <typeparam name="T">Type of numbers</typeparam>
+        /// <param name="numbers">List of numbers to get the minimum of</param>
+        /// <returns>The minimum of all the passed numbers</returns>
+        public static T Min([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(T.Min);
     }
-    #endregion
+
+    /// <typeparam name="T">Floating point type</typeparam>
+    extension<T>(T) where T : IFloatingPoint<T>
+    {
+        /// <summary>
+        /// Compares two floating point numbers to see if they are nearly identical
+        /// </summary>
+        /// <param name="a">First number to test</param>
+        /// <param name="b">Second number to test</param>
+        /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
+        public static bool Approximately(T a, T b) => T.Abs(a - b) <= FloatUtils<T>.Epsilon;
+
+        /// <summary>
+        /// Gets the ceiling of a floating point value as an integer number
+        /// </summary>
+        /// <typeparam name="TResult">Integer target type</typeparam>
+        /// <param name="value">The value to get the ceiling for</param>
+        /// <returns>The ceiling of <paramref name="value"/> as an integer</returns>
+        public static TResult CeilToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
+        {
+            return TResult.CreateChecked(T.Ceiling(value));
+        }
+
+        /// <summary>
+        /// Gets the floor of a floating point value as an integer number
+        /// </summary>
+        /// <typeparam name="TResult">Integer target type</typeparam>
+        /// <param name="value">The value to get the floor for</param>
+        /// <returns>The floor of <paramref name="value"/> as an integer</returns>
+        public static TResult FloorToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
+        {
+            return TResult.CreateChecked(T.Floor(value));
+        }
+    }
 }

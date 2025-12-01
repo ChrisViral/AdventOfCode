@@ -3,7 +3,6 @@ using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2025
 {
@@ -39,7 +38,6 @@ namespace AdventOfCode.Solvers.AoC2025
 
             zeroes = 0;
             dial = DIAL_START;
-            bool wasZero = false;
             foreach (int move in this.Data)
             {
                 int rawDial = dial + move;
@@ -50,19 +48,14 @@ namespace AdventOfCode.Solvers.AoC2025
                         zeroes++;
                         break;
 
-                    case < 0 when wasZero:
-                        zeroes += -rawDial / DIAL_SIZE;
-                        break;
-
                     case < 0:
-                        zeroes += (-rawDial / DIAL_SIZE) + 1;
+                        zeroes += (-rawDial / DIAL_SIZE) + (rawDial != move ? 1 : 0);
                         break;
 
                     case >= DIAL_SIZE:
                         zeroes += rawDial / DIAL_SIZE;
                         break;
                 }
-                wasZero = dial == 0;
             }
             AoCUtils.LogPart2(zeroes);
         }
@@ -70,9 +63,8 @@ namespace AdventOfCode.Solvers.AoC2025
         /// <inheritdoc />
         protected override int ConvertLine(string line)
         {
-            Direction direction = DirectionsUtils.Parse(line[0]);
             int length = int.Parse(line.AsSpan(1));
-            return direction is Direction.LEFT ? -length : length;
+            return line[0] is 'L' ? -length : length;
         }
         #endregion
     }

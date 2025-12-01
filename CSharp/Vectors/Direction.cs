@@ -45,145 +45,6 @@ public static class DirectionsUtils
         Direction.RIGHT
     ];
 
-    /// <summary>
-    /// Parses the given char into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <returns>The parsed direction</returns>
-    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
-    /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(char value) => char.ToLowerInvariant(value) switch
-    {
-        'u' or 'n' or '^' => Direction.UP,
-        'd' or 's' or 'v' => Direction.DOWN,
-        'l' or 'e' or '<' => Direction.LEFT,
-        'r' or 'w' or '>' => Direction.RIGHT,
-        _                 => throw new FormatException("Direction could not properly be parsed from input")
-    };
-
-    /// <summary>
-    /// Parses the given string into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <returns>The parsed direction</returns>
-    /// <exception cref="ArgumentNullException">If <paramref name="value"/> is null</exception>
-    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
-    /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(string value) => value is not null
-                                                       ? Parse(value.AsSpan())
-                                                       : throw new ArgumentNullException(nameof(value), "Parse value is null");
-
-    /// <summary>
-    /// Parses the given char span into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <returns>The parsed direction</returns>
-    /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
-    /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-    public static Direction Parse(ReadOnlySpan<char> value)
-    {
-        if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Parse value cannot be empty", nameof(value));
-
-        ReadOnlySpan<char> trimmed = value.Trim();
-        Span<char> lowered = stackalloc char[trimmed.Length];
-        trimmed.ToLowerInvariant(lowered);
-        return lowered switch
-        {
-            "u" or "up"    or "n" or "north" or "^" => Direction.UP,
-            "d" or "down"  or "s" or "south" or "v" => Direction.DOWN,
-            "l" or "left"  or "e" or "east"  or "<" => Direction.LEFT,
-            "r" or "right" or "w" or "west"  or ">" => Direction.RIGHT,
-            _                                       => throw new FormatException("Direction could not properly be parsed from input")
-        };
-    }
-
-    /// <summary>
-    /// Tries to parse the given char into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <param name="direction">The parsed direction output</param>
-    /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-    public static bool TryParse(char value, out Direction direction)
-    {
-        if (value is char.MinValue || char.IsWhiteSpace(value))
-        {
-            direction = Direction.NONE;
-            return false;
-        }
-
-        switch (char.ToLowerInvariant(value))
-        {
-            case 'u' or 'n' or '^':
-                direction = Direction.UP;
-                return true;
-
-            case 'd' or 's' or 'v':
-                direction = Direction.DOWN;
-                return true;
-
-            case 'l' or 'e' or '<':
-                direction = Direction.LEFT;
-                return true;
-
-            case 'r' or 'w' or '>':
-                direction = Direction.RIGHT;
-                return true;
-
-            default:
-                direction = Direction.NONE;
-                return false;
-        }
-    }
-
-    /// <summary>
-    /// Tries to parse the given string into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <param name="direction">The parsed direction output</param>
-    /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-    public static bool TryParse(string value, out Direction direction) => TryParse(value.AsSpan(), out direction);
-
-    /// <summary>
-    /// Tries to parse the given char span into a direction
-    /// </summary>
-    /// <param name="value">Value to parse</param>
-    /// <param name="direction">The parsed direction output</param>
-    /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-    public static bool TryParse(ReadOnlySpan<char> value, out Direction direction)
-    {
-        if (value.IsEmpty || value.IsWhiteSpace())
-        {
-            direction = Direction.NONE;
-            return false;
-        }
-
-        ReadOnlySpan<char> trimmed = value.Trim();
-        Span<char> lowered = stackalloc char[trimmed.Length];
-        trimmed.ToLowerInvariant(lowered);
-        switch (lowered)
-        {
-            case "u" or "up" or "n" or "north" or "^":
-                direction = Direction.UP;
-                return true;
-
-            case "d" or "down" or "s" or "south" or "v":
-                direction = Direction.DOWN;
-                return true;
-
-            case "l" or "left" or "e" or "east" or ">":
-                direction = Direction.LEFT;
-                return true;
-
-            case "r" or "right" or "w" or "west" or "<":
-                direction = Direction.RIGHT;
-                return true;
-
-            default:
-                direction = Direction.NONE;
-                return false;
-        }
-    }
-
     extension(Direction direction)
     {
         /// <summary>
@@ -280,5 +141,147 @@ public static class DirectionsUtils
         /// </summary>
         /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
         public bool IsHorizontal() => ((int)direction & HORIZONTAL_MASK) is not 0;
+    }
+
+    extension(Direction)
+    {
+        /// <summary>
+        /// Parses the given char into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>The parsed direction</returns>
+        /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
+        /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+        public static Direction Parse(char value) => char.ToLowerInvariant(value) switch
+        {
+            'u' or 'n' or '^' => Direction.UP,
+            'd' or 's' or 'v' => Direction.DOWN,
+            'l' or 'e' or '<' => Direction.LEFT,
+            'r' or 'w' or '>' => Direction.RIGHT,
+            _                 => throw new FormatException("Direction could not properly be parsed from input")
+        };
+
+        /// <summary>
+        /// Parses the given string into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>The parsed direction</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="value"/> is null</exception>
+        /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
+        /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+        public static Direction Parse(string value) => value is not null
+                                                           ? Parse(value.AsSpan())
+                                                           : throw new ArgumentNullException(nameof(value), "Parse value is null");
+
+        /// <summary>
+        /// Parses the given char span into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>The parsed direction</returns>
+        /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
+        /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+        public static Direction Parse(ReadOnlySpan<char> value)
+        {
+            if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Parse value cannot be empty", nameof(value));
+
+            ReadOnlySpan<char> trimmed = value.Trim();
+            Span<char> lowered = stackalloc char[trimmed.Length];
+            trimmed.ToLowerInvariant(lowered);
+            return lowered switch
+            {
+                "u" or "up"    or "n" or "north" or "^" => Direction.UP,
+                "d" or "down"  or "s" or "south" or "v" => Direction.DOWN,
+                "l" or "left"  or "e" or "east"  or "<" => Direction.LEFT,
+                "r" or "right" or "w" or "west"  or ">" => Direction.RIGHT,
+                _                                       => throw new FormatException("Direction could not properly be parsed from input")
+            };
+        }
+
+        /// <summary>
+        /// Tries to parse the given char into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <param name="direction">The parsed direction output</param>
+        /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
+        public static bool TryParse(char value, out Direction direction)
+        {
+            if (value is char.MinValue || char.IsWhiteSpace(value))
+            {
+                direction = Direction.NONE;
+                return false;
+            }
+
+            switch (char.ToLowerInvariant(value))
+            {
+                case 'u' or 'n' or '^':
+                    direction = Direction.UP;
+                    return true;
+
+                case 'd' or 's' or 'v':
+                    direction = Direction.DOWN;
+                    return true;
+
+                case 'l' or 'e' or '<':
+                    direction = Direction.LEFT;
+                    return true;
+
+                case 'r' or 'w' or '>':
+                    direction = Direction.RIGHT;
+                    return true;
+
+                default:
+                    direction = Direction.NONE;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to parse the given string into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <param name="direction">The parsed direction output</param>
+        /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
+        public static bool TryParse(string value, out Direction direction) => TryParse(value.AsSpan(), out direction);
+
+        /// <summary>
+        /// Tries to parse the given char span into a direction
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <param name="direction">The parsed direction output</param>
+        /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
+        public static bool TryParse(ReadOnlySpan<char> value, out Direction direction)
+        {
+            if (value.IsEmpty || value.IsWhiteSpace())
+            {
+                direction = Direction.NONE;
+                return false;
+            }
+
+            ReadOnlySpan<char> trimmed = value.Trim();
+            Span<char> lowered = stackalloc char[trimmed.Length];
+            trimmed.ToLowerInvariant(lowered);
+            switch (lowered)
+            {
+                case "u" or "up" or "n" or "north" or "^":
+                    direction = Direction.UP;
+                    return true;
+
+                case "d" or "down" or "s" or "south" or "v":
+                    direction = Direction.DOWN;
+                    return true;
+
+                case "l" or "left" or "e" or "east" or ">":
+                    direction = Direction.LEFT;
+                    return true;
+
+                case "r" or "right" or "w" or "west" or "<":
+                    direction = Direction.RIGHT;
+                    return true;
+
+                default:
+                    direction = Direction.NONE;
+                    return false;
+            }
+        }
     }
 }

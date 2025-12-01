@@ -18,6 +18,6 @@ public static class AssemblyExtensions
         /// The file <see cref="Version"/> for the given assembly
         /// </summary>
         /// <returns>The file <see cref="Version"/> for the given assembly</returns>
-        public Version GetFileVersion => new(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion!);
+        public Version GetFileVersion => new(FileVersionInfo.GetVersionInfo(assembly.Location).FileVersion!);
     }
 }
