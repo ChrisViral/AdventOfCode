@@ -90,13 +90,13 @@ public class Day04 : Solver<Day04.BingoData>
 
                 winner ??= board.Where(n => n is not MARKED).Sum() * drawn;
                 Data.Boards.RemoveAt(i--);
-                if (!this.Data.Boards.IsEmpty()) continue;
+                if (!this.Data.Boards.IsEmpty) continue;
 
                 loser = board.Where(n => n is not MARKED).Sum() * drawn;
                 break;
             }
 
-            if (Data.Boards.IsEmpty()) break;
+            if (this.Data.Boards.IsEmpty) break;
         }
 
         AoCUtils.LogPart1(winner!.Value);

@@ -64,8 +64,7 @@ public class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         public Monkey(string line, Dictionary<string, Monkey> monkeys)
         {
             this.monkeys = monkeys;
-            string[] groups = match.Match(line)
-                                   .GetCapturedGroups()
+            string[] groups = match.Match(line).CapturedGroups
                                    .Select(g => g.Value)
                                    .ToArray();
 

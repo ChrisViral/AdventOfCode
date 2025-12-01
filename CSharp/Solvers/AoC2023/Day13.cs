@@ -155,7 +155,7 @@ public class Day13 : Solver<Grid<bool>[]>
     {
         List<Grid<bool>> grids = [];
         int end = rawInput.IndexOf(string.Empty);
-        while (!rawInput.IsEmpty())
+        while (!rawInput.IsEmpty)
         {
             string[] input = rawInput[..end];
             int width = input[0].Length;

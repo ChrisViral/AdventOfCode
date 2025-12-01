@@ -73,7 +73,7 @@ public class Day19 : Solver<List<Vector3<int>[]>>
         HashSet<Vector3<int>> scanners   = new(this.Data.Count) { Vector3<int>.Zero };
         HashSet<Vector3<int>> allBeacons = new(this.Data[0]);
         this.Data.RemoveAt(0);
-        while (!this.Data.IsEmpty())
+        while (!this.Data.IsEmpty)
         {
             foreach (int i in ..this.Data.Count)
             {

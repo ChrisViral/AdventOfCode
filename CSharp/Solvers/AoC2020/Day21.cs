@@ -99,7 +99,7 @@ public class Day21 : Solver<Day21.IngredientList[]>
 
         //Get definitive allergens
         SortedDictionary<string, string> sortedAllergens = new();
-        while (!possibilities.IsEmpty())
+        while (!possibilities.IsEmpty)
         {
             //Get first known allergen
             (string allergen, HashSet<string> ingredients) = possibilities.First(p => p.Value.Count is 1);

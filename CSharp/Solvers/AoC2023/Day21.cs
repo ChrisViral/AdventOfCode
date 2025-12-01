@@ -55,7 +55,7 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
             parity = !parity;
         }
 
-        int current = visited.Values.Count(v => v == STEPS.IsEven());
+        int current = visited.Values.Count(v => v == STEPS.IsEven);
         AoCUtils.LogPart1(current);
 
         int width = this.Data.garden.Width;
@@ -80,7 +80,7 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 
             if ((n - radius).IsMultiple(width))
             {
-                points.Add(visited.Values.Count(v => v == n.IsEven()));
+                points.Add(visited.Values.Count(v => v == n.IsEven));
             }
         }
 

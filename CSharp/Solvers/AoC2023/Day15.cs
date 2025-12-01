@@ -82,7 +82,7 @@ public class Day15 : Solver<Day15.Instruction[]>
         foreach (int boxNumber in 1..^BOXES)
         {
             List<Lens> box = boxes[boxNumber - 1];
-            if (box.IsEmpty()) continue;
+            if (box.IsEmpty) continue;
 
             foreach (int slotNumber in 1..^box.Count)
             {

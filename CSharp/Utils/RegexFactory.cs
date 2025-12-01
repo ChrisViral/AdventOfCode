@@ -72,8 +72,7 @@ public class RegexFactory<T> where T : notnull
     /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
     public T ConstructObject(string input)
     {
-        string[] captures = this.regex.Match(input)
-                                .GetCapturedGroups()
+        string[] captures = this.regex.Match(input).CapturedGroups
                                 .Select(c => c.Value)
                                 .ToArray();
         ConstructorInfo constructor = this.constructors[captures.Length];
@@ -107,7 +106,7 @@ public class RegexFactory<T> where T : notnull
     {
         //Get all matches
         string[][] allCaptures = this.regex.Matches(input)
-                                     .Select(m => m.GetCapturedGroups()
+                                     .Select(m => m.CapturedGroups
                                                    .Select(c => c.Value)
                                                    .ToArray())
                                      .ToArray();
@@ -177,7 +176,7 @@ public class RegexFactory<T> where T : notnull
     {
         //Find all matches, extract key/value pairs
         (string, string)[] matches = this.regex.Matches(input)
-                                         .Select(m => m.GetCapturedGroups().ToArray())
+                                         .Select(m => m.CapturedGroups.ToArray())
                                          .Where(a  => a.Length is 2)
                                          .Select(a => (a[0].Value, a[1].Value))
                                          .ToArray();

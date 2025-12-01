@@ -61,7 +61,7 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
 
         public Rule(string rule)
         {
-            string[] sections = ruleMatch.Match(rule).GetCapturedGroups().Select(g => g.Value).ToArray();
+            string[] sections = ruleMatch.Match(rule).CapturedGroups.Select(g => g.Value).ToArray();
             this.category     = Enum.Parse<Category>(sections[0], true);
             this.operation    = (Operation)sections[1][0];
             this.value        = int.Parse(sections[2]);

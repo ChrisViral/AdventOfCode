@@ -37,7 +37,7 @@ public class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
 
         public Map(string map, string[] ranges)
         {
-            string[] identifiers = mapMatcher.Match(map).GetCapturedGroups().Select(g => g.Value).ToArray();
+            string[] identifiers = mapMatcher.Match(map).CapturedGroups.Select(g => g.Value).ToArray();
             this.from = identifiers[0];
             this.to   = identifiers[1];
 

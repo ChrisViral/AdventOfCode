@@ -10,27 +10,33 @@ namespace AdventOfCode.Extensions.Delegates;
 [PublicAPI]
 public static class DelegateExtensions
 {
-    /// <summary>
-    /// Inverts the result of a given predicate function
-    /// </summary>
-    /// <param name="predicate">Predicate function to invert</param>
     /// <typeparam name="T">Predicate parameter type</typeparam>
-    /// <returns>A function where the result of the original predicate is inverted</returns>
-    public static Func<T, bool> Invert<T>([InstantHandle] this Func<T, bool> predicate) => x => !predicate(x);
+    extension<T>([InstantHandle] Func<T, bool> predicate)
+    {
+        /// <summary>
+        /// Inverts the result of a given predicate function
+        /// </summary>
+        /// <returns>A function where the result of the original predicate is inverted</returns>
+        public Func<T, bool> Inverted => x => !predicate(x);
+    }
 
-    /// <summary>
-    /// Inverts the result of a given predicate function
-    /// </summary>
-    /// <param name="predicate">Predicate function to invert</param>
     /// <typeparam name="T">Predicate parameter type</typeparam>
-    /// <returns>A function where the result of the original predicate is inverted</returns>
-    public static Func<T, int, bool> Invert<T>([InstantHandle] this Func<T, int, bool> predicate) => (x, i) => !predicate(x, i);
+    extension<T>([InstantHandle] Func<T, int, bool> predicate)
+    {
+        /// <summary>
+        /// Inverts the result of a given predicate function
+        /// </summary>
+        /// <returns>A function where the result of the original predicate is inverted</returns>
+        public Func<T, int, bool> Inverted => (x, i) => !predicate(x, i);
+    }
 
-    /// <summary>
-    /// Inverts the result of a given predicate function
-    /// </summary>
-    /// <param name="predicate">Predicate function to invert</param>
     /// <typeparam name="T">Predicate parameter type</typeparam>
-    /// <returns>A function where the result of the original predicate is inverted</returns>
-    public static Predicate<T> Invert<T>([InstantHandle] this Predicate<T> predicate) => x => !predicate(x);
+    extension<T>([InstantHandle] Predicate<T> predicate)
+    {
+        /// <summary>
+        /// Inverts the result of a given predicate function
+        /// </summary>
+        /// <returns>A function where the result of the original predicate is inverted</returns>
+        public Predicate<T> Inverted => x => !predicate(x);
+    }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace AdventOfCode.Extensions.Ranges;
 
 /// <summary>
@@ -48,63 +49,60 @@ public static class RangeExtensions
         }
     }
 
-    #region Extension methods
-    /// <summary>
-    /// Checks if a value is contained within the range<br/>
-    /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
-    /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
-    /// </summary>
-    /// <param name="range">Range to check within</param>
-    /// <param name="value">Value to check</param>
-    /// <returns>True if the value is within the range, false otherwise</returns>
-    public static bool IsInRange(this Range range, int value)
+    extension(Range range)
     {
-        int start = range.Start.IsFromEnd ? range.Start.Value + 1 : range.Start.Value;
-        int end   = range.End.IsFromEnd   ? range.End.Value       : range.End.Value - 1;
-        if (start > end)
+        /// <summary>
+        /// Checks if a value is contained within the range<br/>
+        /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
+        /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
+        /// </summary>
+        /// <param name="value">Value to check</param>
+        /// <returns>True if the value is within the range, false otherwise</returns>
+        public bool IsInRange(int value)
         {
-            (start, end) = (end, start);
+            int start = range.Start.IsFromEnd ? range.Start.Value + 1 : range.Start.Value;
+            int end   = range.End.IsFromEnd   ? range.End.Value       : range.End.Value - 1;
+            if (start > end)
+            {
+                (start, end) = (end, start);
+            }
+            return value >= start && value <= end;
         }
-        return value >= start && value <= end;
-    }
 
-    /// <summary>
-    /// Transforms the range into an enumerable from <see cref="Range.Start"/> to <see cref="Range.End"/><br/>
-    /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
-    /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
-    /// </summary>
-    /// <param name="range">Range to convert to enumerable</param>
-    /// <returns>An enumerable over the specified range</returns>
-    public static IEnumerable<int> AsEnumerable(this Range range)
-    {
-        int sign  = Math.Sign(range.End.Value - range.Start.Value);
-        if (sign is 0) sign = 1;
-        int start = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
-        int end   = range.End.IsFromEnd   ? range.End.Value + sign   : range.End.Value;
-        for (int i = start; i != end; i += sign)
+        /// <summary>
+        /// Transforms the range into an enumerable from <see cref="Range.Start"/> to <see cref="Range.End"/><br/>
+        /// If <see cref="Range.Start"/> is marked as <see cref="Index.IsFromEnd"/>, then the first value is excluded<br/>
+        /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
+        /// </summary>
+        /// <returns>An enumerable over the specified range</returns>
+        public IEnumerable<int> AsEnumerable()
         {
-            yield return i;
+            int sign  = Math.Sign(range.End.Value - range.Start.Value);
+            if (sign is 0) sign = 1;
+            int start = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
+            int end   = range.End.IsFromEnd   ? range.End.Value + sign   : range.End.Value;
+            for (int i = start; i != end; i += sign)
+            {
+                yield return i;
+            }
+        }
+
+        /// <summary>
+        /// Range GetEnumerator method, allows foreach over a range as long as the indices are not from the end
+        /// </summary>
+        /// <returns>An enumerator over the entire range</returns>
+        /// <exception cref="ArgumentException">If any of the indices are marked as from the end</exception>
+        public RangeEnumerator GetEnumerator() => new(range);
+
+        /// <summary>
+        /// Deconstructs the range into a tuple containing the start and end values
+        /// </summary>
+        /// <param name="start">Start value output</param>
+        /// <param name="end">End value output</param>
+        public void Deconstruct(out int start, out int end)
+        {
+            start = range.Start.Value;
+            end   = range.End.Value;
         }
     }
-
-    /// <summary>
-    /// Range GetEnumerator method, allows foreach over a range as long as the indices are not from the end
-    /// </summary>
-    /// <param name="range">Range to get the Enumerator for</param>
-    /// <returns>An enumerator over the entire range</returns>
-    /// <exception cref="ArgumentException">If any of the indices are marked as from the end</exception>
-    public static RangeEnumerator GetEnumerator(this Range range) => new(range);
-
-    /// <summary>
-    /// Deconstructs the range into a tuple containing the start and end values
-    /// </summary>
-    /// <param name="range">Range to deconstruct</param>
-    /// <param name="start">Start value output</param>
-    /// <param name="end">End value output</param>
-    public static void Deconstruct(this Range range, out int start, out int end)
-    {
-        start = range.Start.Value;
-        end   = range.End.Value;
-    }
-    #endregion
 }

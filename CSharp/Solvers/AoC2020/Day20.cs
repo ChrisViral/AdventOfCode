@@ -138,8 +138,8 @@ public class Day20 : Solver<Day20.Tile[]>
 
             if (this.ignoreBorders) return;
 
-            this.left.Reversed();
-            this.right.Reversed();
+            ArrayExtensions.Reverse(this.left);
+            ArrayExtensions.Reverse(this.right);
             (this.top, this.bottom) = (this.bottom, this.top);
         }
 
@@ -148,12 +148,12 @@ public class Day20 : Solver<Day20.Tile[]>
         /// </summary>
         public void FlipHorizontal()
         {
-            this.image.ForEach(row => row.Reversed());
+            this.image.ForEach(row => ArrayExtensions.Reverse(row));
 
             if (this.ignoreBorders) return;
 
-            this.top.Reversed();
-            this.bottom.Reversed();
+            ArrayExtensions.Reverse(this.top);
+            ArrayExtensions.Reverse(this.bottom);
             (this.left, this.right) = (this.right, this.left);
         }
 
@@ -179,8 +179,8 @@ public class Day20 : Solver<Day20.Tile[]>
             (this.bottom, this.top) = (this.top, this.bottom);
             (this.right, this.top) = (this.top, this.right);
 
-            this.left.Reversed();
-            this.right.Reversed();
+            ArrayExtensions.Reverse(this.left);
+            ArrayExtensions.Reverse(this.right);
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ public class Day20 : Solver<Day20.Tile[]>
         }
 
         List<List<Tile>> image = new() { row };
-        while (!notPlaced.IsEmpty())
+        while (!notPlaced.IsEmpty)
         {
             adjacent = notPlaced.First(row[0].AdjacentBottom);
             row = new List<Tile>(row.Count);

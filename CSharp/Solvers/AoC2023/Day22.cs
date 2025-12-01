@@ -66,7 +66,7 @@ public class Day22 : ArraySolver<Day22.Brick>
             other.Supports.Add(this);
         }
 
-        public bool SafeToDisintegrate() => this.Supports.IsEmpty()
+        public bool SafeToDisintegrate() => this.Supports.IsEmpty
                                          || this.Supports.All(b => b.SupportedBy.Count > 1);
 
         /// <inheritdoc />
@@ -112,7 +112,7 @@ public class Day22 : ArraySolver<Day22.Brick>
                 brickTops[brick.Bottom - 1].Where(brick.OverlapsWith)
                                            .ForEach(brick.AddSupport);
 
-                if (!brick.SupportedBy.IsEmpty()) break;
+                if (!brick.SupportedBy.IsEmpty) break;
 
                 brick.MoveDown();
             }

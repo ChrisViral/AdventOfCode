@@ -452,7 +452,7 @@ public static class SearchUtils
         }
 
         // Return path length
-        return !foundEndNodes.IsEmpty() ? foundEndNodes.Max(n => n.Cost) : null;
+        return !foundEndNodes.IsEmpty ? foundEndNodes.Max(n => n.Cost) : null;
     }
     #endregion
 }

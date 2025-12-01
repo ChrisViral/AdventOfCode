@@ -48,8 +48,7 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         public Move(string line)
         {
             // Extract values
-            int[] values = matcher.Match(line)
-                                  .GetCapturedGroups()
+            int[] values = matcher.Match(line).CapturedGroups
                                   .Select(group => int.Parse(group.ValueSpan))
                                   .ToArray();
             Amount = values[0];

@@ -35,7 +35,7 @@ public class Day11 : Solver<(long value, Day11.Stone stone)[]>
 
                 default:
                     int digits = original.DigitsCount();
-                    if (digits.IsEven())
+                    if (digits.IsEven)
                     {
                         (this.blinkResult, this.blinkSplit) = SplitNumber(original, digits);
                         this.hasSplit                       = true;

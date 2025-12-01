@@ -36,13 +36,13 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
         Grid<bool> image = this.Data.image;
         foreach (int i in ..PASSES)
         {
-            image = ApplyAlgorithm(image, !i.IsEven());
+            image = ApplyAlgorithm(image, !i.IsEven);
         }
         AoCUtils.LogPart1(image.Count(b => b));
 
         foreach (int i in PASSES..LONG_PASSES)
         {
-            image = ApplyAlgorithm(image, !i.IsEven());
+            image = ApplyAlgorithm(image, !i.IsEven);
         }
         AoCUtils.LogPart2(image.Count(b => b));
     }

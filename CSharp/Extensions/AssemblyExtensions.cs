@@ -12,13 +12,12 @@ namespace AdventOfCode.Extensions.Assemblies;
 [PublicAPI]
 public static class AssemblyExtensions
 {
-    /// <summary>
-    /// The file <see cref="Version"/> for the given assembly
-    /// </summary>
-    /// <param name="assembly">Assembly to get the file Version for</param>
-    /// <returns>The file <see cref="Version"/> for the given assembly</returns>
-    public static Version GetFileVersion(this Assembly assembly)
+    extension(Assembly assembly)
     {
-        return new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion!);
+        /// <summary>
+        /// The file <see cref="Version"/> for the given assembly
+        /// </summary>
+        /// <returns>The file <see cref="Version"/> for the given assembly</returns>
+        public Version GetFileVersion => new(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion!);
     }
 }

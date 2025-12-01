@@ -74,7 +74,7 @@ public class Day10 : Solver
             }
 
             // If some brackets were not closed
-            if (brackets.IsEmpty()) continue;
+            if (brackets.IsEmpty) continue;
 
             // Calculate score for incomplete brackets
             long incompleteScore = 0L;

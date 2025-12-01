@@ -10,15 +10,17 @@ namespace AdventOfCode.Extensions.StringBuilders;
 [PublicAPI]
 public static class StringBuilderExtensions
 {
-    /// <summary>
-    /// Compiles the StringBuilder to it's contained value, then clears it
-    /// </summary>
-    /// <param name="sb">The StringBuilder to get the value for</param>
-    /// <returns>The compiled string contained in <paramref name="sb"/></returns>
-    public static string ToStringAndClear(this StringBuilder sb)
+    extension(StringBuilder sb)
     {
-        string toString = sb.ToString();
-        sb.Clear();
-        return toString;
+        /// <summary>
+        /// Compiles the StringBuilder to it's contained value, then clears it
+        /// </summary>
+        /// <returns>The compiled string contained in this StringBuilder</returns>
+        public string ToStringAndClear()
+        {
+            string toString = sb.ToString();
+            sb.Clear();
+            return toString;
+        }
     }
 }

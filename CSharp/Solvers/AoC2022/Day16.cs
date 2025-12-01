@@ -234,8 +234,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
         foreach (string line in lines)
         {
             // Parse valves
-            string[] captures = Pattern.Match(line)
-                                       .GetCapturedGroups()
+            string[] captures = Pattern.Match(line).CapturedGroups
                                        .Select(g => g.Value)
                                        .ToArray();
             string id    = captures[0];

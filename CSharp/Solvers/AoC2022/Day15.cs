@@ -121,8 +121,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Vector2<int>, int) ConvertLine(string line)
     {
-        int[] values = pattern.Match(line)
-                              .GetCapturedGroups()
+        int[] values = pattern.Match(line).CapturedGroups
                               .Select(g => int.Parse(g.ValueSpan))
                               .ToArray();
         Vector2<int> sensor = new(values[0], values[1]);

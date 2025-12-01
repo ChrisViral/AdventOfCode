@@ -248,7 +248,7 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
         Movement[] movements = new Movement[matches.Count];
         foreach (int i in ..matches.Count)
         {
-            string[] groups = matches[i].GetCapturedGroups()
+            string[] groups = matches[i].CapturedGroups
                                         .Select(g => g.Value)
                                         .ToArray();
             int distance = int.Parse(groups[0]);

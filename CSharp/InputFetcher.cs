@@ -139,7 +139,7 @@ public static partial class InputFetcher
         client.DefaultRequestHeaders.Add("cookie", "session=" + settings.Cookie);
 
         // Add User-Agent header
-        Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion();
+        Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
         string userAgentValue = $"ChrisViral.{typeof(InputFetcher).FullName}Bot/{fileVersion.ToString(2)} (github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)";
         client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgentValue);
 
