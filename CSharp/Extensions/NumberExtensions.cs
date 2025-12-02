@@ -33,42 +33,6 @@ public static class NumberExtensions
         }
 
         /// <summary>
-        /// Counts the digits in a given number
-        /// </summary>
-        /// <returns>The amount of digits in <paramref name="value"/></returns>
-        public int DigitsCount()
-        {
-            if (value == T.Zero) return 1;
-
-            value = T.Abs(value);
-            int digits = 1;
-            while (value >= NumberUtils<T>.Ten)
-            {
-                digits++;
-                value /= NumberUtils<T>.Ten;
-            }
-            return digits;
-        }
-
-        /// <summary>
-        /// Calculates the Nth power of 10
-        /// </summary>
-        /// <returns>Nth power of 10</returns>
-        public T Pow10()
-        {
-            if (value < T.Zero) return T.Zero;
-            if (value == T.Zero) return T.One;
-
-            T pow = NumberUtils<T>.Ten;
-            while (value --> T.One)
-            {
-                pow *= NumberUtils<T>.Ten;
-            }
-
-            return pow;
-        }
-
-        /// <summary>
         /// Concatenates the specified number at the end of the current number
         /// </summary>
         /// <param name="other">Number to concatenate</param>
@@ -203,6 +167,105 @@ public static class NumberExtensions
         /// <param name="numbers">Numbers to get the LCM for</param>
         /// <returns>LCM of all the numbers in the array</returns>
         public static T LCM([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(LCM);
+    }
+
+    extension(int value)
+    {
+        /// <summary>
+        /// Counts the digits in a given number
+        /// </summary>
+        public int DigitCount() => int.Abs(value) switch
+        {
+            <            10 => 1,
+            <           100 => 2,
+            <         1_000 => 3,
+            <        10_000 => 4,
+            <       100_000 => 5,
+            <     1_000_000 => 6,
+            <    10_000_000 => 7,
+            <   100_000_000 => 8,
+            < 1_000_000_000 => 9,
+            _               => 10
+        };
+
+        /// <summary>
+        /// Calculates the Nth power of 10
+        /// </summary>
+        /// <returns>Nth power of 10 as an integer</returns>
+        public int Pow10() => value switch
+        {
+            < 0 =>             0,
+              0 =>             1,
+              1 =>            10,
+              2 =>           100,
+              3 =>         1_000,
+              4 =>        10_000,
+              5 =>       100_000,
+              6 =>     1_000_000,
+              7 =>    10_000_000,
+              8 =>   100_000_000,
+              9 => 1_000_000_000,
+            _   => throw new OverflowException("Power exceeds 32bit integer range")
+        };
+
+        /// <summary>
+        /// Calculates the Nth power of 10
+        /// </summary>
+        /// <returns>Nth power of 10 as a long</returns>
+        public long LongPow10() => value switch
+        {
+            < 0 =>                         0L,
+              0 =>                         1L,
+              1 =>                        10L,
+              2 =>                       100L,
+              3 =>                     1_000L,
+              4 =>                    10_000L,
+              5 =>                   100_000L,
+              6 =>                 1_000_000L,
+              7 =>                10_000_000L,
+              8 =>               100_000_000L,
+              9 =>             1_000_000_000L,
+             10 =>            10_000_000_000L,
+             11 =>           100_000_000_000L,
+             12 =>         1_000_000_000_000L,
+             13 =>        10_000_000_000_000L,
+             14 =>       100_000_000_000_000L,
+             15 =>     1_000_000_000_000_000L,
+             16 =>    10_000_000_000_000_000L,
+             17 =>   100_000_000_000_000_000L,
+             18 => 1_000_000_000_000_000_000L,
+            _    => throw new OverflowException("Power exceeds 64bit integer range")
+        };
+    }
+
+    extension(long value)
+    {
+        /// <summary>
+        /// Counts the digits in a given number
+        /// </summary>
+        /// ReSharper disable once CognitiveComplexity
+        public int DigitCount() => long.Abs(value) switch
+        {
+            <                        10L => 1,
+            <                       100L => 2,
+            <                     1_000L => 3,
+            <                    10_000L => 4,
+            <                   100_000L => 5,
+            <                 1_000_000L => 6,
+            <                10_000_000L => 7,
+            <               100_000_000L => 8,
+            <             1_000_000_000L => 9,
+            <            10_000_000_000L => 10,
+            <           100_000_000_000L => 11,
+            <         1_000_000_000_000L => 12,
+            <        10_000_000_000_000L => 13,
+            <       100_000_000_000_000L => 14,
+            <     1_000_000_000_000_000L => 15,
+            <    10_000_000_000_000_000L => 16,
+            <   100_000_000_000_000_000L => 17,
+            < 1_000_000_000_000_000_000L => 18,
+            _                            => 19
+        };
     }
 
     /// <typeparam name="T">Number type</typeparam>
