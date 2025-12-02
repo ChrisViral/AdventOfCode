@@ -40,11 +40,20 @@ public class RegexFactory<T> where T : notnull
     /// <param name="options">Regex options</param>
     /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
     public RegexFactory([StringSyntax("regex", "options"), RegexPattern] string pattern, RegexOptions options = RegexOptions.None)
+        : this(new Regex(pattern.Length is not 0 ? pattern : throw new ArgumentException("Pattern length cannot be zero"), options))
     {
-        if (pattern.Length is 0) throw new ArgumentException("Pattern length cannot be zero");
+    }
 
+    /// <summary>
+    /// Creates a new RegexFactory with a given pattern for the specified type.<br/>
+    /// <b>NOTE</b>: Creating this object will analyze the target type with reflection, which could potentially be a slow process.
+    /// </summary>
+    /// <param name="regex">Regex matcher</param>
+    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
+    public RegexFactory(Regex regex)
+    {
         //Create Regex
-        this.regex = new(pattern, options);
+        this.regex = regex;
         //Get types
         //Get potential constructors
         this.constructors = ObjectType.GetConstructors()
@@ -105,17 +114,13 @@ public class RegexFactory<T> where T : notnull
     public T[] ConstructObjects(string input)
     {
         //Get all matches
-        string[][] allCaptures = this.regex.Matches(input)
-                                     .Select(m => m.CapturedGroups
-                                                   .Select(c => c.Value)
-                                                   .ToArray())
-                                     .ToArray();
+        MatchCollection matches = this.regex.Matches(input);
 
         //Go through them and create the objects
-        T[] results = new T[allCaptures.Length];
+        T[] results = new T[matches.Count];
         foreach (int i in ..results.Length)
         {
-            string[] captures = allCaptures[i];
+            Group[] captures = matches[i].CapturedGroups.ToArray();
             object[] parameters = new object[captures.Length];
             ConstructorInfo constructor = this.constructors[captures.Length];
             ParameterInfo[] paramsInfo = constructor.GetParameters();
@@ -125,7 +130,7 @@ public class RegexFactory<T> where T : notnull
                 Type paramType = paramsInfo[j].ParameterType;
                 paramType = Nullable.GetUnderlyingType(paramType) ?? paramType;
                 //Create and set the value
-                parameters[j] = Convert.ChangeType(captures[j], paramType) ?? throw new InvalidCastException($"Could not convert {captures[j]} to {paramType}");
+                parameters[j] = Convert.ChangeType(captures[j].Value, paramType) ?? throw new InvalidCastException($"Could not convert {captures[j].ValueSpan} to {paramType}");
             }
             results[i] = (T)constructor.Invoke(parameters);
         }
@@ -247,6 +252,64 @@ public class RegexFactory<T> where T : notnull
     }
 
     /// <summary>
+    /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
+    /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
+    /// then populates the parameters by converting the captures to the parameter type.<br/>
+    /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of object to create</typeparam>
+    /// <param name="pattern">Pattern of the Regex match</param>
+    /// <param name="input">Input string</param>
+    /// <param name="options">Regex options</param>
+    /// <returns>The created <typeparamref name="T"/> objects</returns>
+    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
+    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
+    /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
+    public static T[] ConstructObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, string input, RegexOptions options = RegexOptions.None)
+    {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
+        return new RegexFactory<T>(pattern, options).ConstructObjects(input);
+    }
+
+    /// <summary>
+    /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
+    /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
+    /// then populates the parameters by converting the captures to the parameter type.<br/>
+    /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of object to create</typeparam>
+    /// <param name="regex">Regex matcher</param>
+    /// <param name="input">Input strings</param>
+    /// <returns>The created <typeparamref name="T"/> objects</returns>
+    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
+    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
+    /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
+    public static T[] ConstructObjects(Regex regex, IReadOnlyList<string> input)
+    {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
+        return new RegexFactory<T>(regex).ConstructObjects(input);
+    }
+
+    /// <summary>
+    /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
+    /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
+    /// then populates the parameters by converting the captures to the parameter type.<br/>
+    /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of object to create</typeparam>
+    /// <param name="regex">Regex matcher</param>
+    /// <param name="input">Input string</param>
+    /// <returns>The created <typeparamref name="T"/> objects</returns>
+    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
+    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
+    /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
+    public static T[] ConstructObjects(Regex regex, string input)
+    {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
+        return new RegexFactory<T>(regex).ConstructObjects(input);
+    }
+
+    /// <summary>
     /// Populates <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
     /// To populate, all matches from the regex are found in the input string, then are separated<br/>
     /// into key/value pairs if there are exactly two captures. The value is then applied to the public field matched with the key.<br/>
@@ -264,6 +327,25 @@ public class RegexFactory<T> where T : notnull
     {
         // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(pattern, options).PopulateObjects(input);
+    }
+
+    /// <summary>
+    /// Populates <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
+    /// To populate, all matches from the regex are found in the input string, then are separated<br/>
+    /// into key/value pairs if there are exactly two captures. The value is then applied to the public field matched with the key.<br/>
+    /// Additionally, all the field types must implement <see cref="IConvertible"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of object to populate</typeparam>
+    /// <param name="regex">Regex matcher</param>
+    /// <param name="input">Input strings</param>
+    /// <returns>An array of the populated <typeparamref name="T"/> objects</returns>
+    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
+    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
+    /// <exception cref="MissingMethodException">If no default constructor is found</exception>
+    public static T[] PopulateObjects(Regex regex, IReadOnlyList<string> input)
+    {
+        // ReSharper disable once ArrangeMethodOrOperatorBody
+        return new RegexFactory<T>(regex).PopulateObjects(input);
     }
     #endregion
 }

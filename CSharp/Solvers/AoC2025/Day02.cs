@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Numbers;
-using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 02
 /// </summary>
-public class Day02 : Solver<Day02.IdRange[]>
+public partial class Day02 : Solver<Day02.IdRange[]>
 {
     public readonly record struct IdRange(long Start, long End);
 
@@ -23,6 +23,9 @@ public class Day02 : Solver<Day02.IdRange[]>
     #endregion
 
     private static readonly char[] Buffer = new char[19];
+
+    [GeneratedRegex(@"(\d+)-(\d+)")]
+    private static partial Regex RangeMatcher { get; }
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
@@ -87,26 +90,6 @@ public class Day02 : Solver<Day02.IdRange[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override IdRange[] Convert(string[] rawInput)
-    {
-        // Split ID ranges
-        ReadOnlySpan<char> data = rawInput[0];
-        int count = data.Count(',') + 1;
-        Span<Range> splits = stackalloc Range[count];
-        data.Split(splits, ',');
-
-        IdRange[] ranges = new IdRange[count];
-        Span<Range> rangeSplits = stackalloc Range[2];
-        foreach (int i in ..count)
-        {
-            // Parse individual ranges
-            ReadOnlySpan<char> rangeData = data[splits[i]];
-            rangeData.Split(rangeSplits, '-');
-            long start = long.Parse(rangeData[rangeSplits[0]]);
-            long end   = long.Parse(rangeData[rangeSplits[1]]);
-            ranges[i]  = new IdRange(start, end);
-        }
-        return ranges;
-    }
+    protected override IdRange[] Convert(string[] rawInput) => RegexFactory<IdRange>.ConstructObjects(RangeMatcher, rawInput[0]);
     #endregion
 }
