@@ -5,9 +5,10 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;
-// ReSharper disable RedundantOverflowCheckingContext
 
 namespace AdventOfCode.Intcode;
+
+// ReSharper disable RedundantOverflowCheckingContext
 
 /// <summary>
 /// Intcode VM
@@ -90,7 +91,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         get
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
+            #if DEBUG
             if (index < 0 || index >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), index, "Intcode VM buffer index out of range");
+            #endif
 
             return ref *(this.buffer + index);
         }
@@ -108,7 +111,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
             int offset = index.GetOffset(this.bufferSize);
+            #if DEBUG
             if (offset < 0 || offset >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), offset, "Intcode VM buffer index out of range");
+            #endif
 
             return ref *(this.buffer + offset);
         }

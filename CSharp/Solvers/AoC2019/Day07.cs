@@ -27,10 +27,10 @@ public class Day07 : IntcodeSolver
     {
         // Create VM copies
         IntcodeVM ampA = this.VM;
-        IntcodeVM ampB = new(this.VM);
-        IntcodeVM ampC = new(this.VM);
-        IntcodeVM ampD = new(this.VM);
-        IntcodeVM ampE = new(this.VM);
+        using IntcodeVM ampB = new(this.VM);
+        using IntcodeVM ampC = new(this.VM);
+        using IntcodeVM ampD = new(this.VM);
+        using IntcodeVM ampE = new(this.VM);
         IntcodeVM[] amplifiers = [ampA, ampB, ampC, ampD, ampE];
 
         // Create input/output bridges
