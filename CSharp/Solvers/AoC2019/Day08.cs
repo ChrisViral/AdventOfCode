@@ -169,7 +169,7 @@ public class Day08 : Solver<Day08.Layer[]>
         List<Layer> layers = new();
         for (int i = 0, j = Layer.SIZE; j <= line.Length; i = j, j += Layer.SIZE)
         {
-            layers.Add(new(line[i..j]));
+            layers.Add(new Layer(line[i..j]));
         }
 
         return layers.ToArray();

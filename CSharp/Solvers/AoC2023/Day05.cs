@@ -137,13 +137,13 @@ public class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
         {
             if (char.IsNumber(rawInput[current][0])) continue;
 
-            map = new(indicator, rawInput[start..current]);
+            map = new Map(indicator, rawInput[start..current]);
             maps.Add(map.from, map);
             indicator = rawInput[current++];
             start = current;
         }
 
-        map = new(indicator, rawInput[start..current]);
+        map = new Map(indicator, rawInput[start..current]);
         maps.Add(map.from, map);
         return (seeds, maps);
     }

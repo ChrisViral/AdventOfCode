@@ -87,7 +87,7 @@ public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
     protected override (Move, Move) ConvertLine(string line)
     {
-        return (new(line[0] - 'A'), new(line[2] - 'X'));
+        return (new Move(line[0] - 'A'), new Move(line[2] - 'X'));
     }
     #endregion
 }

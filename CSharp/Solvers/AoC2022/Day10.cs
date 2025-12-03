@@ -90,7 +90,7 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
             arg = 0;
         }
 
-        return new(op, arg);
+        return new ValueTuple<Operation, int>(op, arg);
     }
 
     private void ProcessCycle()
@@ -107,8 +107,8 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
 
         // Update the position
         this.Position = this.Cycle.IsMultiple(40)
-                            ? new(0, this.Position.Y + 1)
-                            : new(this.Position.X + 1, this.Position.Y);
+                            ? new Vector2<int>(0, this.Position.Y + 1)
+                            : new Vector2<int>(this.Position.X + 1, this.Position.Y);
     }
     #endregion
 }

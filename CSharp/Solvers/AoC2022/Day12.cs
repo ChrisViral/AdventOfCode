@@ -85,7 +85,7 @@ public class Day12 : GridSolver<int>
             int neighbour = this.Grid[adjacent];
             if (neighbour <= current + 1)
             {
-                yield return new(adjacent, 1d);
+                yield return new MoveData<Vector2<int>, double>(adjacent, 1d);
             }
         }
     }

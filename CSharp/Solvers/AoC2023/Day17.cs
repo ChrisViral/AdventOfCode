@@ -70,14 +70,14 @@ public class Day17 : GridSolver<int>
             }
 
             CruciblePath newPath = new(current.grid, newPosition, newDirection, newSteps);
-            node = new(newPath, newPath.Loss);
+            node = new MoveData<CruciblePath, double>(newPath, newPath.Loss);
             return true;
         }
 
         public static bool IsGoal(CruciblePath current, CruciblePath goal) => current.position == goal.position;
 
         public static double Heuristic(CruciblePath current) => Vector2<int>.Distance(current.position,
-                                                                                      new(current.grid.Width - 1, current.grid.Height - 1));
+                                                                                      new Vector2<int>(current.grid.Width - 1, current.grid.Height - 1));
 
         #region Equality members
         /// <inheritdoc />
@@ -147,14 +147,14 @@ public class Day17 : GridSolver<int>
             }
 
             UltraCruciblePath newPath = new(current.grid, newPosition, newDirection, newSteps, incurredLoss);
-            node = new(newPath, incurredLoss);
+            node = new MoveData<UltraCruciblePath, double>(newPath, incurredLoss);
             return true;
         }
 
         public static bool IsGoal(UltraCruciblePath current, UltraCruciblePath goal) => current.position == goal.position;
 
         public static double Heuristic(UltraCruciblePath current) => Vector2<int>.Distance(current.position,
-                                                                                           new(current.grid.Width - 1, current.grid.Height - 1));
+                                                                                           new Vector2<int>(current.grid.Width - 1, current.grid.Height - 1));
 
         #region Equality members
         /// <inheritdoc />
@@ -185,10 +185,10 @@ public class Day17 : GridSolver<int>
     public override void Run()
     {
         Vector2<int> endPosition = new(this.Data.Width - 1, this.Data.Height - 1);
-        int heatLoss = GetMinLoss<CruciblePath>(new(this.Data), new(this.Data, endPosition));
+        int heatLoss = GetMinLoss<CruciblePath>(new CruciblePath(this.Data), new CruciblePath(this.Data, endPosition));
         AoCUtils.LogPart1(heatLoss);
 
-        heatLoss = GetMinLoss<UltraCruciblePath>(new(this.Data), new(this.Data, endPosition));
+        heatLoss = GetMinLoss<UltraCruciblePath>(new UltraCruciblePath(this.Data), new UltraCruciblePath(this.Data, endPosition));
         AoCUtils.LogPart2(heatLoss);
     }
 

@@ -161,7 +161,7 @@ public class Day13 : Solver<Grid<bool>[]>
             string[] input = rawInput[..end];
             int width = input[0].Length;
             int height = input.Length;
-            grids.Add(new(width, height, input, l => l.Select(c => c is ROCK).ToArray(), b => b ? "#" : "."));
+            grids.Add(new Grid<bool>(width, height, input, l => l.Select(c => c is ROCK).ToArray(), b => b ? "#" : "."));
             rawInput = rawInput[(end + 1)..];
             end = rawInput.IndexOf(string.Empty);
         }

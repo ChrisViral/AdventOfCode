@@ -119,7 +119,7 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
             int x = rawInput[y].IndexOf('S');
             if (x is not -1)
             {
-                start = new(x, y);
+                start = new Vector2<int>(x, y);
                 break;
             }
         }

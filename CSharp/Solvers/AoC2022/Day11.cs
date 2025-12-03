@@ -64,7 +64,7 @@ public class Day11 : Solver<Day11.Monkey[]>
         /// <param name="data">Data to parse from</param>
         public Monkey(IReadOnlyList<string> data)
         {
-            this.Items = new(data[1][16..].Split(", ").Select(long.Parse));
+            this.Items = new Queue<long>(data[1][16..].Split(", ").Select(long.Parse));
             string[] operation = data[2][17..].Split(' ');
             if (operation[1] is "+")
             {
@@ -96,11 +96,11 @@ public class Day11 : Solver<Day11.Monkey[]>
         /// <param name="original">Original monkey</param>
         public Monkey(Monkey original)
         {
-            this.Items = new(original.Items);
-            this.Update = original.Update;
-            this.Test = original.Test;
+            this.Items        = new Queue<long>(original.Items);
+            this.Update       = original.Update;
+            this.Test         = original.Test;
             this.Divisibility = original.Divisibility;
-            this.Inspections = original.Inspections;
+            this.Inspections  = original.Inspections;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ public class Day11 : Solver<Day11.Monkey[]>
         foreach (int i in ..monkeys.Length)
         {
             int start = i * 6;
-            monkeys[i] = new(lines[start..(start + 6)]);
+            monkeys[i] = new Monkey(lines[start..(start + 6)]);
         }
         return monkeys;
     }

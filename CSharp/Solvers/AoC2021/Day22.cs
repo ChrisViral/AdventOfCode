@@ -71,16 +71,16 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
                 return 1;
             }
 
-            b = new(new(Math.Min(Math.Max(b.X.From, a.X.From), a.X.To), Math.Min(Math.Max(b.X.To, a.X.From), a.X.To)),
-                    new(Math.Min(Math.Max(b.Y.From, a.Y.From), a.Y.To), Math.Min(Math.Max(b.Y.To, a.Y.From), a.Y.To)),
-                    new(Math.Min(Math.Max(b.Z.From, a.Z.From), a.Z.To), Math.Min(Math.Max(b.Z.To, a.Z.From), a.Z.To)));
+            b = new Cuboid(new Range(Math.Min(Math.Max(b.X.From, a.X.From), a.X.To), Math.Min(Math.Max(b.X.To, a.X.From), a.X.To)),
+                           new Range(Math.Min(Math.Max(b.Y.From, a.Y.From), a.Y.To), Math.Min(Math.Max(b.Y.To, a.Y.From), a.Y.To)),
+                           new Range(Math.Min(Math.Max(b.Z.From, a.Z.From), a.Z.To), Math.Min(Math.Max(b.Z.To, a.Z.From), a.Z.To)));
 
-            children[0] = new(new(a.X.From, b.X.From), new(a.Y.From, a.Y.To),   new(a.Z.From, a.Z.To));
-            children[1] = new(new(b.X.To,   a.X.To),   new(a.Y.From, a.Y.To),   new(a.Z.From, a.Z.To));
-            children[2] = new(new(b.X.From, b.X.To),   new(a.Y.From, b.Y.From), new(a.Z.From, a.Z.To));
-            children[3] = new(new(b.X.From, b.X.To),   new(b.Y.To,   a.Y.To),   new(a.Z.From, a.Z.To));
-            children[4] = new(new(b.X.From, b.X.To),   new(b.Y.From, b.Y.To),   new(a.Z.From, b.Z.From));
-            children[5] = new(new(b.X.From, b.X.To),   new(b.Y.From, b.Y.To),   new(b.Z.To,   a.Z.To));
+            children[0] = new Cuboid(new Range(a.X.From, b.X.From), new Range(a.Y.From, a.Y.To),   new Range(a.Z.From, a.Z.To));
+            children[1] = new Cuboid(new Range(b.X.To,   a.X.To),   new Range(a.Y.From, a.Y.To),   new Range(a.Z.From, a.Z.To));
+            children[2] = new Cuboid(new Range(b.X.From, b.X.To),   new Range(a.Y.From, b.Y.From), new Range(a.Z.From, a.Z.To));
+            children[3] = new Cuboid(new Range(b.X.From, b.X.To),   new Range(b.Y.To,   a.Y.To),   new Range(a.Z.From, a.Z.To));
+            children[4] = new Cuboid(new Range(b.X.From, b.X.To),   new Range(b.Y.From, b.Y.To),   new Range(a.Z.From, b.Z.From));
+            children[5] = new Cuboid(new Range(b.X.From, b.X.To),   new Range(b.Y.From, b.Y.To),   new Range(b.Z.To,   a.Z.To));
             return 6;
         }
     }
@@ -178,7 +178,7 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         foreach (int i in ..data.Length)
         {
             (string on, int ax, int bx, int ay, int by, int az, int bz) = data[i];
-            cuboids[i] = (on is "on", new(new(ax, bx + 1), new(ay, by + 1), new(az, bz + 1)));
+            cuboids[i] = (on is "on", new Cuboid(new Range(ax, bx + 1), new Range(ay, by + 1), new Range(az, bz + 1)));
         }
 
         return cuboids;

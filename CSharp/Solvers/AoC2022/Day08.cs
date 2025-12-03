@@ -35,13 +35,13 @@ public class Day08 : GridSolver<int>
             int maxHeight = -1 ;
             foreach (int x in ..this.Data.Width)
             {
-                if (SetVisibility(visibilities, new(x, y), ref maxHeight, ref visibleCount)) break;
+                if (SetVisibility(visibilities, new Vector2<int>(x, y), ref maxHeight, ref visibleCount)) break;
             }
 
             maxHeight = -1;
             foreach (int x in ^this.Data.Width..)
             {
-                if (SetVisibility(visibilities, new(x, y), ref maxHeight, ref visibleCount)) break;
+                if (SetVisibility(visibilities, new Vector2<int>(x, y), ref maxHeight, ref visibleCount)) break;
             }
         }
 
@@ -50,13 +50,13 @@ public class Day08 : GridSolver<int>
             int maxHeight = -1;
             foreach (int y in ..this.Data.Height)
             {
-                if (SetVisibility(visibilities, new(x, y), ref maxHeight, ref visibleCount)) break;
+                if (SetVisibility(visibilities, new Vector2<int>(x, y), ref maxHeight, ref visibleCount)) break;
             }
 
             maxHeight = -1;
             foreach (int y in ^this.Data.Height..)
             {
-                if (SetVisibility(visibilities, new(x, y), ref maxHeight, ref visibleCount)) break;
+                if (SetVisibility(visibilities, new Vector2<int>(x, y), ref maxHeight, ref visibleCount)) break;
             }
         }
 

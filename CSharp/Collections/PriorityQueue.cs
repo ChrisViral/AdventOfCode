@@ -108,7 +108,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     public PriorityQueue(int capacity, IComparer<T> comparer)
     {
         this.comparer = comparer;
-        this.heap     = new(capacity);
+        this.heap     = new List<T>(capacity);
     }
 
     /// <summary>

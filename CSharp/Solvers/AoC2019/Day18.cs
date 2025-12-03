@@ -157,7 +157,7 @@ public class Day18 : Solver<Day18.Maze>
                     if (!char.IsLetter(value) || value == key || (keys & (1 << (char.ToLower(value) - 'a'))) is not 0)
                     {
                         //Return neighbours with a distance of 1
-                        yield return new(neighbour, 1d);
+                        yield return new MoveData<Vector2<int>, double>(neighbour, 1d);
                     }
                 }
             }
@@ -211,7 +211,7 @@ public class Day18 : Solver<Day18.Maze>
 
                 if (!this.locks.TryGetValue(key, out Lock? currentLock))
                 {
-                    currentLock = new(key);
+                    currentLock  =  new Lock(key);
                     this.allKeys |= 1 << (key - 'a');
                 }
                 this.locks[key] = char.IsLower(value) ? currentLock with { Key = pos - start } : currentLock with { Door = pos - start };
@@ -233,7 +233,7 @@ public class Day18 : Solver<Day18.Maze>
             }
 
             //Create search graph
-            this.Start = new(Vector2<int>.Zero);
+            this.Start = new Node(Vector2<int>.Zero);
         }
         #endregion
 
@@ -303,7 +303,7 @@ public class Day18 : Solver<Day18.Maze>
         int height = rawInput.Length;
         int width = rawInput[0].Length;
         Vector2<int> start = Vector2<int>.Enumerate(width, height).First(v => rawInput[v.Y][v.X] is '@');
-        return new(rawInput[0].Length, rawInput.Length, rawInput, start);
+        return new Maze(rawInput[0].Length, rawInput.Length, rawInput, start);
     }
     #endregion
 }

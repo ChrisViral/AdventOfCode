@@ -35,7 +35,7 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     {
         int width = rawInput[0].Length;
         int height = rawInput.Length;
-        return new(width, height, rawInput, LineConverter, StringConversion);
+        return new Grid<T>(width, height, rawInput, LineConverter, StringConversion);
     }
 
     /// <summary>

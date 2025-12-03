@@ -73,14 +73,14 @@ public class Day07 : Solver<Day07.Directory>
         /// Adds a new directory as a child of this one
         /// </summary>
         /// <param name="name">Name of the new directory</param>
-        public void AddDirectory(string name) => this.Children.Add(new(name, this));
+        public void AddDirectory(string name) => this.Children.Add(new Directory(name, this));
 
         /// <summary>
         /// Adds a file to this directory
         /// </summary>
         /// <param name="name">Name of the file</param>
         /// <param name="size">Size of the file</param>
-        public void AddFile(string name, int size) => this.Files.Add(new(name, size));
+        public void AddFile(string name, int size) => this.Files.Add(new File(name, size));
 
         /// <summary>
         /// Gets a named child directory

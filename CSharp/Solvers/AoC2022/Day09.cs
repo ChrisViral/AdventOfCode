@@ -62,8 +62,8 @@ public class Day09 : ArraySolver<Vector2<int>>
                     {
                         var diff when Math.Abs(diff.X) is 2
                                    && Math.Abs(diff.Y) is 2 => diff / 2,
-                        var diff when Math.Abs(diff.X) is 2 => new(diff.X / 2, diff.Y),
-                        var diff when Math.Abs(diff.Y) is 2 => new(diff.X, diff.Y / 2),
+                        var diff when Math.Abs(diff.X) is 2 => new Vector2<int>(diff.X / 2, diff.Y),
+                        var diff when Math.Abs(diff.Y) is 2 => new Vector2<int>(diff.X, diff.Y / 2),
                         _                                   => Vector2<int>.Zero
                     };
 

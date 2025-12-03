@@ -331,7 +331,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
         T x = T.Parse(value[ranges[0]], null);
         T y = T.Parse(value[ranges[1]], null);
-        return new(x, y, written is 3 ? T.Parse(value[ranges[2]], null) : T.Zero);
+        return new Vector3<T>(x, y, written is 3 ? T.Parse(value[ranges[2]], null) : T.Zero);
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
             return false;
         }
 
-        result = new(x, y, written is 3 && T.TryParse(value[ranges[2]], null, out T? z) ? z : T.Zero);
+        result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], null, out T? z) ? z : T.Zero);
         return true;
     }
 

@@ -227,8 +227,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Cube<Vector3<int>>, Cube<Vector4>) Convert(string[] rawInput)
     {
-        Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new(x, y, 0), v => v.Adjacent());
-        Cube<Vector4> cube4 = new(rawInput, (x, y) => new(x, y, 0, 0), v => v.Adjacent());
+        Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new Vector3<int>(x, y, 0), v => v.Adjacent());
+        Cube<Vector4> cube4 = new(rawInput, (x, y) => new Vector4(x, y, 0, 0), v => v.Adjacent());
         return (cube3, cube4);
     }
     #endregion

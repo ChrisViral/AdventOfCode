@@ -52,9 +52,9 @@ public class Day11 : IntcodeSolver
         /// <param name="brain">Robot brain</param>
         public PainterRobot(int hullWidth, int hullHeight, IntcodeVM brain)
         {
-            this.brain = brain;
-            this.hull = new(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
-            this.position = new(hullWidth / 2, hullHeight / 2);
+            this.brain    = brain;
+            this.hull     = new Grid<Colour>(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
+            this.position = new Vector2<int>(hullWidth / 2, hullHeight / 2);
         }
         #endregion
 
@@ -90,9 +90,9 @@ public class Day11 : IntcodeSolver
         public void Reset()
         {
             this.brain.Reset();
-            this.position = new(this.hull.Width / 2, this.hull.Height / 2);
+            this.position  = new Vector2<int>(this.hull.Width / 2, this.hull.Height / 2);
             this.direction = Vector2<int>.Up;
-            this.hull = new(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
+            this.hull      = new Grid<Colour>(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
             this.painted.Clear();
         }
         #endregion

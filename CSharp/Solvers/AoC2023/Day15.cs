@@ -70,11 +70,11 @@ public class Day15 : Solver<Day15.Instruction[]>
                     break;
 
                 case Operation.INSERT when i is -1:
-                    box.Add(new(instruction.code, instruction.strength));
+                    box.Add(new Lens(instruction.code, instruction.strength));
                     break;
 
                 case Operation.INSERT:
-                    box[i] = new(instruction.code, instruction.strength);
+                    box[i] = new Lens(instruction.code, instruction.strength);
                     break;
             }
         }

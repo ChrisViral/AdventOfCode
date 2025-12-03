@@ -103,12 +103,12 @@ public class Day16 : Solver<Day16.Packet>
 
                 long value = ToInt64(builder.ToString(), 2);
                 builder.Clear();
-                return (new(version, type, value), used);
+                return (new Packet(version, type, value), used);
             }
 
             bool isLength = bits[i++] is '0';
             short length  = ToInt16(isLength ? bits[i..(i += 15)] : bits[i..(i += 11)], 2);
-            Packet packet = new(version, type, length) { SubPackets = new() };
+            Packet packet = new(version, type, length) { SubPackets = new List<Packet>() };
             used += isLength ? 16 : 12;
 
             if (isLength)

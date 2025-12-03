@@ -48,8 +48,8 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[int x, int y]
     {
-        get => this[new(x, y)];
-        set => this[new(x, y)] = value;
+        get => this[new Vector2<int>(x, y)];
+        set => this[new Vector2<int>(x, y)] = value;
     }
 
     /// <summary>
@@ -75,8 +75,8 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[(int x, int y) tuple]
     {
-        get => this[new(tuple)];
-        set => this[new(tuple)] = value;
+        get => this[new Vector2<int>(tuple)];
+        set => this[new Vector2<int>(tuple)] = value;
     }
     #endregion
 
@@ -110,10 +110,10 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         this.anchor = anchor switch
         {
             Anchor.TOP_LEFT     => Vector2<int>.Zero,
-            Anchor.TOP_RIGHT    => new(width - 1, 0),
-            Anchor.BOTTOM_LEFT  => new(0, height - 1),
-            Anchor.BOTTOM_RIGHT => new(width - 1, height - 1),
-            Anchor.MIDDLE       => new(width / 2, height / 2),
+            Anchor.TOP_RIGHT    => new Vector2<int>(width - 1, 0),
+            Anchor.BOTTOM_LEFT  => new Vector2<int>(0, height - 1),
+            Anchor.BOTTOM_RIGHT => new Vector2<int>(width - 1, height - 1),
+            Anchor.MIDDLE       => new Vector2<int>(width / 2, height / 2),
             _                   => throw new InvalidEnumArgumentException(nameof(anchor), (int)anchor, typeof(Anchor))
         };
         FillDefault(converter, defaultValue);

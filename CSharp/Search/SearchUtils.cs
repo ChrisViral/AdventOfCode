@@ -277,7 +277,7 @@ public static class SearchUtils
         int foundDistance = 0;
         SearchNode<TValue, TCost>? foundGoal = null;
         PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
-        search.Enqueue(new(start));
+        search.Enqueue(new SearchNode<TValue, TCost>(start));
         Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
 
         while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
@@ -347,7 +347,7 @@ public static class SearchUtils
     {
         SearchNode<T>? foundGoal = null;
         Queue<SearchNode<T>> search = new();
-        search.Enqueue(new(start));
+        search.Enqueue(new SearchNode<T>(start));
         HashSet<SearchNode<T>> explored = [];
 
         while (search.TryDequeue(out SearchNode<T>? current))
@@ -389,7 +389,7 @@ public static class SearchUtils
     {
         SearchNode<T>? foundGoal = null;
         Stack<SearchNode<T>> search = new();
-        search.Push(new(start));
+        search.Push(new SearchNode<T>(start));
         HashSet<SearchNode<T>> explored = [];
 
         while (search.TryPop(out SearchNode<T>? current))
@@ -431,7 +431,7 @@ public static class SearchUtils
     {
         List<SearchNode<T>> foundEndNodes = [];
         Stack<SearchNode<T>> search = new();
-        search.Push(new(start));
+        search.Push(new SearchNode<T>(start));
 
         while (search.TryPop(out SearchNode<T>? current))
         {

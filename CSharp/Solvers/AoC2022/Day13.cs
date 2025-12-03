@@ -109,7 +109,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(IPacketElement? other) => other switch
         {
-            PacketValue value => CompareTo(new(value)),
+            PacketValue value => CompareTo(new PacketList(value)),
             PacketList  list  => CompareTo(list),
             _                 => throw new UnreachableException("Unknown packet element type")
         };
@@ -154,8 +154,8 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         int inOrder = 0;
         List<PacketList> packets = new((this.Data.Length * 2) + 2)
         {
-            new(new PacketList(new PacketValue(2))),
-            new(new PacketList(new PacketValue(6)))
+            new PacketList(new PacketList(new PacketValue(2))),
+            new PacketList(new PacketList(new PacketValue(6)))
         };
         foreach (int i in ..this.Data.Length)
         {
@@ -187,7 +187,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         foreach (int i in ..pairs.Length)
         {
             int j = i * 2;
-            pairs[i] = (new(lines[j]), new(lines[j + 1]));
+            pairs[i] = (new PacketList(lines[j]), new PacketList(lines[j + 1]));
         }
         return pairs;
     }

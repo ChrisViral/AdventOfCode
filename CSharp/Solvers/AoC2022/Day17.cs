@@ -166,11 +166,11 @@ public class Day17 : Solver<Direction[]>
     /// <summary>Rock shapes array</summary>
     private static readonly (Vector2<int>[] shape, Vector2<int> bounds)[] shapes =
     {
-        (horizontal, new(3, 0)),
-        (cross, new(2, -2)),
-        (corner, new(2, -2)),
-        (vertical, new(0, -3)),
-        (cube, new(1, -1))
+        (horizontal, new Vector2<int>(3, 0)),
+        (cross, new Vector2<int>(2, -2)),
+        (corner, new Vector2<int>(2, -2)),
+        (vertical, new Vector2<int>(0, -3)),
+        (cube, new Vector2<int>(1, -1))
     };
 
     #region Constructors
@@ -200,7 +200,7 @@ public class Day17 : Solver<Direction[]>
             // Create new rock
             (int shape, int jet, int gain) state = (shapeIndex, jetsIndex, 0);
             (Vector2<int>[] points, Vector2<int> bounds) = shapes[shapeIndex++];
-            Rock rock = new(new(2, height - bounds.Y + 3), points, bounds);
+            Rock rock = new(new Vector2<int>(2, height - bounds.Y + 3), points, bounds);
             shapeIndex %= shapes.Length;
 
             do

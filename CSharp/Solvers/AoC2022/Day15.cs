@@ -125,7 +125,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
                               .Select(g => int.Parse(g.ValueSpan))
                               .ToArray();
         Vector2<int> sensor = new(values[0], values[1]);
-        int distance = Vector2<int>.ManhattanDistance(sensor, new(values[2], values[3]));
+        int distance = Vector2<int>.ManhattanDistance(sensor, new Vector2<int>(values[2], values[3]));
         return (sensor, distance);
     }
     #endregion

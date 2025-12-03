@@ -125,7 +125,7 @@ public class Day12 : Solver<Day12.Moon[]>
         /// <param name="x">X position</param>
         /// <param name="y">Y position</param>
         /// <param name="z">Z position</param>
-        public Moon(int x, int y, int z) => this.position = new(x, y, z);
+        public Moon(int x, int y, int z) => this.position = new Vector3<int>(x, y, z);
 
         /// <summary>
         /// Copy constructor

@@ -42,7 +42,7 @@ public class Day03 : GridSolver<char>
             List<int>? numbers = null;
             if (value is GEAR)
             {
-                numbers = new();
+                numbers    = new List<int>();
                 gears[pos] = numbers;
             }
 

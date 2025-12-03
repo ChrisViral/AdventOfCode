@@ -71,7 +71,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
         switch (axis)
         {
             case Axis.X:
-                updated = new(value, grid.Height, b => b ? "▓" : "░");
+                updated = new Grid<bool>(value, grid.Height, b => b ? "▓" : "░");
                 foreach (int x in 1..(grid.Width - value))
                 {
                     foreach (int y in ..grid.Height)
@@ -83,7 +83,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
                 break;
 
             case Axis.Y:
-                updated = new(grid.Width, value, b => b ? "▓" : "░");
+                updated = new Grid<bool>(grid.Width, value, b => b ? "▓" : "░");
                 foreach (int x in ..grid.Width)
                 {
                     foreach (int y in 1..(grid.Height - value))
@@ -123,7 +123,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
         for (/*int i*/; i < rawInput.Length; i++)
         {
             string[] splits = rawInput[i].Remove(0, 11).Split('=');
-            folds.Add(new(splits[0] is "x" ? Axis.X : Axis.Y, int.Parse(splits[1])));
+            folds.Add(new Fold(splits[0] is "x" ? Axis.X : Axis.Y, int.Parse(splits[1])));
         }
 
         return (folds, grid);

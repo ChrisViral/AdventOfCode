@@ -55,7 +55,7 @@ public class Day17 : IntcodeSolver
 
         //Put into grid
         string[] view = scaffoldBuilder.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        this.hull = new(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
+        this.hull = new ConsoleView<Hull>(view[0].Length, view.Length, ToChar, Anchor.TOP_LEFT);
         this.hull.Populate(view, s => ArrayExtensions.ConvertAll(s.ToCharArray(), c => (Hull)c));
 
         //Setup what is visible
@@ -139,7 +139,7 @@ public class Day17 : IntcodeSolver
         foreach (int i in ..3)
         {
             string instruction = regex.Match(pathBuilder.ToString()).Groups[1].Value;
-            pathBuilder.Replace(instruction, new((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
+            pathBuilder.Replace(instruction, new string((char)(i + 'A'), 1)).Remove(pathBuilder.Length - 2, 2);
             instructions[i] = instruction + "\n";
         }
 

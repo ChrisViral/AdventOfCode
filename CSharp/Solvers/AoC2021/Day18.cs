@@ -67,8 +67,8 @@ public class Day18 : ArraySolver<Day18.Number>
 
         private Number(Number left, Number right)
         {
-            Left  = new(left)  { Parent = this };
-            Right = new(right) { Parent = this };
+            Left  = new Number(left)  { Parent = this };
+            Right = new Number(right) { Parent = this };
         }
 
         private Number(int left, int right)
@@ -81,11 +81,11 @@ public class Day18 : ArraySolver<Day18.Number>
         {
             if (number.Left is not null)
             {
-                Left = new(number.Left) { Parent = this };
+                Left = new Number(number.Left) { Parent = this };
             }
             if (number.Right is not null)
             {
-                Right = new(number.Right) { Parent = this };
+                Right = new Number(number.Right) { Parent = this };
             }
 
             LeftValue = number.LeftValue;
@@ -143,14 +143,14 @@ public class Day18 : ArraySolver<Day18.Number>
             {
                 int left  = (int)MathF.Floor(LeftValue / 2f);
                 int right = (int)MathF.Ceiling(LeftValue / 2f);
-                Left      = new(left, right) { Parent = this };
+                Left      = new Number(left, right) { Parent = this };
                 LeftValue = 0;
             }
             else
             {
                 int left  = (int)MathF.Floor(RightValue / 2f);
                 int right = (int)MathF.Ceiling(RightValue / 2f);
-                Right     = new(left, right) { Parent = this };
+                Right      = new Number(left, right) { Parent = this };
                 RightValue = 0;
             }
         }

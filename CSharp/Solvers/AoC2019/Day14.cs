@@ -225,7 +225,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     protected override Dictionary<string, Chemical> Convert(string[] rawInput)
     {
         //Prep reactions
-        Dictionary<string, Chemical> chemicals = new(rawInput.Length) { ["ORE"] = new("ORE", 0) };
+        Dictionary<string, Chemical> chemicals = new(rawInput.Length) { ["ORE"] = new Chemical("ORE", 0) };
         List<(Chemical chemical, (int amount, string name)[] reactants)> reactions = new(rawInput.Length);
         //Parse reactions
         RegexFactory<(int, string)> reactantsFactory = new(REACTANTS_PATTERN, RegexOptions.Compiled);

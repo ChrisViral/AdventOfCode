@@ -93,7 +93,7 @@ public class Day02 : Solver<Day02.Game[]>
             this.turns = new Set[stringTurns.Length];
             foreach (int i in ..this.turns.Length)
             {
-                this.turns[i] = new(stringTurns[i]);
+                this.turns[i] = new Set(stringTurns[i]);
             }
         }
 

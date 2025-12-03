@@ -222,7 +222,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
                 {
                     if (!includeSelf && x == this.X && y == this.Y) continue;
 
-                    yield return new(x, y);
+                    yield return new Vector2<T>(x, y);
                 }
             }
         }
@@ -254,7 +254,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
         if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
 
-        return new(this.X, this.Y);
+        return new VectorSpaceEnumerator(this.X, this.Y);
     }
 
     /// <summary>
@@ -280,7 +280,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>The vector converted to the specified type</returns>
     public Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
     {
-        return new(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
+        return new Vector2<TResult>(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
     }
     #endregion
 
@@ -351,9 +351,9 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         angle = angle.Mod(360);
         return angle switch
         {
-            90  => new(-vector.Y, vector.X),
+            90  => new Vector2<T>(-vector.Y, vector.X),
             180 => -vector,
-            270 => new(vector.Y, -vector.X),
+            270 => new Vector2<T>(vector.Y, -vector.X),
             _   => vector
         };
     }
@@ -472,7 +472,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
         if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
 
-        return new(maxX, maxY);
+        return new VectorSpaceEnumerator(maxX, maxY);
     }
 
     /// <summary>
@@ -556,7 +556,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
         T x = T.Parse(value[ranges[0]], null);
         T y = T.Parse(value[ranges[1]], null);
-        return new(x, y);
+        return new Vector2<T>(x, y);
     }
 
     /// <summary>
@@ -602,7 +602,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
             return false;
         }
 
-        result = new(x, y);
+        result = new Vector2<T>(x, y);
         return true;
     }
 

@@ -128,7 +128,7 @@ public class Day25 : ArraySolver<long>
             };
         }
 
-        return new(buffer);
+        return new string(buffer);
     }
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>

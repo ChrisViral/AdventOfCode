@@ -19,40 +19,40 @@ public class Day19 : Solver<List<Vector3<int>[]>>
     private static readonly Transformation[] rotations =
     {
         // Rotation around +Y
-        v => new( v.X,  v.Y,  v.Z),
-        v => new(-v.Z,  v.Y,  v.X),
-        v => new(-v.X,  v.Y, -v.Z),
-        v => new( v.Z,  v.Y, -v.X),
+        v => new Vector3<int>( v.X,  v.Y,  v.Z),
+        v => new Vector3<int>(-v.Z,  v.Y,  v.X),
+        v => new Vector3<int>(-v.X,  v.Y, -v.Z),
+        v => new Vector3<int>( v.Z,  v.Y, -v.X),
 
         // Rotation around -Y
-        v => new( v.X, -v.Y, -v.Z),
-        v => new( v.Z, -v.Y,  v.X),
-        v => new(-v.X, -v.Y,  v.Z),
-        v => new(-v.Z, -v.Y, -v.X),
+        v => new Vector3<int>( v.X, -v.Y, -v.Z),
+        v => new Vector3<int>( v.Z, -v.Y,  v.X),
+        v => new Vector3<int>(-v.X, -v.Y,  v.Z),
+        v => new Vector3<int>(-v.Z, -v.Y, -v.X),
 
         // Rotation around +X
-        v => new( v.Z,  v.X,  v.Y),
-        v => new(-v.Y,  v.X,  v.Z),
-        v => new(-v.Z,  v.X, -v.Y),
-        v => new( v.Y,  v.X, -v.Z),
+        v => new Vector3<int>( v.Z,  v.X,  v.Y),
+        v => new Vector3<int>(-v.Y,  v.X,  v.Z),
+        v => new Vector3<int>(-v.Z,  v.X, -v.Y),
+        v => new Vector3<int>( v.Y,  v.X, -v.Z),
 
         // Rotation around -X
-        v => new( v.Z, -v.X, -v.Y),
-        v => new( v.Y, -v.X,  v.Z),
-        v => new(-v.Z, -v.X,  v.Y),
-        v => new(-v.Y, -v.X, -v.Z),
+        v => new Vector3<int>( v.Z, -v.X, -v.Y),
+        v => new Vector3<int>( v.Y, -v.X,  v.Z),
+        v => new Vector3<int>(-v.Z, -v.X,  v.Y),
+        v => new Vector3<int>(-v.Y, -v.X, -v.Z),
 
         // Rotation around +Z
-        v => new( v.Y,  v.Z,  v.X),
-        v => new(-v.X,  v.Z,  v.Y),
-        v => new(-v.Y,  v.Z, -v.X),
-        v => new( v.X,  v.Z, -v.Y),
+        v => new Vector3<int>( v.Y,  v.Z,  v.X),
+        v => new Vector3<int>(-v.X,  v.Z,  v.Y),
+        v => new Vector3<int>(-v.Y,  v.Z, -v.X),
+        v => new Vector3<int>( v.X,  v.Z, -v.Y),
 
         // Rotation around -Z
-        v => new( v.Y, -v.Z, -v.X),
-        v => new( v.X, -v.Z,  v.Y),
-        v => new(-v.Y, -v.Z,  v.X),
-        v => new(-v.X, -v.Z, -v.Y),
+        v => new Vector3<int>( v.Y, -v.Z, -v.X),
+        v => new Vector3<int>( v.X, -v.Z,  v.Y),
+        v => new Vector3<int>(-v.Y, -v.Z,  v.X),
+        v => new Vector3<int>(-v.X, -v.Z, -v.Y),
     };
     private static readonly List<Vector3<int>> buffer = new();
 

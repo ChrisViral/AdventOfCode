@@ -163,13 +163,13 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
 
             if (!orbits.TryGetValue(parentName, out Orbit? parent))
             {
-                parent = new(parentName);
+                parent = new Orbit(parentName);
                 orbits.Add(parentName, parent);
             }
 
             if (!orbits.TryGetValue(childName, out Orbit? child))
             {
-                child = new(childName);
+                child = new Orbit(childName);
                 orbits.Add(childName, child);
             }
 

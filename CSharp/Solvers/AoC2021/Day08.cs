@@ -41,22 +41,22 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
         // Create sets for every digit
         long total = 0L;
         HashSet<char>[] values = new HashSet<char>[10];
-        values.Fill(() => new(7));
+        values.Fill(() => new HashSet<char>(7));
         foreach ((string[] signals, string[] outputs) in this.Data)
         {
             // Simple values
-            values[1] = new(signals.Find(signal => signal.Length is 2)!);
-            values[4] = new(signals.Find(signal => signal.Length is 4)!);
-            values[7] = new(signals.Find(signal => signal.Length is 3)!);
-            values[8] = new(signals.Find(signal => signal.Length is 7)!);
+            values[1] = new HashSet<char>(signals.Find(signal => signal.Length is 2)!);
+            values[4] = new HashSet<char>(signals.Find(signal => signal.Length is 4)!);
+            values[7] = new HashSet<char>(signals.Find(signal => signal.Length is 3)!);
+            values[8] = new HashSet<char>(signals.Find(signal => signal.Length is 7)!);
 
             // More complex deductions
-            values[3] = new(signals.Find(signal => signal.Length is 5 && values[1].IsProperSubsetOf(signal))!);
-            values[9] = new(signals.Find(signal => signal.Length is 6 && values[4].IsProperSubsetOf(signal))!);
-            values[0] = new(signals.Find(signal => signal.Length is 6 && !values[9].SetEquals(signal) && values[1].IsProperSubsetOf(signal))!);
-            values[6] = new(signals.Find(signal => signal.Length is 6 && !values[9].SetEquals(signal) && !values[0].SetEquals(signal))!);
-            values[5] = new(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && values[9].Count(signal.Contains) is 5)!);
-            values[2] = new(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && !values[5].SetEquals(signal))!);
+            values[3] = new HashSet<char>(signals.Find(signal => signal.Length is 5 && values[1].IsProperSubsetOf(signal))!);
+            values[9] = new HashSet<char>(signals.Find(signal => signal.Length is 6 && values[4].IsProperSubsetOf(signal))!);
+            values[0] = new HashSet<char>(signals.Find(signal => signal.Length is 6 && !values[9].SetEquals(signal) && values[1].IsProperSubsetOf(signal))!);
+            values[6] = new HashSet<char>(signals.Find(signal => signal.Length is 6 && !values[9].SetEquals(signal) && !values[0].SetEquals(signal))!);
+            values[5] = new HashSet<char>(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && values[9].Count(signal.Contains) is 5)!);
+            values[2] = new HashSet<char>(signals.Find(signal => signal.Length is 5 && !values[3].SetEquals(signal) && !values[5].SetEquals(signal))!);
 
             // Create output value
             int final = values.FindIndex(value => value.SetEquals(outputs[0])) * 1000;

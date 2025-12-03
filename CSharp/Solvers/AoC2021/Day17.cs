@@ -79,7 +79,7 @@ public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
     protected override (Range, Range) Convert(string[] rawInput)
     {
         (int aX, int bX, int aY, int bY) = new RegexFactory<(int, int, int, int)>(PATTERN).ConstructObject(rawInput[0]);
-        return (new(aX, bX), new(aY, bY));
+        return (new Range(aX, bX), new Range(aY, bY));
     }
     #endregion
 }

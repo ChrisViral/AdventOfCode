@@ -133,7 +133,7 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         // Create necessary stacks
         int stackCount = (lines[0].Length + 1) / 4;
         Stack<char>[] stacks = new Stack<char>[stackCount];
-        stacks.Fill(() => new());
+        stacks.Fill(() => new Stack<char>());
 
         // Find gap line
         int moveIndex = lines.FindIndex(string.IsNullOrWhiteSpace);
@@ -155,7 +155,7 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
 
         // Parse moves
         Move[] moves = new Move[lines.Length - ++moveIndex];
-        moves.Fill(() => new(lines[moveIndex++]));
+        moves.Fill(() => new Move(lines[moveIndex++]));
         return (stacks, moves);
     }
 

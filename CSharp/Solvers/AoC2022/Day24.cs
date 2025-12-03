@@ -55,8 +55,8 @@ public class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzar
         public Vector2<int> UpdatePosition(in Vector2<int> limit)
         {
             // Update the position while wrapping to the limits
-            this.Position  = new((this.Position.X + this.direction.X).Mod(limit.X),
-                                 (this.Position.Y + this.direction.Y).Mod(limit.Y));
+            this.Position  = new Vector2<int>((this.Position.X + this.direction.X).Mod(limit.X),
+                                              (this.Position.Y + this.direction.Y).Mod(limit.Y));
             return this.Position;
         }
     }

@@ -142,7 +142,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         foreach (int _ in ..CYCLES)
         {
             lowPulses--;
-            transmissions.Enqueue(new(null!, Pulse.LOW, ButtonModule.BUTTON));
+            transmissions.Enqueue(new Transmission(null!, Pulse.LOW, ButtonModule.BUTTON));
             while (transmissions.TryDequeue(out Transmission transmission))
             {
                 if (transmission.Pulse is Pulse.LOW)
@@ -159,7 +159,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
                 Pulse? sent = current.HandlePulse(transmission.Sender, transmission.Pulse);
                 if (!sent.HasValue) continue;
 
-                current.Listeners.ForEach(l => transmissions.Enqueue(new(current, sent.Value, l)));
+                current.Listeners.ForEach(l => transmissions.Enqueue(new Transmission(current, sent.Value, l)));
             }
         }
 
@@ -174,7 +174,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         while (firstTriggerHit.Count != triggers.Count)
         {
             buttonPresses++;
-            transmissions.Enqueue(new(null!, Pulse.LOW, ButtonModule.BUTTON));
+            transmissions.Enqueue(new Transmission(null!, Pulse.LOW, ButtonModule.BUTTON));
             while (transmissions.TryDequeue(out Transmission transmission))
             {
                 if (!this.Data.TryGetValue(transmission.Label, out Module? current)) continue;
@@ -187,7 +187,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
                     firstTriggerHit.TryAdd(current, buttonPresses);
                 }
 
-                current.Listeners.ForEach(l => transmissions.Enqueue(new(current, sent.Value, l)));
+                current.Listeners.ForEach(l => transmissions.Enqueue(new Transmission(current, sent.Value, l)));
             }
         }
 

@@ -47,7 +47,7 @@ public class Day04 : Solver<Day04.BingoData>
             DrawnNumbers = Array.ConvertAll(input[0].Split(',', DEFAULT_OPTIONS), int.Parse);
             for (int i = 1; i < input.Length; i += SIZE)
             {
-                Boards.Add(new(SIZE, SIZE, input[i..(i + SIZE)], line => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse)));
+                Boards.Add(new Grid<int>(SIZE, SIZE, input[i..(i + SIZE)], line => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse)));
             }
         }
         #endregion

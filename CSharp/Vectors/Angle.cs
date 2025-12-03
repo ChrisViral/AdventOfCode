@@ -243,7 +243,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                 break;
         }
 
-        return new(radians);
+        return new Angle(radians);
     }
 
     /// <summary>
@@ -340,7 +340,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
             angle -= Math.PI;
         }
 
-        return new(-angle);
+        return new Angle(-angle);
     }
 
     /// <summary>
@@ -364,7 +364,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
             angle -= FULL_CIRCLE;
         }
 
-        return new(angle);
+        return new Angle(angle);
     }
 
     /// <summary>
@@ -381,7 +381,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
             angle += FULL_CIRCLE;
         }
 
-        return new(angle);
+        return new Angle(angle);
     }
     #endregion
 }

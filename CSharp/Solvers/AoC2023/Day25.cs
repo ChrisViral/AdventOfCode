@@ -99,7 +99,7 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
                 foreach (int k in ..(path.Length - 1))
                 {
                     Component current = path[k];
-                    edges.Add(new(previous.Name, current.Name));
+                    edges.Add(new Edge(previous.Name, current.Name));
                     previous = current;
                 }
             }
@@ -148,7 +148,7 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
             string[] toNames = splits[1].Split(' ');
             if (!components.TryGetValue(fromName, out Component? from))
             {
-                from = new(fromName);
+                from = new Component(fromName);
                 components.Add(fromName, from);
             }
 
@@ -156,7 +156,7 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
             {
                 if (!components.TryGetValue(toName, out Component? to))
                 {
-                    to = new(toName);
+                    to = new Component(toName);
                     components.Add(toName, to);
                 }
 

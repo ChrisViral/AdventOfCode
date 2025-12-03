@@ -202,8 +202,8 @@ public class Day15 : IntcodeSolver
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day15(string input) : base(input)
     {
-        this.droid = new(this.VM);
-        this.maze = new(41, 41); //Figured out size by visualization
+        this.droid = new Droid(this.VM);
+        this.maze  = new Maze(41, 41); //Figured out size by visualization
     }
     #endregion
 

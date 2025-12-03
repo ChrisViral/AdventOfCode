@@ -126,13 +126,13 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
             string fromName = splits[0], toName = splits[1];
             if (!caves.TryGetValue(fromName, out Cave? from))
             {
-                from = new(fromName, char.IsLower(fromName[0]));
+                from = new Cave(fromName, char.IsLower(fromName[0]));
                 caves.Add(fromName, from);
             }
 
             if (!caves.TryGetValue(toName, out Cave? to))
             {
-                to = new(toName, char.IsLower(toName[0]));
+                to = new Cave(toName, char.IsLower(toName[0]));
                 caves.Add(toName, to);
             }
 

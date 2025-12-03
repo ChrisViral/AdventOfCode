@@ -54,10 +54,10 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
 
     #region Constructors
     /// <inheritdoc cref="SortedList{TKey,TValue}()"/>
-    public SortedList() => this.list = new();
+    public SortedList() => this.list = new SortedList<T, T>();
 
     /// <inheritdoc cref="SortedList{TKey,TValue}(IComparer{TKey})"/>
-    public SortedList(IComparer<T>? comparer) => this.list = new(comparer);
+    public SortedList(IComparer<T>? comparer) => this.list = new SortedList<T, T>(comparer);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SortedList{T}"/> class that contains elements copied from
@@ -65,7 +65,7 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
     /// and uses the default <see cref="IComparer{T}"/>
     /// </summary>
     /// <param name="range">Range of elements to add to the list</param>
-    public SortedList(IEnumerable<T> range) => this.list = new(range.ToDictionary(key => key, _ => default(T)!));
+    public SortedList(IEnumerable<T> range) => this.list = new SortedList<T, T>(range.ToDictionary(key => key, _ => default(T)!));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SortedList{T}"/> class that contains elements copied from
@@ -74,13 +74,13 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
     /// </summary>
     /// <param name="range">Range of elements to add to the list</param>
     /// <param name="comparer">Element comparer to sort the list</param>
-    public SortedList(IEnumerable<T> range, IComparer<T>? comparer) => this.list = new(range.ToDictionary(key => key, _ => default(T)!), comparer);
+    public SortedList(IEnumerable<T> range, IComparer<T>? comparer) => this.list = new SortedList<T, T>(range.ToDictionary(key => key, _ => default(T)!), comparer);
 
     /// <inheritdoc cref="SortedList{TKey,TValue}(int)"/>
-    public SortedList(int capacity) => this.list = new(capacity);
+    public SortedList(int capacity) => this.list = new SortedList<T, T>(capacity);
 
     /// <inheritdoc cref="SortedList{TKey,TValue}(int, IComparer{TKey})"/>
-    public SortedList(int capacity, IComparer<T>? comparer) => this.list = new(capacity, comparer);
+    public SortedList(int capacity, IComparer<T>? comparer) => this.list = new SortedList<T, T>(capacity, comparer);
     #endregion
 
     #region Methods

@@ -56,7 +56,7 @@ public class Day16 : GridSolver<Day16.Element>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Element"/> fails</exception>
     public Day16(string input) : base(input)
     {
-        this.energized = new(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
+        this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
     }
     #endregion
 
@@ -69,18 +69,18 @@ public class Day16 : GridSolver<Day16.Element>
         AoCUtils.LogPart1(count);
 
         int max = this.Data.Width - 1;
-        int maxCount = Math.Max(count, EnergizeGrid(new(max, 0), Direction.LEFT));
+        int maxCount = Math.Max(count, EnergizeGrid(new Vector2<int>(max, 0), Direction.LEFT));
         foreach (int y in 1..this.Data.Height)
         {
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(0, y), Direction.RIGHT));
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(max, y), Direction.LEFT));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(0, y), Direction.RIGHT));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(max, y), Direction.LEFT));
         }
 
         max = this.Data.Height - 1;
         foreach (int x in ..this.Data.Width)
         {
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, 0), Direction.DOWN));
-            maxCount = Math.Max(maxCount, EnergizeGrid(new(x, max), Direction.UP));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(x, 0), Direction.DOWN));
+            maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(x, max), Direction.UP));
         }
 
         AoCUtils.LogPart2(maxCount);

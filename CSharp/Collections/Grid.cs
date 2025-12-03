@@ -140,7 +140,7 @@ public class Grid<T> : IEnumerable<T>
         this.Height = height;
         this.Size   = width * height;
         this.grid   = new T[height, width];
-        this.Dimensions = new(width, height);
+        this.Dimensions = new Vector2<int>(width, height);
 
         if (typeof(T).IsPrimitive)
         {
@@ -474,7 +474,7 @@ public class Grid<T> : IEnumerable<T>
         }
 
         //Wrap y axis
-        if (!wrapY) return new(result);
+        if (!wrapY) return new Vector2<int>(result);
 
         if (result.y >= this.Height)
         {
@@ -486,7 +486,7 @@ public class Grid<T> : IEnumerable<T>
         }
 
         //Return result
-        return new(result);
+        return new Vector2<int>(result);
     }
 
     /// <summary>
@@ -507,7 +507,7 @@ public class Grid<T> : IEnumerable<T>
             return true;
         }
 
-        moved = new(-1, -1);
+        moved = new Vector2<int>(-1, -1);
         return false;
     }
 
@@ -529,7 +529,7 @@ public class Grid<T> : IEnumerable<T>
             return true;
         }
 
-        moved = new(-1, -1);
+        moved = new Vector2<int>(-1, -1);
         return false;
     }
 
@@ -559,7 +559,7 @@ public class Grid<T> : IEnumerable<T>
             }
         }
 
-        return new(-1, -1);
+        return new Vector2<int>(-1, -1);
     }
 
     /// <summary>
