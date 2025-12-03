@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
 using AdventOfCode.Intcode;
+using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2019;
@@ -10,21 +12,8 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 07
 /// </summary>
-public class Day07 : Solver<IntcodeVM[]>
+public class Day07 : IntcodeSolver
 {
-    /// <summary>
-    /// Amount of amplifiers running
-    /// </summary>
-    private const int AMPS = 5;
-    /// <summary>
-    /// Part 1 phase settings
-    /// </summary>
-    private static readonly long[] part1Phase = [0L, 1L, 2L, 3L, 4L];
-    /// <summary>
-    /// Part 2 phase settings
-    /// </summary>
-    private static readonly long[] part2Phase = [5L, 6L, 7L, 8L, 9L];
-
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
@@ -36,74 +25,72 @@ public class Day07 : Solver<IntcodeVM[]>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        long max = long.MinValue;
-        //Go through all permutations of part 1 settings
-        foreach (long[] perm in part1Phase.Permutations())
+        // Create VM copies
+        IntcodeVM ampA = this.VM;
+        IntcodeVM ampB = new(this.VM);
+        IntcodeVM ampC = new(this.VM);
+        IntcodeVM ampD = new(this.VM);
+        IntcodeVM ampE = new(this.VM);
+        IntcodeVM[] amplifiers = [ampA, ampB, ampC, ampD, ampE];
+
+        // Create input/output bridges
+        QueueInOut ab = new();
+        ampA.OutputProvider = ab;
+        ampB.InputProvider  = ab;
+        QueueInOut bc = new();
+        ampB.OutputProvider = bc;
+        ampC.InputProvider  = bc;
+        QueueInOut cd = new();
+        ampC.OutputProvider = cd;
+        ampD.InputProvider  = cd;
+        QueueInOut de = new();
+        ampD.OutputProvider = de;
+        ampE.InputProvider  = de;
+
+        // Go over phase permutations
+        long maxOutput = 0L;
+        int[] phases = (..5).AsEnumerable().ToArray();
+        foreach (int[] ampPerm in phases.PermutationsInPlace())
         {
-            //Add phase settings
-            foreach (int i in ..AMPS)
+            foreach (int i in ..amplifiers.Length)
             {
-                this.Data[i].AddInput(perm[i]);
+                amplifiers[i].InputProvider.AddInput(ampPerm[i]);
             }
-            //Add input value
-            this.Data[0].AddInput(0L);
 
-            //Run all amplifiers
-            this.Data.ForEach(amp => amp.Run());
-
-            //Get value from last amplifier
-            max = Math.Max(max, this.Data[^1].GetNextOutput());
-
-            //Reset amplifiers
-            this.Data.ForEach(amp => amp.Reset());
+            ampA.InputProvider.AddInput(0L);
+            amplifiers.ForEach(amp => amp.Run());
+            maxOutput = Math.Max(maxOutput, ampE.OutputProvider.GetOutput());
+            amplifiers.ForEach(amp => amp.Reset());
         }
-        AoCUtils.LogPart1(max);
+        AoCUtils.LogPart1(maxOutput);
 
-        //Set last output as first input
-        this.Data[0].In = this.Data[^1].Out;
-        max = long.MinValue;
-        //Go through all permutations of part 2 settings
-        foreach (long[] perm in part2Phase.Permutations())
+        // Bridge amplifiers E and A
+        QueueInOut ea = new();
+        ampE.OutputProvider = ea;
+        ampA.InputProvider  = ea;
+
+
+        // Go over phase permutations
+        maxOutput = 0L;
+        phases    = (5..10).AsEnumerable().ToArray();
+        foreach (int[] ampPerm in phases.PermutationsInPlace())
         {
-            //Add phase settings
-            foreach (int i in ..AMPS)
+            foreach (int i in ..amplifiers.Length)
             {
-                this.Data[i].AddInput(perm[i]);
-            }
-            //Add input value
-            this.Data[0].AddInput(0L);
-
-            //Run until the last amp has halted
-            while (!this.Data[^1].IsHalted)
-            {
-                //Run all amps
-                this.Data.ForEach(amp => amp.Run());
+                amplifiers[i].InputProvider.AddInput(ampPerm[i]);
             }
 
-            //Get value from last amplifier
-            max = Math.Max(max, this.Data[^1].GetNextOutput());
-
-            //Reset amplifiers
-            this.Data.ForEach(amp => amp.Reset());
-        }
-        AoCUtils.LogPart2(max);
-    }
-
-    /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override IntcodeVM[] Convert(string[] rawInput)
-    {
-        string line = rawInput[0];
-        IntcodeVM[] vms = new IntcodeVM[AMPS];
-        foreach (int i in ..AMPS)
-        {
-            IntcodeVM vm = new(line);
-            vms[i] = vm;
-            if (i > 0)
+            ampA.InputProvider.AddInput(0L);
+            do
             {
-                vm.In = vms[i - 1].Out;
+                amplifiers.ForEach(amp => amp.Run());
             }
+            while (!ampE.IsHalted);
+
+            maxOutput = Math.Max(maxOutput, ampE.OutputProvider.GetOutput());
+            amplifiers.ForEach(amp => amp.Reset());
         }
 
-        return vms;
+        AoCUtils.LogPart2(maxOutput);
     }
 }

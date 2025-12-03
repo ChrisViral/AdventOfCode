@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -10,162 +10,120 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 06
 /// </summary>
-public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
+public class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
 {
     /// <summary>
-    /// Orbit object
+    /// Orbital object
     /// </summary>
-    public class Orbit : IEnumerable<Orbit>, IEquatable<Orbit>
+    /// <param name="id">Orbital object ID</param>
+    public class OrbitalObject(string id) : IEquatable<OrbitalObject>
     {
-            /// <summary>
-        /// Orbit name
+        /// <summary>
+        /// Object ID
         /// </summary>
-        public string Name { get; }
+        private readonly string id = id;
 
         /// <summary>
         /// Orbital parent
         /// </summary>
-        public Orbit? Parent { get; set; }
+        public OrbitalObject? Parent { get; set; }
 
         /// <summary>
         /// Orbital children
         /// </summary>
-        public List<Orbit> Children { get; } = [];
+        public List<OrbitalObject> Children { get; } = [];
 
         /// <summary>
-        /// Which Orbit this was visited from while searching
+        /// Calculates the orbital checksum
         /// </summary>
-        public Orbit? VisitedFrom { get; set; }
-    
-            /// <summary>
-        /// Creates a new Orbit of the specified name
-        /// </summary>
-        /// <param name="name">Name of the Orbit</param>
-        public Orbit(string name) => this.Name = name;
-    
-            /// <summary>
-        /// Gets the total depth of the orbit system
-        /// </summary>
-        /// <returns>The amount of direct and indirect orbits</returns>
-        public int GetOrbits(int depth = 0) => this.Children.Count is not 0 ? depth + this.Children.Sum(c => c.GetOrbits(depth + 1)) : depth;
-
-        /// <inheritdoc cref="object.Equals(object)"/>
-        public override bool Equals(object? obj) => obj is Orbit orbit && Equals(orbit);
-
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(Orbit? other) => other is not null && (ReferenceEquals(this, other) || this.Name == other.Name);
-
-        /// <inheritdoc cref="object.GetHashCode"/>
-        public override int GetHashCode() => this.Name.GetHashCode();
-
-        /// <inheritdoc cref="object.ToString"/>
-        public override string ToString() => this.Name;
-
-        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
-        public IEnumerator<Orbit> GetEnumerator()
+        /// <param name="depth">Current orbital depth</param>
+        /// <returns>Object's orbital checksum</returns>
+        public int GetOrbitalChecksum(int depth = 0)
         {
-            if (this.Parent is not null)
+            int checksum = depth;
+            foreach (OrbitalObject child in this.Children)
             {
-                yield return this.Parent;
+                checksum += child.GetOrbitalChecksum(depth + 1);
             }
-
-            foreach (Orbit child in this.Children)
-            {
-                yield return child;
-            }
+            return checksum;
         }
 
-        /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
+        /// <inheritdoc />
+        public bool Equals(OrbitalObject? other) => this.id == other?.id;
 
-    /// <summary>
-    /// Name of the root Orbit
-    /// </summary>
-    private const string ROOT  = "COM";
-    /// <summary>
-    /// Name of your orbital object
-    /// </summary>
-    private const string YOU   = "YOU";
-    /// <summary>
-    /// Name of Santa's orbital object
-    /// </summary>
-    private const string SANTA = "SAN";
+        /// <inheritdoc />
+        public override bool Equals(object? obj) => obj is OrbitalObject other && Equals(other);
+
+        /// <inheritdoc />
+        public override int GetHashCode() => this.id.GetHashCode();
+
+        /// <inheritdoc />
+        public override string ToString() => id;
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2, T3}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day06(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.com.GetOrbits());
+        // Calculate the checksum of the COM
+        OrbitalObject com = this.Data["COM"];
+        int checksum = com.GetOrbitalChecksum();
+        AoCUtils.LogPart1(checksum);
 
-        HashSet<Orbit> visited = [this.Data.you];
-        Queue<Orbit> toVisit = new();
-        toVisit.Enqueue(this.Data.you);
-        Orbit? santa = null;
-        while (toVisit.TryDequeue(out Orbit? visiting))
-        {
-            if (visiting.Name is SANTA)
-            {
-                santa = visiting;
-                break;
-            }
+        // Get path from start to santa
+        OrbitalObject start = this.Data["YOU"];
+        OrbitalObject end   = this.Data["SAN"];
+        int pathLength = SearchUtils.GetPathLengthBFS(start, end, Neighbours)!.Value;
+        AoCUtils.LogPart2(pathLength - 2);
+    }
 
-            foreach (Orbit sibling in visiting)
-            {
-                if (visited.Add(sibling))
-                {
-                    sibling.VisitedFrom = visiting;
-                    toVisit.Enqueue(sibling);
-                }
-            }
-        }
-
-        if (santa is null) return;
-
-        //No need to transfer to YOU and SAN
-        int travel = -2;
-        while (santa.VisitedFrom is not null)
-        {
-            santa = santa.VisitedFrom;
-            travel++;
-        }
-
-        AoCUtils.LogPart2(travel);
+    /// <summary>
+    /// OrbitalObject neighbours
+    /// </summary>
+    /// <param name="orbitalObject">OrbitalObject to get the neighbours for</param>
+    /// <returns></returns>
+    private static IEnumerable<OrbitalObject> Neighbours(OrbitalObject orbitalObject)
+    {
+        return orbitalObject.Parent is null
+                   ? orbitalObject.Children
+                   : orbitalObject.Children.Append(orbitalObject.Parent);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Orbit, Orbit, Orbit) Convert(string[] rawInput)
+    protected override Dictionary<string, OrbitalObject> Convert(string[] rawInput)
     {
-        Dictionary<string, Orbit> orbits = new();
-        foreach (string line in rawInput)
+        Dictionary<string, OrbitalObject> orbitalObjects = new(rawInput.Length / 2);
+        var objectsLookup = orbitalObjects.GetAlternateLookup<ReadOnlySpan<char>>();
+        foreach (ReadOnlySpan<char> line in rawInput)
         {
-            string[] splits = line.Split(')');
-            string parentName = splits[0];
-            string childName = splits[1];
-
-            if (!orbits.TryGetValue(parentName, out Orbit? parent))
+            // Get parent
+            ReadOnlySpan<char> parentId = line[..3];
+            if (!objectsLookup.TryGetValue(parentId, out OrbitalObject? parent))
             {
-                parent = new Orbit(parentName);
-                orbits.Add(parentName, parent);
+                parent = new OrbitalObject(parentId.ToString());
+                objectsLookup[parentId] = parent;
             }
 
-            if (!orbits.TryGetValue(childName, out Orbit? child))
+            // Get child
+            ReadOnlySpan<char> childId = line[4..];
+            if (!objectsLookup.TryGetValue(childId, out OrbitalObject? child))
             {
-                child = new Orbit(childName);
-                orbits.Add(childName, child);
+                child = new OrbitalObject(childId.ToString());
+                objectsLookup[childId] = child;
             }
 
-            parent.Children.Add(child);
+            // Link child to parent
             child.Parent = parent;
+            parent.Children.Add(child);
         }
 
-        return (orbits[ROOT], orbits[YOU], orbits[SANTA]);
+        return orbitalObjects;
     }
 }

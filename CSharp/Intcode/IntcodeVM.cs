@@ -1,332 +1,374 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
-using AdventOfCode.Extensions.Enumerables;
-using JetBrains.Annotations;
-using Instruction = AdventOfCode.Intcode.Instructions.Instruction;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using AdventOfCode.Intcode.Input;
+using AdventOfCode.Intcode.Output;
+// ReSharper disable RedundantOverflowCheckingContext
 
 namespace AdventOfCode.Intcode;
 
 /// <summary>
-/// Intcode computer Virtual Machine, using a Fetch/Decode/Execute architecture, and input and output queues
+/// Intcode VM
 /// </summary>
-[PublicAPI]
-public class IntcodeVM
+public sealed unsafe partial class IntcodeVM : IDisposable
 {
     /// <summary>
     /// VM state
     /// </summary>
-    public enum VMState
+    public enum State
     {
+        /// <summary>
+        /// Ready to run
+        /// </summary>
         READY,
+        /// <summary>
+        /// Currently running
+        /// </summary>
         RUNNING,
+        /// <summary>
+        /// Stalled for input
+        /// </summary>
         STALLED,
-        HALTED
+        /// <summary>
+        /// Execution halted
+        /// </summary>
+        HALTED,
     }
 
     /// <summary>
-    /// Delegate which gets the next input value
+    /// VM Memory buffer size (4kb of long values)
     /// </summary>
-    /// <param name="input">The returned input</param>
-    /// <returns>True if an input was fetched, false otherwise</returns>
-    public delegate bool Input(out long input);
+    private const int BUFFER_SIZE = 512;
+    /// <summary>
+    /// True literal
+    /// </summary>
+    private const long TRUE  = 1L;
+    /// <summary>
+    /// False literal
+    /// </summary>
+    private const long FALSE = 0L;
 
     /// <summary>
-    /// Delegate which sets the next output value
+    /// Initial VM state
     /// </summary>
-    /// <param name="output">Output value to set</param>
-    public delegate void Output(long output);
+    private readonly ImmutableArray<long> initialState;
+    /// <summary>
+    /// Allocation handle
+    /// </summary>
+    private readonly IntPtr handle;
+    /// <summary>
+    /// Buffer address
+    /// </summary>
+    private readonly long* buffer;
+    /// <summary>
+    /// Instruction pointer
+    /// </summary>
+    private long* ip;
+    /// <summary>
+    /// Relative base
+    /// </summary>
+    private long* relative;
+    /// <summary>
+    /// If the VM is disposed or not
+    /// </summary>
+    private bool isDisposed;
+    /// <summary>
+    /// VM buffer size
+    /// </summary>
+    private readonly int bufferSize;
 
     /// <summary>
-    /// VM specific data
+    /// Gets the value at the given address in the VM's buffer
     /// </summary>
-    /// <param name="vm">VM to create the data for</param>
-    public readonly struct VMData(IntcodeVM vm)
+    /// <param name="index">Index offset within the buffer</param>
+    /// <exception cref="ObjectDisposedException">If the VM has been disposed</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If the address is outside of the bounds of the VM's buffer</exception>
+    public ref long this[int index]
     {
-            /// <summary>Memory of the VM</summary>
-        public readonly Memory<long> memory = vm.memory;
-        /// <summary>Input function of the VM</summary>
-        public readonly Input input = vm.GetNextInput;
-        /// <summary>Output function of the VM</summary>
-        public readonly Output output = vm.AddOutput;
-        }
-
-    /// <summary>
-    /// Output event
-    /// </summary>
-    public event Action? OnOutput;
-
-    /// <summary>
-    /// Halted pointer state
-    /// </summary>
-    public const int HALT = -1;
-    /// <summary>
-    /// Default pointer state
-    /// </summary>
-    private const int DEFAULT = 0;
-    /// <summary>
-    /// Default output stream size
-    /// </summary>
-    private const int DEFAULT_SIZE = 16;
-    /// <summary>
-    /// Extra buffer memory added to the VM (2k integers, 16kb memory)
-    /// </summary>
-    private const int BUFFER_SIZE = 2048;
-    /// <summary>
-    /// Input parsing splitting options
-    /// </summary>
-    private const StringSplitOptions OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-
-    /// <summary>Intcode program memory pointer</summary>
-    private int pointer = DEFAULT;
-    /// <summary>Relative base of the VM</summary>
-    private int relative = DEFAULT;
-    /// <summary>Intcode program memory</summary>
-    private readonly Memory<long> memory;
-    /// <summary>Original memory state of the program</summary>
-    private readonly ReadOnlyMemory<long> originalState;
-    /// <summary>Data relating to the VM</summary>
-    private readonly VMData data;
-
-    /// <summary>
-    /// The current VM State
-    /// </summary>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public VMState State { get; private set; }
-
-    /// <summary>
-    /// If the Intcode VM is currently halted
-    /// </summary>
-    public bool IsHalted => this.State is VMState.HALTED;
-
-    /// <summary>
-    /// The input queue of the IntcodeVM
-    /// </summary>
-    public Queue<long> In { get; set; }
-
-    /// <summary>
-    /// The output queue of the IntcodeVM
-    /// </summary>
-    /// ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-    public Queue<long> Out { get; set; }
-
-    /// <summary>
-    /// If the VM has any available output values left
-    /// </summary>
-    public bool HasOutputs => this.Out.Count is not 0;
-
-    /// <summary>
-    /// Accesses the memory of the VM
-    /// </summary>
-    /// <param name="index">Index to access</param>
-    /// <returns>Value in the memory at the specified index</returns>
-    public ref long this[int index]  => ref this.memory.Span[index];
-
-    /// <summary>
-    /// Accesses the memory of the VM
-    /// </summary>
-    /// <param name="index">Index to access</param>
-    /// <returns>Value in the memory at the specified index</returns>
-    public ref long this[Index index] => ref this.memory.Span[index];
-
-    /// <summary>
-    /// Creates a new Intcode VM by parsing the given code, and with empty input and output queues
-    /// </summary>
-    /// <param name="code">Comma separated Intcode to parse</param>
-    public IntcodeVM(string code) : this(code, new Queue<long>(DEFAULT_SIZE), new Queue<long>(DEFAULT_SIZE)) { }
-
-    /// <summary>
-    /// Creates a new Intcode VM by parsing the given code, and with the input and output values
-    /// </summary>
-    /// <param name="code">Comma separated Intcode to parse</param>
-    /// <param name="input">Input values</param>
-    public IntcodeVM(string code, IEnumerable<long> input) : this(code, new Queue<long>(input), new Queue<long>(DEFAULT_SIZE)) { }
-
-    /// <summary>
-    /// Creates a new Intcode VM by parsing the given code, and with the specified input and output Queues
-    /// </summary>
-    /// <param name="code">Comma separated Intcode to parse</param>
-    /// <param name="input">The input Queue for this Intcode VM</param>
-    /// <param name="output">The output Queue for this Intcode VM</param>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public IntcodeVM(string code, Queue<long> input, Queue<long> output)
-    {
-        ReadOnlySpan<char> codeSpan = code;
-        int count = codeSpan.Count(',') + 1;
-        Span<Range> ranges = stackalloc Range[count];
-        int written = codeSpan.Split(ranges, ',', OPTIONS);
-
-        long[] parsed = new long[written];
-        for (int i = 0; i < written; i++)
+        get
         {
-            parsed[i] = long.Parse(codeSpan[ranges[i]]);
+            ObjectDisposedException.ThrowIf(this.isDisposed, this);
+            if (index < 0 || index >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), index, "Intcode VM buffer index out of range");
+
+            return ref *(this.buffer + index);
         }
-
-        this.originalState = parsed;
-        this.memory        = new long[this.originalState.Length + BUFFER_SIZE];
-        this.originalState.CopyTo(this.memory);
-
-        this.In   = input;
-        this.Out  = output;
-        this.data = new VMData(this);
     }
 
     /// <summary>
-    /// Runs the Intcode VM until it reaches a stopped state, then returns it's current state.
+    /// Gets the value at the given address in the VM's buffer
     /// </summary>
-    /// <returns>Current state of the VM</returns>
-    /// <exception cref="InvalidOperationException">If the VM is already halted when started</exception>
-    /// <exception cref="InvalidEnumArgumentException">If an Invalid Opcode is detected</exception>
-    /// ReSharper disable once UnusedMethodReturnValue.Global
-    public VMState Run()
+    /// <param name="index">Index offset within the buffer</param>
+    /// <exception cref="ObjectDisposedException">If the VM has been disposed</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If the address is outside of the bounds of the VM's buffer</exception>
+    public ref long this[Index index]
     {
-        //Make sure we aren't already halted
-        if (this.IsHalted) throw new InvalidOperationException("Intcode program is already in a halted state and must be reset to run again");
-
-        //Program loop
-        this.State = VMState.RUNNING;
-        while (this.State is VMState.RUNNING)
+        get
         {
-            //Fetch
-            long opcode = MoveNextValue();
-            //Decode
-            (Instruction instruction, Instructions.Modes modes) = Instructions.Decode(opcode);
-            //Execute
-            this.State = instruction(ref this.pointer, ref this.relative, this.data, modes);
-        }
+            ObjectDisposedException.ThrowIf(this.isDisposed, this);
+            int offset = index.GetOffset(this.bufferSize);
+            if (offset < 0 || offset >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), offset, "Intcode VM buffer index out of range");
 
-        return this.State;
+            return ref *(this.buffer + offset);
+        }
     }
 
     /// <summary>
-    /// Gets the next value in the intcode VM and increments the pointer
+    /// Current VM state
     /// </summary>
-    /// <returns></returns>
-    private long MoveNextValue() => this.memory.Span[this.pointer++];
+    public State Status { get; private set; }
 
     /// <summary>
-    /// Resets the Intcode VM to it's original state so it can be run again
+    /// If this VM is in a halted state
+    /// </summary>
+    public bool IsHalted => this.Status is State.HALTED;
+
+    /// <summary>
+    /// VM's input provider
+    /// </summary>
+    public IInputProvider InputProvider { get; set; }
+
+    /// <summary>
+    /// VM's output provider
+    /// </summary>
+    public IOutputProvider OutputProvider { get; set; }
+
+    /// <summary>
+    /// Creates a new VM from the specified Intcode source
+    /// </summary>
+    /// <param name="source">Intcode source</param>
+    /// <param name="inputProvider">VM input provider</param>
+    /// <param name="outputProvider">VM output provider</param>
+    public IntcodeVM(ReadOnlySpan<char> source, IInputProvider? inputProvider = null, IOutputProvider? outputProvider = null)
+    {
+        // Initialize the input and output
+        this.InputProvider  = inputProvider  ?? new QueueInput();
+        this.OutputProvider = outputProvider ?? new QueueOutput();
+
+        // Get parsed code length
+        int count          = source.Count(',') + 1;
+        Span<Range> splits = stackalloc Range[count];
+        int splitCount     = source.Split(splits, ',');
+
+        // Create unmanaged buffer
+        this.bufferSize = splitCount + BUFFER_SIZE;
+        this.handle     = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
+        this.buffer     = (long*)this.handle;
+        this.ip         = this.buffer;
+        this.relative   = this.buffer;
+
+        // Populate buffer
+        ImmutableArray<long>.Builder initialStateBuilder = ImmutableArray.CreateBuilder<long>(this.bufferSize);
+        for (int i = 0; i < splitCount; i++, this.ip++)
+        {
+            long value = long.Parse(source[splits[i]]);
+            initialStateBuilder.Add(value);
+            *this.ip = value;
+        }
+        this.initialState = initialStateBuilder.ToImmutable();
+
+        // Reset instruction pointer
+        this.ip = this.buffer;
+    }
+
+    /// <summary>
+    /// Clones an IntcodeVM from another one
+    /// </summary>
+    /// <param name="other">Other VM to clone from</param>
+    public IntcodeVM(IntcodeVM other)
+    {
+        ObjectDisposedException.ThrowIf(other.isDisposed, other);
+
+        // Copy fields
+        this.initialState   = other.initialState;
+        this.bufferSize     = other.bufferSize;
+        this.Status         = other.Status;
+
+        // Create clones of input/output providers
+        this.InputProvider  = other.InputProvider.Clone();
+        this.OutputProvider = other.OutputProvider.Clone();
+
+        // Create buffer
+        this.handle   = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
+        this.buffer   = (long*)this.handle;
+        this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
+
+        // Initialize pointers to correct address
+        this.ip       = this.buffer + (other.ip - other.buffer);
+        this.relative = this.buffer + (other.relative - other.buffer);
+    }
+
+    /// <summary>
+    /// Finalizer
+    /// </summary>
+    ~IntcodeVM() => ReleaseUnmanagedResources();
+
+    /// <summary>
+    /// Runs the Intcode VM
+    /// </summary>
+    /// ReSharper disable once CognitiveComplexity
+    public void Run()
+    {
+        ObjectDisposedException.ThrowIf(this.isDisposed, this);
+        if (this.Status is State.HALTED or State.RUNNING) return;
+
+        this.Status = State.RUNNING;
+        while (true)
+        {
+            (int modes, Opcode opcode) = ReadOpcode();
+            switch (opcode)
+            {
+                case Opcode.NOP:
+                    // No operation
+                    break;
+
+                case Opcode.ADD:
+                    Add(modes);
+                    break;
+
+                case Opcode.MUL:
+                    Multiply(modes);
+                    break;
+
+                case Opcode.INP:
+                    if (!Input(modes)) return;
+                    break;
+
+                case Opcode.OUT:
+                    Output(modes);
+                    break;
+
+                case Opcode.JNZ:
+                    JumpNotZero(modes);
+                    break;
+
+                case Opcode.JEZ:
+                    JumpZero(modes);
+                    break;
+
+                case Opcode.TLT:
+                    TestLessThan(modes);
+                    break;
+
+                case Opcode.TEQ:
+                    TestEquals(modes);
+                    break;
+
+                case Opcode.REL:
+                    RelativeSet(modes);
+                    break;
+
+                case Opcode.HLT:
+                    Halt();
+                    return;
+
+                default:
+                    throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the VM and primes it for running again
     /// </summary>
     public void Reset()
     {
-        this.pointer  = DEFAULT;
-        this.relative = DEFAULT;
-        this.originalState.CopyTo(this.memory);
+        ObjectDisposedException.ThrowIf(this.isDisposed, this);
 
-        this.In.Clear();
-        this.Out.Clear();
-
-        this.State = VMState.READY;
+        this.ip       = this.buffer;
+        this.relative = this.buffer;
+        this.Status   = State.READY;
+        this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
+        this.InputProvider.Clear();
+        this.OutputProvider.Clear();
     }
 
     /// <summary>
-    /// Sets a new input queue with the specified data
+    /// Reads the next <see cref="Opcode"/> in the VM's buffer
     /// </summary>
-    /// <param name="input">Data to set as input</param>
-    public void SetInput(IEnumerable<long> input) => this.In = new Queue<long>(input);
-
-    /// <summary>
-    /// Adds the given value to the input queue
-    /// </summary>
-    /// <param name="value">Value to add</param>
-    public void AddInput(long value) => this.In.Enqueue(value);
-
-    /// <summary>
-    /// Adds the string as a character array to the input values
-    /// </summary>
-    /// <param name="value">String to add</param>
-    public void AddInput(string value) => value.ForEach(c => this.In.Enqueue(c));
-
-    /// <summary>
-    /// Gets the next available int from the input if available
-    /// </summary>
-    /// <returns>The next integer in the input queue</returns>
-    private bool GetNextInput(out long input) => this.In.TryDequeue(out input);
-
-    /// <summary>
-    /// Adds an integer to the output stream
-    /// </summary>
-    /// <param name="output">Value to add to the output</param>
-    /// <exception cref="InvalidOperationException">If no output stream is specified</exception>
-    private void AddOutput(long output)
+    /// <returns>The read <see cref="Opcode"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private (int modes, Opcode opcode) ReadOpcode()
     {
-        this.Out.Enqueue(output);
-        this.OnOutput?.Invoke();
+        (long modes, long opcode) = Math.DivRem(*this.ip++, 100);
+        return ((int)modes, (Opcode)opcode);
     }
 
     /// <summary>
-    /// Gets the next available int from the output
+    /// Reads the next <see cref="long"/> in the VM's buffer
     /// </summary>
-    /// <returns>The next output value</returns>
-    public long GetNextOutput() => this.Out.Dequeue();
+    /// <returns>The read <see cref="long"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ref long ReadNextInt64() => ref *this.ip++;
 
     /// <summary>
-    /// Gets all the output from this Intcode VM
+    /// Gets a reference to the operand in the specified mode
     /// </summary>
-    /// <returns>A new copy of the current output  of the VM in an array</returns>
-    public long[] GetOutput()
+    /// <param name="mode">Mode to get the operand for</param>
+    /// <returns>A reference to the operand value</returns>
+    /// <exception cref="InvalidEnumArgumentException">For unknown values of <paramref name="mode"/></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ref long GetOperand(ParamMode mode)
     {
-        if (this.Out.Count is 0) return [];
+        // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+        #if DEBUG
+        switch (mode)
+        {
+            case ParamMode.POSITION:
+                long* address = unchecked(this.buffer + ReadNextInt64());
+                if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
+                return ref *address;
 
-        long[] output = new long[this.Out.Count];
-        this.Out.CopyTo(output, 0);
-        this.Out.Clear();
-        return output;
+            case ParamMode.IMMEDIATE:
+                return ref ReadNextInt64();
+
+            case ParamMode.RELATIVE:
+                address = unchecked(this.relative + ReadNextInt64());
+                if (address < this.buffer || address > this.buffer + this.bufferSize) throw new AccessViolationException("Accessing memory not managed by the IntcodeVM");
+                return ref *address;
+
+            default:
+                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+        }
+        #else
+        switch (mode)
+        {
+            case ParamMode.POSITION:
+                return ref *(this.buffer + ReadNextInt64());
+
+            case ParamMode.IMMEDIATE:
+                return ref ReadNextInt64();
+
+            case ParamMode.RELATIVE:
+                return ref *(this.relative + ReadNextInt64());
+
+            default:
+                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+        }
+        #endif
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (this.isDisposed) return;
+
+        // Release resources
+        ReleaseUnmanagedResources();
+
+        // Mark as disposed
+        this.isDisposed = true;
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
-    /// Gets the next two outputs into two variables through deconstruction
+    /// Releases unmanaged resources owned by the VM
     /// </summary>
-    /// <param name="a">First output</param>
-    /// <param name="b">Second output</param>
-    public void Deconstruct(out long a, out long b)
+    private void ReleaseUnmanagedResources()
     {
-        a = GetNextOutput();
-        b = GetNextOutput();
-    }
-
-    /// <summary>
-    /// Gets the next three outputs into two variables through deconstruction
-    /// </summary>
-    /// <param name="a">First output</param>
-    /// <param name="b">Second output</param>
-    /// <param name="c">Third output</param>
-    public void Deconstruct(out long a, out long b, out long c)
-    {
-        a = GetNextOutput();
-        b = GetNextOutput();
-        c = GetNextOutput();
-    }
-
-    /// <summary>
-    /// Gets the next four outputs into two variables through deconstruction
-    /// </summary>
-    /// <param name="a">First output</param>
-    /// <param name="b">Second output</param>
-    /// <param name="c">Third output</param>
-    /// <param name="d">Fourth output</param>
-    public void Deconstruct(out long a, out long b, out long c, out long d)
-    {
-        a = GetNextOutput();
-        b = GetNextOutput();
-        c = GetNextOutput();
-        d = GetNextOutput();
-    }
-
-    /// <summary>
-    /// Gets the next five outputs into two variables through deconstruction
-    /// </summary>
-    /// <param name="a">First output</param>
-    /// <param name="b">Second output</param>
-    /// <param name="c">Third output</param>
-    /// <param name="d">Fourth output</param>
-    /// <param name="e">Fifth output</param>
-    public void Deconstruct(out long a, out long b, out long c, out long d, out long e)
-    {
-        a = GetNextOutput();
-        b = GetNextOutput();
-        c = GetNextOutput();
-        d = GetNextOutput();
-        e = GetNextOutput();
+        // Free the memory
+        Marshal.FreeHGlobal(this.handle);
+        this.ip = null;
     }
 }

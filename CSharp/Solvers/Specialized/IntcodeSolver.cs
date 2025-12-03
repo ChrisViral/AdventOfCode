@@ -6,25 +6,23 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Solvers.Specialized;
 
 /// <summary>
-/// IntcodeVM solver base
+/// Intcode problem solver base
 /// </summary>
 [PublicAPI]
 public abstract class IntcodeSolver : Solver<IntcodeVM>
 {
     /// <summary>
-    /// Intcode VM for this solver
+    /// VM instance
     /// </summary>
-    protected IntcodeVM VM => this.Data;
+    public IntcodeVM VM => this.Data;
 
     /// <summary>
     /// Creates a new <see cref="IntcodeSolver"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <param name="splitters">Splitting characters, defaults to newline only</param>
-    /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
-    protected IntcodeSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
+    protected IntcodeSolver(string input) : base(input, [], StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override IntcodeVM Convert(string[] rawInput) => new (rawInput[0]);
+    protected override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
@@ -13,13 +13,13 @@ namespace AdventOfCode.Solvers.AoC2019;
 public class Day02 : IntcodeSolver
 {
     /// <summary>
-    /// Max value for the noun or verb
+    /// Maximum input argument value
     /// </summary>
-    private const int MAX = 100;
+    private const int MAX_ARG = 100;
     /// <summary>
-    /// Target to find using the Intcode VM
+    /// Target output value
     /// </summary>
-    private const long TARGET = 19_690_720L;
+    private const int TARGET  = 19690720;
 
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
@@ -32,21 +32,27 @@ public class Day02 : IntcodeSolver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        (this.VM[1], this.VM[2]) = (12L, 2L);
+        this.VM[1] = 12L;
+        this.VM[2] = 2L;
         this.VM.Run();
         AoCUtils.LogPart1(this.VM[0]);
 
-        foreach (int noun in ..MAX)
+        foreach (int noun in ..MAX_ARG)
         {
-            foreach (int verb in ..MAX)
+            foreach (int verb in ..MAX_ARG)
             {
-                this.VM.Reset();
-                (this.VM[1], this.VM[2]) = (noun, verb);
-                this.VM.Run();
-                if (this.VM[0] is not TARGET) continue;
+                // State already tested previously
+                if (noun is 12 && verb is 2) continue;
 
-                AoCUtils.LogPart2((100 * noun) + verb);
-                return;
+                this.VM.Reset();
+                this.VM[1] = noun;
+                this.VM[2] = verb;
+                this.VM.Run();
+                if (this.VM[0] is TARGET)
+                {
+                    AoCUtils.LogPart2((noun * 100) + verb);
+                    return;
+                }
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
@@ -15,35 +14,29 @@ public class Day01 : ArraySolver<int>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day01(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.Sum(m => (m / 3) - 2));
-        AoCUtils.LogPart2(this.Data.Sum(CalculateFuel));
-    }
-
-    /// <summary>
-    /// Calculates the fuel necessary for a given mass, accounting for the mass of the fuel
-    /// </summary>
-    /// <param name="mass">Mass to calculate for</param>
-    /// <returns>The total fuel required for the given mass</returns>
-    private static int CalculateFuel(int mass)
-    {
-        mass = (mass / 3) - 2;
-        int totalFuel = 0;
-        while (mass > 0)
+        int fuelRequirement = 0;
+        int compoundFuelRequirement = 0;
+        foreach (int mass in this.Data)
         {
-            totalFuel += mass;
-            mass = (mass / 3) - 2;
+            int fuel = (mass / 3) - 2;
+            fuelRequirement += fuel;
+            while (fuel > 8)
+            {
+                fuel =  (fuel / 3) - 2;
+                compoundFuelRequirement += fuel;
+            }
         }
-
-        return totalFuel;
+        AoCUtils.LogPart1(fuelRequirement);
+        AoCUtils.LogPart2(fuelRequirement + compoundFuelRequirement);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override int ConvertLine(string line) => int.Parse(line);
 }

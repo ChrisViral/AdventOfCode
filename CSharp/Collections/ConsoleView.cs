@@ -161,6 +161,9 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         }
     }
 
+    /// <inheritdoc cref="Grid{T}.PositionOf"/>
+    public override Vector2<int> PositionOf(T value) => base.PositionOf(value) - this.anchor;
+
     /// <inheritdoc cref="Grid{T}.Populate"/>
     public new void Populate(string[] input, [InstantHandle] Converter<string, T[]> converter)
     {

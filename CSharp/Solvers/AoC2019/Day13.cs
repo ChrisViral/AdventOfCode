@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Intcode;
 using AdventOfCode.Solvers.Base;
-using AdventOfCode.Utils;
 using AdventOfCode.Solvers.Specialized;
+using AdventOfCode.Utils;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -13,7 +14,10 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day13 : IntcodeSolver
 {
-    private enum Blocks
+    /// <summary>
+    /// Arcade object
+    /// </summary>
+    private enum ArcadeObject
     {
         EMPTY  = 0,
         WALL   = 1,
@@ -23,92 +27,9 @@ public class Day13 : IntcodeSolver
     }
 
     /// <summary>
-    /// Intcode Arcade game
+    /// Position of score output
     /// </summary>
-    private class Arcade : ConsoleView<Blocks>
-    {
-            /// <summary>
-        /// ID to character mapping
-        /// </summary>
-        private static readonly Dictionary<Blocks, char> toChar = new(5)
-        {
-            [Blocks.EMPTY]  = ' ',
-            [Blocks.WALL]   = '▓',
-            [Blocks.BLOCK]  = '░',
-            [Blocks.PADDLE] = '═',
-            [Blocks.BALL]   = 'O'
-        };
-    
-            private readonly IntcodeVM software;
-    
-            private int Score { get; set; }
-    
-            /// <summary>
-        /// Creates and setups a new Arcade from the given software
-        /// </summary>
-        /// <param name="width">Width of the view</param>
-        /// <param name="height">Height of the view</param>
-        /// <param name="software">Software to run the arcade on</param>
-        public Arcade(int width, int height, IntcodeVM software) : base(width, height, b => toChar[b], Anchor.TOP_LEFT)
-        {
-            this.software = software;
-        }
-    
-            /// <summary>
-        /// Play the game until it's over and display the screen on the console
-        /// </summary>
-        /// <returns>The final score of the game</returns>
-        public int Play()
-        {
-            //Hide cursor during play
-            Console.CursorVisible = false;
-            //Setup
-            long ball = 0L, paddle = 0L;
-            this.software[0] = 2L;
-            while (!this.software.IsHalted)
-            {
-                this.software.Run();
-                while (this.software.HasOutputs)
-                {
-                    (long x, long y, long id) = this.software;
-                    if (x is -1L && y is 0L)
-                    {
-                        this.Score = (int)id;
-                    }
-                    else
-                    {
-                        Blocks type = (Blocks)id;
-                        this[(int)x, (int)y] = type;
-                        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                        switch (type)
-                        {
-                            case Blocks.BALL:
-                                ball = x;
-                                break;
-                            case Blocks.PADDLE:
-                                paddle = x;
-                                break;
-                        }
-                    }
-                }
-
-                //Display
-                PrintToConsole();
-                //Handle input for next move
-                this.software.AddInput(ball.CompareTo(paddle));
-            }
-
-            //Show cursor again
-            Console.CursorVisible = true;
-            //Return the final score
-            return this.Score;
-        }
-
-        /// <inheritdoc cref="object.ToString"/>
-        public override void PrintToConsole(string? message = null) => base.PrintToConsole("              Score: " + this.Score);
-        }
-
-    /// <summary>
+    private static readonly Vector2<int> ScorePos = (-1, 0);    /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
@@ -119,24 +40,90 @@ public class Day13 : IntcodeSolver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        int width = 0;
-        int height = 0;
+        int maxX = 0;
+        int maxY = 0;
         int blocks = 0;
         this.VM.Run();
-        while (this.VM.HasOutputs)
+        while (this.VM.OutputProvider.HasOutput)
         {
-            (long x, long y, long id) = this.VM;
-            if (id is (long)Blocks.BLOCK)
+            maxX = Math.Max(maxX, (int)this.VM.OutputProvider.GetOutput());
+            maxY = Math.Max(maxY, (int)this.VM.OutputProvider.GetOutput());
+
+            // We're only interested in the blocks
+            if (this.VM.OutputProvider.GetOutput() == (long)ArcadeObject.BLOCK)
             {
                 blocks++;
             }
-            width = Math.Max(width, (int)x);
-            height = Math.Max(height, (int)y);
         }
         AoCUtils.LogPart1(blocks);
 
+        // Reset and "insert quarters"
         this.VM.Reset();
-        Arcade arcade = new(width + 1, height + 1, this.VM);
-        AoCUtils.LogPart2(arcade.Play());
+        this.VM[0] = 2L;
+
+        // Create console view
+        ConsoleView<ArcadeObject> arcade = new(maxX + 1, maxY + 1, ShowObject, Anchor.TOP_LEFT, fps: 60);
+
+        // Keep score and position
+        int score = 0;
+        Vector2<int> ballPos   = Vector2<int>.Zero;
+        Vector2<int> paddlePos = Vector2<int>.Zero;
+        do
+        {
+            this.VM.Run();
+            while (this.VM.OutputProvider.HasOutput)
+            {
+                // Get position
+                int x = (int)this.VM.OutputProvider.GetOutput();
+                int y = (int)this.VM.OutputProvider.GetOutput();
+                Vector2<int> position = (x, y);
+
+                // Check if we're receiving the score
+                if (position == ScorePos)
+                {
+                    score = (int)this.VM.OutputProvider.GetOutput();
+                    continue;
+                }
+
+                // Set position
+                ArcadeObject currentObject = (ArcadeObject)this.VM.OutputProvider.GetOutput();
+                arcade[position] = currentObject;
+
+                // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+                switch (currentObject)
+                {
+                    case ArcadeObject.BALL:
+                        ballPos = position;
+                        break;
+
+                    case ArcadeObject.PADDLE:
+                        paddlePos = position;
+                        break;
+                }
+            }
+
+            // Move towards ball
+            this.VM.InputProvider.AddInput(ballPos.X.CompareTo(paddlePos.X));
+
+            arcade.PrintToConsole($"Score: {score}");
+        }
+        while (!this.VM.IsHalted);
+
+        AoCUtils.LogPart2(score);
     }
-}
+
+    /// <summary>
+    /// Gives character representation of arcade objects
+    /// </summary>
+    /// <param name="arcadeObject">Arcade object to show</param>
+    /// <returns>The character representation of the object</returns>
+    /// <exception cref="InvalidEnumArgumentException">For invalid values of <paramref name="arcadeObject"/></exception>
+    private static char ShowObject(ArcadeObject arcadeObject) => arcadeObject switch
+    {
+        ArcadeObject.EMPTY  => ' ',
+        ArcadeObject.WALL   => '▓',
+        ArcadeObject.BLOCK  => '░',
+        ArcadeObject.PADDLE => '_',
+        ArcadeObject.BALL   => 'O',
+        _                   => throw new InvalidEnumArgumentException(nameof(arcadeObject), (int)arcadeObject, typeof(ArcadeObject))
+    };}

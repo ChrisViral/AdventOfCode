@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
@@ -17,52 +17,78 @@ public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day03(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Dictionary<Vector2<int>, int> firstVisited = GetVisited(this.Data.first);
-        Dictionary<Vector2<int>, int> secondVisited = GetVisited(this.Data.second);
-
-        HashSet<Vector2<int>> intersections = new(firstVisited.Keys);
-        intersections.IntersectWith(secondVisited.Keys);
-
-        int min = intersections.Min(i => Math.Abs(i.X) + Math.Abs(i.Y));
-        AoCUtils.LogPart1(min);
-
-        min = intersections.Min(i => firstVisited[i] + secondVisited[i]);
-        AoCUtils.LogPart2(min);
-    }
-
-    /// <summary>
-    /// Gets the visited positions for a given wire
-    /// </summary>
-    /// <param name="movements">Sequence of movements made by the wire</param>
-    /// <returns>A dictionary containing the visited location as key and steps amount as values</returns>
-    private static Dictionary<Vector2<int>, int> GetVisited(IEnumerable<Vector2<int>> movements)
-    {
+        // Setup to walk first wire
         int steps = 0;
-        Vector2<int> position = Vector2<int>.Zero;
-        Dictionary<Vector2<int>, int> visited = new();
-        foreach (Vector2<int> movement in movements)
+        Vector2<int> current = Vector2<int>.Zero;
+        Dictionary<Vector2<int>, int> firstWirePath = new(this.Data.first.Sum(v => v.ManhattanLength));
+        foreach (Vector2<int> travel in this.Data.first)
         {
-            Vector2<int> step = movement / Math.Max(Math.Abs(movement.X), Math.Abs(movement.Y));
-            Vector2<int> target = position + movement;
-            do
+            // Get vector length and travel
+            int length = travel.ManhattanLength;
+            Vector2<int> direction = travel / length;
+            foreach (int _ in ..length)
             {
-                steps++;
-                position += step;
-                visited.TryAdd(position, steps);
+                // Move along wire and add to dictionary with steps taken
+                current += direction;
+                firstWirePath.TryAdd(current, ++steps);
             }
-            while (position != target);
         }
 
-        return visited;
+        // Setup to walk second wire
+        steps = 0;
+        current = Vector2<int>.Zero;
+        Dictionary<Vector2<int>, int> intersections = new(100);
+        foreach (Vector2<int> travel in this.Data.second)
+        {
+            // Get vector length and travel
+            int length = travel.ManhattanLength;
+            Vector2<int> direction = travel / length;
+            foreach (int _ in ..length)
+            {
+                // Move along wire and add to dictionary with steps taken
+                current += direction;
+                steps++;
+                // Only store intersections, along with total steps taken
+                if (firstWirePath.TryGetValue(current, out int firstSteps))
+                {
+                    intersections.TryAdd(current, steps + firstSteps);
+                }
+            }
+        }
+
+        // Get closest intersection
+        int closest = intersections.Keys.Min(v => v.ManhattanLength);
+        AoCUtils.LogPart1(closest);
+
+        // Get intersection with less steps
+        closest = intersections.Values.Min();
+        AoCUtils.LogPart2(closest);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput) => (rawInput[0].Split(',').ConvertAll(Vector2<int>.ParseFromDirection), rawInput[1].Split(',').ConvertAll(Vector2<int>.ParseFromDirection));
+    protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput)
+    {
+        string[] splits = rawInput[0].Split(',');
+        Vector2<int>[] first = new Vector2<int>[splits.Length];
+        foreach (int i in ..splits.Length)
+        {
+            first[i] = Vector2<int>.ParseFromDirection(splits[i]);
+        }
+
+        splits = rawInput[1].Split(',');
+        Vector2<int>[] second = new Vector2<int>[splits.Length];
+        foreach (int i in ..splits.Length)
+        {
+            second[i] = Vector2<int>.ParseFromDirection(splits[i]);
+        }
+
+        return (first, second);
+    }
 }

@@ -15,80 +15,13 @@ namespace AdventOfCode.Solvers.AoC2019;
 public class Day11 : IntcodeSolver
 {
     /// <summary>
-    /// Hull colours
+    /// Panel colour
     /// </summary>
     private enum Colour
     {
         BLACK = 0,
-        WHITE = 1
+        WHITE = 1,
     }
-
-    /// <summary>
-    /// Painter robot
-    /// </summary>
-    private class PainterRobot
-    {
-            private Vector2<int> position;
-        private Vector2<int> direction = Vector2<int>.Up;
-        private Grid<Colour> hull;
-        private readonly IntcodeVM brain;
-        private readonly HashSet<Vector2<int>> painted = [];
-    
-            /// <summary>
-        /// Amount of painted hull sections
-        /// </summary>
-        public int PaintedCount => this.painted.Count;
-    
-            /// <summary>
-        /// Creates a new painter robot on the specified hull
-        /// </summary>
-        /// <param name="hullWidth">Hull width</param>
-        /// <param name="hullHeight">Hull height</param>
-        /// <param name="brain">Robot brain</param>
-        public PainterRobot(int hullWidth, int hullHeight, IntcodeVM brain)
-        {
-            this.brain    = brain;
-            this.hull     = new Grid<Colour>(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
-            this.position = new Vector2<int>(hullWidth / 2, hullHeight / 2);
-        }
-    
-            /// <summary>
-        /// Paints the hull
-        /// </summary>
-        /// <param name="startingColour">The starting panel colour of the painter robot</param>
-        /// <returns>The painted result</returns>
-        public string Paint(Colour startingColour = Colour.BLACK)
-        {
-            this.hull[this.position] = startingColour;
-            while (!this.brain.IsHalted)
-            {
-                //Give input and run
-                this.brain.AddInput((int)this.hull[this.position]);
-                this.brain.Run();
-                //Paint output
-                this.hull[this.position] = (Colour)this.brain.GetNextOutput();
-                this.painted.Add(this.position);
-                //Rotate and move
-                this.direction = Vector2<int>.Rotate(this.direction, this.brain.GetNextOutput() is 0L ? -90 : 90);
-                this.position += this.direction;
-            }
-
-            //Return painted result
-            return this.hull.ToString();
-        }
-
-        /// <summary>
-        /// Resets the robot
-        /// </summary>
-        public void Reset()
-        {
-            this.brain.Reset();
-            this.position  = new Vector2<int>(this.hull.Width / 2, this.hull.Height / 2);
-            this.direction = Vector2<int>.Up;
-            this.hull      = new Grid<Colour>(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
-            this.painted.Clear();
-        }
-        }
 
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
@@ -101,12 +34,78 @@ public class Day11 : IntcodeSolver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        PainterRobot robot = new(150, 150, this.VM);
-        robot.Paint();
-        AoCUtils.LogPart1(robot.PaintedCount);
+        // Setup paint surface
+        Dictionary<Vector2<int>, Colour> painted = new(1000);
 
-        robot.Reset();
-        string registration = "\n" + robot.Paint(Colour.WHITE);
-        AoCUtils.LogPart2(registration);
+        // Run and output
+        PaintHull(painted);
+        AoCUtils.LogPart1(painted.Count);
+
+        // Reset Robot and VM
+        this.VM.Reset();
+        painted.Clear();
+        // Paint starting position
+        painted[Vector2<int>.Zero] = Colour.WHITE;
+
+        // Run
+        PaintHull(painted);
+
+        // Get the min and max values of the painted area
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+        foreach (Vector2<int> position in painted.Keys)
+        {
+            minX = Math.Min(minX, position.X);
+            minY = Math.Min(minY, position.Y);
+            maxX = Math.Max(maxX, position.X);
+            maxY = Math.Max(maxY, position.Y);
+        }
+
+        // Get size vector
+        Vector2<int> min  = (minX, minY);
+        Vector2<int> max  = (maxX + 1, maxY + 1);
+        Vector2<int> size = max - min;
+
+        // Make and fill grid
+        Grid<Colour> hull = new(size.X, size.Y, c => c is Colour.BLACK ? "░" : "▓");
+        foreach ((Vector2<int> position, Colour colour) in painted)
+        {
+            hull[position - min] = colour;
+        }
+        AoCUtils.LogPart2("\n" + hull);
+    }
+
+    /// <summary>
+    /// Runs the hull painting robot program
+    /// </summary>
+    /// <param name="painted">Painted hull positions output</param>
+    private void PaintHull(Dictionary<Vector2<int>, Colour> painted)
+    {
+        // Starting position
+        Vector2<int> position = Vector2<int>.Zero;
+        Direction direction   = Direction.UP;
+
+        // Run until VM halts
+        while (!this.VM.IsHalted)
+        {
+            // Get current hull value
+            Colour current = painted.GetValueOrDefault(position, Colour.BLACK);
+            this.VM.InputProvider.AddInput((long)current);
+            this.VM.Run();
+
+            // Pain hull at position
+            painted[position] = (Colour)this.VM.OutputProvider.GetOutput();
+            // Turn
+            direction = this.VM.OutputProvider.GetOutput() switch
+            {
+                0L => direction.TurnLeft(),
+                1L => direction.TurnRight(),
+                _  => direction
+            };
+            // Move
+            position += direction;
+        }
     }
 }

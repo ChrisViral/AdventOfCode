@@ -1,230 +1,266 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
+using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
 /// <summary>
-/// Solver for 2019 Day dd
+/// Solver for 2019 Day 14
 /// </summary>
-public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
+public partial class Day14 : Solver<Day14.Chemical>
 {
     /// <summary>
-    /// Reactant record, chemical and amount required
+    /// Reaction reactant
     /// </summary>
-    public record Reactant(Chemical Chemical, int Amount);
+    /// <param name="Chemical">Chemical reacted</param>
+    /// <param name="Amount">Amount required</param>
+    public readonly record struct Reactant(Chemical Chemical, int Amount)
+    {
+        /// <summary>
+        /// String representation of this reactant
+        /// </summary>
+        /// <returns>String representation of this reactant</returns>
+        public override string ToString() => $"{this.Amount} {this.Chemical.Name}";
+    }
 
     /// <summary>
-    /// Chemical compound, with all it's required reactants
+    /// Chemical product
     /// </summary>
-    public class Chemical : IEquatable<Chemical>
-    {
-            /// <summary>
-        /// Name of the Chemical
+    /// <param name="name">Product name</param>
+    public sealed class Chemical(string name) : IEquatable<Chemical>
+    {        /// <summary>
+        /// Product name
         /// </summary>
-        public string Name { get; }
+        public string Name { get; } = name;
 
         /// <summary>
-        /// Amount produced when created
+        /// Recipe to make product
         /// </summary>
-        public int Produced { get; }
+        public Reactant[] Recipe { get; set; } = [];
 
         /// <summary>
-        /// Required reactants
+        /// Recipe production amount
         /// </summary>
-        public Reactant[] Reactants { get; set; } = [];
-    
-            /// <summary>
-        /// Creates a new Chemical as specified
+        public int Produced { get; set; }
+
+        /// <summary>
+        /// How much of this item needs to be produced
         /// </summary>
-        /// <param name="name">Name of the chemical</param>
-        /// <param name="produced">Amount produced on reaction</param>
-        public Chemical(string name, int produced)
+        public int RequiredProduction { get; set; }
+
+        /// <summary>
+        /// How much byproduct of this item currently exists
+        /// </summary>
+        public int ByproductCount { get; set; }
+
+        /// <summary>
+        /// Consumes byproducts before production
+        /// </summary>
+        /// <returns><see langword="true"/> if enough byproducts were consumed to satisfy the entire production, otherwise <see langword="false"/></returns>
+        public bool ConsumeByproducts()
         {
-            this.Name = name;
-            this.Produced = produced;
-        }
-    
-            /// <inheritdoc cref="object.Equals(object)"/>
-        public override bool Equals(object? obj) => obj is Chemical chemical && Equals(chemical);
+            // If there's any byproducts
+            if (this.ByproductCount > 0)
+            {
+                // If there are more byproducts than must be produced
+                if (this.ByproductCount > this.RequiredProduction)
+                {
+                    // Decrease byproducts, set production to 0, cancel further production
+                    this.ByproductCount    -= this.RequiredProduction;
+                    this.RequiredProduction = 0;
+                    return true;
+                }
 
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+                // Decrease required production and consume all byproducts
+                this.RequiredProduction -= this.ByproductCount;
+                this.ByproductCount      = 0;
+            }
+            return false;
+        }
+
+        /// <inheritdoc />
         public bool Equals(Chemical? other) => this.Name == other?.Name;
 
-        /// <inheritdoc cref="object.GetHashCode"/>
+        /// <inheritdoc />
+        public override bool Equals(object? obj) => obj is Chemical other && Equals(other);
+
+        /// <inheritdoc />
         public override int GetHashCode() => this.Name.GetHashCode();
 
-        /// <inheritdoc cref="object.ToString"/>
-        public override string ToString() => this.Name;
-        }
+        /// <summary>
+        /// String representation of this chemical
+        /// </summary>
+        /// <returns>String representation of this chemical</returns>
+        public override string ToString() => $"{string.Join(", ", this.Recipe)} => {this.Produced} {this.Name}";    }
 
-    /// <summary>
-    /// Full reaction pattern
-    /// </summary>
-    private const string REACTION_PATTERN = @"^([A-Z\d, ]+) => (\d+) ([A-Z]+)$";
-    /// <summary>
-    /// Reactant specific pattern
-    /// </summary>
-    private const string REACTANTS_PATTERN = @"(\d+) ([A-Z]+)";
-    /// <summary>
-    /// Fuel chemical name
-    /// </summary>
-    private const string FUEL = "FUEL";
     /// <summary>
     /// Ore chemical name
     /// </summary>
     private const string ORE = "ORE";
     /// <summary>
-    /// Total ore in the cargo
+    /// Total ore cargo
     /// </summary>
     private const long CARGO = 1_000_000_000_000L;
 
-    private readonly Dictionary<Chemical, int> toProduce = new();
-    private readonly Dictionary<Chemical, int> surplus = new();
+    /// <summary>
+    /// Chemical reaction regex
+    /// </summary>
+    [GeneratedRegex(@"^([\dA-Z, ]+) => ([\dA-Z ]+)$", RegexOptions.Compiled)]
+    private static partial Regex ReactionRegex { get; }
+
+    /// <summary>
+    /// Reagent regex
+    /// </summary>
+    [GeneratedRegex(@"(\d+) ([A-Z]+)", RegexOptions.Compiled)]
+    private static partial Regex ReagentRegex { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Dictionary{TKey,TValue}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day14(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        //Produce one fuel
-        int ore = ProduceOneFuel();
-        AoCUtils.LogPart1(ore);
+        // Setup
+        Queue<Chemical> productionQueue = new(100);
+        int oreRequired = ProduceOneFuel(productionQueue);
+        AoCUtils.LogPart1(oreRequired);
 
-        //Produce until no cargo left
-        //I know this is bad but honestly this problem broke me
-        //and I just want to get it over with. Maybe I'll revisit
-        //it another time.
-        int produced = 0;
-        long cargo = CARGO - ore;
-        long countdown = 900000000000L;
-        while (cargo > 0L)
+        // Setup to churn numbers
+        int fuelProduced  = 1;
+        long oreRemaining = CARGO - oreRequired;
+
+        // Ugly but runs in about five seconds
+        while (oreRemaining > 0L)
         {
-            if (cargo < countdown)
-            {
-                Console.WriteLine("Currently at " + cargo);
-                countdown -= 100000000000L;
-            }
-            produced++;
-            cargo -= ProduceOneFuel();
+            oreRemaining -= ProduceOneFuel(productionQueue);
+            fuelProduced++;
         }
 
-        AoCUtils.LogPart2(produced);
+        // If we have negative ore remaining, we overproduced by one
+        if (oreRemaining < 0L)
+        {
+            fuelProduced--;
+        }
+
+        AoCUtils.LogPart2(fuelProduced);
     }
 
     /// <summary>
     /// Produces one unit of fuel
     /// </summary>
-    /// <returns>The amount of ore used</returns>
-    private int ProduceOneFuel()
+    /// <param name="productionQueue">Production queue</param>
+    /// <returns>The ore consumed to produce the unit of fuel</returns>
+    private int ProduceOneFuel(Queue<Chemical> productionQueue)
     {
-        Chemical fuel = this.Data[FUEL];
-        this.toProduce.Add(fuel, 1);
-        int totalOre = 0;
-        while (this.toProduce.Count > 0)
-        {
-            //Get the first reaction to take care of
-            (Chemical product, int needed) = this.toProduce.First();
+        // Setup
+        int oreRequired = 0;
+        this.Data.RequiredProduction = 1;
+        productionQueue.Enqueue(this.Data);
 
-            //Check if there is any product surplus
-            if (RemoveSurplus(product, ref needed))
+        // Produce until we run out of stuff to make
+        while (productionQueue.TryDequeue(out Chemical? product))
+        {
+            // Check for byproducts
+            if (product.ConsumeByproducts()) continue;
+
+            // Check how many times we need to run the recipe
+            int productions = ((product.RequiredProduction - 1) / product.Produced) + 1;
+            int leftover = (productions * product.Produced) - product.RequiredProduction;
+
+            // Add byproducts
+            product.ByproductCount     += leftover;
+            product.RequiredProduction =  0;
+
+            // Add required reactants to queue
+            foreach (Reactant reactant in product.Recipe)
             {
-                //Get amount of times we must run the reaction
-                int multiplier = (int)Math.Ceiling(needed / (double)product.Produced);
-                int amountProduced = product.Produced * multiplier;
-                //Set any extra produced
-                if (amountProduced > needed)
+                // If reactant is ore, just add amount
+                int toProduce = reactant.Amount * productions;
+                if (reactant.Chemical.Name is ORE)
                 {
-                    this.surplus.TryGetValue(product, out int productSurplus);
-                    this.surplus[product] = productSurplus + amountProduced - needed;
+                    oreRequired += toProduce;
+                    break;
                 }
 
-                foreach ((Chemical reactant, int required) in product.Reactants)
+                if (reactant.Chemical.RequiredProduction is 0)
                 {
-                    //Get total amount of reactant needed
-                    int amount = required * multiplier;
-                    //Check if we have any leftover surplus
-                    if (!RemoveSurplus(reactant, ref amount)) continue;
-
-                    //If Ore is the reactant
-                    if (reactant.Name is ORE)
-                    {
-                        //Add to the total amount of Ore needed
-                        totalOre += amount;
-                    }
-                    else
-                    {
-                        //Adjust amount to produce of the reactant
-                        if (this.toProduce.ContainsKey(reactant))
-                        {
-                            this.toProduce[reactant] += amount;
-                        }
-                        else
-                        {
-                            this.toProduce[reactant] = amount;
-                        }
-                    }
+                    // If there's isn't an amount awaiting to be produced, add to queue if more need to be produced
+                    reactant.Chemical.RequiredProduction = toProduce;
+                    productionQueue.Enqueue(reactant.Chemical);
+                }
+                else
+                {
+                    //Add required production amount
+                    reactant.Chemical.RequiredProduction += toProduce;
                 }
             }
-
-            //Remove product from to produce list
-            this.toProduce.Remove(product);
         }
-
-        return totalOre;
-    }
-
-    /// <summary>
-    /// Removes any available stored surplus
-    /// </summary>
-    /// <param name="chemical">Chemical to get surplus for</param>
-    /// <param name="needed">Amount of the chemical needed, the finalized amount will be stored there</param>
-    /// <returns>True if there is still some chemical needed, false if the surplus covered it</returns>
-    private bool RemoveSurplus(Chemical chemical, ref int needed)
-    {
-        if (!this.surplus.TryGetValue(chemical, out int extra)) return true;
-
-        if (needed >= extra)
-        {
-            this.surplus.Remove(chemical);
-            needed -= extra;
-        }
-        else
-        {
-            this.surplus[chemical] -= needed;
-            needed = 0;
-            return false;
-        }
-
-        return true;
+        return oreRequired;
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Dictionary<string, Chemical> Convert(string[] rawInput)
+    protected override Chemical Convert(string[] rawInput)
     {
-        //Prep reactions
-        Dictionary<string, Chemical> chemicals = new(rawInput.Length) { ["ORE"] = new Chemical("ORE", 0) };
-        List<(Chemical chemical, (int amount, string name)[] reactants)> reactions = new(rawInput.Length);
-        //Parse reactions
-        RegexFactory<(int, string)> reactantsFactory = new(REACTANTS_PATTERN, RegexOptions.Compiled);
-        foreach ((string input, int count, string output) in RegexFactory<(string, int, string)>.ConstructObjects(REACTION_PATTERN, rawInput, RegexOptions.Compiled))
+        Dictionary<string, Chemical> chemicals = new(rawInput.Length);
+        var chemicalsLookup = chemicals.GetAlternateLookup<ReadOnlySpan<char>>();
+        foreach (string line in rawInput)
         {
-            Chemical chemical = new(output, count);
-            chemicals.Add(output, chemical);
-            reactions.Add((chemical, reactantsFactory.ConstructObjects(input)));
+            Match reactionMatch   = ReactionRegex.Match(line);
+
+            // Match the product
+            string productString    = reactionMatch.Groups[2].Value;
+            Match productMatch      = ReagentRegex.Match(productString);
+            int amount              = int.Parse(productMatch.Groups[1].ValueSpan);
+            ReadOnlySpan<char> name = productMatch.Groups[2].ValueSpan;
+
+            // Try and get product chemical
+            if (!chemicalsLookup.TryGetValue(name, out Chemical? chemical))
+            {
+                chemical                 = new Chemical(name.ToString());
+                chemicals[chemical.Name] = chemical;
+            }
+
+            // Setup product recipe
+            chemical.Produced = amount;
+
+            if (chemical.Recipe.Length is not 0) throw new UnreachableException();
+
+            // Get reactants list
+            string reactantString = reactionMatch.Groups[1].Value;
+            MatchCollection reactantMatches = ReagentRegex.Matches(reactantString);
+            Reactant[] reactants = new Reactant[reactantMatches.Count];
+            chemical.Recipe = reactants;
+
+            // Fetch reactants
+            foreach (int i in ..reactants.Length)
+            {
+                // Get amount and name
+                Match reactantMatch = reactantMatches[i];
+                amount = int.Parse(reactantMatch.Groups[1].ValueSpan);
+                name = reactantMatch.Groups[2].ValueSpan;
+
+                // Try and get chemical
+                if (!chemicalsLookup.TryGetValue(name, out chemical))
+                {
+                    chemical = new Chemical(name.ToString());
+                    chemicals[chemical.Name] = chemical;
+                }
+
+                // Store reactant
+                reactants[i] = new Reactant(chemical, amount);
+            }
         }
 
-        //Link all reactions
-        reactions.ForEach(r => r.chemical.Reactants = r.reactants.Select(c => new Reactant(chemicals[c.name], c.amount)).ToArray());
-        return chemicals;
+
+        return chemicals["FUEL"];
     }
 }

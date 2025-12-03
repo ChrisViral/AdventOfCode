@@ -539,7 +539,7 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns>The first position in the grid that the value is found at, or <c>(-1, -1)</c> if it wasn't</returns>
-    public Vector2<int> PositionOf(T value)
+    public virtual Vector2<int> PositionOf(T value)
     {
         foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
         {

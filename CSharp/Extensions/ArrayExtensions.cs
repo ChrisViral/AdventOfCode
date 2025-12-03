@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
@@ -114,11 +115,41 @@ public static class ArrayExtensions
         public void Reverse() => Array.Reverse(array);
 
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
-        /// <returns>The current array instance, reversed in place</returns>
+        /// <returns>The array reversed in place</returns>
         public T[] Reversed()
         {
             Array.Reverse(array);
             return array;
+        }
+
+        /// <summary>
+        /// Iterates over all the permutations of the given array without allocating new memory for each permutation
+        /// </summary>
+        /// <returns>An enumerable returning all the permutations of the original array</returns>
+        public IEnumerable<T[]> PermutationsInPlace()
+        {
+            static IEnumerable<T[]> GetPermutations(T[] output, int k)
+            {
+                if (k == output.Length - 1)
+                {
+                    yield return output;
+                    yield break;
+                }
+
+                for (int i = k; i < output.Length; i++)
+                {
+                    (output[k], output[i]) = (output[i], output[k]);
+                    foreach (T[] perm in GetPermutations(output, k + 1))
+                    {
+                        yield return perm;
+                    }
+                    (output[k], output[i]) = (output[i], output[k]);
+                }
+            }
+
+            T[] output = new T[array.Length];
+            array.CopyTo(output, 0);
+            return GetPermutations(output, 0);
         }
 
         /// <inheritdoc cref="Array.Sort{T}(T[])"/>

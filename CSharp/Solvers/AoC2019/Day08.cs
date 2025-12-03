@@ -1,164 +1,102 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
+using AdventOfCode.Vectors;
+using SpanLinq;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
 /// <summary>
 /// Solver for 2019 Day 08
 /// </summary>
-public class Day08 : Solver<Day08.Layer[]>
+public class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
 {
     /// <summary>
-    /// Image layer
+    /// Pixel colour
     /// </summary>
-    public class Layer : IEnumerable<int>
+    public enum Colour : byte
     {
-            /// <summary>
-        /// Layer width
-        /// </summary>
-        public const int WIDTH = 25;
-        /// <summary>
-        /// Layer height
-        /// </summary>
-        public const int HEIGHT = 6;
-        /// <summary>
-        /// Total layer size
-        /// </summary>
-        public const int SIZE = WIDTH * HEIGHT;
-    
-            private readonly int[,] image = new int[HEIGHT, WIDTH];
-    
-            /// <summary>
-        /// Accesses the underlying image of the Layer
-        /// </summary>
-        /// <param name="i">Horizontal address</param>
-        /// <param name="j">Vertical address</param>
-        /// <returns>The value at the given address</returns>
-        public int this[int i, int j]
-        {
-            get => this.image[j, i];
-            set => this.image[j, i] = value;
-        }
-    
-            /// <summary>
-        /// Creates a new layer from given data
-        /// </summary>
-        /// <param name="data">Data to create the layer from</param>
-        /// <exception cref="ArgumentOutOfRangeException">If the data is not of the correct size</exception>
-        public Layer(string data)
-        {
-            //Make sure the data passed if of the right length
-            if (data.Length is not SIZE) throw new ArgumentOutOfRangeException(nameof(data), data.Length, $"Data length must be {SIZE}");
+        BLACK       = 0,
+        WHITE       = 1,
+        TRANSPARENT = 2
+    }
 
-            //Parse data
-            foreach (int j in ..HEIGHT)
-            {
-                int stride = j * WIDTH;
-                foreach (int i in ..WIDTH)
-                {
-                    this[i, j] = data[stride + i] - '0';
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates a new blank layer
-        /// </summary>
-        public Layer() { }
-    
-            /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
-        public IEnumerator<int> GetEnumerator() => this.image.Cast<int>().GetEnumerator();
-
-        /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
-        IEnumerator IEnumerable.GetEnumerator() => this.image.GetEnumerator();
-
-        /// <inheritdoc cref="object.ToString"/>
-        public override string ToString()
-        {
-            StringBuilder sb = new(SIZE + HEIGHT);
-            foreach (int j in ..HEIGHT)
-            {
-                foreach (int i in ..WIDTH)
-                {
-                    char color = this[i, j] switch
-                    {
-                        0 => '░',
-                        1 => '▓',
-                        _ => ' '
-                    };
-                    sb.Append(color);
-                }
-                sb.AppendLine();
-            }
-
-            return sb.ToString();
-        }
-        }
+    /// <summary>
+    /// Image width
+    /// </summary>
+    private const int WIDTH = 25;
+    /// <summary>
+    /// Image height
+    /// </summary>
+    private const int HEIGHT = 6;
+    /// <summary>
+    /// Image layer size
+    /// </summary>
+    private const int SIZE = WIDTH * HEIGHT;
 
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Layer"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day08(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Layer smallest = this.Data[0];
-        int zeroes = smallest.Count(i => i is 0);
-        foreach (Layer layer in this.Data[1..])
+        // Get the best layer index and the count the relevant values on it
+        int bestLayer = (..this.Data.layerCount).AsEnumerable().MinBy(i => this.Data.image.Count(p => p[i] is Colour.BLACK));
+        int checksum = this.Data.image.Count(p => p[bestLayer] is Colour.WHITE) * this.Data.image.Count(p => p[bestLayer] is Colour.TRANSPARENT);
+        AoCUtils.LogPart1(checksum);
+
+        // Just print the image
+        AoCUtils.LogPart2("\n" + this.Data.image);
+    }
+
+    /// <summary>
+    /// Renders a given image pixel
+    /// </summary>
+    /// <param name="pixel">Pixel to render</param>
+    /// <returns>The string representation of this pixel</returns>
+    /// <exception cref="InvalidEnumArgumentException">For invalid <see cref="Colour"/> values</exception>
+    private static string RenderPixel(Colour[] pixel)
+    {
+        Colour top = pixel.AsSpan().FirstOrDefault(c => c is not Colour.TRANSPARENT, Colour.TRANSPARENT);
+        return top switch
         {
-            int z = layer.Count(i => i is 0);
-            if (z >= zeroes) continue;
-
-            zeroes = z;
-            smallest = layer;
-        }
-
-        int[] count = new int[3];
-        smallest.ForEach(i => count[i]++);
-
-        AoCUtils.LogPart1(count[1] * count[2]);
-
-        Layer image = new();
-        foreach (int i in ..Layer.WIDTH)
-        {
-            foreach (int j in ..Layer.HEIGHT)
-            {
-                foreach (Layer layer in this.Data)
-                {
-                    if (layer[i, j] is 2) continue;
-
-                    image[i, j] = layer[i, j];
-                    break;
-                }
-            }
-        }
-
-        AoCUtils.LogPart2(string.Empty);
-        Trace.WriteLine(image);
+            Colour.BLACK       => "░",
+            Colour.WHITE       => "▓",
+            Colour.TRANSPARENT => " ",
+            _                  => throw new InvalidEnumArgumentException(nameof(top), (int)top, typeof(Colour))
+        };
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Layer[] Convert(string[] rawInput)
+    protected override (Grid<Colour[]> image, int layerCount) Convert(string[] rawInput)
     {
-        string line = rawInput[0];
-        List<Layer> layers = [];
-        for (int i = 0, j = Layer.SIZE; j <= line.Length; i = j, j += Layer.SIZE)
-        {
-            layers.Add(new Layer(line[i..j]));
-        }
+        // Create grid
+        ReadOnlySpan<char> line = rawInput[0];
+        int layerCount = line.Length / SIZE;
+        Grid<Colour[]> image = new(WIDTH, HEIGHT, RenderPixel);
 
-        return layers.ToArray();
+        // Fill grid with image data
+        int pixelIndex = 0;
+        foreach (Vector2<int> position in Vector2<int>.Enumerate(WIDTH, HEIGHT))
+        {
+            int sourceIndex = pixelIndex++;
+            Colour[] pixel = new Colour[layerCount];
+            foreach (int i in ..layerCount)
+            {
+                pixel[i]    =  (Colour)(line[sourceIndex] - '0');
+                sourceIndex += SIZE;
+            }
+            image[position] = pixel;
+        }
+        return (image, layerCount);
     }
 }

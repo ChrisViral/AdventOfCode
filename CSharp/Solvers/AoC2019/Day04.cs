@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -13,33 +11,86 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day04 : Solver<Range>
 {
-    private static readonly Regex adjacentMatch = new(@"^\d*(\d)\1+\d*$", RegexOptions.Compiled);
-    private static readonly Regex adjacentPairMatch = new(@"(?:^|(\d)(?!\1))(\d)\2(?!\2)", RegexOptions.Compiled);
-    private static readonly Regex increasingMatch = new(@"^1*2*3*4*5*6*7*8*9*$", RegexOptions.Compiled);
-
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Range"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day04(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        List<string> valid = this.Data.AsEnumerable()
-                                 .Select(p => p.ToString())
-                                 .Where(s => adjacentMatch.IsMatch(s) && increasingMatch.IsMatch(s))
-                                 .ToList();
+        List<int> valid   = new(500);
+        Span<char> buffer = stackalloc char[6];
+        foreach (int code in this.Data)
+        {
+            bool hasDouble    = false;
+            bool isIncreasing = true;
+            code.TryFormat(buffer, out _);
+            char previous = buffer[0];
+            for (int i = 1; isIncreasing && i < 6; i++)
+            {
+                // Check if two characters are repeated and if they are increasing or equal
+                char current  = buffer[i];
+                hasDouble    |= previous == current;
+                isIncreasing &= previous <= current;
+                previous      = current;
+            }
+
+            // Valid codes have both conditions met
+            if (hasDouble && isIncreasing)
+            {
+                valid.Add(code);
+            }
+        }
         AoCUtils.LogPart1(valid.Count);
-        AoCUtils.LogPart2(valid.Count(s => adjacentPairMatch.IsMatch(s)));
+
+        int fullyValid = 0;
+        foreach (int code in valid)
+        {
+            code.TryFormat(buffer, out _);
+            int runningTotal = 1;
+            char previous = buffer[0];
+            for (int i = 1; i < 6; i++)
+            {
+                char current  = buffer[i];
+                if (current == previous)
+                {
+                    // If we are still matching a character, increment the running total
+                    runningTotal++;
+                }
+                else if (runningTotal is 2)
+                {
+                    // If we no longer match and had a group of 2, the code is valid
+                    break;
+                }
+                else
+                {
+                    // Else rest the total to 1
+                    runningTotal = 1;
+                }
+
+                previous = current;
+            }
+
+            // If the last running total is 2, it's valid
+            if (runningTotal == 2)
+            {
+                fullyValid++;
+            }
+        }
+
+        AoCUtils.LogPart2(fullyValid);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Range Convert(string[] rawInput)
     {
-        string[] splits = rawInput[0].Split('-', StringSplitOptions.TrimEntries);
-        return int.Parse(splits[0])..int.Parse(splits[1]);
+        ReadOnlySpan<char> line = rawInput[0];
+        int from = int.Parse(line[..6]);
+        int to   = int.Parse(line[7..]);
+        return from..^to;
     }
 }
