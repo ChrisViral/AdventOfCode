@@ -17,36 +17,29 @@ public class Day04 : Solver<Day04.Passport[]>
     /// </summary>
     public class Passport
     {
-        #region Constants
-        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
+            private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex heightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
         private static readonly Regex hairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
         private static readonly Regex idMatch     = new(@"^\d{9}$", OPTIONS);
         private static readonly HashSet<string> validEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
-        #endregion
-
-        #region Fields
-        public string? byr;
+    
+            public string? byr;
         public string? iyr;
         public string? eyr;
         public string? hgt;
         public string? hcl;
         public string? ecl;
         public string? pid;
-        #endregion
-
-        #region Properties
-        public bool IsValid => this.byr is not null
+    
+            public bool IsValid => this.byr is not null
                             && this.iyr is not null
                             && this.eyr is not null
                             && this.hgt is not null
                             && this.hcl is not null
                             && this.ecl is not null
                             && this.pid is not null;
-        #endregion
-
-        #region Methods
-        public bool Validate()
+    
+            public bool Validate()
         {
             //Check the years
             if (!int.TryParse(this.byr, out int birthYear) || birthYear is < 1920 or > 2002) return false;
@@ -72,23 +65,17 @@ public class Day04 : Solver<Day04.Passport[]>
             //Check colours and Passport ID
             return hairMatch.IsMatch(this.hcl!) && idMatch.IsMatch(this.pid!) && validEyeColours.Contains(this.ecl!);
         }
-        #endregion
-    }
+        }
 
-    #region Constants
     private const string PATTERN = "([a-z]{3}):([#a-z0-9]+)";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Passport"/> fails</exception>
     public Day04(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -108,5 +95,4 @@ public class Day04 : Solver<Day04.Passport[]>
                                                                                                                .Select(l => string.Join(' ', l))
                                                                                                                .ToList(),
                                                                                                        RegexOptions.Compiled);
-    #endregion
 }

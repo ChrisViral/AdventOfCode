@@ -14,11 +14,8 @@ namespace AdventOfCode.Collections;
 [PublicAPI]
 public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : notnull
 {
-    #region Fields
     private readonly SortedList<T, T> list;
-    #endregion
 
-    #region Properties
     /// <inheritdoc cref="ICollection{T}.Count"/>
     public int Count => this.list.Count;
 
@@ -27,9 +24,7 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
 
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
     public bool IsReadOnly => false;
-    #endregion
 
-    #region Indexers
     /// <summary>
     /// Gets the value at the given index in the list
     /// </summary>
@@ -50,9 +45,7 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
     /// <param name="range">Range to get the values from</param>
     /// <returns>An enumerable of the values in the given range</returns>
     public IEnumerable<T> this[Range range] => range.AsEnumerable().Select(index => this.list.Keys[index]);
-    #endregion
 
-    #region Constructors
     /// <inheritdoc cref="SortedList{TKey,TValue}()"/>
     public SortedList() => this.list = new SortedList<T, T>();
 
@@ -81,9 +74,7 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
 
     /// <inheritdoc cref="SortedList{TKey,TValue}(int, IComparer{TKey})"/>
     public SortedList(int capacity, IComparer<T>? comparer) => this.list = new SortedList<T, T>(capacity, comparer);
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Adds the given value to the sorted list
     /// </summary>
@@ -121,5 +112,4 @@ public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : no
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    #endregion
 }

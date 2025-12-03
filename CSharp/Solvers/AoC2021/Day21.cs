@@ -18,7 +18,6 @@ public class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
     /// <param name="Score">Player score</param>
     public record struct Player(int Position, int Score);
 
-    #region Constants
     /// <summary>Board size</summary>
     private const int BOARD = 10;
     /// <summary>Convolutions for 3d3</summary>
@@ -32,18 +31,14 @@ public class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         [8] = 3,
         [9] = 1
     };
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver for 2021 - 21 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day21(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -111,5 +106,4 @@ public class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         Player p2 = new(int.Parse(rawInput[1][28..]) - 1, 0);
         return (p1, p2);
     }
-    #endregion
 }

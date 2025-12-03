@@ -28,16 +28,13 @@ public class Day14 : Solver<Day14.Robot[]>
     private const int PART1_TIME = 100;
     private static readonly Vector2<int> SpaceSize = (101, 103);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Robot"/>[] fails</exception>
     public Day14(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -96,5 +93,4 @@ public class Day14 : Solver<Day14.Robot[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Robot[] Convert(string[] rawInput) => RegexFactory<Robot>.ConstructObjects(ROBOT_PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

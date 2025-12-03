@@ -14,16 +14,13 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// </summary>
 public class Day25 : ArraySolver<long>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day25"/> Solver for 2022 - 25 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day25(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -133,5 +130,4 @@ public class Day25 : ArraySolver<long>
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
     protected override long ConvertLine(string line) => ParseSNAFU(line);
-    #endregion
 }

@@ -59,16 +59,13 @@ public class Day24 : ArraySolver<Day24.Hail>
     private const long MAX = 400000000000000L;
     private const int SAMPLE = 3;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Hail"/> fails</exception>
     public Day24(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="AdventOfCode.Solvers.Base.Solver.Run"/>
     public override void Run()
     {
@@ -118,5 +115,4 @@ public class Day24 : ArraySolver<Day24.Hail>
 
     /// <inheritdoc />
     protected override Hail ConvertLine(string line) => new(line);
-    #endregion
 }

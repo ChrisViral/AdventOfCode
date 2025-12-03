@@ -14,16 +14,13 @@ public class Day01 : ArraySolver<int>
     private const int DIAL_SIZE = 100;
     private const int DIAL_START = 50;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day01(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -67,5 +64,4 @@ public class Day01 : ArraySolver<int>
         int length = int.Parse(line.AsSpan(1));
         return line[0] is 'L' ? -length : length;
     }
-    #endregion
 }

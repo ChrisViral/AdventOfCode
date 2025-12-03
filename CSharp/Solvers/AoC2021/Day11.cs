@@ -15,25 +15,20 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day11 : GridSolver<byte>
 {
-    #region Constants
     /// <summary>Simulation days</summary>
     private const int DAYS = 100;
     /// <summary>Queue to store the octopi that mush flash</summary>
     private static readonly Queue<Vector2<int>> toFlash   = new();
     /// <summary>Set containing all octopi that have flashed</summary>
     private static readonly HashSet<Vector2<int>> flashed = [];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver for 2021 - 11 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -106,5 +101,4 @@ public class Day11 : GridSolver<byte>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
-    #endregion
 }

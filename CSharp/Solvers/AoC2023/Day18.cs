@@ -39,16 +39,13 @@ public class Day18 : Solver<Day18.DigInstruction[]>
 
     private const string INSTRUCTION_PATTERN = @"([UDLR]) (\d+) \(#([0-9a-f]{5})([0-3])\)";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="DigInstruction"/>[] fails</exception>
     public Day18(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -79,5 +76,4 @@ public class Day18 : Solver<Day18.DigInstruction[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override DigInstruction[] Convert(string[] rawInput) => RegexFactory<DigInstruction>.ConstructObjects(INSTRUCTION_PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

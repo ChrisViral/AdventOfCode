@@ -20,20 +20,15 @@ public class Day14 : Solver<Day14.Instruction[]>
     /// </summary>
     public readonly struct Bitmask
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Size in bits of the bitmask
         /// </summary>
         private const int SIZE = 36;
-        #endregion
-            
-        #region Fields
-        private readonly long positiveMask;
+                
+            private readonly long positiveMask;
         private readonly long negativeMask;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new bitmask as specified
         /// </summary>
         /// <param name="mask">Value to parse as a Bitmask</param>
@@ -59,10 +54,8 @@ public class Day14 : Solver<Day14.Instruction[]>
                 i >>= 1;
             }
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Get all the masked addresses by this mask
         /// </summary>
         /// <param name="address">Address to get all the masked versions for</param>
@@ -132,18 +125,15 @@ public class Day14 : Solver<Day14.Instruction[]>
 
             return sb.ToString();
         }
-        #endregion
-
-        #region Operators
-        /// <summary>
+    
+            /// <summary>
         /// Bitwise AND on the given integer and bitmask. The operations sets the bits in the positive mask and removes the bits in the negative mask
         /// </summary>
         /// <param name="a">Integer to and</param>
         /// <param name="b">Bitmask to apply</param>
         /// <returns>The integer with the bitmask applied</returns>
         public static long operator &(long a, in Bitmask b) => (a | b.positiveMask) & ~b.negativeMask;
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Ferry program instruction
@@ -159,22 +149,17 @@ public class Day14 : Solver<Day14.Instruction[]>
             MEM
         }
             
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Regex parse pattern
         /// </summary>
         public const string PATTERN = @"(?:mask = ([01X]{36})|mem\[(\d+)\] = (\d+))";
-        #endregion
-
-        #region Fields
-        private readonly Opcode operation;
+    
+            private readonly Opcode operation;
         private readonly long address;
         private readonly long value;
         private readonly Bitmask mask;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Mask operation
         /// </summary>
         /// <param name="mask">Bitmask to set</param>
@@ -195,10 +180,8 @@ public class Day14 : Solver<Day14.Instruction[]>
             this.address = address;
             this.value = value;
         }
-        #endregion
-            
-        #region Methods
-        /// <summary>
+                
+            /// <summary>
         /// Executes the current instruction on the program memory
         /// </summary>
         /// <param name="memory">Current program memory</param>
@@ -235,19 +218,15 @@ public class Day14 : Solver<Day14.Instruction[]>
                     break;
             }
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
     public Day14(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -267,5 +246,4 @@ public class Day14 : Solver<Day14.Instruction[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(Instruction.PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

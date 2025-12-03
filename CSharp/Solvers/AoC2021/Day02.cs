@@ -11,25 +11,20 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day02 : ArraySolver<(string command, int value)>
 {
-    #region Constants
     /// <summary>Forward command</summary>
     private const string FORWARD = "forward";
     /// <summary>Down command</summary>
     private const string DOWN    = "down";
     /// <summary>Up command</summary>
     private const string UP      = "up";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver for 2021 - 02 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -81,5 +76,4 @@ public class Day02 : ArraySolver<(string command, int value)>
         string[] splits = line.Split(' ');
         return (splits[0], int.Parse(splits[1]));
     }
-    #endregion
 }

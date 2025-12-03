@@ -25,8 +25,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     /// <param name="connectionsCount">Valve connections count</param>
     public class Valve(string id, int flowRate, int connectionsCount) : IEquatable<Valve>
     {
-        #region Properties
-        /// <summary>
+            /// <summary>
         /// Valve ID
         /// </summary>
         private string ID { get; } = id;
@@ -45,10 +44,8 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
         /// If this valve is currently open
         /// </summary>
         public bool IsOpen { get; set; }
-        #endregion
-
-        #region Methods
-        /// <inheritdoc/>
+    
+            /// <inheritdoc/>
         public bool Equals(Valve? other) => this.ID == other?.ID;
 
         /// <inheritdoc/>
@@ -59,8 +56,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.ID} ({this.FlowRate})";
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Time for part 1
@@ -74,16 +70,13 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d{1,2}); (?:tunnel leads to valve ([A-Z]{2})|tunnels lead to valves ([A-Z, ]+))", RegexOptions.Compiled)]
     private static partial Regex Pattern { get; }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver for 2022 - 16 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day16(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -257,5 +250,4 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
 
         return (valves["AA"], valves.Values.ToArray());
     }
-    #endregion
 }

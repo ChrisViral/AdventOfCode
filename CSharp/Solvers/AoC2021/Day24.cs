@@ -16,16 +16,13 @@ public class Day24 : Solver<(int a, int b, int c)[]>
     /// </summary>
     private const int DIGITS = 14;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day24(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -93,5 +90,4 @@ public class Day24 : Solver<(int a, int b, int c)[]>
 
         return result;
     }
-    #endregion
 }

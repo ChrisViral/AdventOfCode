@@ -19,16 +19,13 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
     private const int STEPS = 64;
     private const int LONG_STEPS = 26501365;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day21(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -130,5 +127,4 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 
         return (garden, start);
     }
-    #endregion
 }

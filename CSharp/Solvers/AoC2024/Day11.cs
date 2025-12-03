@@ -96,16 +96,13 @@ public class Day11 : Solver<(long value, Day11.Stone stone)[]>
     private const int PART1_BLINKS = 25;
     private const int PART2_BLINKS = 75;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -143,5 +140,4 @@ public class Day11 : Solver<(long value, Day11.Stone stone)[]>
         }
         return stones;
     }
-    #endregion
 }

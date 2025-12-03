@@ -12,7 +12,6 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day07 : Solver<IntcodeVM[]>
 {
-    #region Constants
     /// <summary>
     /// Amount of amplifiers running
     /// </summary>
@@ -25,18 +24,14 @@ public class Day07 : Solver<IntcodeVM[]>
     /// Part 2 phase settings
     /// </summary>
     private static readonly long[] part2Phase = [5L, 6L, 7L, 8L, 9L];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day07(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -111,5 +106,4 @@ public class Day07 : Solver<IntcodeVM[]>
 
         return vms;
     }
-    #endregion
 }

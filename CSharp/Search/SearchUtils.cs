@@ -35,7 +35,6 @@ public static class SearchUtils
 
     public delegate IEnumerable<T> Neighbours<T>(T node);
 
-    #region Methods
     /// <summary>
     /// A* Search<br/>
     /// Searches from the starting node to the goal node, and retrieves the optimal path
@@ -457,5 +456,4 @@ public static class SearchUtils
         // Return path length
         return !foundEndNodes.IsEmpty ? foundEndNodes.Max(n => n.Cost) : null;
     }
-    #endregion
 }

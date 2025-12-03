@@ -15,7 +15,6 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// </summary>
 public class Day23 : Solver<int[]>
 {
-    #region Constants
     /// <summary>
     /// Number of moves done in part 1
     /// </summary>
@@ -28,18 +27,14 @@ public class Day23 : Solver<int[]>
     /// Cups amount for part 2
     /// </summary>
     private const int AMOUNT = 1000_000;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
     public Day23(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -123,5 +118,4 @@ public class Day23 : Solver<int[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override int[] Convert(string[] rawInput) => rawInput[0].ToCharArray().ConvertAll(c => c - '0');
-    #endregion
 }

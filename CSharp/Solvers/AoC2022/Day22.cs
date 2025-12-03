@@ -38,16 +38,13 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
     [GeneratedRegex(@"(\d+)([RL])|(\d+)$", RegexOptions.Compiled)]
     private static partial Regex Match { get; }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver for 2022 - 22 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day22(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -265,5 +262,4 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
 
         return (board, movements);
     }
-    #endregion
 }

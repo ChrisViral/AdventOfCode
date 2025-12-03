@@ -39,16 +39,13 @@ public class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
     /// </summary>
     private const char START = '^';
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to (<see cref="Grid{T}"/> <see cref="Vector2{T}"/>) fails</exception>
     public Day06(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -156,5 +153,4 @@ public class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
         // Invalid
         throw new InvalidOperationException("Starting position not found");
     }
-    #endregion
 }

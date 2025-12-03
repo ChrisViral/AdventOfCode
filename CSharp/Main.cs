@@ -7,7 +7,6 @@ using AdventOfCode;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
-#region Main
 Console.Title = "Advent of Code";
 SolverData solverData;
 try
@@ -110,9 +109,8 @@ AoCUtils.LogElapsed(watch);
 //Cleanup and exit
 Trace.Close();
 Exit();
-#endregion
+return;
 
-#region Methods
 static void ExitOnException(string message, Exception e) => Exit($"{message}\n[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}\n", 1);
 
 static void Exit(string? message = null, int exitCode = 0)
@@ -126,4 +124,3 @@ static void Exit(string? message = null, int exitCode = 0)
     //Exit
     Environment.Exit(exitCode);
 }
-#endregion

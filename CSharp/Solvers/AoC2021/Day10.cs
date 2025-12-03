@@ -12,7 +12,6 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day10 : Solver
 {
-    #region Constants
     /// <summary>Points for broken chunks</summary>
     private static readonly Dictionary<char, int> brokenPoints = new(4)
     {
@@ -37,18 +36,14 @@ public class Day10 : Solver
         ['}'] = '{',
         ['>'] = '<',
     };
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver for 2021 - 10 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day10(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -90,5 +85,4 @@ public class Day10 : Solver
         AoCUtils.LogPart1(brokenScore);
         AoCUtils.LogPart2(incompleteScores[incompleteScores.Count / 2]);
     }
-    #endregion
 }

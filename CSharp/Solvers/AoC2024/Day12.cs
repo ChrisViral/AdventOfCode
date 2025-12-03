@@ -13,16 +13,13 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day12 : GridSolver<char>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="char"/> fails</exception>
     public Day12(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -104,5 +101,4 @@ public class Day12 : GridSolver<char>
 
     /// <inheritdoc />
     protected override char[] LineConverter(string line) => line.ToCharArray();
-    #endregion
 }

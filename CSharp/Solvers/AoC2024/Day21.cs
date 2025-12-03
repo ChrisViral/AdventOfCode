@@ -72,16 +72,13 @@ public class Day21 : ArraySolver<(string code, int value)>
         ['A'] = (2, 0)
     }.ToFrozenDictionary();
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[] fails</exception>
     public Day21(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -257,5 +254,4 @@ public class Day21 : ArraySolver<(string code, int value)>
 
     /// <inheritdoc />
     protected override (string code, int value) ConvertLine(string line) => (line, int.Parse(line.AsSpan(..3)));
-    #endregion
 }

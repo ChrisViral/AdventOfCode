@@ -53,17 +53,14 @@ public static class Instructions
     /// </summary>
     public readonly struct Modes
     {
-        #region Fields
-        /// <summary> First parameter mode </summary>
+            /// <summary> First parameter mode </summary>
         public readonly ParamModes first;
         /// <summary> Second parameter mode </summary>
         public readonly ParamModes second;
         /// <summary> Third parameter mode </summary>
         public readonly ParamModes third;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new set of Modes from the given number
         /// </summary>
         /// <param name="modes">Value to extract the modes from</param>
@@ -78,10 +75,8 @@ public static class Instructions
             this.third  = (ParamModes)third;
             // ReSharper restore LocalVariableHidesMember
         }
-        #endregion
-    }
+        }
 
-    #region Constants
     /// <summary>
     /// True Constant
     /// </summary>
@@ -90,9 +85,7 @@ public static class Instructions
     /// False Constant
     /// </summary>
     private const long FALSE = 0L;
-    #endregion
 
-    #region Static methods
     /// <summary>
     /// Decodes an opcode into it's associated instruction
     /// </summary>
@@ -327,5 +320,4 @@ public static class Instructions
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamModes));
         }
     }
-    #endregion
 }

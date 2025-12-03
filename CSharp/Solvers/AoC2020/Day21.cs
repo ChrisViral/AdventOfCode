@@ -18,15 +18,12 @@ public class Day21 : Solver<Day21.IngredientList[]>
     /// </summary>
     public class IngredientList
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Ingredient list regex pattern
         /// </summary>
         public const string PATTERN = @"([a-z ]+) \(contains ([a-z, ]+)\)";
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Ingredients
         /// </summary>
         public HashSet<string> Ingredients { get; }
@@ -34,10 +31,8 @@ public class Day21 : Solver<Day21.IngredientList[]>
         /// Possible allergens
         /// </summary>
         public HashSet<string> Allergens { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new IngredientList from the given ingredients and allergens
         /// </summary>
         /// <param name="ingredients">Space separated ingredients</param>
@@ -47,19 +42,15 @@ public class Day21 : Solver<Day21.IngredientList[]>
             this.Ingredients = new HashSet<string>(ingredients.Split(' '));
             this.Allergens = new HashSet<string>(allergens.Split(", "));
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IngredientList"/>[] fails</exception>
     public Day21(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -115,5 +106,4 @@ public class Day21 : Solver<Day21.IngredientList[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override IngredientList[] Convert(string[] rawInput) => RegexFactory<IngredientList>.ConstructObjects(IngredientList.PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

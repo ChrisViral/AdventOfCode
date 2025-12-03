@@ -23,16 +23,13 @@ public class Day05 : Solver<Day05.Rule[][]>
         public override string ToString() => $"Rule({this.Value})";
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Rule"/>[][] fails</exception>
     public Day05(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -120,5 +117,4 @@ public class Day05 : Solver<Day05.Rule[][]>
 
         return updates;
     }
-    #endregion
 }

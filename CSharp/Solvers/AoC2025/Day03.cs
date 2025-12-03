@@ -1,4 +1,5 @@
 ﻿using System;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -13,9 +14,7 @@ public class Day03 : Solver
 {
     private const char BEST_BATTERY = '9';
     private const int PART1_COUNT   = 2;
-    private const long PART1_POW    = 10L;
     private const int PART2_COUNT   = 12;
-    private const long PART2_POW    = 100_000_000_000L;
 
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
@@ -28,10 +27,12 @@ public class Day03 : Solver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        long joltage = this.Data.Sum(b => GetMaxJoltage(b, PART1_COUNT, PART1_POW));
+        long pow1 = (PART1_COUNT - 1).LongPow10();
+        long joltage = this.Data.Sum(b => GetMaxJoltage(b, PART1_COUNT, pow1));
         AoCUtils.LogPart1(joltage);
 
-        joltage = this.Data.Sum(b => GetMaxJoltage(b, PART2_COUNT, PART2_POW));
+        long pow2 = (PART2_COUNT - 1).LongPow10();
+        joltage = this.Data.Sum(b => GetMaxJoltage(b, PART2_COUNT, pow2));
         AoCUtils.LogPart2(joltage);
     }
 

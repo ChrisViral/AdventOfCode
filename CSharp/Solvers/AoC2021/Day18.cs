@@ -258,16 +258,13 @@ public class Day18 : ArraySolver<Day18.Number>
         }
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver for 2021 - 18 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Number"/>[] fails</exception>
     public Day18(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -285,5 +282,4 @@ public class Day18 : ArraySolver<Day18.Number>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Number ConvertLine(string line) => Number.ParseNumber(line);
-    #endregion
 }

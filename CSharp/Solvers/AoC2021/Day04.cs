@@ -20,13 +20,10 @@ public class Day04 : Solver<Day04.BingoData>
     /// </summary>
     public class BingoData
     {
-        #region Constants
-        /// <summary>Bingo board size</summary>
+            /// <summary>Bingo board size</summary>
         public const int SIZE   = 5;
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Drawn bingo numbers, in order
         /// </summary>
         public int[] DrawnNumbers { get; }
@@ -35,10 +32,8 @@ public class Day04 : Solver<Day04.BingoData>
         /// All available bingo boards
         /// </summary>
         public List<Grid<int>> Boards { get; } = [];
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new bingo board from the input
         /// </summary>
         /// <param name="input">input data</param>
@@ -50,26 +45,20 @@ public class Day04 : Solver<Day04.BingoData>
                 Boards.Add(new Grid<int>(SIZE, SIZE, input[i..(i + SIZE)], line => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse)));
             }
         }
-        #endregion
-    }
+        }
 
-    #region Constants
     /// <summary>Marked bingo location value</summary>
     private const int MARKED = -1;
     /// <summary>Temp bingo buffer</summary>
     private static readonly int[] buffer = new int[BingoData.SIZE];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver for 2021 - 04 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day04(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -125,5 +114,4 @@ public class Day04 : Solver<Day04.BingoData>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override BingoData Convert(string[] rawInput) => new(rawInput);
-    #endregion
 }

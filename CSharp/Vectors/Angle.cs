@@ -13,7 +13,6 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                                IUnaryNegationOperators<Angle, Angle>, IUnaryPlusOperators<Angle, Angle>,
                                IComparisonOperators<Angle, Angle, bool>, IFormattable
 {
-    #region Constants
     /// <summary>
     /// Radians to degrees conversion factor
     /// </summary>
@@ -55,9 +54,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// Full turn angle (360 degrees)
     /// </summary>
     public static readonly Angle FullCircle = new(FULL_CIRCLE);
-    #endregion
 
-    #region Properties
     /// <summary>
     /// The angle as radians
     /// </summary>
@@ -143,17 +140,13 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
             return new Angle(rads);
         }
     }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new angle from radians
     /// </summary>
     /// <param name="radians">Radians of the angle</param>
     private Angle(double radians) => this.Radians = radians;
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="IComparable.CompareTo"/>
     public int CompareTo(object? obj) => obj is Angle angle ? CompareTo(angle) : 0;
 
@@ -221,9 +214,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
                 return $"{this.Degrees.ToString(format, formatProvider)}°";
         }
     }
-    #endregion
 
-    #region Static methods
     /// <summary>
     /// Creates a new angle from radians
     /// </summary>
@@ -276,9 +267,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <returns>The angle object</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
     public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG2RAD);
-    #endregion
 
-    #region Operators
     /// <summary>
     /// Equality on two angles, accounting for floating point errors
     /// </summary>
@@ -383,5 +372,4 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
 
         return new Angle(angle);
     }
-    #endregion
 }

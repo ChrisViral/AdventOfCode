@@ -79,7 +79,6 @@ public class Day17 : GridSolver<int>
         public static double Heuristic(CruciblePath current) => Vector2<int>.Distance(current.position,
                                                                                       new Vector2<int>(current.grid.Width - 1, current.grid.Height - 1));
 
-        #region Equality members
         /// <inheritdoc />
         public bool Equals(CruciblePath other) => this.position     == other.position
                                                && this.direction    == other.direction
@@ -90,8 +89,7 @@ public class Day17 : GridSolver<int>
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
-        #endregion
-    }
+        }
 
     public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps, int loss) : ICrucible<UltraCruciblePath>
     {
@@ -156,7 +154,6 @@ public class Day17 : GridSolver<int>
         public static double Heuristic(UltraCruciblePath current) => Vector2<int>.Distance(current.position,
                                                                                            new Vector2<int>(current.grid.Width - 1, current.grid.Height - 1));
 
-        #region Equality members
         /// <inheritdoc />
         public bool Equals(UltraCruciblePath other) => this.position     == other.position
                                                     && this.direction    == other.direction
@@ -167,19 +164,15 @@ public class Day17 : GridSolver<int>
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -205,5 +198,4 @@ public class Day17 : GridSolver<int>
 
     /// <inheritdoc />
     protected override int[] LineConverter(string line) => line.Select(c => c - '0').ToArray();
-    #endregion
 }

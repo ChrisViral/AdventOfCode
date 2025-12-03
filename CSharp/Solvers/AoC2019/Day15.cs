@@ -35,20 +35,15 @@ public class Day15 : IntcodeSolver
     /// </summary>
     private class Droid
     {
-        #region Fields
-        private readonly IntcodeVM program;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+            private readonly IntcodeVM program;
+    
+            /// <summary>
         /// Creates a new Droid with the specified program
         /// </summary>
         /// <param name="program">Program on which the droid runs</param>
         public Droid(IntcodeVM program) => this.program = program;
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Moves the robot in the specified direction and gets the new status code
         /// </summary>
         /// <param name="direction">Direction to move in</param>
@@ -59,16 +54,14 @@ public class Day15 : IntcodeSolver
             this.program.Run();
             return (Status)this.program.GetNextOutput();
         }
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Maze view
     /// </summary>
     private class Maze : ConsoleView<Status>
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Status to char converter
         /// </summary>
         private static readonly Dictionary<Status, char> toChar = new(7)
@@ -81,17 +74,13 @@ public class Day15 : IntcodeSolver
             [Status.START]   = 'X',
             [Status.PATH]    = '.'
         };
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Current position of the droid in the grid
         /// </summary>
         public Vector2<int> DroidPosition { get; set; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Maze of the given height and width
         /// </summary>
         /// <param name="width">Width of the maze</param>
@@ -101,10 +90,8 @@ public class Day15 : IntcodeSolver
             //Set starting position
             this[Vector2<int>.Zero] = Status.START;
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Finds the shortest path from the origin to the target
         /// </summary>
         /// <param name="target">Target to get to</param>
@@ -186,15 +173,11 @@ public class Day15 : IntcodeSolver
             this[this.DroidPosition] = temp;
             return toString;
         }
-        #endregion
-    }
+        }
 
-    #region Fields
     private readonly Droid droid;
     private readonly Maze maze;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
@@ -205,9 +188,7 @@ public class Day15 : IntcodeSolver
         this.droid = new Droid(this.VM);
         this.maze  = new Maze(41, 41); //Figured out size by visualization
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -280,5 +261,4 @@ public class Day15 : IntcodeSolver
         //Show cursor again
         Console.CursorVisible = true;
     }
-    #endregion
 }

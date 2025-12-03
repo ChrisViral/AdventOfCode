@@ -147,16 +147,13 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
     private const int MIN = 1;
     private const int MAX = 4000;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day19(string input) : base(input.Trim(), options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -224,5 +221,4 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
         Part[] parts = RegexFactory<Part>.ConstructObjects(PART_PATTERN, rawInput[separation..], RegexOptions.Compiled);
         return (workflowMap, parts);
     }
-    #endregion
 }

@@ -10,16 +10,13 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// </summary>
 public class Day03 : Solver<string[]>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver for 2022 - 03 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day03(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -58,5 +55,4 @@ public class Day03 : Solver<string[]>
     /// <param name="item">Item to get the priority for</param>
     /// <returns>1-26 for a-z, 27-52 for A-Z</returns>
     private static int GetPriority(char item) => char.IsLower(item) ? item - 'a' + 1 : item - 'A' + 27;
-    #endregion
 }

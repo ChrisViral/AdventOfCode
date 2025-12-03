@@ -37,15 +37,12 @@ public class Day01 : Solver
         ["nine"]  = 9
     };
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     public Day01(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -99,5 +96,4 @@ public class Day01 : Solver
 
         return calibration;
     }
-    #endregion
 }

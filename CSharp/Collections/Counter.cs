@@ -12,12 +12,9 @@ namespace AdventOfCode.Collections;
 [PublicAPI]
 public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
 {
-    #region Fields
     /// <summary>Backing dictionary</summary>
     private readonly Dictionary<T, int> dictionary;
-    #endregion
 
-    #region Properties
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count"/>
     public int Count => this.dictionary.Count;
 
@@ -25,9 +22,7 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
     /// The keys stored within this counter
     /// </summary>
     public Dictionary<T, int>.KeyCollection Keys => this.dictionary.Keys;
-    #endregion
 
-    #region Indexers
     /// <summary>
     /// Gets the count for a given key in the dictionary. If the key is not present, 0 is returned
     /// </summary>
@@ -38,9 +33,7 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
         get => this.dictionary.GetValueOrDefault(key, 0);
         set => this.dictionary[key] = value;
     }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new Counter
     /// </summary>
@@ -109,9 +102,7 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
                               : new Dictionary<T, int>(comparer);
         AddRange(source);
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Adds a new value to the Counter
     /// </summary>
@@ -167,9 +158,7 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
     /// </summary>
     /// <returns>Dictionary implementation of the Counter</returns>
     public IDictionary<T, int> AsDictionary() => this;
-    #endregion
 
-    #region Explicit implementations
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
     bool ICollection<KeyValuePair<T, int>>.IsReadOnly => false;
 
@@ -235,5 +224,4 @@ public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICol
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     IEnumerator<KeyValuePair<T, int>> IEnumerable<KeyValuePair<T, int>>.GetEnumerator() => this.dictionary.GetEnumerator();
-    #endregion
 }

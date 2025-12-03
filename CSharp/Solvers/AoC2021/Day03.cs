@@ -14,21 +14,16 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day03 : Solver
 {
-    #region Constants
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>
     private const int MASK = 0xFFF;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver for 2021 - 03 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day03(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -103,5 +98,4 @@ public class Day03 : Solver
 
         return valid.First();
     }
-    #endregion
 }

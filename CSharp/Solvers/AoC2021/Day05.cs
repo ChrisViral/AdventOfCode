@@ -14,27 +14,20 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 {
-    #region Constants
     /// <summary>Vector matching pattern</summary>
     private const string PATTERN = @"(\d+,\d+) -> (\d+,\d+)";
-    #endregion
 
-    #region Fields
     private readonly Grid<int> grid;
     private int maxX;
     private int maxY;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver for 2021 - 05 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day05(string input) : base(input)  => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -103,5 +96,4 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
         }
         return data;
     }
-    #endregion
 }

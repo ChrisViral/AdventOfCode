@@ -27,16 +27,13 @@ public class Day17 : Solver<(long a, long b, long c, int[] program)>
 
     private readonly List<int> output = new(16);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Base.Solver.Run"/>
     public override void Run()
     {
@@ -158,5 +155,4 @@ public class Day17 : Solver<(long a, long b, long c, int[] program)>
         }
         return (a, b, c, program);
     }
-    #endregion
 }

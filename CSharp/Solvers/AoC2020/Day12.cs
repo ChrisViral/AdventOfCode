@@ -31,22 +31,17 @@ public class Day12 : Solver<Day12.Navigation[]>
             FORWARD
         }
 
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Navigation match pattern
         /// </summary>
         public const string PATTERN = @"(N|S|E|W|L|R|F)(\d+)";
-        #endregion
-
-        #region Fields
-        /// <summary>Navigation instruction</summary>
+    
+            /// <summary>Navigation instruction</summary>
         public Instructions Instruction { get; }
         /// <summary>Instruction value</summary>
         public int Value { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new navigation object with the specified instruction
         /// </summary>
         /// <param name="instruction">Instruction to create the object from</param>
@@ -66,10 +61,8 @@ public class Day12 : Solver<Day12.Navigation[]>
             };
             this.Value = value;
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Executes the instruction as ship directions commands
         /// </summary>
         /// <param name="position">Position of the ship</param>
@@ -134,19 +127,15 @@ public class Day12 : Solver<Day12.Navigation[]>
                     return;
             }
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Navigation"/>[] fails</exception>
     public Day12(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -164,5 +153,4 @@ public class Day12 : Solver<Day12.Navigation[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Navigation[] Convert(string[] rawInput) => RegexFactory<Navigation>.ConstructObjects(Navigation.PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

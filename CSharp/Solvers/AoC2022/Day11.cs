@@ -144,16 +144,13 @@ public class Day11 : Solver<Day11.Monkey[]>
     /// <summary>Rounds count for the second part</summary>
     private const int LONG_ROUNDS = 10000;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver for 2022 - 11 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -190,5 +187,4 @@ public class Day11 : Solver<Day11.Monkey[]>
                       .Take(2)
                       .Multiply(m => m.Inspections);
     }
-    #endregion
 }

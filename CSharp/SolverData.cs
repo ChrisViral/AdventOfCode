@@ -10,7 +10,6 @@ namespace AdventOfCode;
 [PublicAPI]
 public readonly struct SolverData
 {
-    #region Constants
     /// <summary>
     /// Amount of expected arguments
     /// </summary>
@@ -19,16 +18,12 @@ public readonly struct SolverData
     /// Type qualifier for the solvers
     /// </summary>
     private const string QUALIFIER = $"{nameof(AdventOfCode)}.{nameof(Solvers)}.AoC";
-    #endregion
 
-    #region Fields
     public readonly int year;
     public readonly int day;
     public readonly string input;
     public readonly string fullName;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new SolveData with the specified values
     /// </summary>
@@ -42,14 +37,10 @@ public readonly struct SolverData
         this.input    = input;
         this.fullName = $"{QUALIFIER}{this.year}.Day{this.day:D2}";
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => $"{this.year} Day{this.day:D2}";
-    #endregion
 
-    #region Factory
     /// <summary>
     /// Creates a new SolverData for the specified program arguments
     /// </summary>
@@ -65,5 +56,4 @@ public readonly struct SolverData
         string input = await InputFetcher.EnsureInput(year, day);
         return new SolverData(year, day, input);
     }
-    #endregion
 }

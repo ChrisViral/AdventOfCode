@@ -30,16 +30,13 @@ public enum Anchor
 [PublicAPI]
 public class ConsoleView<T> : Grid<T> where T : notnull
 {
-    #region Fields
     private readonly Vector2<int> anchor;
     private readonly char[] viewBuffer;
     private readonly Converter<T, char> toChar;
     private readonly int sleepTime;
     private readonly Stopwatch timer = new();
     protected int printedLines;
-    #endregion
 
-    #region Indexers
     /// <summary>
     /// Gets or sets a position in the view
     /// </summary>
@@ -78,9 +75,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         get => this[new Vector2<int>(tuple)];
         set => this[new Vector2<int>(tuple)] = value;
     }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// ConsoleView base constructor, calls the Grid constructor to setup the underlying data
     /// </summary>
@@ -134,9 +129,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
         this.anchor = anchor;
         FillDefault(converter, defaultValue);
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Fills the view with a specified default value
     /// </summary>
@@ -246,5 +239,4 @@ public class ConsoleView<T> : Grid<T> where T : notnull
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => new(this.viewBuffer);
-    #endregion
 }

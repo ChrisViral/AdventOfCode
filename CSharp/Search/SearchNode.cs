@@ -11,12 +11,10 @@ namespace AdventOfCode.Search;
 [PublicAPI]
 public interface ISearchNode<out TCost>
 {
-    #region Properties
     /// <summary>
     /// Cost of the node
     /// </summary>
     public TCost Cost { get; }
-    #endregion
 }
 
 /// <summary>
@@ -36,12 +34,9 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <returns>Heuristic value</returns>
     public delegate TCost Heuristic(TValue value);
 
-    #region Fields
     /// <summary>Heuristic function of the node</summary>
     private readonly Heuristic? heuristic;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Cost to reach the node so far
     /// </summary>
@@ -58,9 +53,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// Cost of this node
     /// </summary>
     public virtual TCost Cost => this.CostSoFar + (this.heuristic is not null ? this.heuristic(this.Value) : TCost.Zero);
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new root node
     /// </summary>
@@ -85,9 +78,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
         this.heuristic = heuristic;
         this.Parent = parent;
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Check if the parent node or any of its parents has the given search value
     /// </summary>
@@ -109,9 +100,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
     public int CompareTo(SearchNode<TValue, TCost>? other) => other is not null ? this.Cost.CompareTo(other.Cost) : -1;
-    #endregion
 
-    #region Operators
     /// <summary>
     /// Equality operator between two search nodes
     /// </summary>
@@ -143,7 +132,6 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <param name="b">Value</param>
     /// <returns>True if the value of the node is not equals the other value, false otherwise</returns>
     public static bool operator !=(SearchNode<TValue, TCost> a, TValue b) => !a.Value.Equals(b);
-    #endregion
 }
 
 /// <summary>

@@ -63,16 +63,13 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
 
     private const int SAMPLES = 10;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day25(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -166,5 +163,4 @@ public class Day25 : Solver<Dictionary<string, Day25.Component>>
 
         return components;
     }
-    #endregion
 }

@@ -12,7 +12,6 @@ namespace AdventOfCode.Solvers.Base;
 [PublicAPI]
 public abstract class Solver : ISolver
 {
-    #region Constants
     /// <summary>
     /// Default split options
     /// </summary>
@@ -21,16 +20,12 @@ public abstract class Solver : ISolver
     /// Default split characters
     /// </summary>
     private static readonly char[] DefaultSplitters = ['\n'];
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Input data
     /// </summary>
     protected string[] Data { get; }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Solver"/> from the specified file
     /// </summary>
@@ -42,9 +37,7 @@ public abstract class Solver : ISolver
         this.Data = input.Split(splitters ?? DefaultSplitters, options)
                          .ToArray();
     }
-    #endregion
 
-    #region Virtual methods
     /// <summary>
     /// Runs the solver and starts the Part 1 stopwatch
     /// </summary>
@@ -61,7 +54,6 @@ public abstract class Solver : ISolver
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public virtual void Dispose() => GC.SuppressFinalize(this);
-    #endregion
 }
 
 /// <summary>
@@ -71,7 +63,6 @@ public abstract class Solver : ISolver
 [PublicAPI]
 public abstract class Solver<T> : Solver
 {
-    #region Properties
     /// <summary>
     /// Parsed input data
     /// </summary>
@@ -81,9 +72,7 @@ public abstract class Solver<T> : Solver
     /// If the Solver has been disposed or not
     /// </summary>
     private bool IsDisposed { get; set; }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new generic <see cref="Solver{T}"/> with the input data properly parsed
     /// </summary>
@@ -110,9 +99,7 @@ public abstract class Solver<T> : Solver
         }
         #endif
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="IDisposable.Dispose"/>
     public override void Dispose()
     {
@@ -135,9 +122,7 @@ public abstract class Solver<T> : Solver
         this.IsDisposed = true;
         GC.SuppressFinalize(this);
     }
-    #endregion
 
-    #region Abstract methods
     /// <summary>
     /// Input conversion function<br/>
     /// <b>NOTE</b>: This method <b>must</b> be pure as it initializes the base class
@@ -146,5 +131,4 @@ public abstract class Solver<T> : Solver
     /// <returns>Target converted value</returns>
     [Pure]
     protected abstract T Convert(string[] rawInput);
-    #endregion
 }

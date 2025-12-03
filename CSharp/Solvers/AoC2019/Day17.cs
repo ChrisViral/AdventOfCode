@@ -29,21 +29,16 @@ public class Day17 : IntcodeSolver
         ROBOT_RIGHT = '>'
     }
 
-    #region Fields
     private (int x, int y) writePos = (0, -1);
     private ConsoleView<Hull> hull = null!;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -218,5 +213,4 @@ public class Day17 : IntcodeSolver
             _             => (char)hull
         };
     }
-    #endregion
 }

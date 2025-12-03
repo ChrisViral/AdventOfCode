@@ -17,18 +17,13 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
     /// </summary>
     public class Bag : IEquatable<Bag>
     {
-        #region Constants
-        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
+            private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex bagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
         private static readonly Regex bagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
-        #endregion
-
-        #region Fields
-        private (string, int)[]? containedBagNames;
-        #endregion
-            
-        #region Properties
-        /// <summary>
+    
+            private (string, int)[]? containedBagNames;
+                
+            /// <summary>
         /// Bag Name
         /// </summary>
         public string Name { get; }
@@ -42,10 +37,8 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
         /// Bags containing an amount of this Bag
         /// </summary>
         public HashSet<Bag> ContainedBy { get; } = [];
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new bag from a given definition
         /// </summary>
         /// <param name="definition">Bag definition</param>
@@ -67,10 +60,8 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
                 this.containedBagNames[i] = (contents[2].Value, int.Parse(contents[1].Value));
             }
         }
-        #endregion
-            
-        #region Methods
-        /// <summary>
+                
+            /// <summary>
         /// Sets up the references of this Bag
         /// </summary>
         /// <param name="definitions">List of bag references available</param>
@@ -99,26 +90,20 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Name;
-        #endregion
-    }
+        }
         
-    #region Constants
     /// <summary>
     /// Bag owned in the problem
     /// </summary>
     private const string PERSONAL_BAG = "shiny gold";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver from the specified file
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Dictionary{TKey,TValue}"/> fails</exception>
     public Day07(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -168,5 +153,4 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
 
         return bags;
     }
-    #endregion
 }

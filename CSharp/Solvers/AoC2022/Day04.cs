@@ -13,16 +13,13 @@ public class Day04 : Solver<((int, int) first, (int, int) second)[]>
     /// <summary>Input match pattern</summary>
     private const string PATTERN = @"(\d+)-(\d+),(\d+)-(\d+)";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver for 2022 - 04 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day04(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -54,5 +51,4 @@ public class Day04 : Solver<((int, int) first, (int, int) second)[]>
                                                                            (tuple.c, tuple.d)))
                                                          .ToArray();
     }
-    #endregion
 }

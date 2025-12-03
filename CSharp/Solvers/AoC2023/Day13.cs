@@ -17,16 +17,13 @@ namespace AdventOfCode.Solvers.AoC2023;
 public class Day13 : Solver<Grid<bool>[]>
 {
     private const char ROCK = '#';
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day13(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -167,5 +164,4 @@ public class Day13 : Solver<Grid<bool>[]>
         }
         return grids.ToArray();
     }
-    #endregion
 }

@@ -11,7 +11,6 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// </summary>
 public class Day15 : Solver<Dictionary<int, int>>
 {
-    #region Constants
     /// <summary>
     /// First target to hit
     /// </summary>
@@ -20,18 +19,14 @@ public class Day15 : Solver<Dictionary<int, int>>
     /// Second target to hit
     /// </summary>
     private const int SECOND_TARGET = 30_000_000;
-    #endregion
         
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Dictionary{TKey,TValue}"/> fails</exception>
     public Day15(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -91,5 +86,4 @@ public class Day15 : Solver<Dictionary<int, int>>
     protected override Dictionary<int, int> Convert(string[] rawInput) => rawInput[0].Split(',')
                                                                                      .Select((n, i) => (int.Parse(n), i + 1))
                                                                                      .ToDictionary(t => t.Item1, t => t.Item2);
-    #endregion
 }

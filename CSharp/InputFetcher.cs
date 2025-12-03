@@ -31,7 +31,6 @@ public static partial class InputFetcher
     [method: JsonConstructor]
     private readonly record struct Settings(string Cookie, long LastRequestTimestamp);
 
-    #region Constants
     /// <summary>
     /// Base Advent of Code URL
     /// </summary>
@@ -44,9 +43,7 @@ public static partial class InputFetcher
     /// Session cookie file
     /// </summary>
     private static readonly string SettingsPath = Path.Join(INPUT_FOLDER, "settings.json");
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Gets the associated input file, or fetches it from the AoC website if needed
     /// </summary>
@@ -189,5 +186,4 @@ public static partial class InputFetcher
         byte[] fileData = await File.ReadAllBytesAsync(sourceFile.FullName);
         await File.WriteAllBytesAsync(targetPath, fileData);
     }
-    #endregion
 }

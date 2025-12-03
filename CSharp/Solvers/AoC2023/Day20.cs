@@ -123,16 +123,13 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
     private const int CYCLES    = 1000;
     private const string TARGET = "rx";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day20(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -215,5 +212,4 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
 
         return modules;
     }
-    #endregion
 }

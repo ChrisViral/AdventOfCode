@@ -85,7 +85,6 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         }
     }
 
-    #region Constants
     /// <summary>Parsing Regex pattern</summary>
     private const string PATTERN = @"(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)";
     /// <summary>Size of the 3D grid for part 1</summary>
@@ -96,18 +95,14 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
     private const int INTERSECT_SIZE = 120000;
     /// <summary>Size of the cuboid buffer for part 2</summary>
     private const int BUFFER_SIZE = 6;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver for 2021 - 22 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day22(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -183,5 +178,4 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 
         return cuboids;
     }
-    #endregion
 }

@@ -12,7 +12,6 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day02 : IntcodeSolver
 {
-    #region Constants
     /// <summary>
     /// Max value for the noun or verb
     /// </summary>
@@ -21,18 +20,14 @@ public class Day02 : IntcodeSolver
     /// Target to find using the Intcode VM
     /// </summary>
     private const long TARGET = 19_690_720L;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -55,5 +50,4 @@ public class Day02 : IntcodeSolver
             }
         }
     }
-    #endregion
 }

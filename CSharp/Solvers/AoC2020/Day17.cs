@@ -18,8 +18,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
     /// </summary>
     public readonly struct Vector4 : IEquatable<Vector4>
     {
-        #region Properties
-        /// <summary>
+            /// <summary>
         /// X component
         /// </summary>
         public int X { get; }
@@ -35,10 +34,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         /// W component
         /// </summary>
         public int W { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new 4 component vector
         /// </summary>
         /// <param name="x">X component</param>
@@ -52,10 +49,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
             this.Z = z;
             this.W = w;
         }
-        #endregion
-
-        #region Methods
-        /// <inheritdoc cref="object.Equals(object)"/>
+    
+            /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
@@ -86,10 +81,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
                 }
             }
         }
-        #endregion
-
-        #region Operators
-        /// <summary>
+    
+            /// <summary>
         /// Equality operator on two vectors
         /// </summary>
         /// <param name="a">First vector</param>
@@ -104,8 +97,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         /// <param name="b">Second vector</param>
         /// <returns>True if both are unequal, false otherwise</returns>
         public static bool operator !=(Vector4 a, Vector4 b) => !a.Equals(b);
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Conway cube implementation
@@ -128,14 +120,11 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         /// <returns>It's surrounding values</returns>
         public delegate IEnumerable<T> Explorer(T value);
 
-        #region Fields
-        private readonly HashSet<T> activeCubes;
+            private readonly HashSet<T> activeCubes;
         private readonly Dictionary<T, int> surrounding = new();
         private readonly Explorer explorer;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new cube with the given input, object factory, and explorer
         /// </summary>
         /// <param name="input">Input to create the cube from</param>
@@ -159,10 +148,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
                 }
             }
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Simulates the cube for a certain amount of turns
         /// </summary>
         /// <param name="n">Turns amount</param>
@@ -203,19 +190,15 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
 
             return this.activeCubes.Count;
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="bool"/>[,,] fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -231,5 +214,4 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         Cube<Vector4> cube4 = new(rawInput, (x, y) => new Vector4(x, y, 0, 0), v => v.Adjacent());
         return (cube3, cube4);
     }
-    #endregion
 }

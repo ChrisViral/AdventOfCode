@@ -28,23 +28,18 @@ public class Day11 : IntcodeSolver
     /// </summary>
     private class PainterRobot
     {
-        #region Fields
-        private Vector2<int> position;
+            private Vector2<int> position;
         private Vector2<int> direction = Vector2<int>.Up;
         private Grid<Colour> hull;
         private readonly IntcodeVM brain;
         private readonly HashSet<Vector2<int>> painted = [];
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Amount of painted hull sections
         /// </summary>
         public int PaintedCount => this.painted.Count;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new painter robot on the specified hull
         /// </summary>
         /// <param name="hullWidth">Hull width</param>
@@ -56,10 +51,8 @@ public class Day11 : IntcodeSolver
             this.hull     = new Grid<Colour>(hullWidth, hullHeight, i => i is Colour.WHITE ? "#" : ".");
             this.position = new Vector2<int>(hullWidth / 2, hullHeight / 2);
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Paints the hull
         /// </summary>
         /// <param name="startingColour">The starting panel colour of the painter robot</param>
@@ -95,19 +88,15 @@ public class Day11 : IntcodeSolver
             this.hull      = new Grid<Colour>(this.hull.Width, this.hull.Height, i => i is Colour.WHITE ? "#" : ".");
             this.painted.Clear();
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -120,5 +109,4 @@ public class Day11 : IntcodeSolver
         string registration = "\n" + robot.Paint(Colour.WHITE);
         AoCUtils.LogPart2(registration);
     }
-    #endregion
 }

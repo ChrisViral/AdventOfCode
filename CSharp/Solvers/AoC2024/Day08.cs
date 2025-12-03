@@ -18,16 +18,13 @@ public class Day08 : GridSolver<char>
     /// </summary>
     private const char EMPTY = '.';
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="char"/> fails</exception>
     public Day08(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -100,5 +97,4 @@ public class Day08 : GridSolver<char>
 
     /// <inheritdoc />
     protected override char[] LineConverter(string line) => line.ToCharArray();
-    #endregion
 }

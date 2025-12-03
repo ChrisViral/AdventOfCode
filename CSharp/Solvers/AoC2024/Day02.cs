@@ -15,16 +15,13 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day02 : ArraySolver<int[]>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -73,5 +70,4 @@ public class Day02 : ArraySolver<int[]>
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>
     protected override int[] ConvertLine(string line) => line.Split(' ').ConvertAll(int.Parse);
-    #endregion
 }

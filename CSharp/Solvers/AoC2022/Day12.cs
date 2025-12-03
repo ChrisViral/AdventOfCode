@@ -14,16 +14,13 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// </summary>
 public class Day12 : GridSolver<int>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver for 2022 - 12 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day12(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -92,5 +89,4 @@ public class Day12 : GridSolver<int>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override int[] LineConverter(string line) => line.Select(c => c - 'a').ToArray();
-    #endregion
 }

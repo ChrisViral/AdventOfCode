@@ -20,16 +20,13 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
     private const int BUFFER      = 6;
     private static readonly Vector2<int> offset = new(BUFFER / 2, BUFFER / 2);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver for 2021 - 20 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day20(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -83,5 +80,4 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
         Grid<bool> grid = new(width, height, rawInput[1..], line => line.Select(c => c is LIGHT).ToArray());
         return (rawInput[0], grid);
     }
-    #endregion
 }

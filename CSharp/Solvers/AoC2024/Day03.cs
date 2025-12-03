@@ -13,16 +13,13 @@ public partial class Day03 : Solver<string>
     [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)", RegexOptions.Compiled)]
     private static partial Regex MulRegex { get; }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day03(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -61,5 +58,4 @@ public partial class Day03 : Solver<string>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override string Convert(string[] rawInput) => string.Join(string.Empty, rawInput);
-    #endregion
 }

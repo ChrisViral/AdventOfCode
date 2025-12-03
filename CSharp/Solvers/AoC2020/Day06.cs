@@ -11,16 +11,13 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// </summary>
 public class Day06 : Solver<HashSet<char>[][]>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
     public Day06(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -51,5 +48,4 @@ public class Day06 : Solver<HashSet<char>[][]>
     protected override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
                                                                                .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
                                                                                .ToArray();
-    #endregion
 }

@@ -22,23 +22,18 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
         P2
     }
 
-    #region Constants
     /// <summary>
     /// State creation StringBuilder
     /// </summary>
     private static readonly StringBuilder stateBuilder = new();
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
     public Day22(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -145,5 +140,4 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
         int end = Enumerable.Range(1, rawInput.Length).First(i => rawInput[i][0] is 'P');
         return (rawInput[1..end++].ConvertAll(int.Parse), rawInput[end..].ConvertAll(int.Parse));
     }
-    #endregion
 }

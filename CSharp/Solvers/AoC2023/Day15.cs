@@ -37,16 +37,13 @@ public class Day15 : Solver<Day15.Instruction[]>
     private const int BOXES = 256;
     private const string INSTRUCTION_PATTERN = @"([a-z]+)(=|-)(\d)?";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
     public Day15(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -115,5 +112,4 @@ public class Day15 : Solver<Day15.Instruction[]>
     protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(INSTRUCTION_PATTERN,
                                                                                                               rawInput[0].Split(','),
                                                                                                               RegexOptions.Compiled);
-    #endregion
 }

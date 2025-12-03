@@ -18,42 +18,33 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
     /// </summary>
     public record Field(string Name, int FirstLower, int FirstUpper, int SecondLower, int SecondUpper)
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Regex pattern
         /// </summary>
         public const string PATTERN = @"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$";
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Checks if a given value is in the range of the field
         /// </summary>
         /// <param name="value">Value to check</param>
         /// <returns>True if the value is in the range, false otherwise</returns>
         public bool InRange(int value) => value >= this.FirstLower && value <= this.FirstUpper || value >= this.SecondLower && value <= this.SecondUpper;
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Ticket
     /// </summary>
     public class Ticket
     {
-        #region Fields
-        public readonly int[] values;
-        #endregion
-
-        #region Constructors
-        /// <summary>
+            public readonly int[] values;
+    
+            /// <summary>
         /// Creates a new ticket from a given input line
         /// </summary>
         /// <param name="line">Input to create the ticket values from</param>
         public Ticket(string line) => this.values = line.Split(',').ConvertAll(int.Parse);
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Gets the error value for this ticket from a list of possible fields
         /// </summary>
         /// <param name="fields">Fields to check</param>
@@ -79,23 +70,17 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
         /// <param name="position">Position to check</param>
         /// <returns>True if the field is valid at the given position, false otherwise</returns>
         public bool IsValid(Field field, int position) => field.InRange(this.values[position]);
-        #endregion
-    }
+        }
 
-    #region Constants
     private const string TARGET_START = "departure";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1,T2,T3}"/> fails</exception>
     public Day16(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -173,5 +158,4 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
 
         return (fields, ticket, examples.ToArray());
     }
-    #endregion
 }

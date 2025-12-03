@@ -21,8 +21,7 @@ public class Day20 : Solver<Day20.Tile[]>
     /// </summary>
     public class Tile
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Character representing a block pixel
         /// </summary>
         private const char BLACK = '#';
@@ -47,19 +46,15 @@ public class Day20 : Solver<Day20.Tile[]>
             new(18, 1),
             new(19, 1)
         ];
-        #endregion
-
-        #region Fields
-        private readonly char[][] image;
+    
+            private readonly char[][] image;
         private char[] top;
         private char[] bottom;
         private char[] left;
         private char[] right;
         public bool ignoreBorders;
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Tile ID
         /// </summary>
         public int ID { get; }
@@ -68,19 +63,15 @@ public class Day20 : Solver<Day20.Tile[]>
         /// Tile size length
         /// </summary>
         public int Size { get; }
-        #endregion
-
-        #region Indexers
-        /// <summary>
+    
+            /// <summary>
         /// Gets the character at the given position in the image
         /// </summary>
         /// <param name="pos">Position to get</param>
         /// <returns>The character at the specified position</returns>
         public char this[in Vector2 pos] => this.image[pos.Y][pos.X];
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new tile from the given data and ID
         /// </summary>
         /// <param name="id">Tile ID</param>
@@ -123,10 +114,8 @@ public class Day20 : Solver<Day20.Tile[]>
             this.ignoreBorders = true;
             this.top = this.bottom = this.left = this.right = [];
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Flips the image vertically
         /// </summary>
         public void FlipVertical()
@@ -311,19 +300,15 @@ public class Day20 : Solver<Day20.Tile[]>
             this.image.ForEach(l => builder.Append(l).AppendLine());
             return builder.ToString();
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Tile"/>[] fails</exception>
     public Day20(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -394,5 +379,4 @@ public class Day20 : Solver<Day20.Tile[]>
         }
         return tiles;
     }
-    #endregion
 }

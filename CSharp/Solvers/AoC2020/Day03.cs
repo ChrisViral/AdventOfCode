@@ -13,16 +13,13 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// </summary>
 public class Day03: GridSolver<bool>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
     public Day03(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -65,5 +62,4 @@ public class Day03: GridSolver<bool>
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
     protected override bool[] LineConverter(string line) => line.Select(c => c is '#').ToArray();
-    #endregion
 }

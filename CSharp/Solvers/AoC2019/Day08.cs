@@ -21,8 +21,7 @@ public class Day08 : Solver<Day08.Layer[]>
     /// </summary>
     public class Layer : IEnumerable<int>
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Layer width
         /// </summary>
         public const int WIDTH = 25;
@@ -34,14 +33,10 @@ public class Day08 : Solver<Day08.Layer[]>
         /// Total layer size
         /// </summary>
         public const int SIZE = WIDTH * HEIGHT;
-        #endregion
-
-        #region Fields
-        private readonly int[,] image = new int[HEIGHT, WIDTH];
-        #endregion
-
-        #region Indexers
-        /// <summary>
+    
+            private readonly int[,] image = new int[HEIGHT, WIDTH];
+    
+            /// <summary>
         /// Accesses the underlying image of the Layer
         /// </summary>
         /// <param name="i">Horizontal address</param>
@@ -52,10 +47,8 @@ public class Day08 : Solver<Day08.Layer[]>
             get => this.image[j, i];
             set => this.image[j, i] = value;
         }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new layer from given data
         /// </summary>
         /// <param name="data">Data to create the layer from</param>
@@ -80,10 +73,8 @@ public class Day08 : Solver<Day08.Layer[]>
         /// Creates a new blank layer
         /// </summary>
         public Layer() { }
-        #endregion
-
-        #region Methods
-        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+    
+            /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<int> GetEnumerator() => this.image.Cast<int>().GetEnumerator();
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
@@ -110,19 +101,15 @@ public class Day08 : Solver<Day08.Layer[]>
 
             return sb.ToString();
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Layer"/> fails</exception>
     public Day08(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -174,5 +161,4 @@ public class Day08 : Solver<Day08.Layer[]>
 
         return layers.ToArray();
     }
-    #endregion
 }

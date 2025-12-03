@@ -20,15 +20,12 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
     /// </summary>
     public class Rule
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Rule match pattern
         /// </summary>
         public const string PATTERN = @"^(\d+): (?:""(a|b)""|(\d+(?: \d+)?)|(\d+(?: \d+)?) \| (\d+(?: \d+)?))$";
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Rule index
         /// </summary>
         public int Index { get; }
@@ -47,10 +44,8 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// Values of the second match
         /// </summary>
         public int[]? SecondMatch { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Rule and sets it's index
         /// </summary>
         /// <param name="index">Index of the rule</param>
@@ -86,10 +81,8 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
             this.FirstMatch = first.Split(' ').ConvertAll(int.Parse);
             this.SecondMatch = second.Split(' ').ConvertAll(int.Parse);
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Setups the pattern for this rule by looking at it's matches
         /// </summary>
         /// <param name="rules">Array of current rules</param>
@@ -133,19 +126,15 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Pattern;
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1,T2}"/> fails</exception>
     public Day19(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -195,5 +184,4 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         //Return the rules with the input to match
         return (rules, rawInput[(i + 1)..]);
     }
-    #endregion
 }

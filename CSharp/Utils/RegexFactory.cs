@@ -17,21 +17,16 @@ namespace AdventOfCode.Utils;
 [PublicAPI]
 public class RegexFactory<T> where T : notnull
 {
-    #region Constants
     /// <summary>Convertible type</summary>
     /// ReSharper disable once StaticMemberInGenericType
     private static readonly Type ConvertibleType = typeof(IConvertible);
     /// <summary>Stored object type</summary>
     private static readonly Type ObjectType      = typeof(T);
-    #endregion
 
-    #region Fields
     private readonly Regex regex;
     private readonly Dictionary<int, ConstructorInfo> constructors;
     private readonly Dictionary<string, FieldInfo> fields;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new RegexFactory with a given pattern for the specified type.<br/>
     /// <b>NOTE</b>: Creating this object will analyze the target type with reflection, which could potentially be a slow process.
@@ -65,9 +60,7 @@ public class RegexFactory<T> where T : notnull
                                 .Where(f => ConvertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
                                 .ToDictionary(f => f.Name, f => f);
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
     /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
@@ -228,9 +221,7 @@ public class RegexFactory<T> where T : notnull
 
         return results;
     }
-    #endregion
 
-    #region Static methods
     /// <summary>
     /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
     /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
@@ -347,5 +338,4 @@ public class RegexFactory<T> where T : notnull
         // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(regex).PopulateObjects(input);
     }
-    #endregion
 }

@@ -22,7 +22,6 @@ public class Day11 : GridSolver<Day11.Seat>
         TAKEN
     }
 
-    #region Constants
     /// <summary>
     /// All cardinal and diagonal direction vectors
     /// </summary>
@@ -37,18 +36,14 @@ public class Day11 : GridSolver<Day11.Seat>
         Vector2.Down,
         Vector2.Right + Vector2.Down
     ];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -187,5 +182,4 @@ public class Day11 : GridSolver<Day11.Seat>
             _          => throw new InvalidEnumArgumentException(nameof(seat), (int)seat, typeof(Seat))
         };
     }
-    #endregion
 }

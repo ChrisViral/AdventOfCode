@@ -16,16 +16,13 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day09 : GridSolver<byte>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day09"/> Solver for 2021 - 09 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day09(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -75,5 +72,4 @@ public class Day09 : GridSolver<byte>
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
     protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
-    #endregion
 }

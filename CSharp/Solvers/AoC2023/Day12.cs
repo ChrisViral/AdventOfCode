@@ -39,7 +39,6 @@ public class Day12 : ArraySolver<(string condition, int[] groups)>
     private readonly (string condition, int[] groups)[] expandedData;
     private readonly Dictionary<(string, ArraySegment<int>), long> cache = new(CacheEqualityComparer.Comparer);
 
-    #region Constructors
 
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
@@ -50,9 +49,7 @@ public class Day12 : ArraySolver<(string condition, int[] groups)>
     {
         this.expandedData = new (string, int[])[this.Data.Length];
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -117,5 +114,4 @@ public class Day12 : ArraySolver<(string condition, int[] groups)>
         int[] groups    = splits[1].Split(',', DEFAULT_OPTIONS).ConvertAll(int.Parse);
         return (springs, groups);
     }
-    #endregion
 }

@@ -11,14 +11,11 @@ namespace AdventOfCode.Solvers.Specialized;
 [PublicAPI]
 public abstract class GridSolver<T> : Solver<Grid<T>>
 {
-    #region Properties
     /// <summary>
     /// Input Grid
     /// </summary>
     protected Grid<T> Grid => this.Data;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="GridSolver{T}"/> Solver with the input data properly parsed
     /// </summary>
@@ -27,9 +24,7 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
     protected GridSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Grid<T> Convert(string[] rawInput)
     {
@@ -53,5 +48,4 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     /// <param name="obj">Object being converted</param>
     /// <returns>A string representation of the object</returns>
     protected virtual string StringConversion(T obj) => obj?.ToString() ?? string.Empty;
-    #endregion
 }

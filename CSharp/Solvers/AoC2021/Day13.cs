@@ -31,16 +31,13 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
     /// <param name="Value">Fold position</param>
     public record struct Fold(Axis Axis, int Value);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver for 2021 - 13 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="List{T}"/> fails</exception>
     public Day13(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -128,5 +125,4 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 
         return (folds, grid);
     }
-    #endregion
 }

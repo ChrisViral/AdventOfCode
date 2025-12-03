@@ -22,18 +22,13 @@ namespace AdventOfCode.Collections;
 [PublicAPI]
 public class Grid<T> : IEnumerable<T>
 {
-    #region Static fields
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
-    #endregion
 
-    #region Fields
     protected readonly T[,] grid;
     protected readonly int rowBufferSize;
     protected readonly Converter<T, string> toString;
     protected readonly StringBuilder toStringBuilder = new();
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Grid width
     /// </summary>
@@ -53,9 +48,7 @@ public class Grid<T> : IEnumerable<T>
     /// Dimensions of the grid
     /// </summary>
     public Vector2<int> Dimensions { get; }
-    #endregion
 
-    #region Indexers
     /// <summary>
     /// Accesses an element in the grid
     /// </summary>
@@ -122,9 +115,7 @@ public class Grid<T> : IEnumerable<T>
             return slice;
         }
     }
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new grid with the specified size
     /// </summary>
@@ -182,9 +173,7 @@ public class Grid<T> : IEnumerable<T>
         this.grid = new T[this.Height, this.Width];
         CopyFrom(other);
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Populates the grid with the given input data
     /// </summary>
@@ -597,5 +586,4 @@ public class Grid<T> : IEnumerable<T>
 
         return this.toStringBuilder.ToStringAndClear();
     }
-    #endregion
 }

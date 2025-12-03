@@ -17,15 +17,12 @@ public class Day10 : Solver<Day10.Adapter[]>
     /// </summary>
     public class Adapter : IComparable<Adapter>
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Tolerance between different adapters
         /// </summary>
         private const int TOLERANCE = 3;
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Jolts rating of this adapter
         /// </summary>
         public int Jolts { get; set; }
@@ -39,18 +36,14 @@ public class Day10 : Solver<Day10.Adapter[]>
         /// List of compatible adapters with this one
         /// </summary>
         public Adapter[]? Compatible { get; private set; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new adapter with the specified jolts
         /// </summary>
         /// <param name="jolts"></param>
         public Adapter(int jolts) => this.Jolts = jolts;
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Sets all the compatible adapters to this one from
         /// </summary>
         /// <param name="adapters"></param>
@@ -66,19 +59,15 @@ public class Day10 : Solver<Day10.Adapter[]>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Jolts.ToString();
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Adapter"/>[] fails</exception>
     public Day10(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -119,5 +108,4 @@ public class Day10 : Solver<Day10.Adapter[]>
 
         return adapters;
     }
-    #endregion
 }

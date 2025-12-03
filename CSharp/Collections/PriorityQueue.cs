@@ -37,21 +37,16 @@ namespace AdventOfCode.Collections;
 [PublicAPI]
 public class PriorityQueue<T> : ICollection<T> where T : notnull
 {
-    #region Constants
     /// <summary>
     /// Base capacity of the heap list
     /// </summary>
     private const int BASE_CAPACITY = 8;
-    #endregion
 
-    #region Fields
     //List containing the binary heap
     private readonly List<T> heap;
     //Comparer to sort the items
     private readonly IComparer<T> comparer;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Amount of items stored in the queue
     /// </summary>
@@ -77,9 +72,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// Index of the last member
     /// </summary>
     private int Last => this.heap.Count - 1;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates an empty PriorityQueue using the default IComparer of <typeparamref name="T"/>
     /// </summary>
@@ -149,9 +142,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
         this.heap     = [..queue.heap];
         this.comparer = queue.comparer;
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Compares the values at indices i and j and finds out if i must be moved upwards
     /// </summary>
@@ -498,9 +489,7 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <returns>Iterator going through this sequence</returns>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    #endregion
 
-    #region Static methods
     /// <summary>
     /// Returns the index of the parent node
     /// </summary>
@@ -524,5 +513,4 @@ public class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>Index of the right child node</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int RightChild(int i) => (2 * i) + 2;
-    #endregion
 }

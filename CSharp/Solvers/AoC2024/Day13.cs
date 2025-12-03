@@ -76,16 +76,13 @@ public class Day13 : Solver<Day13.ClawMachine[]>
     /// </summary>
     private const long OFFSET = 10000000000000L;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ClawMachine"/>[] fails</exception>
     public Day13(string input) : base(input) { }
-    #endregion
 
-    #region Methods1
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -117,5 +114,4 @@ public class Day13 : Solver<Day13.ClawMachine[]>
         string[] machineClumps = rawInput.Chunk(3).Select(lines => string.Concat(lines)).ToArray();
         return RegexFactory<ClawMachine>.ConstructObjects(CLAW_MACHINE_PATTERN, machineClumps, RegexOptions.Compiled);
     }
-    #endregion
 }

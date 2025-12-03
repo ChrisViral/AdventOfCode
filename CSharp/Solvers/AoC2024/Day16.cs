@@ -21,16 +21,13 @@ public class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> e
 
     private static readonly SearchValues<char> Markers = SearchValues.Create('E', 'S');
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day16(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -108,5 +105,4 @@ public class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> e
         }
         return (maze, start, end);
     }
-    #endregion
 }

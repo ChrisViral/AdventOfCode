@@ -23,16 +23,13 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     /// <summary> Input parsing pattern </summary>
     private static readonly Regex pattern = new(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", RegexOptions.Compiled);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver for 2022 - 15 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day15(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -128,5 +125,4 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
         int distance = Vector2<int>.ManhattanDistance(sensor, new Vector2<int>(values[2], values[3]));
         return (sensor, distance);
     }
-    #endregion
 }

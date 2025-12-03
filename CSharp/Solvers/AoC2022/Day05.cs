@@ -63,16 +63,13 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         public override string ToString() => $"move {this.Amount} from {this.From + 1} to {this.To + 1}";
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver for 2022 - 05 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day05(string input) : base(input, options: StringSplitOptions.None) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -172,5 +169,4 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         }
         return stacks;
     }
-    #endregion
 }

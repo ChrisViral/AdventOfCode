@@ -27,8 +27,7 @@ public class Day13 : IntcodeSolver
     /// </summary>
     private class Arcade : ConsoleView<Blocks>
     {
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// ID to character mapping
         /// </summary>
         private static readonly Dictionary<Blocks, char> toChar = new(5)
@@ -39,18 +38,12 @@ public class Day13 : IntcodeSolver
             [Blocks.PADDLE] = '═',
             [Blocks.BALL]   = 'O'
         };
-        #endregion
-
-        #region Fields
-        private readonly IntcodeVM software;
-        #endregion
-
-        #region Properties
-        private int Score { get; set; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            private readonly IntcodeVM software;
+    
+            private int Score { get; set; }
+    
+            /// <summary>
         /// Creates and setups a new Arcade from the given software
         /// </summary>
         /// <param name="width">Width of the view</param>
@@ -60,10 +53,8 @@ public class Day13 : IntcodeSolver
         {
             this.software = software;
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Play the game until it's over and display the screen on the console
         /// </summary>
         /// <returns>The final score of the game</returns>
@@ -115,19 +106,15 @@ public class Day13 : IntcodeSolver
 
         /// <inheritdoc cref="object.ToString"/>
         public override void PrintToConsole(string? message = null) => base.PrintToConsole("              Score: " + this.Score);
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day13(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -152,5 +139,4 @@ public class Day13 : IntcodeSolver
         Arcade arcade = new(width + 1, height + 1, this.VM);
         AoCUtils.LogPart2(arcade.Play());
     }
-    #endregion
 }

@@ -138,16 +138,13 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
                                                             .ToStringAndClear();
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver for 2022 - 13 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day13(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -191,5 +188,4 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         }
         return pairs;
     }
-    #endregion
 }

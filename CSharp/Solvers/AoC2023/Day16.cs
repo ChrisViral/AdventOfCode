@@ -32,7 +32,6 @@ public class Day16 : GridSolver<Day16.Element>
         public Vector2<int> position  = position;
         public Direction   direction = direction;
 
-        #region Equality members
         /// <inheritdoc />
         public bool Equals(State other) => this.position == other.position
                                         && this.direction == other.direction;
@@ -42,13 +41,11 @@ public class Day16 : GridSolver<Day16.Element>
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction);
-        #endregion
-    }
+        }
 
     private readonly Grid<bool> energized;
     private readonly HashSet<State> visited = [];
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
@@ -58,9 +55,7 @@ public class Day16 : GridSolver<Day16.Element>
     {
         this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -160,5 +155,4 @@ public class Day16 : GridSolver<Day16.Element>
 
     /// <inheritdoc />
     protected override string StringConversion(Element obj) => ((char)obj).ToString();
-    #endregion
 }

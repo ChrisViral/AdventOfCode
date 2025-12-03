@@ -29,23 +29,18 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
         public HashSet<Cave> Neighbours { get; } = [];
     }
 
-    #region Constants
     /// <summary>Start cave name</summary>
     private const string START = "start";
     /// <summary>End cave name</summary>
     private const string END   = "end";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver for 2021 - 12 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
     public Day12(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -142,5 +137,4 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
 
         return caves;
     }
-    #endregion
 }

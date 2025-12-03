@@ -17,8 +17,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     /// </summary>
     public class Orbit : IEnumerable<Orbit>, IEquatable<Orbit>
     {
-        #region Properties
-        /// <summary>
+            /// <summary>
         /// Orbit name
         /// </summary>
         public string Name { get; }
@@ -37,18 +36,14 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
         /// Which Orbit this was visited from while searching
         /// </summary>
         public Orbit? VisitedFrom { get; set; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Orbit of the specified name
         /// </summary>
         /// <param name="name">Name of the Orbit</param>
         public Orbit(string name) => this.Name = name;
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Gets the total depth of the orbit system
         /// </summary>
         /// <returns>The amount of direct and indirect orbits</returns>
@@ -82,10 +77,8 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        #endregion
-    }
+        }
 
-    #region Constants
     /// <summary>
     /// Name of the root Orbit
     /// </summary>
@@ -98,18 +91,14 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     /// Name of Santa's orbital object
     /// </summary>
     private const string SANTA = "SAN";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2, T3}"/> fails</exception>
     public Day06(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -179,5 +168,4 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
 
         return (orbits[ROOT], orbits[YOU], orbits[SANTA]);
     }
-    #endregion
 }

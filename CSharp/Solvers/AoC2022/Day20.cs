@@ -20,16 +20,13 @@ public class Day20 : ArraySolver<long>
     /// <summary>Part 2 decryption loops</summary>
     private const int  LOOPS          = 10;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver for 2022 - 20 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day20(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -95,5 +92,4 @@ public class Day20 : ArraySolver<long>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override long ConvertLine(string line) => long.Parse(line);
-    #endregion
 }

@@ -22,7 +22,6 @@ public class Day18 : Solver<string[][]>
         MULTIPLY
     }
 
-    #region Constants
     /// <summary>
     /// Add symbol
     /// </summary>
@@ -31,18 +30,14 @@ public class Day18 : Solver<string[][]>
     /// Multiplication symbol
     /// </summary>
     private const string MUL = "*";
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[][] fails</exception>
     public Day18(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -223,5 +218,4 @@ public class Day18 : Solver<string[][]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override string[][] Convert(string[] rawInput) => rawInput.ConvertAll(s => s.Split(' ', StringSplitOptions.TrimEntries));
-    #endregion
 }

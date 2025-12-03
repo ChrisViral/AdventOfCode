@@ -13,21 +13,18 @@ public partial class Day02 : Solver<Day02.IdRange[]>
 {
     public readonly record struct IdRange(long Start, long End);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
     private static readonly char[] Buffer = new char[19];
 
     [GeneratedRegex(@"(\d+)-(\d+)")]
     private static partial Regex RangeMatcher { get; }
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -91,5 +88,4 @@ public partial class Day02 : Solver<Day02.IdRange[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override IdRange[] Convert(string[] rawInput) => RegexFactory<IdRange>.ConstructObjects(RangeMatcher, rawInput[0]);
-    #endregion
 }

@@ -102,16 +102,13 @@ public class Day02 : Solver<Day02.Game[]>
 
     public const string GAME_PATTERN = @"Game (\d+): ([\w\s,;]+)";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Game"/>[] fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -126,5 +123,4 @@ public class Day02 : Solver<Day02.Game[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Game[] Convert(string[] rawInput) => RegexFactory<Game>.ConstructObjects(GAME_PATTERN, rawInput, RegexOptions.Compiled);
-    #endregion
 }

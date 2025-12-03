@@ -146,16 +146,13 @@ public class Day19 : Solver<Day19.Blueprint[]>
     /// <summary>Allotted time for the second part</summary>
     private const int SECOND_TIME = 32;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver for 2022 - 19 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day19(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -173,5 +170,4 @@ public class Day19 : Solver<Day19.Blueprint[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Blueprint[] Convert(string[] lines) => RegexFactory<Blueprint>.ConstructObjects(MATCH, lines, RegexOptions.Compiled);
-    #endregion
 }

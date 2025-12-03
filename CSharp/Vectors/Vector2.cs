@@ -67,7 +67,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         IEnumerator IEnumerable.GetEnumerator() => this;
     }
 
-    #region Constants
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
@@ -98,9 +97,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// Maximum vector value
     /// </summary>
     public static Vector2<T> MaxValue { get; } = new(T.MaxValue, T.MaxValue);
-    #endregion
 
-    #region Propeties
     /// <summary>
     /// X component of the Vector
     /// </summary>
@@ -131,9 +128,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>The vector normalized</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
     public Vector2<T> Normalized => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Vector2{T}"/> with the specified components
     /// </summary>
@@ -160,9 +155,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         this.X = copy.X;
         this.Y = copy.Y;
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="object.Equals(object)"/>
     public override bool Equals(object? other) => other is Vector2<T> vector && Equals(vector);
 
@@ -283,9 +276,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     {
         return new Vector2<TResult>(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
     }
-    #endregion
 
-    #region Static methods
     /// <summary>
     /// Calculates the distance between two vectors
     /// </summary>
@@ -639,9 +630,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="b">Second number to test</param>
     /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
     private static bool Approximately(T a, T b) => T.Abs(a - b) <= Epsilon;
-    #endregion
 
-    #region Operators
     /// <summary>
     /// Cast from <see cref="ValueTuple{T1, T2}"/> to <see cref="Vector2"/>
     /// </summary>
@@ -771,5 +760,4 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="b">Vector containing which values to modulo the components by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
     public static Vector2<T> operator %(Vector2<T> a, Vector2<T> b) => new(a.X % b.X, a.Y % b.Y);
-    #endregion
 }

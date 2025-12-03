@@ -13,23 +13,18 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
-    #region Constants
     /// <summary>Signal/output separator</summary>
     private static readonly char[] separatorSplit = ['|'];
     /// <summary>Segments separator</summary>
     private static readonly char[] segmentSplit   = [' '];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver for 2021 - 08 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day08(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -78,5 +73,4 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
         string[] splits = line.Split(separatorSplit, DEFAULT_OPTIONS);
         return (splits[0].Split(segmentSplit, DEFAULT_OPTIONS), splits[1].Split(segmentSplit, DEFAULT_OPTIONS));
     }
-    #endregion
 }

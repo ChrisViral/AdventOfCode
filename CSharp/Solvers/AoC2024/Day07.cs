@@ -13,16 +13,13 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public class Day07 : ArraySolver<(long test, long[] operands)>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day07(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -109,5 +106,4 @@ public class Day07 : ArraySolver<(long test, long[] operands)>
 
         return (test, operands);
     }
-    #endregion
 }

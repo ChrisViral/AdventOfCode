@@ -26,16 +26,13 @@ public class Day04 : Solver<Day04.Card[]>
 
     private const string CARD_PATTERN = @"Card\s+\d+: ([\d\s]+) \| ([\d\s]+)";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day04(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -83,5 +80,4 @@ public class Day04 : Solver<Day04.Card[]>
     {
         return RegexFactory<Card>.ConstructObjects(CARD_PATTERN, rawInput, RegexOptions.Compiled);
     }
-    #endregion
 }

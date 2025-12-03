@@ -38,13 +38,10 @@ public class Day16 : Solver<Day16.Packet>
     /// <param name="Size">Sub-packets size</param>
     public record Packet(byte Version, PacketType Type, long Size)
     {
-        #region Static fields
         /// <summary>Parsing StringBuilder</summary>
         private static readonly StringBuilder builder = new();
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Sub-packets of this packet
         /// </summary>
         private List<Packet>? SubPackets { get; init; }
@@ -69,9 +66,7 @@ public class Day16 : Solver<Day16.Packet>
             PacketType.EQU => SubPackets![0].Value == SubPackets[1].Value ? 1L : 0L,
             _              => throw new InvalidEnumArgumentException(nameof(Type), (int)Type, typeof(PacketType))
         };
-        #endregion
-
-        #region Static methods
+    
         /// <summary>
         /// Parses the packet from the given binary string value
         /// </summary>
@@ -138,19 +133,15 @@ public class Day16 : Solver<Day16.Packet>
 
             return (packet, used);
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver for 2021 - 16 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day16(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -175,5 +166,4 @@ public class Day16 : Solver<Day16.Packet>
                              .ToString();
         return Packet.ParsePacket(bits);
     }
-    #endregion
 }

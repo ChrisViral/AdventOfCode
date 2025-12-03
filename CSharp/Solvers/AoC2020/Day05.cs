@@ -16,29 +16,22 @@ public class Day05 : Solver<Day05.BoardingPass[]>
     /// </summary>
     public class BoardingPass
     {
-        #region Constants
-        public const int MAX_ROW = 127;
+            public const int MAX_ROW = 127;
         public const int MAX_COLUMN = 7;
-        #endregion
-
-        #region Properties
-        public int Row { get; }
+    
+            public int Row { get; }
 
         public int Column { get; }
 
         public int Id { get; }
-        #endregion
-
-        #region Constructors
-        public BoardingPass(string pattern)
+    
+            public BoardingPass(string pattern)
         {
             this.Row = BinarySearch(pattern[..7], 'F', MAX_ROW);
             this.Column = BinarySearch(pattern[7..], 'L', MAX_COLUMN);
             this.Id = (this.Row * 8) + this.Column;
         }
-        #endregion
-
-        #region Static methods
+    
         private static int BinarySearch(string pattern, char trueChar, int max)
         {
             int l = 0, r = max;
@@ -60,19 +53,15 @@ public class Day05 : Solver<Day05.BoardingPass[]>
 
             return middle;
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="BoardingPass"/> fails</exception>
     public Day05(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -110,5 +99,4 @@ public class Day05 : Solver<Day05.BoardingPass[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override BoardingPass[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new BoardingPass(s));
-    #endregion
 }

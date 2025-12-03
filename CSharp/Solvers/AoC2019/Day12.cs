@@ -38,13 +38,10 @@ public class Day12 : Solver<Day12.Moon[]>
         /// </summary>
         public readonly struct State : IEquatable<State>
         {
-            #region Fields
-            private readonly Vector3<int> position;
+                    private readonly Vector3<int> position;
             private readonly Vector3<int> velocity;
-            #endregion
-
-            #region Constructors
-            /// <summary>
+        
+                    /// <summary>
             /// Creates a new State for the given Moon
             /// </summary>
             /// <param name="moon">Moon to create the state for</param>
@@ -53,10 +50,8 @@ public class Day12 : Solver<Day12.Moon[]>
                 this.position = moon.position;
                 this.velocity = moon.velocity;
             }
-            #endregion
-
-            #region Methods
-            /// <inheritdoc cref="object.Equals(object)"/>
+        
+                    /// <inheritdoc cref="object.Equals(object)"/>
             public override bool Equals(object? obj) => obj is State state && Equals(state);
 
             /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
@@ -64,10 +59,8 @@ public class Day12 : Solver<Day12.Moon[]>
 
             /// <inheritdoc cref="object.GetHashCode"/>
             public override int GetHashCode() => HashCode.Combine(this.position, this.velocity);
-            #endregion
-
-            #region Operators
-            /// <summary>
+        
+                    /// <summary>
             /// Automatically creates a State from a given Moon
             /// </summary>
             /// <param name="moon">Moon to create the state for</param>
@@ -88,23 +81,17 @@ public class Day12 : Solver<Day12.Moon[]>
             /// <param name="b">Second state</param>
             /// <returns>True if both states are unequal, false otherwise</returns>
             public static bool operator !=(State a, State b) => !a.Equals(b);
-            #endregion
-        }
+                }
 
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Moon match pattern
         /// </summary>
         public const string PATTERN = @"<x=(-?\d+), y=(-?\d+), z=(-?\d+)>";
-        #endregion
-
-        #region Fields
-        private Vector3<int> position;
+    
+            private Vector3<int> position;
         private Vector3<int> velocity = Vector3<int>.Zero;
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Gets the total energy of the Moon
         /// </summary>
         public int Energy
@@ -116,10 +103,8 @@ public class Day12 : Solver<Day12.Moon[]>
                 return (px + py + pz) * (vx + vy + vz);
             }
         }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Moon at the given position
         /// </summary>
         /// <param name="x">X position</param>
@@ -136,19 +121,15 @@ public class Day12 : Solver<Day12.Moon[]>
             this.position = other.position;
             this.velocity = other.velocity;
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Updates the position of the Moon from it's velocity
         /// </summary>
         public void UpdatePosition() => this.position += this.velocity;
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => $"pos={this.position},".PadRight(18, ' ') + $"vel={this.velocity}";
-        #endregion
-
-        #region Static methods
+    
         /// <summary>
         /// Applies gravity between two moons
         /// </summary>
@@ -206,10 +187,8 @@ public class Day12 : Solver<Day12.Moon[]>
             a.velocity = va;
             b.velocity = vb;
         }
-        #endregion
-    }
+        }
 
-    #region Constants
     /// <summary>
     /// Iterations of the simulation
     /// </summary>
@@ -218,18 +197,14 @@ public class Day12 : Solver<Day12.Moon[]>
     /// Amount of Moons simulated
     /// </summary>
     private const int MOONS = 4;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Moon"/>[] fails</exception>
     public Day12(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -303,5 +278,4 @@ public class Day12 : Solver<Day12.Moon[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Moon[] Convert(string[] rawInput) => RegexFactory<Moon>.ConstructObjects(Moon.PATTERN, rawInput);
-    #endregion
 }

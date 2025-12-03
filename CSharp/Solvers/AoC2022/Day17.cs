@@ -173,16 +173,13 @@ public class Day17 : Solver<Direction[]>
         (cube, new Vector2<int>(1, -1))
     ];
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver for 2022 - 17 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -254,5 +251,4 @@ public class Day17 : Solver<Direction[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Direction[] Convert(string[] lines) => lines[0].Select(c => c is '<' ? Direction.LEFT : Direction.RIGHT)
                                                                        .ToArray();
-    #endregion
 }

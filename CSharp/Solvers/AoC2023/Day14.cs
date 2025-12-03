@@ -26,7 +26,6 @@ public class Day14 : GridSolver<Day14.Rock>
     private readonly Dictionary<Direction, Vector2<int>[]> directionOrders = new(4);
     private readonly Dictionary<string, int> states = new();
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
@@ -40,9 +39,7 @@ public class Day14 : GridSolver<Day14.Rock>
                                                              .Select(p => new Vector2<int>(p.Y, p.X)).ToArray();
         this.directionOrders[Direction.EAST]  = this.directionOrders[Direction.WEST].AsEnumerable().Reverse().ToArray();
     }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -116,5 +113,4 @@ public class Day14 : GridSolver<Day14.Rock>
     protected override Rock[] LineConverter(string line) => line.Select(c => (Rock)c).ToArray();
 
     protected override string StringConversion(Rock rock) => ((char)rock).ToString();
-    #endregion
 }

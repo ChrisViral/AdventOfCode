@@ -28,16 +28,13 @@ public class Day10 : GridSolver<Day10.Pipe>
         START      = 'S'
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Pipe"/> fails</exception>
     public Day10(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -165,5 +162,4 @@ public class Day10 : GridSolver<Day10.Pipe>
 
     /// <inheritdoc />
     protected override Pipe[] LineConverter(string line) => line.Select(c => (Pipe)c).ToArray();
-    #endregion
 }

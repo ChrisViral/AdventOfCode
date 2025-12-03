@@ -28,16 +28,13 @@ public class Day08 : Solver<Day08.Instruction[]>
     /// </summary>
     public record Instruction(Operations Operation, int Value)
     {
-        #region Constructors
-        /// <summary>
+            /// <summary>
         /// Creates a new instruction from a given line
         /// </summary>
         /// <param name="line">Instruction line</param>
         public Instruction(string line) : this(Enum.Parse<Operations>(line[..3], true), int.Parse(line[4..])) { }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Executes the instruction
         /// </summary>
         /// <param name="accumulator">Current accumulator</param>
@@ -64,25 +61,19 @@ public class Day08 : Solver<Day08.Instruction[]>
                     throw new InvalidEnumArgumentException(nameof(this.Operation), (int)this.Operation, typeof(Operations));
             }
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
     public Day08(string input) : base(input) { }
-    #endregion
 
-    #region Fields
     private int accumulator;
     private int pointer;
     private readonly HashSet<int> visited = [];
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -130,5 +121,4 @@ public class Day08 : Solver<Day08.Instruction[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Instruction[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new Instruction(s));
-    #endregion
 }

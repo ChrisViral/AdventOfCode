@@ -128,16 +128,13 @@ public class Day07 : Solver<Day07.Directory>
     /// <summary>Maximum used disk space to make system operational</summary>
     private const int    MAX_USED = 40000000;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day07"/> Solver for 2022 - 07 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day07(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -191,5 +188,4 @@ public class Day07 : Solver<Day07.Directory>
 
         return root;
     }
-    #endregion
 }

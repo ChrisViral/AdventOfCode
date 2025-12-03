@@ -15,21 +15,16 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day15 : GridSolver<byte>
 {
-    #region Constants
     /// <summary>Full size of the map</summary>
     private const int FULL_SIZE = 5;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver for 2021 - 15 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="byte"/> fails</exception>
     public Day15(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -76,5 +71,4 @@ public class Day15 : GridSolver<byte>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
-    #endregion
 }

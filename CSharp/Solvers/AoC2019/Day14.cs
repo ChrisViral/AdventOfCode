@@ -22,8 +22,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     /// </summary>
     public class Chemical : IEquatable<Chemical>
     {
-        #region Properties
-        /// <summary>
+            /// <summary>
         /// Name of the Chemical
         /// </summary>
         public string Name { get; }
@@ -37,10 +36,8 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         /// Required reactants
         /// </summary>
         public Reactant[] Reactants { get; set; } = [];
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new Chemical as specified
         /// </summary>
         /// <param name="name">Name of the chemical</param>
@@ -50,10 +47,8 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
             this.Name = name;
             this.Produced = produced;
         }
-        #endregion
-
-        #region Methods
-        /// <inheritdoc cref="object.Equals(object)"/>
+    
+            /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Chemical chemical && Equals(chemical);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
@@ -64,10 +59,8 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Name;
-        #endregion
-    }
+        }
 
-    #region Constants
     /// <summary>
     /// Full reaction pattern
     /// </summary>
@@ -88,23 +81,17 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
     /// Total ore in the cargo
     /// </summary>
     private const long CARGO = 1_000_000_000_000L;
-    #endregion
 
-    #region Fields
     private readonly Dictionary<Chemical, int> toProduce = new();
     private readonly Dictionary<Chemical, int> surplus = new();
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Dictionary{TKey,TValue}"/> fails</exception>
     public Day14(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -240,5 +227,4 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         reactions.ForEach(r => r.chemical.Reactants = r.reactants.Select(c => new Reactant(chemicals[c.name], c.amount)).ToArray());
         return chemicals;
     }
-    #endregion
 }

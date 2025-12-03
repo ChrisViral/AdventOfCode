@@ -74,7 +74,6 @@ public class Day22 : ArraySolver<Day22.Brick>
 
         public override string ToString() => this.data;
 
-        #region Equality members
         /// <inheritdoc />
         public bool Equals(Brick? other) => !ReferenceEquals(null, other)
                                          && (ReferenceEquals(this, other)
@@ -85,19 +84,15 @@ public class Day22 : ArraySolver<Day22.Brick>
 
         /// <inheritdoc />
         public override int GetHashCode() => this.data.GetHashCode();
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day22(string input) : base(input) => this.Data.Sort();
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -149,5 +144,4 @@ public class Day22 : ArraySolver<Day22.Brick>
 
     /// <inheritdoc />
     protected override Brick ConvertLine(string line) => new(line);
-    #endregion
 }

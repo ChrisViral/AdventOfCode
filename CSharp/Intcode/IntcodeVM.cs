@@ -43,22 +43,19 @@ public class IntcodeVM
     /// <param name="vm">VM to create the data for</param>
     public readonly struct VMData(IntcodeVM vm)
     {
-        #region Fields
-        /// <summary>Memory of the VM</summary>
+            /// <summary>Memory of the VM</summary>
         public readonly Memory<long> memory = vm.memory;
         /// <summary>Input function of the VM</summary>
         public readonly Input input = vm.GetNextInput;
         /// <summary>Output function of the VM</summary>
         public readonly Output output = vm.AddOutput;
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Output event
     /// </summary>
     public event Action? OnOutput;
 
-    #region Constants
     /// <summary>
     /// Halted pointer state
     /// </summary>
@@ -79,9 +76,7 @@ public class IntcodeVM
     /// Input parsing splitting options
     /// </summary>
     private const StringSplitOptions OPTIONS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-    #endregion
 
-    #region Fields
     /// <summary>Intcode program memory pointer</summary>
     private int pointer = DEFAULT;
     /// <summary>Relative base of the VM</summary>
@@ -92,9 +87,7 @@ public class IntcodeVM
     private readonly ReadOnlyMemory<long> originalState;
     /// <summary>Data relating to the VM</summary>
     private readonly VMData data;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// The current VM State
     /// </summary>
@@ -121,9 +114,7 @@ public class IntcodeVM
     /// If the VM has any available output values left
     /// </summary>
     public bool HasOutputs => this.Out.Count is not 0;
-    #endregion
 
-    #region Indexers
     /// <summary>
     /// Accesses the memory of the VM
     /// </summary>
@@ -137,9 +128,7 @@ public class IntcodeVM
     /// <param name="index">Index to access</param>
     /// <returns>Value in the memory at the specified index</returns>
     public ref long this[Index index] => ref this.memory.Span[index];
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new Intcode VM by parsing the given code, and with empty input and output queues
     /// </summary>
@@ -181,9 +170,7 @@ public class IntcodeVM
         this.Out  = output;
         this.data = new VMData(this);
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Runs the Intcode VM until it reaches a stopped state, then returns it's current state.
     /// </summary>
@@ -342,5 +329,4 @@ public class IntcodeVM
         d = GetNextOutput();
         e = GetNextOutput();
     }
-    #endregion
 }

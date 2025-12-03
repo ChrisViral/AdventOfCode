@@ -17,7 +17,6 @@ public static class AoCUtils
     /// </summary>
     public static Stopwatch PartsWatch { get; } = new();
 
-    #region Static methods
     /// <summary>
     /// Combines input lines into sequences, separated by empty lines
     /// </summary>
@@ -136,5 +135,4 @@ public static class AoCUtils
         a = b;
         b = temp;
     }
-    #endregion
 }

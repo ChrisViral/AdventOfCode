@@ -20,16 +20,13 @@ public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string 
     private const string START = "AAA";
     private const string END   = "ZZZ";
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day08(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -73,5 +70,4 @@ public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string 
         map.AddRange(nodes.Select(n => new KeyValuePair<string, (string, string)>(n.label, (n.left, n.right))));
         return (directions, map);
     }
-    #endregion
 }

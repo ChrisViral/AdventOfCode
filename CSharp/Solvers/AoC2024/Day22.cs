@@ -45,16 +45,13 @@ public class Day22 : ArraySolver<long>
     /// </summary>
     private const int GEN_COUNT = 2000;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day22(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -113,5 +110,4 @@ public class Day22 : ArraySolver<long>
 
     /// <inheritdoc />
     protected override long ConvertLine(string line) => long.Parse(line);
-    #endregion
 }

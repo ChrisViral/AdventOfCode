@@ -18,16 +18,13 @@ public class Day11 : GridSolver<bool>
     private const char GALAXY = '#';
     private const int OLD_EXPANSION = 1_000_000;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day11(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -102,5 +99,4 @@ public class Day11 : GridSolver<bool>
 
     /// <inheritdoc />
     protected override bool[] LineConverter(string line) => line.Select(c => c is GALAXY).ToArray();
-    #endregion
 }

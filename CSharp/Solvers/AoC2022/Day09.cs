@@ -22,16 +22,13 @@ public class Day09 : ArraySolver<Vector2<int>>
 
     private const int SIZE = 500;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day09"/> Solver for 2022 - 09 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day09(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -76,5 +73,4 @@ public class Day09 : ArraySolver<Vector2<int>>
 
         return visited.Count(v => v is Element.VISITED);
     }
-    #endregion
 }

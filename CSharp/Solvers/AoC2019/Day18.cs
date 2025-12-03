@@ -20,16 +20,13 @@ public class Day18 : Solver<Day18.Maze>
     /// ReSharper disable once NotAccessedPositionalProperty.Local
     private record Lock(char ID, Vector2<int> Key, Vector2<int> Door, int Bitwise, int Required)
     {
-        #region Constructors
-        /// <summary>
+            /// <summary>
         /// Creates a new default lock from the given ID, key, and door
         /// </summary>
         /// <param name="id">Character ID of the door</param>
         public Lock(char id) : this(id, Vector2<int>.Zero, Vector2<int>.Zero, 1 << (id - 'a'), 0) { }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Check if the Lock's key is reachable with a given set of keys
         /// </summary>
         /// <param name="keys">Currently available keys</param>
@@ -38,8 +35,7 @@ public class Day18 : Solver<Day18.Maze>
 
         /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode() => this.ID.GetHashCode();
-        #endregion
-    }
+        }
 
     /// <summary>
     /// Maze grid class
@@ -48,8 +44,7 @@ public class Day18 : Solver<Day18.Maze>
     {
         private class Node
         {
-            #region Properties
-            /// <summary>
+                    /// <summary>
             /// Distance from the parent node to this node
             /// </summary>
             private int FromParent { get; }
@@ -68,10 +63,8 @@ public class Day18 : Solver<Day18.Maze>
             /// Total distance from the start to the end through this node
             /// </summary>
             public int DistanceToEnd => this.FromParent + (this.Child?.DistanceToEnd ?? 0);
-            #endregion
-
-            #region Constructors
-            /// <summary>
+        
+                    /// <summary>
             /// Creates a new Node from the given position
             /// </summary>
             /// <param name="position">Position of the node</param>
@@ -90,10 +83,8 @@ public class Day18 : Solver<Day18.Maze>
             /// <param name="maze">Maze the node is in</param>
             /// <param name="keys">Currently available keys</param>
             private Node(Vector2<int> position, int fromParent, Maze maze, int keys) : this(position, fromParent) => Explore(maze, keys);
-            #endregion
-
-            #region Methods
-            /// <summary>
+        
+                    /// <summary>
             /// Explores the children of this node
             /// </summary>
             /// <param name="maze">Maze to explore into</param>
@@ -137,9 +128,7 @@ public class Day18 : Solver<Day18.Maze>
                     maze.states.Add((this.Position, keys), this.Child!);
                 }
             }
-            #endregion
-
-            #region Static methods
+        
             /// <summary>
             /// Function finding neighbours for a given key within the maze, not walking through other keys
             /// </summary>
@@ -161,18 +150,14 @@ public class Day18 : Solver<Day18.Maze>
                     }
                 }
             }
-            #endregion
-        }
+                }
 
-        #region Constants
-        /// <summary>
+            /// <summary>
         /// Character code for a wall
         /// </summary>
         private const char WALL = '#';
-        #endregion
-
-        #region Fields
-        /// <summary>Locks dictionary</summary>
+    
+            /// <summary>Locks dictionary</summary>
         private readonly Dictionary<char, Lock> locks = new(26);
         /// <summary>Travel distance dictionary</summary>
         private readonly Dictionary<(Vector2<int>, Vector2<int>), int> distances = new();
@@ -180,17 +165,13 @@ public class Day18 : Solver<Day18.Maze>
         private readonly Dictionary<(Vector2<int>, int), Node> states = new();
         /// <summary>Bit mask for all keys</summary>
         private readonly int allKeys;
-        #endregion
-
-        #region Properties
-        /// <summary>
+    
+            /// <summary>
         /// Starting/root node
         /// </summary>
         private Node Start { get; }
-        #endregion
-
-        #region Constructors
-        /// <summary>
+    
+            /// <summary>
         /// Creates a new maze with the specified parameters
         /// </summary>
         /// <param name="width">Width of the maze</param>
@@ -235,10 +216,8 @@ public class Day18 : Solver<Day18.Maze>
             //Create search graph
             this.Start = new Node(Vector2<int>.Zero);
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
+    
+            /// <summary>
         /// Finds the shortest path through the maze to collect all keys
         /// </summary>
         /// <returns>The length of the shortest path</returns>
@@ -258,9 +237,7 @@ public class Day18 : Solver<Day18.Maze>
             //Look through all neighbours
             return position.Adjacent().Where(n => this[n] is not WALL).Select(neighbour => new MoveData<Vector2<int>, double>(neighbour, 1d));
         }
-        #endregion
-
-        #region Static methods
+    
         /// <summary>
         /// Converts the maze data to a prettier values
         /// </summary>
@@ -276,19 +253,15 @@ public class Day18 : Solver<Day18.Maze>
                 _   => c
             };
         }
-        #endregion
-    }
+        }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ConsoleView{T}"/> fails</exception>
     public Day18(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -305,5 +278,4 @@ public class Day18 : Solver<Day18.Maze>
         Vector2<int> start = Vector2<int>.Enumerate(width, height).First(v => rawInput[v.Y][v.X] is '@');
         return new Maze(rawInput[0].Length, rawInput.Length, rawInput, start);
     }
-    #endregion
 }

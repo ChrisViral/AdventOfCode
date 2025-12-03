@@ -21,16 +21,13 @@ public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
 
     private const string PATTERN = @"target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)";
 
-    #region Constructors
     /// <summary>7
     /// Creates a new <see cref="Day17"/> Solver for 2021 - 17 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
     public Day17(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -81,5 +78,4 @@ public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
         (int aX, int bX, int aY, int bY) = new RegexFactory<(int, int, int, int)>(PATTERN).ConstructObject(rawInput[0]);
         return (new Range(aX, bX), new Range(aY, bY));
     }
-    #endregion
 }

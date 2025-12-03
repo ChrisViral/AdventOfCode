@@ -29,7 +29,6 @@ public class Day24 : Solver<Day24.Neighbour[][]>
         SOUTH_WEST
     }
 
-    #region Constants
     /// <summary>
     /// Neighbour pattern
     /// </summary>
@@ -50,18 +49,14 @@ public class Day24 : Solver<Day24.Neighbour[][]>
         ["se"] = Neighbour.SOUTH_EAST,
         ["sw"] = Neighbour.SOUTH_WEST
     };
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Neighbour"/>[][] fails</exception>
     public Day24(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -160,5 +155,4 @@ public class Day24 : Solver<Day24.Neighbour[][]>
 
         return directions;
     }
-    #endregion
 }

@@ -21,16 +21,13 @@ public class Day18 : ArraySolver<Vector2<int>>
 
     private Grid<bool> memory = null!;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Vector2{T}"/> fails</exception>
     public Day18(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -75,5 +72,4 @@ public class Day18 : ArraySolver<Vector2<int>>
 
     /// <inheritdoc />
     protected override Vector2<int> ConvertLine(string line) => Vector2<int>.Parse(line);
-    #endregion
 }

@@ -64,16 +64,13 @@ public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
         };
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver for 2022 - 02 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day02(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -89,5 +86,4 @@ public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
     {
         return (new Move(line[0] - 'A'), new Move(line[2] - 'X'));
     }
-    #endregion
 }

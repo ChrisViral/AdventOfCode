@@ -12,25 +12,20 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// </summary>
 public class Day06 : Solver<int[]>
 {
-    #region Constants
     /// <summary>Part 1 days</summary>
     private const int DAYS = 80;
     /// <summary>Part 2 days</summary>
     private const int LONG_DAYS = 256;
     /// <summary>Fish spawn cache</summary>
     private static readonly Dictionary<int, long> cache = new();
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver for 2021 - 06 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day06(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -70,5 +65,4 @@ public class Day06 : Solver<int[]>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override int[] Convert(string[] rawInput) => rawInput[0].Split(',').ConvertAll(int.Parse);
-    #endregion
 }

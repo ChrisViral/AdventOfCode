@@ -121,16 +121,13 @@ public class Day23 : Solver<Day23.Elf[]>
     /// <summary>Number of rounds in the first part</summary>
     private const int ROUNDS = 10;
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day23"/> Solver for 2022 - 23 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day23(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -181,5 +178,4 @@ public class Day23 : Solver<Day23.Elf[]>
                                                                              .Where(p => lines[p.Y][p.X] is '#')
                                                                              .Select(p => new Elf(p))
                                                                              .ToArray();
-    #endregion
 }

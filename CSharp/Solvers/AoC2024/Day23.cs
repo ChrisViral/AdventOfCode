@@ -120,16 +120,13 @@ public class Day23 : Solver<Day23.NetworkNode[]>
         public static bool operator !=(in NetworkGroup a, in NetworkGroup b) => !a.Equals(b);
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day23(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -255,5 +252,4 @@ public class Day23 : Solver<Day23.NetworkNode[]>
 
         return nodes.Values.ToArray();
     }
-    #endregion
 }

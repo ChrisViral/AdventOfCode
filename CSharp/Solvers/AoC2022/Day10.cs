@@ -20,14 +20,12 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
         ADDX
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver for 2022 - 10 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day10(string input) : base(input) { }
-    #endregion
 
     /// <summary>
     /// X register
@@ -54,7 +52,6 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     /// </summary>
     private Grid<bool> CRT { get; } = new(40, 6, v => v ? "█" : " ");
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -110,5 +107,4 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
                             ? new Vector2<int>(0, this.Position.Y + 1)
                             : new Vector2<int>(this.Position.X + 1, this.Position.Y);
     }
-    #endregion
 }

@@ -11,16 +11,13 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day05 : IntcodeSolver
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     public Day05(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -34,5 +31,4 @@ public class Day05 : IntcodeSolver
         this.VM.Run();
         AoCUtils.LogPart2(this.Data.GetNextOutput());
     }
-    #endregion
 }

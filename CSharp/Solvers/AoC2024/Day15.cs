@@ -28,16 +28,13 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
         BOX_RIGHT = ']'
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day15(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -315,5 +312,4 @@ public class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
                                     .ToArray();
         return (warehouse, moves);
     }
-    #endregion
 }

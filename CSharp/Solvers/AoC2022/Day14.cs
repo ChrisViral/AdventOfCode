@@ -30,16 +30,13 @@ public class Day14 : ArraySolver<Vector2<int>[]>
     /// <summary> Double right shift </summary>
     private static readonly Vector2<int> rightShift     = new(2, 0);
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver for 2022 - 14 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day14(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -120,5 +117,4 @@ public class Day14 : ArraySolver<Vector2<int>[]>
         position = source;
         return true;
     }
-    #endregion
 }

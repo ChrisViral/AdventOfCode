@@ -11,7 +11,6 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day16 : Solver<string>
 {
-    #region Constants
     /// <summary>
     /// Iterations amount
     /// </summary>
@@ -20,18 +19,14 @@ public class Day16 : Solver<string>
     /// Input repeats for part 2
     /// </summary>
     private const int REPEATS = 10_000;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day16(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -96,5 +91,4 @@ public class Day16 : Solver<string>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override string Convert(string[] rawInput) => rawInput[0];
-    #endregion
 }

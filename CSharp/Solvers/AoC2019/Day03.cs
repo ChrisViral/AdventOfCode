@@ -13,16 +13,13 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// </summary>
 public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
     public Day03(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -68,5 +65,4 @@ public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput) => (rawInput[0].Split(',').ConvertAll(Vector2<int>.ParseFromDirection), rawInput[1].Split(',').ConvertAll(Vector2<int>.ParseFromDirection));
-    #endregion
 }

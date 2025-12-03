@@ -12,23 +12,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// </summary>
 public class Day13 : Solver<(int timestamp, int[] buses)>
 {
-    #region Constants
     /// <summary>
     /// Out of service line no
     /// </summary>
     private const int NO_SERVICE = -1;
-    #endregion
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
     public Day13(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -79,5 +74,4 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (int, int[]) Convert(string[] rawInput) => (int.Parse(rawInput[0]),
                                                                    rawInput[1].Split(',').ConvertAll(s => s is not "x" ? int.Parse(s) : NO_SERVICE));
-    #endregion
 }

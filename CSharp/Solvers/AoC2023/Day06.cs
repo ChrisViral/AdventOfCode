@@ -13,16 +13,13 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// </summary>
 public class Day06 : Solver<(int time, int record)[]>
 {
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
     public Day06(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -67,5 +64,4 @@ public class Day06 : Solver<(int time, int record)[]>
         }
         return data;
     }
-    #endregion
 }

@@ -155,16 +155,13 @@ public class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         };
     }
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver for 2022 - 21 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day21(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
@@ -188,5 +185,4 @@ public class Day21 : Solver<Dictionary<string, Day21.Monkey>>
 
         return monkeys;
     }
-    #endregion
 }

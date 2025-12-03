@@ -56,16 +56,13 @@ public class Day19 : Solver<List<Vector3<int>[]>>
     ];
     private static readonly List<Vector3<int>> buffer = [];
 
-    #region Constructors
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver for 2021 - 19 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day19(string input) : base(input) { }
-    #endregion
 
-    #region Methods
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
@@ -148,5 +145,4 @@ public class Day19 : Solver<List<Vector3<int>[]>>
 
         return scanners;
     }
-    #endregion
 }
