@@ -23,6 +23,7 @@ public class Day19 : Solver<(string[] towels, string[] designs)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Keep a set of the valid and invalid designs we found

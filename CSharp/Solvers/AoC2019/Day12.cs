@@ -231,6 +231,7 @@ public class Day12 : Solver<Day12.Moon[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Moon[] moons = CopyMoons();

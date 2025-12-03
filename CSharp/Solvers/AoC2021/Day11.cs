@@ -35,6 +35,7 @@ public class Day11 : GridSolver<byte>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int flashes = 0;

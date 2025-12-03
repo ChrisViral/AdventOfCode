@@ -44,6 +44,7 @@ public class Day14 : GridSolver<Day14.Rock>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         SlideReflector(Direction.NORTH);

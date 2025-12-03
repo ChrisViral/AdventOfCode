@@ -36,6 +36,7 @@ public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Loop through all lines

@@ -124,6 +124,7 @@ public class Day08 : Solver<Day08.Layer[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Layer smallest = this.Data[0];

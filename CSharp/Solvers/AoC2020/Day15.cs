@@ -33,6 +33,7 @@ public class Day15 : Solver<Dictionary<int, int>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Setup

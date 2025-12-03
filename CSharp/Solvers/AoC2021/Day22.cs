@@ -109,6 +109,7 @@ public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Just doing the naive approach for part one, it's much easier

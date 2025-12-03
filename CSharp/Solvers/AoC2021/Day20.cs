@@ -31,6 +31,7 @@ public class Day20 : Solver<(string algorithm, Grid<bool> image)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Grid<bool> image = this.Data.image;

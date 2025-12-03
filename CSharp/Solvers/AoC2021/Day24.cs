@@ -27,6 +27,7 @@ public class Day24 : Solver<(int a, int b, int c)[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Span<char> largestResult  = stackalloc char[DIGITS];

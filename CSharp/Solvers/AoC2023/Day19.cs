@@ -158,6 +158,7 @@ public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int total = 0;

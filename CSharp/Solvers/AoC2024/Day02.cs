@@ -26,6 +26,7 @@ public class Day02 : ArraySolver<int[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int[][] unsafeReports = this.Data.WhereNot(IsSafe).ToArray();

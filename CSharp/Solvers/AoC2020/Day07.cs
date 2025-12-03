@@ -120,6 +120,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Bag personalBag = this.Data[PERSONAL_BAG];

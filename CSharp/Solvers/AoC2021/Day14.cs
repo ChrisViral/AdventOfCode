@@ -30,6 +30,7 @@ public class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Setup counter dictionaries

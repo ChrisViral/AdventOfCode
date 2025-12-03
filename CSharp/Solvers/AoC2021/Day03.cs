@@ -30,6 +30,7 @@ public class Day03 : Solver
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Find the count on each binary digit

@@ -45,6 +45,7 @@ public class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int rolls = 0;

@@ -209,6 +209,7 @@ public class Day15 : IntcodeSolver
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Hide cursor while running

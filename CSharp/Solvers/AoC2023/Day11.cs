@@ -29,6 +29,7 @@ public class Day11 : GridSolver<bool>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Vector2<int>[] galaxies = Vector2<int>.Enumerate(this.Data.Width, this.Data.Height)

@@ -24,6 +24,7 @@ public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Dictionary<Vector2<int>, int> firstVisited = GetVisited(this.Data.first);

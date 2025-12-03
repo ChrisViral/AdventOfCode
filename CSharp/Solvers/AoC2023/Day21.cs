@@ -30,6 +30,7 @@ public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Stack<Vector2<int>> currentPositions   = [];

@@ -32,6 +32,7 @@ public class Day25 : Solver<(int cardKey, int doorKey)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Get loop number for card public key

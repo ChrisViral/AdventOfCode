@@ -147,6 +147,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Add start/end matches to the pattern

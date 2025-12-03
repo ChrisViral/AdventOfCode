@@ -47,6 +47,7 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Cave start = this.Data[START];

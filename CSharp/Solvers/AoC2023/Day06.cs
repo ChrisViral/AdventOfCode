@@ -24,6 +24,7 @@ public class Day06 : Solver<(int time, int record)[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
 

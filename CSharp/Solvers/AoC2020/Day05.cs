@@ -74,6 +74,7 @@ public class Day05 : Solver<Day05.BoardingPass[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Part 1

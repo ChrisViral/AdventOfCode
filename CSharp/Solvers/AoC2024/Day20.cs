@@ -35,6 +35,7 @@ public class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Vector2<i
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Get full path

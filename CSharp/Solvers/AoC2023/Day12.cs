@@ -54,6 +54,7 @@ public class Day12 : ArraySolver<(string condition, int[] groups)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long total = this.Data.Sum(d => CountMatches(d.condition, d.groups));

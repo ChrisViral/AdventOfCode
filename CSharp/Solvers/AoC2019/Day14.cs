@@ -106,6 +106,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Produce one fuel

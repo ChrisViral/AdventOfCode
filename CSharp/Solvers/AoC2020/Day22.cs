@@ -40,6 +40,7 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Play a single game

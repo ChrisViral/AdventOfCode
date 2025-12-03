@@ -107,6 +107,7 @@ public class Day11 : Solver<(long value, Day11.Stone stone)[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Dictionary<long, Stone> stonesCache = this.Data.ToDictionary();

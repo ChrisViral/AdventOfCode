@@ -228,6 +228,7 @@ public class Day23 : Solver<Day23.GraphData>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Sort into respective rooms

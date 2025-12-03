@@ -22,6 +22,7 @@ public class Day06 : Solver<HashSet<char>[][]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int anyTotal = 0;

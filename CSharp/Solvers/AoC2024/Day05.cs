@@ -34,6 +34,7 @@ public class Day05 : Solver<Day05.Rule[][]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         ILookup<bool, Rule[]> updatesLookup = this.Data.ToLookup(u => IsUpdateValid(u));

@@ -50,6 +50,7 @@ public class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Setup visited set

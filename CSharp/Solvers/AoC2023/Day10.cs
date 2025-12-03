@@ -39,6 +39,7 @@ public class Day10 : GridSolver<Day10.Pipe>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Vector2<int> start = this.Data.PositionOf(Pipe.START);

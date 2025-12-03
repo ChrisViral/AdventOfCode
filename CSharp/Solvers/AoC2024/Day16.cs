@@ -32,6 +32,7 @@ public class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> e
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Move start = new(this.Data.start, Direction.EAST);

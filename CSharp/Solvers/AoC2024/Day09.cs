@@ -22,6 +22,7 @@ public class Day09 : Solver<string>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Store locally in span

@@ -290,6 +290,7 @@ public class Day18 : Solver<Day18.Maze>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(this.Data.FindShortestPath());

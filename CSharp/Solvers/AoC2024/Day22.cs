@@ -56,6 +56,7 @@ public class Day22 : ArraySolver<long>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         (int[] prices, byte[] diffs, long secret)[] data = this.Data.Select(GeneratePrices).ToArray();

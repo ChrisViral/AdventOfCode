@@ -99,6 +99,7 @@ public class Day22 : ArraySolver<Day22.Brick>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int maxHeight = this.Data[^1].Top;

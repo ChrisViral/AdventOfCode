@@ -23,6 +23,7 @@ public class Day01 : ArraySolver<int>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Check the one window differences

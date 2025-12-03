@@ -31,6 +31,7 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Count outputs with known segments length

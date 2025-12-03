@@ -34,6 +34,7 @@ public class Day02 : IntcodeSolver
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         (this.VM[1], this.VM[2]) = (12L, 2L);

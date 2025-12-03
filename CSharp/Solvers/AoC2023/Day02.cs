@@ -113,6 +113,7 @@ public class Day02 : Solver<Day02.Game[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Set maxSet = new(12, 13, 14);

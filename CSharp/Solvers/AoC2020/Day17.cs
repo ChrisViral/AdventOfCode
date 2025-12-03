@@ -217,6 +217,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(this.Data.part1.Simulate(6));

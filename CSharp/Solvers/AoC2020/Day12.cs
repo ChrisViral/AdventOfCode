@@ -148,6 +148,7 @@ public class Day12 : Solver<Day12.Navigation[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Vector2 position = Vector2.Zero;

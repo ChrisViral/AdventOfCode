@@ -38,6 +38,7 @@ public class Day07 : Solver<IntcodeVM[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long max = long.MinValue;

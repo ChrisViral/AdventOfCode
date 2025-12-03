@@ -23,6 +23,7 @@ public class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Make result match vector

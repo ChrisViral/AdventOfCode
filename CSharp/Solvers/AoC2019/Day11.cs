@@ -109,6 +109,7 @@ public class Day11 : IntcodeSolver
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         PainterRobot robot = new(150, 150, this.VM);

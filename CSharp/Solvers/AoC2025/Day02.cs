@@ -42,7 +42,7 @@ public partial class Day02 : Solver<Day02.IdRange[]>
                 ReadOnlySpan<char> value = Buffer.AsSpan(0, size);
                 if (IsInvalid(value))
                 {
-                    invalid         += id;
+                    invalid += id;
                 }
                 else if (IsInvalidRepeated(value))
                 {

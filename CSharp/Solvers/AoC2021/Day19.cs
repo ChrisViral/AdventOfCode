@@ -67,6 +67,7 @@ public class Day19 : Solver<List<Vector3<int>[]>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         List<Vector3<int>> beacons       = new();

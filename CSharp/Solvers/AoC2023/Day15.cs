@@ -48,6 +48,7 @@ public class Day15 : Solver<Day15.Instruction[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int total = this.Data.Select(i => i.ToString()).Sum(HashCode);

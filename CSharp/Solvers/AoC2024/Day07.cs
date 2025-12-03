@@ -24,6 +24,7 @@ public class Day07 : ArraySolver<(long test, long[] operands)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         ILookup<bool, (long test, long[] operands)> calibrations = this.Data.ToLookup(IsValidOperation);

@@ -39,6 +39,7 @@ public class Day14 : Solver<Day14.Robot[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int dangerLevel = GetDangerLevel(PART1_TIME);

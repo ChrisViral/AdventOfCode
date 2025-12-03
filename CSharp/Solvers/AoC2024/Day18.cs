@@ -32,6 +32,7 @@ public class Day18 : ArraySolver<Vector2<int>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         this.memory = new Grid<bool>(End.X + 1, End.Y + 1, b => b ? "#" : ".");

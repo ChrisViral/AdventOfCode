@@ -97,6 +97,7 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         List<Ticket> valid = new(this.Data.examples.Length);

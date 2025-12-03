@@ -30,6 +30,7 @@ public class Day13 : Solver<(int timestamp, int[] buses)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int shortestWait = int.MaxValue;

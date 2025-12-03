@@ -42,6 +42,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Apply the first fold and check how many sections are still marked

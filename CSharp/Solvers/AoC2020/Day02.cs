@@ -31,6 +31,7 @@ public class Day02 : Solver<Day02.PasswordData[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int part1 = 0;

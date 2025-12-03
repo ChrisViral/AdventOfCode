@@ -41,6 +41,7 @@ public class Day23 : Solver<int[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         //Start moving the cups

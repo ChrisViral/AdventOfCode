@@ -122,6 +122,7 @@ public class Day24 : Solver<Day24.Wire[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Get z wires

@@ -32,6 +32,7 @@ public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         List<int> validY = new();

@@ -131,6 +131,7 @@ public class Day23 : Solver<Day23.NetworkNode[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         HashSet<NetworkNode> current = new(32);

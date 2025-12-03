@@ -111,6 +111,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(this.Data.com.GetOrbits());

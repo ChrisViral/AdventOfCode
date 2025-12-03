@@ -83,6 +83,7 @@ public class Day21 : ArraySolver<(string code, int value)>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART1_DEPTH) * t.value);

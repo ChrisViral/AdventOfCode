@@ -37,6 +37,7 @@ public class Day04 : Solver<Day04.Card[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int total = 0;

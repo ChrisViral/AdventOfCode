@@ -50,6 +50,7 @@ public class Day18 : Solver<Day18.DigInstruction[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int area = CalculateShapeSize(this.Data.Select(d => d.instruction));

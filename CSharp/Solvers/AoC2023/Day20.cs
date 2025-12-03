@@ -134,6 +134,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int lowPulses = 0, highPulses = 0;

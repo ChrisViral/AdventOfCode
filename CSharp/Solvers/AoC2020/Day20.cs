@@ -325,6 +325,7 @@ public class Day20 : Solver<Day20.Tile[]>
 
     #region Methods
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Tile topLeftCorner = this.Data.First(t => t.IsCorner(this.Data));

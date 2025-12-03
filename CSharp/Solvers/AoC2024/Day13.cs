@@ -87,6 +87,7 @@ public class Day13 : Solver<Day13.ClawMachine[]>
 
     #region Methods1
     /// <inheritdoc cref="Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long totalPrice = 0L;
