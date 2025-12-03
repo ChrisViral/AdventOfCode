@@ -49,6 +49,7 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
+    /// ReSharper disable once CognitiveComplexity
     public static TValue[]? Search<TValue, TCost>(TValue start, TValue goal,
                                                   [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                   [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
@@ -134,6 +135,7 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>A tuple containing the optimal found path as well as a set of all nodes on a other optimal paths, or null if no path was found</returns>
+    /// ReSharper disable once CognitiveComplexity
     public static (TValue[]?, HashSet<TValue>?) SearchEquivalentPaths<TValue, TCost>(TValue start, TValue goal,
                                                                                      [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                                                      [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
@@ -266,6 +268,7 @@ public static class SearchUtils
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="distances">Cached distances dictionary</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
+    /// ReSharper disable once CognitiveComplexity
     public static int? GetPathLength<TValue, TCost>(TValue start, TValue goal,
                                                     [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                     [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,

@@ -175,38 +175,64 @@ public static class EnumerableExtensions
         /// Loops an enumerator over itself until the total length is reached
         /// </summary>
         /// <param name="length">Total length to reach</param>
-        /// <param name="copy">If a local copy of the enumerator should be cached, defaults to true</param>
+        /// <param name="cache">If a local copy of the enumerator should be cached, defaults to true</param>
         /// <returns>A sequence looping over the input sequence and of the specified length</returns>
         [Pure, LinqTunnel]
-        public IEnumerable<T> Loop(int length, bool copy = true)
+        public IEnumerable<T> Loop(int length, bool cache = true)
         {
             //Make sure the length is valid
-            if (length < 1) yield break;
+            if (length < 1) return Enumerable.Empty<T>();
 
-            //Caching
-            if (copy)
+            if (!cache)
             {
-                //Create cache over first iteration
-                List<T> cache = [];
-                foreach (T t in enumerable)
-                {
-                    yield return t;
-                    if (--length is 0) yield break;
-
-                    cache.Add(t);
-                }
-
-                while (true)
-                {
-                    //Loop forever
-                    foreach (T t in cache)
-                    {
-                        yield return t;
-                        if (--length is 0) yield break;
-                    }
-                }
+                return enumerable.LoopWithoutCache(length);
             }
 
+            if (enumerable.TryGetNonEnumeratedCount(out int count))
+            {
+                return count > length ? enumerable.LoopWithCache(length, count) : enumerable.LoopWithoutCache(length);
+            }
+
+            return enumerable.LoopWithCache(length, null);
+
+        }
+
+        /// <summary>
+        /// Loops an enumerator over itself while caching the results until the total length is reached
+        /// </summary>
+        /// <param name="length">Total length to reach</param>
+        /// <param name="count">Required cache size, if available</param>
+        /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+        private IEnumerable<T> LoopWithCache(int length, int? count)
+        {
+            //Create cache over first iteration
+            List<T> cache = count.HasValue ? new List<T>(count.Value) : [];
+            foreach (T t in enumerable)
+            {
+                yield return t;
+                if (length --> 0) yield break;
+
+                cache.Add(t);
+            }
+
+            while (true)
+            {
+                //Loop forever
+                foreach (T t in cache)
+                {
+                    yield return t;
+                    if (length --> 0) yield break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loops an enumerator over itself whithout cachings until the total length is reached
+        /// </summary>
+        /// <param name="length">Total length to reach</param>
+        /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+        private IEnumerable<T> LoopWithoutCache(int length)
+        {
             //Not caching
             while (true)
             {
@@ -214,7 +240,7 @@ public static class EnumerableExtensions
                 foreach (T t in enumerable)
                 {
                     yield return t;
-                    if (--length is 0) yield break;
+                    if (length --> 0) yield break;
                 }
             }
         }

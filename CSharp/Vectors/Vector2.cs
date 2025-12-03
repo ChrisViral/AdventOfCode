@@ -210,6 +210,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// </summary>
     /// <returns>Adjacent vectors</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
+    /// ReSharper disable once CognitiveComplexity
     public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
     {
         if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));

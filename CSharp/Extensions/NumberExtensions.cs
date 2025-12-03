@@ -107,6 +107,17 @@ public static class NumberExtensions
         public bool IsFactor(T n) => n % value == T.Zero;
 
         /// <summary>
+        /// Checks if the given value is within the defined range [min, max[
+        /// </summary>
+        /// <param name="min">Minimum value of the range, inclusive</param>
+        /// <param name="max">Maximum value of the range, exclusive</param>
+        /// <returns><see langword="true"/> if the value is within the range, otherwise <see langword="false"/></returns>
+        /// <exception cref="ArgumentException">If <paramref name="max"/> is smaller than <paramref name="min"/></exception>
+        public bool IsInRange(T min, T max) => min <= max
+                                                   ? value >= min && value < max
+                                                   : throw new ArgumentException("Max value must be larger or equal to min value", nameof(max));
+
+        /// <summary>
         /// Greatest Common Divisor function
         /// </summary>
         /// <param name="a">First number</param>

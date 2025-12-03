@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.StringBuilders;
 using AdventOfCode.Utils;
@@ -456,9 +457,6 @@ public class Grid<T> : IEnumerable<T>
     public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
         (int x, int y) result = vector + travel;
-        //Check if an invalid wrap must happen
-        if ((!wrapX && (result.x >= this.Width  || result.x < 0))
-         || (!wrapY && (result.y >= this.Height || result.y < 0))) return null;
 
         //Wrap x axis
         if (wrapX)
@@ -472,18 +470,21 @@ public class Grid<T> : IEnumerable<T>
                 result.x += this.Width;
             }
         }
+        else if (!result.x.IsInRange(0, this.Width)) return null;
 
         //Wrap y axis
-        if (!wrapY) return new Vector2<int>(result);
-
-        if (result.y >= this.Height)
+        if (wrapY)
         {
-            result.y -= this.Height;
+            if (result.y >= this.Height)
+            {
+                result.y -= this.Height;
+            }
+            else if (result.y < 0)
+            {
+                result.y += this.Height;
+            }
         }
-        else if (result.y < 0)
-        {
-            result.y += this.Height;
-        }
+        else if (!result.y.IsInRange(0, this.Height)) return null;
 
         //Return result
         return new Vector2<int>(result);

@@ -170,6 +170,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <returns>An enumerable of the adjacent vectors</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
+    /// ReSharper disable once CognitiveComplexity
     public IEnumerable<Vector3<T>> Adjacent(bool includeDiagonals = true)
     {
         if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
