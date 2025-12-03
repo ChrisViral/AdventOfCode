@@ -139,7 +139,7 @@ public class Day18 : Solver<string[][]>
     {
         //Multiplied values
         Stack<List<long>> multipliers = new();
-        multipliers.Push(new List<long>());
+        multipliers.Push([]);
         //Setup
         Stack<(long, Operation)> operationStack = new();
         long total = 0L;
@@ -158,14 +158,14 @@ public class Day18 : Solver<string[][]>
                 case { } when s[0] is '(':
                     //Push current stack
                     operationStack.Push((total, operation));
-                    multipliers.Push(new List<long>());
+                    multipliers.Push([]);
                     //Remove parenthesis
                     string n = s.TrimStart('(');
                     //Add blank operations for every extra parenthesis
                     for (int parenthesis = s.Length - n.Length; parenthesis > 1; parenthesis--)
                     {
                         operationStack.Push((0L, Operation.ADD));
-                        multipliers.Push(new List<long>());
+                        multipliers.Push([]);
                     }
                     //Parse number
                     total = long.Parse(n);

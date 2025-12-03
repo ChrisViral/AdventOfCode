@@ -166,7 +166,7 @@ public class Day08 : Solver<Day08.Layer[]>
     protected override Layer[] Convert(string[] rawInput)
     {
         string line = rawInput[0];
-        List<Layer> layers = new();
+        List<Layer> layers = [];
         for (int i = 0, j = Layer.SIZE; j <= line.Length; i = j, j += Layer.SIZE)
         {
             layers.Add(new Layer(line[i..j]));

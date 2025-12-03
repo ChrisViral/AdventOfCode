@@ -32,7 +32,7 @@ public class Day03 : GridSolver<char>
     public override void Run()
     {
         int total = 0;
-        HashSet<Vector2<int>> explored = new();
+        HashSet<Vector2<int>> explored = [];
         Dictionary<Vector2<int>, List<int>> gears = new();
         foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
         {
@@ -42,7 +42,7 @@ public class Day03 : GridSolver<char>
             List<int>? numbers = null;
             if (value is GEAR)
             {
-                numbers    = new List<int>();
+                numbers    = [];
                 gears[pos] = numbers;
             }
 

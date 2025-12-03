@@ -102,7 +102,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
     protected override (List<Fold>, Grid<bool>) Convert(string[] rawInput)
     {
         // Get all the shaded position
-        List<Vector2<int>> marks = new();
+        List<Vector2<int>> marks = [];
         int maxX = 0, maxY = 0, i;
         for (i = 0; i < rawInput.Length; i++)
         {
@@ -119,7 +119,7 @@ public class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
         marks.ForEach(mark => grid[mark] = true);
 
         // Read all folds
-        List<Fold> folds = new();
+        List<Fold> folds = [];
         for (/*int i*/; i < rawInput.Length; i++)
         {
             string[] splits = rawInput[i].Remove(0, 11).Split('=');

@@ -22,7 +22,7 @@ public class Day04 : Solver<Day04.Passport[]>
         private static readonly Regex heightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
         private static readonly Regex hairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
         private static readonly Regex idMatch     = new(@"^\d{9}$", OPTIONS);
-        private static readonly HashSet<string> validEyeColours = new() { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
+        private static readonly HashSet<string> validEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
         #endregion
 
         #region Fields

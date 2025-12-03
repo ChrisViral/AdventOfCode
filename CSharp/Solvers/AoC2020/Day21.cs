@@ -66,7 +66,7 @@ public class Day21 : Solver<Day21.IngredientList[]>
     {
         //Get all existing ingredients and allergens
         Dictionary<string, int> ingredientCount = new();
-        HashSet<string> allergens = new();
+        HashSet<string> allergens = [];
         foreach (IngredientList list in this.Data)
         {
             //Loop through list ingredients

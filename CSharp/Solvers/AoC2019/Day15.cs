@@ -139,7 +139,7 @@ public class Day15 : IntcodeSolver
         {
             //Positions to fill
             HashSet<Vector2<int>> toFill = new(start.Adjacent().Where(v => this[v] is not Status.WALL and not Status.OXYGEN));
-            HashSet<Vector2<int>> fillNext = new();
+            HashSet<Vector2<int>> fillNext = [];
             int cycles = 0;
             //Keep filling until none left
             while (toFill.Count is not 0)
@@ -217,7 +217,7 @@ public class Day15 : IntcodeSolver
         this.maze.PrintToConsole();
         //Explored set
         Vector2<int> position = Vector2<int>.Zero;
-        HashSet<Vector2<int>> explored = new() { position };
+        HashSet<Vector2<int>> explored = [position];
         //Pathing
         Stack<Direction> path = new();
         path.Push(Direction.NONE);

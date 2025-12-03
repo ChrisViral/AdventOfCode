@@ -43,7 +43,7 @@ public class Day10 : GridSolver<Day10.Pipe>
     public override void Run()
     {
         Vector2<int> start = this.Data.PositionOf(Pipe.START);
-        List<(Vector2<int> pos, Direction dir)> heads = new();
+        List<(Vector2<int> pos, Direction dir)> heads = [];
 
         foreach (Direction dir in DirectionsUtils.CardinalDirections)
         {

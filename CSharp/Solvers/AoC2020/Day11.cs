@@ -27,7 +27,7 @@ public class Day11 : GridSolver<Day11.Seat>
     /// All cardinal and diagonal direction vectors
     /// </summary>
     private static readonly Vector2[] directions =
-    {
+    [
         Vector2.Up + Vector2.Left,
         Vector2.Up,
         Vector2.Up + Vector2.Right,
@@ -36,7 +36,7 @@ public class Day11 : GridSolver<Day11.Seat>
         Vector2.Left + Vector2.Down,
         Vector2.Down,
         Vector2.Right + Vector2.Down
-    };
+    ];
     #endregion
 
     #region Constructors

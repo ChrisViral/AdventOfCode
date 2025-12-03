@@ -37,7 +37,7 @@ public class Day11 : GridSolver<bool>
                                               .ToArray();
 
         bool[] buffer = new bool[this.Data.Height];
-        HashSet<int> emptyColumns = new();
+        HashSet<int> emptyColumns = [];
         foreach (int x in ..this.Data.Width)
         {
             this.Data.GetColumnNoAlloc(x, buffer);
@@ -47,7 +47,7 @@ public class Day11 : GridSolver<bool>
         }
 
         buffer = new bool[this.Data.Width];
-        HashSet<int> emptyRows = new();
+        HashSet<int> emptyRows = [];
         foreach (int y in ..this.Data.Height)
         {
             this.Data.GetRowNoAlloc(y, buffer);

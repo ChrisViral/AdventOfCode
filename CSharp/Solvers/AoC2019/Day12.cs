@@ -281,7 +281,7 @@ public class Day12 : Solver<Day12.Moon[]>
     private long CheckAxis(Axis axis)
     {
         Moon[] moons = CopyMoons();
-        HashSet<(Moon.State, Moon.State, Moon.State, Moon.State)> states = new() { GetStates(moons) };
+        HashSet<(Moon.State, Moon.State, Moon.State, Moon.State)> states = [GetStates(moons)];
 
         long steps = 0L;
         do

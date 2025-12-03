@@ -108,7 +108,7 @@ public class Day16 : Solver<Day16.Packet>
 
             bool isLength = bits[i++] is '0';
             short length  = ToInt16(isLength ? bits[i..(i += 15)] : bits[i..(i += 11)], 2);
-            Packet packet = new(version, type, length) { SubPackets = new List<Packet>() };
+            Packet packet = new(version, type, length) { SubPackets = [] };
             used += isLength ? 16 : 12;
 
             if (isLength)

@@ -67,7 +67,7 @@ public class Day24 : Solver<Day24.Neighbour[][]>
     public override void Run()
     {
         //Get all the flipped tiles
-        HashSet<Vector2> flipped = new();
+        HashSet<Vector2> flipped = [];
         foreach (Neighbour[] path in this.Data)
         {
             //Start at zero, and move into each direction
@@ -96,8 +96,8 @@ public class Day24 : Solver<Day24.Neighbour[][]>
         AoCUtils.LogPart1(flipped.Count);
 
         //Setup new stated and updated tiles
-        HashSet<Vector2> newState = new();
-        HashSet<Vector2> updated = new();
+        HashSet<Vector2> newState = [];
+        HashSet<Vector2> updated = [];
         foreach (int _ in ..ITERATIONS)
         {
             //Get all the updated tiles

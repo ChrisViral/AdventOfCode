@@ -17,7 +17,7 @@ public class Day19 : Solver<List<Vector3<int>[]>>
 {
     private const int MATCHING = 12;
     private static readonly Transformation[] rotations =
-    {
+    [
         // Rotation around +Y
         v => new Vector3<int>( v.X,  v.Y,  v.Z),
         v => new Vector3<int>(-v.Z,  v.Y,  v.X),
@@ -52,9 +52,9 @@ public class Day19 : Solver<List<Vector3<int>[]>>
         v => new Vector3<int>( v.Y, -v.Z, -v.X),
         v => new Vector3<int>( v.X, -v.Z,  v.Y),
         v => new Vector3<int>(-v.Y, -v.Z,  v.X),
-        v => new Vector3<int>(-v.X, -v.Z, -v.Y),
-    };
-    private static readonly List<Vector3<int>> buffer = new();
+        v => new Vector3<int>(-v.X, -v.Z, -v.Y)
+    ];
+    private static readonly List<Vector3<int>> buffer = [];
 
     #region Constructors
     /// <summary>
@@ -70,7 +70,7 @@ public class Day19 : Solver<List<Vector3<int>[]>>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        List<Vector3<int>> beacons       = new();
+        List<Vector3<int>> beacons       = [];
         HashSet<Vector3<int>> scanners   = new(this.Data.Count) { Vector3<int>.Zero };
         HashSet<Vector3<int>> allBeacons = new(this.Data[0]);
         this.Data.RemoveAt(0);
@@ -139,7 +139,7 @@ public class Day19 : Solver<List<Vector3<int>[]>>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override List<Vector3<int>[]> Convert(string[] rawInput)
     {
-        List<Vector3<int>[]> scanners = new();
+        List<Vector3<int>[]> scanners = [];
         for (int start = 1, end = 1; start < rawInput.Length; start = end + 1, end = start)
         {
             while (++end < rawInput.Length && rawInput[end][..3] is not "---") { }

@@ -49,7 +49,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
         /// <summary>
         /// Packet elements list
         /// </summary>
-        public List<IPacketElement> Elements { get; } = new();
+        public List<IPacketElement> Elements { get; } = [];
 
         /// <summary>
         /// Creates a new packet list from a string

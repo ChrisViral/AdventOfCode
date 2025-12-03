@@ -100,7 +100,7 @@ public class Day22 : Solver<(int[] p1, int[] p2)>
         Queue<int> p1 = new(p1Deck);
         Queue<int> p2 = new(p2Deck);
         //Create states memory and loop until an old state is repeated
-        HashSet<string> states = new();
+        HashSet<string> states = [];
         while (states.Add(GetState(p1, p2)))
         {
             //Draw cards

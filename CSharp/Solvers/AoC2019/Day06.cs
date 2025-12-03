@@ -31,7 +31,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
         /// <summary>
         /// Orbital children
         /// </summary>
-        public List<Orbit> Children { get; } = new();
+        public List<Orbit> Children { get; } = [];
 
         /// <summary>
         /// Which Orbit this was visited from while searching
@@ -116,7 +116,7 @@ public class Day06 : Solver<(Day06.Orbit com, Day06.Orbit you, Day06.Orbit san)>
     {
         AoCUtils.LogPart1(this.Data.com.GetOrbits());
 
-        HashSet<Orbit> visited = new() { this.Data.you };
+        HashSet<Orbit> visited = [this.Data.you];
         Queue<Orbit> toVisit = new();
         toVisit.Enqueue(this.Data.you);
         Orbit? santa = null;

@@ -41,12 +41,12 @@ public class Day07 : Solver<Day07.Directory>
         /// <summary>
         /// List of child directories
         /// </summary>
-        private List<Directory> Children { get; } = new();
+        private List<Directory> Children { get; } = [];
 
         /// <summary>
         /// List of files in this directory
         /// </summary>
-        private List<File> Files { get; } = new();
+        private List<File> Files { get; } = [];
 
         /// <summary>
         /// Size of this directory, in bytes

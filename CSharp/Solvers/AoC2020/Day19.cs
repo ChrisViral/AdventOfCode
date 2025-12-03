@@ -175,7 +175,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
     {
         //Get all rules
         int maxIndex = 0, i;
-        List<Rule> ruleList = new();
+        List<Rule> ruleList = [];
         RegexFactory<Rule> ruleFactory = new(Rule.PATTERN, RegexOptions.Compiled);
         for (i = 0; i < rawInput.Length; i++)
         {

@@ -79,7 +79,7 @@ public class Day05 : Solver<Day05.BoardingPass[]>
     {
         //Part 1
         int max = 0;
-        HashSet<int> existing = new();
+        HashSet<int> existing = [];
         bool[,] seats = new bool[BoardingPass.MAX_ROW + 1, BoardingPass.MAX_COLUMN + 1];
         foreach (BoardingPass pass in this.Data)
         {

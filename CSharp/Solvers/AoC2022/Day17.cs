@@ -123,55 +123,55 @@ public class Day17 : Solver<Direction[]>
     private const long SECOND_LIMIT = 1000000000000L;
     /// <summary>Horizontal bar rock shape</summary>
     private static readonly Vector2<int>[] horizontal =
-    {
+    [
         new(0, 0),
         new(1, 0),
         new(2, 0),
         new(3, 0)
-    };
+    ];
     /// <summary>Cross rock shape</summary>
     private static readonly Vector2<int>[] cross =
-    {
+    [
         new(0, -1),
         new(1, 0),
         new(1, -1),
         new(1, -2),
         new(2, -1)
-    };
+    ];
     /// <summary>Corner rock shape</summary>
     private static readonly Vector2<int>[] corner =
-    {
+    [
         new(0, -2),
         new(1, -2),
         new(2, 0),
         new(2, -1),
         new(2, -2)
-    };
+    ];
     /// <summary>Vertical bar rock shape</summary>
     private static readonly Vector2<int>[] vertical =
-    {
+    [
         new(0, 0),
         new(0, -1),
         new(0, -2),
         new(0, -3)
-    };
+    ];
     /// <summary>Cube rock shape</summary>
     private static readonly Vector2<int>[] cube =
-    {
+    [
         new(0, 0),
         new(0, -1),
         new(1, 0),
         new(1, -1)
-    };
+    ];
     /// <summary>Rock shapes array</summary>
     private static readonly (Vector2<int>[] shape, Vector2<int> bounds)[] shapes =
-    {
+    [
         (horizontal, new Vector2<int>(3, 0)),
         (cross, new Vector2<int>(2, -2)),
         (corner, new Vector2<int>(2, -2)),
         (vertical, new Vector2<int>(0, -3)),
         (cube, new Vector2<int>(1, -1))
-    };
+    ];
 
     #region Constructors
     /// <summary>

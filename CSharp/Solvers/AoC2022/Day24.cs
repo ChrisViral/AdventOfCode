@@ -95,7 +95,7 @@ public class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzar
     private int FindPathTime(Vector2<int> start, Vector2<int> end, Vector2<int> limit)
     {
         // Create necessary structures
-        HashSet<Vector2<int>> blizzardPositions = new(), nextSearch = new();
+        HashSet<Vector2<int>> blizzardPositions = [], nextSearch = [];
         Stack<Vector2<int>> search = new();
         bool pathFound = false;
         int time = 0;

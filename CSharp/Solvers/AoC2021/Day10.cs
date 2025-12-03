@@ -55,7 +55,7 @@ public class Day10 : Solver
     {
         int brokenScore = 0;
         Stack<char> brackets = new();
-        SortedList<long> incompleteScores = new();
+        SortedList<long> incompleteScores = [];
         foreach (string line in this.Data)
         {
             foreach (char c in line)

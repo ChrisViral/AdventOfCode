@@ -33,7 +33,7 @@ public class Day11 : IntcodeSolver
         private Vector2<int> direction = Vector2<int>.Up;
         private Grid<Colour> hull;
         private readonly IntcodeVM brain;
-        private readonly HashSet<Vector2<int>> painted = new();
+        private readonly HashSet<Vector2<int>> painted = [];
         #endregion
 
         #region Properties

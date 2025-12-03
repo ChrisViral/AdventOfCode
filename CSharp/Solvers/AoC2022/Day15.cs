@@ -36,7 +36,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     /// <inheritdoc cref="Solver{T}.Run"/>
     public override void Run()
     {
-        HashSet<int> invalids = new();
+        HashSet<int> invalids = [];
         foreach ((Vector2<int> sensor, int distance) in this.Data)
         {
             int verticalDistance = Math.Abs(sensor.Y - LEVEL);

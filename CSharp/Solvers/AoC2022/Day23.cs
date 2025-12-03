@@ -23,12 +23,12 @@ public class Day23 : Solver<Day23.Elf[]>
     {
         /// <summary>Movement direction location checks</summary>
         private static readonly (int i, int j, int k, Vector2<int> move)[] directionChecks =
-        {
+        [
             (0, 1, 2, Vector2<int>.Up),     // NW-N-NE
             (5, 6, 7, Vector2<int>.Down),   // SW-S-SE
             (0, 3, 5, Vector2<int>.Left),   // NW-W-SW
             (2, 4, 7, Vector2<int>.Right)   // NE-E-SE
-        };
+        ];
 
         private int moveOrderIndex;
         private Vector2<int> nextPosition;

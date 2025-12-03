@@ -32,7 +32,7 @@ public class Day18 : ArraySolver<Vector3<int>>
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
         HashSet<Vector3<int>> empty   = new(Vector3<int>.Enumerate(max.X, max.Y, max.Z).Where(p => !points.Contains(p)));
-        HashSet<Vector3<int>> pockets = new(), outside = new(), visited = new();
+        HashSet<Vector3<int>> pockets = [], outside = [], visited = [];
         Stack<Vector3<int>>   search  = new();
         foreach (Vector3<int> point in empty)
         {

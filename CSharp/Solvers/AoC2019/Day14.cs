@@ -36,7 +36,7 @@ public class Day14 : Solver<Dictionary<string, Day14.Chemical>>
         /// <summary>
         /// Required reactants
         /// </summary>
-        public Reactant[] Reactants { get; set; } = Array.Empty<Reactant>();
+        public Reactant[] Reactants { get; set; } = [];
         #endregion
 
         #region Constructors

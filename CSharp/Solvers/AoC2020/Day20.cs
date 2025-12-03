@@ -30,7 +30,7 @@ public class Day20 : Solver<Day20.Tile[]>
         /// Position of every monster "pixel"
         /// </summary>
         private static readonly Vector2[] monster =
-        {
+        [
             new(0,  1),
             new(1,  2),
             new(4,  2),
@@ -46,7 +46,7 @@ public class Day20 : Solver<Day20.Tile[]>
             new(18, 0),
             new(18, 1),
             new(19, 1)
-        };
+        ];
         #endregion
 
         #region Fields
@@ -121,7 +121,7 @@ public class Day20 : Solver<Day20.Tile[]>
             this.image = image;
             this.Size = image.Length;
             this.ignoreBorders = true;
-            this.top = this.bottom = this.left = this.right = Array.Empty<char>();
+            this.top = this.bottom = this.left = this.right = [];
         }
         #endregion
 
@@ -332,7 +332,7 @@ public class Day20 : Solver<Day20.Tile[]>
         HashSet<Tile> notPlaced = new(this.Data);
 
         Tile? adjacent = topLeftCorner;
-        List<Tile> row = new();
+        List<Tile> row = [];
         while (adjacent is not null)
         {
             Tile left = adjacent;
@@ -341,7 +341,7 @@ public class Day20 : Solver<Day20.Tile[]>
             adjacent = notPlaced.FirstOrDefault(left.AdjacentRight);
         }
 
-        List<List<Tile>> image = new() { row };
+        List<List<Tile>> image = [row];
         while (!notPlaced.IsEmpty)
         {
             adjacent = notPlaced.First(row[0].AdjacentBottom);

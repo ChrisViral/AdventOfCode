@@ -20,11 +20,11 @@ public class Day07 : Solver<IntcodeVM[]>
     /// <summary>
     /// Part 1 phase settings
     /// </summary>
-    private static readonly long[] part1Phase = { 0L, 1L, 2L, 3L, 4L };
+    private static readonly long[] part1Phase = [0L, 1L, 2L, 3L, 4L];
     /// <summary>
     /// Part 2 phase settings
     /// </summary>
-    private static readonly long[] part2Phase = { 5L, 6L, 7L, 8L, 9L };
+    private static readonly long[] part2Phase = [5L, 6L, 7L, 8L, 9L];
     #endregion
 
     #region Constructors

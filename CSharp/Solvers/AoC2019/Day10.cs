@@ -28,7 +28,7 @@ public class Day10 : GridSolver<bool>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        HashSet<Vector2<int>> asteroids = new();
+        HashSet<Vector2<int>> asteroids = [];
         foreach (int j in ..this.Grid.Height)
         {
             foreach (int i in ..this.Grid.Width)

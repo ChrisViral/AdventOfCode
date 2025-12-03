@@ -143,8 +143,8 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         /// <param name="explorer">Object explorer function</param>
         public Cube(IReadOnlyList<string> input, Factory factory, Explorer explorer)
         {
-            this.activeCubes = new HashSet<T>();
-            this.explorer = explorer;
+            this.activeCubes = [];
+            this.explorer    = explorer;
             int n = input.Count;
             int l = n / 2;
             foreach (int y in ..n)

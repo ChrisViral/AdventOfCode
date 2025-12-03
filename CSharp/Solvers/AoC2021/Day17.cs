@@ -35,7 +35,7 @@ public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        List<int> validY = new();
+        List<int> validY = [];
         for (int y = this.Data.yRange.From; y <= -this.Data.yRange.From; y++)
         {
             for (int yPos = 0, ySpeed = -y; yPos >= this.Data.yRange.From; ySpeed--, yPos += ySpeed)

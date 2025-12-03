@@ -15,9 +15,9 @@ public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     #region Constants
     /// <summary>Signal/output separator</summary>
-    private static readonly char[] separatorSplit = { '|' };
+    private static readonly char[] separatorSplit = ['|'];
     /// <summary>Segments separator</summary>
-    private static readonly char[] segmentSplit   = { ' ' };
+    private static readonly char[] segmentSplit   = [' '];
     #endregion
 
     #region Constructors

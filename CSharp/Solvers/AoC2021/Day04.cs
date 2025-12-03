@@ -34,7 +34,7 @@ public class Day04 : Solver<Day04.BingoData>
         /// <summary>
         /// All available bingo boards
         /// </summary>
-        public List<Grid<int>> Boards { get; } = new();
+        public List<Grid<int>> Boards { get; } = [];
         #endregion
 
         #region Constructors

@@ -28,7 +28,7 @@ public class Day01 : Solver<int[]>
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/> fails</exception>
-    public Day01(string input) : base(input) => this.values = new HashSet<int>(this.Data);
+    public Day01(string input) : base(input) => this.values = [..this.Data];
     #endregion
 
     #region Methods

@@ -79,7 +79,7 @@ public class Day08 : Solver<Day08.Instruction[]>
     #region Fields
     private int accumulator;
     private int pointer;
-    private readonly HashSet<int> visited = new();
+    private readonly HashSet<int> visited = [];
     #endregion
 
     #region Methods

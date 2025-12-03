@@ -41,7 +41,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
         /// <summary>
         /// Bags containing an amount of this Bag
         /// </summary>
-        public HashSet<Bag> ContainedBy { get; } = new();
+        public HashSet<Bag> ContainedBy { get; } = [];
         #endregion
 
         #region Constructors

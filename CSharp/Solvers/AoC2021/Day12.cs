@@ -26,7 +26,7 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
         /// <summary>
         /// Set of all the neighbours of this cave
         /// </summary>
-        public HashSet<Cave> Neighbours { get; } = new();
+        public HashSet<Cave> Neighbours { get; } = [];
     }
 
     #region Constants
@@ -51,7 +51,7 @@ public class Day12 : Solver<Dictionary<string, Day12.Cave>>
     public override void Run()
     {
         Cave start = this.Data[START];
-        HashSet<Cave> visited = new() { start };
+        HashSet<Cave> visited = [start];
         Stack<Cave> path      = new();
 
         // Explore the caves and list the paths

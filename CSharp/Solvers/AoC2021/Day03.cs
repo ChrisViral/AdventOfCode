@@ -76,7 +76,7 @@ public class Day03 : Solver
     private string GetRating(IList<int> counts, char positive, char negative)
     {
         HashSet<string> valid   = new(Data);
-        HashSet<string> invalid = new();
+        HashSet<string> invalid = [];
         foreach (int i in ..counts.Count)
         {
             // Find value to discard from the working set

@@ -21,7 +21,7 @@ public class Day11 : GridSolver<byte>
     /// <summary>Queue to store the octopi that mush flash</summary>
     private static readonly Queue<Vector2<int>> toFlash   = new();
     /// <summary>Set containing all octopi that have flashed</summary>
-    private static readonly HashSet<Vector2<int>> flashed = new();
+    private static readonly HashSet<Vector2<int>> flashed = [];
     #endregion
 
     #region Constructors

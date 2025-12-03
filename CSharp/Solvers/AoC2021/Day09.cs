@@ -31,7 +31,7 @@ public class Day09 : GridSolver<byte>
     public override void Run()
     {
         int risk = 0;
-        List<Vector2<int>> lowPoints = new();
+        List<Vector2<int>> lowPoints = [];
         foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Grid.Width, this.Grid.Height))
         {
             // Check if the position is a low point
@@ -47,7 +47,7 @@ public class Day09 : GridSolver<byte>
         AoCUtils.LogPart1(risk);
 
         Queue<Vector2<int>> search  = new();
-        HashSet<Vector2<int>> basin = new();
+        HashSet<Vector2<int>> basin = [];
         PriorityQueue<int> sizes    = new(DescendingComparer<int>.Comparer);
         // Start from all low points
         foreach (Vector2<int> lowPoint in lowPoints)
