@@ -116,7 +116,7 @@ public static class DirectionsUtils
         };
 
         /// <summary>
-        /// Turns the direction towards the right
+        /// Turns the direction vector in te specified direction
         /// </summary>
         /// <param name="turn">Direction to turn into</param>
         /// <returns>The new direction after turning by the specified direction</returns>

@@ -44,13 +44,13 @@ public class Day13 : IntcodeSolver
         int maxY = 0;
         int blocks = 0;
         this.VM.Run();
-        while (this.VM.OutputProvider.HasOutput)
+        while (!this.VM.Output.IsEmpty)
         {
-            maxX = Math.Max(maxX, (int)this.VM.OutputProvider.GetOutput());
-            maxY = Math.Max(maxY, (int)this.VM.OutputProvider.GetOutput());
+            maxX = Math.Max(maxX, (int)this.VM.Output.GetOutput());
+            maxY = Math.Max(maxY, (int)this.VM.Output.GetOutput());
 
             // We're only interested in the blocks
-            if (this.VM.OutputProvider.GetOutput() == (long)ArcadeObject.BLOCK)
+            if (this.VM.Output.GetOutput() == (long)ArcadeObject.BLOCK)
             {
                 blocks++;
             }
@@ -71,22 +71,22 @@ public class Day13 : IntcodeSolver
         do
         {
             this.VM.Run();
-            while (this.VM.OutputProvider.HasOutput)
+            while (!this.VM.Output.IsEmpty)
             {
                 // Get position
-                int x = (int)this.VM.OutputProvider.GetOutput();
-                int y = (int)this.VM.OutputProvider.GetOutput();
+                int x = (int)this.VM.Output.GetOutput();
+                int y = (int)this.VM.Output.GetOutput();
                 Vector2<int> position = (x, y);
 
                 // Check if we're receiving the score
                 if (position == ScorePos)
                 {
-                    score = (int)this.VM.OutputProvider.GetOutput();
+                    score = (int)this.VM.Output.GetOutput();
                     continue;
                 }
 
                 // Set position
-                ArcadeObject currentObject = (ArcadeObject)this.VM.OutputProvider.GetOutput();
+                ArcadeObject currentObject = (ArcadeObject)this.VM.Output.GetOutput();
                 arcade[position] = currentObject;
 
                 // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
@@ -103,7 +103,7 @@ public class Day13 : IntcodeSolver
             }
 
             // Move towards ball
-            this.VM.InputProvider.AddInput(ballPos.X.CompareTo(paddlePos.X));
+            this.VM.Input.AddInput(ballPos.X.CompareTo(paddlePos.X));
 
             arcade.PrintToConsole($"Score: {score}");
         }

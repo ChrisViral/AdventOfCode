@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AdventOfCode.Intcode.Output;
 
@@ -16,22 +15,42 @@ public interface IOutputProvider
     /// <summary>
     /// If this output provider has any output
     /// </summary>
-    bool HasOutput => this.Count > 0;
+    bool IsEmpty => this.Count is 0;
 
     /// <summary>
     /// Receives an output value from the Intcode VM
     /// </summary>
     /// <param name="value">Outputted value</param>
-    void Output(long value);
+    void AddOutput(long value);
 
     /// <summary>
-    /// Gets the next output value
+    /// Gets the next output value and removes it
     /// </summary>
-    /// <returns>the next output value</returns>
+    /// <returns>The next output value</returns>
     long GetOutput();
 
     /// <summary>
-    /// Enumerates all output values
+    /// Tries to get the next output value
+    /// </summary>
+    /// <param name="value">The output value, if found</param>
+    /// <returns><see langword="true"/> if an output value was found, otherwise <see langword="false"/></returns>
+    bool TryGetOutput(out long value);
+
+    /// <summary>
+    /// Peeks the next output value without removing it
+    /// </summary>
+    /// <returns>The next output value</returns>
+    long PeekOutput();
+
+    /// <summary>
+    /// Tries to get the next output value without removing it
+    /// </summary>
+    /// <param name="value">The output value, if found</param>
+    /// <returns><see langword="true"/> if an output value was found, otherwise <see langword="false"/></returns>
+    bool TryPeekOutput(out long value);
+
+    /// <summary>
+    /// Enumerates and removes all output values
     /// </summary>
     /// <returns>Enumerable of the output values</returns>
     IEnumerable<long> GetAllOutput();

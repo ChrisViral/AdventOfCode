@@ -37,9 +37,9 @@ public partial class IntcodeVM
     /// </summary>
     /// <param name="modesValue">Operand modes value</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private unsafe bool Input(int modesValue)
+    private unsafe bool TakeInput(int modesValue)
     {
-        if (this.InputProvider.TryGetInput(out long input))
+        if (this.Input.TryGetInput(out long input))
         {
             Modes modes = Modes.OneOperand(modesValue);
             ref long destination = ref GetOperand(modes.first);
@@ -58,10 +58,10 @@ public partial class IntcodeVM
     /// </summary>
     /// <param name="modesValue">Operand modes value</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void Output(int modesValue)
+    private void PushOutput(int modesValue)
     {
         Modes modes = Modes.OneOperand(modesValue);
-        this.OutputProvider.Output(GetOperand(modes.first));
+        this.Output.AddOutput(GetOperand(modes.first));
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class IntcodeVM
             this.ip++;
         }
     }
-    
+
     /// <summary>
     /// Jumps if zero
     /// </summary>

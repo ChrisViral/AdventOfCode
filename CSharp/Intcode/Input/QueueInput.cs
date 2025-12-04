@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;
 
 /// <summary>
 /// Queue backed Intcode input
 /// </summary>
+[PublicAPI, DebuggerDisplay("Count = {Count}")]
 public sealed class QueueInput : IInputProvider
 {    /// <summary>
     /// Default queue capacity

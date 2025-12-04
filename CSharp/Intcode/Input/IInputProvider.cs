@@ -15,7 +15,7 @@ public interface IInputProvider
     /// <summary>
     /// If this input provider has any input
     /// </summary>
-    bool HasInput => this.Count > 0;
+    bool IsEmpty => this.Count is 0;
 
     /// <summary>
     /// Provides an input value to the Intcode VM

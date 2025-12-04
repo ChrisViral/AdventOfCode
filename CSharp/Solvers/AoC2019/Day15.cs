@@ -172,21 +172,21 @@ public class Day15 : IntcodeSolver
         switch (direction)
         {
             case Direction.NORTH:
-                this.VM.InputProvider.AddInput(1L);
+                this.VM.Input.AddInput(1L);
                 break;
             case Direction.SOUTH:
-                this.VM.InputProvider.AddInput(2L);
+                this.VM.Input.AddInput(2L);
                 break;
             case Direction.WEST:
-                this.VM.InputProvider.AddInput(3L);
+                this.VM.Input.AddInput(3L);
                 break;
             case Direction.EAST:
-                this.VM.InputProvider.AddInput(4L);
+                this.VM.Input.AddInput(4L);
                 break;
         }
 
         this.VM.Run();
-        return (Element)this.VM.OutputProvider.GetOutput();
+        return (Element)this.VM.Output.GetOutput();
     }
 
     /// <summary>

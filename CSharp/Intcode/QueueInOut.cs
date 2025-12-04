@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode;
 
 /// <summary>
 /// Simultaneous intcode input/output queue
 /// </summary>
+[PublicAPI, DebuggerDisplay("Count = {Count}")]
 public class QueueInOut : IInputProvider, IOutputProvider
 {    /// <summary>
     /// Default queue capacity
@@ -62,10 +65,19 @@ public class QueueInOut : IInputProvider, IOutputProvider
     public bool TryGetInput(out long input) => this.queue.TryDequeue(out input);
 
     /// <inheritdoc />
-    public void Output(long value) => this.queue.Enqueue(value);
+    public void AddOutput(long value) => this.queue.Enqueue(value);
 
     /// <inheritdoc />
     public long GetOutput() => this.queue.Dequeue();
+
+    /// <inheritdoc />
+    public bool TryGetOutput(out long value) => this.queue.TryDequeue(out value);
+
+    /// <inheritdoc />
+    public long PeekOutput() => this.queue.Peek();
+
+    /// <inheritdoc />
+    public bool TryPeekOutput(out long value) => this.queue.TryPeek(out value);
 
     /// <inheritdoc />
     public IEnumerable<long> GetAllOutput()

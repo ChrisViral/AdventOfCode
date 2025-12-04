@@ -39,9 +39,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     }
 
     /// <summary>
-    /// VM Memory buffer size (4kb of long values)
+    /// VM Memory buffer size (8kb of long values)
     /// </summary>
-    private const int BUFFER_SIZE = 512;
+    private const int BUFFER_SIZE = 2048;
     /// <summary>
     /// True literal
     /// </summary>
@@ -132,12 +132,12 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <summary>
     /// VM's input provider
     /// </summary>
-    public IInputProvider InputProvider { get; set; }
+    public IInputProvider Input { get; set; }
 
     /// <summary>
     /// VM's output provider
     /// </summary>
-    public IOutputProvider OutputProvider { get; set; }
+    public IOutputProvider Output { get; set; }
 
     /// <summary>
     /// Creates a new VM from the specified Intcode source
@@ -148,8 +148,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     public IntcodeVM(ReadOnlySpan<char> source, IInputProvider? inputProvider = null, IOutputProvider? outputProvider = null)
     {
         // Initialize the input and output
-        this.InputProvider  = inputProvider  ?? new QueueInput();
-        this.OutputProvider = outputProvider ?? new QueueOutput();
+        this.Input  = inputProvider  ?? new QueueInput();
+        this.Output = outputProvider ?? new QueueOutput();
 
         // Get parsed code length
         int count          = source.Count(',') + 1;
@@ -191,8 +191,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.Status         = other.Status;
 
         // Create clones of input/output providers
-        this.InputProvider  = other.InputProvider.Clone();
-        this.OutputProvider = other.OutputProvider.Clone();
+        this.Input  = other.Input.Clone();
+        this.Output = other.Output.Clone();
 
         // Create buffer
         this.handle   = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
@@ -237,11 +237,11 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     break;
 
                 case Opcode.INP:
-                    if (!Input(modes)) return;
+                    if (!TakeInput(modes)) return;
                     break;
 
                 case Opcode.OUT:
-                    Output(modes);
+                    PushOutput(modes);
                     break;
 
                 case Opcode.JNZ:
@@ -285,8 +285,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.relative = this.buffer;
         this.Status   = State.READY;
         this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
-        this.InputProvider.Clear();
-        this.OutputProvider.Clear();
+        this.Input.Clear();
+        this.Output.Clear();
     }
 
     /// <summary>
@@ -313,7 +313,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <param name="mode">Mode to get the operand for</param>
     /// <returns>A reference to the operand value</returns>
     /// <exception cref="InvalidEnumArgumentException">For unknown values of <paramref name="mode"/></exception>
+    #if !DEBUG
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    #endif
     private ref long GetOperand(ParamMode mode)
     {
         // ReSharper disable once ConvertSwitchStatementToSwitchExpression

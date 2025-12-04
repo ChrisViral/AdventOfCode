@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Output;
 
+[PublicAPI, DebuggerDisplay("Count = {Count}")]
 public sealed class QueueOutput : IOutputProvider
-{    /// <summary>
+{
+    /// <summary>
     /// Default queue capacity
     /// </summary>
     private const int DEFAULT_CAPACITY = 16;
@@ -34,10 +38,19 @@ public sealed class QueueOutput : IOutputProvider
     public QueueOutput(Queue<long> queue) => this.outputQueue = queue;
 
     /// <inheritdoc />
-    public void Output(long value) => this.outputQueue.Enqueue(value);
+    public void AddOutput(long value) => this.outputQueue.Enqueue(value);
 
     /// <inheritdoc />
     public long GetOutput() => this.outputQueue.Dequeue();
+
+    /// <inheritdoc />
+    public bool TryGetOutput(out long value) => this.outputQueue.TryDequeue(out value);
+
+    /// <inheritdoc />
+    public long PeekOutput() => this.outputQueue.Peek();
+
+    /// <inheritdoc />
+    public bool TryPeekOutput(out long value) => this.outputQueue.TryPeek(out value);
 
     /// <inheritdoc />
     public IEnumerable<long> GetAllOutput()

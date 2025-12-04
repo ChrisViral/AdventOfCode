@@ -35,17 +35,17 @@ public class Day07 : IntcodeSolver
 
         // Create input/output bridges
         QueueInOut ab = new();
-        ampA.OutputProvider = ab;
-        ampB.InputProvider  = ab;
+        ampA.Output = ab;
+        ampB.Input  = ab;
         QueueInOut bc = new();
-        ampB.OutputProvider = bc;
-        ampC.InputProvider  = bc;
+        ampB.Output = bc;
+        ampC.Input  = bc;
         QueueInOut cd = new();
-        ampC.OutputProvider = cd;
-        ampD.InputProvider  = cd;
+        ampC.Output = cd;
+        ampD.Input  = cd;
         QueueInOut de = new();
-        ampD.OutputProvider = de;
-        ampE.InputProvider  = de;
+        ampD.Output = de;
+        ampE.Input  = de;
 
         // Go over phase permutations
         long maxOutput = 0L;
@@ -54,20 +54,20 @@ public class Day07 : IntcodeSolver
         {
             foreach (int i in ..amplifiers.Length)
             {
-                amplifiers[i].InputProvider.AddInput(ampPerm[i]);
+                amplifiers[i].Input.AddInput(ampPerm[i]);
             }
 
-            ampA.InputProvider.AddInput(0L);
+            ampA.Input.AddInput(0L);
             amplifiers.ForEach(amp => amp.Run());
-            maxOutput = Math.Max(maxOutput, ampE.OutputProvider.GetOutput());
+            maxOutput = Math.Max(maxOutput, ampE.Output.GetOutput());
             amplifiers.ForEach(amp => amp.Reset());
         }
         AoCUtils.LogPart1(maxOutput);
 
         // Bridge amplifiers E and A
         QueueInOut ea = new();
-        ampE.OutputProvider = ea;
-        ampA.InputProvider  = ea;
+        ampE.Output = ea;
+        ampA.Input  = ea;
 
 
         // Go over phase permutations
@@ -77,17 +77,17 @@ public class Day07 : IntcodeSolver
         {
             foreach (int i in ..amplifiers.Length)
             {
-                amplifiers[i].InputProvider.AddInput(ampPerm[i]);
+                amplifiers[i].Input.AddInput(ampPerm[i]);
             }
 
-            ampA.InputProvider.AddInput(0L);
+            ampA.Input.AddInput(0L);
             do
             {
                 amplifiers.ForEach(amp => amp.Run());
             }
             while (!ampE.IsHalted);
 
-            maxOutput = Math.Max(maxOutput, ampE.OutputProvider.GetOutput());
+            maxOutput = Math.Max(maxOutput, ampE.Output.GetOutput());
             amplifiers.ForEach(amp => amp.Reset());
         }
 

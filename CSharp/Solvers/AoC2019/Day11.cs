@@ -92,13 +92,13 @@ public class Day11 : IntcodeSolver
         {
             // Get current hull value
             Colour current = painted.GetValueOrDefault(position, Colour.BLACK);
-            this.VM.InputProvider.AddInput((long)current);
+            this.VM.Input.AddInput((long)current);
             this.VM.Run();
 
             // Pain hull at position
-            painted[position] = (Colour)this.VM.OutputProvider.GetOutput();
+            painted[position] = (Colour)this.VM.Output.GetOutput();
             // Turn
-            direction = this.VM.OutputProvider.GetOutput() switch
+            direction = this.VM.Output.GetOutput() switch
             {
                 0L => direction.TurnLeft(),
                 1L => direction.TurnRight(),
