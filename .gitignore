@@ -245,3 +245,4 @@ results.txt
 [Ii]nput/
 !*/Intcode/Input/
 CSharp/.idea/.idea.AdventOfCode/.idea/discord.xml
+*.ddargs.json
