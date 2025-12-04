@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -22,5 +23,11 @@ public static class StringBuilderExtensions
             stringBuilder.Clear();
             return toString;
         }
+
+        /// <summary>
+        /// Copies data from the start of the StringBuilder to fill the given span
+        /// </summary>
+        /// <param name="destination">Span to fill</param>
+        public void CopyTo(Span<char> destination) => stringBuilder.CopyTo(0, destination, destination.Length);
     }
 }
