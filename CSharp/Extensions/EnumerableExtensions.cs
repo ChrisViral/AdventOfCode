@@ -5,6 +5,7 @@ using System.Numerics;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Delegates;
 using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -70,6 +71,26 @@ public static class EnumerableExtensions
                     yield return (first, list[j]);
                 }
             }
+        }
+
+        /// <summary>
+        /// Removes an element from the list by swapping the last element of the list in it's spot, and then removing the last element.<br/>
+        /// This should technically run in O(1)
+        /// </summary>
+        /// <param name="index">Index to remove at</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is out of the range of the list</exception>
+        public void RemoveSwap(int index)
+        {
+            if (index < 0 || index >= list.Count) throw new ArgumentOutOfRangeException(nameof(index), index, "Index must be within bounds of list");
+
+            int lastIndex = list.Count - 1;
+            if (index != lastIndex)
+            {
+                // Move the last element to the element to remove's spot
+                list[index] = list[lastIndex];
+            }
+            // Remove last element
+            list.RemoveAt(lastIndex);
         }
     }
 
