@@ -18,10 +18,10 @@ public sealed class Day04 : Solver<Day04.Passport[]>
     public sealed class Passport
     {
             private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
-        private static readonly Regex heightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
-        private static readonly Regex hairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
-        private static readonly Regex idMatch     = new(@"^\d{9}$", OPTIONS);
-        private static readonly HashSet<string> validEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
+        private static readonly Regex HeightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
+        private static readonly Regex HairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
+        private static readonly Regex IDMatch     = new(@"^\d{9}$", OPTIONS);
+        private static readonly HashSet<string> ValidEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
             public string? byr;
         public string? iyr;
@@ -47,7 +47,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
             if (!int.TryParse(this.eyr, out int expYear)   || expYear   is < 2020 or > 2030) return false;
 
             //Check height
-            Match match = heightMatch.Match(this.hgt!);
+            Match match = HeightMatch.Match(this.hgt!);
             if (!match.Success || match.Groups.Count is not 3 || !int.TryParse(match.Groups[1].Value, out int height)) return false;
             switch (match.Groups[2].Value)
             {
@@ -63,7 +63,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
             }
 
             //Check colours and Passport ID
-            return hairMatch.IsMatch(this.hcl!) && idMatch.IsMatch(this.pid!) && validEyeColours.Contains(this.ecl!);
+            return HairMatch.IsMatch(this.hcl!) && IDMatch.IsMatch(this.pid!) && ValidEyeColours.Contains(this.ecl!);
         }
         }
 

@@ -23,7 +23,7 @@ public sealed class Day17 : Solver<Direction[]>
     private record struct Rock(Vector2<int> Anchor, Vector2<int>[] Points, Vector2<int> Bounds)
     {
         /// <summary>Rock overlap buffer</summary>
-        private static readonly HashSet<Vector2<int>> checkBuffer = new(5);
+        private static readonly HashSet<Vector2<int>> CheckBuffer = new(5);
 
         /// <summary>
         /// Rock top limit
@@ -97,9 +97,9 @@ public sealed class Day17 : Solver<Direction[]>
              || this.TopPoint < other.BottomPoint || this.BottomPoint > other.TopPoint) return false;
 
             // Validate all points
-            checkBuffer.AddRange(GetOffsetPoints());
-            bool overlaps = checkBuffer.Overlaps(other.GetOffsetPoints());
-            checkBuffer.Clear();
+            CheckBuffer.AddRange(GetOffsetPoints());
+            bool overlaps = CheckBuffer.Overlaps(other.GetOffsetPoints());
+            CheckBuffer.Clear();
             return overlaps;
         }
 
@@ -122,7 +122,7 @@ public sealed class Day17 : Solver<Direction[]>
     /// <summary>Rocks limit for the first part</summary>
     private const long SECOND_LIMIT = 1000000000000L;
     /// <summary>Horizontal bar rock shape</summary>
-    private static readonly Vector2<int>[] horizontal =
+    private static readonly Vector2<int>[] Horizontal =
     [
         new(0, 0),
         new(1, 0),
@@ -130,7 +130,7 @@ public sealed class Day17 : Solver<Direction[]>
         new(3, 0)
     ];
     /// <summary>Cross rock shape</summary>
-    private static readonly Vector2<int>[] cross =
+    private static readonly Vector2<int>[] Cross =
     [
         new(0, -1),
         new(1, 0),
@@ -139,7 +139,7 @@ public sealed class Day17 : Solver<Direction[]>
         new(2, -1)
     ];
     /// <summary>Corner rock shape</summary>
-    private static readonly Vector2<int>[] corner =
+    private static readonly Vector2<int>[] Corner =
     [
         new(0, -2),
         new(1, -2),
@@ -148,7 +148,7 @@ public sealed class Day17 : Solver<Direction[]>
         new(2, -2)
     ];
     /// <summary>Vertical bar rock shape</summary>
-    private static readonly Vector2<int>[] vertical =
+    private static readonly Vector2<int>[] Vertical =
     [
         new(0, 0),
         new(0, -1),
@@ -156,7 +156,7 @@ public sealed class Day17 : Solver<Direction[]>
         new(0, -3)
     ];
     /// <summary>Cube rock shape</summary>
-    private static readonly Vector2<int>[] cube =
+    private static readonly Vector2<int>[] Cube =
     [
         new(0, 0),
         new(0, -1),
@@ -164,13 +164,13 @@ public sealed class Day17 : Solver<Direction[]>
         new(1, -1)
     ];
     /// <summary>Rock shapes array</summary>
-    private static readonly (Vector2<int>[] shape, Vector2<int> bounds)[] shapes =
+    private static readonly (Vector2<int>[] shape, Vector2<int> bounds)[] Shapes =
     [
-        (horizontal, new Vector2<int>(3, 0)),
-        (cross, new Vector2<int>(2, -2)),
-        (corner, new Vector2<int>(2, -2)),
-        (vertical, new Vector2<int>(0, -3)),
-        (cube, new Vector2<int>(1, -1))
+        (Horizontal, new Vector2<int>(3, 0)),
+        (Cross, new Vector2<int>(2, -2)),
+        (Corner, new Vector2<int>(2, -2)),
+        (Vertical, new Vector2<int>(0, -3)),
+        (Cube, new Vector2<int>(1, -1))
     ];
 
     /// <summary>
@@ -197,9 +197,9 @@ public sealed class Day17 : Solver<Direction[]>
 
             // Create new rock
             (int shape, int jet, int gain) state = (shapeIndex, jetsIndex, 0);
-            (Vector2<int>[] points, Vector2<int> bounds) = shapes[shapeIndex++];
+            (Vector2<int>[] points, Vector2<int> bounds) = Shapes[shapeIndex++];
             Rock rock = new(new Vector2<int>(2, height - bounds.Y + 3), points, bounds);
-            shapeIndex %= shapes.Length;
+            shapeIndex %= Shapes.Length;
 
             do
             {

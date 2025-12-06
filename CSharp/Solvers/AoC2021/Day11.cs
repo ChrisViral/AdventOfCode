@@ -18,9 +18,9 @@ public sealed class Day11 : GridSolver<byte>
     /// <summary>Simulation days</summary>
     private const int DAYS = 100;
     /// <summary>Queue to store the octopi that mush flash</summary>
-    private static readonly Queue<Vector2<int>> toFlash   = new();
+    private static readonly Queue<Vector2<int>> ToFlash   = new();
     /// <summary>Set containing all octopi that have flashed</summary>
-    private static readonly HashSet<Vector2<int>> flashed = [];
+    private static readonly HashSet<Vector2<int>> Flashed = [];
 
     /// <summary>
     /// Creates a new <see cref="Day11"/> Solver for 2021 - 11 with the input data properly parsed
@@ -62,22 +62,22 @@ public sealed class Day11 : GridSolver<byte>
         int flashes = 0;
         Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
                     .Where(WillFlash)
-                    .ForEach(toFlash.Enqueue);
-        flashed.AddRange(toFlash);
+                    .ForEach(ToFlash.Enqueue);
+        Flashed.AddRange(ToFlash);
 
         // Check all positions that are flashing
-        while (toFlash.TryDequeue(out Vector2<int> position))
+        while (ToFlash.TryDequeue(out Vector2<int> position))
         {
             // Flash and add all adjacent
             flashes++;
             position.Adjacent(true)
-                    .Where(p => this.Grid.WithinGrid(p) && WillFlash(p) && flashed.Add(p))
-                    .ForEach(toFlash.Enqueue);
+                    .Where(p => this.Grid.WithinGrid(p) && WillFlash(p) && Flashed.Add(p))
+                    .ForEach(ToFlash.Enqueue);
         }
 
         // Clear all flashed octopi
-        flashed.ForEach(p => this.Grid[p] = 0);
-        flashed.Clear();
+        Flashed.ForEach(p => this.Grid[p] = 0);
+        Flashed.Clear();
         return flashes;
     }
 

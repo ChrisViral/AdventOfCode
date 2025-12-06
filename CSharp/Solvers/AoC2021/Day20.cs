@@ -18,7 +18,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
     private const int LONG_PASSES = 50;
     private const char LIGHT      = '#';
     private const int BUFFER      = 6;
-    private static readonly Vector2<int> offset = new(BUFFER / 2, BUFFER / 2);
+    private static readonly Vector2<int> Offset = new(BUFFER / 2, BUFFER / 2);
 
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver for 2021 - 20 with the input data properly parsed
@@ -50,7 +50,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
         Grid<bool> newImage = new(image.Width + BUFFER, image.Height + BUFFER);
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(image.Width, image.Height))
         {
-            newImage[position + offset] = image[position];
+            newImage[position + Offset] = image[position];
         }
 
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(newImage.Width, newImage.Height))
@@ -59,7 +59,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
             foreach (Vector2<int> adjacent in position.Adjacent(true, true))
             {
                 n <<= 1;
-                Vector2<int> matching = adjacent - offset;
+                Vector2<int> matching = adjacent - Offset;
                 if (image.WithinGrid(matching) ? image[matching] : externStatus)
                 {
                     n |= 1;

@@ -14,9 +14,9 @@ namespace AdventOfCode.Solvers.AoC2021;
 public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     /// <summary>Signal/output separator</summary>
-    private static readonly char[] separatorSplit = ['|'];
+    private static readonly char[] SeparatorSplit = ['|'];
     /// <summary>Segments separator</summary>
-    private static readonly char[] segmentSplit   = [' '];
+    private static readonly char[] SegmentSplit   = [' '];
 
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver for 2021 - 08 with the input data properly parsed
@@ -70,7 +70,7 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (string[], string[]) ConvertLine(string line)
     {
-        string[] splits = line.Split(separatorSplit, DEFAULT_OPTIONS);
-        return (splits[0].Split(segmentSplit, DEFAULT_OPTIONS), splits[1].Split(segmentSplit, DEFAULT_OPTIONS));
+        string[] splits = line.Split(SeparatorSplit, DEFAULT_OPTIONS);
+        return (splits[0].Split(SegmentSplit, DEFAULT_OPTIONS), splits[1].Split(SegmentSplit, DEFAULT_OPTIONS));
     }
 }

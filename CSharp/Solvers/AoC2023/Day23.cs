@@ -28,7 +28,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
 
     public sealed class Node(Vector2<int> value) : IEquatable<Node>
     {
-        public Vector2<int> Value { get; } = value;
+        private Vector2<int> Value { get; } = value;
 
         public Dictionary<Node, int> Neighbours { get; } = [];
 

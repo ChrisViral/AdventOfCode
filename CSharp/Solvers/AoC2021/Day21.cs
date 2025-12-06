@@ -21,7 +21,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
     /// <summary>Board size</summary>
     private const int BOARD = 10;
     /// <summary>Convolutions for 3d3</summary>
-    private static readonly Dictionary<int, int> diceConvolutions = new(6)
+    private static readonly Dictionary<int, int> DiceConvolutions = new(6)
     {
         [3] = 1,
         [4] = 3,
@@ -82,7 +82,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         foreach (int roll in 3..^9)
         {
             // Calculate permutations, and player position and score
-            long newPermutations = permutations * diceConvolutions[roll];
+            long newPermutations = permutations * DiceConvolutions[roll];
             int newPosition      = (current.Position + roll) % BOARD;
             int newScore         = current.Score + newPosition + 1;
 

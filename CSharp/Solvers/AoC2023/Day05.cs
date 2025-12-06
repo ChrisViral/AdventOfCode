@@ -27,7 +27,7 @@ public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> 
     public readonly struct Map
     {
         private const string MAP_PATTERN = "([a-z]+)-to-([a-z]+) map:";
-        private static readonly Regex mapMatcher = new(MAP_PATTERN, RegexOptions.Compiled);
+        private static readonly Regex MapMatcher = new(MAP_PATTERN, RegexOptions.Compiled);
 
         private const string RANGE_PATTERN = @"(\d+) (\d+) (\d+)";
 
@@ -37,7 +37,7 @@ public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> 
 
         public Map(string map, string[] ranges)
         {
-            string[] identifiers = mapMatcher.Match(map).CapturedGroups.Select(g => g.Value).ToArray();
+            string[] identifiers = MapMatcher.Match(map).CapturedGroups.Select(g => g.Value).ToArray();
             this.from = identifiers[0];
             this.to   = identifiers[1];
 

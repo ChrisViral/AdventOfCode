@@ -22,7 +22,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
     public sealed class Elf
     {
         /// <summary>Movement direction location checks</summary>
-        private static readonly (int i, int j, int k, Vector2<int> move)[] directionChecks =
+        private static readonly (int i, int j, int k, Vector2<int> move)[] DirectionChecks =
         [
             (0, 1, 2, Vector2<int>.Up),     // NW-N-NE
             (5, 6, 7, Vector2<int>.Down),   // SW-S-SE
@@ -69,11 +69,11 @@ public sealed class Day23 : Solver<Day23.Elf[]>
             if (adjacent.Exists(b => b))
             {
                 // Check all four directions
-                foreach (int offset in ..directionChecks.Length)
+                foreach (int offset in ..DirectionChecks.Length)
                 {
                     // Get the current index from the offset
-                    int moveIndex = (this.moveOrderIndex + offset) % directionChecks.Length;
-                    (int i, int j, int k, Vector2<int> move) = directionChecks[moveIndex];
+                    int moveIndex = (this.moveOrderIndex + offset) % DirectionChecks.Length;
+                    (int i, int j, int k, Vector2<int> move) = DirectionChecks[moveIndex];
                     // Test the direction
                     if (!adjacent[i] && !adjacent[j] && !adjacent[k])
                     {
@@ -114,7 +114,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
             }
 
             // Update the movement check start index
-            this.moveOrderIndex = (this.moveOrderIndex + 1) % directionChecks.Length;
+            this.moveOrderIndex = (this.moveOrderIndex + 1) % DirectionChecks.Length;
         }
     }
 

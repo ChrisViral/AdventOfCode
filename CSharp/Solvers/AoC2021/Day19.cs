@@ -16,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 public sealed class Day19 : Solver<List<Vector3<int>[]>>
 {
     private const int MATCHING = 12;
-    private static readonly Transformation[] rotations =
+    private static readonly Transformation[] Rotations =
     [
         // Rotation around +Y
         v => new Vector3<int>( v.X,  v.Y,  v.Z),
@@ -54,7 +54,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
         v => new Vector3<int>(-v.Y, -v.Z,  v.X),
         v => new Vector3<int>(-v.X, -v.Z, -v.Y)
     ];
-    private static readonly List<Vector3<int>> buffer = [];
+    private static readonly List<Vector3<int>> Buffer = [];
 
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver for 2021 - 19 with the input data properly parsed
@@ -76,7 +76,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
             foreach (int i in ..this.Data.Count)
             {
                 bool found = false;
-                foreach (Transformation transformation in rotations)
+                foreach (Transformation transformation in Rotations)
                 {
                     beacons.Clear();
                     beacons.AddRange(this.Data[i].Select(transformation));
@@ -110,10 +110,10 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
             {
                 int matching = 0;
                 Vector3<int> origin = reference - beacon;
-                buffer.Clear();
+                Buffer.Clear();
                 foreach (Vector3<int> fromReference in beacons.Select(b => b + origin))
                 {
-                    buffer.Add(fromReference);
+                    Buffer.Add(fromReference);
                     if (references.Contains(fromReference))
                     {
                         matching++;
@@ -122,7 +122,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
 
                 if (matching >= MATCHING)
                 {
-                    references.UnionWith(buffer);
+                    references.UnionWith(Buffer);
                     scanner = origin;
                     return true;
                 }

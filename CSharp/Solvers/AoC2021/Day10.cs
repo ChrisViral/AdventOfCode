@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 public sealed class Day10 : Solver
 {
     /// <summary>Points for broken chunks</summary>
-    private static readonly Dictionary<char, int> brokenPoints = new(4)
+    private static readonly Dictionary<char, int> BrokenPoints = new(4)
     {
         [')'] = 3,
         [']'] = 57,
@@ -21,7 +21,7 @@ public sealed class Day10 : Solver
         ['>'] = 25137
     };
     /// <summary>Points for incomplete chunks</summary>
-    private static readonly Dictionary<char, int> incompletePoints = new(4)
+    private static readonly Dictionary<char, int> IncompletePoints = new(4)
     {
         ['('] = 1,
         ['['] = 2,
@@ -29,7 +29,7 @@ public sealed class Day10 : Solver
         ['<'] = 4,
     };
     /// <summary>Matching closing brackets</summary>
-    private static readonly Dictionary<char, char> matching = new(4)
+    private static readonly Dictionary<char, char> Matching = new(4)
     {
         [')'] = '(',
         [']'] = '[',
@@ -60,10 +60,10 @@ public sealed class Day10 : Solver
                     // Push opening brackets
                     brackets.Push(c);
                 }
-                else if (brackets.Pop() != matching[c])
+                else if (brackets.Pop() != Matching[c])
                 {
                     // If popped closing bracket mismatched, add score
-                    brokenScore += brokenPoints[c];
+                    brokenScore += BrokenPoints[c];
                     brackets.Clear();
                     break;
                 }
@@ -77,7 +77,7 @@ public sealed class Day10 : Solver
             while (brackets.TryPop(out char c))
             {
                 incompleteScore *= 5L;
-                incompleteScore += incompletePoints[c];
+                incompleteScore += IncompletePoints[c];
             }
             incompleteScores.Add(incompleteScore);
         }

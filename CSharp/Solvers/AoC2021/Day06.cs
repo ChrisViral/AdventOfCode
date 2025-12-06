@@ -17,7 +17,7 @@ public sealed class Day06 : Solver<int[]>
     /// <summary>Part 2 days</summary>
     private const int LONG_DAYS = 256;
     /// <summary>Fish spawn cache</summary>
-    private static readonly Dictionary<int, long> cache = new();
+    private static readonly Dictionary<int, long> Cache = new();
 
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver for 2021 - 06 with the input data properly parsed
@@ -47,7 +47,7 @@ public sealed class Day06 : Solver<int[]>
         // Return if no time is left
         if (timeRemaining < 0L) return 0L;
         // Try to get from cache if possible
-        if (cache.TryGetValue(timeRemaining, out long children)) return children;
+        if (Cache.TryGetValue(timeRemaining, out long children)) return children;
 
         // Get spawned amount during lifetime
         int spawned = (timeRemaining / 7) + 1;
@@ -59,7 +59,7 @@ public sealed class Day06 : Solver<int[]>
         }
 
         // Cache result
-        cache.Add(timeRemaining, children);
+        Cache.Add(timeRemaining, children);
         return children;
     }
 

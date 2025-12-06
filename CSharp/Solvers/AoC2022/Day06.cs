@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 public sealed class Day06 : Solver<string>
 {
     /// <summary>Character Counter</summary>
-    private static readonly Counter<char> characterCounter = new(14);
+    private static readonly Counter<char> CharacterCounter = new(14);
 
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver for 2022 - 06 with the input data properly parsed
@@ -43,22 +43,22 @@ public sealed class Day06 : Solver<string>
     private int FindUniqueSliceOfLength(int length)
     {
         int start = length - 1;
-        characterCounter.AddRange(this.Data[..start]);
+        CharacterCounter.AddRange(this.Data[..start]);
         foreach (int i in start..this.Data.Length)
         {
-            characterCounter.Add(this.Data[i]);
+            CharacterCounter.Add(this.Data[i]);
             // If the counter length matches the slice length, all elements are unique
-            if (characterCounter.Count == length)
+            if (CharacterCounter.Count == length)
             {
-                characterCounter.Clear();
+                CharacterCounter.Clear();
                 return i + 1;
             }
 
-            characterCounter.Remove(this.Data[i - start]);
+            CharacterCounter.Remove(this.Data[i - start]);
         }
 
         // Nothing found
-        characterCounter.Clear();
+        CharacterCounter.Clear();
         return -1;
     }
 }

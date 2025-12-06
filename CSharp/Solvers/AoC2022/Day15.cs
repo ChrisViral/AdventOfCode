@@ -21,7 +21,7 @@ public sealed class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     /// <summary> Axis limit for part 2 </summary>
     private const int LIMIT = 4000000;
     /// <summary> Input parsing pattern </summary>
-    private static readonly Regex pattern = new(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", RegexOptions.Compiled);
+    private static readonly Regex Pattern = new(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", RegexOptions.Compiled);
 
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver for 2022 - 15 with the input data properly parsed
@@ -119,7 +119,7 @@ public sealed class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Vector2<int>, int) ConvertLine(string line)
     {
-        int[] values = pattern.Match(line).CapturedGroups
+        int[] values = Pattern.Match(line).CapturedGroups
                               .Select(g => int.Parse(g.ValueSpan))
                               .ToArray();
         Vector2<int> sensor = new(values[0], values[1]);

@@ -24,7 +24,7 @@ public sealed class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         /// <summary>Move parse pattern</summary>
         private const string PATTERN = @"move (\d+) from (\d+) to (\d+)";
         /// <summary>Regex matcher</summary>
-        private static readonly Regex matcher = new(PATTERN, RegexOptions.Compiled);
+        private static readonly Regex Matcher = new(PATTERN, RegexOptions.Compiled);
 
         /// <summary>
         /// Move amount
@@ -48,7 +48,7 @@ public sealed class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
         public Move(string line)
         {
             // Extract values
-            int[] values = matcher.Match(line).CapturedGroups
+            int[] values = Matcher.Match(line).CapturedGroups
                                   .Select(group => int.Parse(group.ValueSpan))
                                   .ToArray();
             Amount = values[0];

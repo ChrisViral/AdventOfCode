@@ -50,7 +50,7 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     /// <summary>
     /// CRT grid
     /// </summary>
-    private Grid<bool> CRT { get; } = new(40, 6, v => v ? "█" : " ");
+    private Grid<bool> Crt { get; } = new(40, 6, v => v ? "█" : " ");
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -75,7 +75,7 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
 
         AoCUtils.LogPart1(this.CyclesSum);
         AoCUtils.LogPart2(string.Empty);
-        AoCUtils.Log(this.CRT);
+        AoCUtils.Log(this.Crt);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
@@ -100,7 +100,7 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
         }
 
         // Update the CRT value
-        this.CRT[this.Position] = this.Position.X >= this.X - 1
+        this.Crt[this.Position] = this.Position.X >= this.X - 1
                                && this.Position.X <= this.X + 1;
 
         // Update the position

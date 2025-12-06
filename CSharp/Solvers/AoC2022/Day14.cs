@@ -26,9 +26,9 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     }
 
     /// <summary> Sand source universal position </summary>
-    private static readonly Vector2<int> sourcePosition = new(500, 0);
+    private static readonly Vector2<int> SourcePosition = new(500, 0);
     /// <summary> Double right shift </summary>
-    private static readonly Vector2<int> rightShift     = new(2, 0);
+    private static readonly Vector2<int> RightShift     = new(2, 0);
 
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver for 2022 - 14 with the input data properly parsed
@@ -47,7 +47,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         Vector2<int> bottomRight = new(allPoints.Max(v => v.X) + 200, allPoints.Max(v => v.Y) + 2);
         // Create grid
         Vector2<int> size        = (bottomRight - topLeft) + Vector2<int>.One;
-        Vector2<int> source      = sourcePosition - topLeft;
+        Vector2<int> source      = SourcePosition - topLeft;
         Grid<CaveElement> cave   = new(size.X, size.Y, e => ((char)e).ToString());
         cave.Fill(CaveElement.EMPTY);
         cave[source] = CaveElement.SOURCE;
@@ -107,7 +107,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         position += Vector2<int>.Left;
         if (cave[position] is CaveElement.EMPTY) return true;
 
-        position += rightShift;
+        position += RightShift;
         if (cave[position] is CaveElement.EMPTY) return true;
 
         count++;

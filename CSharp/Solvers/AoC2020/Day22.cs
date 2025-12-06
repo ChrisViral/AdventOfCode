@@ -25,7 +25,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// <summary>
     /// State creation StringBuilder
     /// </summary>
-    private static readonly StringBuilder stateBuilder = new();
+    private static readonly StringBuilder StateBuilder = new();
 
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
@@ -132,7 +132,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// <param name="p1">Deck of the first player</param>
     /// <param name="p2">Deck of the second player</param>
     /// <returns>A string representation of the game state</returns>
-    private static string GetState(IEnumerable<int> p1, IEnumerable<int> p2) => stateBuilder.Clear().AppendJoin(',', p1).Append('-').AppendJoin(',', p2).ToString();
+    private static string GetState(IEnumerable<int> p1, IEnumerable<int> p2) => StateBuilder.Clear().AppendJoin(',', p1).Append('-').AppendJoin(',', p2).ToString();
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (int[], int[]) Convert(string[] rawInput)

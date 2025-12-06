@@ -18,8 +18,8 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
     public sealed class Bag : IEquatable<Bag>
     {
             private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
-        private static readonly Regex bagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
-        private static readonly Regex bagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
+        private static readonly Regex BagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
+        private static readonly Regex BagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
 
             private (string, int)[]? containedBagNames;
 
@@ -47,11 +47,11 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
         {
             if (string.IsNullOrEmpty(definition)) throw new ArgumentException("Definition is an empty string.", nameof(definition));
 
-            Match nameMatch = bagNameMatch.Match(definition);
+            Match nameMatch = BagNameMatch.Match(definition);
             if (!nameMatch.Success) throw new ArgumentException($"Bag name could not be found in definition \"{definition}\".", nameof(definition));
 
             this.Name = nameMatch.Groups[1].Value;
-            MatchCollection contentMatches = bagContentsMatch.Matches(definition, nameMatch.Length);
+            MatchCollection contentMatches = BagContentsMatch.Matches(definition, nameMatch.Length);
             this.containedBagNames = new (string, int)[contentMatches.Count];
             this.Contents = new Dictionary<string, (Bag, int)>(contentMatches.Count);
             for (int i = 0; i < contentMatches.Count; i++)

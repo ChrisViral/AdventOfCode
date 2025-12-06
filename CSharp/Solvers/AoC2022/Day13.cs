@@ -44,7 +44,7 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
     public sealed class PacketList : IPacketElement, IComparable<PacketList>
     {
         /// <summary>StringBuilder instance for ToString implementation</summary>
-        private static readonly StringBuilder toStringBuilder = new();
+        private static readonly StringBuilder ToStringBuilder = new();
 
         /// <summary>
         /// Packet elements list
@@ -132,7 +132,7 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
         }
 
         /// <inheritdoc cref="object.ToString"/>
-        public override string ToString() => toStringBuilder.Append('[')
+        public override string ToString() => ToStringBuilder.Append('[')
                                                             .AppendJoin(',', this.Elements)
                                                             .Append(']')
                                                             .ToStringAndClear();

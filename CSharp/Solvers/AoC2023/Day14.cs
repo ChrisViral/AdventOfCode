@@ -75,6 +75,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
         AoCUtils.LogPart2(load);
     }
 
+    // ReSharper disable once CognitiveComplexity
     public void SlideReflector(Direction direction)
     {
         Vector2<int>[] points = this.directionOrders[direction];

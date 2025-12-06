@@ -39,7 +39,7 @@ public sealed class Day16 : Solver<Day16.Packet>
     public record Packet(byte Version, PacketType Type, long Size)
     {
         /// <summary>Parsing StringBuilder</summary>
-        private static readonly StringBuilder builder = new();
+        private static readonly StringBuilder Builder = new();
     
             /// <summary>
         /// Sub-packets of this packet
@@ -90,14 +90,14 @@ public sealed class Day16 : Solver<Day16.Packet>
             {
                 do
                 {
-                    builder.Append(bits[(i + 1)..(i + 5)]);
+                    Builder.Append(bits[(i + 1)..(i + 5)]);
                     i    += 5;
                     used += 5;
                 }
                 while (bits[i - 5] is not '0');
 
-                long value = ToInt64(builder.ToString(), 2);
-                builder.Clear();
+                long value = ToInt64(Builder.ToString(), 2);
+                Builder.Clear();
                 return (new Packet(version, type, value), used);
             }
 

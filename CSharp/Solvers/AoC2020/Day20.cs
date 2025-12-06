@@ -28,7 +28,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// <summary>
         /// Position of every monster "pixel"
         /// </summary>
-        private static readonly Vector2[] monster =
+        private static readonly Vector2[] Monster =
         [
             new(0,  1),
             new(1,  2),
@@ -260,7 +260,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// <returns>The roughness of the water for the given image</returns>
         public int CalculateRoughness()
         {
-            int monsters = AllLayouts().Select(_ => CountMonsters()).FirstOrDefault(m => m is not 0) * monster.Length;
+            int monsters = AllLayouts().Select(_ => CountMonsters()).FirstOrDefault(m => m is not 0) * Monster.Length;
             return this.image.Sum(l => l.Count(c => c is BLACK)) - monsters;
         }
 
@@ -281,7 +281,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
                     box[0] = box[0][i..end];
                     box[1] = box[1][i..end];
                     box[2] = box[2][i..end];
-                    if (monster.All(m => box[m.Y][m.X] is BLACK))
+                    if (Monster.All(m => box[m.Y][m.X] is BLACK))
                     {
                         monsters++;
                     }

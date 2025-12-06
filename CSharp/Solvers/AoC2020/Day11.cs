@@ -25,7 +25,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
     /// <summary>
     /// All cardinal and diagonal direction vectors
     /// </summary>
-    private static readonly Vector2[] directions =
+    private static readonly Vector2[] Directions =
     [
         Vector2.Up + Vector2.Left,
         Vector2.Up,
@@ -102,7 +102,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
                         case Seat.EMPTY:
                             //If everything goes well we will take the seat
                             bool anyTaken = false;
-                            foreach (Vector2 direction in directions)
+                            foreach (Vector2 direction in Directions)
                             {
                                 Vector2? moved = position;
                                 do
@@ -128,7 +128,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
 
                         case Seat.TAKEN:
                             int taken = 0;
-                            foreach (Vector2 direction in directions)
+                            foreach (Vector2 direction in Directions)
                             {
                                 Vector2? moved = position;
                                 do

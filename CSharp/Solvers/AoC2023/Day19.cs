@@ -50,7 +50,7 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
         private delegate bool RuleTest(in Part part);
 
         private const string RULE_PATTERN = @"([xmas])([<>])(\d+):([a-z]+|A|R)";
-        private static readonly Regex ruleMatch = new(RULE_PATTERN, RegexOptions.Compiled);
+        private static readonly Regex RuleMatch = new(RULE_PATTERN, RegexOptions.Compiled);
 
         public readonly Category category;
         public readonly Operation operation;
@@ -61,7 +61,7 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
 
         public Rule(string rule)
         {
-            string[] sections = ruleMatch.Match(rule).CapturedGroups.Select(g => g.Value).ToArray();
+            string[] sections = RuleMatch.Match(rule).CapturedGroups.Select(g => g.Value).ToArray();
             this.category     = Enum.Parse<Category>(sections[0], true);
             this.operation    = (Operation)sections[1][0];
             this.value        = int.Parse(sections[2]);

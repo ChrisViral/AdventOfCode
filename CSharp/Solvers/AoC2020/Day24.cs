@@ -40,7 +40,7 @@ public sealed class Day24 : Solver<Day24.Neighbour[][]>
     /// <summary>
     /// String to Neighbour conversion
     /// </summary>
-    private static readonly Dictionary<string, Neighbour> toNeighbour = new(6)
+    private static readonly Dictionary<string, Neighbour> ToNeighbour = new(6)
     {
         ["e"]  = Neighbour.EAST,
         ["w"]  = Neighbour.WEST,
@@ -150,7 +150,7 @@ public sealed class Day24 : Solver<Day24.Neighbour[][]>
         Neighbour[][] directions = new Neighbour[rawInput.Length][];
         foreach (int i in ..directions.Length)
         {
-            directions[i] = match.Matches(rawInput[i]).Select(m => toNeighbour[m.Value]).ToArray();
+            directions[i] = match.Matches(rawInput[i]).Select(m => ToNeighbour[m.Value]).ToArray();
         }
 
         return directions;

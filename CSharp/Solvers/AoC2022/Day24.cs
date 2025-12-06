@@ -27,7 +27,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
         /// <summary>
         /// Blizzard's position
         /// </summary>
-        public Vector2<int> Position { get; private set; }
+        private Vector2<int> Position { get; set; }
 
         /// <summary>
         /// Creates a new Blizzard at a given position, moving in the given direction
@@ -90,6 +90,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
     /// <param name="end">Ending point</param>
     /// <param name="limit">Map limits</param>
     /// <returns>The total time taken to reach the end from the start</returns>
+    /// ReSharper disable once CognitiveComplexity
     private int FindPathTime(Vector2<int> start, Vector2<int> end, Vector2<int> limit)
     {
         // Create necessary structures

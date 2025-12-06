@@ -60,7 +60,7 @@ public sealed class Day11 : GridSolver<bool>
         AoCUtils.LogPart2(total);
     }
 
-    public long GetTotalDistances(Vector2<int>[] galaxies, HashSet<int> emptyRows, HashSet<int> emptyColumns, int emptyExpansion = 2)
+    private long GetTotalDistances(Vector2<int>[] galaxies, HashSet<int> emptyRows, HashSet<int> emptyColumns, int emptyExpansion = 2)
     {
         long total = 0L;
 
@@ -79,7 +79,7 @@ public sealed class Day11 : GridSolver<bool>
         return total;
     }
 
-    public int CalculateDistance(int x1, int x2, HashSet<int> empty, int emptyExpansion)
+    private static int CalculateDistance(int x1, int x2, HashSet<int> empty, int emptyExpansion)
     {
         if (x1 == x2) return 0;
 
