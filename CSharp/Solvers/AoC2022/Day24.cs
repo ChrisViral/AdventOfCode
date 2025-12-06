@@ -69,6 +69,7 @@ public class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzar
     public Day24(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Create limits and find path time

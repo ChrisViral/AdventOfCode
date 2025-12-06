@@ -30,6 +30,7 @@ public class Day09 : ArraySolver<Vector2<int>>
     public Day09(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(SimulateRope(2));

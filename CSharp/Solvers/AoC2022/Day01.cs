@@ -20,6 +20,7 @@ public class Day01 : Solver<SortedList<int>>
     public Day01(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Top value

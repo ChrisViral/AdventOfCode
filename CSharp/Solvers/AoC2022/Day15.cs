@@ -31,6 +31,7 @@ public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
     public Day15(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         HashSet<int> invalids = [];

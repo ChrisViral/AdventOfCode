@@ -129,6 +129,7 @@ public class Day23 : Solver<Day23.Elf[]>
     public Day23(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Create the basic data

@@ -21,6 +21,7 @@ public class Day04 : Solver<((int, int) first, (int, int) second)[]>
     public Day04(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int fullOverlaps    = 0;

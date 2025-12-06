@@ -78,6 +78,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     public Day16(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Precalculate all path lengths

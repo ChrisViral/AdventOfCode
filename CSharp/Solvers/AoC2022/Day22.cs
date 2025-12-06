@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -46,6 +46,7 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
     public Day22(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Vector2<int> position = (50, 0);

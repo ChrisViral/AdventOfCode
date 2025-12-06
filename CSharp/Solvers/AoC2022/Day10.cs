@@ -53,6 +53,7 @@ public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     private Grid<bool> CRT { get; } = new(40, 6, v => v ? "█" : " ");
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         foreach ((Operation op, int arg) in this.Data)

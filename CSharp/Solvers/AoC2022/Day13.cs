@@ -146,6 +146,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
     public Day13(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int inOrder = 0;

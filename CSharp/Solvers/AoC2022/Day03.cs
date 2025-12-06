@@ -18,6 +18,7 @@ public class Day03 : Solver<string[]>
     public Day03(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int total = 0;

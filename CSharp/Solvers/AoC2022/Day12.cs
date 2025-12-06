@@ -22,6 +22,7 @@ public class Day12 : GridSolver<int>
     public Day12(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Vector2<int> start = Vector2<int>.Zero;

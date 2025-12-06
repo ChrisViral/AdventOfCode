@@ -28,6 +28,7 @@ public class Day20 : ArraySolver<long>
     public Day20(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long grove = DecryptData(this.Data);

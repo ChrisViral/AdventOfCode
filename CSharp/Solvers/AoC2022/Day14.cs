@@ -38,6 +38,7 @@ public class Day14 : ArraySolver<Vector2<int>[]>
     public Day14(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Inefficient, but simple

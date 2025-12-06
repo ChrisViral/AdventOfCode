@@ -71,6 +71,7 @@ public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
     public Day05(string input) : base(input, options: StringSplitOptions.None) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Create a copy of the stacks

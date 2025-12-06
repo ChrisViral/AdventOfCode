@@ -163,6 +163,7 @@ public class Day21 : Solver<Dictionary<string, Day21.Monkey>>
     public Day21(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Monkey root = this.Data["root"];

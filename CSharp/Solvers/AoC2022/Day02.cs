@@ -72,6 +72,7 @@ public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
     public Day02(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int score = this.Data.Sum(moves => moves.self.GetResultFromScore(moves.opponent));

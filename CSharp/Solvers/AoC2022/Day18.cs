@@ -21,6 +21,7 @@ public class Day18 : ArraySolver<Vector3<int>>
     public Day18(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         HashSet<Vector3<int>> points = new(this.Data);

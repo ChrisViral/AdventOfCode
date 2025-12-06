@@ -154,6 +154,7 @@ public class Day19 : Solver<Day19.Blueprint[]>
     public Day19(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Process all blueprints

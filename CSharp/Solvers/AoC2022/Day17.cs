@@ -181,6 +181,7 @@ public class Day17 : Solver<Direction[]>
     public Day17(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int shapeIndex = 0;

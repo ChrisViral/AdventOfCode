@@ -22,6 +22,7 @@ public class Day06 : Solver<string>
     public Day06(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(FindUniqueSliceOfLength(4));

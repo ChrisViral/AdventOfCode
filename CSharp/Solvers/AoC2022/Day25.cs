@@ -22,6 +22,7 @@ public class Day25 : ArraySolver<long>
     public Day25(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Get the data sum and then convert to SNAFU

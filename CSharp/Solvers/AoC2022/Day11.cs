@@ -152,6 +152,7 @@ public class Day11 : Solver<Day11.Monkey[]>
     public Day11(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         AoCUtils.LogPart1(PlayRound(ROUNDS, false));

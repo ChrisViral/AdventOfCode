@@ -136,6 +136,7 @@ public class Day07 : Solver<Day07.Directory>
     public Day07(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int smallDirsTotal = this.Data
