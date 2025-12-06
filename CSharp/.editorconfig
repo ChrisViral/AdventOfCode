@@ -1,4 +1,4 @@
-﻿[*.{cs,vb}]
+[*.{cs,vb}]
 
 # IDE0003: Remove qualification
 dotnet_style_qualification_for_field = true
@@ -98,3 +98,7 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = none
+
+# Disable trailing space removal for .md and .txt files
+[*.{md,txt}]
+trim_trailing_whitespace = false
