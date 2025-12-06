@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -88,12 +88,12 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
         Grid<char>[] cube =
         [
             // ReSharper disable RedundantRangeBound
-            this.Data.board[050..100, 000..050],    // 0
-            this.Data.board[100..150, 000..050],    // 1
-            this.Data.board[050..100, 050..100],    // 2
-            this.Data.board[000..050, 100..150],    // 3
-            this.Data.board[050..100, 100..150],    // 4
-            this.Data.board[000..050, 150..200]     // 5
+            new(this.Data.board[050..100, 000..050]), // 0
+            new(this.Data.board[100..150, 000..050]), // 1
+            new(this.Data.board[050..100, 050..100]), // 2
+            new(this.Data.board[000..050, 100..150]), // 3
+            new(this.Data.board[050..100, 100..150]), // 4
+            new(this.Data.board[000..050, 150..200])  // 5
             // ReSharper enable RedundantRangeBound
         ];
 

@@ -37,7 +37,7 @@ public class Day11 : GridSolver<bool>
         HashSet<int> emptyColumns = [];
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumnNoAlloc(x, buffer);
+            this.Data.GetColumn(x, buffer);
             if (buffer.Exists(b => b)) continue;
 
             emptyColumns.Add(x);
@@ -47,7 +47,7 @@ public class Day11 : GridSolver<bool>
         HashSet<int> emptyRows = [];
         foreach (int y in ..this.Data.Height)
         {
-            this.Data.GetRowNoAlloc(y, buffer);
+            this.Data.GetRow(y, buffer);
             if (buffer.Exists(b => b)) continue;
 
             emptyRows.Add(y);

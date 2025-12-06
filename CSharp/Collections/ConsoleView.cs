@@ -28,14 +28,14 @@ public enum Anchor
 /// </summary>
 /// <typeparam name="T">Type of object in the view</typeparam>
 [PublicAPI]
-public class ConsoleView<T> : Grid<T> where T : notnull
+public sealed class ConsoleView<T> : Grid<T> where T : notnull
 {
     private readonly Vector2<int> anchor;
     private readonly char[] viewBuffer;
     private readonly Converter<T, char> toChar;
     private readonly int sleepTime;
     private readonly Stopwatch timer = new();
-    protected int printedLines;
+    private int printedLines;
 
     /// <summary>
     /// Gets or sets a position in the view
@@ -47,6 +47,18 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     {
         get => this[new Vector2<int>(x, y)];
         set => this[new Vector2<int>(x, y)] = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a position in the view
+    /// </summary>
+    /// <param name="x">X Position</param>
+    /// <param name="y">Y Position</param>
+    /// <returns>The value in the view at the given location</returns>
+    public override T this[Index x, Index y]
+    {
+        get => this[new Vector2<int>(x.GetOffset(this.Width), y.GetOffset(this.Height))];
+        set => this[new Vector2<int>(x.GetOffset(this.Width), y.GetOffset(this.Height))] = value;
     }
 
     /// <summary>
@@ -165,7 +177,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     public override Vector2<int> PositionOf(T value) => base.PositionOf(value) - this.anchor;
 
     /// <inheritdoc cref="Grid{T}.Populate"/>
-    public new void Populate(string[] input, [InstantHandle] Converter<string, T[]> converter)
+    public new void Populate(ReadOnlySpan<string> input, [InstantHandle] Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
 
@@ -185,7 +197,7 @@ public class ConsoleView<T> : Grid<T> where T : notnull
     /// Prints the view screen to the console and waits to hit the target FPS
     /// </summary>
     /// <param name="message">Header message</param>
-    public virtual void PrintToConsole(string? message = null)
+    public void PrintToConsole(string? message = null)
     {
         //Clear anything already printed
         if (this.printedLines is not 0)

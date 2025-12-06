@@ -5,12 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.StringBuilders;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
+using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
@@ -32,7 +33,7 @@ public class Grid<T> : IEnumerable<T>
     /// <summary>
     /// Grid width
     /// </summary>
-    public int Width{ get; }
+    public int Width { get; }
 
     /// <summary>
     /// Grid height
@@ -59,6 +60,18 @@ public class Grid<T> : IEnumerable<T>
     {
         get => this.grid[y, x];
         set => this.grid[y, x] = value;
+    }
+
+    /// <summary>
+    /// Accesses an element in the grid
+    /// </summary>
+    /// <param name="x">X coordinate</param>
+    /// <param name="y">Y coordinate</param>
+    /// <returns>The element at the specified position</returns>
+    public virtual T this[Index x, Index y]
+    {
+        get => this.grid[y.GetOffset(this.Height), x.GetOffset(this.Width)];
+        set => this.grid[y.GetOffset(this.Height), x.GetOffset(this.Width)] = value;
     }
 
     /// <summary>
@@ -92,27 +105,17 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The grid slice</returns>
     /// <exception cref="ArgumentOutOfRangeException">If any part of the slice is outside of the grid's range</exception>
     /// <exception cref="InvalidOperationException">If the grid slice is of size 0 in one dimension</exception>
-    public virtual Grid<T> this[Range xRange, Range yRange]
+    public virtual Span2D<T> this[Range xRange, Range yRange]
     {
         get
         {
             // Get offsets and lengths by dimension
-            (int xStart, int xLength) = xRange.GetOffsetAndLength(this.Width);
-            (int yStart, int yLength) = yRange.GetOffsetAndLength(this.Height);
+            (int column, int width) = xRange.GetOffsetAndLength(this.Width);
+            (int row, int height) = yRange.GetOffsetAndLength(this.Height);
 
-            if (xLength <= 0 || yLength <= 0) throw new InvalidOperationException("Grid slice has at least one zero sized dimension");
+            if (width <= 0 || height <= 0) throw new InvalidOperationException("Grid slice has at least one zero sized dimension");
 
-            // Get starting point
-            Vector2<int> start = new(xStart, yStart);
-
-            // Create and fill slice
-            Grid<T> slice = new(xLength, yLength, this.toString);
-            foreach (Vector2<int> position in Vector2<int>.Enumerate(xLength, yLength))
-            {
-                slice[position] = this[start + position];
-            }
-
-            return slice;
+            return this.grid.AsSpan2D(row, column, height, width);
         }
     }
 
@@ -125,19 +128,20 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
     public Grid(int width, int height, Converter<T, string>? toString = null)
     {
-        if (width  <= 0) throw new ArgumentOutOfRangeException(nameof(width),  width,  "Width must be greater than 0");
+        if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), width, "Width must be greater than 0");
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Height must be greater than 0");
 
-        this.Width  = width;
-        this.Height = height;
-        this.Size   = width * height;
-        this.grid   = new T[height, width];
+        this.Width      = width;
+        this.Height     = height;
+        this.Size       = width * height;
+        this.grid       = new T[height, width];
         this.Dimensions = new Vector2<int>(width, height);
 
         if (typeof(T).IsPrimitive)
         {
             this.rowBufferSize = this.Width * PrimitiveUtils<T>.BufferSize;
         }
+
         this.toString = toString ?? (t => t?.ToString() ?? string.Empty);
     }
 
@@ -164,14 +168,23 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="other">Other grid to create a copy of</param>
     public Grid(Grid<T> other)
     {
-        this.Width  = other.Width;
-        this.Height = other.Height;
-        this.Size   = other.Size;
+        this.Width         = other.Width;
+        this.Height        = other.Height;
+        this.Size          = other.Size;
         this.Dimensions    = other.Dimensions;
         this.rowBufferSize = other.rowBufferSize;
-        this.toString = other.toString;
-        this.grid = new T[this.Height, this.Width];
+        this.toString      = other.toString;
+        this.grid          = new T[this.Height, this.Width];
         CopyFrom(other);
+    }
+
+    /// <summary>
+    /// Grid copy constructor
+    /// </summary>
+    /// <param name="span">Span to create a copy of</param>
+    public Grid(Span2D<T> span) : this(span.Width, span.Height)
+    {
+        CopyFrom(span);
     }
 
     /// <summary>
@@ -182,7 +195,7 @@ public class Grid<T> : IEnumerable<T>
     /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
     /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public void Populate(string[] input, [InstantHandle] Converter<string, T[]> converter)
+    public void Populate(ReadOnlySpan<string> input, [InstantHandle] Converter<string, T[]> converter)
     {
         if (input.Length != this.Height) throw new ArgumentException("Input array does not have the same amount of rows as the grid");
 
@@ -225,32 +238,44 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <summary>
+    /// Copies the data from another Grid into this one
+    /// </summary>
+    /// <param name="span">Span to copy from</param>
+    public void CopyFrom(Span2D<T> span)
+    {
+        if (span.Width != this.Width || span.Height != this.Height) throw new InvalidOperationException("Cannot copy two grids with different sizes");
+
+        span.CopyTo(this.grid);
+    }
+
+    /// <summary>
+    /// Creates a new Span2D over the grid
+    /// </summary>
+    /// <returns>Span over the entire grid</returns>
+    public Span2D<T> AsSpan2D() => this.grid.AsSpan2D();
+
+    /// <summary>
+    /// Creates a new Span2D over a section of the grid
+    /// </summary>
+    /// <returns>Span over the specified part of the grid</returns>
+    public Span2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
+
+    /// <summary>
     /// Gets the given row of the grid<br/>
     /// <b>NOTE</b>: This allocates a new array on each call
     /// </summary>
     /// <param name="y">Row index of the row to get</param>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
-    public T[] GetRow(int y)
+    public Span<T> GetRow(int y)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
 
-        T[] row = new T[this.Width];
-        if (this.rowBufferSize is not 0)
-        {
-            //For primitives only
-            Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
-        }
-        else
-        {
-            for (int i = 0; i < this.Width; i++)
-            {
-                row[i] = this[i, y];
-            }
-        }
-
-        return row;
+        return this.grid.GetRowSpan(y);
     }
+
+    /// <inheritdoc cref="GetRow(int)"/>
+    public Span<T> GetRow(Index y) => GetRow(y.GetOffset(this.Height));
 
     /// <summary>
     /// Gets the given row of the grid without allocations
@@ -260,7 +285,7 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="row"/> is too small to fit the size of the row</exception>
-    public void GetRowNoAlloc(int y, T[] row)
+    public void GetRow(int y, in T[] row)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
         if (row.Length < this.Width) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
@@ -272,30 +297,11 @@ public class Grid<T> : IEnumerable<T>
             return;
         }
 
-        for (int i = 0; i < this.Width; i++)
-        {
-            row[i] = this[i, y];
-        }
+        this.grid.GetRowSpan(y).CopyTo(row);
     }
 
-    /// <summary>
-    /// Gets the given row of the grid without allocations
-    /// </summary>
-    /// <param name="y">Row index of the row to get</param>
-    /// <param name="row">Array in which to store the row data</param>
-    /// <returns>The specified row of the grid</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
-    /// <exception cref="ArgumentException">If <paramref name="row"/> is too small to fit the size of the row</exception>
-    public void GetRowNoAlloc(int y, ref Span<T> row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length < this.Width) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
-
-        for (int i = 0; i < this.Width; i++)
-        {
-            row[i] = this[i, y];
-        }
-    }
+    /// <inheritdoc cref="GetRow(int, in T[])"/>
+    public void GetRow(Index y, in T[] row) => GetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
     /// Gets the given column of the grid<br/>
@@ -304,18 +310,15 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="x">Column index of the column to get</param>
     /// <returns>The specified column of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
-    public T[] GetColumn(int x)
+    public RefEnumerable<T> GetColumn(int x)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
 
-        T[] column = new T[this.Height];
-        for (int j = 0; j < this.Height; j++)
-        {
-            column[j] = this[x, j];
-        }
-
-        return column;
+        return this.grid.GetColumn(x);
     }
+
+    /// <inheritdoc cref="GetColumn(int)"/>
+    public RefEnumerable<T> GetColumn(Index x) => GetColumn(x.GetOffset(this.Width));
 
     /// <summary>
     /// Gets the given column of the grid without allocations
@@ -325,16 +328,16 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The specified column of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
-    public void GetColumnNoAlloc(int x, T[] column)
+    public void GetColumn(int x, in T[] column)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
         if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
 
-        for (int j = 0; j < this.Height; j++)
-        {
-            column[j] = this[x, j];
-        }
+        this.grid.GetColumn(x).CopyTo(column);
     }
+
+    /// <inheritdoc cref="GetColumn(int, in T[])"/>
+    public void GetColumn(Index x, in T[] column) => GetColumn(x.GetOffset(this.Width), column);
 
     /// <summary>
     /// Gets the given column of the grid without allocations
@@ -344,16 +347,16 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The specified column of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
-    public void GetColumnNoAlloc(int x, ref Span<T> column)
+    public void GetColumn(int x, ref Span<T> column)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
         if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
 
-        for (int j = 0; j < this.Height; j++)
-        {
-            column[j] = this[x, j];
-        }
+        this.grid.GetColumn(x).CopyTo(column);
     }
+
+    /// <inheritdoc cref="GetColumn(int, ref Span{T})"/>
+    public void GetColumn(Index x, ref Span<T> column) => GetColumn(x.GetOffset(this.Width), ref column);
 
     /// <summary>
     /// Set the given row of the grid by the specified array
@@ -365,7 +368,7 @@ public class Grid<T> : IEnumerable<T>
     public void SetRow(int y, T[] row)
     {
         if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length != this.Width)  throw new ArgumentException("Row is not the same width as grid", nameof(row));
+        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
 
         if (this.rowBufferSize is not 0)
         {
@@ -374,11 +377,29 @@ public class Grid<T> : IEnumerable<T>
             return;
         }
 
-        for (int i = 0; i < this.Width; i++)
-        {
-            this[i, y] = row[i];
-        }
+        row.CopyTo(this.grid.GetRowSpan(y));
     }
+
+    /// <inheritdoc cref="SetRow(int, T[])"/>
+    public void SetRow(Index y, T[] row) => SetRow(y.GetOffset(this.Height), row);
+
+    /// <summary>
+    /// Set the given row of the grid by the specified array
+    /// </summary>
+    /// <param name="y">Row index</param>
+    /// <param name="row">Row values</param>
+    /// <exception cref="ArgumentOutOfRangeException">If the row index is out of bounds of the grid</exception>
+    /// <exception cref="ArgumentException">If the row values array is larger than the width of the grid</exception>
+    public void SetRow(int y, ReadOnlySpan<T> row)
+    {
+        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
+        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
+
+        row.CopyTo(this.grid.GetRowSpan(y));
+    }
+
+    /// <inheritdoc cref="SetRow(int, ReadOnlySpan{T})"/>
+    public void SetRow(Index y, ReadOnlySpan<T> row) => SetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
     /// Set the given row of the grid by the specified array
@@ -387,22 +408,22 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="column">Column values</param>
     /// <exception cref="ArgumentOutOfRangeException">If the column index is out of bounds of the grid</exception>
     /// <exception cref="ArgumentException">If the column values array is larger than the width of the grid</exception>
-    public void SetColumn(int x, T[] column)
+    public void SetColumn(int x, ReadOnlySpan<T> column)
     {
-        if (x < 0 || x >= this.Width)     throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
+        if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
         if (column.Length != this.Height) throw new ArgumentException("Column is not the same width as grid", nameof(column));
 
-        for (int j = 0; j < this.Height; j++)
-        {
-            this[x, j] = column[j];
-        }
+        column.CopyTo(this.grid.GetColumn(x));
     }
+
+    /// <inheritdoc cref="SetColumn(int, ReadOnlySpan{T})"/>
+    public void SetColumn(Index x, ReadOnlySpan<T> column) => SetColumn(x.GetOffset(this.Width), column);
 
     /// <summary>
     /// Fill the grid with the given value
     /// </summary>
     /// <param name="value">Value to fill with</param>
-    public void Fill(T value) => this.Dimensions.EnumerateOver().ForEach(v => this[v] = value);
+    public void Fill(T value) => this.grid.AsSpan2D().Fill(value);
 
     /// <summary>
     /// Tries to get a value in the grid at the given position
@@ -557,8 +578,18 @@ public class Grid<T> : IEnumerable<T>
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns><see langword="true"/> if the value was in the grid, otherwise <see langword="false"/></returns>
-    public bool Contains(T value) => Vector2<int>.Enumerate(this.Width, this.Height)
-                                                 .Any(pos => Comparer.Equals(value, this[pos]));
+    public bool Contains(T value)
+    {
+        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
+        {
+            if (Comparer.Equals(value, this[pos]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Clears this grid
@@ -566,10 +597,13 @@ public class Grid<T> : IEnumerable<T>
     public void Clear() => Array.Clear(this.grid);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
-    public IEnumerator<T> GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
+    public Enumerator GetEnumerator() => new(this);
+
+    /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
-    IEnumerator IEnumerable.GetEnumerator() => this.grid.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString()
@@ -585,5 +619,26 @@ public class Grid<T> : IEnumerable<T>
         }
 
         return this.toStringBuilder.ToStringAndClear();
+    }
+
+    /// <summary>
+    /// Rapid ref enumerator using 2D spans
+    /// </summary>
+    /// <param name="grid">Grid to create the enumerator from</param>
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public ref struct Enumerator(Grid<T> grid)
+    {
+        private Span2D<T>.Enumerator enumerator = grid.grid.AsSpan2D().GetEnumerator();
+
+        /// <inheritdoc cref="CommunityToolkit.HighPerformance.Span2D{T}.Enumerator.Current"/>
+        public readonly ref T Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref this.enumerator.Current;
+        }
+
+        /// <inheritdoc cref="CommunityToolkit.HighPerformance.Span2D{T}.Enumerator.MoveNext()"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext() => this.enumerator.MoveNext();
     }
 }

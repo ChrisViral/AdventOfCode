@@ -102,13 +102,13 @@ public class Day04 : Solver<Day04.BingoData>
     private static bool CheckBoard(Grid<int> board, Vector2<int> position)
     {
         (int x, int y) = position;
-        board.GetColumnNoAlloc(x, buffer);
+        board.GetColumn(x, buffer);
         if (buffer.TrueForAll(n => n is MARKED))
         {
             return true;
         }
 
-        board.GetRowNoAlloc(y, buffer);
+        board.GetRow(y, buffer);
         return buffer.TrueForAll(n => n is MARKED);
     }
 

@@ -74,19 +74,19 @@ public class Day13 : Solver<Grid<bool>[]>
         return -1;
     }
 
-    public bool GetReflectionColumn(Grid<bool> grid, out int reflection, int ignore = -1)
+    private static bool GetReflectionColumn(Grid<bool> grid, out int reflection, int ignore = -1)
     {
         Span<bool> left  = stackalloc bool[grid.Height];
         Span<bool> right = stackalloc bool[grid.Height];
 
         Span<bool> rRight = stackalloc bool[grid.Height];
         Span<bool> rLeft  = stackalloc bool[grid.Height];
-        grid.GetColumnNoAlloc(0, ref right);
+        grid.GetColumn(0, ref right);
 
         for (int i = 1; i < grid.Width; i++)
         {
             AoCUtils.SwapSpans(ref left, ref right);
-            grid.GetColumnNoAlloc(i, ref right);
+            grid.GetColumn(i, ref right);
             if (i == ignore) continue;
 
             if (!left.SequenceEqual(right) || !IsReflected(i, ref rLeft, ref rRight)) continue;
@@ -102,8 +102,8 @@ public class Day13 : Solver<Grid<bool>[]>
         {
             for (int a = i - 2, b = i + 1; a >= 0 && b < grid.Width; a--, b++)
             {
-                grid.GetColumnNoAlloc(a, ref l);
-                grid.GetColumnNoAlloc(b, ref r);
+                grid.GetColumn(a, ref l);
+                grid.GetColumn(b, ref r);
                 if (!l.SequenceEqual(r)) return false;
             }
 
@@ -111,22 +111,18 @@ public class Day13 : Solver<Grid<bool>[]>
         }
     }
 
-    public bool GetReflectionRow(Grid<bool> grid, out int reflection, int ignore = -1)
+    private static bool GetReflectionRow(Grid<bool> grid, out int reflection, int ignore = -1)
     {
-        Span<bool> up   = stackalloc bool[grid.Width];
-        Span<bool> down = stackalloc bool[grid.Width];
-
-        Span<bool> rUp    = stackalloc bool[grid.Width];
-        Span<bool> rDown  = stackalloc bool[grid.Width];
-        grid.GetRowNoAlloc(0, ref down);
+        Span<bool> up   = Span<bool>.Empty;
+        Span<bool> down = grid.GetRow(0);
 
         for (int i = 1; i < grid.Height; i++)
         {
             AoCUtils.SwapSpans(ref up, ref down);
-            grid.GetRowNoAlloc(i, ref down);
+            down = grid.GetRow(i);
             if (i == ignore) continue;
 
-            if (!up.SequenceEqual(down) || !IsReflected(i, ref rDown, ref rUp)) continue;
+            if (!up.SequenceEqual(down) || !IsReflected(i)) continue;
 
             reflection = i;
             return true;
@@ -135,12 +131,12 @@ public class Day13 : Solver<Grid<bool>[]>
         reflection = -1;
         return false;
 
-        bool IsReflected(int i, ref Span<bool> u, ref Span<bool> d)
+        bool IsReflected(int i)
         {
             for (int a = i - 2, b = i + 1; a >= 0 && b < grid.Height; a--, b++)
             {
-                grid.GetRowNoAlloc(a, ref u);
-                grid.GetRowNoAlloc(b, ref d);
+                Span<bool> u = grid.GetRow(a);
+                Span<bool> d = grid.GetRow(b);
                 if (!u.SequenceEqual(d)) return false;
             }
 

@@ -60,11 +60,11 @@ public class Day23 : GridSolver<Day23.Element>
     public override void Run()
     {
         Element[] row = new Element[this.Data.Width];
-        this.Data.GetRowNoAlloc(0, row);
+        this.Data.GetRow(0, row);
         Vector2<int> startPosition = new(row.IndexOf(Element.PATH), 0);
 
         int last = this.Data.Height - 1;
-        this.Data.GetRowNoAlloc(last, row);
+        this.Data.GetRow(last, row);
         Vector2<int> endPosition = new(row.IndexOf(Element.PATH), last);
 
         int longestPath = (int)Math.Round(SearchUtils.GetMaxPathLengthDFS(startPosition, endPosition, GetNeighboursWithSlopes)!.Value);
