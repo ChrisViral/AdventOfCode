@@ -48,12 +48,12 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
     private Grid<bool> ApplyAlgorithm(Grid<bool> image, bool externStatus)
     {
         Grid<bool> newImage = new(image.Width + BUFFER, image.Height + BUFFER);
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(image.Width, image.Height))
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(image.Width, image.Height))
         {
             newImage[position + offset] = image[position];
         }
 
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(newImage.Width, newImage.Height))
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(newImage.Width, newImage.Height))
         {
             int n = 0;
             foreach (Vector2<int> adjacent in position.Adjacent(true, true))

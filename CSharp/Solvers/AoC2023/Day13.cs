@@ -54,7 +54,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
     public int FindSmudgedReflection(Grid<bool> grid, int ignoredLine)
     {
-        foreach (Vector2<int> pos in Vector2<int>.Enumerate(grid.Width, grid.Height))
+        foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(grid.Width, grid.Height))
         {
             grid[pos] = !grid[pos];
 

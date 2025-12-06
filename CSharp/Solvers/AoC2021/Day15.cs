@@ -38,10 +38,10 @@ public sealed class Day15 : GridSolver<byte>
 
         // Create scaled map
         Grid<byte> fullMap = new(this.Data.Width * FULL_SIZE, this.Data.Height * FULL_SIZE);
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Data.Width, this.Data.Height))
         {
             int risk = this.Data[position];
-            foreach (Vector2<int> offset in Vector2<int>.Enumerate(FULL_SIZE, FULL_SIZE))
+            foreach (Vector2<int> offset in Vector2<int>.EnumerateOver(FULL_SIZE, FULL_SIZE))
             {
                 Vector2<int> pos = position + offset.Scale(this.Data.Width, this.Data.Height);
                 int newRisk = risk + offset.X + offset.Y;

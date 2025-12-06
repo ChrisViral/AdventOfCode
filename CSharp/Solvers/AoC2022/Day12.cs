@@ -27,7 +27,7 @@ public sealed class Day12 : GridSolver<int>
     {
         Vector2<int> start = Vector2<int>.Zero;
         Vector2<int> end   = Vector2<int>.Zero;
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Grid.Width, this.Grid.Height))
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height))
         {
             // Find the start and end positions
             int value = this.Grid[position];
@@ -55,7 +55,7 @@ public sealed class Day12 : GridSolver<int>
         AoCUtils.LogPart1(path);
 
         int shortestPath = path;
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Grid.Width, this.Grid.Height)
+        foreach (Vector2<int> position in Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
                                                       .Where(p => p != start && this.Grid[p] is 0))
         {
             distances.Clear();

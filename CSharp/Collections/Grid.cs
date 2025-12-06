@@ -562,7 +562,7 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The first position in the grid that the value is found at, or <c>(-1, -1)</c> if it wasn't</returns>
     public virtual Vector2<int> PositionOf(T value)
     {
-        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
+        foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(this.Width, this.Height))
         {
             if (Comparer.Equals(value, this[pos]))
             {
@@ -580,7 +580,7 @@ public class Grid<T> : IEnumerable<T>
     /// <returns><see langword="true"/> if the value was in the grid, otherwise <see langword="false"/></returns>
     public bool Contains(T value)
     {
-        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Width, this.Height))
+        foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(this.Width, this.Height))
         {
             if (Comparer.Equals(value, this[pos]))
             {

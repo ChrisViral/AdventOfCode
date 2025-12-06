@@ -71,7 +71,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
         AoCUtils.LogPart1(longestPath);
 
         Dictionary<Vector2<int>, Node> nodes = this.Data.Dimensions
-                                                   .EnumerateOver()
+                                                   .AsEnumerable()
                                                    .Where(p => this.Data[p] is not Element.FOREST)
                                                    .ToDictionary(p => p, p => new Node(p));
 

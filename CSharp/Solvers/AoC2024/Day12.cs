@@ -25,7 +25,7 @@ public sealed class Day12 : GridSolver<char>
     public override void Run()
     {
         Queue<Vector2<int>> visiting = [];
-        HashSet<Vector2<int>> notVisited = [..this.Grid.Dimensions.EnumerateOver()];
+        HashSet<Vector2<int>> notVisited = [..this.Grid.Dimensions.Enumerate()];
         Dictionary<Direction, HashSet<Vector2<int>>> fences = DirectionsUtils.CardinalDirections.ToDictionary(d => d, _ => new HashSet<Vector2<int>>());
 
         (int regular, int bulk) prices = (0, 0);

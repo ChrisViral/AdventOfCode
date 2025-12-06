@@ -61,14 +61,14 @@ public partial class Day17 : IntcodeSolver
 
         // Convert rows to grid
         ConsoleView<Element> grid = new(rows[0].Count, rows.Count, PrintFeed, Anchor.TOP_LEFT, Element.EMPTY);
-        foreach (Vector2<int> pos in grid.Dimensions.EnumerateOver())
+        foreach (Vector2<int> pos in grid.Dimensions.Enumerate())
         {
             grid[pos] = rows[pos.Y][pos.X];
         }
 
         // Find intersections
         Vector2<int> search = grid.Dimensions - (2, 2);
-        int alignment = search.EnumerateOver()
+        int alignment = search.AsEnumerable()
                               .Select(p => p + Vector2<int>.One)
                               .Where(p => p.Adjacent(includeSelf: true).All(adj => grid[adj] is Element.SCAFFOLD))
                               .Sum(p => p.X * p.Y);

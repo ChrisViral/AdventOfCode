@@ -27,7 +27,7 @@ public sealed class Day10 : GridSolver<int>
     public override void Run()
     {
         HashSet<Vector2<int>> trailheadCache = new(100);
-        Vector2<int> scores = this.Grid.Dimensions.EnumerateOver()
+        Vector2<int> scores = this.Grid.Dimensions.AsEnumerable()
                                   .Where(p => this.Grid[p] is 0)
                                   .Sum(p => CalculateTrailheadScore(p, trailheadCache));
         AoCUtils.LogPart1(scores.X);

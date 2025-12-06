@@ -70,7 +70,7 @@ public sealed class Day04 : Solver<Day04.BingoData>
             for (int i = 0; i < Data.Boards.Count; i++)
             {
                 Grid<int> board = Data.Boards[i];
-                Vector2<int>? position = Vector2<int>.Enumerate(BingoData.SIZE, BingoData.SIZE)
+                Vector2<int>? position = Vector2<int>.MakeEnumerable(BingoData.SIZE, BingoData.SIZE)
                                                      .Cast<Vector2<int>?>()
                                                      .FirstOrDefault(pos => board[pos!.Value] == drawn);
                 if (!position.HasValue) continue;

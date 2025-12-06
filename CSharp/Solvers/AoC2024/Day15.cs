@@ -71,12 +71,14 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         }
 
         // Calculate final coordinates
-        int coordinates = warehouse.Dimensions.EnumerateOver().Where(p => warehouse[p] is Element.BOX).Sum(p => (100 * p.Y) + p.X);
+        int coordinates = warehouse.Dimensions.AsEnumerable()
+                                   .Where(p => warehouse[p] is Element.BOX)
+                                   .Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart1(coordinates);
 
         // Double warehouse size horizontally
         ConsoleView<Element> bigWarehouse = new(this.Data.warehouse.Width * 2, this.Data.warehouse.Height, e => (char)e, Anchor.TOP_LEFT, Element.EMPTY, 60);
-        foreach (Vector2<int> pos in this.Data.warehouse.Dimensions.EnumerateOver())
+        foreach (Vector2<int> pos in this.Data.warehouse.Dimensions.Enumerate())
         {
             Element currentElement    = this.Data.warehouse[pos];
             Vector2<int> doubledPosA  = pos with { X = pos.X * 2 };
@@ -125,7 +127,9 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
             //bigWarehouse[position] = Element.EMPTY;
         }
         // Calculate final coordinates
-        coordinates = bigWarehouse.Dimensions.EnumerateOver().Where(p => bigWarehouse[p] is Element.BOX_LEFT).Sum(p => (100 * p.Y) + p.X);
+        coordinates = bigWarehouse.Dimensions.AsEnumerable()
+                                  .Where(p => bigWarehouse[p] is Element.BOX_LEFT)
+                                  .Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart2(coordinates);
     }
 

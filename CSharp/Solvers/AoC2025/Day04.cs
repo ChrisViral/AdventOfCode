@@ -29,7 +29,7 @@ public sealed class Day04 : GridSolver<bool>
     {
         List<Vector2<int>> accessible = new(100);
         HashSet<Vector2<int>> rollPositions = new(100);
-        foreach (Vector2<int> position in this.Grid.Dimensions.EnumerateOver())
+        foreach (Vector2<int> position in this.Grid.Dimensions.Enumerate())
         {
             if (!this.Grid[position]) continue;
 

@@ -28,14 +28,14 @@ public static class SpanExtensions
         public TOut Multiply(Func<TIn, TOut> selector) => span.Aggregate(TOut.MultiplicativeIdentity, (a, b) => a * selector(b));
     }
 
-    extension<T, TOperator>(SpanEnumerator<T, T, TOperator> spanEnumerator) where T : IMultiplyOperators<T, T, T>
-                                                                            where TOperator : ISpanOperator<T, T>
+    extension<TSource, TOut, TOperator>(SpanEnumerator<TSource, TOut, TOperator> spanEnumerator) where TOut : IMultiplyOperators<TOut, TOut, TOut>
+                                                                                                 where TOperator : ISpanOperator<TSource, TOut>
     {
-        public T Multiply() => spanEnumerator.Aggregate((a, b) => a * b);
+        public TOut Multiply() => spanEnumerator.Aggregate((a, b) => a * b);
     }
 
     extension<TSource, TIn, TOut, TOperator>(SpanEnumerator<TSource, TIn, TOperator> spanEnumerator) where TOut : IMultiplicativeIdentity<TOut, TOut>, IMultiplyOperators<TOut, TOut, TOut>
-                                                                                         where TOperator : ISpanOperator<TSource, TIn>
+                                                                                                     where TOperator : ISpanOperator<TSource, TIn>
     {
         public TOut Multiply(Func<TIn, TOut> selector) => spanEnumerator.Aggregate(TOut.MultiplicativeIdentity, (a, b) => a * selector(b));
     }

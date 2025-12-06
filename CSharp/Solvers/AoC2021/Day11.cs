@@ -60,7 +60,7 @@ public sealed class Day11 : GridSolver<byte>
     {
         // Check all octopi that will flash
         int flashes = 0;
-        Vector2<int>.Enumerate(this.Grid.Width, this.Grid.Height)
+        Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
                     .Where(WillFlash)
                     .ForEach(toFlash.Enqueue);
         flashed.AddRange(toFlash);

@@ -31,7 +31,7 @@ public sealed class Day03 : GridSolver<char>
         int total = 0;
         HashSet<Vector2<int>> explored = [];
         Dictionary<Vector2<int>, List<int>> gears = new();
-        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.Data.Width, this.Data.Height))
+        foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(this.Data.Width, this.Data.Height))
         {
             char value = this.Data[pos];
             if (value is EMPTY || char.IsNumber(value)) continue;

@@ -61,7 +61,7 @@ public sealed class Day08 : GridSolver<int>
         AoCUtils.LogPart1(visibleCount);
 
         int scenicScore = 0;
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(this.Data.Width - 1, this.Data.Height - 1)
+        foreach (Vector2<int> position in Vector2<int>.MakeEnumerable(this.Data.Width - 1, this.Data.Height - 1)
                                                       .Where(p => p.X is not 0 && p.Y is not 0))
         {
             int currentScore = 1;

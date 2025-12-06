@@ -31,7 +31,7 @@ public sealed class Day08 : GridSolver<char>
     {
         HashSet<Vector2<int>> harmonicAntinodes = new(100);
         Dictionary<char, List<Vector2<int>>> antennasByFrequency = new();
-        foreach (Vector2<int> antennaPos in this.Grid.Dimensions.EnumerateOver())
+        foreach (Vector2<int> antennaPos in this.Grid.Dimensions.Enumerate())
         {
             // Check if we're on an antenna
             char frequency = this.Grid[antennaPos];

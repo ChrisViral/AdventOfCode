@@ -23,50 +23,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
                                             IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
-    /// <summary>
-    /// Two dimensional vector space enumerator
-    /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    public struct VectorSpaceEnumerator(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
-    {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-
-        private T x = maxX - T.One;
-        private T y = -T.One;
-
-        /// <inheritdoc />
-        object IEnumerator.Current => this.Current;
-
-        /// <inheritdoc />
-        public Vector2<T> Current => new(this.x, this.y);
-
-        /// <inheritdoc />
-        public bool MoveNext()
-        {
-            if (++this.x == this.maxX)
-            {
-                this.x = T.Zero;
-                this.y++;
-            }
-
-            return this.y < this.maxY;
-        }
-
-        /// <inheritdoc />
-        public void Dispose() { }
-
-        /// <inheritdoc />
-        public void Reset() => throw new NotSupportedException();
-
-        /// <inheritdoc />
-        public IEnumerator<Vector2<T>> GetEnumerator() => this;
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => this;
-    }
-
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
@@ -248,12 +204,25 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// </summary>
     /// <returns>An enumerator of all the vectors in the given range</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/> or <see cref="Y"/> are smaller or equal to zero</exception>
-    public VectorSpaceEnumerator EnumerateOver()
+    public SpaceEnumerator Enumerate()
     {
         if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
         if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
 
-        return new VectorSpaceEnumerator(this.X, this.Y);
+        return new SpaceEnumerator(this.X, this.Y);
+    }
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
+    /// </summary>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/> or <see cref="Y"/> are smaller or equal to zero</exception>
+    public SpaceEnumerable AsEnumerable()
+    {
+        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
+
+        return new SpaceEnumerable(this.X, this.Y);
     }
 
     /// <summary>
@@ -463,13 +432,30 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>An enumerator of all the vectors in the given range</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
-    public static VectorSpaceEnumerator Enumerate(T maxX, T maxY)
+    public static SpaceEnumerator EnumerateOver(T maxX, T maxY)
     {
         if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
         if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
         if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
 
-        return new VectorSpaceEnumerator(maxX, maxY);
+        return new SpaceEnumerator(maxX, maxY);
+    }
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
+    /// </summary>
+    /// <param name="maxX">Max value for the x component, exclusive</param>
+    /// <param name="maxY">Max value for the y component, exclusive</param>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
+    public static SpaceEnumerable MakeEnumerable(T maxX, T maxY)
+    {
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
+
+        return new SpaceEnumerable(maxX, maxY);
     }
 
     /// <summary>

@@ -175,8 +175,8 @@ public sealed class Day23 : Solver<Day23.Elf[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Elf[] Convert(string[] lines) => Vector2<int>.Enumerate(lines[0].Length, lines.Length)
-                                                                             .Where(p => lines[p.Y][p.X] is '#')
-                                                                             .Select(p => new Elf(p))
-                                                                             .ToArray();
+    protected override Elf[] Convert(string[] lines) => Vector2<int>.MakeEnumerable(lines[0].Length, lines.Length)
+                                                                    .Where(p => lines[p.Y][p.X] is '#')
+                                                                    .Select(p => new Elf(p))
+                                                                    .ToArray();
 }

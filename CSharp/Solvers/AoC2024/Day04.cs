@@ -25,7 +25,7 @@ public sealed class Day04 : GridSolver<char>
     {
         int hits = 0;
         Vector2<int>[] directions = Vector2<int>.Zero.Adjacent(includeDiagonals: true).ToArray();
-        foreach (Vector2<int> xPos in this.Data.Dimensions.EnumerateOver())
+        foreach (Vector2<int> xPos in this.Data.Dimensions.Enumerate())
         {
             if (this.Data[xPos] is not 'X') continue;
 
@@ -42,7 +42,7 @@ public sealed class Day04 : GridSolver<char>
         AoCUtils.LogPart1(hits);
 
         hits = 0;
-        foreach (Vector2<int> startPos in this.Data.Dimensions.EnumerateOver())
+        foreach (Vector2<int> startPos in this.Data.Dimensions.Enumerate())
         {
             if (this.Data[startPos] is not 'M') continue;
 

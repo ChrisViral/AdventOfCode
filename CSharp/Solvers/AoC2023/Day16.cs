@@ -88,7 +88,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
         PropagateBeam(state);
         this.visited.Clear();
         int count = 0;
-        foreach (Vector2<int> pos in Vector2<int>.Enumerate(this.energized.Width, this.energized.Height))
+        foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(this.energized.Width, this.energized.Height))
         {
             if (!this.energized[pos]) continue;
 

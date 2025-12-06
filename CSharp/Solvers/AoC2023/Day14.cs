@@ -33,10 +33,10 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
     public Day14(string input) : base(input)
     {
-        this.directionOrders[Direction.NORTH] = Vector2<int>.Enumerate(this.Data.Width, this.Data.Height).ToArray();
+        this.directionOrders[Direction.NORTH] = Vector2<int>.MakeEnumerable(this.Data.Width, this.Data.Height).ToArray();
         this.directionOrders[Direction.SOUTH] = this.directionOrders[Direction.UP].AsEnumerable().Reverse().ToArray();
-        this.directionOrders[Direction.WEST]  = Vector2<int>.Enumerate(this.Data.Height, this.Data.Width)
-                                                             .Select(p => new Vector2<int>(p.Y, p.X)).ToArray();
+        this.directionOrders[Direction.WEST]  = Vector2<int>.MakeEnumerable(this.Data.Height, this.Data.Width)
+                                                            .Select(p => new Vector2<int>(p.Y, p.X)).ToArray();
         this.directionOrders[Direction.EAST]  = this.directionOrders[Direction.WEST].AsEnumerable().Reverse().ToArray();
     }
 

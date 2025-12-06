@@ -86,7 +86,7 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
 
         // Fill grid with image data
         int pixelIndex = 0;
-        foreach (Vector2<int> position in Vector2<int>.Enumerate(WIDTH, HEIGHT))
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(WIDTH, HEIGHT))
         {
             int sourceIndex = pixelIndex++;
             Colour[] pixel = new Colour[layerCount];

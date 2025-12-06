@@ -29,7 +29,7 @@ public sealed class Day11 : GridSolver<bool>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Vector2<int>[] galaxies = Vector2<int>.Enumerate(this.Data.Width, this.Data.Height)
+        Vector2<int>[] galaxies = Vector2<int>.MakeEnumerable(this.Data.Width, this.Data.Height)
                                               .Where(p => this.Data[p])
                                               .ToArray();
 
