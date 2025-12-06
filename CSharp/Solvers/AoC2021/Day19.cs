@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 19
 /// </summary>
-public class Day19 : Solver<List<Vector3<int>[]>>
+public sealed class Day19 : Solver<List<Vector3<int>[]>>
 {
     private const int MATCHING = 12;
     private static readonly Transformation[] rotations =

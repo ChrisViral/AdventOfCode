@@ -14,12 +14,12 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 23
 /// </summary>
-public class Day23 : Solver<Day23.Elf[]>
+public sealed class Day23 : Solver<Day23.Elf[]>
 {
     /// <summary>
     /// Elf data class
     /// </summary>
-    public class Elf
+    public sealed class Elf
     {
         /// <summary>Movement direction location checks</summary>
         private static readonly (int i, int j, int k, Vector2<int> move)[] directionChecks =

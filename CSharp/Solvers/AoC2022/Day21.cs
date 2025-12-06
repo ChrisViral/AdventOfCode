@@ -12,12 +12,12 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 21
 /// </summary>
-public class Day21 : Solver<Dictionary<string, Day21.Monkey>>
+public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
 {
     /// <summary>
     /// Monkey object
     /// </summary>
-    public class Monkey
+    public sealed class Monkey
     {
         /// <summary>Root name</summary>
         public const string ROOT = "root";

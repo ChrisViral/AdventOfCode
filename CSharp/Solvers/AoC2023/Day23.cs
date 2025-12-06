@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 23
 /// </summary>
-public class Day23 : GridSolver<Day23.Element>
+public sealed class Day23 : GridSolver<Day23.Element>
 {
     public enum Element
     {
@@ -26,7 +26,7 @@ public class Day23 : GridSolver<Day23.Element>
         RIGHT = '>'
     }
 
-    public class Node(Vector2<int> value) : IEquatable<Node>
+    public sealed class Node(Vector2<int> value) : IEquatable<Node>
     {
         public Vector2<int> Value { get; } = value;
 

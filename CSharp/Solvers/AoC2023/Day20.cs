@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 20
 /// </summary>
-public class Day20 : Solver<Dictionary<string, Day20.Module>>
+public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
 {
     public enum Pulse
     {
@@ -64,7 +64,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         }
     }
 
-    public class FlipFlopModule(string label, string listeners) : Module(label, listeners)
+    public sealed class FlipFlopModule(string label, string listeners) : Module(label, listeners)
     {
         public const char FLIPFLOP = '%';
 
@@ -83,7 +83,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         public override void Reset() => this.State = false;
     }
 
-    public class ConjunctionModule(string label, string listeners) : Module(label, listeners)
+    public sealed class ConjunctionModule(string label, string listeners) : Module(label, listeners)
     {
         public const char CONJUNCTION = '&';
 
@@ -103,7 +103,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
                                                                            .ForEach(m => this.memory.Add(m, Pulse.LOW));
     }
 
-    public class BroadcastModule(string label, string listeners) : Module(label, listeners)
+    public sealed class BroadcastModule(string label, string listeners) : Module(label, listeners)
     {
         public const string BROADCASTER = "broadcaster";
         public const char   BROADCAST   = 'b';
@@ -111,7 +111,7 @@ public class Day20 : Solver<Dictionary<string, Day20.Module>>
         public override Pulse? HandlePulse(Module sender, Pulse pulse) => pulse;
     }
 
-    public class ButtonModule(string label, string listeners) : Module(label, listeners)
+    public sealed class ButtonModule(string label, string listeners) : Module(label, listeners)
     {
         public const string BUTTON = "button";
 

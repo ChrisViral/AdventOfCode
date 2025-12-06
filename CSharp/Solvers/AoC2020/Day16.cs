@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 16
 /// </summary>
-public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, Day16.Ticket[] examples)>
+public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, Day16.Ticket[] examples)>
 {
     /// <summary>
     /// Ticket field
@@ -22,7 +22,7 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
         /// Regex pattern
         /// </summary>
         public const string PATTERN = @"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$";
-    
+
             /// <summary>
         /// Checks if a given value is in the range of the field
         /// </summary>
@@ -34,16 +34,16 @@ public class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, D
     /// <summary>
     /// Ticket
     /// </summary>
-    public class Ticket
+    public sealed class Ticket
     {
             public readonly int[] values;
-    
+
             /// <summary>
         /// Creates a new ticket from a given input line
         /// </summary>
         /// <param name="line">Input to create the ticket values from</param>
         public Ticket(string line) => this.values = line.Split(',').ConvertAll(int.Parse);
-    
+
             /// <summary>
         /// Gets the error value for this ticket from a list of possible fields
         /// </summary>

@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 17
 /// </summary>
-public class Day17 : Solver<(long a, long b, long c, int[] program)>
+public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
 {
     private enum Opcode
     {

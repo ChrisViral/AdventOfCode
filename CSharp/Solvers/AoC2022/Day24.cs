@@ -14,12 +14,12 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 24
 /// </summary>
-public class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
+public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
 {
     /// <summary>
     /// Blizzard object
     /// </summary>
-    public class Blizzard
+    public sealed class Blizzard
     {
         /// <summary>Blizzard move direction</summary>
         private readonly Vector2<int> direction;

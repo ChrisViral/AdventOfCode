@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 11
 /// </summary>
-public class Day11 : Solver<Day11.Monkey[]>
+public sealed class Day11 : Solver<Day11.Monkey[]>
 {
     /// <summary>
     /// Worry value update function
@@ -31,7 +31,7 @@ public class Day11 : Solver<Day11.Monkey[]>
     /// <summary>
     /// Monkey object
     /// </summary>
-    public class Monkey
+    public sealed class Monkey
     {
         /// <summary>
         /// Items queue

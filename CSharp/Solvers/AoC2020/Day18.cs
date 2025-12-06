@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 18
 /// </summary>
-public class Day18 : Solver<string[][]>
+public sealed class Day18 : Solver<string[][]>
 {
     /// <summary>
     /// Numerical operation types

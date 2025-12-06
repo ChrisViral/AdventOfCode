@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 24
 /// </summary>
-public class Day24 : Solver<Day24.Neighbour[][]>
+public sealed class Day24 : Solver<Day24.Neighbour[][]>
 {
     /// <summary>
     /// Hax grid neighbours

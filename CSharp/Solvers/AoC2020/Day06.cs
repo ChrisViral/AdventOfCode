@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 06
 /// </summary>
-public class Day06 : Solver<HashSet<char>[][]>
+public sealed class Day06 : Solver<HashSet<char>[][]>
 {
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed

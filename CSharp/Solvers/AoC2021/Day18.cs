@@ -13,9 +13,9 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 18
 /// </summary>
-public class Day18 : ArraySolver<Day18.Number>
+public sealed class Day18 : ArraySolver<Day18.Number>
 {
-    public class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>
+    public sealed class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>
     {
         public Number? Parent  { get; private set; }
 

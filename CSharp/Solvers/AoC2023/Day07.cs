@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 07
 /// </summary>
-public class Day07 : ArraySolver<Day07.Hand>
+public sealed class Day07 : ArraySolver<Day07.Hand>
 {
     private const string ORDER   = "23456789TJQKA";
     private const string J_ORDER = "J23456789TQKA";

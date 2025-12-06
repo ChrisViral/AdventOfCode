@@ -10,19 +10,19 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 04
 /// </summary>
-public class Day04 : Solver<Day04.Passport[]>
+public sealed class Day04 : Solver<Day04.Passport[]>
 {
     /// <summary>
     /// Passport info
     /// </summary>
-    public class Passport
+    public sealed class Passport
     {
             private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex heightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
         private static readonly Regex hairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
         private static readonly Regex idMatch     = new(@"^\d{9}$", OPTIONS);
         private static readonly HashSet<string> validEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
-    
+
             public string? byr;
         public string? iyr;
         public string? eyr;
@@ -30,7 +30,7 @@ public class Day04 : Solver<Day04.Passport[]>
         public string? hcl;
         public string? ecl;
         public string? pid;
-    
+
             public bool IsValid => this.byr is not null
                             && this.iyr is not null
                             && this.eyr is not null
@@ -38,7 +38,7 @@ public class Day04 : Solver<Day04.Passport[]>
                             && this.hcl is not null
                             && this.ecl is not null
                             && this.pid is not null;
-    
+
             public bool Validate()
         {
             //Check the years

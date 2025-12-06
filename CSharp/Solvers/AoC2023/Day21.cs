@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 21
 /// </summary>
-public class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
+public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 {
     private const int STEPS = 64;
     private const int LONG_STEPS = 26501365;

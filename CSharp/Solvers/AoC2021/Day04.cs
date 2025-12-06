@@ -13,16 +13,16 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 04
 /// </summary>
-public class Day04 : Solver<Day04.BingoData>
+public sealed class Day04 : Solver<Day04.BingoData>
 {
     /// <summary>
     /// Bingo system data
     /// </summary>
-    public class BingoData
+    public sealed class BingoData
     {
             /// <summary>Bingo board size</summary>
         public const int SIZE   = 5;
-    
+
             /// <summary>
         /// Drawn bingo numbers, in order
         /// </summary>
@@ -32,7 +32,7 @@ public class Day04 : Solver<Day04.BingoData>
         /// All available bingo boards
         /// </summary>
         public List<Grid<int>> Boards { get; } = [];
-    
+
             /// <summary>
         /// Creates a new bingo board from the input
         /// </summary>

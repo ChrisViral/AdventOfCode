@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 16
 /// </summary>
-public class Day16 : GridSolver<Day16.Element>
+public sealed class Day16 : GridSolver<Day16.Element>
 {
     // ReSharper disable IdentifierTypo
     public enum Element

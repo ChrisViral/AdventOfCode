@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 01
 /// </summary>
-public class Day01 : Solver<(int[] leftList, int[] rightList)>
+public sealed class Day01 : Solver<(int[] leftList, int[] rightList)>
 {
     private const string PATTERN = @"(\d+)   (\d+)";
 

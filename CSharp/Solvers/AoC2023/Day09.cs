@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 09
 /// </summary>
-public class Day09 : ArraySolver<long[]>
+public sealed class Day09 : ArraySolver<long[]>
 {
     /// <summary>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed

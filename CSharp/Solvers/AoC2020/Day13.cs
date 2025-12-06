@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 13
 /// </summary>
-public class Day13 : Solver<(int timestamp, int[] buses)>
+public sealed class Day13 : Solver<(int timestamp, int[] buses)>
 {
     /// <summary>
     /// Out of service line no

@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 05
 /// </summary>
-public class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
+public sealed class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
 {
     /// <summary>
     /// Crane move struct

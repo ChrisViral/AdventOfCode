@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 02
 /// </summary>
-public class Day02 : IntcodeSolver
+public sealed class Day02 : IntcodeSolver
 {
     /// <summary>
     /// Maximum input argument value

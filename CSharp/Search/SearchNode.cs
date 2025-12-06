@@ -138,7 +138,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
 /// Generic search node
 /// </summary>
 /// <typeparam name="T">Type of element stored by the node</typeparam>
-public class SearchNode<T> : SearchNode<T, int> where T : IEquatable<T>
+public sealed class SearchNode<T> : SearchNode<T, int> where T : IEquatable<T>
 {
     public override int Cost => this.CostSoFar;
 

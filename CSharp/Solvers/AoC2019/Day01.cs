@@ -8,7 +8,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 01
 /// </summary>
-public class Day01 : ArraySolver<int>
+public sealed class Day01 : ArraySolver<int>
 {
     /// <summary>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed

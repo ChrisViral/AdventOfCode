@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 05
 /// </summary>
-public class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
+public sealed class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 {
     /// <summary>Vector matching pattern</summary>
     private const string PATTERN = @"(\d+,\d+) -> (\d+,\d+)";

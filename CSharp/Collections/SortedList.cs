@@ -12,7 +12,7 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">List element type</typeparam>
 [PublicAPI]
-public class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : notnull
+public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : notnull
 {
     private readonly SortedList<T, T> list;
 

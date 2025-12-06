@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 06
 /// </summary>
-public class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
+public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
 {
     /// <summary>
     /// Simulation thread data container

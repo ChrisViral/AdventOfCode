@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 19
 /// </summary>
-public class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19.Part[] parts)>
+public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19.Part[] parts)>
 {
     public enum Category { X, M, A, S }
 

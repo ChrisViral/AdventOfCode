@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 02
 /// </summary>
-public class Day02 : Solver<Day02.Game[]>
+public sealed class Day02 : Solver<Day02.Game[]>
 {
     public readonly struct Set
     {

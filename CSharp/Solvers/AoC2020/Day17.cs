@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 17
 /// </summary>
-public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Vector4> part2)>
+public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Vector4> part2)>
 {
     /// <summary>
     /// Four component integer vector
@@ -34,7 +34,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
         /// W component
         /// </summary>
         public int W { get; }
-    
+
             /// <summary>
         /// Creates a new 4 component vector
         /// </summary>
@@ -49,7 +49,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
             this.Z = z;
             this.W = w;
         }
-    
+
             /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
 
@@ -81,7 +81,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
                 }
             }
         }
-    
+
             /// <summary>
         /// Equality operator on two vectors
         /// </summary>
@@ -103,7 +103,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
     /// Conway cube implementation
     /// </summary>
     /// <typeparam name="T">Type of element within the cube</typeparam>
-    public class Cube<T> where T : IEquatable<T>
+    public sealed class Cube<T> where T : IEquatable<T>
     {
         /// <summary>
         /// Delegate to create new objects from
@@ -123,7 +123,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
             private readonly HashSet<T> activeCubes;
         private readonly Dictionary<T, int> surrounding = new();
         private readonly Explorer explorer;
-    
+
             /// <summary>
         /// Creates a new cube with the given input, object factory, and explorer
         /// </summary>
@@ -148,7 +148,7 @@ public class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Ve
                 }
             }
         }
-    
+
             /// <summary>
         /// Simulates the cube for a certain amount of turns
         /// </summary>

@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 16
 /// </summary>
-public class Day16 : Solver<Day16.Packet>
+public sealed class Day16 : Solver<Day16.Packet>
 {
     /// <summary>
     /// Packet operation type

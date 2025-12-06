@@ -8,7 +8,7 @@ namespace AdventOfCode.Utils;
 /// <param name="value">Struct value</param>
 /// <typeparam name="T">Struct type</typeparam>
 [PublicAPI]
-public class Ref<T>(T value) where T : struct
+public sealed class Ref<T>(T value) where T : struct
 {
     /// <summary>
     /// Wrapped value

@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 20
 /// </summary>
-public class Day20 : Solver<(string algorithm, Grid<bool> image)>
+public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
 {
     private const int PASSES      = 2;
     private const int LONG_PASSES = 50;

@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 08
 /// </summary>
-public class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
+public sealed class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
 {
     private const string NODE_PATTERN = @"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)";
     private const string START = "AAA";

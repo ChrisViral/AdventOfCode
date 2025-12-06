@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 14
 /// </summary>
-public class Day14 : GridSolver<Day14.Rock>
+public sealed class Day14 : GridSolver<Day14.Rock>
 {
     public enum Rock
     {

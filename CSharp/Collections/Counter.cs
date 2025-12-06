@@ -10,7 +10,7 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">Type of value stored in the counter</typeparam>
 [PublicAPI]
-public class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
+public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
 {
     /// <summary>Backing dictionary</summary>
     private readonly Dictionary<T, int> dictionary;

@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 03
 /// </summary>
-public class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
+public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 {
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed

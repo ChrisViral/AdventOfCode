@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 02
 /// </summary>
-public class Day02 : Solver<Day02.PasswordData[]>
+public sealed class Day02 : Solver<Day02.PasswordData[]>
 {
     /// <summary>
     /// Password info data

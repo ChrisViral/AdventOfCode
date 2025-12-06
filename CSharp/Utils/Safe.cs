@@ -9,7 +9,7 @@ namespace AdventOfCode.Utils;
 /// </summary>
 /// <typeparam name="T">Reference type</typeparam>
 [PublicAPI]
-public class Safe<T>
+public sealed class Safe<T>
 {
     /// <summary>Sync object</summary>
     private readonly Lock locker = new();

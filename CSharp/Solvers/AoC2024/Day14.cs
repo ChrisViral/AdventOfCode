@@ -15,9 +15,9 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 14
 /// </summary>
-public class Day14 : Solver<Day14.Robot[]>
+public sealed class Day14 : Solver<Day14.Robot[]>
 {
-    public class Robot(int px, int py, int vx, int vy)
+    public sealed class Robot(int px, int py, int vx, int vy)
     {
         public Vector2<int> Position { get; } = new(px, py);
         public Vector2<int> Velocity { get; } = new(vx, vy);

@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 25
 /// </summary>
-public class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
+public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
 {
     /// <summary>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed

@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 05
 /// </summary>
-public class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
+public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
 {
     public record struct MapRange(long Destination, long Source, long Length)
     {

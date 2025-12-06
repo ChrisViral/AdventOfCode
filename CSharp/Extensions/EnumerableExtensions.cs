@@ -5,7 +5,6 @@ using System.Numerics;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Delegates;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace

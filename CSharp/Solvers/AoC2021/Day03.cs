@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 03
 /// </summary>
-public class Day03 : Solver
+public sealed class Day03 : Solver
 {
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>
     private const int MASK = 0xFFF;

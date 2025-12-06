@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 08
 /// </summary>
-public class Day08 : GridSolver<int>
+public sealed class Day08 : GridSolver<int>
 {
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver for 2022 - 08 with the input data properly parsed

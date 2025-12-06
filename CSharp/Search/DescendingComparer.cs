@@ -8,7 +8,7 @@ namespace AdventOfCode.Search;
 /// </summary>
 /// <typeparam name="T">Type to compare</typeparam>
 [PublicAPI]
-public class DescendingComparer<T> : IComparer<T>
+public sealed class DescendingComparer<T> : IComparer<T>
 {
     /// <summary>
     /// Comparer instance

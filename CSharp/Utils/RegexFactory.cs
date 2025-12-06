@@ -15,7 +15,7 @@ namespace AdventOfCode.Utils;
 /// </summary>
 /// <typeparam name="T">Type of objects created</typeparam>
 [PublicAPI]
-public class RegexFactory<T> where T : notnull
+public sealed class RegexFactory<T> where T : notnull
 {
     /// <summary>Convertible type</summary>
     /// ReSharper disable once StaticMemberInGenericType

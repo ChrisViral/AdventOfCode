@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 22
 /// </summary>
-public class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
+public sealed class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 {
     /// <summary>
     /// Cube range

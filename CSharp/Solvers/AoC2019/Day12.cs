@@ -16,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 12
 /// </summary>
-public class Day12 : Solver<Day12.Moon[]>
+public sealed class Day12 : Solver<Day12.Moon[]>
 {
     /// <summary>
     /// Axis

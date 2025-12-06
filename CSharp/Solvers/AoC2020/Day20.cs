@@ -14,12 +14,12 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 20
 /// </summary>
-public class Day20 : Solver<Day20.Tile[]>
+public sealed class Day20 : Solver<Day20.Tile[]>
 {
     /// <summary>
     /// Image tile
     /// </summary>
-    public class Tile
+    public sealed class Tile
     {
             /// <summary>
         /// Character representing a block pixel
@@ -46,14 +46,14 @@ public class Day20 : Solver<Day20.Tile[]>
             new(18, 1),
             new(19, 1)
         ];
-    
+
             private readonly char[][] image;
         private char[] top;
         private char[] bottom;
         private char[] left;
         private char[] right;
         public bool ignoreBorders;
-    
+
             /// <summary>
         /// Tile ID
         /// </summary>
@@ -63,14 +63,14 @@ public class Day20 : Solver<Day20.Tile[]>
         /// Tile size length
         /// </summary>
         public int Size { get; }
-    
+
             /// <summary>
         /// Gets the character at the given position in the image
         /// </summary>
         /// <param name="pos">Position to get</param>
         /// <returns>The character at the specified position</returns>
         public char this[in Vector2 pos] => this.image[pos.Y][pos.X];
-    
+
             /// <summary>
         /// Creates a new tile from the given data and ID
         /// </summary>
@@ -114,7 +114,7 @@ public class Day20 : Solver<Day20.Tile[]>
             this.ignoreBorders = true;
             this.top = this.bottom = this.left = this.right = [];
         }
-    
+
             /// <summary>
         /// Flips the image vertically
         /// </summary>

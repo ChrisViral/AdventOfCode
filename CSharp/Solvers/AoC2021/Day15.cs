@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 15
 /// </summary>
-public class Day15 : GridSolver<byte>
+public sealed class Day15 : GridSolver<byte>
 {
     /// <summary>Full size of the map</summary>
     private const int FULL_SIZE = 5;

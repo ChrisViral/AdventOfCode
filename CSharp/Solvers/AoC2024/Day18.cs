@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 18
 /// </summary>
-public class Day18 : ArraySolver<Vector2<int>>
+public sealed class Day18 : ArraySolver<Vector2<int>>
 {
     private const int PART1_COUNT = 1024;
     private static readonly Vector2<int> End = (70, 70);

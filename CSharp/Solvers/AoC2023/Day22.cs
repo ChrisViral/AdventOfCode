@@ -13,9 +13,9 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 22
 /// </summary>
-public class Day22 : ArraySolver<Day22.Brick>
+public sealed class Day22 : ArraySolver<Day22.Brick>
 {
-    public class Brick : IComparable<Brick>, IEquatable<Brick>
+    public sealed class Brick : IComparable<Brick>, IEquatable<Brick>
     {
         private readonly string data;
 

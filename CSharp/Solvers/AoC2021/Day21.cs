@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 21
 /// </summary>
-public class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
+public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
 {
     /// <summary>
     /// Player structure

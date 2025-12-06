@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 04
 /// </summary>
-public class Day04 : GridSolver<bool>
+public sealed class Day04 : GridSolver<bool>
 {
     private const char ROLL = '@';
 

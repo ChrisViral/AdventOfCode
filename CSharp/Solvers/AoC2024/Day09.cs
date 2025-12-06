@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 09
 /// </summary>
-public class Day09 : Solver<string>
+public sealed class Day09 : Solver<string>
 {
     /// <summary>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed

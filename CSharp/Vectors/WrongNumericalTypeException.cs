@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Vectors;
 
 [PublicAPI]
-public class WrongNumericalTypeException : Exception
+public sealed class WrongNumericalTypeException : Exception
 {
     public enum NumericalType
     {

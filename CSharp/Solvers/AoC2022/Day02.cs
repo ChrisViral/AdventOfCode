@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 02
 /// </summary>
-public class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
+public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
 {
     public readonly struct Move
     {

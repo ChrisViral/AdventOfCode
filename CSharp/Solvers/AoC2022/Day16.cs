@@ -23,7 +23,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     /// <param name="id">Valve ID</param>
     /// <param name="flowRate">Valve flow rate</param>
     /// <param name="connectionsCount">Valve connections count</param>
-    public class Valve(string id, int flowRate, int connectionsCount) : IEquatable<Valve>
+    public sealed class Valve(string id, int flowRate, int connectionsCount) : IEquatable<Valve>
     {
             /// <summary>
         /// Valve ID
@@ -44,7 +44,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
         /// If this valve is currently open
         /// </summary>
         public bool IsOpen { get; set; }
-    
+
             /// <inheritdoc/>
         public bool Equals(Valve? other) => this.ID == other?.ID;
 

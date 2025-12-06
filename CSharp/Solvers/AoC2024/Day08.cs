@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 08
 /// </summary>
-public class Day08 : GridSolver<char>
+public sealed class Day08 : GridSolver<char>
 {
     /// <summary>
     /// Empty map value

@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 15
 /// </summary>
-public class Day15 : Solver<Day15.Instruction[]>
+public sealed class Day15 : Solver<Day15.Instruction[]>
 {
     public enum Operation
     {

@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 10
 /// </summary>
-public class Day10 : ArraySolver<(Day10.Operation op, int arg)>
+public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
 {
     // ReSharper disable once IdentifierTypo
     public enum Operation

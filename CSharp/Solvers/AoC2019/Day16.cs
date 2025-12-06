@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 16
 /// </summary>
-public class Day16 : Solver<int[]>
+public sealed class Day16 : Solver<int[]>
 {
     /// <summary>
     /// FFT Phases

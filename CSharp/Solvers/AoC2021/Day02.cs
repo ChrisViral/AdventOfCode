@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 02
 /// </summary>
-public class Day02 : ArraySolver<(string command, int value)>
+public sealed class Day02 : ArraySolver<(string command, int value)>
 {
     /// <summary>Forward command</summary>
     private const string FORWARD = "forward";

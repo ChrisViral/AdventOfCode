@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 21
 /// </summary>
-public class Day21 : ArraySolver<(string code, int value)>
+public sealed class Day21 : ArraySolver<(string code, int value)>
 {
     /// <summary>
     /// Part 1 depth

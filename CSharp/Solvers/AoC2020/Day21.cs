@@ -11,18 +11,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 21
 /// </summary>
-public class Day21 : Solver<Day21.IngredientList[]>
+public sealed class Day21 : Solver<Day21.IngredientList[]>
 {
     /// <summary>
     /// Ingredient list
     /// </summary>
-    public class IngredientList
+    public sealed class IngredientList
     {
             /// <summary>
         /// Ingredient list regex pattern
         /// </summary>
         public const string PATTERN = @"([a-z ]+) \(contains ([a-z, ]+)\)";
-    
+
             /// <summary>
         /// Ingredients
         /// </summary>
@@ -31,7 +31,7 @@ public class Day21 : Solver<Day21.IngredientList[]>
         /// Possible allergens
         /// </summary>
         public HashSet<string> Allergens { get; }
-    
+
             /// <summary>
         /// Creates a new IngredientList from the given ingredients and allergens
         /// </summary>

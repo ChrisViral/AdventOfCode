@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 14
 /// </summary>
-public class Day14 : Solver<Day14.Instruction[]>
+public sealed class Day14 : Solver<Day14.Instruction[]>
 {
     /// <summary>
     /// Ferry bitmask
@@ -24,10 +24,10 @@ public class Day14 : Solver<Day14.Instruction[]>
         /// Size in bits of the bitmask
         /// </summary>
         private const int SIZE = 36;
-                
+
             private readonly long positiveMask;
         private readonly long negativeMask;
-    
+
             /// <summary>
         /// Creates a new bitmask as specified
         /// </summary>
@@ -54,7 +54,7 @@ public class Day14 : Solver<Day14.Instruction[]>
                 i >>= 1;
             }
         }
-    
+
             /// <summary>
         /// Get all the masked addresses by this mask
         /// </summary>
@@ -65,7 +65,7 @@ public class Day14 : Solver<Day14.Instruction[]>
         {
             //If at a negative bit number, done, return
             if (bit < 0) yield return address;
-                
+
             //Setup current mask
             long mask = 1L << bit - 1;
             //While active bit position valid
@@ -94,7 +94,7 @@ public class Day14 : Solver<Day14.Instruction[]>
                     //Immediately hop out
                     yield break;
                 }
-                        
+
                 //Move the mask to the right
                 mask >>= 1;
             }
@@ -102,7 +102,7 @@ public class Day14 : Solver<Day14.Instruction[]>
             //Return the finalized address
             yield return address;
         }
-            
+
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
@@ -125,7 +125,7 @@ public class Day14 : Solver<Day14.Instruction[]>
 
             return sb.ToString();
         }
-    
+
             /// <summary>
         /// Bitwise AND on the given integer and bitmask. The operations sets the bits in the positive mask and removes the bits in the negative mask
         /// </summary>
@@ -138,7 +138,7 @@ public class Day14 : Solver<Day14.Instruction[]>
     /// <summary>
     /// Ferry program instruction
     /// </summary>
-    public class Instruction
+    public sealed class Instruction
     {
         /// <summary>
         /// Instruction opcode
@@ -148,17 +148,17 @@ public class Day14 : Solver<Day14.Instruction[]>
             MASK,
             MEM
         }
-            
+
             /// <summary>
         /// Regex parse pattern
         /// </summary>
         public const string PATTERN = @"(?:mask = ([01X]{36})|mem\[(\d+)\] = (\d+))";
-    
+
             private readonly Opcode operation;
         private readonly long address;
         private readonly long value;
         private readonly Bitmask mask;
-    
+
             /// <summary>
         /// Creates a new Mask operation
         /// </summary>
@@ -180,7 +180,7 @@ public class Day14 : Solver<Day14.Instruction[]>
             this.address = address;
             this.value = value;
         }
-                
+
             /// <summary>
         /// Executes the current instruction on the program memory
         /// </summary>
@@ -193,13 +193,13 @@ public class Day14 : Solver<Day14.Instruction[]>
                 case Opcode.MASK:
                     bitmask = this.mask;
                     break;
-                    
+
                 case Opcode.MEM:
                     memory[this.address] = this.value & bitmask;
                     break;
             }
         }
-            
+
         /// <summary>
         /// Executes the current instruction on the program memory for a V2 decoder
         /// </summary>
@@ -212,7 +212,7 @@ public class Day14 : Solver<Day14.Instruction[]>
                 case Opcode.MASK:
                     bitmask = this.mask;
                     break;
-                    
+
                 case Opcode.MEM:
                     bitmask.GetMaskedAddresses(this.address).ForEach(a => memory[a] = this.value);
                     break;
@@ -236,7 +236,7 @@ public class Day14 : Solver<Day14.Instruction[]>
         Bitmask bitmask = default;
         this.Data.ForEach(i => i.Execute(memory, ref bitmask));
         AoCUtils.LogPart1(memory.Values.Sum());
-            
+
         //Part two decoding
         memory.Clear();
         Bitmask bitmaskV2 = default;

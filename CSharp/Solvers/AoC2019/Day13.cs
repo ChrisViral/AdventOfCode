@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 13
 /// </summary>
-public class Day13 : IntcodeSolver
+public sealed class Day13 : IntcodeSolver
 {
     /// <summary>
     /// Arcade object

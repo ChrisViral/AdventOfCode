@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 08
 /// </summary>
-public class Day08 : Solver<Day08.Instruction[]>
+public sealed class Day08 : Solver<Day08.Instruction[]>
 {
     /// <summary>
     /// Instruction operations

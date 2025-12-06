@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 13
 /// </summary>
-public class Day13 : Solver<Day13.ClawMachine[]>
+public sealed class Day13 : Solver<Day13.ClawMachine[]>
 {
     /// <summary>
     /// Claw machine data
@@ -23,7 +23,7 @@ public class Day13 : Solver<Day13.ClawMachine[]>
     /// <param name="px">Prize X parameter</param>
     /// <param name="py">Prize Y parameter</param>
     [UsedImplicitly]
-    public class ClawMachine(int ax, int ay, int bx, int by, int px, int py)
+    public sealed class ClawMachine(int ax, int ay, int bx, int by, int px, int py)
     {
         /// <summary>
         /// Button A movement

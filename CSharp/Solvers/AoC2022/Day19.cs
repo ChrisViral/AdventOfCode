@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 19
 /// </summary>
-public class Day19 : Solver<Day19.Blueprint[]>
+public sealed class Day19 : Solver<Day19.Blueprint[]>
 {
     /// <summary>
     /// Robot building blueprint

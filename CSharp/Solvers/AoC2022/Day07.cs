@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 07
 /// </summary>
-public class Day07 : Solver<Day07.Directory>
+public sealed class Day07 : Solver<Day07.Directory>
 {
     /// <summary>
     /// File record
@@ -23,7 +23,7 @@ public class Day07 : Solver<Day07.Directory>
     /// <summary>
     /// Directory helper class
     /// </summary>
-    public class Directory : IEnumerable<Directory>
+    public sealed class Directory : IEnumerable<Directory>
     {
         /// <summary>Root directory name</summary>
         private const string ROOT = "/";

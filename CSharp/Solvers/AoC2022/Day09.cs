@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 09
 /// </summary>
-public class Day09 : ArraySolver<Vector2<int>>
+public sealed class Day09 : ArraySolver<Vector2<int>>
 {
     private enum Element
     {

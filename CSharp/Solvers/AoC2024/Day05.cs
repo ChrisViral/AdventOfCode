@@ -12,9 +12,9 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 05
 /// </summary>
-public class Day05 : Solver<Day05.Rule[][]>
+public sealed class Day05 : Solver<Day05.Rule[][]>
 {
-    public class Rule(byte value, SearchValues<byte> mustFollow)
+    public sealed class Rule(byte value, SearchValues<byte> mustFollow)
     {
         public byte Value { get; } = value;
 

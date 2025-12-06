@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 13
 /// </summary>
-public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
+public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
 {
     /// <summary>
     /// Packet element marking interface
@@ -41,7 +41,7 @@ public class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
     /// <summary>
     /// Packet element list
     /// </summary>
-    public class PacketList : IPacketElement, IComparable<PacketList>
+    public sealed class PacketList : IPacketElement, IComparable<PacketList>
     {
         /// <summary>StringBuilder instance for ToString implementation</summary>
         private static readonly StringBuilder toStringBuilder = new();

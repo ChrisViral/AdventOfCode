@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 03
 /// </summary>
-public class Day03 : GridSolver<char>
+public sealed class Day03 : GridSolver<char>
 {
     private const char EMPTY = '.';
     private const char GEAR = '*';

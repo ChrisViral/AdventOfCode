@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 23
 /// </summary>
-public class Day23 : Solver<Day23.GraphData>
+public sealed class Day23 : Solver<Day23.GraphData>
 {
     /// <summary>
     /// Amphipod types

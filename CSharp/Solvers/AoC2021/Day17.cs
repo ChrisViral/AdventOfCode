@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 17
 /// </summary>
-public class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
+public sealed class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
 {
     public readonly record struct Range(int From, int To)
     {

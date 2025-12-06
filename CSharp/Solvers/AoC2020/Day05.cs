@@ -9,29 +9,29 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 05
 /// </summary>
-public class Day05 : Solver<Day05.BoardingPass[]>
+public sealed class Day05 : Solver<Day05.BoardingPass[]>
 {
     /// <summary>
     /// BoardingPass info
     /// </summary>
-    public class BoardingPass
+    public sealed class BoardingPass
     {
             public const int MAX_ROW = 127;
         public const int MAX_COLUMN = 7;
-    
+
             public int Row { get; }
 
         public int Column { get; }
 
         public int Id { get; }
-    
+
             public BoardingPass(string pattern)
         {
             this.Row = BinarySearch(pattern[..7], 'F', MAX_ROW);
             this.Column = BinarySearch(pattern[7..], 'L', MAX_COLUMN);
             this.Id = (this.Row * 8) + this.Column;
         }
-    
+
         private static int BinarySearch(string pattern, char trueChar, int max)
         {
             int l = 0, r = max;

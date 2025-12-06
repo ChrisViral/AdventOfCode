@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 17
 /// </summary>
-public class Day17 : Solver<Direction[]>
+public sealed class Day17 : Solver<Direction[]>
 {
     /// <summary>
     /// Rock struct

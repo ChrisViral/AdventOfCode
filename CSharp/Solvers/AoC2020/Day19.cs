@@ -13,18 +13,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 19
 /// </summary>
-public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
+public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 {
     /// <summary>
     /// Matching rule
     /// </summary>
-    public class Rule
+    public sealed class Rule
     {
             /// <summary>
         /// Rule match pattern
         /// </summary>
         public const string PATTERN = @"^(\d+): (?:""(a|b)""|(\d+(?: \d+)?)|(\d+(?: \d+)?) \| (\d+(?: \d+)?))$";
-    
+
             /// <summary>
         /// Rule index
         /// </summary>
@@ -44,7 +44,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// Values of the second match
         /// </summary>
         public int[]? SecondMatch { get; }
-    
+
             /// <summary>
         /// Creates a new Rule and sets it's index
         /// </summary>
@@ -81,7 +81,7 @@ public class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
             this.FirstMatch = first.Split(' ').ConvertAll(int.Parse);
             this.SecondMatch = second.Split(' ').ConvertAll(int.Parse);
         }
-    
+
             /// <summary>
         /// Setups the pattern for this rule by looking at it's matches
         /// </summary>

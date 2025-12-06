@@ -10,18 +10,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 10
 /// </summary>
-public class Day10 : Solver<Day10.Adapter[]>
+public sealed class Day10 : Solver<Day10.Adapter[]>
 {
     /// <summary>
     /// Adapter object
     /// </summary>
-    public class Adapter : IComparable<Adapter>
+    public sealed class Adapter : IComparable<Adapter>
     {
             /// <summary>
         /// Tolerance between different adapters
         /// </summary>
         private const int TOLERANCE = 3;
-    
+
             /// <summary>
         /// Jolts rating of this adapter
         /// </summary>
@@ -36,13 +36,13 @@ public class Day10 : Solver<Day10.Adapter[]>
         /// List of compatible adapters with this one
         /// </summary>
         public Adapter[]? Compatible { get; private set; }
-    
+
             /// <summary>
         /// Creates a new adapter with the specified jolts
         /// </summary>
         /// <param name="jolts"></param>
         public Adapter(int jolts) => this.Jolts = jolts;
-    
+
             /// <summary>
         /// Sets all the compatible adapters to this one from
         /// </summary>

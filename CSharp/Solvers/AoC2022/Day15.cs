@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 15
 /// </summary>
-public class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
+public sealed class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
 {
     /// <summary> Search level for part 1 </summary>
     private const int LEVEL = 2000000;

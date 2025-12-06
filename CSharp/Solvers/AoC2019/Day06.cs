@@ -10,13 +10,13 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 06
 /// </summary>
-public class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
+public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
 {
     /// <summary>
     /// Orbital object
     /// </summary>
     /// <param name="id">Orbital object ID</param>
-    public class OrbitalObject(string id) : IEquatable<OrbitalObject>
+    public sealed class OrbitalObject(string id) : IEquatable<OrbitalObject>
     {
         /// <summary>
         /// Object ID

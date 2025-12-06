@@ -12,9 +12,9 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 22
 /// </summary>
-public class Day22 : ArraySolver<long>
+public sealed class Day22 : ArraySolver<long>
 {
-    private class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(byte a, byte b, byte c, byte d), Ref<int>>
+    private sealed class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(byte a, byte b, byte c, byte d), Ref<int>>
     {
         public ConcurrentBag<int> Results { get; } = [];
 

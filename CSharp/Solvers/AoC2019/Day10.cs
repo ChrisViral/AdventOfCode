@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 10
 /// </summary>
-public class Day10 : Solver<Vector2<int>[]>
+public sealed class Day10 : Solver<Vector2<int>[]>
 {
     /// <summary>
     /// Asteroid character

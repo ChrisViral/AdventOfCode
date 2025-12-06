@@ -10,24 +10,24 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 07
 /// </summary>
-public class Day07 : Solver<Dictionary<string, Day07.Bag>>
+public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
 {
     /// <summary>
     /// Bag object
     /// </summary>
-    public class Bag : IEquatable<Bag>
+    public sealed class Bag : IEquatable<Bag>
     {
             private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex bagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
         private static readonly Regex bagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
-    
+
             private (string, int)[]? containedBagNames;
-                
+
             /// <summary>
         /// Bag Name
         /// </summary>
         public string Name { get; }
-            
+
         /// <summary>
         /// Contents of the Bag, keyed by name and paired by amount
         /// </summary>
@@ -37,7 +37,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
         /// Bags containing an amount of this Bag
         /// </summary>
         public HashSet<Bag> ContainedBy { get; } = [];
-    
+
             /// <summary>
         /// Creates a new bag from a given definition
         /// </summary>
@@ -46,7 +46,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
         public Bag(string definition)
         {
             if (string.IsNullOrEmpty(definition)) throw new ArgumentException("Definition is an empty string.", nameof(definition));
-                
+
             Match nameMatch = bagNameMatch.Match(definition);
             if (!nameMatch.Success) throw new ArgumentException($"Bag name could not be found in definition \"{definition}\".", nameof(definition));
 
@@ -60,7 +60,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
                 this.containedBagNames[i] = (contents[2].Value, int.Parse(contents[1].Value));
             }
         }
-                
+
             /// <summary>
         /// Sets up the references of this Bag
         /// </summary>
@@ -68,7 +68,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
         public void SetupContents(IReadOnlyDictionary<string, Bag> definitions)
         {
             if (this.containedBagNames is null) return;
-                
+
             foreach ((string bagName, int amount) in this.containedBagNames)
             {
                 Bag contained = definitions[bagName];
@@ -81,17 +81,17 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
 
         /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode() => this.Name.GetHashCode();
-            
+
         /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Bag bag && Equals(bag);
-            
+
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(Bag? other) => other is not null && (ReferenceEquals(this, other) || this.Name == other.Name);
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Name;
         }
-        
+
     /// <summary>
     /// Bag owned in the problem
     /// </summary>
@@ -132,7 +132,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
                 contained.Enqueue((bag, total));
             }
         }
-            
+
         AoCUtils.LogPart2(result);
     }
 
@@ -145,7 +145,7 @@ public class Day07 : Solver<Dictionary<string, Day07.Bag>>
             Bag bag = new(line);
             bags.Add(bag.Name, bag);
         }
-            
+
         foreach (Bag bag in bags.Values)
         {
             bag.SetupContents(bags);

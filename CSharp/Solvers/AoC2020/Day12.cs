@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 12
 /// </summary>
-public class Day12 : Solver<Day12.Navigation[]>
+public sealed class Day12 : Solver<Day12.Navigation[]>
 {
     /// <summary>
     /// Navigation instruction object

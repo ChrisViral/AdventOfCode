@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 08
 /// </summary>
-public class Day08 : ArraySolver<(string[] signals, string[] outputs)>
+public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     /// <summary>Signal/output separator</summary>
     private static readonly char[] separatorSplit = ['|'];

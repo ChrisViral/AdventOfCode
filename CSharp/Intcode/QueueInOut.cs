@@ -10,7 +10,7 @@ namespace AdventOfCode.Intcode;
 /// Simultaneous intcode input/output queue
 /// </summary>
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
-public class QueueInOut : IInputProvider, IOutputProvider
+public sealed class QueueInOut : IInputProvider, IOutputProvider
 {    /// <summary>
     /// Default queue capacity
     /// </summary>

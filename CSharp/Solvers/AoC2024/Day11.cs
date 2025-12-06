@@ -11,9 +11,9 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 11
 /// </summary>
-public class Day11 : Solver<(long value, Day11.Stone stone)[]>
+public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
 {
-    public class Stone
+    public sealed class Stone
     {
         private readonly long blinkResult;
         private readonly long blinkSplit;

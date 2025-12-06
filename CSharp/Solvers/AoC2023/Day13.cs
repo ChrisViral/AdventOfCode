@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 13
 /// </summary>
-public class Day13 : Solver<Grid<bool>[]>
+public sealed class Day13 : Solver<Grid<bool>[]>
 {
     private const char ROCK = '#';
     /// <summary>

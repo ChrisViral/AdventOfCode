@@ -35,7 +35,7 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">Type of the queue</typeparam>
 [PublicAPI]
-public class PriorityQueue<T> : ICollection<T> where T : notnull
+public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
 {
     /// <summary>
     /// Base capacity of the heap list

@@ -16,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 15
 /// </summary>
-public class Day15 : IntcodeSolver
+public sealed class Day15 : IntcodeSolver
 {
     /// <summary>
     /// Element values

@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 18
 /// </summary>
-public class Day18 : Solver<Day18.DigInstruction[]>
+public sealed class Day18 : Solver<Day18.DigInstruction[]>
 {
     public readonly struct DigInstruction
     {

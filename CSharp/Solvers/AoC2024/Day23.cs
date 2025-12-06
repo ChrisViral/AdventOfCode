@@ -11,13 +11,13 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 23
 /// </summary>
-public class Day23 : Solver<Day23.NetworkNode[]>
+public sealed class Day23 : Solver<Day23.NetworkNode[]>
 {
     /// <summary>
     /// Network node object
     /// </summary>
     /// <param name="id">Node ID</param>
-    public class NetworkNode(string id) : IEquatable<NetworkNode>
+    public sealed class NetworkNode(string id) : IEquatable<NetworkNode>
     {
         /// <summary>
         /// Network node ID

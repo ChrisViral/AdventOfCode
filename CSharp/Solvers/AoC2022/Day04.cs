@@ -8,7 +8,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 04
 /// </summary>
-public class Day04 : Solver<((int, int) first, (int, int) second)[]>
+public sealed class Day04 : Solver<((int, int) first, (int, int) second)[]>
 {
     /// <summary>Input match pattern</summary>
     private const string PATTERN = @"(\d+)-(\d+),(\d+)-(\d+)";

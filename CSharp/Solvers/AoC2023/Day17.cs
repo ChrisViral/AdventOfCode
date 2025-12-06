@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 17
 /// </summary>
-public class Day17 : GridSolver<int>
+public sealed class Day17 : GridSolver<int>
 {
     public interface ICrucible<T> : IEquatable<T> where T : ICrucible<T>
     {
