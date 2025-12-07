@@ -13,17 +13,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 19
 /// </summary>
-public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
+public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 {
     /// <summary>
     /// Matching rule
     /// </summary>
-    public sealed class Rule
+    public sealed partial class Rule
     {
         /// <summary>
         /// Rule match pattern
         /// </summary>
-        public const string PATTERN = @"^(\d+): (?:""(a|b)""|(\d+(?: \d+)?)|(\d+(?: \d+)?) \| (\d+(?: \d+)?))$";
+        [GeneratedRegex("""^(\d+): (?:"(a|b)"|(\d+(?: \d+)?)|(\d+(?: \d+)?) \| (\d+(?: \d+)?))$""")]
+        public static partial Regex Matcher { get; }
 
         /// <summary>
         /// Rule index
@@ -169,7 +170,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         //Get all rules
         int maxIndex = 0, i;
         List<Rule> ruleList = [];
-        RegexFactory<Rule> ruleFactory = new(Rule.PATTERN, RegexOptions.Compiled);
+        RegexFactory<Rule> ruleFactory = new(Rule.Matcher);
         for (i = 0; i < rawInput.Length; i++)
         {
             //Stop matching rules when we get to an empty line

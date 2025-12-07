@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 19
 /// </summary>
-public sealed class Day19 : Solver<Day19.Blueprint[]>
+public sealed partial class Day19 : Solver<Day19.Blueprint[]>
 {
     /// <summary>
     /// Robot building blueprint
@@ -23,7 +23,7 @@ public sealed class Day19 : Solver<Day19.Blueprint[]>
     /// <param name="ObsidianClayCost">Clay cost to build an Obsidian robot</param>
     /// <param name="GeodeOreCost">Ore cost to build a Geode robot</param>
     /// <param name="GeodeObsidianCost">Obsidian cost to build a Geode robot</param>
-    public record Blueprint(int ID, int OreCost, int ClayCost, int ObsidianOreCost, int ObsidianClayCost, int GeodeOreCost, int GeodeObsidianCost)
+    public sealed record Blueprint(int ID, int OreCost, int ClayCost, int ObsidianOreCost, int ObsidianClayCost, int GeodeOreCost, int GeodeObsidianCost)
     {
         /// <summary>
         /// Search state struct
@@ -138,9 +138,12 @@ public sealed class Day19 : Solver<Day19.Blueprint[]>
         }
     }
 
-    /// <summary>Regex match</summary>
-    private const string MATCH
-        = @"Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\.";
+    /// <summary>
+    /// Regex match
+    /// </summary>
+    [GeneratedRegex(@"Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\.")]
+    private static partial Regex Matcher { get; }
+
     /// <summary>Allotted time for the first part</summary>
     private const int FIRST_TIME  = 24;
     /// <summary>Allotted time for the second part</summary>
@@ -170,5 +173,5 @@ public sealed class Day19 : Solver<Day19.Blueprint[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Blueprint[] Convert(string[] lines) => RegexFactory<Blueprint>.ConstructObjects(MATCH, lines, RegexOptions.Compiled);
+    protected override Blueprint[] Convert(string[] lines) => RegexFactory<Blueprint>.ConstructObjects(Matcher, lines);
 }

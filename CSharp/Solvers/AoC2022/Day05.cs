@@ -14,17 +14,18 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 05
 /// </summary>
-public sealed class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
+public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>
 {
     /// <summary>
     /// Crane move struct
     /// </summary>
-    public readonly struct Move
+    public readonly partial struct Move
     {
-        /// <summary>Move parse pattern</summary>
-        private const string PATTERN = @"move (\d+) from (\d+) to (\d+)";
-        /// <summary>Regex matcher</summary>
-        private static readonly Regex Matcher = new(PATTERN, RegexOptions.Compiled);
+        /// <summary>
+        /// Regex matcher
+        /// </summary>
+        [GeneratedRegex(@"move (\d+) from (\d+) to (\d+)")]
+        private static partial Regex Matcher { get; }
 
         /// <summary>
         /// Move amount

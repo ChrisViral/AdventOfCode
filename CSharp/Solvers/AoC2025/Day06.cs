@@ -16,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2025;
 public sealed partial class Day06 : Solver<Grid<string>>
 {
     [GeneratedRegex(@"([\*|\+] +)(?: |$)")]
-    private static partial Regex OperatorRegex { get; }
+    private static partial Regex OperatorPattern { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
@@ -83,7 +83,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
     protected override Grid<string> Convert(string[] rawInput)
     {
         // Match operator pattern
-        MatchCollection operators = OperatorRegex.Matches(rawInput[^1]);
+        MatchCollection operators = OperatorPattern.Matches(rawInput[^1]);
         string[] line = operators.Select(m => m.Groups[1].Value).ToArray();
 
         // Create grid and fill with operators

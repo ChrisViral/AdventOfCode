@@ -42,7 +42,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <summary>
     /// Regex direction match
     /// </summary>
-    [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.IgnoreCase)]
     private static partial Regex DirectionMatch { get; }
     /// <summary>
     /// Minimum vector value

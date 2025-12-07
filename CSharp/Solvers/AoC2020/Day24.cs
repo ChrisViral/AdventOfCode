@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 24
 /// </summary>
-public sealed class Day24 : Solver<Day24.Neighbour[][]>
+public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
 {
     /// <summary>
     /// Hax grid neighbours
@@ -32,7 +32,9 @@ public sealed class Day24 : Solver<Day24.Neighbour[][]>
     /// <summary>
     /// Neighbour pattern
     /// </summary>
-    private const string PATTERN = "[ns]?[ew]";
+    [GeneratedRegex("[ns]?[ew]")]
+    private static partial Regex Matcher { get; }
+
     /// <summary>
     /// Total iterations of part 2
     /// </summary>
@@ -146,11 +148,10 @@ public sealed class Day24 : Solver<Day24.Neighbour[][]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Neighbour[][] Convert(string[] rawInput)
     {
-        Regex match = new(PATTERN, RegexOptions.Compiled);
         Neighbour[][] directions = new Neighbour[rawInput.Length][];
         foreach (int i in ..directions.Length)
         {
-            directions[i] = match.Matches(rawInput[i]).Select(m => ToNeighbour[m.Value]).ToArray();
+            directions[i] = Matcher.Matches(rawInput[i]).Select(m => ToNeighbour[m.Value]).ToArray();
         }
 
         return directions;

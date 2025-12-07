@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
@@ -12,10 +13,13 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 05
 /// </summary>
-public sealed class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
+public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 {
-    /// <summary>Vector matching pattern</summary>
-    private const string PATTERN = @"(\d+,\d+) -> (\d+,\d+)";
+    /// <summary>
+    /// Vector matching pattern
+    /// </summary>
+    [GeneratedRegex(@"(\d+,\d+) -> (\d+,\d+)")]
+    private static partial Regex VectorMatcher { get; }
 
     private readonly Grid<int> grid;
     private int maxX;
@@ -81,7 +85,7 @@ public sealed class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
     protected override (Vector2<int> from, Vector2<int> to)[] Convert(string[] rawInput)
     {
         // Extract digits
-        (int x1, int y1, int x2, int y2)[] vents = RegexFactory<(int, int, int, int)>.ConstructObjects(PATTERN, rawInput);
+        (int x1, int y1, int x2, int y2)[] vents = RegexFactory<(int, int, int, int)>.ConstructObjects(VectorMatcher, rawInput);
         (Vector2<int>, Vector2<int>)[] data      = new (Vector2<int>, Vector2<int>)[vents.Length];
 
         // Get max values for the grid

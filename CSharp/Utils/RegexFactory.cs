@@ -31,18 +31,6 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
     /// Creates a new RegexFactory with a given pattern for the specified type.<br/>
     /// <b>NOTE</b>: Creating this object will analyze the target type with reflection, which could potentially be a slow process.
     /// </summary>
-    /// <param name="pattern">Pattern of the Regex match</param>
-    /// <param name="options">Regex options</param>
-    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
-    public RegexFactory([StringSyntax("regex", "options"), RegexPattern] string pattern, RegexOptions options = RegexOptions.None)
-        : this(new Regex(pattern.Length is not 0 ? pattern : throw new ArgumentException("Pattern length cannot be zero"), options))
-    {
-    }
-
-    /// <summary>
-    /// Creates a new RegexFactory with a given pattern for the specified type.<br/>
-    /// <b>NOTE</b>: Creating this object will analyze the target type with reflection, which could potentially be a slow process.
-    /// </summary>
     /// <param name="regex">Regex matcher</param>
     /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
     public RegexFactory(Regex regex)
@@ -229,46 +217,6 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
     /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
     /// </summary>
     /// <typeparam name="T">Type of object to create</typeparam>
-    /// <param name="pattern">Pattern of the Regex match</param>
-    /// <param name="input">Input strings</param>
-    /// <param name="options">Regex options</param>
-    /// <returns>The created <typeparamref name="T"/> objects</returns>
-    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
-    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
-    /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
-    public static T[] ConstructObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
-    {
-        // ReSharper disable once ArrangeMethodOrOperatorBody
-        return new RegexFactory<T>(pattern, options).ConstructObjects(input);
-    }
-
-    /// <summary>
-    /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
-    /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
-    /// then populates the parameters by converting the captures to the parameter type.<br/>
-    /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
-    /// </summary>
-    /// <typeparam name="T">Type of object to create</typeparam>
-    /// <param name="pattern">Pattern of the Regex match</param>
-    /// <param name="input">Input string</param>
-    /// <param name="options">Regex options</param>
-    /// <returns>The created <typeparamref name="T"/> objects</returns>
-    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
-    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
-    /// <exception cref="KeyNotFoundException">If no matching constructor with the right amount of parameters is found</exception>
-    public static T[] ConstructObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, string input, RegexOptions options = RegexOptions.None)
-    {
-        // ReSharper disable once ArrangeMethodOrOperatorBody
-        return new RegexFactory<T>(pattern, options).ConstructObjects(input);
-    }
-
-    /// <summary>
-    /// Constructs a <typeparamref name="T"/> object from a <see cref="Regex"/> match<br/>
-    /// The construction finds a constructor on the type with the same amount of parameters as there are captures,<br/>
-    /// then populates the parameters by converting the captures to the parameter type.<br/>
-    /// Additionally, all the parameter types must implement <see cref="IConvertible"/>.
-    /// </summary>
-    /// <typeparam name="T">Type of object to create</typeparam>
     /// <param name="regex">Regex matcher</param>
     /// <param name="input">Input strings</param>
     /// <returns>The created <typeparamref name="T"/> objects</returns>
@@ -298,26 +246,6 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
     {
         // ReSharper disable once ArrangeMethodOrOperatorBody
         return new RegexFactory<T>(regex).ConstructObjects(input);
-    }
-
-    /// <summary>
-    /// Populates <typeparamref name="T"/> objects from a <see cref="Regex"/> match<br/>
-    /// To populate, all matches from the regex are found in the input string, then are separated<br/>
-    /// into key/value pairs if there are exactly two captures. The value is then applied to the public field matched with the key.<br/>
-    /// Additionally, all the field types must implement <see cref="IConvertible"/>.
-    /// </summary>
-    /// <typeparam name="T">Type of object to populate</typeparam>
-    /// <param name="pattern">Pattern of the Regex match</param>
-    /// <param name="input">Input strings</param>
-    /// <param name="options">Regex options</param>
-    /// <returns>An array of the populated <typeparamref name="T"/> objects</returns>
-    /// <exception cref="ArgumentException">If the passed pattern has length 0</exception>
-    /// <exception cref="InvalidCastException">If an error happens while casting the parameters</exception>
-    /// <exception cref="MissingMethodException">If no default constructor is found</exception>
-    public static T[] PopulateObjects([StringSyntax("regex", "options"), RegexPattern] string pattern, IReadOnlyList<string> input, RegexOptions options = RegexOptions.None)
-    {
-        // ReSharper disable once ArrangeMethodOrOperatorBody
-        return new RegexFactory<T>(pattern, options).PopulateObjects(input);
     }
 
     /// <summary>

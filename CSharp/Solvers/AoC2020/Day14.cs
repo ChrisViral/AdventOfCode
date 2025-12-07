@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 14
 /// </summary>
-public sealed class Day14 : Solver<Day14.Instruction[]>
+public sealed partial class Day14 : Solver<Day14.Instruction[]>
 {
     /// <summary>
     /// Ferry bitmask
@@ -139,7 +139,7 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
     /// <summary>
     /// Ferry program instruction
     /// </summary>
-    public sealed class Instruction
+    public sealed partial class Instruction
     {
         /// <summary>
         /// Instruction opcode
@@ -153,7 +153,8 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
         /// <summary>
         /// Regex parse pattern
         /// </summary>
-        public const string PATTERN = @"(?:mask = ([01X]{36})|mem\[(\d+)\] = (\d+))";
+        [GeneratedRegex(@"(?:mask = ([01X]{36})|mem\[(\d+)\] = (\d+))")]
+        public static partial Regex Matcher { get; }
 
         private readonly Opcode operation;
         private readonly long address;
@@ -246,5 +247,5 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(Instruction.PATTERN, rawInput, RegexOptions.Compiled);
+    protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(Instruction.Matcher, rawInput);
 }

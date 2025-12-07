@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 15
 /// </summary>
-public sealed class Day15 : Solver<Day15.Instruction[]>
+public sealed partial class Day15 : Solver<Day15.Instruction[]>
 {
     public enum Operation
     {
@@ -33,7 +33,9 @@ public sealed class Day15 : Solver<Day15.Instruction[]>
     private record struct Lens(string Label, int Strength);
 
     private const int BOXES = 256;
-    private const string INSTRUCTION_PATTERN = @"([a-z]+)(=|-)(\d)?";
+
+    [GeneratedRegex(@"([a-z]+)(=|-)(\d)?")]
+    private static partial Regex InstructionMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
@@ -107,7 +109,5 @@ public sealed class Day15 : Solver<Day15.Instruction[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(INSTRUCTION_PATTERN,
-                                                                                                              rawInput[0].Split(','),
-                                                                                                              RegexOptions.Compiled);
+    protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(InstructionMatcher, rawInput[0].Split(','));
 }

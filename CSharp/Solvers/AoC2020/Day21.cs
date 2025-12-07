@@ -11,17 +11,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 21
 /// </summary>
-public sealed class Day21 : Solver<Day21.IngredientList[]>
+public sealed partial class Day21 : Solver<Day21.IngredientList[]>
 {
     /// <summary>
     /// Ingredient list
     /// </summary>
-    public sealed class IngredientList
+    public sealed partial class IngredientList
     {
         /// <summary>
         /// Ingredient list regex pattern
         /// </summary>
-        public const string PATTERN = @"([a-z ]+) \(contains ([a-z, ]+)\)";
+        [GeneratedRegex(@"([a-z ]+) \(contains ([a-z, ]+)\)")]
+        public static partial Regex Matcher { get; }
 
         /// <summary>
         /// Ingredients
@@ -106,5 +107,5 @@ public sealed class Day21 : Solver<Day21.IngredientList[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override IngredientList[] Convert(string[] rawInput) => RegexFactory<IngredientList>.ConstructObjects(IngredientList.PATTERN, rawInput, RegexOptions.Compiled);
+    protected override IngredientList[] Convert(string[] rawInput) => RegexFactory<IngredientList>.ConstructObjects(IngredientList.Matcher, rawInput);
 }

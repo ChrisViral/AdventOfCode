@@ -10,8 +10,8 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// </summary>
 public partial class Day03 : Solver<string>
 {
-    [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)", RegexOptions.Compiled)]
-    private static partial Regex MulRegex { get; }
+    [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)")]
+    private static partial Regex MulPattern { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
@@ -27,7 +27,7 @@ public partial class Day03 : Solver<string>
         int result = 0;
         int conditionalResult = 0;
         bool flag = true;
-        foreach (Match match in MulRegex.Matches(this.Data))
+        foreach (Match match in MulPattern.Matches(this.Data))
         {
             switch (match.ValueSpan)
             {

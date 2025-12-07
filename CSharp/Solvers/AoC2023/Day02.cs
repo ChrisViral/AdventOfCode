@@ -10,12 +10,12 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 02
 /// </summary>
-public sealed class Day02 : Solver<Day02.Game[]>
+public sealed partial class Day02 : Solver<Day02.Game[]>
 {
-    public readonly struct Set
+    public readonly partial struct Set
     {
-        private const string TURN_PATTERN = @"(\d+) (red|green|blue)";
-        private static readonly Regex SetMatch = new(TURN_PATTERN, RegexOptions.Compiled);
+        [GeneratedRegex(@"(\d+) (red|green|blue)")]
+        private static partial Regex SetMatch { get; }
 
         public int Red { get; private init; }
         public int Green { get; private init; }
@@ -100,7 +100,8 @@ public sealed class Day02 : Solver<Day02.Game[]>
         public bool IsValid(Set maxSet) => Array.TrueForAll(this.turns, t => t.IsValid(maxSet));
     }
 
-    public const string GAME_PATTERN = @"Game (\d+): ([\w\s,;]+)";
+    [GeneratedRegex(@"Game (\d+): ([\w\s,;]+)")]
+    private static partial Regex GameMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
@@ -122,5 +123,5 @@ public sealed class Day02 : Solver<Day02.Game[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Game[] Convert(string[] rawInput) => RegexFactory<Game>.ConstructObjects(GAME_PATTERN, rawInput, RegexOptions.Compiled);
+    protected override Game[] Convert(string[] rawInput) => RegexFactory<Game>.ConstructObjects(GameMatcher, rawInput);
 }

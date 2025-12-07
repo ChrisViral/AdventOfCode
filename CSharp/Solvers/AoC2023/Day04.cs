@@ -10,7 +10,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 04
 /// </summary>
-public sealed class Day04 : Solver<Day04.Card[]>
+public sealed partial class Day04 : Solver<Day04.Card[]>
 {
     public readonly struct Card(string winning, string numbers)
     {
@@ -18,7 +18,8 @@ public sealed class Day04 : Solver<Day04.Card[]>
         public readonly SearchValues<byte> numbers = SearchValues.Create(numbers.Split(' ', DEFAULT_OPTIONS).ConvertAll(byte.Parse));
     }
 
-    private const string CARD_PATTERN = @"Card\s+\d+: ([\d\s]+) \| ([\d\s]+)";
+    [GeneratedRegex(@"Card\s+\d+: ([\d\s]+) \| ([\d\s]+)")]
+    private static partial Regex CardMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
@@ -72,6 +73,6 @@ public sealed class Day04 : Solver<Day04.Card[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Card[] Convert(string[] rawInput)
     {
-        return RegexFactory<Card>.ConstructObjects(CARD_PATTERN, rawInput, RegexOptions.Compiled);
+        return RegexFactory<Card>.ConstructObjects(CardMatcher, rawInput);
     }
 }

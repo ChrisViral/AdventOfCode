@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
@@ -12,14 +13,15 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 17
 /// </summary>
-public sealed class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
+public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
 {
     public readonly record struct Range(int From, int To)
     {
         public bool IsInRange(int value) => value >= this.From && value <= this.To;
     }
 
-    private const string PATTERN = @"target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)";
+    [GeneratedRegex(@"target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)")]
+    private static partial Regex RangeMatcher { get; }
 
     /// <summary>7
     /// Creates a new <see cref="Day17"/> Solver for 2021 - 17 with the input data properly parsed
@@ -75,7 +77,7 @@ public sealed class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (Range, Range) Convert(string[] rawInput)
     {
-        (int aX, int bX, int aY, int bY) = new RegexFactory<(int, int, int, int)>(PATTERN).ConstructObject(rawInput[0]);
+        (int aX, int bX, int aY, int bY) = new RegexFactory<(int, int, int, int)>(RangeMatcher).ConstructObject(rawInput[0]);
         return (new Range(aX, bX), new Range(aY, bY));
     }
 }

@@ -13,9 +13,10 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 01
 /// </summary>
-public sealed class Day01 : Solver<(int[] leftList, int[] rightList)>
+public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>
 {
-    private const string PATTERN = @"(\d+)   (\d+)";
+    [GeneratedRegex(@"(\d+)   (\d+)")]
+    private static partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
@@ -42,7 +43,7 @@ public sealed class Day01 : Solver<(int[] leftList, int[] rightList)>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (int[] leftList, int[] rightList) Convert(string[] rawInput)
     {
-        (int left, int right)[] listData = RegexFactory<(int, int)>.ConstructObjects(PATTERN, rawInput, RegexOptions.Compiled);
+        (int left, int right)[] listData = RegexFactory<(int, int)>.ConstructObjects(Matcher, rawInput);
         (int[] leftList, int[] rightList) = (new int[listData.Length], new int[listData.Length]);
         foreach (int i in ..listData.Length)
         {

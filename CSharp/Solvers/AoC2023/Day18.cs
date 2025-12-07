@@ -13,7 +13,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 18
 /// </summary>
-public sealed class Day18 : Solver<Day18.DigInstruction[]>
+public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
 {
     public readonly struct DigInstruction
     {
@@ -37,7 +37,8 @@ public sealed class Day18 : Solver<Day18.DigInstruction[]>
         public override string ToString() => $"{this.instruction} ({this.longInstruction})";
     }
 
-    private const string INSTRUCTION_PATTERN = @"([UDLR]) (\d+) \(#([0-9a-f]{5})([0-3])\)";
+    [GeneratedRegex(@"([UDLR]) (\d+) \(#([0-9a-f]{5})([0-3])\)")]
+    private static partial Regex InstructionMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
@@ -75,5 +76,5 @@ public sealed class Day18 : Solver<Day18.DigInstruction[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override DigInstruction[] Convert(string[] rawInput) => RegexFactory<DigInstruction>.ConstructObjects(INSTRUCTION_PATTERN, rawInput, RegexOptions.Compiled);
+    protected override DigInstruction[] Convert(string[] rawInput) => RegexFactory<DigInstruction>.ConstructObjects(InstructionMatcher, rawInput);
 }

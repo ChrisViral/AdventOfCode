@@ -35,8 +35,8 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
     /// <summary>
     /// Movement match regex
     /// </summary>
-    [GeneratedRegex(@"(\d+)([RL])|(\d+)$", RegexOptions.Compiled)]
-    private static partial Regex Match { get; }
+    [GeneratedRegex(@"(\d+)([RL])|(\d+)$")]
+    private static partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day22"/> Solver for 2022 - 22 with the input data properly parsed
@@ -242,7 +242,7 @@ public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movement
                                e => e.ToString());
 
         string path = lines[^1];
-        MatchCollection matches = Match.Matches(path);
+        MatchCollection matches = Matcher.Matches(path);
         Movement[] movements = new Movement[matches.Count];
         foreach (int i in ..matches.Count)
         {

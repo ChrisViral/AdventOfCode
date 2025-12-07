@@ -10,12 +10,12 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 12
 /// </summary>
-public sealed class Day12 : Solver<Day12.Navigation[]>
+public sealed partial class Day12 : Solver<Day12.Navigation[]>
 {
     /// <summary>
     /// Navigation instruction object
     /// </summary>
-    public record Navigation
+    public sealed partial record Navigation
     {
         /// <summary>
         /// Navigation instructions
@@ -34,7 +34,8 @@ public sealed class Day12 : Solver<Day12.Navigation[]>
         /// <summary>
         /// Navigation match pattern
         /// </summary>
-        public const string PATTERN = @"(N|S|E|W|L|R|F)(\d+)";
+        [GeneratedRegex(@"(N|S|E|W|L|R|F)(\d+)")]
+        public static partial Regex Matcher { get; }
 
         /// <summary>Navigation instruction</summary>
         public Instructions Instruction { get; }
@@ -154,5 +155,5 @@ public sealed class Day12 : Solver<Day12.Navigation[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Navigation[] Convert(string[] rawInput) => RegexFactory<Navigation>.ConstructObjects(Navigation.PATTERN, rawInput, RegexOptions.Compiled);
+    protected override Navigation[] Convert(string[] rawInput) => RegexFactory<Navigation>.ConstructObjects(Navigation.Matcher, rawInput);
 }

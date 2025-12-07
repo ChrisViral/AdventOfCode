@@ -67,8 +67,8 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     /// </summary>
     private const int PART2_TIME = 26;
 
-    [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d{1,2}); (?:tunnel leads to valve ([A-Z]{2})|tunnels lead to valves ([A-Z, ]+))", RegexOptions.Compiled)]
-    private static partial Regex Pattern { get; }
+    [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d{1,2}); (?:tunnel leads to valve ([A-Z]{2})|tunnels lead to valves ([A-Z, ]+))")]
+    private static partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver for 2022 - 16 with the input data properly parsed
@@ -228,7 +228,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
         foreach (string line in lines)
         {
             // Parse valves
-            string[] captures = Pattern.Match(line).CapturedGroups
+            string[] captures = Matcher.Match(line).CapturedGroups
                                        .Select(g => g.Value)
                                        .ToArray();
             string id    = captures[0];

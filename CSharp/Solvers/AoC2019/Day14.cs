@@ -111,14 +111,14 @@ public partial class Day14 : Solver<Day14.Chemical>
     /// <summary>
     /// Chemical reaction regex
     /// </summary>
-    [GeneratedRegex(@"^([\dA-Z, ]+) => ([\dA-Z ]+)$", RegexOptions.Compiled)]
-    private static partial Regex ReactionRegex { get; }
+    [GeneratedRegex(@"^([\dA-Z, ]+) => ([\dA-Z ]+)$")]
+    private static partial Regex ReactionMatcher { get; }
 
     /// <summary>
     /// Reagent regex
     /// </summary>
-    [GeneratedRegex(@"(\d+) ([A-Z]+)", RegexOptions.Compiled)]
-    private static partial Regex ReagentRegex { get; }
+    [GeneratedRegex(@"(\d+) ([A-Z]+)")]
+    private static partial Regex ReagentMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
@@ -217,11 +217,11 @@ public partial class Day14 : Solver<Day14.Chemical>
         var chemicalsLookup = chemicals.GetAlternateLookup<ReadOnlySpan<char>>();
         foreach (string line in rawInput)
         {
-            Match reactionMatch   = ReactionRegex.Match(line);
+            Match reactionMatch   = ReactionMatcher.Match(line);
 
             // Match the product
             string productString    = reactionMatch.Groups[2].Value;
-            Match productMatch      = ReagentRegex.Match(productString);
+            Match productMatch      = ReagentMatcher.Match(productString);
             int amount              = int.Parse(productMatch.Groups[1].ValueSpan);
             ReadOnlySpan<char> name = productMatch.Groups[2].ValueSpan;
 
@@ -239,7 +239,7 @@ public partial class Day14 : Solver<Day14.Chemical>
 
             // Get reactants list
             string reactantString = reactionMatch.Groups[1].Value;
-            MatchCollection reactantMatches = ReagentRegex.Matches(reactantString);
+            MatchCollection reactantMatches = ReagentMatcher.Matches(reactantString);
             Reactant[] reactants = new Reactant[reactantMatches.Count];
             chemical.Recipe = reactants;
 

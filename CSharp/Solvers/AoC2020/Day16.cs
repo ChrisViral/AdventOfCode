@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
@@ -11,17 +12,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 16
 /// </summary>
-public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, Day16.Ticket[] examples)>
+public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, Day16.Ticket[] examples)>
 {
     /// <summary>
     /// Ticket field
     /// </summary>
-    public record Field(string Name, int FirstLower, int FirstUpper, int SecondLower, int SecondUpper)
+    public sealed partial record Field(string Name, int FirstLower, int FirstUpper, int SecondLower, int SecondUpper)
     {
         /// <summary>
         /// Regex pattern
         /// </summary>
-        public const string PATTERN = @"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$";
+        [GeneratedRegex(@"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$")]
+        public static partial Regex Matcher { get; }
 
         /// <summary>
         /// Checks if a given value is in the range of the field
@@ -143,7 +145,7 @@ public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ti
         int i = 0;
         string line;
         HashSet<Field> fields = new(rawInput.Length / 2);
-        RegexFactory<Field> fieldFactory = new(Field.PATTERN);
+        RegexFactory<Field> fieldFactory = new(Field.Matcher);
         for (line = rawInput[i++]; !string.IsNullOrEmpty(line); line = rawInput[i++])
         {
             fields.Add(fieldFactory.ConstructObject(line));

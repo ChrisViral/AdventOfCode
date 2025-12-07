@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 05
 /// </summary>
-public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
+public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
 {
     public record struct MapRange(long Destination, long Source, long Length)
     {
@@ -24,12 +24,13 @@ public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> 
         public long MapValue(long value) => (value - Source) + Destination;
     }
 
-    public readonly struct Map
+    public readonly partial struct Map
     {
-        private const string MAP_PATTERN = "([a-z]+)-to-([a-z]+) map:";
-        private static readonly Regex MapMatcher = new(MAP_PATTERN, RegexOptions.Compiled);
+        [GeneratedRegex("([a-z]+)-to-([a-z]+) map:")]
+        private static partial Regex MapMatcher { get; }
 
-        private const string RANGE_PATTERN = @"(\d+) (\d+) (\d+)";
+        [GeneratedRegex(@"(\d+) (\d+) (\d+)")]
+        private static partial Regex RangeMatcher { get; }
 
         public readonly string from;
         public readonly string to;
@@ -41,7 +42,7 @@ public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> 
             this.from = identifiers[0];
             this.to   = identifiers[1];
 
-            this.ranges = RegexFactory<MapRange>.ConstructObjects(RANGE_PATTERN, ranges, RegexOptions.Compiled);
+            this.ranges = RegexFactory<MapRange>.ConstructObjects(RangeMatcher, ranges);
         }
 
         public long MapValue(long value)

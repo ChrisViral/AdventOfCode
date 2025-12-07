@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 13
 /// </summary>
-public sealed class Day13 : Solver<Day13.ClawMachine[]>
+public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
 {
     /// <summary>
     /// Claw machine data
@@ -72,7 +72,8 @@ public sealed class Day13 : Solver<Day13.ClawMachine[]>
     /// <summary>
     /// Claw machine parse pattern
     /// </summary>
-    private const string CLAW_MACHINE_PATTERN = @".+\+(\d{2}).+\+(\d{2}).+\+(\d{2}).+\+(\d{2}).+=(\d+).+=(\d+)";
+    [GeneratedRegex(@".+\+(\d{2}).+\+(\d{2}).+\+(\d{2}).+\+(\d{2}).+=(\d+).+=(\d+)")]
+    private static partial Regex ClawMachineMatcher { get; }
     /// <summary>
     /// Part 2 offset
     /// </summary>
@@ -114,6 +115,6 @@ public sealed class Day13 : Solver<Day13.ClawMachine[]>
     protected override ClawMachine[] Convert(string[] rawInput)
     {
         string[] machineClumps = rawInput.Chunk(3).Select(lines => string.Concat(lines)).ToArray();
-        return RegexFactory<ClawMachine>.ConstructObjects(CLAW_MACHINE_PATTERN, machineClumps, RegexOptions.Compiled);
+        return RegexFactory<ClawMachine>.ConstructObjects(ClawMachineMatcher, machineClumps);
     }
 }

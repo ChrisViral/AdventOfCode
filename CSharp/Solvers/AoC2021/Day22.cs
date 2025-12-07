@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 22
 /// </summary>
-public sealed class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
+public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 {
     /// <summary>
     /// Cube range
@@ -85,8 +85,12 @@ public sealed class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         }
     }
 
-    /// <summary>Parsing Regex pattern</summary>
-    private const string PATTERN = @"(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)";
+    /// <summary>
+    /// Parsing Regex pattern
+    /// </summary>
+    [GeneratedRegex(@"(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)")]
+    private static partial Regex Matcher { get; }
+    
     /// <summary>Size of the 3D grid for part 1</summary>
     private const int SIZE = 101;
     /// <summary>Offset for the 3D grid for part 1</summary>
@@ -167,7 +171,7 @@ public sealed class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override (bool, Cuboid)[] Convert(string[] rawInput)
     {
-        (string, int, int, int, int, int, int)[] data = RegexFactory<(string, int, int, int, int, int, int)>.ConstructObjects(PATTERN, rawInput, RegexOptions.Compiled);
+        (string, int, int, int, int, int, int)[] data = RegexFactory<(string, int, int, int, int, int, int)>.ConstructObjects(Matcher, rawInput);
         (bool command, Cuboid cuboid)[] cuboids = new (bool command, Cuboid cuboid)[data.Length];
 
         foreach (int i in ..data.Length)

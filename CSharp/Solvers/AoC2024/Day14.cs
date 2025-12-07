@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 14
 /// </summary>
-public sealed class Day14 : Solver<Day14.Robot[]>
+public sealed partial class Day14 : Solver<Day14.Robot[]>
 {
     public sealed class Robot(int px, int py, int vx, int vy)
     {
@@ -23,7 +23,8 @@ public sealed class Day14 : Solver<Day14.Robot[]>
         public Vector2<int> Velocity { get; } = new(vx, vy);
     }
 
-    private const string ROBOT_PATTERN = @"p=(\d{1,3}),(\d{1,3}) v=(-?\d{1,2}),(-?\d{1,2})";
+    [GeneratedRegex(@"p=(\d{1,3}),(\d{1,3}) v=(-?\d{1,2}),(-?\d{1,2})")]
+    private static partial Regex RobotMatcher { get; }
 
     private const int PART1_TIME = 100;
     private static readonly Vector2<int> SpaceSize = (101, 103);
@@ -92,5 +93,5 @@ public sealed class Day14 : Solver<Day14.Robot[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Robot[] Convert(string[] rawInput) => RegexFactory<Robot>.ConstructObjects(ROBOT_PATTERN, rawInput, RegexOptions.Compiled);
+    protected override Robot[] Convert(string[] rawInput) => RegexFactory<Robot>.ConstructObjects(RobotMatcher, rawInput);
 }

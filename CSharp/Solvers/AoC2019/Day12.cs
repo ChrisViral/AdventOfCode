@@ -16,7 +16,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 12
 /// </summary>
-public sealed class Day12 : Solver<Day12.Moon[]>
+public sealed partial class Day12 : Solver<Day12.Moon[]>
 {
     /// <summary>
     /// Axis
@@ -121,7 +121,8 @@ public sealed class Day12 : Solver<Day12.Moon[]>
     /// <summary>
     /// Moon position parse pattern
     /// </summary>
-    private const string MOON_PATTERN = @"<x=(-?\d+), y=(-?\d+), z=(-?\d+)>";
+    [GeneratedRegex(@"<x=(-?\d+), y=(-?\d+), z=(-?\d+)>")]
+    private static partial Regex MoonMatcher { get; }
     /// <summary>
     /// Part 1 steps
     /// </summary>
@@ -212,5 +213,5 @@ public sealed class Day12 : Solver<Day12.Moon[]>
                                                          this.Data[3].GetCurrentState(axes));
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Moon[] Convert(string[] rawInput) => RegexFactory<Moon>.ConstructObjects(MOON_PATTERN, rawInput, RegexOptions.Compiled);
+    protected override Moon[] Convert(string[] rawInput) => RegexFactory<Moon>.ConstructObjects(MoonMatcher, rawInput);
 }

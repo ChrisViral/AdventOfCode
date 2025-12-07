@@ -9,14 +9,15 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 02
 /// </summary>
-public sealed class Day02 : Solver<Day02.PasswordData[]>
+public sealed partial class Day02 : Solver<Day02.PasswordData[]>
 {
     /// <summary>
     /// Password info data
     /// </summary>
     public record PasswordData(int Min, int Max, char Target, string Password);
 
-    private const string PATTERN = @"(\d+)-(\d+) ([a-z]): ([a-z]+)";
+    [GeneratedRegex(@"(\d+)-(\d+) ([a-z]): ([a-z]+)")]
+    private static partial Regex PasswordDataMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
@@ -39,7 +40,7 @@ public sealed class Day02 : Solver<Day02.PasswordData[]>
             {
                 part1++;
             }
-                
+
             //Part 2
             if (password[min - 1] == target)
             {
@@ -53,11 +54,11 @@ public sealed class Day02 : Solver<Day02.PasswordData[]>
                 part2++;
             }
         }
-            
+
         AoCUtils.LogPart1(part1);
         AoCUtils.LogPart2(part2);
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override PasswordData[] Convert(string[] rawInput) => RegexFactory<PasswordData>.ConstructObjects(PATTERN, rawInput, RegexOptions.Compiled);
+    protected override PasswordData[] Convert(string[] rawInput) => RegexFactory<PasswordData>.ConstructObjects(PasswordDataMatcher, rawInput);
 }

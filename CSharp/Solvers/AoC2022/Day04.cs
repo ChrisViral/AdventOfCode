@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -8,10 +9,13 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 04
 /// </summary>
-public sealed class Day04 : Solver<((int, int) first, (int, int) second)[]>
+public sealed partial class Day04 : Solver<((int, int) first, (int, int) second)[]>
 {
-    /// <summary>Input match pattern</summary>
-    private const string PATTERN = @"(\d+)-(\d+),(\d+)-(\d+)";
+    /// <summary>
+    /// Input match pattern
+    /// </summary>
+    [GeneratedRegex(@"(\d+)-(\d+),(\d+)-(\d+)")]
+    private static partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver for 2022 - 04 with the input data properly parsed
@@ -47,7 +51,7 @@ public sealed class Day04 : Solver<((int, int) first, (int, int) second)[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override ((int, int), (int, int))[] Convert(string[] lines)
     {
-        return RegexFactory<(int a, int b, int c, int d)>.ConstructObjects(PATTERN, lines)
+        return RegexFactory<(int a, int b, int c, int d)>.ConstructObjects(Matcher, lines)
                                                          .Select(tuple => ((tuple.a, tuple.b),
                                                                            (tuple.c, tuple.d)))
                                                          .ToArray();

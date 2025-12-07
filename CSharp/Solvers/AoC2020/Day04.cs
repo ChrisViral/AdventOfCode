@@ -10,17 +10,20 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 04
 /// </summary>
-public sealed class Day04 : Solver<Day04.Passport[]>
+public sealed partial class Day04 : Solver<Day04.Passport[]>
 {
     /// <summary>
     /// Passport info
     /// </summary>
-    public sealed class Passport
+    public sealed partial class Passport
     {
-        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
-        private static readonly Regex HeightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
-        private static readonly Regex HairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
-        private static readonly Regex IDMatch     = new(@"^\d{9}$", OPTIONS);
+        [GeneratedRegex(@"^(\d{2,3})(cm|in)$", RegexOptions.Singleline)]
+        private static partial Regex HeightMatcher { get; }
+        [GeneratedRegex(@"^#[\da-f]{6}$", RegexOptions.Singleline)]
+        private static partial Regex HairMatcher   { get; }
+        [GeneratedRegex(@"^\d{9}$", RegexOptions.Singleline)]
+        private static partial Regex IDMatcher     { get; }
+
         private static readonly HashSet<string> ValidEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
         public string? byr;
@@ -48,7 +51,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
             if (!int.TryParse(this.eyr, out int expYear)   || expYear   is < 2020 or > 2030) return false;
 
             //Check height
-            Match match = HeightMatch.Match(this.hgt!);
+            Match match = HeightMatcher.Match(this.hgt!);
             if (!match.Success || match.Groups.Count is not 3 || !int.TryParse(match.Groups[1].Value, out int height)) return false;
             switch (match.Groups[2].Value)
             {
@@ -64,11 +67,12 @@ public sealed class Day04 : Solver<Day04.Passport[]>
             }
 
             //Check colours and Passport ID
-            return HairMatch.IsMatch(this.hcl!) && IDMatch.IsMatch(this.pid!) && ValidEyeColours.Contains(this.ecl!);
+            return HairMatcher.IsMatch(this.hcl!) && IDMatcher.IsMatch(this.pid!) && ValidEyeColours.Contains(this.ecl!);
         }
     }
 
-    private const string PATTERN = "([a-z]{3}):([#a-z0-9]+)";
+    [GeneratedRegex("([a-z]{3}):([#a-z0-9]+)")]
+    private static partial Regex PassportMatcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
@@ -90,9 +94,8 @@ public sealed class Day04 : Solver<Day04.Passport[]>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
-    protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PATTERN,
+    protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PassportMatcher,
                                                                                                        AoCUtils.CombineLines(rawInput)
                                                                                                                .Select(l => string.Join(' ', l))
-                                                                                                               .ToList(),
-                                                                                                       RegexOptions.Compiled);
+                                                                                                               .ToList());
 }

@@ -14,9 +14,11 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 08
 /// </summary>
-public sealed class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
+public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
 {
-    private const string NODE_PATTERN = @"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)";
+    [GeneratedRegex(@"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)")]
+    private static partial Regex NodeMatcher { get; }
+
     private const string START = "AAA";
     private const string END   = "ZZZ";
 
@@ -65,7 +67,7 @@ public sealed class Day08 : Solver<(Direction[] directions, Dictionary<string, (
     protected override (Direction[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
     {
         Direction[] directions = rawInput[0].ToCharArray().ConvertAll(Direction.Parse);
-        (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NODE_PATTERN, rawInput[1..], RegexOptions.Compiled);
+        (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NodeMatcher, rawInput[1..]);
         Dictionary<string, (string, string)> map = new(nodes.Length);
 
         map.AddRange(nodes.Select(n => new KeyValuePair<string, (string, string)>(n.label, (n.left, n.right))));

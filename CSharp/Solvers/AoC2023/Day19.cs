@@ -13,9 +13,15 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 19
 /// </summary>
-public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19.Part[] parts)>
+public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19.Part[] parts)>
 {
-    public enum Category { X, M, A, S }
+    public enum Category
+    {
+        X,
+        M,
+        A,
+        S
+    }
 
     public enum Operation
     {
@@ -45,12 +51,12 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
         public override string ToString() => $"{this.label}{{{string.Join(",", this.rules)},{this.noMatch}}}";
     }
 
-    public readonly struct Rule
+    public readonly partial struct Rule
     {
         private delegate bool RuleTest(in Part part);
 
-        private const string RULE_PATTERN = @"([xmas])([<>])(\d+):([a-z]+|A|R)";
-        private static readonly Regex RuleMatch = new(RULE_PATTERN, RegexOptions.Compiled);
+        [GeneratedRegex(@"([xmas])([<>])(\d+):([a-z]+|A|R)")]
+        private static partial Regex RuleMatch { get; }
 
         public readonly Category category;
         public readonly Operation operation;
@@ -137,8 +143,11 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
         };
     }
 
-    private const string PART_PATTERN     = @"{x=(\d+),m=(\d+),a=(\d+),s=(\d+)}";
-    private const string WORKFLOW_PATTERN = "([a-z]+){([a-z0-9AR:,<>]+),([a-z]+|A|R)}";
+    [GeneratedRegex(@"{x=(\d+),m=(\d+),a=(\d+),s=(\d+)}")]
+    private static partial Regex PartMatcher { get; }
+
+    [GeneratedRegex("([a-z]+){([a-z0-9AR:,<>]+),([a-z]+|A|R)}")]
+    private static partial Regex WorkflowMatcher { get; }
 
     private const string START    = "in";
     private const string ACCEPTED = "A";
@@ -216,9 +225,9 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
     protected override (Dictionary<string, Workflow>, Part[]) Convert(string[] rawInput)
     {
         int separation = rawInput.IndexOf(string.Empty);
-        Workflow[] workflows = RegexFactory<Workflow>.ConstructObjects(WORKFLOW_PATTERN, rawInput[..separation++], RegexOptions.Compiled);
+        Workflow[] workflows = RegexFactory<Workflow>.ConstructObjects(WorkflowMatcher, rawInput[..separation++]);
         Dictionary<string, Workflow> workflowMap = workflows.ToDictionary(w => w.label, w => w);
-        Part[] parts = RegexFactory<Part>.ConstructObjects(PART_PATTERN, rawInput[separation..], RegexOptions.Compiled);
+        Part[] parts = RegexFactory<Part>.ConstructObjects(PartMatcher, rawInput[separation..]);
         return (workflowMap, parts);
     }
 }

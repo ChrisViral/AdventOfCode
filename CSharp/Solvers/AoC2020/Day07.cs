@@ -10,16 +10,18 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 07
 /// </summary>
-public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
+public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
 {
     /// <summary>
     /// Bag object
     /// </summary>
-    public sealed class Bag : IEquatable<Bag>
+    public sealed partial class Bag : IEquatable<Bag>
     {
-        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
-        private static readonly Regex BagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
-        private static readonly Regex BagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
+        [GeneratedRegex("^([a-z ]+) bags contain", RegexOptions.Singleline)]
+        private static partial Regex BagNameMatcher { get; }
+
+        [GeneratedRegex(@"(\d+) ([a-z ]+) bags?", RegexOptions.Singleline)]
+        private static partial Regex BagContentsMatcher { get; }
 
         private (string, int)[]? containedBagNames;
 
@@ -47,11 +49,11 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
         {
             if (string.IsNullOrEmpty(definition)) throw new ArgumentException("Definition is an empty string.", nameof(definition));
 
-            Match nameMatch = BagNameMatch.Match(definition);
+            Match nameMatch = BagNameMatcher.Match(definition);
             if (!nameMatch.Success) throw new ArgumentException($"Bag name could not be found in definition \"{definition}\".", nameof(definition));
 
             this.Name = nameMatch.Groups[1].Value;
-            MatchCollection contentMatches = BagContentsMatch.Matches(definition, nameMatch.Length);
+            MatchCollection contentMatches = BagContentsMatcher.Matches(definition, nameMatch.Length);
             this.containedBagNames = new (string, int)[contentMatches.Count];
             this.Contents = new Dictionary<string, (Bag, int)>(contentMatches.Count);
             for (int i = 0; i < contentMatches.Count; i++)

@@ -24,7 +24,7 @@ public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         /// <summary>Self name</summary>
         private const string SELF = "humn";
         /// <summary>Regex matcher</summary>
-        private static readonly Regex Match = new(@"([a-z]{4}): (?:(\d+)|([a-z]{4}) ([\+\-\*\/]) ([a-z]{4}))", RegexOptions.Compiled);
+        private static readonly Regex Matcher = new(@"([a-z]{4}): (?:(\d+)|([a-z]{4}) ([\+\-\*\/]) ([a-z]{4}))");
 
         private readonly Dictionary<string, Monkey> monkeys;
         private readonly string? firstName;
@@ -64,7 +64,7 @@ public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         public Monkey(string line, Dictionary<string, Monkey> monkeys)
         {
             this.monkeys = monkeys;
-            string[] groups = Match.Match(line).CapturedGroups
+            string[] groups = Matcher.Match(line).CapturedGroups
                                    .Select(g => g.Value)
                                    .ToArray();
 
