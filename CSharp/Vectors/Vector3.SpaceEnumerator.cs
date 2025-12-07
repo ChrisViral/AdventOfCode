@@ -6,29 +6,32 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
 
-public readonly partial struct Vector2<T>
+public readonly partial struct Vector3<T>
 {
     /// <summary>
     /// Two dimensional vector space enumerator
     /// </summary>
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
+    /// <param name="maxZ">Max space Z value (exclusive)</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct SpaceEnumerator(T maxX, T maxY)
+    public ref struct SpaceEnumerator(T maxX, T maxY, T maxZ)
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
+        private readonly T maxZ = maxZ;
 
         private T x = -T.One;
         private T y = T.Zero;
+        private T z = T.Zero;
 
         /// <summary>
         /// Current enumerator value
         /// </summary>
-        public readonly Vector2<T> Current
+        public readonly Vector3<T> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y);
+            get => new(this.x, this.y, this.z);
         }
 
         /// <summary>
@@ -41,10 +44,14 @@ public readonly partial struct Vector2<T>
             if (++this.x == this.maxX)
             {
                 this.x = T.Zero;
-                this.y++;
+                if (++this.y == this.maxY)
+                {
+                    this.y = T.Zero;
+                    this.z++;
+                }
             }
 
-            return this.y < this.maxY;
+            return this.z < this.maxZ;
         }
 
         public SpaceEnumerator GetEnumerator() => this;
@@ -55,16 +62,19 @@ public readonly partial struct Vector2<T>
     /// </summary>
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
-    public class SpaceEnumerable(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
+    /// <param name="maxZ">Max space Z value (exclusive)</param>
+    public class SpaceEnumerable(T maxX, T maxY, T maxZ) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
+        private readonly T maxZ = maxZ;
 
         private T x = -T.One;
         private T y = T.Zero;
+        private T z = T.Zero;
 
         /// <inheritdoc />
-        public Vector2<T> Current => new(this.x, this.y);
+        public Vector3<T> Current => new(this.x, this.y, this.z);
 
         /// <inheritdoc />
         object IEnumerator.Current => this.Current;
@@ -76,10 +86,14 @@ public readonly partial struct Vector2<T>
             if (++this.x == this.maxX)
             {
                 this.x = T.Zero;
-                this.y++;
+                if (++this.y == this.maxY)
+                {
+                    this.y = T.Zero;
+                    this.z++;
+                }
             }
 
-            return this.y < this.maxY;
+            return this.z < this.maxZ;
         }
 
         /// <inheritdoc />
@@ -87,13 +101,14 @@ public readonly partial struct Vector2<T>
         {
             this.x = -T.One;
             this.y = T.Zero;
+            this.z = T.Zero;
         }
 
         /// <inheritdoc />
         void IDisposable.Dispose() { }
 
         /// <inheritdoc />
-        public IEnumerator<Vector2<T>> GetEnumerator() => this;
+        public IEnumerator<Vector3<T>> GetEnumerator() => this;
 
         /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => this;

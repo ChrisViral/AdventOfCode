@@ -11,13 +11,13 @@ namespace AdventOfCode.Vectors;
 /// Integer three component vector
 /// </summary>
 [PublicAPI]
-public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                    IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
-                                    IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
-                                    IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
-                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                    IComparable<Vector3<T>>, IEquatable<Vector3<T>>
-                                    where T : IBinaryNumber<T>, IMinMaxValue<T>
+public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
+                                            IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
+                                            IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
+                                            IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
+                                            IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
+                                            IComparable<Vector3<T>>, IEquatable<Vector3<T>>
+    where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
@@ -210,6 +210,34 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public Vector3<T> Scale(T scaleX, T scaleY, T scaleZ) => new(this.X * scaleX, this.Y * scaleY, this.Z * scaleZ);
 
     /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
+    /// </summary>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/>, <see cref="Y"/>, or <see cref="Z"/> are smaller or equal to zero</exception>
+    public SpaceEnumerator Enumerate()
+    {
+        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Z), this.Z, "Z boundary value must be greater than zero");
+
+        return new SpaceEnumerator(this.X, this.Y, this.Y);
+    }
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
+    /// </summary>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/>, <see cref="Y"/>, or <see cref="Z"/> are smaller or equal to zero</exception>
+    public SpaceEnumerable AsEnumerable()
+    {
+        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
+        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Z), this.Z, "Z boundary value must be greater than zero");
+
+        return new SpaceEnumerable(this.X, this.Y, this.Z);
+    }
+
+    /// <summary>
     /// Gets the length of this vector in the target floating point type
     /// </summary>
     /// <typeparam name="TResult">Floating point result type</typeparam>
@@ -262,22 +290,36 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="maxX">Max value for the x component, exclusive</param>
     /// <param name="maxY">Max value for the y component, exclusive</param>
     /// <param name="maxZ">Max value for the z component, exclusive</param>
-    /// <returns>An enumerable of all the vectors in the given range</returns>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public static IEnumerable<Vector3<T>> Enumerate(T maxX, T maxY, T maxZ)
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
+    public static SpaceEnumerator EnumerateOver(T maxX, T maxY, T maxZ)
     {
         if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
+        if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
 
-        for (T z = T.Zero; z < maxZ; z++)
-        {
-            for (T y = T.Zero; y < maxY; y++)
-            {
-                for (T x = T.Zero; x < maxX; x++)
-                {
-                    yield return new Vector3<T>(x, y, z);
-                }
-            }
-        }
+        return new SpaceEnumerator(maxX, maxY, maxZ);
+    }
+
+    /// <summary>
+    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
+    /// </summary>
+    /// <param name="maxX">Max value for the x component, exclusive</param>
+    /// <param name="maxY">Max value for the y component, exclusive</param>
+    /// <param name="maxZ">Max value for the z component, exclusive</param>
+    /// <returns>An enumerator of all the vectors in the given range</returns>
+    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
+    public static SpaceEnumerable MakeEnumerable(T maxX, T maxY, T maxZ)
+    {
+        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
+        if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
+
+        return new SpaceEnumerable(maxX, maxY, maxZ);
     }
 
     /// <summary>
