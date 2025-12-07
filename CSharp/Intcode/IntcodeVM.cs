@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventOfCode.Intcode.Input;
@@ -13,6 +14,7 @@ namespace AdventOfCode.Intcode;
 /// <summary>
 /// Intcode VM
 /// </summary>
+[DebuggerDisplay("State: {Status}")]
 public sealed unsafe partial class IntcodeVM : IDisposable
 {
     /// <summary>
@@ -45,11 +47,11 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <summary>
     /// True literal
     /// </summary>
-    private const long TRUE  = 1L;
+    public const long TRUE  = 1L;
     /// <summary>
     /// False literal
     /// </summary>
-    private const long FALSE = 0L;
+    public const long FALSE = 0L;
 
     /// <summary>
     /// Initial VM state
