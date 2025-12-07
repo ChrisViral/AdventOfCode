@@ -11,7 +11,7 @@ using AdventOfCode.Vectors;
 namespace AdventOfCode.Solvers.AoC2023;
 
 /// <summary>
-/// Solver for 2023 Day 10
+/// Solver for 2023 Day 11
 /// </summary>
 public sealed class Day11 : GridSolver<bool>
 {
