@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -355,5 +356,15 @@ public static class NumberExtensions
         {
             return TResult.CreateChecked(T.Floor(value));
         }
+    }
+
+    extension(ref BitVector32 vector)
+    {
+        /// <summary>
+        /// Sets the bit at the given index
+        /// </summary>
+        /// <param name="index">Index to set the bit at</param>
+        /// <param name="value">Whether the bit is on or off</param>
+        public void SetBit(int index, bool value) => vector[1 << index] = value;
     }
 }
