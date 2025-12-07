@@ -31,7 +31,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day17(string input) : base(input) { }
 
     /// <inheritdoc cref="Base.Solver.Run"/>

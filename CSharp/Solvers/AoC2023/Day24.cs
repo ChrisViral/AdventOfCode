@@ -63,7 +63,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Hail"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day24(string input) : base(input) { }
 
     /// <inheritdoc cref="AdventOfCode.Solvers.Base.Solver.Run"/>

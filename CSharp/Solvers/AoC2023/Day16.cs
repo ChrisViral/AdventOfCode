@@ -50,7 +50,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Element"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day16(string input) : base(input)
     {
         this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");

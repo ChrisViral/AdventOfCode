@@ -74,7 +74,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Passport"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day04(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver.Run"/>

@@ -25,7 +25,7 @@ public sealed class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
     /// Creates a new <see cref="Day17"/> Solver for 2021 - 17 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day17(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

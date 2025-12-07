@@ -17,7 +17,7 @@ public partial class Day02 : Solver<Day02.IdRange[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day02(string input) : base(input) { }
 
     private static readonly char[] Buffer = new char[19];

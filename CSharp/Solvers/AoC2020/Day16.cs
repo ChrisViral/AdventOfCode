@@ -78,7 +78,7 @@ public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ti
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1,T2,T3}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day16(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver.Run"/>

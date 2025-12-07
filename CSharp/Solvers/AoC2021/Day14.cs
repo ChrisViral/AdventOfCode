@@ -21,7 +21,7 @@ public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char>
     /// Creates a new <see cref="Day14"/> Solver for 2021 - 14 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day14(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

@@ -23,7 +23,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day21(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

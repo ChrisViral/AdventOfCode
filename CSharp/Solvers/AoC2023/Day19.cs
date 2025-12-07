@@ -151,7 +151,7 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day19(string input) : base(input.Trim(), options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver.Run"/>

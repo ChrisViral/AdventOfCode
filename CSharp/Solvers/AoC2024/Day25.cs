@@ -16,7 +16,7 @@ public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day25(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

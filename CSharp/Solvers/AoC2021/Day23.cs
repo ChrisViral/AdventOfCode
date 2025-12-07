@@ -221,7 +221,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day23(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc cref="Solver.Run"/>

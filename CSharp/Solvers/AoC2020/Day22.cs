@@ -31,7 +31,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T1, T2}"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day22(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

@@ -49,7 +49,7 @@ public sealed class Day22 : ArraySolver<long>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day22(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

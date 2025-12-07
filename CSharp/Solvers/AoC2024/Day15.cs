@@ -32,7 +32,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day15(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc cref="Solver.Run"/>

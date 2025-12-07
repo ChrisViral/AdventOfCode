@@ -21,7 +21,7 @@ public sealed class Day03 : GridSolver<char>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="char"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day03(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

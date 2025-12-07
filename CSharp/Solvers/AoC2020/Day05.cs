@@ -59,7 +59,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="BoardingPass"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day05(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>

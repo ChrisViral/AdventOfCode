@@ -22,7 +22,7 @@ public sealed class Day02 : Solver<Day02.PasswordData[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="PasswordData"/> fails</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day02(string input) : base(input) { }
 
     /// <inheritdoc cref="Solver.Run"/>
