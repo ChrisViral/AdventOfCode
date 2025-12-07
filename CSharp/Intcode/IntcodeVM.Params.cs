@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace AdventOfCode.Intcode;
 
@@ -27,7 +27,8 @@ public partial class IntcodeVM
     /// Operand Modes
     /// </summary>
     private readonly ref struct Modes
-    {        /// <summary>
+    {
+        /// <summary>
         /// First parameter mode
         /// </summary>
         public readonly ParamMode first;
@@ -98,5 +99,6 @@ public partial class IntcodeVM
             (modes, int first)      = Math.DivRem(modes, 10);
             (int third, int second) = Math.DivRem(modes, 10);
             return new Modes(first, second, third);
-        }    }
+        }
+    }
 }

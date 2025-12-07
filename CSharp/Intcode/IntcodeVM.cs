@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -91,9 +91,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         get
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
-            #if DEBUG
+#if DEBUG
             if (index < 0 || index >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), index, "Intcode VM buffer index out of range");
-            #endif
+#endif
 
             return ref *(this.buffer + index);
         }
@@ -111,9 +111,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
             int offset = index.GetOffset(this.bufferSize);
-            #if DEBUG
+#if DEBUG
             if (offset < 0 || offset >= this.bufferSize) throw new ArgumentOutOfRangeException(nameof(index), offset, "Intcode VM buffer index out of range");
-            #endif
+#endif
 
             return ref *(this.buffer + offset);
         }
@@ -313,13 +313,13 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <param name="mode">Mode to get the operand for</param>
     /// <returns>A reference to the operand value</returns>
     /// <exception cref="InvalidEnumArgumentException">For unknown values of <paramref name="mode"/></exception>
-    #if !DEBUG
+#if !DEBUG
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    #endif
+#endif
     private ref long GetOperand(ParamMode mode)
     {
         // ReSharper disable once ConvertSwitchStatementToSwitchExpression
-        #if DEBUG
+#if DEBUG
         switch (mode)
         {
             case ParamMode.POSITION:
@@ -338,7 +338,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
             default:
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
         }
-        #else
+#else
         switch (mode)
         {
             case ParamMode.POSITION:
@@ -353,7 +353,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
             default:
                 throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
         }
-        #endif
+#endif
     }
 
     /// <inheritdoc />

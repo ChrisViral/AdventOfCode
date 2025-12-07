@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Intcode;
@@ -29,7 +29,9 @@ public sealed class Day13 : IntcodeSolver
     /// <summary>
     /// Position of score output
     /// </summary>
-    private static readonly Vector2<int> ScorePos = (-1, 0);    /// <summary>
+    private static readonly Vector2<int> ScorePos = (-1, 0);
+
+    /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
@@ -126,4 +128,5 @@ public sealed class Day13 : IntcodeSolver
         ArcadeObject.PADDLE => '_',
         ArcadeObject.BALL   => 'O',
         _                   => throw new InvalidEnumArgumentException(nameof(arcadeObject), (int)arcadeObject, typeof(ArcadeObject))
-    };}
+    };
+}

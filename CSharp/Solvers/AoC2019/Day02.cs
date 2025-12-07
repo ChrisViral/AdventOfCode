@@ -19,7 +19,7 @@ public sealed class Day02 : IntcodeSolver
     /// <summary>
     /// Target output value
     /// </summary>
-    private const int TARGET  = 19690720;
+    private const int TARGET = 19690720;
 
     /// <summary>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed

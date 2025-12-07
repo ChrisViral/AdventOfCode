@@ -39,7 +39,7 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
             anyTotal += anyAnswered.Count;
             allTotal += allAnswered.Count;
         }
-            
+
         AoCUtils.LogPart1(anyTotal);
         AoCUtils.LogPart2(allTotal);
     }

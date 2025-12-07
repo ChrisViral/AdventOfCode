@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,15 +20,15 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
     /// </summary>
     public readonly struct Bitmask
     {
-            /// <summary>
+        /// <summary>
         /// Size in bits of the bitmask
         /// </summary>
         private const int SIZE = 36;
 
-            private readonly long positiveMask;
+        private readonly long positiveMask;
         private readonly long negativeMask;
 
-            /// <summary>
+        /// <summary>
         /// Creates a new bitmask as specified
         /// </summary>
         /// <param name="mask">Value to parse as a Bitmask</param>
@@ -55,7 +55,7 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
             }
         }
 
-            /// <summary>
+        /// <summary>
         /// Get all the masked addresses by this mask
         /// </summary>
         /// <param name="address">Address to get all the masked versions for</param>
@@ -126,14 +126,14 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
             return sb.ToString();
         }
 
-            /// <summary>
+        /// <summary>
         /// Bitwise AND on the given integer and bitmask. The operations sets the bits in the positive mask and removes the bits in the negative mask
         /// </summary>
         /// <param name="a">Integer to and</param>
         /// <param name="b">Bitmask to apply</param>
         /// <returns>The integer with the bitmask applied</returns>
         public static long operator &(long a, in Bitmask b) => (a | b.positiveMask) & ~b.negativeMask;
-        }
+    }
 
     /// <summary>
     /// Ferry program instruction
@@ -149,17 +149,17 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
             MEM
         }
 
-            /// <summary>
+        /// <summary>
         /// Regex parse pattern
         /// </summary>
         public const string PATTERN = @"(?:mask = ([01X]{36})|mem\[(\d+)\] = (\d+))";
 
-            private readonly Opcode operation;
+        private readonly Opcode operation;
         private readonly long address;
         private readonly long value;
         private readonly Bitmask mask;
 
-            /// <summary>
+        /// <summary>
         /// Creates a new Mask operation
         /// </summary>
         /// <param name="mask">Bitmask to set</param>
@@ -181,7 +181,7 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
             this.value = value;
         }
 
-            /// <summary>
+        /// <summary>
         /// Executes the current instruction on the program memory
         /// </summary>
         /// <param name="memory">Current program memory</param>
@@ -218,7 +218,7 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
                     break;
             }
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed

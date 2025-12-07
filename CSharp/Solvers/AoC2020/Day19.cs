@@ -20,12 +20,12 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
     /// </summary>
     public sealed class Rule
     {
-            /// <summary>
+        /// <summary>
         /// Rule match pattern
         /// </summary>
         public const string PATTERN = @"^(\d+): (?:""(a|b)""|(\d+(?: \d+)?)|(\d+(?: \d+)?) \| (\d+(?: \d+)?))$";
 
-            /// <summary>
+        /// <summary>
         /// Rule index
         /// </summary>
         public int Index { get; }
@@ -45,7 +45,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// </summary>
         public int[]? SecondMatch { get; }
 
-            /// <summary>
+        /// <summary>
         /// Creates a new Rule and sets it's index
         /// </summary>
         /// <param name="index">Index of the rule</param>
@@ -82,7 +82,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
             this.SecondMatch = second.Split(' ').ConvertAll(int.Parse);
         }
 
-            /// <summary>
+        /// <summary>
         /// Setups the pattern for this rule by looking at it's matches
         /// </summary>
         /// <param name="rules">Array of current rules</param>
@@ -99,6 +99,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
                     {
                         rule.SetupPattern(rules);
                     }
+
                     builder.Append(rule.Pattern);
                 }
 
@@ -113,8 +114,10 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
                         {
                             rule.SetupPattern(rules);
                         }
+
                         builder.Append(rule.Pattern);
                     }
+
                     //Add final group parenthesis
                     builder.Append(')');
                 }
@@ -126,7 +129,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Pattern;
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -40,8 +40,8 @@ public sealed class Day16 : Solver<Day16.Packet>
     {
         /// <summary>Parsing StringBuilder</summary>
         private static readonly StringBuilder Builder = new();
-    
-            /// <summary>
+
+        /// <summary>
         /// Sub-packets of this packet
         /// </summary>
         private List<Packet>? SubPackets { get; init; }
@@ -66,7 +66,7 @@ public sealed class Day16 : Solver<Day16.Packet>
             PacketType.EQU => SubPackets![0].Value == SubPackets[1].Value ? 1L : 0L,
             _              => throw new InvalidEnumArgumentException(nameof(Type), (int)Type, typeof(PacketType))
         };
-    
+
         /// <summary>
         /// Parses the packet from the given binary string value
         /// </summary>
@@ -133,7 +133,7 @@ public sealed class Day16 : Solver<Day16.Packet>
 
             return (packet, used);
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day16"/> Solver for 2021 - 16 with the input data properly parsed

@@ -41,14 +41,17 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// Cost to reach the node so far
     /// </summary>
     public TCost CostSoFar { get; }
+
     /// <summary>
     /// Value of the node
     /// </summary>
     public TValue Value { get; }
+
     /// <summary>
     /// Parent node
     /// </summary>
     public SearchNode<TValue, TCost>? Parent { get; }
+
     /// <summary>
     /// Cost of this node
     /// </summary>

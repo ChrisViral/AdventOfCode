@@ -19,7 +19,7 @@ public sealed class Day15 : Solver<Dictionary<int, int>>
     /// Second target to hit
     /// </summary>
     private const int SECOND_TARGET = 30_000_000;
-        
+
     /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
@@ -36,11 +36,11 @@ public sealed class Day15 : Solver<Dictionary<int, int>>
         bool wasFirst = true;
         int turn = this.Data.Values.Max();
         Dictionary<int, int> previous = new();
-            
+
         //Part 1
         GetToTarget(ref turn, ref wasFirst, ref last, FIRST_TARGET, previous);
         AoCUtils.LogPart1(last);
-            
+
         //Part 2 (takes a couple seconds but who cares)
         GetToTarget(ref turn, ref wasFirst, ref last, SECOND_TARGET, previous);
         AoCUtils.LogPart2(last);

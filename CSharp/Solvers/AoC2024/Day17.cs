@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -72,7 +72,6 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
                     // Else increase chunk size and add to search queue
                     search.Enqueue((test.chunkSize + 1, initialA * 8L));
                 }
-
             }
         }
         AoCUtils.LogPart2(minInitialA);

@@ -17,12 +17,12 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
     /// </summary>
     public sealed class Adapter : IComparable<Adapter>
     {
-            /// <summary>
+        /// <summary>
         /// Tolerance between different adapters
         /// </summary>
         private const int TOLERANCE = 3;
 
-            /// <summary>
+        /// <summary>
         /// Jolts rating of this adapter
         /// </summary>
         public int Jolts { get; set; }
@@ -37,13 +37,13 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
         /// </summary>
         public Adapter[]? Compatible { get; private set; }
 
-            /// <summary>
+        /// <summary>
         /// Creates a new adapter with the specified jolts
         /// </summary>
         /// <param name="jolts"></param>
         public Adapter(int jolts) => this.Jolts = jolts;
 
-            /// <summary>
+        /// <summary>
         /// Sets all the compatible adapters to this one from
         /// </summary>
         /// <param name="adapters"></param>
@@ -59,7 +59,7 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Jolts.ToString();
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
@@ -84,6 +84,7 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
         {
             counts[-this.Data[i++].Jolts + this.Data[i].Jolts]++;
         }
+
         AoCUtils.LogPart1(counts[1] * counts[3]);
         AoCUtils.LogPart2(this.Data[0].Paths);
     }
@@ -98,6 +99,7 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
         {
             adapters[i + 1] = new Adapter(int.Parse(rawInput[i]));
         }
+
         adapters.Sort();
         adapters[^1].Jolts = adapters[^2].Jolts + 3;
 

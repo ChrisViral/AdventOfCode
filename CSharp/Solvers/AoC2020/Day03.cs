@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 03
 /// </summary>
-public sealed class Day03: GridSolver<bool>
+public sealed class Day03 : GridSolver<bool>
 {
     /// <summary>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -421,7 +421,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
         direction = dir * distance;
         return true;
-
     }
 
     /// <summary>
@@ -557,7 +556,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
             return false;
         }
 
-        return TryParse(value.AsSpan(),  out result, separator);
+        return TryParse(value.AsSpan(), out result, separator);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Extensions.Numbers;
@@ -48,7 +48,7 @@ public sealed class Day17 : Solver<(Day17.Range xRange, Day17.Range yRange)>
         AoCUtils.LogPart1(validY[^1].Triangular());
 
         int minX = (1..^this.Data.xRange.From).AsEnumerable()
-                                            .First(n => n.Triangular() >= this.Data.xRange.From);
+                                              .First(n => n.Triangular() >= this.Data.xRange.From);
 
         int count = 0;
         foreach (int y in validY)

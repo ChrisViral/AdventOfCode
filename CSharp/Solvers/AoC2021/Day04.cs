@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -20,10 +20,10 @@ public sealed class Day04 : Solver<Day04.BingoData>
     /// </summary>
     public sealed class BingoData
     {
-            /// <summary>Bingo board size</summary>
+        /// <summary>Bingo board size</summary>
         public const int SIZE   = 5;
 
-            /// <summary>
+        /// <summary>
         /// Drawn bingo numbers, in order
         /// </summary>
         public int[] DrawnNumbers { get; }
@@ -33,7 +33,7 @@ public sealed class Day04 : Solver<Day04.BingoData>
         /// </summary>
         public List<Grid<int>> Boards { get; } = [];
 
-            /// <summary>
+        /// <summary>
         /// Creates a new bingo board from the input
         /// </summary>
         /// <param name="input">input data</param>
@@ -45,7 +45,7 @@ public sealed class Day04 : Solver<Day04.BingoData>
                 Boards.Add(new Grid<int>(SIZE, SIZE, input[i..(i + SIZE)], line => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse)));
             }
         }
-        }
+    }
 
     /// <summary>Marked bingo location value</summary>
     private const int MARKED = -1;

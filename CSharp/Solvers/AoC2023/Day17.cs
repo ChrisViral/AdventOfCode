@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -89,17 +89,17 @@ public sealed class Day17 : GridSolver<int>
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
-        }
+    }
 
     public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps, int loss) : ICrucible<UltraCruciblePath>
     {
         public const int MIN_STEPS = 4;
         public const int MAX_STEPS = 10;
 
-        public readonly Grid<int> grid        = grid;
+        public readonly Grid<int> grid = grid;
         public readonly Vector2<int> position = position;
-        public readonly Direction direction  = direction;
-        public readonly int currentSteps      = currentSteps;
+        public readonly Direction direction = direction;
+        public readonly int currentSteps = currentSteps;
 
         public int Loss { get; } = loss;
 
@@ -164,7 +164,7 @@ public sealed class Day17 : GridSolver<int>
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed

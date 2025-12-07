@@ -28,13 +28,13 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     /// </summary>
     public record Instruction(Operations Operation, int Value)
     {
-            /// <summary>
+        /// <summary>
         /// Creates a new instruction from a given line
         /// </summary>
         /// <param name="line">Instruction line</param>
         public Instruction(string line) : this(Enum.Parse<Operations>(line[..3], true), int.Parse(line[4..])) { }
-    
-            /// <summary>
+
+        /// <summary>
         /// Executes the instruction
         /// </summary>
         /// <param name="accumulator">Current accumulator</param>
@@ -61,7 +61,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
                     throw new InvalidEnumArgumentException(nameof(this.Operation), (int)this.Operation, typeof(Operations));
             }
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;
@@ -31,17 +31,18 @@ public sealed class Day12 : Solver<Day12.Navigation[]>
             FORWARD
         }
 
-            /// <summary>
+        /// <summary>
         /// Navigation match pattern
         /// </summary>
         public const string PATTERN = @"(N|S|E|W|L|R|F)(\d+)";
-    
-            /// <summary>Navigation instruction</summary>
+
+        /// <summary>Navigation instruction</summary>
         public Instructions Instruction { get; }
+
         /// <summary>Instruction value</summary>
         public int Value { get; }
-    
-            /// <summary>
+
+        /// <summary>
         /// Creates a new navigation object with the specified instruction
         /// </summary>
         /// <param name="instruction">Instruction to create the object from</param>
@@ -59,10 +60,11 @@ public sealed class Day12 : Solver<Day12.Navigation[]>
                 'F' => Instructions.FORWARD,
                 _   => throw new ArgumentException("Invalid instruction ({instruction}) could not be parsed", nameof(instruction))
             };
+
             this.Value = value;
         }
-    
-            /// <summary>
+
+        /// <summary>
         /// Executes the instruction as ship directions commands
         /// </summary>
         /// <param name="position">Position of the ship</param>
@@ -127,7 +129,7 @@ public sealed class Day12 : Solver<Day12.Navigation[]>
                     return;
             }
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed

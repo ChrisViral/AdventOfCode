@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -158,7 +158,6 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
             this.Data[start] = Pipe.HORIZONTAL;
         }
     }
-
 
     /// <inheritdoc />
     protected override Pipe[] LineConverter(string line) => line.Select(c => (Pipe)c).ToArray();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Base;
@@ -29,10 +29,12 @@ public sealed class Day13 : Solver<Day13.ClawMachine[]>
         /// Button A movement
         /// </summary>
         public Vector2<long> ButtonA { get; } = (ax, ay);
+
         /// <summary>
         /// Button B movement
         /// </summary>
         public Vector2<long> ButtonB { get; } = (bx, by);
+
         /// <summary>
         /// Prize position
         /// </summary>

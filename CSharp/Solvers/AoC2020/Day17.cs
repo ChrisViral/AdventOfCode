@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Extensions.Ranges;
@@ -18,24 +18,27 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
     /// </summary>
     public readonly struct Vector4 : IEquatable<Vector4>
     {
-            /// <summary>
+        /// <summary>
         /// X component
         /// </summary>
         public int X { get; }
+
         /// <summary>
         /// Y component
         /// </summary>
         public int Y { get; }
+
         /// <summary>
         /// Z component
         /// </summary>
         public int Z { get; }
+
         /// <summary>
         /// W component
         /// </summary>
         public int W { get; }
 
-            /// <summary>
+        /// <summary>
         /// Creates a new 4 component vector
         /// </summary>
         /// <param name="x">X component</param>
@@ -50,7 +53,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
             this.W = w;
         }
 
-            /// <inheritdoc cref="object.Equals(object)"/>
+        /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
@@ -82,7 +85,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
             }
         }
 
-            /// <summary>
+        /// <summary>
         /// Equality operator on two vectors
         /// </summary>
         /// <param name="a">First vector</param>
@@ -97,7 +100,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         /// <param name="b">Second vector</param>
         /// <returns>True if both are unequal, false otherwise</returns>
         public static bool operator !=(Vector4 a, Vector4 b) => !a.Equals(b);
-        }
+    }
 
     /// <summary>
     /// Conway cube implementation
@@ -120,11 +123,11 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         /// <returns>It's surrounding values</returns>
         public delegate IEnumerable<T> Explorer(T value);
 
-            private readonly HashSet<T> activeCubes;
+        private readonly HashSet<T> activeCubes;
         private readonly Dictionary<T, int> surrounding = new();
         private readonly Explorer explorer;
 
-            /// <summary>
+        /// <summary>
         /// Creates a new cube with the given input, object factory, and explorer
         /// </summary>
         /// <param name="input">Input to create the cube from</param>
@@ -149,7 +152,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
             }
         }
 
-            /// <summary>
+        /// <summary>
         /// Simulates the cube for a certain amount of turns
         /// </summary>
         /// <param name="n">Turns amount</param>
@@ -185,12 +188,13 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
                         this.activeCubes.Remove(active);
                     }
                 }
+
                 this.surrounding.Clear();
             }
 
             return this.activeCubes.Count;
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -74,10 +74,10 @@ public static partial class InputFetcher
             await writer.WriteAsync(input);
         }
 
-        #if DEBUG
+#if DEBUG
         //Additionally write to project if in debug
         await CopyFileToProject(inputFile, Path.Combine(INPUT_FOLDER, year.ToString()), overwrite: false);
-        #endif
+#endif
 
         //Return the fetched input
         return input;
@@ -103,10 +103,10 @@ public static partial class InputFetcher
                 await JsonSerializer.SerializeAsync(emptyFileWriteStream, default, SettingsJsonContext.Default.Settings);
             }
 
-            #if DEBUG
+#if DEBUG
             // Copy to project folder
             await CopyFileToProject(settingsFile, INPUT_FOLDER);
-            #endif
+#endif
 
             // Prompt user to add cookie to file
             await Console.Error.WriteLineAsync("Could not find the input fetcher settings file, please add your cookie to the generated file.\n" + settingsFile.FullName);
@@ -152,10 +152,10 @@ public static partial class InputFetcher
             await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings);
         }
 
-        #if DEBUG
+#if DEBUG
         // Copy to project folder
         await CopyFileToProject(settingsFile, INPUT_FOLDER);
-        #endif
+#endif
 
         // Return fetched input
         return await responseReader.ReadToEndAsync();

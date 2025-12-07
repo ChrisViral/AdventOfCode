@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -32,7 +32,8 @@ public partial class Day14 : Solver<Day14.Chemical>
     /// </summary>
     /// <param name="name">Product name</param>
     public sealed class Chemical(string name) : IEquatable<Chemical>
-    {        /// <summary>
+    {
+        /// <summary>
         /// Product name
         /// </summary>
         public string Name { get; } = name;
@@ -95,7 +96,8 @@ public partial class Day14 : Solver<Day14.Chemical>
         /// String representation of this chemical
         /// </summary>
         /// <returns>String representation of this chemical</returns>
-        public override string ToString() => $"{string.Join(", ", this.Recipe)} => {this.Produced} {this.Name}";    }
+        public override string ToString() => $"{string.Join(", ", this.Recipe)} => {this.Produced} {this.Name}";
+    }
 
     /// <summary>
     /// Ore chemical name

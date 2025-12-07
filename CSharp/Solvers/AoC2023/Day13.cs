@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -17,6 +17,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 public sealed class Day13 : Solver<Grid<bool>[]>
 {
     private const char ROCK = '#';
+
     /// <summary>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -108,7 +108,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     }
 
     public int CalculateLoad(Grid<Rock> grid) => this.directionOrders[Direction.NORTH].Where(pos => grid[pos] is Rock.ROUND)
-                                                                                       .Sum(pos   => grid.Height - pos.Y);
+                                                     .Sum(pos => grid.Height - pos.Y);
 
     /// <inheritdoc />
     protected override Rock[] LineConverter(string line) => line.Select(c => (Rock)c).ToArray();

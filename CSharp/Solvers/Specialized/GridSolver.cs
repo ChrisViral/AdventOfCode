@@ -67,11 +67,11 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
                 {
                     grid.SetRow(y, LineConverter(rawInput[y]));
                 }
+
                 return grid;
 
             default:
                 throw new InvalidEnumArgumentException(nameof(this.ParseMode), (int)this.ParseMode, typeof(GridParseMode));
-
         }
     }
 

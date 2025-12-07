@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,13 +17,13 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
     /// </summary>
     public sealed class Bag : IEquatable<Bag>
     {
-            private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
+        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex BagNameMatch     = new(@"^([a-z ]+) bags contain", OPTIONS);
         private static readonly Regex BagContentsMatch = new(@"(\d+) ([a-z ]+) bags?", OPTIONS);
 
-            private (string, int)[]? containedBagNames;
+        private (string, int)[]? containedBagNames;
 
-            /// <summary>
+        /// <summary>
         /// Bag Name
         /// </summary>
         public string Name { get; }
@@ -38,7 +38,7 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
         /// </summary>
         public HashSet<Bag> ContainedBy { get; } = [];
 
-            /// <summary>
+        /// <summary>
         /// Creates a new bag from a given definition
         /// </summary>
         /// <param name="definition">Bag definition</param>
@@ -61,7 +61,7 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
             }
         }
 
-            /// <summary>
+        /// <summary>
         /// Sets up the references of this Bag
         /// </summary>
         /// <param name="definitions">List of bag references available</param>
@@ -90,7 +90,7 @@ public sealed class Day07 : Solver<Dictionary<string, Day07.Bag>>
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() => this.Name;
-        }
+    }
 
     /// <summary>
     /// Bag owned in the problem

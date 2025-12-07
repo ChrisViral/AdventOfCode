@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Extensions.Ranges;
@@ -20,7 +20,9 @@ public sealed class Day10 : Solver<Vector2<int>[]>
     /// <summary>
     /// Vaporizations to execute
     /// </summary>
-    private const int VAPORIZATIONS = 200;    /// <summary>
+    private const int VAPORIZATIONS = 200;
+
+    /// <summary>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
@@ -124,4 +126,5 @@ public sealed class Day10 : Solver<Vector2<int>[]>
             }
         }
         return asteroids.ToArray();
-    }}
+    }
+}

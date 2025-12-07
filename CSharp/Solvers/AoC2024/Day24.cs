@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,6 +25,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
         public string ID { get; } = id;
 
         protected bool? value;
+
         /// <summary>
         /// Wire value
         /// </summary>
@@ -126,6 +127,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
         Wire[] zWires = this.Data.Where(w => w.ID[0] is 'z')
                             .OrderByDescending(w => w.ID)
                             .ToArray();
+
         // Calculate outputted value
         long number = 0L;
         foreach (Wire wire in zWires)
@@ -143,6 +145,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
         GateWire[] gates = this.Data.Where(w => w is GateWire)
                                .Cast<GateWire>()
                                .ToArray();
+
         // Loop through all gates
         foreach (GateWire wire in gates)
         {

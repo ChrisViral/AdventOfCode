@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,13 +17,13 @@ public sealed class Day04 : Solver<Day04.Passport[]>
     /// </summary>
     public sealed class Passport
     {
-            private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
+        private const RegexOptions OPTIONS = RegexOptions.Compiled | RegexOptions.Singleline;
         private static readonly Regex HeightMatch = new(@"^(\d{2,3})(cm|in)$", OPTIONS);
         private static readonly Regex HairMatch   = new(@"^#[\da-f]{6}$", OPTIONS);
         private static readonly Regex IDMatch     = new(@"^\d{9}$", OPTIONS);
         private static readonly HashSet<string> ValidEyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
-            public string? byr;
+        public string? byr;
         public string? iyr;
         public string? eyr;
         public string? hgt;
@@ -31,7 +31,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
         public string? ecl;
         public string? pid;
 
-            public bool IsValid => this.byr is not null
+        public bool IsValid => this.byr is not null
                             && this.iyr is not null
                             && this.eyr is not null
                             && this.hgt is not null
@@ -39,7 +39,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
                             && this.ecl is not null
                             && this.pid is not null;
 
-            public bool Validate()
+        public bool Validate()
         {
             //Check the years
             if (!int.TryParse(this.byr, out int birthYear) || birthYear is < 1920 or > 2002) return false;
@@ -65,7 +65,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
             //Check colours and Passport ID
             return HairMatch.IsMatch(this.hcl!) && IDMatch.IsMatch(this.pid!) && ValidEyeColours.Contains(this.ecl!);
         }
-        }
+    }
 
     private const string PATTERN = "([a-z]{3}):([#a-z0-9]+)";
 
@@ -87,7 +87,6 @@ public sealed class Day04 : Solver<Day04.Passport[]>
         //Validate for Part 2
         AoCUtils.LogPart2(valid.Count(p => p.Validate()));
     }
-
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PATTERN,

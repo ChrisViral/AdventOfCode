@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;
@@ -16,16 +16,16 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
     /// </summary>
     public sealed class BoardingPass
     {
-            public const int MAX_ROW = 127;
+        public const int MAX_ROW = 127;
         public const int MAX_COLUMN = 7;
 
-            public int Row { get; }
+        public int Row { get; }
 
         public int Column { get; }
 
         public int Id { get; }
 
-            public BoardingPass(string pattern)
+        public BoardingPass(string pattern)
         {
             this.Row = BinarySearch(pattern[..7], 'F', MAX_ROW);
             this.Column = BinarySearch(pattern[7..], 'L', MAX_COLUMN);
@@ -53,7 +53,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
 
             return middle;
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed

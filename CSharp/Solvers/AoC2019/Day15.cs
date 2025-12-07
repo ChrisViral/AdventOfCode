@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -44,7 +44,9 @@ public sealed class Day15 : IntcodeSolver
     /// <summary>
     /// Environment map
     /// </summary>
-    private readonly ConsoleView<Element> map = new(41, 41, ShowElement, defaultValue: Element.UNKNOWN, fps: 60);    /// <summary>
+    private readonly ConsoleView<Element> map = new(41, 41, ShowElement, defaultValue: Element.UNKNOWN, fps: 60);
+
+    /// <summary>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
@@ -205,4 +207,5 @@ public sealed class Day15 : IntcodeSolver
         Element.PATH    => '·',
         Element.UNKNOWN => '░',
         _               => throw new InvalidEnumArgumentException(nameof(element), (int)element, typeof(Element))
-    };}
+    };
+}

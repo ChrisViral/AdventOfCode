@@ -15,6 +15,7 @@ public sealed class Safe<T>
     private readonly Lock locker = new();
 
     private T? value;
+
     /// <summary>
     /// Thread-safe access to the stored value.
     /// </summary>

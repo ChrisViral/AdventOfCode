@@ -11,7 +11,8 @@ namespace AdventOfCode.Intcode;
 /// </summary>
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
 public sealed class QueueInOut : IInputProvider, IOutputProvider
-{    /// <summary>
+{
+    /// <summary>
     /// Default queue capacity
     /// </summary>
     private const int DEFAULT_CAPACITY = 16;
@@ -97,4 +98,5 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     public IInputProvider Clone() => new QueueInOut(this.queue);
 
     /// <inheritdoc />
-    IOutputProvider IOutputProvider.Clone() => new QueueInOut(this.queue);}
+    IOutputProvider IOutputProvider.Clone() => new QueueInOut(this.queue);
+}

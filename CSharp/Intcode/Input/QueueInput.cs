@@ -9,7 +9,8 @@ namespace AdventOfCode.Intcode.Input;
 /// </summary>
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
 public sealed class QueueInput : IInputProvider
-{    /// <summary>
+{
+    /// <summary>
     /// Default queue capacity
     /// </summary>
     private const int DEFAULT_CAPACITY = 16;
@@ -64,4 +65,5 @@ public sealed class QueueInput : IInputProvider
     public void Clear() => this.inputQueue.Clear();
 
     /// <inheritdoc />
-    public IInputProvider Clone() => new QueueInput(this.inputQueue);}
+    public IInputProvider Clone() => new QueueInput(this.inputQueue);
+}

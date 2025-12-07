@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -36,9 +36,10 @@ public sealed class Day08 : Solver<(Direction[] directions, Dictionary<string, (
 
         HashSet<string> endNodes = new(this.Data.map.Keys.Where(n => n[^1] is 'Z'));
         long totalSteps = this.Data.map.Keys
-            .Where(n => n[^1] is 'A')
-            .Select(s => (long)CalculateSteps(s, endNodes.Contains))
-            .Aggregate(long.LCM);
+                              .Where(n => n[^1] is 'A')
+                              .Select(s => (long)CalculateSteps(s, endNodes.Contains))
+                              .Aggregate(long.LCM);
+
         AoCUtils.LogPart2(totalSteps);
     }
 

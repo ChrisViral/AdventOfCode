@@ -206,7 +206,6 @@ public static class SearchUtils
         //If the path is not found, return null
         if (foundGoal is null) return (null, null);
 
-
         //Trace the path and backtrack
         Stack<TValue> path = [];
         HashSet<TValue> unique = [];

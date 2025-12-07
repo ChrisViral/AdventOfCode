@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Collections;
@@ -174,7 +174,6 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         // Then push if valid
         PushBoxVertically(boxStart, warehouse, direction);
         return true;
-
     }
 
     private static bool TryMoveBoxHorizontal(Vector2<int> boxStart, ConsoleView<Element> warehouse, Direction direction)

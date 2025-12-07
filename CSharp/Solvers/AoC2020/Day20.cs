@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
     /// </summary>
     public sealed class Tile
     {
-            /// <summary>
+        /// <summary>
         /// Character representing a block pixel
         /// </summary>
         private const char BLACK = '#';
@@ -47,14 +47,14 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             new(19, 1)
         ];
 
-            private readonly char[][] image;
+        private readonly char[][] image;
         private char[] top;
         private char[] bottom;
         private char[] left;
         private char[] right;
         public bool ignoreBorders;
 
-            /// <summary>
+        /// <summary>
         /// Tile ID
         /// </summary>
         public int ID { get; }
@@ -64,14 +64,14 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// </summary>
         public int Size { get; }
 
-            /// <summary>
+        /// <summary>
         /// Gets the character at the given position in the image
         /// </summary>
         /// <param name="pos">Position to get</param>
         /// <returns>The character at the specified position</returns>
         public char this[in Vector2 pos] => this.image[pos.Y][pos.X];
 
-            /// <summary>
+        /// <summary>
         /// Creates a new tile from the given data and ID
         /// </summary>
         /// <param name="id">Tile ID</param>
@@ -115,7 +115,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             this.top = this.bottom = this.left = this.right = [];
         }
 
-            /// <summary>
+        /// <summary>
         /// Flips the image vertically
         /// </summary>
         public void FlipVertical()
@@ -219,6 +219,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
                         adjacent++;
                         break;
                     }
+
                     Rotate();
                 }
             }
@@ -300,7 +301,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             this.image.ForEach(l => builder.Append(l).AppendLine());
             return builder.ToString();
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed

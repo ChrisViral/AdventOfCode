@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,21 +18,22 @@ public sealed class Day21 : Solver<Day21.IngredientList[]>
     /// </summary>
     public sealed class IngredientList
     {
-            /// <summary>
+        /// <summary>
         /// Ingredient list regex pattern
         /// </summary>
         public const string PATTERN = @"([a-z ]+) \(contains ([a-z, ]+)\)";
 
-            /// <summary>
+        /// <summary>
         /// Ingredients
         /// </summary>
         public HashSet<string> Ingredients { get; }
+
         /// <summary>
         /// Possible allergens
         /// </summary>
         public HashSet<string> Allergens { get; }
 
-            /// <summary>
+        /// <summary>
         /// Creates a new IngredientList from the given ingredients and allergens
         /// </summary>
         /// <param name="ingredients">Space separated ingredients</param>
@@ -42,7 +43,7 @@ public sealed class Day21 : Solver<Day21.IngredientList[]>
             this.Ingredients = new HashSet<string>(ingredients.Split(' '));
             this.Allergens = new HashSet<string>(allergens.Split(", "));
         }
-        }
+    }
 
     /// <summary>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed

@@ -65,4 +65,5 @@ public sealed class QueueOutput : IOutputProvider
     public void Clear() => this.outputQueue.Clear();
 
     /// <inheritdoc />
-    public IOutputProvider Clone() => new QueueOutput(this.outputQueue);}
+    public IOutputProvider Clone() => new QueueOutput(this.outputQueue);
+}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Numbers;
@@ -26,7 +26,7 @@ public sealed class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
     /// </summary>
     /// <param name="input">Puzzle input</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day05(string input) : base(input)  => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
+    public Day05(string input) : base(input) => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
 
     /// <inheritdoc cref="Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity

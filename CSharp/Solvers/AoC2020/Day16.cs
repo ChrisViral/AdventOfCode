@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Extensions.Arrays;
@@ -18,33 +18,33 @@ public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ti
     /// </summary>
     public record Field(string Name, int FirstLower, int FirstUpper, int SecondLower, int SecondUpper)
     {
-            /// <summary>
+        /// <summary>
         /// Regex pattern
         /// </summary>
         public const string PATTERN = @"^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$";
 
-            /// <summary>
+        /// <summary>
         /// Checks if a given value is in the range of the field
         /// </summary>
         /// <param name="value">Value to check</param>
         /// <returns>True if the value is in the range, false otherwise</returns>
         public bool InRange(int value) => value >= this.FirstLower && value <= this.FirstUpper || value >= this.SecondLower && value <= this.SecondUpper;
-        }
+    }
 
     /// <summary>
     /// Ticket
     /// </summary>
     public sealed class Ticket
     {
-            public readonly int[] values;
+        public readonly int[] values;
 
-            /// <summary>
+        /// <summary>
         /// Creates a new ticket from a given input line
         /// </summary>
         /// <param name="line">Input to create the ticket values from</param>
         public Ticket(string line) => this.values = line.Split(',').ConvertAll(int.Parse);
 
-            /// <summary>
+        /// <summary>
         /// Gets the error value for this ticket from a list of possible fields
         /// </summary>
         /// <param name="fields">Fields to check</param>
@@ -70,7 +70,7 @@ public sealed class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ti
         /// <param name="position">Position to check</param>
         /// <returns>True if the field is valid at the given position, false otherwise</returns>
         public bool IsValid(Field field, int position) => field.InRange(this.values[position]);
-        }
+    }
 
     private const string TARGET_START = "departure";
 

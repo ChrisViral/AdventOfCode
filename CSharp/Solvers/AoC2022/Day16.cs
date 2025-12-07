@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -25,7 +25,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
     /// <param name="connectionsCount">Valve connections count</param>
     public sealed class Valve(string id, int flowRate, int connectionsCount) : IEquatable<Valve>
     {
-            /// <summary>
+        /// <summary>
         /// Valve ID
         /// </summary>
         private string ID { get; } = id;
@@ -45,7 +45,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
         /// </summary>
         public bool IsOpen { get; set; }
 
-            /// <inheritdoc/>
+        /// <inheritdoc/>
         public bool Equals(Valve? other) => this.ID == other?.ID;
 
         /// <inheritdoc/>
@@ -56,7 +56,7 @@ public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.ID} ({this.FlowRate})";
-        }
+    }
 
     /// <summary>
     /// Time for part 1

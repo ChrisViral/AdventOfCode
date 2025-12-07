@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -272,11 +272,11 @@ public sealed class Day18 : ArraySolver<Day18.Number>
         Number sum = this.Data.Sum();
         AoCUtils.LogPart1(sum.Magnitude);
 
-        int maxMagnitude = this.Data.
-                                SelectMany(n => this.Data
-                                                    .Where(m => m != n)
-                                                    .Select(m => n + m))
+        int maxMagnitude = this.Data.SelectMany(n => this.Data
+                                                         .Where(m => m != n)
+                                                         .Select(m => n + m))
                                .Max(n => n.Magnitude);
+
         AoCUtils.LogPart2(maxMagnitude);
     }
 

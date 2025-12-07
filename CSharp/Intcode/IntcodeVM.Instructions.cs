@@ -1,10 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
+
 // ReSharper disable RedundantOverflowCheckingContext
 
 namespace AdventOfCode.Intcode;
 
 public partial class IntcodeVM
-{    /// <summary>
+{
+    /// <summary>
     /// Adds values
     /// </summary>
     /// <param name="modesValue">Operand modes value</param>
@@ -143,4 +145,5 @@ public partial class IntcodeVM
     /// Halts execution
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void Halt() => this.Status = State.HALTED;}
+    private void Halt() => this.Status = State.HALTED;
+}
