@@ -19,7 +19,7 @@ public sealed class Day07 : Solver<Day07.Directory>
     /// <param name="Name">File name</param>
     /// <param name="Size">File size</param>
     [DebuggerDisplay("{Name}: {Size} bytes")]
-    private record File(string Name, int Size);
+    private sealed record File(string Name, int Size);
 
     /// <summary>
     /// Directory helper class

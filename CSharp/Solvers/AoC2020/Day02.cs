@@ -14,7 +14,7 @@ public sealed partial class Day02 : Solver<Day02.PasswordData[]>
     /// <summary>
     /// Password info data
     /// </summary>
-    public record PasswordData(int Min, int Max, char Target, string Password);
+    public sealed record PasswordData(int Min, int Max, char Target, string Password);
 
     [GeneratedRegex(@"(\d+)-(\d+) ([a-z]): ([a-z]+)")]
     private static partial Regex PasswordDataMatcher { get; }

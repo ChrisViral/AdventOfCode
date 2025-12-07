@@ -23,7 +23,7 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
     /// Packet integer value
     /// </summary>
     /// <param name="Value">Value of this packet element</param>
-    private record PacketValue(int Value) : IPacketElement
+    private sealed record PacketValue(int Value) : IPacketElement
     {
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(IPacketElement? other) => other switch

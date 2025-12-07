@@ -7,7 +7,7 @@ using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Vectors.Vector2<int>;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -28,7 +28,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// <summary>
         /// Position of every monster "pixel"
         /// </summary>
-        private static readonly Vector2[] Monster =
+        private static readonly Vector2<int>[] Monster =
         [
             new(0,  1),
             new(1,  2),
@@ -69,7 +69,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// </summary>
         /// <param name="pos">Position to get</param>
         /// <returns>The character at the specified position</returns>
-        public char this[in Vector2 pos] => this.image[pos.Y][pos.X];
+        public char this[in Vector2<int> pos] => this.image[pos.Y][pos.X];
 
         /// <summary>
         /// Creates a new tile from the given data and ID

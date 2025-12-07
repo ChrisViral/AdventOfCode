@@ -22,7 +22,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
     /// <param name="StartLocation">Guard start location</param>
     /// <param name="Grid">Environment grid</param>
     /// <param name="Visited">Visited locations/direction pairs</param>
-    private record SimulationData(Vector2<int> StartLocation, Grid<bool> Grid, HashSet<(Direction, Vector2<int>)> Visited)
+    private sealed record SimulationData(Vector2<int> StartLocation, Grid<bool> Grid, HashSet<(Direction, Vector2<int>)> Visited)
     {
         /// <summary>
         /// How many looping configurations have been found

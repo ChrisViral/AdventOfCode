@@ -12,19 +12,23 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 21
 /// </summary>
-public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
+public sealed partial class Day21 : Solver<Dictionary<string, Day21.Monkey>>
 {
     /// <summary>
     /// Monkey object
     /// </summary>
-    public sealed class Monkey
+    public sealed partial class Monkey
     {
         /// <summary>Root name</summary>
         private const string ROOT = "root";
         /// <summary>Self name</summary>
         private const string SELF = "humn";
-        /// <summary>Regex matcher</summary>
-        private static readonly Regex Matcher = new(@"([a-z]{4}): (?:(\d+)|([a-z]{4}) ([\+\-\*\/]) ([a-z]{4}))");
+
+        /// <summary>
+        /// Regex matcher
+        /// </summary>
+        [GeneratedRegex(@"([a-z]{4}): (?:(\d+)|([a-z]{4}) ([\+\-\*\/]) ([a-z]{4}))")]
+        private static partial Regex Matcher { get; }
 
         private readonly Dictionary<string, Monkey> monkeys;
         private readonly string? firstName;
@@ -36,25 +40,25 @@ public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         /// </summary>
         public string Name { get; }
 
-        private long? value;
+        private readonly long? value;
         /// <summary>
         /// Monkey value
         /// </summary>
         public long Value
         {
             get => this.value ?? FetchValue();
-            set => this.value = value;
+            private init => this.value = value;
         }
 
         /// <summary>
         /// If this monkey is the root
         /// </summary>
-        public bool IsRoot => this.Name is ROOT;
+        private bool IsRoot => this.Name is ROOT;
 
         /// <summary>
         /// If this monkey is self
         /// </summary>
-        public bool IsSelf => this.Name is SELF;
+        private bool IsSelf => this.Name is SELF;
 
         /// <summary>
         /// Creates a new monkey

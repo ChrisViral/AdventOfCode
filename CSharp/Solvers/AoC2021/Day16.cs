@@ -36,7 +36,7 @@ public sealed class Day16 : Solver<Day16.Packet>
     /// <param name="Version">Packet version</param>
     /// <param name="Type">Packet type</param>
     /// <param name="Size">Sub-packets size</param>
-    public record Packet(byte Version, PacketType Type, long Size)
+    public sealed record Packet(byte Version, PacketType Type, long Size)
     {
         /// <summary>Parsing StringBuilder</summary>
         private static readonly StringBuilder Builder = new();

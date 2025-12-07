@@ -26,7 +26,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     /// <summary>
     /// Instruction structure
     /// </summary>
-    public record Instruction(Operations Operation, int Value)
+    public sealed record Instruction(Operations Operation, int Value)
     {
         /// <summary>
         /// Creates a new instruction from a given line

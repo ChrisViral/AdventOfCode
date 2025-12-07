@@ -16,7 +16,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     /// </summary>
     /// <param name="Name">Name of the node</param>
     /// <param name="IsSmall">If it is a small node or not</param>
-    public record Cave(string Name, bool IsSmall)
+    public sealed record Cave(string Name, bool IsSmall)
     {
         /// <summary>
         /// If visiting this small node twice is allowed

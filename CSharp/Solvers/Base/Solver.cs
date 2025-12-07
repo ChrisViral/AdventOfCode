@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
