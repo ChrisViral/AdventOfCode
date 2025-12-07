@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -45,10 +46,9 @@ public sealed class Day18 : GridSolver<char>
     /// Branch path data
     /// </summary>
     /// <param name="Position">Position of robots</param>
-    /// <param name="Remaining">Remaining keys</param>
     /// <param name="Unlocked">Unlocked keys</param>
     /// <typeparam name="T">Position struct type</typeparam>
-    private readonly record struct BranchData<T>(T Position, int Remaining, BitVector32 Unlocked) where T : struct;
+    private readonly record struct BranchData<T>(T Position, BitVector32 Unlocked) where T : struct;
 
     /// <summary>
     /// Multi robot position data
@@ -272,14 +272,13 @@ public sealed class Day18 : GridSolver<char>
         where T : struct
     {
         // ReSharper disable once CognitiveComplexity
-        int FindBestKeyPathInternal(int remaining, ref BitVector32 unlocked, Dictionary<BranchData<T>, int> branchCache, int distanceSoFar, int bestSoFar)
+        int FindBestKeyPathInternal(HashSet<Key> remaining, ref BitVector32 unlocked, Dictionary<BranchData<T>, int> branchCache, int distanceSoFar, int bestSoFar)
         {
             int best = int.MaxValue;
-            foreach (Key key in keys)
+            Key[] keyArray = ArrayPool<Key>.Shared.Rent(remaining.Count);
+            remaining.CopyTo(keyArray);
+            foreach (Key key in keyArray.AsSpan(0, remaining.Count))
             {
-                // Ignore opened doors
-                if (key.IsOpen) continue;
-
                 // Get path length to key
                 int? keyDistance = key.GetCurrentPathLength(unlocked);
                 if (keyDistance is null) continue;
@@ -287,7 +286,7 @@ public sealed class Day18 : GridSolver<char>
                 int newDistanceSoFar = distanceSoFar + keyDistance.Value;
                 if (newDistanceSoFar >= bestSoFar) continue;
 
-                if (remaining is 1)
+                if (remaining.Count is 1)
                 {
                     best = Math.Min(best, newDistanceSoFar);
                     continue;
@@ -295,12 +294,13 @@ public sealed class Day18 : GridSolver<char>
 
                 // Open door and set robot to the position of the key
                 key.SetOpen(true, ref unlocked);
+                remaining.Remove(key);
                 Vector2<int> previousPosition = key.Robot.Position;
                 key.Robot.Position = key.KeyPosition;
 
                 // Recurse for path length
                 int distance;
-                BranchData<T> branch = new(getPositions(), remaining - 1, unlocked);
+                BranchData<T> branch = new(getPositions(), unlocked);
                 if (branchCache.TryGetValue(branch, out int subDistance))
                 {
                     // Cached path found, calculate final distance
@@ -309,25 +309,28 @@ public sealed class Day18 : GridSolver<char>
                 else
                 {
                     // Cached path not found, recurse to calculate length
-                    distance = FindBestKeyPathInternal(remaining - 1, ref unlocked, branchCache, newDistanceSoFar, bestSoFar);
+                    distance = FindBestKeyPathInternal(remaining, ref unlocked, branchCache, newDistanceSoFar, bestSoFar);
                     subDistance = distance is not int.MaxValue ? distance - newDistanceSoFar : int.MaxValue;
                     branchCache.Add(branch, subDistance);
                 }
 
                 // Restore robot position and door
                 key.Robot.Position = previousPosition;
+                remaining.Add(key);
                 key.SetOpen(false, ref unlocked);
 
                 // If a valid path is found, check if it's better than what we have
                 best = Math.Min(best, distance);
             }
 
+            ArrayPool<Key>.Shared.Return(keyArray);
             return best;
         }
 
         BitVector32 unlockedRef = new();
         Dictionary<BranchData<T>, int> cache = new(100);
-        return FindBestKeyPathInternal(keys.Length, ref unlockedRef, cache, 0, int.MaxValue);
+        HashSet<Key> remainingKeys = new(keys);
+        return FindBestKeyPathInternal(remainingKeys, ref unlockedRef, cache, 0, int.MaxValue);
     }
 
     /// <inheritdoc />

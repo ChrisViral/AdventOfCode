@@ -16,7 +16,9 @@ public sealed class Day19 : IntcodeSolver
     private const int MAP_SIZE = 50;
     private const int REQUIRED_SIZE = 100;
 
-    private static readonly Dictionary<Vector2<int>, bool> BeamMap = new(100);
+    private static readonly Dictionary<Vector2<int>, bool> BeamMap      = new(100);
+    private static readonly Dictionary<Vector2<int>, int> BeamWidthMap  = new(100);
+    private static readonly Dictionary<Vector2<int>, int> BeamHeightMap = new(100);
 
     /// <summary>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
@@ -78,27 +80,43 @@ public sealed class Day19 : IntcodeSolver
         return isAffected;
     }
 
-    private int GetBeamWidth(Vector2<int> position)
+    private int GetBeamWidth(in Vector2<int> startPosition)
     {
-        int width = 0;
+        if (BeamWidthMap.TryGetValue(startPosition + Vector2<int>.Left, out int width))
+        {
+            BeamWidthMap.Add(startPosition, --width);
+            return width;
+        }
+
+        width = 0;
+        Vector2<int> position = startPosition;
         while (IsAffected(position))
         {
             width++;
             position += Vector2<int>.Right;
         }
 
+        BeamWidthMap.Add(startPosition, width);
         return width;
     }
 
-    private int GetBeamHeight(Vector2<int> position)
+    private int GetBeamHeight(in Vector2<int> startPosition)
     {
-        int height = 0;
+        if (BeamHeightMap.TryGetValue(startPosition + Vector2<int>.Up, out int height))
+        {
+            BeamHeightMap.Add(startPosition, --height);
+            return height;
+        }
+
+        height = 0;
+        Vector2<int> position = startPosition;
         while (IsAffected(position))
         {
             height++;
             position += Vector2<int>.Down;
         }
 
+        BeamHeightMap.Add(startPosition, height);
         return height;
     }
 }
