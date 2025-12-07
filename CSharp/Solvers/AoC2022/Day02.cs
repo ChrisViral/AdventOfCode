@@ -12,7 +12,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// </summary>
 public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
 {
-    public readonly struct Move
+    public readonly struct Move(int value)
     {
         private const int LOSE = 0;
         private const int TIE  = 1;
@@ -21,13 +21,12 @@ public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
         private const int TIE_SCORE = 3;
         private const int WIN_SCORE = 6;
 
-        private readonly int value;
+        private readonly int value = value;
+
         /// <summary>
         /// Move value
         /// </summary>
-        public int Value => this.value + 1;
-
-        public Move(int value) => this.value = value;
+        private int Value => this.value + 1;
 
         /// <summary>
         /// Gets the resulting score from a match against the opponent

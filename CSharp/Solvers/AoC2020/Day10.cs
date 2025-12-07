@@ -30,12 +30,12 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
         /// <summary>
         /// Paths to final adapter from this one
         /// </summary>
-        public long Paths { get; set; } = 1L;
+        public long Paths { get; private set; } = 1L;
 
         /// <summary>
         /// List of compatible adapters with this one
         /// </summary>
-        public Adapter[]? Compatible { get; private set; }
+        private Adapter[]? Compatible { get; set; }
 
         /// <summary>
         /// Creates a new adapter with the specified jolts

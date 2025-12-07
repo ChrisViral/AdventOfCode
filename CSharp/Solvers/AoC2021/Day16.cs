@@ -80,6 +80,7 @@ public sealed class Day16 : Solver<Day16.Packet>
         /// <param name="bits">Binary string to parse the packet from</param>
         /// <param name="i">Current position within the string</param>
         /// <returns>The parsed packet, and the count of bits used while parsing</returns>
+        /// ReSharper disable once CognitiveComplexity
         private static (Packet packet, int used) ParsePacket(string bits, int i)
         {
             byte version    = ToByte(bits[i..(i += 3)], 2);

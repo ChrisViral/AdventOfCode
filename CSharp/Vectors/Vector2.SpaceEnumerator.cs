@@ -66,7 +66,7 @@ public readonly partial struct Vector2<T>
         public Vector2<T> Current => new(this.x, this.y);
 
         /// <inheritdoc />
-        object? IEnumerator.Current => this.Current;
+        object IEnumerator.Current => this.Current;
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

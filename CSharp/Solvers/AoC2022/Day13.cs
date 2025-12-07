@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -24,7 +23,7 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
     /// Packet integer value
     /// </summary>
     /// <param name="Value">Value of this packet element</param>
-    public record PacketValue(int Value) : IPacketElement
+    private record PacketValue(int Value) : IPacketElement
     {
         /// <inheritdoc cref="IComparable{T}.CompareTo"/>
         public int CompareTo(IPacketElement? other) => other switch
@@ -169,12 +168,8 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
         AoCUtils.LogPart1(inOrder);
 
         packets.Sort();
-        int firstDivider  = packets.FindIndex(p => p.Elements is [PacketList inner]
-                                                && inner.Elements is [PacketValue value]
-                                                && value.Value is 2);
-        int secondDivider = packets.FindIndex(p => p.Elements is [PacketList inner]
-                                                && inner.Elements is [PacketValue value]
-                                                && value.Value is 6);
+        int firstDivider  = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 2 }] }]);
+        int secondDivider = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 6 }] }]);
         AoCUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
     }
 

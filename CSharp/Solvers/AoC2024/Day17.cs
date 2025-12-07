@@ -35,6 +35,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     public Day17(string input) : base(input) { }
 
     /// <inheritdoc cref="Base.Solver.Run"/>
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         // Run with initial params
@@ -77,6 +78,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
         AoCUtils.LogPart2(minInitialA);
     }
 
+    // ReSharper disable once CognitiveComplexity
     private void RunProgram(long a, long b, long c)
     {
         long GetOperand(long operand) => operand switch

@@ -31,7 +31,7 @@ public sealed class Day09 : ArraySolver<long[]>
         AoCUtils.LogPart2(total);
     }
 
-    public long GetNextValue(in Span<long> values, bool backwards = false)
+    private static long GetNextValue(in Span<long> values, bool backwards = false)
     {
         Span<long> diff = stackalloc long[values.Length - 1];
         foreach (int i in 1..values.Length)

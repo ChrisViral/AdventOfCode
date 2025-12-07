@@ -52,7 +52,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         private char[] bottom;
         private char[] left;
         private char[] right;
-        public bool ignoreBorders;
+        private readonly bool ignoreBorders;
 
         /// <summary>
         /// Tile ID
@@ -118,7 +118,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// <summary>
         /// Flips the image vertically
         /// </summary>
-        public void FlipVertical()
+        private void FlipVertical()
         {
             for (int i = 0; i < this.Size / 2; /*i++*/)
             {
@@ -127,29 +127,29 @@ public sealed class Day20 : Solver<Day20.Tile[]>
 
             if (this.ignoreBorders) return;
 
-            ArrayExtensions.Reverse(this.left);
-            ArrayExtensions.Reverse(this.right);
+            this.left.ReverseInPlace();
+            this.right.ReverseInPlace();
             (this.top, this.bottom) = (this.bottom, this.top);
         }
 
         /// <summary>
         /// Flips the image horizontally
         /// </summary>
-        public void FlipHorizontal()
+        private void FlipHorizontal()
         {
-            this.image.ForEach(row => ArrayExtensions.Reverse(row));
+            this.image.ForEach(i => i.ReverseInPlace());
 
             if (this.ignoreBorders) return;
 
-            ArrayExtensions.Reverse(this.top);
-            ArrayExtensions.Reverse(this.bottom);
+            this.top.ReverseInPlace();
+            this.bottom.ReverseInPlace();
             (this.left, this.right) = (this.right, this.left);
         }
 
         /// <summary>
         /// Rotates the image counter clockwise
         /// </summary>
-        public void Rotate()
+        private void Rotate()
         {
             foreach (int j in ..(this.Size / 2))
             {
@@ -168,8 +168,8 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             (this.bottom, this.top) = (this.top, this.bottom);
             (this.right, this.top) = (this.top, this.right);
 
-            ArrayExtensions.Reverse(this.left);
-            ArrayExtensions.Reverse(this.right);
+            this.left.ReverseInPlace();
+            this.right.ReverseInPlace();
         }
 
         /// <summary>
@@ -200,6 +200,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         /// </summary>
         /// <param name="others">Other image to use to check for corner status</param>
         /// <returns>True if the image is a corner, false otherwise</returns>
+        /// ReSharper disable once CognitiveComplexity
         public bool IsCorner(IEnumerable<Tile> others)
         {
             int adjacent = 0;

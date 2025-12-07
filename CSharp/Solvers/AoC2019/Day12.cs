@@ -56,7 +56,7 @@ public sealed class Day12 : Solver<Day12.Moon[]>
     [UsedImplicitly]
     public sealed class Moon(int px, int py, int pz)
     {
-        public Vector3<int> position = new(px, py, pz);
+        private Vector3<int> position = new(px, py, pz);
         public Vector3<int> velocity = Vector3<int>.Zero;
 
         /// <summary>

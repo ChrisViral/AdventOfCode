@@ -32,7 +32,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     /// <summary>Start cave name</summary>
     private const string START = "start";
     /// <summary>End cave name</summary>
-    private const string END   = "end";
+    private const string END = "end";
 
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver for 2021 - 12 with the input data properly parsed
@@ -47,14 +47,14 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     {
         Cave start = this.Data[START];
         HashSet<Cave> visited = [start];
-        Stack<Cave> path      = new();
+        Stack<Cave> path = new();
 
         // Explore the caves and list the paths
         path.Push(start);
         HashSet<string> paths = new(ExploreCave(start, visited, path));
         AoCUtils.LogPart1(paths.Count);
 
-        foreach (Cave cave in this.Data.Values.Where(cave => cave.IsSmall && cave.Name is not START or END))
+        foreach (Cave cave in this.Data.Values.Where(cave => cave is { IsSmall: true, Name: not START and not END }))
         {
             // Set one small cave to be allowed twice and test
             cave.AllowTwice = true;

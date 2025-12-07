@@ -36,7 +36,7 @@ public sealed class Day06 : Solver<(int time, int record)[]>
         AoCUtils.LogPart2(total);
     }
 
-    public static T CountRecordBreaks<T>(T time, T record) where T : IBinaryInteger<T>
+    private static T CountRecordBreaks<T>(T time, T record) where T : IBinaryInteger<T>
     {
         T total = T.Zero;
         for (T held = T.One; held < time; held++)

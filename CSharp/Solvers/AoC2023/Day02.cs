@@ -17,9 +17,9 @@ public sealed class Day02 : Solver<Day02.Game[]>
         private const string TURN_PATTERN = @"(\d+) (red|green|blue)";
         private static readonly Regex SetMatch = new(TURN_PATTERN, RegexOptions.Compiled);
 
-        public int Red { get; init; }
-        public int Green { get; init; }
-        public int Blue { get; init; }
+        public int Red { get; private init; }
+        public int Green { get; private init; }
+        public int Blue { get; private init; }
 
         public Set(string turn)
         {

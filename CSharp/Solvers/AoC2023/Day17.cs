@@ -26,25 +26,24 @@ public sealed class Day17 : GridSolver<int>
         static abstract double Heuristic(T current);
     }
 
-    public readonly struct CruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps) : ICrucible<CruciblePath>
+    private readonly struct CruciblePath(Grid<int> grid, Vector2<int> position, Direction direction = Direction.RIGHT, int currentSteps = 0) : ICrucible<CruciblePath>
     {
-        public const int MAX_STEPS = 3;
+        private const int MAX_STEPS = 3;
 
-        public readonly Grid<int> grid        = grid;
-        public readonly Vector2<int> position = position;
-        public readonly Direction direction  = direction;
-        public readonly int currentSteps      = currentSteps;
+        private readonly Grid<int> grid        = grid;
+        private readonly Vector2<int> position = position;
+        private readonly Direction direction  = direction;
+        private readonly int currentSteps      = currentSteps;
 
         public int Loss { get; } = grid[position];
 
-        public CruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Direction.RIGHT, 0) { }
-
-        public CruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Direction.RIGHT, 0) { }
+        public CruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero) { }
 
         public override string ToString() => $"{position} - {this.direction}";
 
         public static IEnumerable<MoveData<CruciblePath, double>> Neighbours(CruciblePath current)
         {
+            // ReSharper disable DuplicatedSequentialIfBodies
             if (current.currentSteps < MAX_STEPS
              && TryGenerateSearchNode(current, current.direction, current.currentSteps + 1, out MoveData<CruciblePath, double>? node))
             {
@@ -58,6 +57,7 @@ public sealed class Day17 : GridSolver<int>
             {
                 yield return node!.Value;
             }
+            // ReSharper restore DuplicatedSequentialIfBodies
         }
 
         private static bool TryGenerateSearchNode(in CruciblePath current, Direction newDirection, int newSteps, out MoveData<CruciblePath, double>? node)
@@ -91,26 +91,25 @@ public sealed class Day17 : GridSolver<int>
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
     }
 
-    public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Direction direction, int currentSteps, int loss) : ICrucible<UltraCruciblePath>
+    public readonly struct UltraCruciblePath(Grid<int> grid, Vector2<int> position, Direction direction = Direction.RIGHT, int currentSteps = 0, int loss = 0) : ICrucible<UltraCruciblePath>
     {
-        public const int MIN_STEPS = 4;
-        public const int MAX_STEPS = 10;
+        private const int MIN_STEPS = 4;
+        private const int MAX_STEPS = 10;
 
-        public readonly Grid<int> grid = grid;
-        public readonly Vector2<int> position = position;
-        public readonly Direction direction = direction;
-        public readonly int currentSteps = currentSteps;
+        private readonly Grid<int> grid = grid;
+        private readonly Vector2<int> position = position;
+        private readonly Direction direction = direction;
+        private readonly int currentSteps = currentSteps;
 
         public int Loss { get; } = loss;
 
-        public UltraCruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero, Direction.RIGHT, 0, 0) { }
-
-        public UltraCruciblePath(Grid<int> grid, Vector2<int> position) : this(grid, position, Direction.RIGHT, 0, 0) { }
+        public UltraCruciblePath(Grid<int> grid) : this(grid, Vector2<int>.Zero) { }
 
         public override string ToString() => $"{position} - {this.direction}";
 
         public static IEnumerable<MoveData<UltraCruciblePath, double>> Neighbours(UltraCruciblePath current)
         {
+            // ReSharper disable DuplicatedSequentialIfBodies
             if (current.currentSteps < MAX_STEPS
              && TryGenerateSearchNode(current, current.direction, 1, current.currentSteps + 1, out MoveData<UltraCruciblePath, double>? node))
             {
@@ -124,6 +123,7 @@ public sealed class Day17 : GridSolver<int>
             {
                 yield return node!.Value;
             }
+            // ReSharper restrore DuplicatedSequentialIfBodies
         }
 
         private static bool TryGenerateSearchNode(in UltraCruciblePath current, Direction newDirection, int travelDistance, int newSteps, out MoveData<UltraCruciblePath, double>? node)
@@ -178,10 +178,10 @@ public sealed class Day17 : GridSolver<int>
     public override void Run()
     {
         Vector2<int> endPosition = new(this.Data.Width - 1, this.Data.Height - 1);
-        int heatLoss = GetMinLoss<CruciblePath>(new CruciblePath(this.Data), new CruciblePath(this.Data, endPosition));
+        int heatLoss = GetMinLoss(new CruciblePath(this.Data), new CruciblePath(this.Data, endPosition));
         AoCUtils.LogPart1(heatLoss);
 
-        heatLoss = GetMinLoss<UltraCruciblePath>(new UltraCruciblePath(this.Data), new UltraCruciblePath(this.Data, endPosition));
+        heatLoss = GetMinLoss(new UltraCruciblePath(this.Data), new UltraCruciblePath(this.Data, endPosition));
         AoCUtils.LogPart2(heatLoss);
     }
 

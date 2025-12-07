@@ -44,7 +44,6 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     /// <param name="input">Puzzle input</param>
     /// <param name="splitters">Splitting characters, defaults to newline only</param>
     /// <param name="options">Input parsing options, defaults to removing empty entries and trimming entries</param>
-    /// <param name="parseMode">Grid parse mode, defaults to populating from the string</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
     protected GridSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
 

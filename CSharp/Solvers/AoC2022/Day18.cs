@@ -48,6 +48,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         AoCUtils.LogPart2(surface);
     }
 
+    // ReSharper disable once CognitiveComplexity
     private static bool IsInPocket(Vector3<int> point,            Stack<Vector3<int>> search,
                                    HashSet<Vector3<int>> points,  HashSet<Vector3<int>> empty,
                                    HashSet<Vector3<int>> pockets, HashSet<Vector3<int>> outside,
@@ -62,9 +63,8 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         {
             foreach (Vector3<int> adjacent in current.Adjacent(false))
             {
-                if (visited.Contains(adjacent)) continue;
+                if (!visited.Add(adjacent)) continue;
 
-                visited.Add(adjacent);
                 if (pockets.Contains(adjacent)) return true;         // Connected to another pocket
                 if (outside.Contains(adjacent)) return false;        // Connected to outside air
                 if (empty.Contains(adjacent)) search.Push(adjacent); // Found another empty point to search through

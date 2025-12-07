@@ -19,14 +19,14 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
     /// </summary>
     /// <param name="oldValue">old worry value</param>
     /// <returns>The updated worry value</returns>
-    public delegate long WorryUpdate(long oldValue);
+    private delegate long WorryUpdate(long oldValue);
 
     /// <summary>
     /// Target monkey determination function
     /// </summary>
     /// <param name="value">Worry value</param>
     /// <returns>The index of the monkey to which the item should be sent</returns>
-    public delegate Index WorryTest(long value);
+    private delegate Index WorryTest(long value);
 
     /// <summary>
     /// Monkey object
@@ -41,12 +41,12 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
         /// <summary>
         /// Worry update function
         /// </summary>
-        public WorryUpdate Update { get; }
+        private WorryUpdate Update { get; }
 
         /// <summary>
         /// Worry test function
         /// </summary>
-        public WorryTest Test { get; }
+        private WorryTest Test { get; }
 
         /// <summary>
         /// Divisibility value for this monkey

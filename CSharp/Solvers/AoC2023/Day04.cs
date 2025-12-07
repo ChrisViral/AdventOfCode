@@ -12,16 +12,10 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// </summary>
 public sealed class Day04 : Solver<Day04.Card[]>
 {
-    public readonly struct Card
+    public readonly struct Card(string winning, string numbers)
     {
-        public readonly byte[] winning;
-        public readonly SearchValues<byte> numbers;
-
-        public Card(string winning, string numbers)
-        {
-            this.winning = winning.Split(' ', DEFAULT_OPTIONS).ConvertAll(byte.Parse);
-            this.numbers = SearchValues.Create(numbers.Split(' ', DEFAULT_OPTIONS).ConvertAll(byte.Parse));
-        }
+        public readonly byte[] winning = winning.Split(' ', DEFAULT_OPTIONS).ConvertAll(byte.Parse);
+        public readonly SearchValues<byte> numbers = SearchValues.Create(numbers.Split(' ', DEFAULT_OPTIONS).ConvertAll(byte.Parse));
     }
 
     private const string CARD_PATTERN = @"Card\s+\d+: ([\d\s]+) \| ([\d\s]+)";

@@ -16,7 +16,7 @@ public sealed class Day18 : Solver<string[][]>
     /// <summary>
     /// Numerical operation types
     /// </summary>
-    public enum Operation
+    private enum Operation
     {
         ADD,
         MULTIPLY
@@ -51,6 +51,7 @@ public sealed class Day18 : Solver<string[][]>
     /// </summary>
     /// <param name="expression">Tokenized expression to evaluate</param>
     /// <returns>The value of the expression</returns>
+    /// ReSharper disable once CognitiveComplexity
     private static long CalculateExpression(IEnumerable<string> expression)
     {
         //Setup
@@ -130,6 +131,7 @@ public sealed class Day18 : Solver<string[][]>
     /// </summary>
     /// <param name="expression">Tokenized expression to evaluate</param>
     /// <returns>The value of the expression</returns>
+    /// ReSharper disable once CognitiveComplexity
     private static long CalculateAdvancedExpression(IEnumerable<string> expression)
     {
         //Multiplied values

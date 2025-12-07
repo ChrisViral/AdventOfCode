@@ -39,6 +39,7 @@ public sealed class Day04 : Solver<Day04.Passport[]>
                             && this.ecl is not null
                             && this.pid is not null;
 
+        // ReSharper disable once CognitiveComplexity
         public bool Validate()
         {
             //Check the years

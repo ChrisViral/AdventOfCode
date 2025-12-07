@@ -22,13 +22,13 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
         HIGH
     }
 
-    public record struct Transmission(Module Sender, Pulse Pulse, string Label);
+    private record struct Transmission(Module Sender, Pulse Pulse, string Label);
 
     public abstract class Module(string label, string listeners) : IEquatable<Module>
     {
         public string Label { get; } = label;
 
-        public virtual string DisplayName => this.Label;
+        protected virtual string DisplayName => this.Label;
 
         public ReadOnlyCollection<string> Listeners { get; } = new(listeners.Split(',', DEFAULT_OPTIONS));
 
@@ -64,13 +64,13 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
         }
     }
 
-    public sealed class FlipFlopModule(string label, string listeners) : Module(label, listeners)
+    private sealed class FlipFlopModule(string label, string listeners) : Module(label, listeners)
     {
         public const char FLIPFLOP = '%';
 
-        public override string DisplayName => $"{FLIPFLOP}{this.Label}";
+        protected override string DisplayName => $"{FLIPFLOP}{this.Label}";
 
-        public bool State { get; private set; }
+        private bool State { get; set; }
 
         public override Pulse? HandlePulse(Module _, Pulse pulse)
         {
@@ -83,11 +83,11 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
         public override void Reset() => this.State = false;
     }
 
-    public sealed class ConjunctionModule(string label, string listeners) : Module(label, listeners)
+    private sealed class ConjunctionModule(string label, string listeners) : Module(label, listeners)
     {
         public const char CONJUNCTION = '&';
 
-        public override string DisplayName => $"{CONJUNCTION}{this.Label}";
+        protected override string DisplayName => $"{CONJUNCTION}{this.Label}";
 
         private readonly Dictionary<Module, Pulse> memory = new();
 
@@ -103,7 +103,7 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
                                                                            .ForEach(m => this.memory.Add(m, Pulse.LOW));
     }
 
-    public sealed class BroadcastModule(string label, string listeners) : Module(label, listeners)
+    private sealed class BroadcastModule(string label, string listeners) : Module(label, listeners)
     {
         public const string BROADCASTER = "broadcaster";
         public const char   BROADCAST   = 'b';

@@ -38,6 +38,7 @@ public sealed class Day20 : ArraySolver<long>
         AoCUtils.LogPart2(grove);
     }
 
+    // ReSharper disable once CognitiveComplexity
     private static long DecryptData(IEnumerable<long> data, int mixingCount = 1)
     {
         // Put the data into a linked list and extract the nodes

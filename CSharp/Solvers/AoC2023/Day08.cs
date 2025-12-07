@@ -43,7 +43,7 @@ public sealed class Day08 : Solver<(Direction[] directions, Dictionary<string, (
         AoCUtils.LogPart2(totalSteps);
     }
 
-    public int CalculateSteps(string start, Predicate<string> reachedEnd)
+    private int CalculateSteps(string start, Predicate<string> reachedEnd)
     {
         int i = 0;
         int steps = 0;

@@ -60,6 +60,7 @@ public sealed class Day01 : Solver
         AoCUtils.LogPart2(total);
     }
 
+    // ReSharper disable once CognitiveComplexity
     private int GetCalibrationValue(string data)
     {
         ReadOnlySpan<char> value = data;

@@ -17,7 +17,7 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
     private const string ORDER   = "23456789TJQKA";
     private const string J_ORDER = "J23456789TQKA";
 
-    public enum HandType
+    private enum HandType
     {
         HIGH_CARD,
         ONE_PAIR,
@@ -33,30 +33,29 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
         private const int HAND_SIZE = 5;
         private const char JOKER = 'J';
 
-        public readonly string cards;
-        public readonly int[] cardCounts;
+        private readonly string cards;
         public readonly int bid;
 
-        public bool UsesJokers { get; set; }
+        private bool UsesJokers { get; set; }
 
-        public HandType HandType { get; set; }
+        private HandType HandType { get; set; }
 
         public Hand(string data)
         {
             this.cards = data[..HAND_SIZE];
-            this.cardCounts = new int[ORDER.Length];
+            int[] cardCounts = new int[ORDER.Length];
             foreach (char card in this.cards)
             {
-                this.cardCounts[ORDER.IndexOf(card)]++;
+                cardCounts[ORDER.IndexOf(card)]++;
             }
 
             this.bid = int.Parse(data[(HAND_SIZE + 1)..]);
-            this.HandType = this.cardCounts.Max() switch
+            this.HandType = cardCounts.Max() switch
             {
                 5 => HandType.ALL_SAME,
                 4 => HandType.QUADRUPLE,
-                3 => this.cardCounts.Contains(2) ? HandType.FULL_HOUSE : HandType.TRIPLE,
-                2 => this.cardCounts.Count(c => c is 2) is 2 ? HandType.TWO_PAIR : HandType.ONE_PAIR,
+                3 => cardCounts.Contains(2) ? HandType.FULL_HOUSE : HandType.TRIPLE,
+                2 => cardCounts.Count(c => c is 2) is 2 ? HandType.TWO_PAIR : HandType.ONE_PAIR,
                 _ => HandType.HIGH_CARD
             };
         }
@@ -80,7 +79,7 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
             return 0;
         }
 
-        public int GetCardStrength(char c) => (this.UsesJokers ? J_ORDER : ORDER).IndexOf(c);
+        private int GetCardStrength(char c) => (this.UsesJokers ? J_ORDER : ORDER).IndexOf(c);
 
         public override string ToString() => $"{this.cards} {this.bid}";
 

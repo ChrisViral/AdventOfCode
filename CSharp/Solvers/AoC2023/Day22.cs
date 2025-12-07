@@ -19,9 +19,9 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
     {
         private readonly string data;
 
-        public Vector3<int> Min { get; private set; }
+        private Vector3<int> Min { get; set; }
 
-        public Vector3<int> Max { get; private set; }
+        private Vector3<int> Max { get; set; }
 
         public int Bottom => this.Min.Z;
 

@@ -61,6 +61,7 @@ public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
     /// <param name="fold">Fold to apply</param>
     /// <param name="grid">Grid to fold</param>
     /// <returns>The folded grid result</returns>
+    /// ReSharper disable once CognitiveComplexity
     private static Grid<bool> ApplyFold(Fold fold, Grid<bool> grid)
     {
         Grid<bool> updated = null!;

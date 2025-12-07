@@ -21,18 +21,16 @@ public sealed class Day15 : Solver<Day15.Instruction[]>
         INSERT = '='
     }
 
-    public readonly struct Instruction(string code, char operation, int strength)
+    public readonly struct Instruction(string code, char operation, int strength = -1)
     {
         public readonly string code         = code;
         public readonly Operation operation = (Operation)operation;
         public readonly int strength        = strength;
 
-        public Instruction(string code, char operation) : this(code, operation, -1) { }
-
         public override string ToString() => this.operation is Operation.INSERT ? $"{code}={this.strength}" : $"{code}-";
     }
 
-    public record struct Lens(string Label, int Strength);
+    private record struct Lens(string Label, int Strength);
 
     private const int BOXES = 256;
     private const string INSTRUCTION_PATTERN = @"([a-z]+)(=|-)(\d)?";

@@ -272,6 +272,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     /// Sorts the amphipods into their respective rooms
     /// </summary>
     /// <returns>The minimum energy expanded to sort the amphipods</returns>
+    /// ReSharper disable once CognitiveComplexity
     private int SortAmphipods()
     {
         // Deconstruct data
@@ -383,6 +384,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     private static bool IsPassable(HallwayNode[] blockers) => blockers.All(n => n.Current is Amphipod.NONE);
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// ReSharper disable once CognitiveComplexity
     protected override GraphData Convert(string[] rawInput)
     {
         // Get stacks

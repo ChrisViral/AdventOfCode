@@ -104,8 +104,8 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
         AoCUtils.LogPart2(final);
     }
 
-    public bool CheckValidInfinite(in Vector2<int> plot) => this.Data.garden[plot.X.Mod(this.Data.garden.Width),
-                                                                             plot.Y.Mod(this.Data.garden.Height)];
+    private bool CheckValidInfinite(in Vector2<int> plot) => this.Data.garden[plot.X.Mod(this.Data.garden.Width),
+                                                                              plot.Y.Mod(this.Data.garden.Height)];
 
     /// <inheritdoc />
     protected override (Grid<bool> garden, Vector2<int> start) Convert(string[] rawInput)

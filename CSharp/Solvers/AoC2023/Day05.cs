@@ -33,7 +33,7 @@ public sealed class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> 
 
         public readonly string from;
         public readonly string to;
-        public readonly MapRange[] ranges;
+        private readonly MapRange[] ranges;
 
         public Map(string map, string[] ranges)
         {

@@ -177,6 +177,7 @@ public sealed class Day21 : ArraySolver<(string code, int value)>
     /// <param name="move">Move sequence</param>
     /// <param name="depth">Proxy robot depth</param>
     /// <returns>The minimum move sequence length</returns>
+    // ReSharper disable once CognitiveComplexity
     private static long GetKeypadMoveLength(string move, int depth)
     {
         // At depth 0, no more recursion to do

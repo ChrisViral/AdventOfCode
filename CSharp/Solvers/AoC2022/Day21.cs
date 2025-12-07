@@ -20,16 +20,16 @@ public sealed class Day21 : Solver<Dictionary<string, Day21.Monkey>>
     public sealed class Monkey
     {
         /// <summary>Root name</summary>
-        public const string ROOT = "root";
+        private const string ROOT = "root";
         /// <summary>Self name</summary>
-        public const string SELF = "humn";
+        private const string SELF = "humn";
         /// <summary>Regex matcher</summary>
         private static readonly Regex Match = new(@"([a-z]{4}): (?:(\d+)|([a-z]{4}) ([\+\-\*\/]) ([a-z]{4}))", RegexOptions.Compiled);
 
-        public readonly Dictionary<string, Monkey> monkeys;
-        public readonly string? firstName;
-        public readonly string? secondName;
-        public readonly string? operation;
+        private readonly Dictionary<string, Monkey> monkeys;
+        private readonly string? firstName;
+        private readonly string? secondName;
+        private readonly string? operation;
 
         /// <summary>
         /// Monkey name

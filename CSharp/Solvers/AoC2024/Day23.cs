@@ -77,6 +77,7 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
         public string C { get; } = c.ID;
 
         /// <inheritdoc />
+        // ReSharper disable once CognitiveComplexity
         public bool Equals(NetworkGroup other)
         {
             if (this.A == other.A)

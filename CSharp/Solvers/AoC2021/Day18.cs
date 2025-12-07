@@ -17,15 +17,15 @@ public sealed class Day18 : ArraySolver<Day18.Number>
 {
     public sealed class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>
     {
-        public Number? Parent  { get; private set; }
+        private Number? Parent  { get; set; }
 
-        public Number? Left    { get; private set;  }
+        private Number? Left    { get; set;  }
 
-        public Number? Right   { get; private set;  }
+        private Number? Right   { get; set;  }
 
-        public int LeftValue   { get; private set;  }
+        private int LeftValue   { get; set;  }
 
-        public int RightValue  { get; private set;  }
+        private int RightValue  { get; set;  }
 
         private int Depth
         {
@@ -93,6 +93,7 @@ public sealed class Day18 : ArraySolver<Day18.Number>
             Parent = number.Parent;
         }
 
+        // ReSharper disable once CognitiveComplexity
         private void Explode()
         {
             Number root = this.Root;

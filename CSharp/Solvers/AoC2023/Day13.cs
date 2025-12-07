@@ -53,7 +53,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
         AoCUtils.LogPart2(total);
     }
 
-    public int FindSmudgedReflection(Grid<bool> grid, int ignoredLine)
+    private static int FindSmudgedReflection(Grid<bool> grid, int ignoredLine)
     {
         foreach (Vector2<int> pos in Vector2<int>.EnumerateOver(grid.Width, grid.Height))
         {

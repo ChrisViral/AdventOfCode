@@ -111,7 +111,7 @@ public static class ArrayExtensions
         }
 
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
-        public void Reverse() => Array.Reverse(array);
+        public void ReverseInPlace() => Array.Reverse(array);
 
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
         /// <returns>The array reversed in place</returns>

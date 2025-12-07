@@ -102,7 +102,8 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
         AoCUtils.LogPart2(distance);
     }
 
-    private bool CheckMatching(HashSet<Vector3<int>> references, List<Vector3<int>> beacons, out Vector3<int> scanner)
+    // ReSharper disable once CognitiveComplexity
+    private static bool CheckMatching(HashSet<Vector3<int>> references, List<Vector3<int>> beacons, out Vector3<int> scanner)
     {
         foreach (Vector3<int> reference in references)
         {

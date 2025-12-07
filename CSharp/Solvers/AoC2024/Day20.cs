@@ -69,6 +69,7 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
         }
     }
 
+    // ReSharper disable once CognitiveComplexity
     private int GetValidCheats(Vector2<int> startPosition, int time, FrozenDictionary<Vector2<int>, int> indices)
     {
         int validCheats = 0;

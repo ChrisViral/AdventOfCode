@@ -61,6 +61,7 @@ public sealed class Day14 : Solver<Day14.Instruction[]>
         /// <param name="address">Address to get all the masked versions for</param>
         /// <param name="bit">Current working bit, should always be called with default value</param>
         /// <returns>A sequence of all masked addresses, this will be of size 2^n for n unstable bits</returns>
+        /// ReSharper disable once CognitiveComplexity
         public IEnumerable<long> GetMaskedAddresses(long address, int bit = SIZE)
         {
             //If at a negative bit number, done, return

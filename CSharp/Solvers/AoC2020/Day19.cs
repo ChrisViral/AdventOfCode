@@ -86,6 +86,7 @@ public sealed class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
         /// Setups the pattern for this rule by looking at it's matches
         /// </summary>
         /// <param name="rules">Array of current rules</param>
+        /// ReSharper disable once CognitiveComplexity
         public void SetupPattern(Rule[] rules)
         {
             //Make sure the first match is not null

@@ -69,6 +69,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
         AoCUtils.LogPart2(total);
     }
 
+    // ReSharper disable once CognitiveComplexity
     public long CountMatches(string condition, ArraySegment<int> groups)
     {
         if (this.cache.TryGetValue((condition, groups), out long total)) return total;

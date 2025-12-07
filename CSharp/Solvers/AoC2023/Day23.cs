@@ -26,7 +26,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
         RIGHT = '>'
     }
 
-    public sealed class Node(Vector2<int> value) : IEquatable<Node>
+    private sealed class Node(Vector2<int> value) : IEquatable<Node>
     {
         private Vector2<int> Value { get; } = value;
 

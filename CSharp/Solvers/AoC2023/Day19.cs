@@ -93,7 +93,7 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
         };
     }
 
-    public record struct PartRange(Range X, Range M, Range A, Range S)
+    public readonly record struct PartRange(Range X, Range M, Range A, Range S)
     {
         public long ValidCount => (this.X.End.Value - this.X.Start.Value + 1L)
                                 * (this.M.End.Value - this.M.Start.Value + 1L)
@@ -105,7 +105,7 @@ public sealed class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows
                                 && (this.A.End.Value >= this.A.Start.Value)
                                 && (this.S.End.Value >= this.S.Start.Value);
 
-        public Range this[Category category] => category switch
+        private Range this[Category category] => category switch
         {
             Category.X => this.X,
             Category.M => this.M,

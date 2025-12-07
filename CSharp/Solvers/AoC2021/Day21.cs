@@ -56,7 +56,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
             // Calculate new player position and score
             int newPosition = (current.Position + move) % BOARD;
             int newScore    = current.Score + newPosition + 1;
-            (current, next) = (next, current with { Position = newPosition, Score = newScore });
+            (current, next) = (next, new Player(Position: newPosition, Score: newScore));
         }
         while (next.Score < 1000);
 
@@ -94,7 +94,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
             else
             {
                 // Keep simulating and switch players
-                SimulateGame(next, current with { Position = newPosition, Score = newScore }, ref totalNext, ref totalCurrent, newPermutations);
+                SimulateGame(next, new Player(Position: newPosition, Score: newScore), ref totalNext, ref totalCurrent, newPermutations);
             }
         }
     }

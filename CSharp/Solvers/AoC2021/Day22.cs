@@ -134,10 +134,10 @@ public sealed class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         for(int i = 1; i < this.Data.Length; i++)
         {
             (bool turnOn, Cuboid cube) = this.Data[i];
-            for (int j = 0; j < current.Count; j++)
+            foreach (Cuboid cuboid in current)
             {
                 // Get all subtracted cubes
-                int size = Cuboid.Subtract(current[j], cube, ref buffer);
+                int size = Cuboid.Subtract(cuboid, cube, ref buffer);
                 for (int k = 0; k < size; k++)
                 {
                     // Add the child if it has a positive volume

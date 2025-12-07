@@ -45,6 +45,7 @@ public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
     }
 
     /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// ReSharper disable once CognitiveComplexity
     protected override (Vector<byte>[], Vector<byte>[]) Convert(string[] rawInput)
     {
         // Init lock and keys

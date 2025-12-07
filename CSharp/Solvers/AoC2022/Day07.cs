@@ -1,7 +1,7 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
@@ -18,7 +18,8 @@ public sealed class Day07 : Solver<Day07.Directory>
     /// </summary>
     /// <param name="Name">File name</param>
     /// <param name="Size">File size</param>
-    public record File(string Name, int Size);
+    [DebuggerDisplay("{Name}: {Size} bytes")]
+    private record File(string Name, int Size);
 
     /// <summary>
     /// Directory helper class
@@ -31,7 +32,7 @@ public sealed class Day07 : Solver<Day07.Directory>
         /// <summary>
         /// Directory name
         /// </summary>
-        public string Name { get; }
+        private string Name { get; }
 
         /// <summary>
         /// Directory parent

@@ -21,22 +21,22 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         /// <summary>
         /// X component
         /// </summary>
-        public int X { get; }
+        private int X { get; }
 
         /// <summary>
         /// Y component
         /// </summary>
-        public int Y { get; }
+        private int Y { get; }
 
         /// <summary>
         /// Z component
         /// </summary>
-        public int Z { get; }
+        private int Z { get; }
 
         /// <summary>
         /// W component
         /// </summary>
-        public int W { get; }
+        private int W { get; }
 
         /// <summary>
         /// Creates a new 4 component vector
@@ -66,6 +66,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         /// Gets all the adjacent vectors to this one
         /// </summary>
         /// <returns></returns>
+        /// ReSharper disable once CognitiveComplexity
         public IEnumerable<Vector4> Adjacent()
         {
             for (int x = -1; x <= 1; x++)
@@ -157,6 +158,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         /// </summary>
         /// <param name="n">Turns amount</param>
         /// <returns>The number of active cubes at the end of the simulation</returns>
+        /// ReSharper disable once CognitiveComplexity
         public int Simulate(int n)
         {
             foreach (int _ in ..n)

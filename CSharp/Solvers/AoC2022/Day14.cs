@@ -17,7 +17,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     /// <summary>
     /// Cave element enum
     /// </summary>
-    public enum CaveElement
+    private enum CaveElement
     {
         EMPTY  = ' ',
         WALL   = '█',
@@ -96,7 +96,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     /// <inheritdoc cref="Solver{T}.Convert"/>
     protected override Vector2<int>[] ConvertLine(string line) => line.Split("->", DEFAULT_OPTIONS).Select(s => Vector2<int>.Parse(s)).ToArray();
 
-    public bool FillSand(Vector2<int> source, Grid<CaveElement> cave, ref int count, ref Vector2<int> position)
+    private static bool FillSand(Vector2<int> source, Grid<CaveElement> cave, ref int count, ref Vector2<int> position)
     {
         Vector2<int>? newPosition = cave.MoveWithinGrid(position, Direction.DOWN);
         if (newPosition is null) return false;

@@ -89,6 +89,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// <param name="p1Deck">Starting deck of the first player</param>
     /// <param name="p2Deck">Starting deck of the second player</param>
     /// <returns>A tuple containing the wining player and the final deck of the winning player</returns>
+    /// ReSharper disable once CognitiveComplexity
     public static (Player winner, Queue<int> deck) PlayRecursiveCombat(IEnumerable<int> p1Deck, IEnumerable<int> p2Deck)
     {
         //Create decks

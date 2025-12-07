@@ -161,6 +161,7 @@ public partial class Day14 : Solver<Day14.Chemical>
     /// </summary>
     /// <param name="productionQueue">Production queue</param>
     /// <returns>The ore consumed to produce the unit of fuel</returns>
+    /// ReSharper disable once CognitiveComplexity
     private int ProduceOneFuel(Queue<Chemical> productionQueue)
     {
         // Setup

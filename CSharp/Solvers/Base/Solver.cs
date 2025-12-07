@@ -40,8 +40,7 @@ public abstract class Solver : ISolver
         }
         else
         {
-            this.Data = input.Split(splitters ?? DefaultSplitters, options)
-                             .ToArray();
+            this.Data = input.Split(splitters ?? DefaultSplitters, options);
         }
     }
 

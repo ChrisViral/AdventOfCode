@@ -33,17 +33,17 @@ public sealed class Day17 : Solver<Direction[]>
         /// <summary>
         /// Rock bottom limit
         /// </summary>
-        public int BottomPoint => this.Anchor.Y + this.Bounds.Y;
+        private int BottomPoint => this.Anchor.Y + this.Bounds.Y;
 
         /// <summary>
         /// Rock left limit
         /// </summary>
-        public int LeftPoint => this.Anchor.X;
+        private int LeftPoint => this.Anchor.X;
 
         /// <summary>
         /// Rock right limit
         /// </summary>
-        public int RightPoint => this.Anchor.X + this.Bounds.X;
+        private int RightPoint => this.Anchor.X + this.Bounds.X;
 
         /// <summary>
         /// Pushes a rock in a direction, if possible

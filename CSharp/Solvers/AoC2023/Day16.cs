@@ -27,7 +27,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
     }
     // ReSharper restore IdentifierTypo
 
-    public struct State(Vector2<int> position, Direction direction) : IEquatable<State>
+    private struct State(Vector2<int> position, Direction direction) : IEquatable<State>
     {
         public Vector2<int> position  = position;
         public Direction   direction = direction;
@@ -98,7 +98,8 @@ public sealed class Day16 : GridSolver<Day16.Element>
         return count;
     }
 
-    public void PropagateBeam(State state)
+    // ReSharper disable once CognitiveComplexity
+    private void PropagateBeam(State state)
     {
         bool CanContinue(ref State s)
         {

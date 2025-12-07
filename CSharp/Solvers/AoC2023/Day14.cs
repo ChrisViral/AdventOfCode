@@ -6,6 +6,7 @@ using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.AoC2023;
 
@@ -14,6 +15,7 @@ namespace AdventOfCode.Solvers.AoC2023;
 /// </summary>
 public sealed class Day14 : GridSolver<Day14.Rock>
 {
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public enum Rock
     {
         EMPTY = '.',
