@@ -264,14 +264,14 @@ public static class SearchUtils
     /// <param name="heuristic">Heuristic function on the nodes</param>
     /// <param name="neighbours">Function finding neighbours for a given node</param>
     /// <param name="comparer">Comparer between different search nodes</param>
-    /// <param name="distances">Cached distances dictionary</param>
+    /// <param name="distances">Cached distances dictionary, creates a temporary one with 100 base capacity if not passed</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
     /// ReSharper disable once CognitiveComplexity
     public static int? GetPathLength<TValue, TCost>(TValue start, TValue goal,
                                                     [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                     [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                     IComparer<SearchNode<TValue, TCost>> comparer,
-                                                    Dictionary<(TValue, TValue), int> distances)
+                                                    Dictionary<(TValue, TValue), int>? distances = null)
         where TValue : IEquatable<TValue>
         where TCost : INumber<TCost>
     {
@@ -280,6 +280,7 @@ public static class SearchUtils
         PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
         search.Enqueue(new SearchNode<TValue, TCost>(start));
         Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
+        distances ??= new Dictionary<(TValue, TValue), int>(100);
 
         while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
