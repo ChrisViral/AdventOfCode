@@ -244,7 +244,15 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <returns>The length of the vector, in the specified floating point type</returns>
     private TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>
     {
-        return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z)));
+        if (!IsInteger)
+        {
+            return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z)));
+        }
+
+        long longX = long.CreateChecked(this.X);
+        long longY = long.CreateChecked(this.Y);
+        long longZ = long.CreateChecked(this.Z);
+        return TResult.Sqrt(TResult.CreateChecked((longX * longX) + (longY * longY) + (longZ * longZ)));
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
