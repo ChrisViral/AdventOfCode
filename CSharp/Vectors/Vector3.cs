@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using AdventOfCode.Extensions.Types;
@@ -201,15 +201,6 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     }
 
     /// <summary>
-    /// Scales the components of the vector by the specified factors
-    /// </summary>
-    /// <param name="scaleX">X component scale</param>
-    /// <param name="scaleY">Y component scale</param>
-    /// <param name="scaleZ">Z component scale</param>
-    /// <returns>The scaled vector</returns>
-    public Vector3<T> Scale(T scaleX, T scaleY, T scaleZ) => new(this.X * scaleX, this.Y * scaleY, this.Z * scaleZ);
-
-    /// <summary>
     /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
     /// </summary>
     /// <returns>An enumerator of all the vectors in the given range</returns>
@@ -278,6 +269,21 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     public static T ManhattanDistance(in Vector3<T> a, in Vector3<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y) + T.Abs(a.Z - b.Z);
 
     /// <summary>
+    /// Gives the absolute value of a given vector
+    /// </summary>
+    /// <param name="vector">Vector to get the absolute value of</param>
+    /// <returns>The <paramref name="vector"/> where all it's elements are positive</returns>
+    public static Vector3<T> Abs(in Vector3<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y), T.Abs(vector.Z));
+
+    /// <summary>
+    /// Does component-wise multiplication on the vectors
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The multiplied vector</returns>
+    public static Vector3<T> ComponentMultiply(in Vector3<T> a, in Vector3<T> b) => new(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+
+    /// <summary>
     /// Calculates the dot product of both vectors
     /// </summary>
     /// <param name="a">First vector</param>
@@ -286,11 +292,20 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     public static T Dot(in Vector3<T> a, in Vector3<T> b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 
     /// <summary>
-    /// Gives the absolute value of a given vector
+    /// Gets the minimum value vector for the passed values
     /// </summary>
-    /// <param name="vector">Vector to get the absolute value of</param>
-    /// <returns>Absolute value of the vector</returns>
-    public static Vector3<T> Abs(in Vector3<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y), T.Abs(vector.Z));
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The per-component minimum vector</returns>
+    public static Vector3<T> Min(in Vector3<T> a, in Vector3<T> b) => new(T.Min(a.X, b.X), T.Min(a.Y, b.Y), T.Min(a.Z, b.Z));
+
+    /// <summary>
+    /// Gets the maximum value vector for the passed values
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The per-component maximum vector</returns>
+    public static Vector3<T> Max(in Vector3<T> a, in Vector3<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y), T.Max(a.Z, b.Z));
 
     /// <summary>
     /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension

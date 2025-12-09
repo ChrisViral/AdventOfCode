@@ -43,7 +43,7 @@ public sealed class Day15 : GridSolver<byte>
             int risk = this.Data[position];
             foreach (Vector2<int> offset in Vector2<int>.EnumerateOver(FULL_SIZE, FULL_SIZE))
             {
-                Vector2<int> pos = position + offset.Scale(this.Data.Width, this.Data.Height);
+                Vector2<int> pos = position + Vector2<int>.ComponentMultiply(offset, this.Data.Dimensions);
                 int newRisk = risk + offset.X + offset.Y;
                 fullMap[pos] = (byte)(newRisk > 9 ? newRisk - 9 : newRisk);
             }

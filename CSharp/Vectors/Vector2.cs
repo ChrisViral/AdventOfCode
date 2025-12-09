@@ -25,7 +25,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
-    private static readonly T Epsilon = T.CreateChecked(1E-5);
+    private static readonly T Epsilon = !IsInteger ? T.CreateChecked(1E-5) : T.Zero;
     /// <summary>Zero vector</summary>
     public static readonly Vector2<T> Zero  = new(T.Zero, T.Zero);
     /// <summary>One vector</summary>
@@ -191,14 +191,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     }
 
     /// <summary>
-    /// Scales the components of the vector by the specified factors
-    /// </summary>
-    /// <param name="scaleX">X component scale</param>
-    /// <param name="scaleY">Y component scale</param>
-    /// <returns>The scaled vector</returns>
-    public Vector2<T> Scale(T scaleX, T scaleY) => new(this.X * scaleX, this.Y * scaleY);
-
-    /// <summary>
     /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
     /// </summary>
     /// <returns>An enumerator of all the vectors in the given range</returns>
@@ -299,6 +291,21 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     }
 
     /// <summary>
+    /// Gives the absolute value of a given vector
+    /// </summary>
+    /// <param name="vector">Vector to get the absolute value of</param>
+    /// <returns>The <paramref name="vector"/> where all it's elements are positive</returns>
+    public static Vector2<T> Abs(in Vector2<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y));
+
+    /// <summary>
+    /// Does component-wise multiplication on the vectors
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The multiplied vector</returns>
+    public static Vector2<T> ComponentMultiply(in Vector2<T> a, in Vector2<T> b) => new(a.X * b.X, a.Y * b.Y);
+
+    /// <summary>
     /// Calculates the dot product of both vectors
     /// </summary>
     /// <param name="a">First vector</param>
@@ -306,6 +313,22 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>The dot product of both vectors</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
     public static T Dot(in Vector2<T> a, in Vector2<T> b) => a.X * b.X + a.Y * b.Y;
+
+    /// <summary>
+    /// Gets the minimum value vector for the passed values
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The per-component minimum vector</returns>
+    public static Vector2<T> Min(in Vector2<T> a, in Vector2<T> b) => new(T.Min(a.X, b.X), T.Min(a.Y, b.Y));
+
+    /// <summary>
+    /// Gets the maximum value vector for the passed values
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The per-component maximum vector</returns>
+    public static Vector2<T> Max(in Vector2<T> a, in Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
 
     /// <summary>
     /// Rotates a vector by a specified angle, must be a multiple of 90 degrees
@@ -634,7 +657,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     public static implicit operator Vector2<T>((T x, T y) tuple) => new(tuple);
 
     /// <summary>
-    /// Casts from <see cref="Vector2"/> to <see cref="ValueTuple{T1, T2}"/>
+    /// Casts from <see cref="Vector2{T}"/> to <see cref="ValueTuple{T1, T2}"/>
     /// </summary>
     /// <param name="vector">Vector to cast from</param>
     public static implicit operator (T x, T y)(in Vector2<T> vector) => (vector.X, vector.Y);
