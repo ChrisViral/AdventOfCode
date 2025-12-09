@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Extensions.StringBuilders;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
@@ -272,16 +271,10 @@ public partial class Day17 : IntcodeSolver
     {
         // Print prompt
         this.VM.Run();
-        StringBuilder promptBuilder = new(10);
-        while (this.VM.Output.TryGetOutput(out long value))
-        {
-            promptBuilder.Append((char)value);
-        }
-        Console.Write(promptBuilder.ToStringAndClear());
+        Console.Write(this.VM.Output.ReadLine());
 
         // Push answer
-        line.ForEach(c => this.VM.Input.AddInput(c));
-        this.VM.Input.AddInput(END);
+        this.VM.Input.WriteLine(line);
         AoCUtils.Log(line);
     }
 

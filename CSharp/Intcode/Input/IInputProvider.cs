@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;
 
 /// <summary>
 /// Intcode input provider interface
 /// </summary>
+[PublicAPI]
 public interface IInputProvider
 {
     /// <summary>
@@ -29,6 +32,19 @@ public interface IInputProvider
     /// </summary>
     /// <param name="value"></param>
     void AddInput(long value);
+
+    /// <summary>
+    /// Adds a given string line to the input
+    /// </summary>
+    /// <param name="line">Line to add</param>
+    void WriteLine(params ReadOnlySpan<char> line)
+    {
+        foreach (char c in line)
+        {
+            AddInput(c);
+        }
+        AddInput('\n');
+    }
 
     /// <summary>
     /// Adds a set of values to the input

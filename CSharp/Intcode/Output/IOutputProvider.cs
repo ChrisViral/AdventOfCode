@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Text;
+using AdventOfCode.Extensions.StringBuilders;
+using JetBrains.Annotations;
+using SpanLinq;
 
 namespace AdventOfCode.Intcode.Output;
 
 /// <summary>
 /// Intcode output interface
 /// </summary>
+[PublicAPI]
 public interface IOutputProvider
 {
     /// <summary>
@@ -28,6 +33,24 @@ public interface IOutputProvider
     /// </summary>
     /// <returns>The next output value</returns>
     long GetOutput();
+
+    /// <summary>
+    /// Gets a newline terminated input line from the output
+    /// </summary>
+    /// <returns>The next input line</returns>
+    string ReadLine()
+    {
+        StringBuilder builder = ObjectPool<StringBuilder>.Shared.Rent();
+        while (TryGetOutput(out long value))
+        {
+            builder.Append((char)value);
+            if (value is '\n') break;
+        }
+
+        string result = builder.ToStringAndClear();
+        ObjectPool<StringBuilder>.Shared.Return(builder);
+        return result;
+    }
 
     /// <summary>
     /// Tries to get the next output value
