@@ -8,7 +8,7 @@ namespace AdventOfCode.Utils.Pooling;
 /// </summary>
 /// <typeparam name="T">Pool object type</typeparam>
 [PublicAPI]
-public sealed class HashsetObjectPool<T> : CollectionObjectPool<HashSet<T>, T>
+public sealed class HashSetObjectPool<T> : CollectionObjectPool<HashSet<T>, T>
 {
     /// <summary>
     /// HashSet pool policy
@@ -31,11 +31,11 @@ public sealed class HashsetObjectPool<T> : CollectionObjectPool<HashSet<T>, T>
     /// <summary>
     /// Shared pool instance
     /// </summary>
-    public static HashsetObjectPool<T> Shared { get; } = new(new Policy());
+    public static HashSetObjectPool<T> Shared { get; } = new(new Policy());
 
     /// <inheritdoc />
-    public HashsetObjectPool(Policy policy) : base(policy) { }
+    public HashSetObjectPool(Policy policy) : base(policy) { }
 
     /// <inheritdoc />
-    public HashsetObjectPool(Policy policy, int maximumRetained) : base(policy, maximumRetained) { }
+    public HashSetObjectPool(Policy policy, int maximumRetained) : base(policy, maximumRetained) { }
 }

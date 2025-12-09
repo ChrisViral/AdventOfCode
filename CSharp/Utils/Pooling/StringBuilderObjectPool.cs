@@ -8,7 +8,7 @@ namespace AdventOfCode.Utils.Pooling;
 /// StringBuilder object pool
 /// </summary>
 [PublicAPI]
-public class StringBuilderObjectPool : DefaultObjectPool<StringBuilder>
+public class StringBuilderObjectPool : WrappedObjectPool<StringBuilder>
 {
     /// <inheritdoc />
     public StringBuilderObjectPool(StringBuilderPooledObjectPolicy policy) : base(policy) { }

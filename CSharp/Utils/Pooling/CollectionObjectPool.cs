@@ -10,7 +10,7 @@ namespace AdventOfCode.Utils.Pooling;
 /// <typeparam name="T">Pool object type</typeparam>
 /// <typeparam name="TElement">Pool collection element type</typeparam>
 [PublicAPI]
-public abstract class CollectionObjectPool<T, TElement> : DefaultObjectPool<T> where T : class, ICollection<TElement>, new()
+public abstract class CollectionObjectPool<T, TElement> : WrappedObjectPool<T> where T : class, ICollection<TElement>, new()
 {
     /// <summary>
     /// Collection pool policy

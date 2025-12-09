@@ -46,7 +46,7 @@ public sealed class PriorityQueueObjectPool<T> : CollectionObjectPool<PriorityQu
     /// </summary>
     /// <param name="comparer">Comparer to get the pool for</param>
     /// <returns>A pool with the given comparer as it's factory object</returns>
-    public static PriorityQueueObjectPool<T> GetForComparer(IComparer<T> comparer)
+    public static PriorityQueueObjectPool<T> PoolForComparer(IComparer<T> comparer)
     {
         if (!ComparerPoolCache.TryGetValue(comparer, out PriorityQueueObjectPool<T>? pool))
         {
