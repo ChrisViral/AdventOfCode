@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using AdventOfCode.Extensions.StringBuilders;
+using AdventOfCode.Utils.Pooling;
 using JetBrains.Annotations;
-using SpanLinq;
 
 namespace AdventOfCode.Intcode.Output;
 
@@ -41,15 +40,14 @@ public interface IOutputProvider
     /// <returns>The next input line</returns>
     string ReadLine()
     {
-        StringBuilder builder = ObjectPool<StringBuilder>.Shared.Rent();
+        using Pooled<StringBuilder> builder = StringBuilderObjectPool.Shared.Get();
         while (TryGetValue(out long value))
         {
-            builder.Append((char)value);
+            builder.Ref.Append((char)value);
             if (value is '\n') break;
         }
 
-        string result = builder.ToStringAndClear();
-        ObjectPool<StringBuilder>.Shared.Return(builder);
+        string result = builder.Ref.ToString();
         return result;
     }
 

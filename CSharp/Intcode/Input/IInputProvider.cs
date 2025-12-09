@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;

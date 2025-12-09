@@ -141,10 +141,13 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
 /// Generic search node
 /// </summary>
 /// <typeparam name="T">Type of element stored by the node</typeparam>
+[PublicAPI]
 public sealed class SearchNode<T> : SearchNode<T, int> where T : IEquatable<T>
 {
+    /// <inheritdoc />
     public override int Cost => this.CostSoFar;
 
+    /// <inheritdoc cref="SearchNode{T, TCost}.Parent" />
     public new SearchNode<T>? Parent => base.Parent as SearchNode<T>;
 
     /// <inheritdoc />

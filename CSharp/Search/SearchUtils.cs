@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Utils.Pooling;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
@@ -58,12 +59,12 @@ public static class SearchUtils
         where TCost : INumber<TCost>
     {
         SearchNode<TValue, TCost>? foundGoal = null;
-        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
-        search.Enqueue(new SearchNode<TValue, TCost>(start));
-        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
+        Pooled<PriorityQueue<SearchNode<TValue, TCost>>> search = PriorityQueueObjectPool<SearchNode<TValue, TCost>>.PoolForComparer(comparer).Get();
+        search.Ref.Enqueue(new SearchNode<TValue, TCost>(start));
+        Pooled<Dictionary<SearchNode<TValue, TCost>, TCost>> explored = DictionaryObjectPool<SearchNode<TValue, TCost>, TCost>.Shared.Get();
         goalFound ??= (a, b) => a.Equals(b);
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
+        while (search.Ref.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal
             if (goalFound(current.Value, goal))
@@ -77,47 +78,47 @@ public static class SearchUtils
                                                                                                                                 n.Value, heuristic, current)))
             {
                 //Check if it's in the closed list
-                if (explored.TryGetValue(neighbour, out TCost? distance))
+                if (explored.Ref.TryGetValue(neighbour, out TCost? distance))
                 {
                     //If it is, check if we found a quicker way
                     if (distance <= neighbour.CostSoFar) continue;
 
                     //If so, remove from closed list, and add back to open list
-                    explored.Remove(neighbour);
-                    search.Enqueue(neighbour);
+                    explored.Ref.Remove(neighbour);
+                    search.Ref.Enqueue(neighbour);
                 }
                 //Check if it is in the open list
-                else if (search.Contains(neighbour))
+                else if (search.Ref.Contains(neighbour))
                 {
                     //If so, update the value if necessary
-                    search.Replace(neighbour);
+                    search.Ref.Replace(neighbour);
                 }
                 else
                 {
                     //Otherwise just add it
-                    search.Enqueue(neighbour);
+                    search.Ref.Enqueue(neighbour);
                 }
             }
 
             //Add to the closed list after exploring
-            explored.Add(current, current.CostSoFar);
+            explored.Ref.Add(current, current.CostSoFar);
         }
 
         //If the path is not found, return null
         if (foundGoal is null) return null;
 
         //Trace the path and backtrack
-        Stack<TValue> path = new();
+        Pooled<Stack<TValue>> path = StackObjectPool<TValue>.Shared.Get();
         //While the parent is not null
         while (foundGoal.Parent is not null)
         {
             //Push back and go deeper
-            path.Push(foundGoal.Value);
+            path.Ref.Push(foundGoal.Value);
             foundGoal = foundGoal.Parent;
         }
 
         //Copy the path back to an array and return
-        return path.ToArray();
+        return path.Ref.ToArray();
     }
 
     /// <summary>
@@ -144,13 +145,14 @@ public static class SearchUtils
         where TCost : INumber<TCost>
     {
         SearchNode<TValue, TCost>? foundGoal = null;
-        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
-        search.Enqueue(new SearchNode<TValue, TCost>(start));
-        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
-        Dictionary<SearchNode<TValue, TCost>, List<SearchNode<TValue, TCost>>> equivalentNodes = [];
+        Pooled<PriorityQueue<SearchNode<TValue, TCost>>> search = PriorityQueueObjectPool<SearchNode<TValue, TCost>>.PoolForComparer(comparer).Get();
+        search.Ref.Enqueue(new SearchNode<TValue, TCost>(start));
+        Pooled<Dictionary<SearchNode<TValue, TCost>, TCost>> explored = DictionaryObjectPool<SearchNode<TValue, TCost>, TCost>.Shared.Get();
+        Pooled<Dictionary<SearchNode<TValue, TCost>, List<SearchNode<TValue, TCost>>>> equivalentNodes =
+            DictionaryObjectPool<SearchNode<TValue, TCost>, List<SearchNode<TValue, TCost>>>.Shared.Get();
         goalFound ??= (a, b) => a.Equals(b);
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
+        while (search.Ref.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal
             if (goalFound(current.Value, goal))
@@ -164,23 +166,23 @@ public static class SearchUtils
                                                                                                                                 n.Value, heuristic, current)))
             {
                 //Check if it's in the closed list
-                if (explored.TryGetValue(neighbour, out TCost? distance))
+                if (explored.Ref.TryGetValue(neighbour, out TCost? distance))
                 {
                     //If it is, check if we found a quicker way
                     if (distance <= neighbour.CostSoFar) continue;
 
                     //If so, remove from closed list, and add back to open list
-                    explored.Remove(neighbour);
-                    search.Enqueue(neighbour);
-                    equivalentNodes[neighbour] = [neighbour];
+                    explored.Ref.Remove(neighbour);
+                    search.Ref.Enqueue(neighbour);
+                    equivalentNodes.Ref[neighbour] = [neighbour];
                 }
                 //Check if it is in the open list
-                else if (search.Contains(neighbour))
+                else if (search.Ref.Contains(neighbour))
                 {
                     //If so, update the value if necessary
-                    search.Replace(neighbour);
+                    search.Ref.Replace(neighbour);
 
-                    List<SearchNode<TValue, TCost>> otherBranches = equivalentNodes[neighbour];
+                    List<SearchNode<TValue, TCost>> otherBranches = equivalentNodes.Ref[neighbour];
                     SearchNode<TValue, TCost> previous = otherBranches[0];
                     if (previous.CostSoFar == neighbour.CostSoFar)
                     {
@@ -188,68 +190,68 @@ public static class SearchUtils
                     }
                     else if (previous.CostSoFar > neighbour.CostSoFar)
                     {
-                        equivalentNodes[neighbour] = [neighbour];
+                        equivalentNodes.Ref[neighbour] = [neighbour];
                     }
                 }
                 else
                 {
                     //Otherwise just add it
-                    search.Enqueue(neighbour);
-                    equivalentNodes[neighbour] = [neighbour];
+                    search.Ref.Enqueue(neighbour);
+                    equivalentNodes.Ref[neighbour] = [neighbour];
                 }
             }
 
             //Add to the closed list after exploring
-            explored.Add(current, current.CostSoFar);
+            explored.Ref.Add(current, current.CostSoFar);
         }
 
         //If the path is not found, return null
         if (foundGoal is null) return (null, null);
 
         //Trace the path and backtrack
-        Stack<TValue> path = [];
-        HashSet<TValue> unique = [];
-        Queue<SearchNode<TValue, TCost>> branchesQueue = [];
+        Pooled<Stack<TValue>> path = StackObjectPool<TValue>.Shared.Get();
+        Pooled<HashSet<TValue>> unique = HashSetObjectPool<TValue>.Shared.Get();
+        Pooled<Queue<SearchNode<TValue, TCost>>> branchesQueue = QueueObjectPool<SearchNode<TValue, TCost>>.Shared.Get();
 
         //While the parent is not null
         while (foundGoal.Parent is not null)
         {
             //Push back and go deeper
-            path.Push(foundGoal.Value);
-            unique.Add(foundGoal.Value);
+            path.Ref.Push(foundGoal.Value);
+            unique.Ref.Add(foundGoal.Value);
             foundGoal = foundGoal.Parent;
-            if (!equivalentNodes.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
+            if (!equivalentNodes.Ref.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
 
             foreach (SearchNode<TValue, TCost> branch in branches.Where(branch => !ReferenceEquals(branch, foundGoal)))
             {
-                branchesQueue.Enqueue(branch);
+                branchesQueue.Ref.Enqueue(branch);
             }
         }
 
-        unique.Add(foundGoal.Value);
+        unique.Ref.Add(foundGoal.Value);
 
-        while (branchesQueue.TryDequeue(out foundGoal))
+        while (branchesQueue.Ref.TryDequeue(out foundGoal))
         {
             //While the parent is not null
             while (foundGoal.Parent is not null)
             {
                 //Push back and go deeper
-                unique.Add(foundGoal.Value);
+                unique.Ref.Add(foundGoal.Value);
                 foundGoal = foundGoal.Parent;
 
-                if (!equivalentNodes.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
+                if (!equivalentNodes.Ref.TryGetValue(foundGoal, out List<SearchNode<TValue, TCost>>? branches) || branches.Count <= 1) continue;
 
                 foreach (SearchNode<TValue, TCost> branch in branches.Where(branch => !ReferenceEquals(branch, foundGoal)))
                 {
-                    branchesQueue.Enqueue(branch);
+                    branchesQueue.Ref.Enqueue(branch);
                 }
             }
 
-            unique.Add(foundGoal.Value);
+            unique.Ref.Add(foundGoal.Value);
         }
 
         //Copy the path back to an array and return
-        return (path.ToArray(), unique);
+        return (path.Ref.ToArray(), unique.Ref);
     }
 
     /// <summary>
@@ -277,12 +279,14 @@ public static class SearchUtils
     {
         int foundDistance = 0;
         SearchNode<TValue, TCost>? foundGoal = null;
-        PriorityQueue<SearchNode<TValue, TCost>> search = new(comparer);
-        search.Enqueue(new SearchNode<TValue, TCost>(start));
-        Dictionary<SearchNode<TValue, TCost>, TCost> explored = new();
-        distances ??= new Dictionary<(TValue, TValue), int>(100);
+        Pooled<PriorityQueue<SearchNode<TValue, TCost>>> search = PriorityQueueObjectPool<SearchNode<TValue, TCost>>.PoolForComparer(comparer).Get();
+        search.Ref.Enqueue(new SearchNode<TValue, TCost>(start));
+        Pooled<Dictionary<SearchNode<TValue, TCost>, TCost>> explored = DictionaryObjectPool<SearchNode<TValue, TCost>, TCost>.Shared.Get();
 
-        while (search.TryDequeue(out SearchNode<TValue, TCost>? current))
+        using Pooled<Dictionary<(TValue, TValue), int>> pooledDistances = distances is null ? DictionaryObjectPool<(TValue, TValue), int>.Shared.Get() : default;
+        distances ??= pooledDistances.Ref;
+
+        while (search.Ref.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal or the distance is cached
             if (current == goal || distances.TryGetValue((current.Value, goal), out foundDistance))
@@ -296,30 +300,30 @@ public static class SearchUtils
                                                                                                                                 n.Value, heuristic, current)))
             {
                 //Check if it's in the closed list
-                if (explored.TryGetValue(neighbour, out TCost? distance))
+                if (explored.Ref.TryGetValue(neighbour, out TCost? distance))
                 {
                     //If it is, check if we found a quicker way
                     if (!(distance > neighbour.CostSoFar)) continue;
 
                     //If so, remove from closed list, and add back to open list
-                    explored.Remove(neighbour);
-                    search.Enqueue(neighbour);
+                    explored.Ref.Remove(neighbour);
+                    search.Ref.Enqueue(neighbour);
                 }
                 //Check if it is in the open list
-                else if (search.Contains(neighbour))
+                else if (search.Ref.Contains(neighbour))
                 {
                     //If so, update the value if necessary
-                    search.Replace(neighbour);
+                    search.Ref.Replace(neighbour);
                 }
                 else
                 {
                     //Otherwise just add it
-                    search.Enqueue(neighbour);
+                    search.Ref.Enqueue(neighbour);
                 }
             }
 
             //Add to the closed list after exploring
-            explored.Add(current, current.CostSoFar);
+            explored.Ref.Add(current, current.CostSoFar);
         }
 
         //If we found the goal
@@ -348,11 +352,11 @@ public static class SearchUtils
     public static int? GetPathLengthBFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
         SearchNode<T>? foundGoal = null;
-        Queue<SearchNode<T>> search = new();
-        search.Enqueue(new SearchNode<T>(start));
-        HashSet<SearchNode<T>> explored = [];
+        Pooled<Queue<SearchNode<T>>> search = QueueObjectPool<SearchNode<T>>.Shared.Get();
+        search.Ref.Enqueue(new SearchNode<T>(start));
+        Pooled<HashSet<SearchNode<T>>> explored = HashSetObjectPool<SearchNode<T>>.Shared.Get();
 
-        while (search.TryDequeue(out SearchNode<T>? current))
+        while (search.Ref.TryDequeue(out SearchNode<T>? current))
         {
             // If we found the goal or the distance is cached
             if (current == goal)
@@ -365,14 +369,14 @@ public static class SearchUtils
             foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
                 //Check if it's in the closed or open list
-                if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
+                if (explored.Ref.Contains(neighbour) || search.Ref.Contains(neighbour)) continue;
 
                 //Otherwise just add it
-                search.Enqueue(neighbour);
+                search.Ref.Enqueue(neighbour);
             }
 
             // Add to the closed list after exploring
-            explored.Add(current);
+            explored.Ref.Add(current);
         }
 
         // Return path length
@@ -390,11 +394,11 @@ public static class SearchUtils
     public static int? GetPathLengthDFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
         SearchNode<T>? foundGoal = null;
-        Stack<SearchNode<T>> search = new();
-        search.Push(new SearchNode<T>(start));
-        HashSet<SearchNode<T>> explored = [];
+        Pooled<Stack<SearchNode<T>>> search = StackObjectPool<SearchNode<T>>.Shared.Get();
+        search.Ref.Push(new SearchNode<T>(start));
+        Pooled<HashSet<SearchNode<T>>> explored = HashSetObjectPool<SearchNode<T>>.Shared.Get();
 
-        while (search.TryPop(out SearchNode<T>? current))
+        while (search.Ref.TryPop(out SearchNode<T>? current))
         {
             // If we found the goal or the distance is cached
             if (current == goal)
@@ -407,14 +411,14 @@ public static class SearchUtils
             foreach (SearchNode<T> neighbour in neighbours(current.Value).Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
                 //Check if it's in the closed or open list
-                if (explored.Contains(neighbour) || search.Contains(neighbour)) continue;
+                if (explored.Ref.Contains(neighbour) || search.Ref.Contains(neighbour)) continue;
 
                 //Otherwise just add it
-                search.Push(neighbour);
+                search.Ref.Push(neighbour);
             }
 
             // Add to the closed list after exploring
-            explored.Add(current);
+            explored.Ref.Add(current);
         }
 
         // Return path length
@@ -431,16 +435,16 @@ public static class SearchUtils
     /// <returns>The length of the path, if found, otherwise <see langword="null"/></returns>
     public static double? GetMaxPathLengthDFS<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
     {
-        List<SearchNode<T>> foundEndNodes = [];
-        Stack<SearchNode<T>> search = new();
-        search.Push(new SearchNode<T>(start));
+        Pooled<List<SearchNode<T>>> foundEndNodes = ListObjectPool<SearchNode<T>>.Shared.Get();
+        Pooled<Stack<SearchNode<T>>> search = StackObjectPool<SearchNode<T>>.Shared.Get();
+        search.Ref.Push(new SearchNode<T>(start));
 
-        while (search.TryPop(out SearchNode<T>? current))
+        while (search.Ref.TryPop(out SearchNode<T>? current))
         {
             // If we found the goal or the distance is cached
             if (current == goal)
             {
-                foundEndNodes.Add(current);
+                foundEndNodes.Ref.Add(current);
                 continue;
             }
 
@@ -449,11 +453,11 @@ public static class SearchUtils
                                                                          .Select(n => new SearchNode<T>(current.CostSoFar + 1, n, current)))
             {
                 // Otherwise just add it
-                search.Push(neighbour);
+                search.Ref.Push(neighbour);
             }
         }
 
         // Return path length
-        return !foundEndNodes.IsEmpty ? foundEndNodes.Max(n => n.Cost) : null;
+        return !foundEndNodes.Ref.IsEmpty ? foundEndNodes.Ref.Max(n => n.Cost) : null;
     }
 }

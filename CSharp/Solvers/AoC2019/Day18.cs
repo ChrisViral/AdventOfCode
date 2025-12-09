@@ -12,6 +12,7 @@ using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Pooling;
 using AdventOfCode.Vectors;
 using JetBrains.Annotations;
 
@@ -275,9 +276,9 @@ public sealed class Day18 : GridSolver<char>
         int FindBestKeyPathInternal(HashSet<Key> remaining, ref BitVector32 unlocked, Dictionary<BranchData<T>, int> branchCache, int distanceSoFar, int bestSoFar)
         {
             int best = int.MaxValue;
-            Key[] keyArray = ArrayPool<Key>.Shared.Rent(remaining.Count);
-            remaining.CopyTo(keyArray);
-            foreach (Key key in keyArray.AsSpan(0, remaining.Count))
+            PooledArray<Key> keyArray = ArrayPool<Key>.Shared.RentTracked(remaining.Count);
+            remaining.CopyTo(keyArray.Ref);
+            foreach (Key key in keyArray.Ref.AsSpan(0, remaining.Count))
             {
                 // Get path length to key
                 int? keyDistance = key.GetCurrentPathLength(unlocked);
@@ -323,7 +324,6 @@ public sealed class Day18 : GridSolver<char>
                 best = Math.Min(best, distance);
             }
 
-            ArrayPool<Key>.Shared.Return(keyArray);
             return best;
         }
 
