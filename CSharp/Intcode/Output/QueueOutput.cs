@@ -41,19 +41,19 @@ public sealed class QueueOutput : IOutputProvider
     public void AddOutput(long value) => this.outputQueue.Enqueue(value);
 
     /// <inheritdoc />
-    public long GetOutput() => this.outputQueue.Dequeue();
+    public long GetValue() => this.outputQueue.Dequeue();
 
     /// <inheritdoc />
-    public bool TryGetOutput(out long value) => this.outputQueue.TryDequeue(out value);
+    public bool TryGetValue(out long value) => this.outputQueue.TryDequeue(out value);
 
     /// <inheritdoc />
-    public long PeekOutput() => this.outputQueue.Peek();
+    public long PeekValue() => this.outputQueue.Peek();
 
     /// <inheritdoc />
-    public bool TryPeekOutput(out long value) => this.outputQueue.TryPeek(out value);
+    public bool TryPeekValue(out long value) => this.outputQueue.TryPeek(out value);
 
     /// <inheritdoc />
-    public IEnumerable<long> GetAllOutput()
+    public IEnumerable<long> GetAllValues()
     {
         while (this.outputQueue.TryDequeue(out long value))
         {

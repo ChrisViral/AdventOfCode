@@ -87,7 +87,7 @@ public partial class Day17 : IntcodeSolver
         int skip = (grid.Width + 1) * grid.Height + 1;
         foreach (int _ in ..skip)
         {
-            this.VM.Output.GetOutput();
+            this.VM.Output.GetValue();
         }
 
         // Setup inputs
@@ -99,7 +99,7 @@ public partial class Day17 : IntcodeSolver
 
         // Start robot
         this.VM.Run();
-        this.VM.Output.GetOutput();
+        this.VM.Output.GetValue();
         PrintView(grid);
 
         // Video feed
@@ -111,7 +111,7 @@ public partial class Day17 : IntcodeSolver
             }
         }
 
-        AoCUtils.LogPart2(this.VM.Output.GetOutput());
+        AoCUtils.LogPart2(this.VM.Output.GetValue());
     }
 
     private List<List<Element>> GetRows(ref Vector2<int> startPosition, ref Direction startDirection)
@@ -122,7 +122,7 @@ public partial class Day17 : IntcodeSolver
         {
             int x = 0;
             List<Element> currentRow = new(rows.Count is not 0 ? rows[0].Count : 16);
-            while (this.VM.Output.TryGetOutput(out long value) && value is not END)
+            while (this.VM.Output.TryGetValue(out long value) && value is not END)
             {
                 Element current = (Element)value;
                 switch (current)
@@ -284,11 +284,11 @@ public partial class Day17 : IntcodeSolver
         {
             foreach (int x in ..grid.Width)
             {
-                grid[x, y] = (Element)this.VM.Output.GetOutput();
+                grid[x, y] = (Element)this.VM.Output.GetValue();
             }
-            this.VM.Output.GetOutput();
+            this.VM.Output.GetValue();
         }
-        this.VM.Output.GetOutput();
+        this.VM.Output.GetValue();
         grid.PrintToConsole();
     }
 }

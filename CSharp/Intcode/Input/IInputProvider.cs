@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;
@@ -31,19 +33,20 @@ public interface IInputProvider
     /// Adds the given value to the input
     /// </summary>
     /// <param name="value"></param>
-    void AddInput(long value);
+    void AddValue(long value);
 
     /// <summary>
     /// Adds a given string line to the input
     /// </summary>
     /// <param name="line">Line to add</param>
-    void WriteLine(params ReadOnlySpan<char> line)
+    void WriteLine(string line)
     {
+        Trace.WriteLine(line);
         foreach (char c in line)
         {
-            AddInput(c);
+            AddValue(c);
         }
-        AddInput('\n');
+        AddValue('\n');
     }
 
     /// <summary>

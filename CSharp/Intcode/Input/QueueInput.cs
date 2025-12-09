@@ -47,7 +47,7 @@ public sealed class QueueInput : IInputProvider
     public QueueInput(Queue<long> queue) => this.inputQueue = queue;
 
     /// <inheritdoc />
-    public void AddInput(long value) => this.inputQueue.Enqueue(value);
+    public void AddValue(long value) => this.inputQueue.Enqueue(value);
 
     /// <inheritdoc />
     public void FillInput(IEnumerable<long> values)

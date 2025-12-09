@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using AdventOfCode.Extensions.StringBuilders;
 using JetBrains.Annotations;
@@ -32,7 +33,7 @@ public interface IOutputProvider
     /// Gets the next output value and removes it
     /// </summary>
     /// <returns>The next output value</returns>
-    long GetOutput();
+    long GetValue();
 
     /// <summary>
     /// Gets a newline terminated input line from the output
@@ -41,7 +42,7 @@ public interface IOutputProvider
     string ReadLine()
     {
         StringBuilder builder = ObjectPool<StringBuilder>.Shared.Rent();
-        while (TryGetOutput(out long value))
+        while (TryGetValue(out long value))
         {
             builder.Append((char)value);
             if (value is '\n') break;
@@ -53,30 +54,46 @@ public interface IOutputProvider
     }
 
     /// <summary>
+    /// Prints the next input line
+    /// </summary>
+    void PrintLine() => Trace.Write(ReadLine());
+
+    /// <summary>
+    /// Prints all input lines
+    /// </summary>
+    void PrintAllLines()
+    {
+        while (!this.IsEmpty)
+        {
+            PrintLine();
+        }
+    }
+
+    /// <summary>
     /// Tries to get the next output value
     /// </summary>
     /// <param name="value">The output value, if found</param>
     /// <returns><see langword="true"/> if an output value was found, otherwise <see langword="false"/></returns>
-    bool TryGetOutput(out long value);
+    bool TryGetValue(out long value);
 
     /// <summary>
     /// Peeks the next output value without removing it
     /// </summary>
     /// <returns>The next output value</returns>
-    long PeekOutput();
+    long PeekValue();
 
     /// <summary>
     /// Tries to get the next output value without removing it
     /// </summary>
     /// <param name="value">The output value, if found</param>
     /// <returns><see langword="true"/> if an output value was found, otherwise <see langword="false"/></returns>
-    bool TryPeekOutput(out long value);
+    bool TryPeekValue(out long value);
 
     /// <summary>
     /// Enumerates and removes all output values
     /// </summary>
     /// <returns>Enumerable of the output values</returns>
-    IEnumerable<long> GetAllOutput();
+    IEnumerable<long> GetAllValues();
 
     /// <summary>
     /// Clears the output provider

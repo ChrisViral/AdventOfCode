@@ -69,12 +69,12 @@ public sealed class Day19 : IntcodeSolver
         if (BeamMap.TryGetValue(position, out bool isAffected)) return isAffected;
 
         // Run VM
-        this.VM.Input.AddInput(position.X);
-        this.VM.Input.AddInput(position.Y);
+        this.VM.Input.AddValue(position.X);
+        this.VM.Input.AddValue(position.Y);
         this.VM.Run();
 
         // Get and cache result
-        isAffected = this.VM.Output.GetOutput() is IntcodeVM.TRUE;
+        isAffected = this.VM.Output.GetValue() is IntcodeVM.TRUE;
         this.VM.Reset();
         BeamMap.Add(position, isAffected);
         return isAffected;

@@ -51,7 +51,7 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     public QueueInOut(Queue<long> queue) => this.queue = queue;
 
     /// <inheritdoc />
-    public void AddInput(long value) => this.queue.Enqueue(value);
+    public void AddValue(long value) => this.queue.Enqueue(value);
 
     /// <inheritdoc />
     public void FillInput(IEnumerable<long> values)
@@ -69,19 +69,19 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     public void AddOutput(long value) => this.queue.Enqueue(value);
 
     /// <inheritdoc />
-    public long GetOutput() => this.queue.Dequeue();
+    public long GetValue() => this.queue.Dequeue();
 
     /// <inheritdoc />
-    public bool TryGetOutput(out long value) => this.queue.TryDequeue(out value);
+    public bool TryGetValue(out long value) => this.queue.TryDequeue(out value);
 
     /// <inheritdoc />
-    public long PeekOutput() => this.queue.Peek();
+    public long PeekValue() => this.queue.Peek();
 
     /// <inheritdoc />
-    public bool TryPeekOutput(out long value) => this.queue.TryPeek(out value);
+    public bool TryPeekValue(out long value) => this.queue.TryPeek(out value);
 
     /// <inheritdoc />
-    public IEnumerable<long> GetAllOutput()
+    public IEnumerable<long> GetAllValues()
     {
         while (this.queue.TryDequeue(out long value))
         {

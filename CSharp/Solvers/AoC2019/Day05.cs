@@ -22,13 +22,13 @@ public sealed class Day05 : IntcodeSolver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        this.VM.Input.AddInput(1L);
+        this.VM.Input.AddValue(1L);
         this.VM.Run();
-        AoCUtils.LogPart1(this.VM.Output.GetAllOutput().Last());
+        AoCUtils.LogPart1(this.VM.Output.GetAllValues().Last());
 
         this.VM.Reset();
-        this.VM.Input.AddInput(5L);
+        this.VM.Input.AddValue(5L);
         this.VM.Run();
-        AoCUtils.LogPart2(this.VM.Output.GetOutput());
+        AoCUtils.LogPart2(this.VM.Output.GetValue());
     }
 }

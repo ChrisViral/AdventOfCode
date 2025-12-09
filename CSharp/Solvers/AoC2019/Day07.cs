@@ -54,12 +54,12 @@ public sealed class Day07 : IntcodeSolver
         {
             foreach (int i in ..amplifiers.Length)
             {
-                amplifiers[i].Input.AddInput(ampPerm[i]);
+                amplifiers[i].Input.AddValue(ampPerm[i]);
             }
 
-            ampA.Input.AddInput(0L);
+            ampA.Input.AddValue(0L);
             amplifiers.ForEach(amp => amp.Run());
-            maxOutput = Math.Max(maxOutput, ampE.Output.GetOutput());
+            maxOutput = Math.Max(maxOutput, ampE.Output.GetValue());
             amplifiers.ForEach(amp => amp.Reset());
         }
         AoCUtils.LogPart1(maxOutput);
@@ -77,17 +77,17 @@ public sealed class Day07 : IntcodeSolver
         {
             foreach (int i in ..amplifiers.Length)
             {
-                amplifiers[i].Input.AddInput(ampPerm[i]);
+                amplifiers[i].Input.AddValue(ampPerm[i]);
             }
 
-            ampA.Input.AddInput(0L);
+            ampA.Input.AddValue(0L);
             do
             {
                 amplifiers.ForEach(amp => amp.Run());
             }
             while (!ampE.IsHalted);
 
-            maxOutput = Math.Max(maxOutput, ampE.Output.GetOutput());
+            maxOutput = Math.Max(maxOutput, ampE.Output.GetValue());
             amplifiers.ForEach(amp => amp.Reset());
         }
 
