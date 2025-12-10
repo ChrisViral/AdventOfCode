@@ -10,7 +10,7 @@ namespace AdventOfCode.Utils;
 /// <typeparam name="TElement">Type of element being processed</typeparam>
 /// <typeparam name="TData">Thread data container type</typeparam>
 [PublicAPI]
-public abstract class ParallelHelper<TElement, TData> where TData : class
+public abstract class ParallelHelper<TElement, TData> where TData : class?
 {
     /// <summary>
     /// Iteration data stuct

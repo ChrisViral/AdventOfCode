@@ -11,10 +11,12 @@ namespace AdventOfCode.Utils;
 [PublicAPI]
 public sealed class Ref<T>(T value) where T : struct
 {
+    // ReSharper disable once ReplaceWithFieldKeyword
+    private T value = value;
     /// <summary>
     /// Wrapped value
     /// </summary>
-    public T Value { get; set; } = value;
+    public ref T Value => ref value;
 
     /// <summary>
     /// By-Ref struct wrapper
