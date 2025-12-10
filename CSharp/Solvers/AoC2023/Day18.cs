@@ -58,7 +58,7 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
         AoCUtils.LogPart2(longArea);
     }
 
-    public T CalculateShapeSize<T>(IEnumerable<Vector2<T>> verticesInstructions) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public T CalculateShapeSize<T>(IEnumerable<Vector2<T>> verticesInstructions) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         Vector2<T> current = Vector2<T>.Zero;
         List<Vector2<T>> vertices = new(this.Data.Length + 1) { current };

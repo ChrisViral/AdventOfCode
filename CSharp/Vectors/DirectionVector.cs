@@ -9,7 +9,7 @@ namespace AdventOfCode.Vectors;
 /// <param name="X">X component</param>
 /// <param name="Y">Y component</param>
 /// <typeparam name="T">Integer type</typeparam>
-public readonly record struct DirectionVector<T>((Direction direction, T length) X, (Direction direction, T length) Y) where T : IBinaryInteger<T>, IMinMaxValue<T>
+public readonly record struct DirectionVector<T>((Direction direction, T length) X, (Direction direction, T length) Y) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
 {
     /// <summary>
     /// Converts a vector to a direction vector
@@ -47,7 +47,7 @@ public readonly record struct DirectionVector<T>((Direction direction, T length)
 public static class DirectionVectorExtensions
 {
     /// <typeparam name="T">Integer type</typeparam>
-    extension<T>(Vector2<T> vector) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    extension<T>(Vector2<T> vector) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Converts a vector to a direction vector

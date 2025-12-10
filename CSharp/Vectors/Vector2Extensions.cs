@@ -17,7 +17,7 @@ public static class Vector2Extensions
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct SpaceEnumerator<T>(T maxX, T maxY) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public ref struct SpaceEnumerator<T>(T maxX, T maxY) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
@@ -60,7 +60,7 @@ public static class Vector2Extensions
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
     public class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
-        where T : IBinaryInteger<T>, IMinMaxValue<T>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
@@ -121,7 +121,7 @@ public static class Vector2Extensions
     /// </summary>
     /// <param name="value">Vector value</param>
     /// <typeparam name="T">Integer type</typeparam>
-    extension<T>(Vector2<T> value) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    extension<T>(Vector2<T> value) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Creates an irreducible version of this vector
@@ -248,7 +248,7 @@ public static class Vector2Extensions
     /// </summary>
     /// <param name="value">Vector value</param>
     /// <typeparam name="T">Floating point type</typeparam>
-    extension<T>(Vector2<T> value) where T : IBinaryNumber<T>, IMinMaxValue<T>
+    extension<T>(Vector2<T> value) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Creates a normalized version of this vector

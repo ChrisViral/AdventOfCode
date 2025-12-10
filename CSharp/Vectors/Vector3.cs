@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
@@ -12,9 +13,9 @@ namespace AdventOfCode.Vectors;
 /// Integer three component vector
 /// </summary>
 [PublicAPI]
-public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<Vector3<T>, T, Vector3<T>>,
-                                    IMultiplyOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, T, Vector3<T>>
-    where T : IBinaryNumber<T>, IMinMaxValue<T>
+public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
+                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, ICrossProductOperator<Vector3<T>, T, Vector3<T>>
+    where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
@@ -136,6 +137,37 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     public Vector3((T x, T y, T z) tuple) : this(tuple.x, tuple.y, tuple.z) { }
 
     /// <summary>
+    /// Vector constructor from a components span
+    /// </summary>
+    /// <param name="components">Span of components</param>
+    /// <exception cref="ArgumentException">If the length of <paramref name="components"/> is greater than <see cref="Dimension"/></exception>
+    public Vector3(ReadOnlySpan<T> components)
+    {
+        if (components.Length > Dimension) throw new ArgumentException("Components span cannot be larger than vector dimensions", nameof(components));
+
+        switch (components.Length)
+        {
+            case 1:
+                this.X = components[0];
+                break;
+
+            case 2:
+                this.X = components[0];
+                this.Y = components[1];
+                break;
+
+            case 3:
+                this.X = components[0];
+                this.Y = components[1];
+                this.Z = components[2];
+                break;
+
+            default:
+                throw new UnreachableException("Invalid component dimensions");
+        }
+    }
+
+    /// <summary>
     /// Vector copy constructor
     /// </summary>
     /// <param name="copy">Vector to copy</param>
@@ -206,7 +238,7 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     /// </summary>
     /// <typeparam name="TResult">Floating point result type</typeparam>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>, IMinMaxValue<TResult>
+    private TResult GetLength<TResult>() where TResult : unmanaged, IBinaryFloatingPointIeee754<TResult>, IMinMaxValue<TResult>
     {
         Vector3<TResult> resultVector = Vector3<TResult>.CreateChecked(this);
         return TResult.Sqrt((resultVector.X * resultVector.X) + (resultVector.Y * resultVector.Y)+ (resultVector.Z * resultVector.Z));
@@ -378,13 +410,13 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
 
         Span<Range> ranges = stackalloc Range[3];
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (written is < 2 or > 3 || !T.TryParse(value[ranges[0]], style, provider, out T? x) || !T.TryParse(value[ranges[1]], style, provider, out T? y))
+        if (written is < 2 or > 3 || !T.TryParse(value[ranges[0]], style, provider, out T x) || !T.TryParse(value[ranges[1]], style, provider, out T y))
         {
             result = Zero;
             return false;
         }
 
-        result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], style, provider, out T? z) ? z : T.Zero);
+        result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], style, provider, out T z) ? z : T.Zero);
         return true;
     }
 
@@ -403,7 +435,7 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     /// <typeparam name="TSource">Source number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Vector3<T> CreateChecked<TSource>(Vector3<TSource> vector) where TSource : IBinaryNumber<TSource>, IMinMaxValue<TSource>
+    public static Vector3<T> CreateChecked<TSource>(Vector3<TSource> vector) where TSource : unmanaged, IBinaryNumber<TSource>, IMinMaxValue<TSource>
     {
         return new Vector3<T>(T.CreateChecked(vector.X), T.CreateChecked(vector.Y), T.CreateChecked(vector.Z));
     }
@@ -577,6 +609,165 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     static Vector3<T> IMultiplicativeIdentity<Vector3<T>, Vector3<T>>.MultiplicativeIdentity => One;
 
     /// <inheritdoc />
+    int IVector.GetDimension() => Dimension;
+
+    /// <inheritdoc />
+    bool IVector.TryGetComponentChecked<TResult>(int index, out TResult result)
+    {
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromChecked(this[index], out result);
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc />
+    bool IVector.TryGetComponentSaturating<TResult>(int index, out TResult result)
+    {
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromSaturating(this[index], out result);
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc />
+    bool IVector.TryGetComponentTruncating<TResult>(int index, out TResult result)
+    {
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromTruncating(this[index], out result);
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc />
+    bool IVector.TryMakeFromComponentsChecked<TComponent>(ReadOnlySpan<TComponent> components, out IVector? result)
+    {
+        if (components.Length > Dimension)
+        {
+            result = null;
+            return false;
+        }
+
+        switch (components.Length)
+        {
+            case 1:
+                if (T.TryConvertFromChecked(components[0], out T x))
+                {
+                    result = new Vector3<T>(x, T.Zero, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 2:
+                if (T.TryConvertFromChecked(components[0], out x) && T.TryConvertFromChecked(components[1], out T y))
+                {
+                    result = new Vector3<T>(x, y, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 3:
+                if (T.TryConvertFromChecked(components[0], out x) && T.TryConvertFromChecked(components[1], out y) && T.TryConvertFromChecked(components[2], out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
+    }
+
+    /// <inheritdoc />
+    bool IVector.TryMakeFromComponentsSaturating<TComponent>(ReadOnlySpan<TComponent> components, out IVector? result)
+    {
+        if (components.Length > Dimension)
+        {
+            result = null;
+            return false;
+        }
+
+        switch (components.Length)
+        {
+            case 1:
+                if (T.TryConvertFromSaturating(components[0], out T x))
+                {
+                    result = new Vector3<T>(x, T.Zero, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 2:
+                if (T.TryConvertFromSaturating(components[0], out x) && T.TryConvertFromSaturating(components[1], out T y))
+                {
+                    result = new Vector3<T>(x, y, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 3:
+                if (T.TryConvertFromSaturating(components[0], out x) && T.TryConvertFromSaturating(components[1], out y) && T.TryConvertFromSaturating(components[2], out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
+    }
+
+    /// <inheritdoc />
+    bool IVector.TryMakeFromComponentsTruncating<TComponent>(ReadOnlySpan<TComponent> components, out IVector? result)
+    {
+        if (components.Length > Dimension)
+        {
+            result = null;
+            return false;
+        }
+
+        switch (components.Length)
+        {
+            case 1:
+                if (T.TryConvertFromTruncating(components[0], out T x))
+                {
+                    result = new Vector3<T>(x, T.Zero, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 2:
+                if (T.TryConvertFromTruncating(components[0], out x) && T.TryConvertFromTruncating(components[1], out T y))
+                {
+                    result = new Vector3<T>(x, y, T.Zero);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            case 3:
+                if (T.TryConvertFromTruncating(components[0], out x) && T.TryConvertFromTruncating(components[1], out y) && T.TryConvertFromTruncating(components[2], out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = null;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
+    }
+
+    /// <inheritdoc />
     static bool INumberBase<Vector3<T>>.IsCanonical(Vector3<T> value) => T.IsCanonical(value.X) && T.IsCanonical(value.Y) && T.IsCanonical(value.Z);
 
     /// <inheritdoc />
@@ -644,39 +835,237 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     static bool INumberBase<Vector3<T>>.TryConvertFromChecked<TOther>(TOther value, out Vector3<T> result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        if (value is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension > Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        switch (dimension)
+        {
+            case 1:
+                if (vector.TryGetComponentChecked(0, out T x))
+                {
+                    result = new Vector3<T>(x, T.Zero, T.Zero);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 2:
+                if (vector.TryGetComponentChecked(0, out x) && vector.TryGetComponentChecked(0, out T y))
+                {
+                    result = new Vector3<T>(x, y, T.Zero);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 3:
+                if (vector.TryGetComponentChecked(0, out x) && vector.TryGetComponentChecked(0, out y) && vector.TryGetComponentChecked(0, out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
     }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     static bool INumberBase<Vector3<T>>.TryConvertFromSaturating<TOther>(TOther value, out Vector3<T> result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        if (value is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension > Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        switch (dimension)
+        {
+            case 1:
+                if (vector.TryGetComponentSaturating(0, out T x))
+                {
+                    result = new Vector2<T>(x, T.Zero);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 2:
+                if (vector.TryGetComponentSaturating(0, out x) && vector.TryGetComponentSaturating(0, out T y))
+                {
+                    result = new Vector2<T>(x, y);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 3:
+                if (vector.TryGetComponentSaturating(0, out x) && vector.TryGetComponentSaturating(0, out y) && vector.TryGetComponentSaturating(0, out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
     }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     static bool INumberBase<Vector3<T>>.TryConvertFromTruncating<TOther>(TOther value, out Vector3<T> result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        if (value is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension > Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        switch (dimension)
+        {
+            case 1:
+                if (vector.TryGetComponentTruncating(0, out T x))
+                {
+                    result = new Vector2<T>(x, T.Zero);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 2:
+                if (vector.TryGetComponentTruncating(0, out x) && vector.TryGetComponentTruncating(0, out T y))
+                {
+                    result = new Vector2<T>(x, y);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            case 3:
+                if (vector.TryGetComponentTruncating(0, out x) && vector.TryGetComponentTruncating(0, out y) && vector.TryGetComponentTruncating(0, out T z))
+                {
+                    result = new Vector3<T>(x, y, z);
+                    return true;
+                }
+                result = default;
+                return false;
+
+            default:
+                throw new UnreachableException("Invalid vector dimensions");
+        }
     }
 
     /// <inheritdoc />
     static bool INumberBase<Vector3<T>>.TryConvertToChecked<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        result = default;
+        if (result is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension < Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        if (vector.TryMakeFromComponentsChecked([value.X, value.Y], out IVector? created) && created is TOther other)
+        {
+            result = other;
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 
     /// <inheritdoc />
     static bool INumberBase<Vector3<T>>.TryConvertToSaturating<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        result = default;
+        if (result is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension < Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        if (vector.TryMakeFromComponentsSaturating([value.X, value.Y], out IVector? created) && created is TOther other)
+        {
+            result = other;
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 
     /// <inheritdoc />
     static bool INumberBase<Vector3<T>>.TryConvertToTruncating<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
     {
-        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+        result = default;
+        if (result is not IVector vector)
+        {
+            result = default;
+            return false;
+        }
+
+        int dimension = vector.GetDimension();
+        if (dimension < Dimension)
+        {
+            result = default;
+            return false;
+        }
+
+        if (vector.TryMakeFromComponentsTruncating([value.X, value.Y], out IVector? created) && created is TOther other)
+        {
+            result = other;
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 
     /// <inheritdoc />

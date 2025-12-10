@@ -53,7 +53,7 @@ public static class DirectionsUtils
         /// </summary>
         /// <returns>The resulting vector</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2<T> ToVector<T>() where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
+        public Vector2<T> ToVector<T>() where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T> => direction switch
         {
             Direction.UP    => Vector2<T>.Up,
             Direction.DOWN  => Vector2<T>.Down,
@@ -68,7 +68,7 @@ public static class DirectionsUtils
         /// <param name="length">DThe length of the direction vector</param>
         /// <returns>The resulting vector</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2<T> ToVector<T>(T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
+        public Vector2<T> ToVector<T>(T length) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T> => direction switch
         {
             Direction.UP    => new Vector2<T>(T.Zero, -length),
             Direction.DOWN  => new Vector2<T>(T.Zero,  length),

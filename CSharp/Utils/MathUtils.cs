@@ -46,7 +46,7 @@ public static class MathUtils
     /// <param name="vertices">List of vertices</param>
     /// <returns>The total area of the polygon</returns>
     /// <exception cref="ArgumentOutOfRangeException">If there are not enough vertices to make a proper 2D polygon</exception>
-    public static T Shoelace<T>(IList<Vector2<T>> vertices) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public static T Shoelace<T>(IList<Vector2<T>> vertices) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         // Make sure we have enough vertices
         if (vertices.Count <= 0) throw new ArgumentOutOfRangeException(nameof(vertices), vertices.Count, "A 2D polygon requires a minimum of 3 vertices");
@@ -87,7 +87,7 @@ public static class MathUtils
     /// <param name="edgesInside">If the point is considered inside the polygon when it lies on an edge</param>
     /// <returns><see langword="true"/> when the <paramref name="position"/> is within the polygon, otherwise <see langword="false"/></returns>
     /// ReSharper disable once CognitiveComplexity
-    public static bool IsInsidePolygon<T>(Vector2<T> position, IReadOnlyList<Vector2<T>> vertices, bool edgesInside = false) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public static bool IsInsidePolygon<T>(Vector2<T> position, IReadOnlyList<Vector2<T>> vertices, bool edgesInside = false) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         bool IsInsidePolygonNoEdges()
         {
@@ -155,7 +155,7 @@ public static class MathUtils
     /// <param name="edgesInside">If the point is considered inside the polygon when it lies on an edge</param>
     /// <returns><see langword="true"/> when the <paramref name="position"/> is within the polygon, otherwise <see langword="false"/></returns>
     /// ReSharper disable once CognitiveComplexity
-    public static bool IsInsideAxisAlignedPolygon<T>(Vector2<T> position, IReadOnlyList<Vector2<T>> vertices, bool edgesInside = false) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public static bool IsInsideAxisAlignedPolygon<T>(Vector2<T> position, IReadOnlyList<Vector2<T>> vertices, bool edgesInside = false) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         bool IsInsidePolygonNoEdges()
         {

@@ -17,7 +17,7 @@ public static class Vector3Extensions
     /// <param name="maxY">Max space Y value (exclusive)</param>
     /// <param name="maxZ">Max space Z value (exclusive)</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct SpaceEnumerator<T>(T maxX, T maxY, T maxZ) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public ref struct SpaceEnumerator<T>(T maxX, T maxY, T maxZ) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
@@ -67,7 +67,7 @@ public static class Vector3Extensions
     /// <param name="maxY">Max space Y value (exclusive)</param>
     /// <param name="maxZ">Max space Z value (exclusive)</param>
     public class SpaceEnumerable<T>(T maxX, T maxY, T maxZ) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
-        where T : IBinaryInteger<T>, IMinMaxValue<T>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
@@ -130,7 +130,7 @@ public static class Vector3Extensions
         IEnumerator IEnumerable.GetEnumerator() => this;
     }
 
-    extension<T>(Vector3<T> value) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    extension<T>(Vector3<T> value) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Creates an irreducible version of this vector<br/>
@@ -241,7 +241,7 @@ public static class Vector3Extensions
         }
     }
 
-    extension<T>(Vector3<T> value) where T : IBinaryFloatingPointIeee754<T>, IMinMaxValue<T>
+    extension<T>(Vector3<T> value) where T : unmanaged, IBinaryFloatingPointIeee754<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Creates a normalized version of this vector<br/>
