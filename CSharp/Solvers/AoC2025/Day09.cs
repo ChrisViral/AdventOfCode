@@ -80,7 +80,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
         AoCUtils.LogPart2(bestArea);
     }
 
-    private static bool IsWithinBounds(in Vector2<int> corner, in Vector2<int> min, in Vector2<int> max)
+    private static bool IsWithinBounds(Vector2<int> corner, Vector2<int> min, Vector2<int> max)
     {
         return corner.X > min.X
             && corner.Y > min.Y
@@ -88,27 +88,14 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
             && corner.Y < max.Y;
     }
 
-    private bool IsWithinPolygon(in Vector2<int> position, Dictionary<Vector2<int>, bool> floor)
+    private bool IsWithinPolygon(Vector2<int> position, Dictionary<Vector2<int>, bool> floor)
     {
-        if (floor.TryGetValue(position, out bool isTile)) return isTile;
-
-        bool isInside = false;
-        Vector2<int> previous = this.Data[^1];
-        foreach (Vector2<int> current in this.Data)
+        if (!floor.TryGetValue(position, out bool isTile))
         {
-            if ((current.Y > position.Y) != (previous.Y > position.Y))
-            {
-                int xIntersection = current.X + (int)(((long)(previous.X - current.X) * (position.Y - current.Y)) / (previous.Y - current.Y));
-                if (position.X < xIntersection)
-                {
-                    isInside = !isInside;
-                }
-            }
-            previous = current;
+            isTile = MathUtils.IsInsideAxisAlignedPolygon(position, this.Data);
+            floor[position] = isTile;
         }
-
-        floor[position] = isInside;
-        return isInside;
+        return isTile;
     }
 
     private static IEnumerable<Vector2<int>> GetSides(Vector2<int> min, Vector2<int> max)

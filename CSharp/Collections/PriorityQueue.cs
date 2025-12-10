@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Arrays;
@@ -34,7 +35,7 @@ namespace AdventOfCode.Collections;
 /// Most operations are O(log n), while full enumeration or copying to an array is O(n log n)
 /// </summary>
 /// <typeparam name="T">Type of the queue</typeparam>
-[PublicAPI]
+[PublicAPI, DebuggerDisplay("Count: {Count}"), DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
 {
     /// <summary>

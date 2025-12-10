@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
+using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
@@ -61,23 +61,20 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
     public override void Run()
     {
         // List out possible connections
-        List<Connection> possibleConnections = new(this.Data.Length.PreviousTriangular());
+        PriorityQueue<Connection> possibleConnections = new(this.Data.Length.PreviousTriangular());
         foreach (int i in ..(this.Data.Length - 1))
         {
             Junction a = this.Data[i];
             foreach (int j in (i + 1)..this.Data.Length)
             {
-                possibleConnections.Add(new Connection(a, this.Data[j]));
+                possibleConnections.Enqueue(new Connection(a, this.Data[j]));
             }
         }
 
-        // Sort connections
-        possibleConnections.Sort();
-        ReadOnlySpan<Connection> sortedConnections = CollectionsMarshal.AsSpan(possibleConnections);
-
         // Do first 1000 joins
+        int count = 0;
         Dictionary<Junction, Circuit> circuits = new(this.Data.Length);
-        foreach (Connection connection in sortedConnections[..CONNECTION_COUNT])
+        while (count++ < CONNECTION_COUNT && possibleConnections.TryDequeue(out Connection connection))
         {
             JoinCircuits(connection, circuits);
         }
@@ -92,7 +89,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
 
         // Keep joining until everything is merged
         int mergedCount = this.Data.Length - 1;
-        foreach (Connection connection in sortedConnections[CONNECTION_COUNT..])
+        while (possibleConnections.TryDequeue(out Connection connection))
         {
             if (JoinCircuits(connection, circuits) && circuits[connection.A].Count == mergedCount)
             {
