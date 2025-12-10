@@ -113,6 +113,56 @@ public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<V
     }
 
     /// <summary>
+    /// Vector swizzling to XZY
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector3<T> XZY
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.X, this.Z, this.Y);
+    }
+
+    /// <summary>
+    /// Vector swizzling to XZY
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector3<T> YXZ
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.Y, this.X, this.Z);
+    }
+
+    /// <summary>
+    /// Vector swizzling to XZY
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector3<T> YZX
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.Y, this.Z, this.X);
+    }
+
+    /// <summary>
+    /// Vector swizzling to XZY
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector3<T> ZXY
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.Z, this.X, this.Y);
+    }
+
+    /// <summary>
+    /// Vector swizzling to XZY
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector3<T> ZYX
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.Z, this.Y, this.X);
+    }
+
+    /// <summary>
     /// Creates a new <see cref="Vector3{T}"/> with the specified components
     /// </summary>
     /// <param name="x">X component</param>

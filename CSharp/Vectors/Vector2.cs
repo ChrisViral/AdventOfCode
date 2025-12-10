@@ -110,6 +110,16 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     }
 
     /// <summary>
+    /// Vector swizzling to YX
+    /// </summary>
+    /// ReSharper disable once InconsistentNaming
+    public Vector2<T> YX
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(this.Y, this.X);
+    }
+
+    /// <summary>
     /// Creates a new <see cref="Vector2{T}"/> with the specified components
     /// </summary>
     /// <param name="x">X component</param>
