@@ -47,6 +47,7 @@ public readonly partial struct Vector2<T>
             return this.y < this.maxY;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public SpaceEnumerator GetEnumerator() => this;
     }
 
@@ -64,10 +65,18 @@ public readonly partial struct Vector2<T>
         private T y = T.Zero;
 
         /// <inheritdoc />
-        public Vector2<T> Current => new(this.x, this.y);
+        public Vector2<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new(this.x, this.y);
+        }
 
         /// <inheritdoc />
-        object IEnumerator.Current => this.Current;
+        object IEnumerator.Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.Current;
+        }
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,6 +92,7 @@ public readonly partial struct Vector2<T>
         }
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
         {
             this.x = -T.One;
@@ -90,12 +100,15 @@ public readonly partial struct Vector2<T>
         }
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void IDisposable.Dispose() { }
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IEnumerator<Vector2<T>> GetEnumerator() => this;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         IEnumerator IEnumerable.GetEnumerator() => this;
     }
 }

@@ -51,18 +51,30 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// Amount of items stored in the queue
     /// </summary>
-    public int Count => this.heap.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.heap.Count;
+    }
 
     /// <summary>
     /// If the queue is currently empty
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool IsEmpty => this.heap.Count is 0;
+    public bool IsEmpty
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.heap.Count is 0;
+    }
 
     /// <summary>
     /// Current capacity of the queue
     /// </summary>
-    public int Capacity => this.heap.Capacity;
+    public int Capacity
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.heap.Capacity;
+    }
 
     /// <summary>
     /// If the collection is read only. Since we are using List{T}, it never is.
@@ -72,7 +84,11 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// Index of the last member
     /// </summary>
-    private int Last => this.heap.Count - 1;
+    private int Last
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.heap.Count - 1;
+    }
 
     /// <summary>
     /// Creates an empty PriorityQueue using the default IComparer of <typeparamref name="T"/>
@@ -243,6 +259,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
         HeapUp(this.Last);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void ICollection<T>.Add(T value) => Enqueue(value);
 
     /// <summary>
@@ -293,6 +310,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <returns>First Item in the queue</returns>
     /// <exception cref="InvalidOperationException">Cannot peek if the queue is empty</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Peek() => !this.IsEmpty ? this.heap[0] : throw new InvalidOperationException("Queue is empty");
 
     /// <summary>
@@ -317,6 +335,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// This operation is O(1)
     /// </summary>
     /// <param name="i">Index of the value to remove</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void RemoveAt(int i)
     {
         //Swap the value to the end then remove it
@@ -367,11 +386,13 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns>True when the queue contains the value, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(T value) => this.heap.Contains(value);
 
     /// <summary>
     /// Clears the memory of the queue
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.heap.Clear();
 
     /// <summary>
@@ -464,6 +485,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <summary>
     /// Trims the memory of the PriorityQueue to it's size if more than 10% of the memory is unused
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void TrimExcess() => this.heap.TrimExcess();
 
     /// <summary>
@@ -489,6 +511,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <b>WARNING</b>: Obtaining the first element of the iterator is <b>O(n)</b>. Every subsequent elements is <b>O(log n)</b>
     /// </summary>
     /// <returns>Iterator going through this sequence</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

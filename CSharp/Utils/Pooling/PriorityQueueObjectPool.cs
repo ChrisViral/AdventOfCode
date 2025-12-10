@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Collections;
 using JetBrains.Annotations;
 
@@ -25,9 +26,11 @@ public sealed class PriorityQueueObjectPool<T> : CollectionObjectPool<PriorityQu
         public IComparer<T> Comparer { get; init; } = Comparer<T>.Default;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override PriorityQueue<T> CreateWithCapacity(int capacity) => new(capacity, this.Comparer);
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override int GetObjectCapacity(PriorityQueue<T> obj) => obj.Capacity;
     }
 

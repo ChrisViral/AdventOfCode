@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Microsoft.Extensions.ObjectPool;
 
@@ -31,6 +32,7 @@ public sealed class QueueObjectPool<T> : WrappedObjectPool<Queue<T>>
         public int MaximumRetainedCapacity { get; init; } = 4096;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override Queue<T> Create() => new(this.InitialCapacity);
 
         /// <inheritdoc />

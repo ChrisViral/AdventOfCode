@@ -22,15 +22,12 @@ public readonly ref struct Pooled<T>(T obj, ObjectPool<T> pool) : IDisposable wh
     /// <summary>
     /// Pooled object reference
     /// </summary>
-    public T Ref
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get;
-    } = obj;
+    public T Ref { get; } = obj;
 
     /// <summary>
     /// Returns the object to the pool
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose() => this.pool?.Return(this.Ref);
 
     /// <summary>
@@ -38,5 +35,6 @@ public readonly ref struct Pooled<T>(T obj, ObjectPool<T> pool) : IDisposable wh
     /// </summary>
     /// <param name="pooled">Pooled object to get the refrence from</param>
     /// <returns>The unwrapped object reference</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static explicit operator T(in Pooled<T> pooled) => pooled.Ref;
 }

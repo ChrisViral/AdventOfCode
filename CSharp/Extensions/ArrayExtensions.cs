@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
 
@@ -16,16 +17,19 @@ public static class ArrayExtensions
     extension<T>(T[] array)
     {
         /// <inheritdoc cref="Array.BinarySearch{T}(T[], T)"/>
-        [PublicAPI]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int BinarySearch(T value) => Array.BinarySearch(array, value);
 
         /// <inheritdoc cref="Array.BinarySearch{T}(T[], T, IComparer{T})"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int BinarySearch(T value, IComparer<T>? comparer) => Array.BinarySearch(array, value, comparer);
 
         /// <inheritdoc cref="Array.Clear(Array)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clear() => Array.Clear(array);
 
         /// <inheritdoc cref="Array.ConvertAll{T, TOutput}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TOutput[] ConvertAll<TOutput>([InstantHandle] Converter<T, TOutput> converter) => Array.ConvertAll(array, converter);
 
         /// <summary>
@@ -33,6 +37,7 @@ public static class ArrayExtensions
         /// </summary>
         /// <typeparam name="T">Type of element in the array</typeparam>
         /// <returns>The copy of <paramref name="array"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T[] Copy()
         {
             T[] copy = new T[array.Length];
@@ -41,9 +46,11 @@ public static class ArrayExtensions
         }
 
         /// <inheritdoc cref="Array.Exists{T}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Exists([InstantHandle] Predicate<T> predicate) => Array.Exists(array, predicate);
 
         /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fill(T value) => Array.Fill(array, value);
 
         /// <summary>
@@ -60,24 +67,31 @@ public static class ArrayExtensions
         }
 
         /// <inheritdoc cref="Array.Find{T}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T? Find([InstantHandle] Predicate<T> predicate) => Array.Find(array, predicate);
 
         /// <inheritdoc cref="Array.FindIndex{T}(T[], Predicate{T})"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int FindIndex([InstantHandle] Predicate<T> predicate) => Array.FindIndex(array, predicate);
 
         /// <inheritdoc cref="Array.FindLast{T}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T? FindLast([InstantHandle] Predicate<T> predicate) => Array.FindLast(array, predicate);
 
         /// <inheritdoc cref="Array.FindLastIndex{T}(T[], Predicate{T})"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int FindLastIndex([InstantHandle] Predicate<T> predicate) => Array.FindLastIndex(array, predicate);
 
         /// <inheritdoc cref="Array.ForEach{T}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ForEach([InstantHandle] Action<T> action) => Array.ForEach(array, action);
 
         /// <inheritdoc cref="Array.IndexOf{T}(T[], T)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int IndexOf(T value) => Array.IndexOf(array, value);
 
         /// <inheritdoc cref="Array.LastIndexOf{T}(T[], T)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int LastIndexOf(T value) => Array.LastIndexOf(array, value);
 
         /// <summary>
@@ -111,10 +125,12 @@ public static class ArrayExtensions
         }
 
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ReverseInPlace() => Array.Reverse(array);
 
         /// <inheritdoc cref="Array.Reverse{T}(T[])"/>
         /// <returns>The array reversed in place</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T[] Reversed()
         {
             Array.Reverse(array);
@@ -152,15 +168,19 @@ public static class ArrayExtensions
         }
 
         /// <inheritdoc cref="Array.Sort{T}(T[])"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Sort() => Array.Sort(array);
 
         /// <inheritdoc cref="Array.Sort{T}(T[], IComparer{T})"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Sort(IComparer<T> comparer) => Array.Sort(array, comparer);
 
         /// <inheritdoc cref="Array.Sort{T}(T[], Comparison{T})"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Sort([InstantHandle] Comparison<T> comparison) => Array.Sort(array, comparison);
 
         /// <inheritdoc cref="Array.TrueForAll{T}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TrueForAll([InstantHandle] Predicate<T> predicate) => Array.TrueForAll(array, predicate);
 
     }
@@ -169,6 +189,7 @@ public static class ArrayExtensions
     extension<T>(ArraySegment<T> array)
     {
         /// <inheritdoc cref="Array.Fill{T}(T[], T)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fill(T value) => array.AsSpan().Fill(value);
     }
 }

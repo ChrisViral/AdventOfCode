@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils.Pooling;
@@ -17,9 +18,11 @@ public sealed class ListObjectPool<T> : CollectionObjectPool<List<T>, T>
     public sealed class Policy : CollectionPolicy
     {
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override List<T> CreateWithCapacity(int capacity) => new(capacity);
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override int GetObjectCapacity(List<T> obj) => obj.Capacity;
     }
 

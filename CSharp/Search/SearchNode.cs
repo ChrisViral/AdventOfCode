@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
@@ -55,7 +56,11 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <summary>
     /// Cost of this node
     /// </summary>
-    public virtual TCost Cost => this.CostSoFar + (this.heuristic is not null ? this.heuristic(this.Value) : TCost.Zero);
+    public virtual TCost Cost
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.CostSoFar + (this.heuristic is not null ? this.heuristic(this.Value) : TCost.Zero);
+    }
 
     /// <summary>
     /// Creates a new root node
@@ -87,21 +92,27 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// </summary>
     /// <param name="value">Search value to find</param>
     /// <returns><see langword="true"/> true if any of the parents contain the given value, else <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool HasParent(TValue value) => this.Parent is not null && (this.Parent == value || this.Parent.HasParent(value));
 
     /// <inheritdoc cref="object.Equals(object)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals(object? obj) => obj is SearchNode<TValue, TCost> other && this.Value.Equals(other.Value);
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(SearchNode<TValue, TCost>? other) => other is not null && this.Value.Equals(other.Value);
 
     /// <inheritdoc cref="object.GetHashCode"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => this.Value.GetHashCode();
 
     /// <inheritdoc cref="object.ToString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => $"{{Node: {this.Value}, Cost: {this.Cost}}}";
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(SearchNode<TValue, TCost>? other) => other is not null ? this.Cost.CompareTo(other.Cost) : -1;
 
     /// <summary>
@@ -110,6 +121,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <param name="a">First node</param>
     /// <param name="b">Second node</param>
     /// <returns>True if both nodes are equal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(SearchNode<TValue, TCost> a, SearchNode<TValue, TCost> b) => a.Equals(b);
 
     /// <summary>
@@ -118,6 +130,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <param name="a">First node</param>
     /// <param name="b">Second node</param>
     /// <returns>True if both nodes are unequal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(SearchNode<TValue, TCost> a, SearchNode<TValue, TCost> b) => !a.Equals(b);
 
     /// <summary>
@@ -126,6 +139,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <param name="a">First node</param>
     /// <param name="b">Value</param>
     /// <returns>True if the value of the node equals the other value, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(SearchNode<TValue, TCost> a, TValue b) => a.Value.Equals(b);
 
     /// <summary>
@@ -134,6 +148,7 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
     /// <param name="a">First node</param>
     /// <param name="b">Value</param>
     /// <returns>True if the value of the node is not equals the other value, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(SearchNode<TValue, TCost> a, TValue b) => !a.Value.Equals(b);
 }
 
@@ -145,10 +160,18 @@ public class SearchNode<TValue, TCost> : ISearchNode<TCost>, IEquatable<SearchNo
 public sealed class SearchNode<T> : SearchNode<T, int> where T : IEquatable<T>
 {
     /// <inheritdoc />
-    public override int Cost => this.CostSoFar;
+    public override int Cost
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.CostSoFar;
+    }
 
     /// <inheritdoc cref="SearchNode{T, TCost}.Parent" />
-    public new SearchNode<T>? Parent => base.Parent as SearchNode<T>;
+    public new SearchNode<T>? Parent
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => base.Parent as SearchNode<T>;
+    }
 
     /// <inheritdoc />
     public SearchNode(T value) : base(value) { }

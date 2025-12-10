@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;
@@ -21,7 +22,11 @@ public sealed class QueueInput : IInputProvider
     private readonly Queue<long> inputQueue;
 
     /// <inheritdoc />
-    public int Count => this.inputQueue.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.inputQueue.Count;
+    }
 
     /// <summary>
     ///  Creates a new empty queue input with the default capacity
@@ -47,6 +52,7 @@ public sealed class QueueInput : IInputProvider
     public QueueInput(Queue<long> queue) => this.inputQueue = queue;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AddValue(long value) => this.inputQueue.Enqueue(value);
 
     /// <inheritdoc />
@@ -59,11 +65,14 @@ public sealed class QueueInput : IInputProvider
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetInput(out long input) => this.inputQueue.TryDequeue(out input);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.inputQueue.Clear();
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IInputProvider Clone() => new QueueInput(this.inputQueue);
 }

@@ -61,7 +61,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
     public override void Run()
     {
         // List out possible connections
-        PriorityQueue<Connection> possibleConnections = new(this.Data.Length.PreviousTriangular());
+        PriorityQueue<Connection> possibleConnections = new(this.Data.Length.PreviousTriangular);
         foreach (int i in ..(this.Data.Length - 1))
         {
             Junction a = this.Data[i];

@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -21,6 +22,7 @@ public sealed class Ref<T>(T value) where T : struct
     public Ref() : this(default) { }
 
     /// <inheritdoc cref="object.ToString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => this.Value.ToString()!;
 
     /// <summary>
@@ -28,5 +30,6 @@ public sealed class Ref<T>(T value) where T : struct
     /// </summary>
     /// <param name="value">By-ref struct value</param>
     /// <returns>A copy of the struct's value</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator T(Ref<T> value) => value.Value;
 }

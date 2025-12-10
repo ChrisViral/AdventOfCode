@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils.Pooling;
@@ -22,9 +23,11 @@ public sealed class HashSetObjectPool<T> : CollectionObjectPool<HashSet<T>, T>
         public IEqualityComparer<T> Comparer { get; init; } = EqualityComparer<T>.Default;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override HashSet<T> CreateWithCapacity(int capacity) => new(capacity, this.Comparer);
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override int GetObjectCapacity(HashSet<T> obj) => obj.Capacity;
     }
 

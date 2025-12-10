@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.ObjectPool;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.ObjectPool;
 
 namespace AdventOfCode.Utils.Pooling;
 
@@ -18,5 +19,6 @@ public abstract class WrappedObjectPool<T> : DefaultObjectPool<T> where T : clas
     /// Gets a warpped reference to a pooled object
     /// </summary>
     /// <returns>Wrapped pooled object reference</returns>
-    public new virtual Pooled<T> Get() => new(base.Get(), this);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public new Pooled<T> Get() => new(base.Get(), this);
 }

@@ -45,7 +45,9 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[int x, int y]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[new Vector2<int>(x, y)];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this[new Vector2<int>(x, y)] = value;
     }
 
@@ -57,7 +59,9 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[Index x, Index y]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[new Vector2<int>(x.GetOffset(this.Width), y.GetOffset(this.Height))];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this[new Vector2<int>(x.GetOffset(this.Width), y.GetOffset(this.Height))] = value;
     }
 
@@ -68,6 +72,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public T this[in Vector2<int> pos]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => base[pos + this.anchor];
         set
         {
@@ -84,7 +89,9 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <returns>The value in the view at the given location</returns>
     public override T this[(int x, int y) tuple]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[new Vector2<int>(tuple)];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this[new Vector2<int>(tuple)] = value;
     }
 
@@ -174,6 +181,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     }
 
     /// <inheritdoc cref="Grid{T}.PositionOf"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override Vector2<int> PositionOf(T value) => base.PositionOf(value) - this.anchor;
 
     /// <inheritdoc cref="Grid{T}.Populate"/>
@@ -229,6 +237,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
         return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
@@ -242,6 +251,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns>The resulting Vector after the move</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
         Vector2<int>? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
@@ -253,5 +263,6 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     public override bool WithinGrid(Vector2<int> position) => base.WithinGrid(position - this.anchor);
 
     /// <inheritdoc cref="object.ToString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => new(this.viewBuffer);
 }

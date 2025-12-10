@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Search;
@@ -21,6 +22,7 @@ public sealed class MinSearchComparer<T> : IComparer<ISearchNode<T>> where T : I
     private MinSearchComparer() { }
 
     /// <inheritdoc cref="IComparer{T}"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Compare(ISearchNode<T>? a, ISearchNode<T>? b) => a?.Cost.CompareTo(b is not null ? b.Cost : T.Zero) ?? 0;
 }
 
@@ -42,5 +44,6 @@ public sealed class MaxSearchComparer<T> : IComparer<ISearchNode<T>> where T : I
     private MaxSearchComparer() { }
 
     /// <inheritdoc cref="IComparer{T}"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Compare(ISearchNode<T>? a, ISearchNode<T>? b) => b?.Cost.CompareTo(a is not null ? a.Cost : T.Zero) ?? 0;
 }

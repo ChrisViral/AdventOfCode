@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -42,6 +43,7 @@ public static class RangeExtensions
         /// Moves the iteration forwards one step
         /// </summary>
         /// <returns>True if the iterator is still within bounds, otherwise false</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             this.Current += this.sign;

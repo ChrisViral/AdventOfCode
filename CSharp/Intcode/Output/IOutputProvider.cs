@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using AdventOfCode.Utils.Pooling;
 using JetBrains.Annotations;
@@ -20,7 +21,11 @@ public interface IOutputProvider
     /// <summary>
     /// If this output provider has any output
     /// </summary>
-    bool IsEmpty => this.Count is 0;
+    bool IsEmpty
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.Count is 0;
+    }
 
     /// <summary>
     /// Receives an output value from the Intcode VM
@@ -54,6 +59,7 @@ public interface IOutputProvider
     /// <summary>
     /// Prints the next input line
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void PrintLine() => Trace.Write(ReadLine());
 
     /// <summary>

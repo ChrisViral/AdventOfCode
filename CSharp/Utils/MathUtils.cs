@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Vectors;
 using JetBrains.Annotations;
 
@@ -49,6 +50,7 @@ public static class MathUtils
     /// <param name="interior">Number of interior points</param>
     /// <param name="border">Number of exterior points</param>
     /// <returns>The total area of the polygon</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Picks<T>(T interior, T border) where T : IBinaryInteger<T> => interior + (border / NumberUtils<T>.Two) + T.One;
 
     /// <summary>

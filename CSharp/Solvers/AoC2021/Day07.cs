@@ -31,7 +31,7 @@ public sealed class Day07 : Solver<int[]>
         AoCUtils.LogPart1(best);
 
         // Minimize the distance of triangular value
-        best = (..^max).AsEnumerable().Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular()));
+        best = (..^max).AsEnumerable().Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular));
         AoCUtils.LogPart2(best);
     }
 

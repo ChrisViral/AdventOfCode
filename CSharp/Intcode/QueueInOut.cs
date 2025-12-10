@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;
 using JetBrains.Annotations;
@@ -25,7 +26,11 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     /// <summary>
     /// Input/Output count
     /// </summary>
-    public int Count => this.queue.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.queue.Count;
+    }
 
     /// <summary>
     ///  Creates a new empty queue in/out with the default capacity
@@ -51,6 +56,7 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     public QueueInOut(Queue<long> queue) => this.queue = queue;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AddValue(long value) => this.queue.Enqueue(value);
 
     /// <inheritdoc />
@@ -63,21 +69,27 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetInput(out long input) => this.queue.TryDequeue(out input);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AddOutput(long value) => this.queue.Enqueue(value);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public long GetValue() => this.queue.Dequeue();
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetValue(out long value) => this.queue.TryDequeue(out value);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public long PeekValue() => this.queue.Peek();
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryPeekValue(out long value) => this.queue.TryPeek(out value);
 
     /// <inheritdoc />
@@ -92,11 +104,14 @@ public sealed class QueueInOut : IInputProvider, IOutputProvider
     /// <summary>
     /// Clears this input/output provider
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.queue.Clear();
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IInputProvider Clone() => new QueueInOut(this.queue);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IOutputProvider IOutputProvider.Clone() => new QueueInOut(this.queue);
 }

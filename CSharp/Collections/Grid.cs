@@ -58,7 +58,9 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The element at the specified position</returns>
     public virtual T this[int x, int y]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[y, x];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.grid[y, x] = value;
     }
 
@@ -70,7 +72,9 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The element at the specified position</returns>
     public virtual T this[Index x, Index y]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[y.GetOffset(this.Height), x.GetOffset(this.Width)];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.grid[y.GetOffset(this.Height), x.GetOffset(this.Width)] = value;
     }
 
@@ -82,7 +86,9 @@ public class Grid<T> : IEnumerable<T>
     /// ReSharper disable once VirtualMemberNeverOverridden.Global
     public virtual T this[Vector2<int> vector]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[vector.Y, vector.X];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.grid[vector.Y, vector.X] = value;
     }
 
@@ -93,7 +99,9 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The element at the specified position</returns>
     public virtual T this[(int x, int y) tuple]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[tuple.y, tuple.x];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.grid[tuple.y, tuple.x] = value;
     }
 
@@ -252,12 +260,14 @@ public class Grid<T> : IEnumerable<T>
     /// Creates a new Span2D over the grid
     /// </summary>
     /// <returns>Span over the entire grid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span2D<T> AsSpan2D() => this.grid.AsSpan2D();
 
     /// <summary>
     /// Creates a new Span2D over a section of the grid
     /// </summary>
     /// <returns>Span over the specified part of the grid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
 
     /// <summary>
@@ -275,6 +285,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="GetRow(int)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span<T> GetRow(Index y) => GetRow(y.GetOffset(this.Height));
 
     /// <summary>
@@ -301,6 +312,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="GetRow(int, in T[])"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void GetRow(Index y, in T[] row) => GetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
@@ -318,6 +330,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="GetColumn(int)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public RefEnumerable<T> GetColumn(Index x) => GetColumn(x.GetOffset(this.Width));
 
     /// <summary>
@@ -337,6 +350,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="GetColumn(int, in T[])"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void GetColumn(Index x, in T[] column) => GetColumn(x.GetOffset(this.Width), column);
 
     /// <summary>
@@ -356,6 +370,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="GetColumn(int, ref Span{T})"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void GetColumn(Index x, ref Span<T> column) => GetColumn(x.GetOffset(this.Width), ref column);
 
     /// <summary>
@@ -381,6 +396,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="SetRow(int, T[])"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetRow(Index y, T[] row) => SetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
@@ -399,6 +415,7 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="SetRow(int, ReadOnlySpan{T})"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetRow(Index y, ReadOnlySpan<T> row) => SetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
@@ -417,12 +434,14 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <inheritdoc cref="SetColumn(int, ReadOnlySpan{T})"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetColumn(Index x, ReadOnlySpan<T> column) => SetColumn(x.GetOffset(this.Width), column);
 
     /// <summary>
     /// Fill the grid with the given value
     /// </summary>
     /// <param name="value">Value to fill with</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fill(T value) => this.grid.AsSpan2D().Fill(value);
 
     /// <summary>
@@ -451,6 +470,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
         return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
@@ -594,15 +614,19 @@ public class Grid<T> : IEnumerable<T>
     /// <summary>
     /// Clears this grid
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => Array.Clear(this.grid);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Enumerator GetEnumerator() => new(this);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator IEnumerable.GetEnumerator() => this.grid.Cast<T>().GetEnumerator();
 
     /// <inheritdoc cref="object.ToString"/>

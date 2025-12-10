@@ -22,15 +22,12 @@ public readonly ref struct PooledArray<T>(T[] array, ArrayPool<T> pool) : IDispo
     /// <summary>
     /// Pooled array reference
     /// </summary>
-    public T[] Ref
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get;
-    } = array;
+    public T[] Ref { get; } = array;
 
     /// <summary>
     /// Returns the array to the pool
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose() => this.pool?.Return(this.Ref);
 
     /// <summary>
@@ -38,6 +35,7 @@ public readonly ref struct PooledArray<T>(T[] array, ArrayPool<T> pool) : IDispo
     /// </summary>
     /// <param name="pooled">Pooled array to get the refrence from</param>
     /// <returns>The unwrapped array reference</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static explicit operator T[](in PooledArray<T> pooled) => pooled.Ref;
 }
 
@@ -59,6 +57,7 @@ public static class ArrayPoolExtensions
         /// </summary>
         /// <param name="minimumLength">Array minimum length</param>
         /// <returns>The wrapped rented array reference</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public PooledArray<T> RentTracked(int minimumLength) => new(pool.Rent(minimumLength), pool);
     }
 }

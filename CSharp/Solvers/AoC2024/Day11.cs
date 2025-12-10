@@ -34,7 +34,7 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
                     break;
 
                 default:
-                    int digits = original.DigitCount();
+                    int digits = original.DigitCount;
                     if (digits.IsEven)
                     {
                         (this.blinkResult, this.blinkSplit) = SplitNumber(original, digits);
@@ -86,7 +86,7 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
         private static (long, long) SplitNumber(in long n, int digits)
         {
             digits /= 2;
-            int pow = digits.Pow10();
+            int pow = digits.Pow10;
             long leftHalf  = n / pow;
             long rightHalf = n - (leftHalf * pow);
             return (leftHalf, rightHalf);

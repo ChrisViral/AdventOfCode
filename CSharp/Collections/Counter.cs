@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 
@@ -16,12 +17,20 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     private readonly Dictionary<T, int> dictionary;
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count"/>
-    public int Count => this.dictionary.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Count;
+    }
 
     /// <summary>
     /// The keys stored within this counter
     /// </summary>
-    public Dictionary<T, int>.KeyCollection Keys => this.dictionary.Keys;
+    public Dictionary<T, int>.KeyCollection Keys
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Keys;
+    }
 
     /// <summary>
     /// Gets the count for a given key in the dictionary. If the key is not present, 0 is returned
@@ -30,7 +39,9 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <returns>The amount of that value stored in the counter, or 0 if none is</returns>
     public int this[T key]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.GetValueOrDefault(key, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.dictionary[key] = value;
     }
 
@@ -121,18 +132,23 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// Adds a range of values to the Counter
     /// </summary>
     /// <param name="values">Values to add</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AddRange(IEnumerable<T> values) => values.ForEach(v => Add(v));
 
     /// <inheritdoc cref="ICollection{T}.Clear"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.dictionary.Clear();
 
     /// <inheritdoc cref="ICollection{T}.Contains"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(T value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CopyTo(T[] array, int arrayIndex) => this.dictionary.Keys.CopyTo(array, arrayIndex);
 
     /// <inheritdoc cref="ICollection{T}.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerator<T> GetEnumerator() => this.dictionary.Keys.GetEnumerator();
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
@@ -151,12 +167,14 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <param name="value">Value to get the count for</param>
     /// <param name="count">Value count output parameter</param>
     /// <returns><see langword="true"/> if the value was in the Counter and the count was found, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetCount(T value, out int count) => this.dictionary.TryGetValue(value, out count);
 
     /// <summary>
     /// Returns this counter as a dictionary specific implementation
     /// </summary>
     /// <returns>Dictionary implementation of the Counter</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IDictionary<T, int> AsDictionary() => this;
 
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
@@ -166,62 +184,90 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     bool ICollection<T>.IsReadOnly => false;
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Keys"/>
-    ICollection<T> IDictionary<T, int>.Keys => this.dictionary.Keys;
+    ICollection<T> IDictionary<T, int>.Keys
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Keys;
+    }
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
-    ICollection<int> IDictionary<T, int>.Values => this.dictionary.Values;
+    ICollection<int> IDictionary<T, int>.Values
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Values;
+    }
 
     /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Keys"/>
-    IEnumerable<T> IReadOnlyDictionary<T, int>.Keys => this.dictionary.Keys;
+    IEnumerable<T> IReadOnlyDictionary<T, int>.Keys
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Keys;
+    }
 
     /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Values"/>
-    IEnumerable<int> IReadOnlyDictionary<T, int>.Values => this.dictionary.Values;
+    IEnumerable<int> IReadOnlyDictionary<T, int>.Values
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Values;
+    }
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void IDictionary<T, int>.Add(T key, int value) => this.dictionary.Add(key, value);
 
     /// <inheritdoc cref="ICollection{T}.Add"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void ICollection<KeyValuePair<T, int>>.Add(KeyValuePair<T, int> item)
     {
         ((ICollection<KeyValuePair<T, int>>)this.dictionary).Add(item);
     }
 
     /// <inheritdoc cref="ICollection{T}.Add"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void ICollection<T>.Add(T value) => Add(value);
 
     /// <inheritdoc cref="ICollection{T}.Contains"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool ICollection<KeyValuePair<T, int>>.Contains(KeyValuePair<T, int> item)
     {
         return ((ICollection<KeyValuePair<T, int>>)this.dictionary).Contains(item);
     }
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.ContainsKey"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool IDictionary<T, int>.ContainsKey(T value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void ICollection<KeyValuePair<T, int>>.CopyTo(KeyValuePair<T, int>[] array, int arrayIndex)
     {
         ((ICollection<KeyValuePair<T, int>>)this.dictionary).CopyTo(array, arrayIndex);
     }
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool ICollection<KeyValuePair<T, int>>.Remove(KeyValuePair<T, int> item)
     {
         return ((ICollection<KeyValuePair<T, int>>)this.dictionary).Remove(item);
     }
 
     /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.ContainsKey"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool IReadOnlyDictionary<T, int>.ContainsKey(T value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.TryGetValue"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool IDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
 
     /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.TryGetValue"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool IReadOnlyDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator<KeyValuePair<T, int>> IEnumerable<KeyValuePair<T, int>>.GetEnumerator() => this.dictionary.GetEnumerator();
 }

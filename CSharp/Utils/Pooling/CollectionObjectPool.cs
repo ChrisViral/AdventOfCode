@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Microsoft.Extensions.ObjectPool;
 
@@ -32,6 +33,7 @@ public abstract class CollectionObjectPool<T, TElement> : WrappedObjectPool<T> w
         public int MaximumRetainedCapacity { get; init; } = 4096;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override T Create() => CreateWithCapacity(InitialCapacity);
 
         /// <summary>

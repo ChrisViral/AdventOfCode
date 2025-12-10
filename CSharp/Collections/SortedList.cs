@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
 
@@ -17,10 +18,18 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     private readonly SortedList<T, T> list;
 
     /// <inheritdoc cref="ICollection{T}.Count"/>
-    public int Count => this.list.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.list.Count;
+    }
 
     /// <inheritdoc cref="ICollection{T}.Count"/>
-    int IReadOnlyCollection<T>.Count => this.list.Count;
+    int IReadOnlyCollection<T>.Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.list.Count;
+    }
 
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
     public bool IsReadOnly => false;
@@ -30,21 +39,33 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// </summary>
     /// <param name="index">Index to get at</param>
     /// <returns>The value at the given index</returns>
-    public T this[int index] => this.list.Keys[index];
+    public T this[int index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.list.Keys[index];
+    }
 
     /// <summary>
     /// Gets the value at the given index in the list
     /// </summary>
     /// <param name="index">Index to get at</param>
     /// <returns>The value at the given index</returns>
-    public T this[Index index] => this.list.Keys[index];
+    public T this[Index index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.list.Keys[index];
+    }
 
     /// <summary>
     /// Gets a slice from the <see cref="SortedList{T}"/>
     /// </summary>
     /// <param name="range">Range to get the values from</param>
     /// <returns>An enumerable of the values in the given range</returns>
-    public IEnumerable<T> this[Range range] => range.AsEnumerable().Select(index => this.list.Keys[index]);
+    public IEnumerable<T> this[Range range]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => range.AsEnumerable().Select(index => this.list.Keys[index]);
+    }
 
     /// <inheritdoc cref="SortedList{TKey,TValue}()"/>
     public SortedList() => this.list = new SortedList<T, T>();
@@ -79,9 +100,11 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// Adds the given value to the sorted list
     /// </summary>
     /// <param name="value">Value to add</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Add(T value) => this.list.Add(value, default!);
 
     /// <inheritdoc cref="ICollection{T}.Clear"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.list.Clear();
 
     /// <summary>
@@ -89,12 +112,15 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns>True if the value is in the list, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(T value) => list.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CopyTo(T[] array, int arrayIndex) => this.list.Keys.CopyTo(array, arrayIndex);
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Remove(T item) => this.list.Remove(item);
 
     /// <summary>
@@ -102,14 +128,17 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// </summary>
     /// <param name="value">Value to get the index for</param>
     /// <returns>The index of the value, or -1 if the value is not within the list</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int IndexOf(T value) => this.list.IndexOfKey(value);
 
     /// <summary>
     /// Iterates over the values of the list, in sorted order
     /// </summary>
     /// <returns>An enumerator over the sorted list</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerator<T> GetEnumerator() => this.list.Keys.GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

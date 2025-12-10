@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
@@ -148,25 +149,31 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     private Angle(double radians) => this.Radians = radians;
 
     /// <inheritdoc cref="IComparable.CompareTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(object? obj) => obj is Angle angle ? CompareTo(angle) : 0;
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(Angle other) => this.Radians.CompareTo(other.Radians);
 
     /// <inheritdoc cref="object.Equals(object)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals(object? obj) => obj is Angle angle && Equals(angle);
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once CompareOfFloatsByEqualityOperator
-    public bool Equals(Angle other) => this.Radians == other.Radians;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(Angle other) => double.Approximately(this.Radians, other.Radians);
 
     /// <inheritdoc cref="object.GetHashCode"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => this.Radians.GetHashCode();
 
     /// <summary>
     /// String representation of this angle as degrees
     /// </summary>
     /// <returns>Degrees representation of this angle</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => $"{this.Degrees}°";
 
     /// <summary>
@@ -242,6 +249,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// </summary>
     /// <param name="degrees">Degrees of the angle</param>
     /// <returns>The angle object</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Angle FromDegrees(double degrees) => FromRadians(degrees * DEG2RAD);
 
     /// <summary>
@@ -249,6 +257,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// </summary>
     /// <param name="gradians">Gradians of the angle</param>
     /// <returns>The angle object</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Angle FromGradians(double gradians) => FromRadians(gradians * GRAD2RAD);
 
     /// <summary>
@@ -256,6 +265,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// </summary>
     /// <param name="dms">The DMS of the angle</param>
     /// <returns>The angle object</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Angle FromDMS((int d, int m, double s) dms) => FromDMS(dms.d, dms.m, dms.s);
 
     /// <summary>
@@ -266,6 +276,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="s">Seconds of the angle</param>
     /// <returns>The angle object</returns>
     /// ReSharper disable once MemberCanBePrivate.Global
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Angle FromDMS(int d, int m, double s) => FromRadians((d + (m / 60d) + (s / 3600d)) * DEG2RAD);
 
     /// <summary>
@@ -274,6 +285,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both angles are equal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(Angle a, Angle b) => Math.Abs(a.Radians - b.Radians) < TOLERANCE;
 
     /// <summary>
@@ -282,6 +294,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both angles are unequal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(Angle a, Angle b) => Math.Abs(a.Radians - b.Radians) < TOLERANCE;
 
     /// <summary>
@@ -290,6 +303,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is less than the second, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator <(Angle a, Angle b) => a.Radians < b.Radians;
 
     /// <summary>
@@ -298,6 +312,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is greater than the second, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator >(Angle a, Angle b) => a.Radians > b.Radians;
 
     /// <summary>
@@ -314,6 +329,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// <param name="a">First angle</param>
     /// <param name="b">Second angle</param>
     /// <returns>True if both the first angle is greater than or equals the second, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator >=(Angle a, Angle b) => a.Radians >= b.Radians;
 
     /// <summary>
@@ -337,6 +353,7 @@ public readonly struct Angle : IAdditionOperators<Angle, Angle, Angle>, ISubtrac
     /// </summary>
     /// <param name="a">Angle to apply the operator to</param>
     /// <returns>Same as <paramref name="a"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Angle operator +(Angle a) => a;
 
     /// <summary>

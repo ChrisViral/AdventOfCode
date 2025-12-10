@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Vectors;
 
@@ -52,6 +53,7 @@ public static class DirectionVectorExtensions
         /// Converts a vector to a direction vector
         /// </summary>
         /// <returns>The converted <see cref="DirectionVector{T}"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DirectionVector<T> ToDirectionVector() => new(vector);
     }
 }

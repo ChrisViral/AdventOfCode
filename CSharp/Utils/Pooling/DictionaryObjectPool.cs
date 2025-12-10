@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils.Pooling;
@@ -23,9 +24,11 @@ public sealed class DictionaryObjectPool<TKey, TValue> : CollectionObjectPool<Di
         public IEqualityComparer<TKey> Comparer { get; init; } = EqualityComparer<TKey>.Default;
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override Dictionary<TKey, TValue> CreateWithCapacity(int capacity) => new(capacity, this.Comparer);
 
         /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override int GetObjectCapacity(Dictionary<TKey, TValue> obj) => obj.Capacity;
     }
 

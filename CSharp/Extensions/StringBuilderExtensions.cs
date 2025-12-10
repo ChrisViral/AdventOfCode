@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -17,6 +18,7 @@ public static class StringBuilderExtensions
         /// Compiles the StringBuilder to it's contained value, then clears it
         /// </summary>
         /// <returns>The compiled string contained in this StringBuilder</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToStringAndClear()
         {
             string toString = stringBuilder.ToString();
@@ -28,6 +30,7 @@ public static class StringBuilderExtensions
         /// Copies data from the start of the StringBuilder to fill the given span
         /// </summary>
         /// <param name="destination">Span to fill</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CopyTo(Span<char> destination) => stringBuilder.CopyTo(0, destination, destination.Length);
     }
 }

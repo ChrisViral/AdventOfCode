@@ -51,16 +51,22 @@ public static class NumberExtensions
         /// <summary>
         /// Gets the <paramref name="value"/>th triangular number
         /// </summary>
-        /// <returns>The <paramref name="value"/>th triangular number</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Triangular() => (value * (value + T.One)) / NumberUtils<T>.Two;
+        /// <value>The <paramref name="value"/>th triangular number</value>
+        public T Triangular
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (value * (value + T.One)) / NumberUtils<T>.Two;
+        }
 
         /// <summary>
         /// Gets the <paramref name="value"/>th - 1 triangular number
         /// </summary>
-        /// <returns>The <paramref name="value"/>th - 1 triangular number</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T PreviousTriangular() => (value * (value - T.One)) / NumberUtils<T>.Two;
+        /// <value>The <paramref name="value"/>th - 1 triangular number</value>
+        public T PreviousTriangular
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (value * (value - T.One)) / NumberUtils<T>.Two;
+        }
 
         /// <summary>
         /// Checks if an integer is prime or not
@@ -114,6 +120,7 @@ public static class NumberExtensions
         /// <param name="max">Maximum value of the range, exclusive</param>
         /// <returns><see langword="true"/> if the value is within the range, otherwise <see langword="false"/></returns>
         /// <exception cref="ArgumentException">If <paramref name="max"/> is smaller than <paramref name="min"/></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsInRange(T min, T max) => min <= max
                                                    ? value >= min && value < max
                                                    : throw new ArgumentException("Max value must be larger or equal to min value", nameof(max));
@@ -149,6 +156,7 @@ public static class NumberExtensions
         /// </summary>
         /// <param name="numbers">Numbers to get the GCD for</param>
         /// <returns>Gets the GCD of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T GCD(params Span<T> numbers) => numbers.Aggregate(GCD);
 
         /// <summary>
@@ -156,6 +164,7 @@ public static class NumberExtensions
         /// </summary>
         /// <param name="numbers">Numbers to get the GCD for</param>
         /// <returns>Gets the GCD of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T GCD([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(GCD);
 
         /// <summary>
@@ -164,6 +173,7 @@ public static class NumberExtensions
         /// <param name="a">First number</param>
         /// <param name="b">Second number</param>
         /// <returns>The LCM of a and b</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T LCM(T a, T b) => a * b / GCD(a, b);
 
         /// <summary>
@@ -171,6 +181,7 @@ public static class NumberExtensions
         /// </summary>
         /// <param name="numbers">Numbers to get the LCM for</param>
         /// <returns>LCM of all the numbers in the array</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T LCM(params Span<T> numbers) => numbers.Aggregate(LCM);
 
         /// <summary>
@@ -178,6 +189,7 @@ public static class NumberExtensions
         /// </summary>
         /// <param name="numbers">Numbers to get the LCM for</param>
         /// <returns>LCM of all the numbers in the array</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T LCM([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(LCM);
     }
 
@@ -186,68 +198,80 @@ public static class NumberExtensions
         /// <summary>
         /// Counts the digits in a given number
         /// </summary>
-        public int DigitCount() => int.Abs(value) switch
+        public int DigitCount
         {
-            <            10 => 1,
-            <           100 => 2,
-            <         1_000 => 3,
-            <        10_000 => 4,
-            <       100_000 => 5,
-            <     1_000_000 => 6,
-            <    10_000_000 => 7,
-            <   100_000_000 => 8,
-            < 1_000_000_000 => 9,
-            _               => 10
-        };
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => int.Abs(value) switch
+            {
+                < 10            => 1,
+                < 100           => 2,
+                < 1_000         => 3,
+                < 10_000        => 4,
+                < 100_000       => 5,
+                < 1_000_000     => 6,
+                < 10_000_000    => 7,
+                < 100_000_000   => 8,
+                < 1_000_000_000 => 9,
+                _               => 10
+            };
+        }
 
         /// <summary>
         /// Calculates the Nth power of 10
         /// </summary>
-        /// <returns>Nth power of 10 as an integer</returns>
-        public int Pow10() => value switch
+        /// <value>Nth power of 10 as an integer</value>
+        public int Pow10
         {
-            < 0 =>             0,
-              0 =>             1,
-              1 =>            10,
-              2 =>           100,
-              3 =>         1_000,
-              4 =>        10_000,
-              5 =>       100_000,
-              6 =>     1_000_000,
-              7 =>    10_000_000,
-              8 =>   100_000_000,
-              9 => 1_000_000_000,
-            _   => throw new OverflowException("Power exceeds 32bit integer range")
-        };
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => value switch
+            {
+                < 0 => 0,
+                0   => 1,
+                1   => 10,
+                2   => 100,
+                3   => 1_000,
+                4   => 10_000,
+                5   => 100_000,
+                6   => 1_000_000,
+                7   => 10_000_000,
+                8   => 100_000_000,
+                9   => 1_000_000_000,
+                _   => throw new OverflowException("Power exceeds 32bit integer range")
+            };
+        }
 
         /// <summary>
         /// Calculates the Nth power of 10
         /// </summary>
-        /// <returns>Nth power of 10 as a long</returns>
-        public long LongPow10() => value switch
+        /// <value>Nth power of 10 as a long</value>
+        public long LongPow10
         {
-            < 0 =>                         0L,
-              0 =>                         1L,
-              1 =>                        10L,
-              2 =>                       100L,
-              3 =>                     1_000L,
-              4 =>                    10_000L,
-              5 =>                   100_000L,
-              6 =>                 1_000_000L,
-              7 =>                10_000_000L,
-              8 =>               100_000_000L,
-              9 =>             1_000_000_000L,
-             10 =>            10_000_000_000L,
-             11 =>           100_000_000_000L,
-             12 =>         1_000_000_000_000L,
-             13 =>        10_000_000_000_000L,
-             14 =>       100_000_000_000_000L,
-             15 =>     1_000_000_000_000_000L,
-             16 =>    10_000_000_000_000_000L,
-             17 =>   100_000_000_000_000_000L,
-             18 => 1_000_000_000_000_000_000L,
-            _    => throw new OverflowException("Power exceeds 64bit integer range")
-        };
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => value switch
+            {
+                < 0 => 0L,
+                0   => 1L,
+                1   => 10L,
+                2   => 100L,
+                3   => 1_000L,
+                4   => 10_000L,
+                5   => 100_000L,
+                6   => 1_000_000L,
+                7   => 10_000_000L,
+                8   => 100_000_000L,
+                9   => 1_000_000_000L,
+                10  => 10_000_000_000L,
+                11  => 100_000_000_000L,
+                12  => 1_000_000_000_000L,
+                13  => 10_000_000_000_000L,
+                14  => 100_000_000_000_000L,
+                15  => 1_000_000_000_000_000L,
+                16  => 10_000_000_000_000_000L,
+                17  => 100_000_000_000_000_000L,
+                18  => 1_000_000_000_000_000_000L,
+                _   => throw new OverflowException("Power exceeds 64bit integer range")
+            };
+        }
     }
 
     extension(long value)
@@ -256,28 +280,32 @@ public static class NumberExtensions
         /// Counts the digits in a given number
         /// </summary>
         /// ReSharper disable once CognitiveComplexity
-        public int DigitCount() => long.Abs(value) switch
+        public int DigitCount
         {
-            <                        10L => 1,
-            <                       100L => 2,
-            <                     1_000L => 3,
-            <                    10_000L => 4,
-            <                   100_000L => 5,
-            <                 1_000_000L => 6,
-            <                10_000_000L => 7,
-            <               100_000_000L => 8,
-            <             1_000_000_000L => 9,
-            <            10_000_000_000L => 10,
-            <           100_000_000_000L => 11,
-            <         1_000_000_000_000L => 12,
-            <        10_000_000_000_000L => 13,
-            <       100_000_000_000_000L => 14,
-            <     1_000_000_000_000_000L => 15,
-            <    10_000_000_000_000_000L => 16,
-            <   100_000_000_000_000_000L => 17,
-            < 1_000_000_000_000_000_000L => 18,
-            _                            => 19
-        };
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => long.Abs(value) switch
+            {
+                < 10L                        => 1,
+                < 100L                       => 2,
+                < 1_000L                     => 3,
+                < 10_000L                    => 4,
+                < 100_000L                   => 5,
+                < 1_000_000L                 => 6,
+                < 10_000_000L                => 7,
+                < 100_000_000L               => 8,
+                < 1_000_000_000L             => 9,
+                < 10_000_000_000L            => 10,
+                < 100_000_000_000L           => 11,
+                < 1_000_000_000_000L         => 12,
+                < 10_000_000_000_000L        => 13,
+                < 100_000_000_000_000L       => 14,
+                < 1_000_000_000_000_000L     => 15,
+                < 10_000_000_000_000_000L    => 16,
+                < 100_000_000_000_000_000L   => 17,
+                < 1_000_000_000_000_000_000L => 18,
+                _                            => 19
+            };
+        }
     }
 
     /// <typeparam name="T">Number type</typeparam>
@@ -297,6 +325,7 @@ public static class NumberExtensions
         /// <typeparam name="T">Type of numbers</typeparam>
         /// <param name="numbers">List of numbers to get the maximum of</param>
         /// <returns>The maximum of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Max(params Span<T> numbers) => numbers.Aggregate(T.Max);
 
         /// <summary>
@@ -305,6 +334,7 @@ public static class NumberExtensions
         /// <typeparam name="T">Type of numbers</typeparam>
         /// <param name="numbers">List of numbers to get the maximum of</param>
         /// <returns>The maximum of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Max([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(T.Max);
 
         /// <summary>
@@ -313,6 +343,7 @@ public static class NumberExtensions
         /// <typeparam name="T">Type of numbers</typeparam>
         /// <param name="numbers">List of numbers to get the minimum of</param>
         /// <returns>The minimum of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Min(params Span<T> numbers) => numbers.Aggregate(T.Min);
 
         /// <summary>
@@ -321,6 +352,7 @@ public static class NumberExtensions
         /// <typeparam name="T">Type of numbers</typeparam>
         /// <param name="numbers">List of numbers to get the minimum of</param>
         /// <returns>The minimum of all the passed numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Min([InstantHandle] params IEnumerable<T> numbers) => numbers.Aggregate(T.Min);
     }
 
@@ -333,6 +365,7 @@ public static class NumberExtensions
         /// <param name="a">First number to test</param>
         /// <param name="b">Second number to test</param>
         /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Approximately(T a, T b) => T.Abs(a - b) <= FloatUtils<T>.Epsilon;
 
         /// <summary>
@@ -341,6 +374,7 @@ public static class NumberExtensions
         /// <typeparam name="TResult">Integer target type</typeparam>
         /// <param name="value">The value to get the ceiling for</param>
         /// <returns>The ceiling of <paramref name="value"/> as an integer</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TResult CeilToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
         {
             return TResult.CreateChecked(T.Ceiling(value));
@@ -352,6 +386,7 @@ public static class NumberExtensions
         /// <typeparam name="TResult">Integer target type</typeparam>
         /// <param name="value">The value to get the floor for</param>
         /// <returns>The floor of <paramref name="value"/> as an integer</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TResult FloorToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
         {
             return TResult.CreateChecked(T.Floor(value));
@@ -365,6 +400,7 @@ public static class NumberExtensions
         /// </summary>
         /// <param name="index">Index to set the bit at</param>
         /// <param name="value">Whether the bit is on or off</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetBit(int index, bool value) => vector[1 << index] = value;
     }
 }

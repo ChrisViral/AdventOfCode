@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
@@ -51,6 +52,7 @@ public static class DirectionsUtils
         /// Gets a Vector2 from a given Direction
         /// </summary>
         /// <returns>The resulting vector</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2<T> ToVector<T>() where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
         {
             Direction.UP    => Vector2<T>.Up,
@@ -65,6 +67,7 @@ public static class DirectionsUtils
         /// </summary>
         /// <param name="length">DThe length of the direction vector</param>
         /// <returns>The resulting vector</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2<T> ToVector<T>(T length) where T : IBinaryNumber<T>, IMinMaxValue<T> => direction switch
         {
             Direction.UP    => new Vector2<T>(T.Zero, -length),
@@ -78,6 +81,7 @@ public static class DirectionsUtils
         /// Inverts the direction
         /// </summary>
         /// <returns>Reverse direction from the current one</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Direction Invert() => direction switch
         {
             Direction.UP    => Direction.DOWN,
@@ -91,6 +95,7 @@ public static class DirectionsUtils
         /// Turns the direction towards the left
         /// </summary>
         /// <returns>The new direction after turning to the left</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Direction TurnLeft() => direction switch
         {
             Direction.NONE  => Direction.NONE,
@@ -105,6 +110,7 @@ public static class DirectionsUtils
         /// Turns the direction towards the right
         /// </summary>
         /// <returns>The new direction after turning to the right</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Direction TurnRight() => direction switch
         {
             Direction.NONE  => Direction.NONE,
@@ -120,6 +126,7 @@ public static class DirectionsUtils
         /// </summary>
         /// <param name="turn">Direction to turn into</param>
         /// <returns>The new direction after turning by the specified direction</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Direction TurnBy(Direction turn) => turn switch
         {
             Direction.NONE  => direction,
@@ -134,12 +141,14 @@ public static class DirectionsUtils
         /// Checks if the given direction is vertical or not
         /// </summary>
         /// <returns><see langword="true"/> if the direction is vertical, else <see langword="false"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsVertical() => ((int)direction & VERTICAL_MASK) is not 0;
 
         /// <summary>
         /// Checks if the given direction is horizontal or not
         /// </summary>
         /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsHorizontal() => ((int)direction & HORIZONTAL_MASK) is not 0;
     }
 
@@ -152,6 +161,7 @@ public static class DirectionsUtils
         /// <returns>The parsed direction</returns>
         /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
         /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Direction Parse(char value) => char.ToLowerInvariant(value) switch
         {
             'u' or 'n' or '^' => Direction.UP,
@@ -169,6 +179,7 @@ public static class DirectionsUtils
         /// <exception cref="ArgumentNullException">If <paramref name="value"/> is null</exception>
         /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
         /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Direction Parse(string value) => value is not null
                                                            ? Parse(value.AsSpan())
                                                            : throw new ArgumentNullException(nameof(value), "Parse value is null");
@@ -241,6 +252,7 @@ public static class DirectionsUtils
         /// <param name="value">Value to parse</param>
         /// <param name="direction">The parsed direction output</param>
         /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(string value, out Direction direction) => TryParse(value.AsSpan(), out direction);
 
         /// <summary>

@@ -27,11 +27,11 @@ public sealed class Day03 : Solver
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        long pow1 = (PART1_COUNT - 1).LongPow10();
+        long pow1 = (PART1_COUNT - 1).LongPow10;
         long joltage = this.Data.Sum(b => GetMaxJoltage(b, PART1_COUNT, pow1));
         AoCUtils.LogPart1(joltage);
 
-        long pow2 = (PART2_COUNT - 1).LongPow10();
+        long pow2 = (PART2_COUNT - 1).LongPow10;
         joltage = this.Data.Sum(b => GetMaxJoltage(b, PART2_COUNT, pow2));
         AoCUtils.LogPart2(joltage);
     }

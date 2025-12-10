@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;
 using static AdventOfCode.Vectors.WrongNumericalTypeException;
@@ -67,12 +68,20 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// Length of the Vector
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public double Length => GetLength<double>();
+    public double Length
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => GetLength<double>();
+    }
 
     /// <summary>
     /// Absolute length of all three vector components summed
     /// </summary>
-    public T ManhattanLength => T.Abs(this.X) + T.Abs(this.Y)+ T.Abs(this.Z);
+    public T ManhattanLength
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => T.Abs(this.X) + T.Abs(this.Y) + T.Abs(this.Z);
+    }
 
     /// <summary>
     /// Creates an irreducible version of this vector<br/>
@@ -80,7 +89,11 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// </summary>
     /// <returns>The fully reduced version of this vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector3<T> Reduced => IsInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+    public Vector3<T> Reduced
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => IsInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
+    }
 
     /// <summary>
     /// Creates a normalized version of this vector<br/>
@@ -88,7 +101,11 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// </summary>
     /// <returns>The vector normalized</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public Vector3<T> Normalized => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
+    public Vector3<T> Normalized
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
+    }
 
     /// <summary>
     /// Creates a new <see cref="Vector3{T}"/> with the specified components
@@ -123,28 +140,35 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     }
 
     /// <inheritdoc cref="object.Equals(object)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals(object? other) => other is Vector3<T> vector && Equals(vector);
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(Vector3<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y && this.Z == other.Z
                                                          : Approximately(this.X, other.X) && Approximately(this.Y, other.Y) && Approximately(this.Z, other.Z);
 
     /// <inheritdoc cref="object.GetHashCode"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => HashCode.Combine(this.X, this.Y, this.Z);
 
     /// <inheritdoc cref="IComparable.CompareTo"/>
     /// ReSharper disable once TailRecursiveCall - not tail recursive
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(object? other) => other is Vector3<T> vector ? CompareTo(vector) : 0;
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
     /// ReSharper disable once MemberCanBePrivate.Global
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(Vector3<T> other) => this.Length.CompareTo(other.Length);
 
     /// <inheritdoc cref="object.ToString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => $"({this.X}, {this.Y}, {this.Z})";
 
     /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string ToString(string? format, IFormatProvider? provider)
     {
         return $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
@@ -240,16 +264,16 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
             return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z)));
         }
 
-        long longX = long.CreateChecked(this.X);
-        long longY = long.CreateChecked(this.Y);
-        long longZ = long.CreateChecked(this.Z);
-        return TResult.Sqrt(TResult.CreateChecked((longX * longX) + (longY * longY) + (longZ * longZ)));
+        Vector3<long> longVector = Vector3<long>.CreateChecked(this);
+        return TResult.Sqrt(TResult.CreateChecked((longVector.X * longVector.X) + (longVector.Y * longVector.Y) + (longVector.Z * longVector.Z)));
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     bool IEquatable<Vector3<T>>.Equals(Vector3<T> other) => Equals(other);
 
     /// <inheritdoc cref="IComparable{T}"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     int IComparable<Vector3<T>>.CompareTo(Vector3<T> other) => CompareTo(other);
 
     /// <summary>
@@ -258,6 +282,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The distance between both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Distance(Vector3<T> a, Vector3<T> b) => (a - b).Length;
 
     /// <summary>
@@ -266,6 +291,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>Tge straight line distance between both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T ManhattanDistance(Vector3<T> a, Vector3<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y) + T.Abs(a.Z - b.Z);
 
     /// <summary>
@@ -273,6 +299,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// </summary>
     /// <param name="vector">Vector to get the absolute value of</param>
     /// <returns>The <paramref name="vector"/> where all it's elements are positive</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> Abs(Vector3<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y), T.Abs(vector.Z));
 
     /// <summary>
@@ -281,6 +308,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The multiplied vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> ComponentMultiply(Vector3<T> a, Vector3<T> b) => new(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
 
     /// <summary>
@@ -289,6 +317,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The cross product of both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> Cross(Vector3<T> a, Vector3<T> b) => new(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 
     /// <summary>
@@ -297,6 +326,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The dot product of both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Dot(Vector3<T> a, Vector3<T> b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 
     /// <summary>
@@ -305,6 +335,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The per-component minimum vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> Min(Vector3<T> a, Vector3<T> b) => new(T.Min(a.X, b.X), T.Min(a.Y, b.Y), T.Min(a.Z, b.Z));
 
     /// <summary>
@@ -313,6 +344,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The per-component maximum vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> Max(Vector3<T> a, Vector3<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y), T.Max(a.Z, b.Z));
 
     /// <summary>
@@ -361,6 +393,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="y">Y parameter</param>
     /// <param name="z">Z parameter</param>
     /// <returns>The length of the vector, in the specified floating point type</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPointIeee754<TResult>
     {
         return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y) + (z * z)));
@@ -480,34 +513,39 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First number to test</param>
     /// <param name="b">Second number to test</param>
     /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool Approximately(T a, T b) => T.Abs(a - b) <= Epsilon;
 
     /// <summary>
     /// Converts the vector to the target type
     /// </summary>
-    /// <typeparam name="TResult">Number type</typeparam>
+    /// <typeparam name="TSource">Source number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
-    public Vector3<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<T> CreateChecked<TSource>(Vector3<TSource> vector) where TSource : IBinaryNumber<TSource>, IMinMaxValue<TSource>
     {
-        return new Vector3<TResult>(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y), TResult.CreateChecked(this.Z));
+        return new Vector3<T>(T.CreateChecked(vector.X), T.CreateChecked(vector.Y), T.CreateChecked(vector.Z));
     }
 
     /// <summary>
     /// Cast from <see cref="ValueTuple{T1, T2, T3}"/> to <see cref="Vector3{T}"/>
     /// </summary>
     /// <param name="tuple">Tuple to cast from</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Vector3<T>((T x, T y, T z) tuple) => new(tuple);
 
     /// <summary>
     /// Casts from <see cref="Vector3{T}"/> to <see cref="ValueTuple{T1, T2, T3}"/>
     /// </summary>
     /// <param name="vector">Vector to cast from</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator (T x, T y, T z)(Vector3<T> vector) => (vector.X, vector.Y, vector.Z);
 
     /// <summary>
     /// Casts from <see cref="Vector3{T}"/> to <see cref="Vector3{T}"/>
     /// </summary>
     /// <param name="vector">Vector to cast from</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Vector3<T>(Vector2<T> vector) => new(vector.X, vector.Y, T.Zero);
 
     /// <summary>
@@ -516,6 +554,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are equal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(Vector3<T> a, Vector3<T> b) => a.Equals(b);
 
     /// <summary>
@@ -524,6 +563,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if both vectors are unequal, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(Vector3<T> a, Vector3<T> b) => !a.Equals(b);
 
     /// <summary>
@@ -532,6 +572,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is less than the second vector, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator <(Vector3<T> a, Vector3<T> b) => a.CompareTo(b) < 0;
 
     /// <summary>
@@ -540,6 +581,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than the second vector, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator >(Vector3<T> a, Vector3<T> b) => a.CompareTo(b) > 0;
 
     /// <summary>
@@ -548,6 +590,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is less than or equal to the second vector, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator <=(Vector3<T> a, Vector3<T> b) => a.CompareTo(b) <= 0;
 
     /// <summary>
@@ -556,6 +599,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>True if the first vector is greater than or equal to the second vector, false otherwise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator >=(Vector3<T> a, Vector3<T> b) => a.CompareTo(b) >= 0;
 
     /// <summary>
@@ -563,6 +607,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// </summary>
     /// <param name="a">Vector to negate</param>
     /// <returns>The vector with all it's components negated</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator -(Vector3<T> a) => new(-a.X, -a.Y, -a.Z);
 
     /// <summary>
@@ -570,6 +615,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// </summary>
     /// <param name="a">Vector to apply the plus to</param>
     /// <returns>The vector where all the components had the plus operator applied to</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator +(Vector3<T> a) => new(+a.X, +a.Y, +a.Z);
 
     /// <summary>
@@ -578,6 +624,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>The result of the component-wise addition on both Vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator +(Vector3<T> a, Vector3<T> b) => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
     /// <summary>
@@ -586,6 +633,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">First Vector</param>
     /// <param name="b">Second Vector</param>
     /// <returns>The result of the component-wise subtraction on both Vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator -(Vector3<T> a, Vector3<T> b) => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 
     /// <summary>
@@ -594,6 +642,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">Vector to scale</param>
     /// <param name="b">Scalar to multiply by</param>
     /// <returns>The scaled vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator *(Vector3<T> a, T b) => new(a.X * b, a.Y * b, a.Z * b);
 
     /// <summary>
@@ -602,6 +651,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">Vector to scale</param>
     /// <param name="b">Scalar to divide by</param>
     /// <returns>The scaled vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator /(Vector3<T> a, T b) => new(a.X / b, a.Y / b, a.Z / b);
 
     /// <summary>
@@ -610,6 +660,7 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">Vector to use the Modulo onto</param>
     /// <param name="b">Scalar to modulo by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator %(Vector3<T> a, T b) => new(a.X % b, a.Y % b, a.Z % b);
 
     /// <summary>
@@ -618,5 +669,6 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     /// <param name="a">Vector to use the Modulo onto</param>
     /// <param name="b">Vector containing which values to modulo the components by</param>
     /// <returns>The vector with the results of the modulo operation component wise</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator %(Vector3<T> a, Vector3<T> b) => new(a.X % b.X, a.Y % b.Y, a.Z % b.Z);
 }

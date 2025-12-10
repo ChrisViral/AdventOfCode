@@ -90,6 +90,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <exception cref="ArgumentOutOfRangeException">If the address is outside of the bounds of the VM's buffer</exception>
     public ref long this[int index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
@@ -109,6 +110,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <exception cref="ArgumentOutOfRangeException">If the address is outside of the bounds of the VM's buffer</exception>
     public ref long this[Index index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
             ObjectDisposedException.ThrowIf(this.isDisposed, this);
@@ -129,7 +131,11 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <summary>
     /// If this VM is in a halted state
     /// </summary>
-    public bool IsHalted => this.Status is State.HALTED;
+    public bool IsHalted
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.Status is State.HALTED;
+    }
 
     /// <summary>
     /// VM's input provider

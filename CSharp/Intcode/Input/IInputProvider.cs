@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.Input;
@@ -18,7 +19,11 @@ public interface IInputProvider
     /// <summary>
     /// If this input provider has any input
     /// </summary>
-    bool IsEmpty => this.Count is 0;
+    bool IsEmpty
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get { return this.Count is 0; }
+    }
 
     /// <summary>
     /// Provides an input value to the Intcode VM

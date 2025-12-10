@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using TextCopy;
 
@@ -84,18 +85,21 @@ public static class AoCUtils
     /// Logs a message to the console and the log file
     /// </summary>
     /// <param name="message">Message to log</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Log<T>(T message) where T : notnull => Trace.WriteLine(message);
 
     /// <summary>
     /// Logs the parse time elapsed time
     /// </summary>
     /// <param name="watch">Stopwatch measuring the parsing time</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void LogParse(Stopwatch watch) => Trace.WriteLine($"Problem input parsed in: {GetElapsedString(watch.Elapsed)}\n");
 
     /// <summary>
     /// Logs the elapsed time on the stopwatch
     /// </summary>
     /// <param name="watch">Stopwatch to log the time for</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void LogElapsed(Stopwatch watch) => Trace.WriteLine($"Total elapsed time: {GetElapsedString(watch.Elapsed)}\n");
 
     /// <summary>
@@ -103,6 +107,7 @@ public static class AoCUtils
     /// </summary>
     /// <param name="timespan">Timespan to get the elapsed time string for</param>
     /// <returns>An elapsed time string whose units are based on the total elapsed duration</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string GetElapsedString(in TimeSpan timespan) => timespan switch
     {
         { TotalNanoseconds:  <  1000d } => $"{timespan.Nanoseconds}ns",
@@ -121,6 +126,7 @@ public static class AoCUtils
     /// <typeparam name="T">Type of value to swap</typeparam>
     /// <param name="a">First value</param>
     /// <param name="b">Second value</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
 
     /// <summary>
@@ -129,6 +135,7 @@ public static class AoCUtils
     /// <typeparam name="T">Type of element within the span</typeparam>
     /// <param name="a">First span</param>
     /// <param name="b">Second span</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SwapSpans<T>(ref Span<T> a, ref Span<T> b)
     {
         Span<T> temp = a;
