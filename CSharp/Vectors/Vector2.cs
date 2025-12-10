@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -13,22 +14,14 @@ namespace AdventOfCode.Vectors;
 /// Integer two component vector
 /// </summary>
 [PublicAPI]
-public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vector2<T>, Vector2<T>>, ISubtractionOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
-                                            IUnaryNegationOperators<Vector2<T>, Vector2<T>>, IUnaryPlusOperators<Vector2<T>, Vector2<T>>,
-                                            IComparisonOperators<Vector2<T>, Vector2<T>, bool>, IMinMaxValue<Vector2<T>>,
-                                            IDivisionOperators<Vector2<T>, T, Vector2<T>>, IMultiplyOperators<Vector2<T>, T, Vector2<T>>,
-                                            IModulusOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, Vector2<T>, Vector2<T>>,
-                                            IComparable<Vector2<T>>, IEquatable<Vector2<T>>, IFormattable
+public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOperators<Vector2<T>, T, Vector2<T>>,
+                                            IMultiplyOperators<Vector2<T>, T, Vector2<T>>, IModulusOperators<Vector2<T>, T, Vector2<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
     private static readonly T Epsilon = !IsInteger ? T.CreateChecked(1E-5) : T.Zero;
-    /// <summary>Zero vector</summary>
-    public static readonly Vector2<T> Zero  = new(T.Zero, T.Zero);
-    /// <summary>One vector</summary>
-    public static readonly Vector2<T> One   = new(T.One, T.One);
     /// <summary>Up vector</summary>
     public static readonly Vector2<T> Up    = new(T.Zero, -T.One);
     /// <summary>Down vector</summary>
@@ -39,18 +32,33 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     public static readonly Vector2<T> Right = new(T.One, T.Zero);
 
     /// <summary>
-    /// Regex direction match
+    /// Zero vector
     /// </summary>
-    [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.IgnoreCase)]
-    private static partial Regex DirectionMatch { get; }
+    public static Vector2<T> Zero { get; } = new(T.Zero, T.Zero);
+
+    /// <summary>
+    /// One vector
+    /// </summary>
+    public static Vector2<T> One { get; } = new(T.One, T.One);
+
+    /// <inheritdoc />
+    public static int Dimension => 2;
+
     /// <summary>
     /// Minimum vector value
     /// </summary>
     public static Vector2<T> MinValue { get; } = new(T.MinValue, T.MinValue);
+
     /// <summary>
     /// Maximum vector value
     /// </summary>
     public static Vector2<T> MaxValue { get; } = new(T.MaxValue, T.MaxValue);
+
+    /// <summary>
+    /// Regex direction match
+    /// </summary>
+    [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.IgnoreCase)]
+    private static partial Regex DirectionMatch { get; }
 
     /// <summary>
     /// X component of the Vector
@@ -61,6 +69,28 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// Y component of the Vector
     /// </summary>
     public T Y { get; init; }
+
+    /// <inheritdoc />
+    public T this[int index]
+    {
+        get => index switch
+        {
+            0 => this.X,
+            1 => this.Y,
+            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
+        };
+    }
+
+    /// <inheritdoc />
+    public T this[Index index]
+    {
+        get => index.GetOffset(Dimension) switch
+        {
+            0 => this.X,
+            1 => this.Y,
+            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
+        };
+    }
 
     /// <summary>
     /// Length of the Vector
@@ -138,6 +168,32 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <inheritdoc cref="IFormattable.ToString(string, IFormatProvider)"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string ToString(string? format, IFormatProvider? provider) => $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)})";
+
+    /// <inheritdoc />
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        charsWritten = 0;
+        if (destination.Length < 6) return false;
+
+        destination[0] = '(';
+        destination = destination[1..];
+        if (!this.X.TryFormat(destination, out int xWritten, format, provider)) return false;
+
+        destination = destination[xWritten..];
+        if (destination.Length <= 4) return false;
+
+        destination[0] = ',';
+        destination[1] = ' ';
+        destination = destination[2..];
+        if (!this.Y.TryFormat(destination, out int yWritten, format, provider)) return false;
+
+        destination = destination[yWritten..];
+        if (destination.Length <= 1) return false;
+
+        destination[0] = ')';
+        charsWritten = xWritten + yWritten + 4;
+        return true;
+    }
 
     /// <summary>
     /// Deconstructs this vector into a tuple
@@ -277,6 +333,12 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> Max(Vector2<T> a, Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
 
+    /// <inheritdoc />
+    public static Vector2<T> MinMagnitude(Vector2<T> a, Vector2<T> b) => a.Length < b.Length ? a : b;
+
+    /// <inheritdoc />
+    public static Vector2<T> MaxMagnitude(Vector2<T> a, Vector2<T> b) => a.Length > b.Length ? a : b;
+
     /// <summary>
     /// Parses the Vector2 from a direction and distance
     /// </summary>
@@ -399,15 +461,17 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// </summary>
     /// <param name="value">Value to parse</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns>The parsed vector</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
-    public static Vector2<T> Parse(string value, string separator = ",")
+    public static Vector2<T> Parse(string value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
 
-        return Parse(value.AsSpan(), separator);
+        return Parse(value.AsSpan(), separator, style, provider);
     }
 
     /// <summary>
@@ -415,11 +479,13 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// </summary>
     /// <param name="value">Value to parse</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns>The parsed vector</returns>
     /// <exception cref="ArgumentException">If <paramref name="value"/> is empty</exception>
     /// <exception cref="ArgumentNullException">If <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
-    public static Vector2<T> Parse(ReadOnlySpan<char> value, string separator = ",")
+    public static Vector2<T> Parse(ReadOnlySpan<char> value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Value cannot be empty", nameof(value));
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
@@ -428,8 +494,8 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (written is not 2) throw new FormatException("String to parse not properly formatted");
 
-        T x = T.Parse(value[ranges[0]], null);
-        T y = T.Parse(value[ranges[1]], null);
+        T x = T.Parse(value[ranges[0]], style, provider);
+        T y = T.Parse(value[ranges[1]], style, provider);
         return new Vector2<T>(x, y);
     }
 
@@ -439,8 +505,10 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="value">Value to parse</param>
     /// <param name="result">Resulting vector, if any</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(string? value, out Vector2<T> result, string separator = ",")
+    public static bool TryParse(string? value, out Vector2<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -448,7 +516,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
             return false;
         }
 
-        return TryParse(value.AsSpan(), out result, separator);
+        return TryParse(value.AsSpan(), out result, separator, style, provider);
     }
 
     /// <summary>
@@ -457,8 +525,10 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="value">Value to parse</param>
     /// <param name="result">Resulting vector, if any</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(ReadOnlySpan<char> value, out Vector2<T> result, string separator = ",")
+    public static bool TryParse(ReadOnlySpan<char> value, out Vector2<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace() || string.IsNullOrEmpty(separator))
         {
@@ -469,8 +539,8 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
         Span<Range> ranges = stackalloc Range[2];
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (written is not 2
-         || !T.TryParse(value[ranges[0]], null, out T? x)
-         || !T.TryParse(value[ranges[1]], null, out T? y))
+         || !T.TryParse(value[ranges[0]], style, provider, out T? x)
+         || !T.TryParse(value[ranges[1]], style, provider, out T? y))
         {
             result = Zero;
             return false;
@@ -478,31 +548,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
         result = new Vector2<T>(x, y);
         return true;
-    }
-
-    /// <summary>
-    /// Greatest Common Divisor function
-    /// </summary>
-    /// <param name="a">First number</param>
-    /// <param name="b">Second number</param>
-    /// <returns>Gets the GCD of a and b</returns>
-    private static T GCD(T a, T b)
-    {
-        a = T.Abs(a);
-        b = T.Abs(b);
-        while (a != T.Zero && b != T.Zero)
-        {
-            if (a > b)
-            {
-                a %= b;
-            }
-            else
-            {
-                b %= a;
-            }
-        }
-
-        return a | b;
     }
 
     /// <summary>
@@ -634,6 +679,20 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     public static Vector2<T> operator -(Vector2<T> a, Direction b) => a - b.ToVector<T>();
 
     /// <summary>
+    /// Increment operation on vector
+    /// </summary>
+    /// <param name="a">Vector</param>
+    /// <returns>The vector with each component incremented by one</returns>
+    public static Vector2<T> operator ++(Vector2<T> a) => new(a.X + T.One, a.Y + T.One);
+
+    /// <summary>
+    /// Decrement operation on vector
+    /// </summary>
+    /// <param name="a">Vector</param>
+    /// <returns>The vector with each component decremented by one</returns>
+    public static Vector2<T> operator --(Vector2<T> a) => new(a.X - T.One, a.Y - T.One);
+
+    /// <summary>
     /// Scalar integer multiplication on a Vector
     /// </summary>
     /// <param name="a">Vector to scale</param>
@@ -668,4 +727,146 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <returns>The vector with the results of the modulo operation component wise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> operator %(Vector2<T> a, Vector2<T> b) => new(a.X % b.X, a.Y % b.Y);
+
+    /// <inheritdoc />
+    static int INumberBase<Vector2<T>>.Radix => T.Radix;
+
+    /// <inheritdoc />
+    static Vector2<T> IAdditiveIdentity<Vector2<T>, Vector2<T>>.AdditiveIdentity => Zero;
+
+    /// <inheritdoc />
+    static Vector2<T> IMultiplicativeIdentity<Vector2<T>, Vector2<T>>.MultiplicativeIdentity => One;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsCanonical(Vector2<T> value) => T.IsCanonical(value.X) && T.IsCanonical(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsComplexNumber(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsEvenInteger(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsFinite(Vector2<T> value) => T.IsFinite(value.X) && T.IsFinite(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsImaginaryNumber(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsInfinity(Vector2<T> value) => T.IsInfinity(value.X) || T.IsInfinity(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsInteger(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsNaN(Vector2<T> value) => T.IsNaN(value.X) || T.IsNaN(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsNegative(Vector2<T> value) => T.IsNegative(value.X) || T.IsNegative(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsNegativeInfinity(Vector2<T> value) => T.IsNegativeInfinity(value.X) || T.IsNegativeInfinity(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsNormal(Vector2<T> value) => T.IsNormal(value.X) && T.IsNormal(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsOddInteger(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsPositive(Vector2<T> value) => T.IsPositive(value.X) && T.IsPositive(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsPositiveInfinity(Vector2<T> value) => T.IsPositiveInfinity(value.X) || T.IsPositiveInfinity(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsRealNumber(Vector2<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsSubnormal(Vector2<T> value) => T.IsSubnormal(value.X) || T.IsSubnormal(value.Y);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.IsZero(Vector2<T> value) => value == Zero;
+
+    /// <inheritdoc />
+    static Vector2<T> INumberBase<Vector2<T>>.MaxMagnitudeNumber(Vector2<T> a, Vector2<T> b)
+    {
+        if (T.IsNaN(a.X) || T.IsNaN(a.Y)) return b;
+        if (T.IsNaN(b.X) || T.IsNaN(b.Y)) return a;
+        return MaxMagnitude(a, b);
+    }
+
+    /// <inheritdoc />
+    static Vector2<T> INumberBase<Vector2<T>>.MinMagnitudeNumber(Vector2<T> a, Vector2<T> b)
+    {
+        if (T.IsNaN(a.X) || T.IsNaN(a.Y)) return b;
+        if (T.IsNaN(b.X) || T.IsNaN(b.Y)) return a;
+        return MinMagnitude(a, b);
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertFromChecked<TOther>(TOther value, out Vector2<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertFromSaturating<TOther>(TOther value, out Vector2<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertFromTruncating<TOther>(TOther value, out Vector2<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertToChecked<TOther>(Vector2<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertToSaturating<TOther>(Vector2<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryConvertToTruncating<TOther>(Vector2<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static Vector2<T> INumberBase<Vector2<T>>.Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static Vector2<T> INumberBase<Vector2<T>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static Vector2<T> IParsable<Vector2<T>>.Parse(string s, IFormatProvider? provider) => Parse(s, provider: provider);
+
+    /// <inheritdoc />
+    static Vector2<T> ISpanParsable<Vector2<T>>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => Parse(s, provider: provider);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector2<T>>.TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static bool IParsable<Vector2<T>>.TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, provider: provider);
+
+    /// <inheritdoc />
+    static bool ISpanParsable<Vector2<T>>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, provider: provider);
+
+    /// <inheritdoc />
+    static Vector2<T> IMultiplyOperators<Vector2<T>, Vector2<T>, Vector2<T>>.operator *(Vector2<T> left, Vector2<T> right) => new(left.X * right.X, left.Y * right.Y);
+
+    /// <inheritdoc />
+    static Vector2<T> IDivisionOperators<Vector2<T>, Vector2<T>, Vector2<T>>.operator /(Vector2<T> left, Vector2<T> right) => new(left.X / right.X, left.Y / right.Y);
 }
