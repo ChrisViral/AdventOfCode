@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
 using SpanLinq;
@@ -125,6 +123,20 @@ public static class NumberExtensions
         public bool IsInRange(T min, T max) => min <= max
                                                    ? value >= min && value < max
                                                    : throw new ArgumentException("Max value must be larger or equal to min value", nameof(max));
+
+        /// <summary>
+        /// Value which masks the <paramref name="n"/>'th bit
+        /// </summary>
+        /// <param name="n">Bit index to mask</param>
+        /// <returns>A value where every bit is zero except for <paramref name="n"/> which is one</returns>
+        public T MaskBit(int n) => T.One << n;
+
+        /// <summary>
+        /// Value which masks the <paramref name="n"/>'th bit
+        /// </summary>
+        /// <param name="n">Bit index to mask</param>
+        /// <returns>A value where every bit is one except for <paramref name="n"/> which is zero</returns>
+        public T InverseMaskBit(int n) => ~(T.One << n);
 
         /// <summary>
         /// Greatest Common Divisor function
@@ -375,42 +387,6 @@ public static class NumberExtensions
         public static TResult FloorToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
         {
             return TResult.CreateChecked(T.Floor(value));
-        }
-    }
-
-    extension(ref BitVector32 vector)
-    {
-        /// <summary>
-        /// Sets the bit at the given index
-        /// </summary>
-        /// <param name="index">Index to set the bit at</param>
-        /// <param name="value">Whether the bit is on or off</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBit(int index, bool value) => vector[1 << index] = value;
-
-        /// <summary>
-        /// Inverts the bit at the given index
-        /// </summary>
-        /// <param name="index">Index to invert the bit at</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void InvertBit(int index) => vector[1 << index] ^= true;
-
-        /// <summary>
-        /// Creates a bit vector from a given list of bits
-        /// </summary>
-        /// <param name="bits">Bits to create the vector from</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">If <paramref name="bits"/> has more than 32 elements</exception>
-        public static BitVector32 FromBitArray(IReadOnlyList<bool> bits)
-        {
-            if (bits.Count > 32) throw new ArgumentException("BitVetctor32 only supports up to 32 bits", nameof(bits));
-
-            BitVector32 value = new();
-            foreach (int i in ..bits.Count)
-            {
-                value.SetBit(i, bits[i]);
-            }
-            return value;
         }
     }
 }

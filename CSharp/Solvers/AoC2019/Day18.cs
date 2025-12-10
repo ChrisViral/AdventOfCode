@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.BitVectors;
 using AdventOfCode.Utils.Pooling;
 using AdventOfCode.Vectors;
 using JetBrains.Annotations;
@@ -113,7 +112,7 @@ public sealed class Day18 : GridSolver<char>
         public void SetOpen(bool isOpen, ref BitVector32 unlocked)
         {
             this.IsOpen = isOpen;
-            unlocked.SetBit(this.ID - IDOffset, isOpen);
+            unlocked[this.ID - IDOffset] = isOpen;
             if (isOpen)
             {
                 this.Grid[this.DoorPosition] = EMPTY;

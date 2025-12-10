@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.BitVectors;
 using Microsoft.Z3;
 
 namespace AdventOfCode.Solvers.AoC2025;
@@ -21,16 +20,16 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
 {
     public sealed record Machine(ImmutableArray<bool> Lights, ImmutableArray<Button> Buttons, ImmutableArray<int> Joltages)
     {
-        public IEnumerable<MoveData<BitVector32, int>> GetUpdatedStates(BitVector32 currentState)
+        public IEnumerable<MoveData<BitVector16, int>> GetUpdatedStates(BitVector16 currentState)
         {
             foreach (Button button in this.Buttons)
             {
-                BitVector32 newState = currentState;
+                BitVector16 newState = currentState;
                 foreach (int connection in button.Connections)
                 {
                     newState.InvertBit(connection);
                 }
-                yield return new MoveData<BitVector32, int>(newState, 1);
+                yield return new MoveData<BitVector16, int>(newState, 1);
             }
         }
 
@@ -93,7 +92,7 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
 
     private static int GetMinimumPresses(Machine machine)
     {
-        return SearchUtils.GetPathLength(new BitVector32(), BitVector32.FromBitArray(machine.Lights), null,
+        return SearchUtils.GetPathLength(new BitVector16(), BitVector16.FromBitArray(machine.Lights), null,
                                          machine.GetUpdatedStates, MinSearchComparer<int>.Comparer)!.Value;
     }
 
