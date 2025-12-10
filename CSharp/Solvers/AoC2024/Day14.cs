@@ -80,7 +80,7 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
         }
     }
 
-    private static int GetQuadrant(in Vector2<int> position)
+    private static int GetQuadrant(Vector2<int> position)
     {
         return (position.X.CompareTo(SpaceSize.X / 2), position.Y.CompareTo(SpaceSize.Y / 2)) switch
         {

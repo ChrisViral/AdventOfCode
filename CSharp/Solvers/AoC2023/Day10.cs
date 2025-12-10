@@ -124,7 +124,7 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
         };
     }
 
-    public void ReplaceStart(in Vector2<int> start, IEnumerable<Direction> directions)
+    public void ReplaceStart(Vector2<int> start, IEnumerable<Direction> directions)
     {
         HashSet<Direction> dirs = new(directions);
         if (dirs.Contains(Direction.UP))

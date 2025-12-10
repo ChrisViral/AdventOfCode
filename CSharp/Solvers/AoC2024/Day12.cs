@@ -39,7 +39,7 @@ public sealed class Day12 : GridSolver<char>
     }
 
     // ReSharper disable once CognitiveComplexity
-    private Vector2<int> GetAreaPrices(in Vector2<int> startingPosition, HashSet<Vector2<int>> notVisited, Queue<Vector2<int>> visiting, Dictionary<Direction, HashSet<Vector2<int>>> fences)
+    private Vector2<int> GetAreaPrices(Vector2<int> startingPosition, HashSet<Vector2<int>> notVisited, Queue<Vector2<int>> visiting, Dictionary<Direction, HashSet<Vector2<int>>> fences)
     {
         char region = this.Grid[startingPosition];
         notVisited.Remove(startingPosition);

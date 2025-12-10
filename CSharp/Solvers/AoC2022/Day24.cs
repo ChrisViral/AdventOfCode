@@ -52,7 +52,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
         /// </summary>
         /// <param name="limit">Maximum bounds to stay within</param>
         /// <returns>The new position of the Blizzard</returns>
-        public Vector2<int> UpdatePosition(in Vector2<int> limit)
+        public Vector2<int> UpdatePosition(Vector2<int> limit)
         {
             // Update the position while wrapping to the limits
             this.Position  = new Vector2<int>((this.Position.X + this.direction.X).Mod(limit.X),

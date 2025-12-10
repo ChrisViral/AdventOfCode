@@ -229,7 +229,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
         return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
     }
@@ -242,7 +242,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns>The resulting Vector after the move</returns>
-    public override Vector2<int>? MoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
         Vector2<int>? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
         return result.HasValue ? result.Value + this.anchor : null;
@@ -250,7 +250,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
 
     /// <inheritdoc cref="Grid{T}.WithinGrid"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override bool WithinGrid(in Vector2<int> position) => base.WithinGrid(position - this.anchor);
+    public override bool WithinGrid(Vector2<int> position) => base.WithinGrid(position - this.anchor);
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => new(this.viewBuffer);

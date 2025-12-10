@@ -110,7 +110,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// Vector copy constructor
     /// </summary>
     /// <param name="copy">Vector to copy</param>
-    public Vector2(in Vector2<T> copy)
+    public Vector2(Vector2<T> copy)
     {
         this.X = copy.X;
         this.Y = copy.Y;
@@ -121,7 +121,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public bool Equals(in Vector2<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y
+    public bool Equals(Vector2<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y
                                                          : Approximately(this.X, other.X) && Approximately(this.Y, other.Y);
 
     /// <inheritdoc cref="object.GetHashCode"/>
@@ -132,7 +132,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
     /// <inheritdoc cref="IComparable{T}.CompareTo"/>
     /// ReSharper disable once MemberCanBePrivate.Global
-    public int CompareTo(in Vector2<T> other) => this.Length.CompareTo(other.Length);
+    public int CompareTo(Vector2<T> other) => this.Length.CompareTo(other.Length);
 
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString() => $"({this.X}, {this.Y})";
@@ -242,11 +242,12 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <summary>
     /// Converts the vector to the target type
     /// </summary>
-    /// <typeparam name="TResult">Number type</typeparam>
+    /// <typeparam name="TSource">Source number type</typeparam>
     /// <returns>The vector converted to the specified type</returns>
-    public Vector2<TResult> Convert<TResult>() where TResult : IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    public static Vector2<T> CreateChecked<TSource>(Vector2<TSource> value)
+        where TSource : IBinaryNumber<TSource>, IMinMaxValue<TSource>
     {
-        return new Vector2<TResult>(TResult.CreateChecked(this.X), TResult.CreateChecked(this.Y));
+        return new Vector2<T>(T.CreateChecked(value.X), T.CreateChecked(value.Y));
     }
 
     /// <summary>
@@ -255,7 +256,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The distance between both vectors</returns>
-    public static double Distance(in Vector2<T> a, in Vector2<T> b) => (a - b).Length;
+    public static double Distance(Vector2<T> a, Vector2<T> b) => (a - b).Length;
 
     /// <summary>
     /// The Manhattan distance between both vectors
@@ -263,7 +264,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>Tge straight line distance between both vectors</returns>
-    public static T ManhattanDistance(in Vector2<T> a, in Vector2<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y);
+    public static T ManhattanDistance(Vector2<T> a, Vector2<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y);
 
     /// <summary>
     /// Calculates the signed angle, in degrees, between two vectors. The result is in the range [-180, 180]
@@ -271,10 +272,10 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The angle between both vectors</returns>
-    public static Angle Angle(in Vector2<T> a, in Vector2<T> b)
+    public static Angle Angle(Vector2<T> a, Vector2<T> b)
     {
-        (double aX, double aY) = a.Convert<double>();
-        (double bX, double bY) = b.Convert<double>();
+        (double aX, double aY) = Vector2<double>.CreateChecked(a);
+        (double bX, double bY) = Vector2<double>.CreateChecked(b);
         return Vectors.Angle.FromRadians(Math.Atan2(aX * bY - aY * bX, aX * bX + aY * bY));
     }
 
@@ -284,9 +285,9 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The angle between both vectors</returns>
-    public static Angle AbsoluteAngle(in Vector2<T> a, in Vector2<T> b)
+    public static Angle AbsoluteAngle(Vector2<T> a, Vector2<T> b)
     {
-        double dot = Vector2<double>.Dot(a.Convert<double>(), b.Convert<double>());
+        double dot = Vector2<double>.Dot(Vector2<double>.CreateChecked(a), Vector2<double>.CreateChecked(b));
         return Vectors.Angle.FromRadians(Math.Acos(dot / (a.Length * b.Length)));
     }
 
@@ -295,7 +296,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// </summary>
     /// <param name="vector">Vector to get the absolute value of</param>
     /// <returns>The <paramref name="vector"/> where all it's elements are positive</returns>
-    public static Vector2<T> Abs(in Vector2<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y));
+    public static Vector2<T> Abs(Vector2<T> vector) => new(T.Abs(vector.X), T.Abs(vector.Y));
 
     /// <summary>
     /// Does component-wise multiplication on the vectors
@@ -303,7 +304,15 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The multiplied vector</returns>
-    public static Vector2<T> ComponentMultiply(in Vector2<T> a, in Vector2<T> b) => new(a.X * b.X, a.Y * b.Y);
+    public static Vector2<T> ComponentMultiply(Vector2<T> a, Vector2<T> b) => new(a.X * b.X, a.Y * b.Y);
+
+    /// <summary>
+    /// Calculates the cross product of both vectors
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>The cross product of both vectors</returns>
+    public static T Cross(Vector2<T> a, Vector2<T> b) => (a.X * b.Y) - (a.Y * b.X);
 
     /// <summary>
     /// Calculates the dot product of both vectors
@@ -311,8 +320,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The dot product of both vectors</returns>
-    /// ReSharper disable once MemberCanBePrivate.Global
-    public static T Dot(in Vector2<T> a, in Vector2<T> b) => a.X * b.X + a.Y * b.Y;
+    public static T Dot(Vector2<T> a, Vector2<T> b) => a.X * b.X + a.Y * b.Y;
 
     /// <summary>
     /// Gets the minimum value vector for the passed values
@@ -320,7 +328,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The per-component minimum vector</returns>
-    public static Vector2<T> Min(in Vector2<T> a, in Vector2<T> b) => new(T.Min(a.X, b.X), T.Min(a.Y, b.Y));
+    public static Vector2<T> Min(Vector2<T> a, Vector2<T> b) => new(T.Min(a.X, b.X), T.Min(a.Y, b.Y));
 
     /// <summary>
     /// Gets the maximum value vector for the passed values
@@ -328,7 +336,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
     /// <returns>The per-component maximum vector</returns>
-    public static Vector2<T> Max(in Vector2<T> a, in Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
+    public static Vector2<T> Max(Vector2<T> a, Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
 
     /// <summary>
     /// Rotates a vector by a specified angle, must be a multiple of 90 degrees
@@ -337,7 +345,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="angle">Angle to rotate by</param>
     /// <returns>The rotated vector</returns>
     /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
-    public static Vector2<T> Rotate(in Vector2<T> vector, int angle)
+    public static Vector2<T> Rotate(Vector2<T> vector, int angle)
     {
         if (!IsInteger) return Rotate(vector, (double)angle);
 
@@ -360,15 +368,15 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="angle">Angle to rotate by</param>
     /// <returns>The rotated vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public static Vector2<T> Rotate(in Vector2<T> vector, double angle)
+    public static Vector2<T> Rotate(Vector2<T> vector, double angle)
     {
         if (IsInteger) throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
 
-        (double x, double y) = vector.Convert<double>();
+        (double x, double y) = Vector2<double>.CreateChecked(vector);
         double radians = angle * Vectors.Angle.DEG2RAD;
         Vector2<double> result = new(x * Math.Cos(radians) - y * Math.Sin(radians),
                                      x * Math.Sin(radians) + y * Math.Cos(radians));
-        return result.Convert<T>();
+        return CreateChecked(result);
     }
 
     /// <summary>
@@ -378,7 +386,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <param name="angle">Angle to rotate by</param>
     /// <returns>The rotated vector</returns>
     /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public static Vector2<T> Rotate(in Vector2<T> vector, Angle angle) => Rotate(vector, angle.Radians);
+    public static Vector2<T> Rotate(Vector2<T> vector, Angle angle) => Rotate(vector, angle.Radians);
 
     /// <summary>
     /// Parses the Vector2 from a direction and distance
@@ -660,7 +668,7 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// Casts from <see cref="Vector2{T}"/> to <see cref="ValueTuple{T1, T2}"/>
     /// </summary>
     /// <param name="vector">Vector to cast from</param>
-    public static implicit operator (T x, T y)(in Vector2<T> vector) => (vector.X, vector.Y);
+    public static implicit operator (T x, T y)(Vector2<T> vector) => (vector.X, vector.Y);
 
     /// <summary>
     /// Equality between two vectors

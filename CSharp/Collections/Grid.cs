@@ -431,7 +431,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="position">Position to get the value for</param>
     /// <param name="value">The value, if it was found</param>
     /// <returns><see langword="true"/> if the value was found, otherwise <see langword="false"/></returns>
-    public virtual bool TryGetPosition(in Vector2<int> position, [MaybeNullWhen(false)] out T value)
+    public virtual bool TryGetPosition(Vector2<int> position, [MaybeNullWhen(false)] out T value)
     {
         if (WithinGrid(position))
         {
@@ -451,7 +451,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
-    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
     {
         return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
     }
@@ -464,7 +464,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns>The resulting Vector after the move</returns>
-    public virtual Vector2<int>? MoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, bool wrapX = false, bool wrapY = false)
     {
         (int x, int y) result = vector + travel;
 
@@ -509,7 +509,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
     /// <returns><see langword="true"/> if the move succeeded, else <see langword="false"/></returns>
-    public virtual bool TryMoveWithinGrid(in Vector2<int> vector, Direction direction, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
+    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Direction direction, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
     {
         Vector2<int>? move = MoveWithinGrid(vector, direction, wrapX, wrapY);
         if (move.HasValue)
@@ -531,7 +531,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
     /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
     /// <returns><see langword="true"/> if the move succeeded, else <see langword="false"/></returns>
-    public virtual bool TryMoveWithinGrid(in Vector2<int> vector, in Vector2<int> travel, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
+    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Vector2<int> travel, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
     {
         Vector2<int>? move = MoveWithinGrid(vector, travel, wrapX, wrapY);
         if (move.HasValue)
@@ -550,7 +550,7 @@ public class Grid<T> : IEnumerable<T>
     /// <param name="position">Position vector</param>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual bool WithinGrid(in Vector2<int> position)
+    public virtual bool WithinGrid(Vector2<int> position)
     {
         return position.X >= 0 && position.X < this.Width && position.Y >= 0 && position.Y < this.Height;
     }

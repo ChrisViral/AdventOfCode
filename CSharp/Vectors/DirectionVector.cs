@@ -14,7 +14,7 @@ public readonly record struct DirectionVector<T>((Direction direction, T length)
     /// Converts a vector to a direction vector
     /// </summary>
     /// <param name="vector">Vector to convert</param>
-    public DirectionVector(in Vector2<T> vector) : this((Direction.NONE, T.Zero), (Direction.NONE, T.Zero))
+    public DirectionVector(Vector2<T> vector) : this((Direction.NONE, T.Zero), (Direction.NONE, T.Zero))
     {
         switch (T.Sign(vector.X))
         {
@@ -46,7 +46,7 @@ public readonly record struct DirectionVector<T>((Direction direction, T length)
 public static class DirectionVectorExtensions
 {
     /// <typeparam name="T">Integer type</typeparam>
-    extension<T>(in Vector2<T> vector) where T : IBinaryInteger<T>, IMinMaxValue<T>
+    extension<T>(Vector2<T> vector) where T : IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Converts a vector to a direction vector

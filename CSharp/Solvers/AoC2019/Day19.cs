@@ -63,7 +63,7 @@ public sealed class Day19 : IntcodeSolver
         AoCUtils.LogPart2(startPosition.X * 10000 + startPosition.Y);
     }
 
-    private bool IsAffected(in Vector2<int> position)
+    private bool IsAffected(Vector2<int> position)
     {
         // Try get cached value
         if (BeamMap.TryGetValue(position, out bool isAffected)) return isAffected;
@@ -80,7 +80,7 @@ public sealed class Day19 : IntcodeSolver
         return isAffected;
     }
 
-    private int GetBeamWidth(in Vector2<int> startPosition)
+    private int GetBeamWidth(Vector2<int> startPosition)
     {
         if (BeamWidthMap.TryGetValue(startPosition + Vector2<int>.Left, out int width))
         {
@@ -100,7 +100,7 @@ public sealed class Day19 : IntcodeSolver
         return width;
     }
 
-    private int GetBeamHeight(in Vector2<int> startPosition)
+    private int GetBeamHeight(Vector2<int> startPosition)
     {
         if (BeamHeightMap.TryGetValue(startPosition + Vector2<int>.Up, out int height))
         {

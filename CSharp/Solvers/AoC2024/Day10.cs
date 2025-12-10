@@ -34,9 +34,9 @@ public sealed class Day10 : GridSolver<int>
         AoCUtils.LogPart2(scores.Y);
     }
 
-    private Vector2<int> CalculateTrailheadScore(in Vector2<int> startPosition, HashSet<Vector2<int>> trailheads)
+    private Vector2<int> CalculateTrailheadScore(Vector2<int> startPosition, HashSet<Vector2<int>> trailheads)
     {
-        int FindTrailheads(in Vector2<int> currentPosition)
+        int FindTrailheads(Vector2<int> currentPosition)
         {
             int totalScore = 0;
             int targetHeight = this.Grid[currentPosition] + 1;
