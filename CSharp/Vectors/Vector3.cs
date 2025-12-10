@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;
-using static AdventOfCode.Vectors.WrongNumericalTypeException;
 
 namespace AdventOfCode.Vectors;
 
@@ -12,12 +10,12 @@ namespace AdventOfCode.Vectors;
 /// Integer three component vector
 /// </summary>
 [PublicAPI]
-public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                            IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
-                                            IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
-                                            IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
-                                            IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                            IComparable<Vector3<T>>, IEquatable<Vector3<T>>
+public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
+                                    IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
+                                    IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
+                                    IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
+                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
+                                    IComparable<Vector3<T>>, IEquatable<Vector3<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
@@ -81,30 +79,6 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => T.Abs(this.X) + T.Abs(this.Y) + T.Abs(this.Z);
-    }
-
-    /// <summary>
-    /// Creates an irreducible version of this vector<br/>
-    /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
-    /// </summary>
-    /// <returns>The fully reduced version of this vector</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector3<T> Reduced
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => IsInteger ? this / GCD(GCD(this.X, this.Y), this.Z) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-    }
-
-    /// <summary>
-    /// Creates a normalized version of this vector<br/>
-    /// NOTE: If this is an integer vector, an exception will be thrown, use <see cref="Reduced"/> instead
-    /// </summary>
-    /// <returns>The vector normalized</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public Vector3<T> Normalized
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
     }
 
     /// <summary>
@@ -188,84 +162,14 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     }
 
     /// <summary>
-    /// Lists out the 27 vectors adjacent to this one
-    /// </summary>
-    /// <returns>An enumerable of the adjacent vectors</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// ReSharper disable once CognitiveComplexity
-    public IEnumerable<Vector3<T>> Adjacent(bool includeDiagonals = true)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-
-        if (includeDiagonals)
-        {
-            for (T x = -T.One; x <= T.One; x++)
-            {
-                for (T y = -T.One; y <= T.One; y++)
-                {
-                    for (T z = -T.One; z <= T.One; z++)
-                    {
-                        Vector3<T> v = new(x, y, z);
-                        if (v == Zero) continue;
-
-                        yield return this + v;
-                    }
-                }
-            }
-        }
-        else
-        {
-            yield return this + Left;
-            yield return this + Right;
-            yield return this + Up;
-            yield return this + Down;
-            yield return this + Backwards;
-            yield return this + Forwards;
-        }
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-    /// </summary>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/>, <see cref="Y"/>, or <see cref="Z"/> are smaller or equal to zero</exception>
-    public SpaceEnumerator Enumerate()
-    {
-        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Z), this.Z, "Z boundary value must be greater than zero");
-
-        return new SpaceEnumerator(this.X, this.Y, this.Y);
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-    /// </summary>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/>, <see cref="Y"/>, or <see cref="Z"/> are smaller or equal to zero</exception>
-    public SpaceEnumerable AsEnumerable()
-    {
-        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Z), this.Z, "Z boundary value must be greater than zero");
-
-        return new SpaceEnumerable(this.X, this.Y, this.Z);
-    }
-
-    /// <summary>
     /// Gets the length of this vector in the target floating point type
     /// </summary>
     /// <typeparam name="TResult">Floating point result type</typeparam>
     /// <returns>The length of the vector, in the specified floating point type</returns>
-    private TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>
+    private TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>, IMinMaxValue<TResult>
     {
-        if (!IsInteger)
-        {
-            return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z)));
-        }
-
-        Vector3<long> longVector = Vector3<long>.CreateChecked(this);
-        return TResult.Sqrt(TResult.CreateChecked((longVector.X * longVector.X) + (longVector.Y * longVector.Y) + (longVector.Z * longVector.Z)));
+        Vector3<TResult> resultVector = Vector3<TResult>.CreateChecked(this);
+        return TResult.Sqrt((resultVector.X * resultVector.X) + (resultVector.Y * resultVector.Y)+ (resultVector.Z * resultVector.Z));
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
@@ -348,58 +252,6 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
     public static Vector3<T> Max(Vector3<T> a, Vector3<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y), T.Max(a.Z, b.Z));
 
     /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-    /// </summary>
-    /// <param name="maxX">Max value for the x component, exclusive</param>
-    /// <param name="maxY">Max value for the y component, exclusive</param>
-    /// <param name="maxZ">Max value for the z component, exclusive</param>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
-    public static SpaceEnumerator EnumerateOver(T maxX, T maxY, T maxZ)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-        if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-
-        return new SpaceEnumerator(maxX, maxY, maxZ);
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-    /// </summary>
-    /// <param name="maxX">Max value for the x component, exclusive</param>
-    /// <param name="maxY">Max value for the y component, exclusive</param>
-    /// <param name="maxZ">Max value for the z component, exclusive</param>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
-    public static SpaceEnumerable MakeEnumerable(T maxX, T maxY, T maxZ)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-        if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-
-        return new SpaceEnumerable(maxX, maxY, maxZ);
-    }
-
-    /// <summary>
-    /// Gets the length of this vector in the target floating point type
-    /// </summary>
-    /// <typeparam name="TResult">Floating point result type</typeparam>
-    /// <param name="x">X Parameter</param>
-    /// <param name="y">Y parameter</param>
-    /// <param name="z">Z parameter</param>
-    /// <returns>The length of the vector, in the specified floating point type</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static TResult GetLength<TResult>(T x, T y, T z) where TResult : IBinaryFloatingPointIeee754<TResult>
-    {
-        return TResult.Sqrt(TResult.CreateChecked((x * x) + (y * y) + (z * z)));
-    }
-
-    /// <summary>
     /// Parses the two component vector using the given value and number separator
     /// </summary>
     /// <param name="value">Value to parse</param>
@@ -480,31 +332,6 @@ public readonly partial struct Vector3<T> : IAdditionOperators<Vector3<T>, Vecto
 
         result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], null, out T? z) ? z : T.Zero);
         return true;
-    }
-
-    /// <summary>
-    /// Greatest Common Divisor function
-    /// </summary>
-    /// <param name="a">First number</param>
-    /// <param name="b">Second number</param>
-    /// <returns>Gets the GCD of a and b</returns>
-    private static T GCD(T a, T b)
-    {
-        a = T.Abs(a);
-        b = T.Abs(b);
-        while (a != T.Zero && b != T.Zero)
-        {
-            if (a > b)
-            {
-                a %= b;
-            }
-            else
-            {
-                b %= a;
-            }
-        }
-
-        return a | b;
     }
 
     /// <summary>

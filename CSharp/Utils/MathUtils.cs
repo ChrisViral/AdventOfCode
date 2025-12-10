@@ -14,6 +14,32 @@ namespace AdventOfCode.Utils;
 public static class MathUtils
 {
     /// <summary>
+    /// Greatest Common Divisor function
+    /// </summary>
+    /// <param name="a">First number</param>
+    /// <param name="b">Second number</param>
+    /// <returns>Gets the GCD of a and b</returns>
+    /// ReSharper disable once MemberCanBePrivate.Global
+    public static T GCD<T>(T a, T b) where T : IBinaryInteger<T>
+    {
+        a = T.Abs(a);
+        b = T.Abs(b);
+        while (a != T.Zero && b != T.Zero)
+        {
+            if (a > b)
+            {
+                a %= b;
+            }
+            else
+            {
+                b %= a;
+            }
+        }
+
+        return a | b;
+    }
+
+    /// <summary>
     /// Calculates the area of a polygon from its vertices using the Shoelace formula
     /// </summary>
     /// <typeparam name="T">Type of integer making up the vertices</typeparam>

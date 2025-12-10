@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
@@ -58,7 +59,8 @@ public static class Vector2Extensions
     /// </summary>
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
-    public class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>> where T : IBinaryInteger<T>, IMinMaxValue<T>
+    public class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
+        where T : IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
         private readonly T maxY = maxY;
@@ -128,38 +130,14 @@ public static class Vector2Extensions
         public Vector2<T> Reduced
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => value / GCD(value.X, value.Y);
-        }
-
-        /// <summary>
-        /// Greatest Common Divisor function
-        /// </summary>
-        /// <param name="a">First number</param>
-        /// <param name="b">Second number</param>
-        /// <returns>Gets the GCD of a and b</returns>
-        /// ReSharper disable once MemberCanBePrivate.Global
-        private static T GCD(T a, T b)
-        {
-            a = T.Abs(a);
-            b = T.Abs(b);
-            while (a != T.Zero && b != T.Zero)
-            {
-                if (a > b)
-                {
-                    a %= b;
-                }
-                else
-                {
-                    b %= a;
-                }
-            }
-
-            return a | b;
+            get => value / MathUtils.GCD(value.X, value.Y);
         }
 
         /// <summary>
         /// Gets all the adjacent Vector2 to this one
         /// </summary>
+        /// <param name="includeDiagonals">If diagonal vectors should be included</param>
+        /// <param name="includeSelf">If self vector should be included</param>
         /// <returns>Adjacent vectors</returns>
         /// ReSharper disable once CognitiveComplexity
         public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)

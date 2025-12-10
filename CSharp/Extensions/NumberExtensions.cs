@@ -132,24 +132,8 @@ public static class NumberExtensions
         /// <param name="b">Second number</param>
         /// <returns>Gets the GCD of a and b</returns>
         /// ReSharper disable once MemberCanBePrivate.Global
-        public static T GCD(T a, T b)
-        {
-            a = T.Abs(a);
-            b = T.Abs(b);
-            while (a != T.Zero && b != T.Zero)
-            {
-                if (a > b)
-                {
-                    a %= b;
-                }
-                else
-                {
-                    b %= a;
-                }
-            }
-
-            return a | b;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GCD(T a, T b) => MathUtils.GCD(a, b);
 
         /// <summary>
         /// Greatest Common Divisor of all passed numbers
