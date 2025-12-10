@@ -74,6 +74,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     /// <inheritdoc />
     public T this[int index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => index switch
         {
             0 => this.X,
@@ -85,6 +86,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     /// <inheritdoc />
     public T this[Index index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => index.GetOffset(Dimension) switch
         {
             0 => this.X,
@@ -93,18 +95,14 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
         };
     }
 
-    /// <summary>
-    /// Length of the Vector
-    /// </summary>
+    /// <inheritdoc />
     public double Length
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => GetLength<double>();
     }
 
-    /// <summary>
-    /// Absolute length of both vector components summed
-    /// </summary>
+    /// <inheritdoc />
     public T ManhattanLength
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,16 +127,6 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     public Vector2((T x, T y) tuple) : this(tuple.x, tuple.y) { }
 
     /// <summary>
-    /// Vector copy constructor
-    /// </summary>
-    /// <param name="copy">Vector to copy</param>
-    public Vector2(Vector2<T> copy)
-    {
-        this.X = copy.X;
-        this.Y = copy.Y;
-    }
-
-    /// <summary>
     /// Vector constructor from a components span
     /// </summary>
     /// <param name="components">Span of components</param>
@@ -161,6 +149,16 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
             default:
                 throw new UnreachableException("Invalid component dimensions");
         }
+    }
+
+    /// <summary>
+    /// Vector copy constructor
+    /// </summary>
+    /// <param name="copy">Vector to copy</param>
+    public Vector2(Vector2<T> copy)
+    {
+        this.X = copy.X;
+        this.Y = copy.Y;
     }
 
     /// <inheritdoc />
@@ -206,7 +204,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
         if (!this.X.TryFormat(destination, out int xWritten, format, provider)) return false;
 
         destination = destination[xWritten..];
-        if (destination.Length <= 4) return false;
+        if (destination.Length < 4) return false;
 
         destination[0] = ',';
         destination[1] = ' ';
@@ -214,7 +212,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
         if (!this.Y.TryFormat(destination, out int yWritten, format, provider)) return false;
 
         destination = destination[yWritten..];
-        if (destination.Length <= 1) return false;
+        if (destination.Length < 1) return false;
 
         destination[0] = ')';
         charsWritten = xWritten + yWritten + 4;
@@ -263,21 +261,11 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
         return new Vector2<T>(T.CreateChecked(value.X), T.CreateChecked(value.Y));
     }
 
-    /// <summary>
-    /// Calculates the distance between two vectors
-    /// </summary>
-    /// <param name="a">First vector</param>
-    /// <param name="b">Second vector</param>
-    /// <returns>The distance between both vectors</returns>
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Distance(Vector2<T> a, Vector2<T> b) => (a - b).Length;
 
-    /// <summary>
-    /// The Manhattan distance between both vectors
-    /// </summary>
-    /// <param name="a">First vector</param>
-    /// <param name="b">Second vector</param>
-    /// <returns>Tge straight line distance between both vectors</returns>
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T ManhattanDistance(Vector2<T> a, Vector2<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y);
 
@@ -323,21 +311,11 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> ComponentMultiply(Vector2<T> a, Vector2<T> b) => new(a.X * b.X, a.Y * b.Y);
 
-    /// <summary>
-    /// Calculates the cross product of both vectors
-    /// </summary>
-    /// <param name="a">First vector</param>
-    /// <param name="b">Second vector</param>
-    /// <returns>The cross product of both vectors</returns>
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Cross(Vector2<T> a, Vector2<T> b) => (a.X * b.Y) - (a.Y * b.X);
 
-    /// <summary>
-    /// Calculates the dot product of both vectors
-    /// </summary>
-    /// <param name="a">First vector</param>
-    /// <param name="b">Second vector</param>
-    /// <returns>The dot product of both vectors</returns>
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Dot(Vector2<T> a, Vector2<T> b) => a.X * b.X + a.Y * b.Y;
 
@@ -360,9 +338,11 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     public static Vector2<T> Max(Vector2<T> a, Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> MinMagnitude(Vector2<T> a, Vector2<T> b) => a.Length < b.Length ? a : b;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> MaxMagnitude(Vector2<T> a, Vector2<T> b) => a.Length > b.Length ? a : b;
 
     /// <summary>
@@ -709,6 +689,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     /// </summary>
     /// <param name="a">Vector</param>
     /// <returns>The vector with each component incremented by one</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> operator ++(Vector2<T> a) => new(a.X + T.One, a.Y + T.One);
 
     /// <summary>
@@ -716,6 +697,7 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     /// </summary>
     /// <param name="a">Vector</param>
     /// <returns>The vector with each component decremented by one</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> operator --(Vector2<T> a) => new(a.X - T.One, a.Y - T.One);
 
     /// <summary>
@@ -755,15 +737,28 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     public static Vector2<T> operator %(Vector2<T> a, Vector2<T> b) => new(a.X % b.X, a.Y % b.Y);
 
     /// <inheritdoc />
-    static int INumberBase<Vector2<T>>.Radix => T.Radix;
+    static int INumberBase<Vector2<T>>.Radix
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => T.Radix;
+    }
 
     /// <inheritdoc />
-    static Vector2<T> IAdditiveIdentity<Vector2<T>, Vector2<T>>.AdditiveIdentity => Zero;
+    static Vector2<T> IAdditiveIdentity<Vector2<T>, Vector2<T>>.AdditiveIdentity
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Zero;
+    }
 
     /// <inheritdoc />
-    static Vector2<T> IMultiplicativeIdentity<Vector2<T>, Vector2<T>>.MultiplicativeIdentity => One;
+    static Vector2<T> IMultiplicativeIdentity<Vector2<T>, Vector2<T>>.MultiplicativeIdentity
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => One;
+    }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     int IVector.GetDimension() => Dimension;
 
     /// <inheritdoc />
@@ -896,54 +891,71 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsCanonical(Vector2<T> value) => T.IsCanonical(value.X) && T.IsCanonical(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsComplexNumber(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsEvenInteger(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsFinite(Vector2<T> value) => T.IsFinite(value.X) && T.IsFinite(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsImaginaryNumber(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsInfinity(Vector2<T> value) => T.IsInfinity(value.X) || T.IsInfinity(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsInteger(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsNaN(Vector2<T> value) => T.IsNaN(value.X) || T.IsNaN(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsNegative(Vector2<T> value) => T.IsNegative(value.X) || T.IsNegative(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsNegativeInfinity(Vector2<T> value) => T.IsNegativeInfinity(value.X) || T.IsNegativeInfinity(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsNormal(Vector2<T> value) => T.IsNormal(value.X) && T.IsNormal(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsOddInteger(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsPositive(Vector2<T> value) => T.IsPositive(value.X) && T.IsPositive(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsPositiveInfinity(Vector2<T> value) => T.IsPositiveInfinity(value.X) || T.IsPositiveInfinity(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsRealNumber(Vector2<T> value) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsSubnormal(Vector2<T> value) => T.IsSubnormal(value.X) || T.IsSubnormal(value.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.IsZero(Vector2<T> value) => value == Zero;
 
     /// <inheritdoc />
@@ -1167,32 +1179,42 @@ public readonly partial struct Vector2<T> : IVector<T, Vector2<T>>, IDivisionOpe
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> INumberBase<Vector2<T>>.Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> INumberBase<Vector2<T>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> IParsable<Vector2<T>>.Parse(string s, IFormatProvider? provider) => Parse(s, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> ISpanParsable<Vector2<T>>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => Parse(s, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, style: style, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool INumberBase<Vector2<T>>.TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, style: style, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool IParsable<Vector2<T>>.TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool ISpanParsable<Vector2<T>>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Vector2<T> result) => TryParse(s, out result, provider: provider);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> IMultiplyOperators<Vector2<T>, Vector2<T>, Vector2<T>>.operator *(Vector2<T> left, Vector2<T> right) => new(left.X * right.X, left.Y * right.Y);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static Vector2<T> IDivisionOperators<Vector2<T>, Vector2<T>, Vector2<T>>.operator /(Vector2<T> left, Vector2<T> right) => new(left.X / right.X, left.Y / right.Y);
 }
