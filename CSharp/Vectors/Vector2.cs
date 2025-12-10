@@ -4,10 +4,8 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;
-using NumericalType = AdventOfCode.Vectors.WrongNumericalTypeException.NumericalType;
 
 namespace AdventOfCode.Vectors;
 
@@ -83,30 +81,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     }
 
     /// <summary>
-    /// Creates an irreducible version of this vector<br/>
-    /// NOTE: If this is an floating point vector, an exception will be thrown, use <see cref="Normalized"/> instead
-    /// </summary>
-    /// <returns>The fully reduced version of this vector</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    public Vector2<T> Reduced
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => IsInteger ? this / GCD(this.X, this.Y) : throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-    }
-
-    /// <summary>
-    /// Creates a normalized version of this vector<br/>
-    /// NOTE: If this is an integer vector, an exception will be thrown, use <see cref="Reduced"/> instead
-    /// </summary>
-    /// <returns>The vector normalized</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public Vector2<T> Normalized
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => !IsInteger ? this / T.CreateChecked(this.Length) : throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
-    }
-
-    /// <summary>
     /// Creates a new <see cref="Vector2{T}"/> with the specified components
     /// </summary>
     /// <param name="x">X component</param>
@@ -140,8 +114,9 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
     /// ReSharper disable once MemberCanBePrivate.Global
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(Vector2<T> other) => IsInteger ? this.X == other.X && this.Y == other.Y
-                                                         : Approximately(this.X, other.X) && Approximately(this.Y, other.Y);
+    public bool Equals(Vector2<T> other) => IsInteger
+                                                ? this.X == other.X && this.Y == other.Y
+                                                : Approximately(this.X, other.X) && Approximately(this.Y, other.Y);
 
     /// <inheritdoc cref="object.GetHashCode"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -176,77 +151,14 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     }
 
     /// <summary>
-    /// Gets all the adjacent Vector2 to this one
-    /// </summary>
-    /// <returns>Adjacent vectors</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// ReSharper disable once CognitiveComplexity
-    public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-
-        if (includeDiagonals)
-        {
-            for (T y = this.Y - T.One; y <= this.Y + T.One; y++)
-            {
-                for (T x = this.X - T.One; x <= this.X + T.One; x++)
-                {
-                    if (!includeSelf && x == this.X && y == this.Y) continue;
-
-                    yield return new Vector2<T>(x, y);
-                }
-            }
-        }
-        else
-        {
-            if (includeSelf) yield return this;
-            yield return this + Up;
-            yield return this + Left;
-            yield return this + Right;
-            yield return this + Down;
-        }
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-    /// </summary>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/> or <see cref="Y"/> are smaller or equal to zero</exception>
-    public SpaceEnumerator Enumerate()
-    {
-        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
-
-        return new SpaceEnumerator(this.X, this.Y);
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-    /// </summary>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <see cref="X"/> or <see cref="Y"/> are smaller or equal to zero</exception>
-    public SpaceEnumerable AsEnumerable()
-    {
-        if (this.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.X), this.X, "X boundary value must be greater than zero");
-        if (this.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(this.Y), this.Y, "Y boundary value must be greater than zero");
-
-        return new SpaceEnumerable(this.X, this.Y);
-    }
-
-    /// <summary>
     /// Gets the length of this vector in the specified floating point type
     /// </summary>
     /// <typeparam name="TResult">Floating point type to get the length in</typeparam>
     /// <returns>The length of the vector</returns>
-    public TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>
+    public TResult GetLength<TResult>() where TResult : IBinaryFloatingPointIeee754<TResult>, IMinMaxValue<TResult>
     {
-        if (!IsInteger)
-        {
-            return TResult.Sqrt(TResult.CreateChecked((this.X * this.X) + (this.Y * this.Y)));
-        }
-
-        Vector2<long> longVector = Vector2<long>.CreateChecked(this);
-        return TResult.Sqrt(TResult.CreateChecked((longVector.X * longVector.X) + (longVector.Y * longVector.Y)));
+        Vector2<TResult> resultVector = Vector2<TResult>.CreateChecked(this);
+        return TResult.Sqrt((resultVector.X * resultVector.X) + (resultVector.Y * resultVector.Y));
     }
 
     /// <inheritdoc cref="IEquatable{T}"/>
@@ -366,57 +278,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
     public static Vector2<T> Max(Vector2<T> a, Vector2<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y));
 
     /// <summary>
-    /// Rotates a vector by a specified angle, must be a multiple of 90 degrees
-    /// </summary>
-    /// <param name="vector">Vector to rotate</param>
-    /// <param name="angle">Angle to rotate by</param>
-    /// <returns>The rotated vector</returns>
-    /// <exception cref="InvalidOperationException">If the angle is not a multiple of 90 degrees</exception>
-    public static Vector2<T> Rotate(Vector2<T> vector, int angle)
-    {
-        if (!IsInteger) return Rotate(vector, (double)angle);
-
-        if (!angle.IsMultiple(90)) throw new InvalidOperationException($"Can only rotate integer vectors by 90 degrees, got {angle} instead");
-
-        angle = angle.Mod(360);
-        return angle switch
-        {
-            90  => new Vector2<T>(-vector.Y, vector.X),
-            180 => -vector,
-            270 => new Vector2<T>(vector.Y, -vector.X),
-            _   => vector
-        };
-    }
-
-    /// <summary>
-    /// Rotates a vector by a specified angle
-    /// </summary>
-    /// <param name="vector">Vector to rotate</param>
-    /// <param name="angle">Angle to rotate by</param>
-    /// <returns>The rotated vector</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    public static Vector2<T> Rotate(Vector2<T> vector, double angle)
-    {
-        if (IsInteger) throw new WrongNumericalTypeException(NumericalType.FLOATING, typeof(T));
-
-        (double x, double y) = Vector2<double>.CreateChecked(vector);
-        double radians = angle * Vectors.Angle.DEG2RAD;
-        Vector2<double> result = new(x * Math.Cos(radians) - y * Math.Sin(radians),
-                                     x * Math.Sin(radians) + y * Math.Cos(radians));
-        return CreateChecked(result);
-    }
-
-    /// <summary>
-    /// Rotates a vector by a specified angle
-    /// </summary>
-    /// <param name="vector">Vector to rotate</param>
-    /// <param name="angle">Angle to rotate by</param>
-    /// <returns>The rotated vector</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not a floating type</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Vector2<T> Rotate(Vector2<T> vector, Angle angle) => Rotate(vector, angle.Radians);
-
-    /// <summary>
     /// Parses the Vector2 from a direction and distance
     /// </summary>
     /// <param name="value">String to parse</param>
@@ -486,40 +347,6 @@ public readonly partial struct Vector2<T> : IAdditionOperators<Vector2<T>, Vecto
 
         direction = dir * distance;
         return true;
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-    /// </summary>
-    /// <param name="maxX">Max value for the x component, exclusive</param>
-    /// <param name="maxY">Max value for the y component, exclusive</param>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
-    public static SpaceEnumerator EnumerateOver(T maxX, T maxY)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-
-        return new SpaceEnumerator(maxX, maxY);
-    }
-
-    /// <summary>
-    /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-    /// </summary>
-    /// <param name="maxX">Max value for the x component, exclusive</param>
-    /// <param name="maxY">Max value for the y component, exclusive</param>
-    /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
-    public static SpaceEnumerable MakeEnumerable(T maxX, T maxY)
-    {
-        if (!IsInteger) throw new WrongNumericalTypeException(NumericalType.INTEGER, typeof(T));
-        if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-        if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-
-        return new SpaceEnumerable(maxX, maxY);
     }
 
     /// <summary>

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Vector2 = AdventOfCode.Vectors.Vector2<int>;
+using AdventOfCode.Vectors;
 
 namespace AdventOfCode.Solvers.AoC2020;
 
@@ -25,16 +26,16 @@ public sealed class Day11 : GridSolver<Day11.Seat>
     /// <summary>
     /// All cardinal and diagonal direction vectors
     /// </summary>
-    private static readonly Vector2[] Directions =
+    private static readonly Vector2<int>[] Directions =
     [
-        Vector2.Up + Vector2.Left,
-        Vector2.Up,
-        Vector2.Up + Vector2.Right,
-        Vector2.Left,
-        Vector2.Right,
-        Vector2.Left + Vector2.Down,
-        Vector2.Down,
-        Vector2.Right + Vector2.Down
+        Vector2<int>.Up + Vector2<int>.Left,
+        Vector2<int>.Up,
+        Vector2<int>.Up + Vector2<int>.Right,
+        Vector2<int>.Left,
+        Vector2<int>.Right,
+        Vector2<int>.Left + Vector2<int>.Down,
+        Vector2<int>.Down,
+        Vector2<int>.Right + Vector2<int>.Down
     ];
 
     /// <summary>
@@ -61,7 +62,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
             {
                 foreach (int i in ..width)
                 {
-                    Vector2 position = new(i, j);
+                    Vector2<int> position = new(i, j);
                     switch (current[position])
                     {
                         case Seat.EMPTY:
@@ -96,15 +97,15 @@ public sealed class Day11 : GridSolver<Day11.Seat>
             {
                 foreach (int i in ..width)
                 {
-                    Vector2 position = new(i, j);
+                    Vector2<int> position = new(i, j);
                     switch (current[position])
                     {
                         case Seat.EMPTY:
                             //If everything goes well we will take the seat
                             bool anyTaken = false;
-                            foreach (Vector2 direction in Directions)
+                            foreach (Vector2<int> direction in Directions)
                             {
-                                Vector2? moved = position;
+                                Vector2<int>? moved = position;
                                 do
                                 {
                                     moved = previous.MoveWithinGrid(moved.Value, direction);
@@ -128,9 +129,9 @@ public sealed class Day11 : GridSolver<Day11.Seat>
 
                         case Seat.TAKEN:
                             int taken = 0;
-                            foreach (Vector2 direction in Directions)
+                            foreach (Vector2<int> direction in Directions)
                             {
-                                Vector2? moved = position;
+                                Vector2<int>? moved = position;
                                 do
                                 {
                                     moved = previous.MoveWithinGrid(moved.Value, direction);
