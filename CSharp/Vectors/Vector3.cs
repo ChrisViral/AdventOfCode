@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Types;
@@ -10,22 +12,14 @@ namespace AdventOfCode.Vectors;
 /// Integer three component vector
 /// </summary>
 [PublicAPI]
-public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, Vector3<T>>, ISubtractionOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                    IUnaryNegationOperators<Vector3<T>, Vector3<T>>, IUnaryPlusOperators<Vector3<T>, Vector3<T>>,
-                                    IComparisonOperators<Vector3<T>, Vector3<T>, bool>, IMinMaxValue<Vector3<T>>, IFormattable,
-                                    IDivisionOperators<Vector3<T>, T, Vector3<T>>, IMultiplyOperators<Vector3<T>, T, Vector3<T>>,
-                                    IModulusOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, Vector3<T>, Vector3<T>>,
-                                    IComparable<Vector3<T>>, IEquatable<Vector3<T>>
+public readonly struct Vector3<T> : IVector<T, Vector3<T>>, IDivisionOperators<Vector3<T>, T, Vector3<T>>,
+                                    IMultiplyOperators<Vector3<T>, T, Vector3<T>>, IModulusOperators<Vector3<T>, T, Vector3<T>>
     where T : IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
     private static readonly T Epsilon = T.CreateChecked(1E-5);
-    /// <summary>Zero vector</summary>
-    public static readonly Vector3<T> Zero      = new(T.Zero, T.Zero, T.Zero);
-    /// <summary>One vector</summary>
-    public static readonly Vector3<T> One       = new(T.One,  T.One,  T.One);
     /// <summary>Up vector</summary>
     public static readonly Vector3<T> Up        = new(T.Zero, T.One,  T.Zero);
     /// <summary>Down vector</summary>
@@ -38,10 +32,25 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public static readonly Vector3<T> Forwards  = new(T.Zero, T.Zero, T.One);
     /// <summary>Backward vector</summary>
     public static readonly Vector3<T> Backwards = new(T.Zero, T.Zero, -T.One);
+
+    /// <inheritdoc />
+    public static int Dimension => 3;
+
+    /// <summary>
+    /// Zero vector
+    /// </summary>
+    public static Vector3<T> Zero { get; }      = new(T.Zero, T.Zero, T.Zero);
+
+    /// <summary>
+    /// One vector
+    /// </summary>
+    public static  Vector3<T> One { get; }       = new(T.One,  T.One,  T.One);
+
     /// <summary>
     /// Minimum vector value
     /// </summary>
     public static Vector3<T> MinValue  { get; } = new(T.MinValue, T.MinValue, T.MinValue);
+
     /// <summary>
     /// Maximum vector value
     /// </summary>
@@ -61,6 +70,30 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// X component of the Vector
     /// </summary>
     public T Z { get; init; }
+
+    /// <inheritdoc />
+    public T this[int index]
+    {
+        get => index switch
+        {
+            0 => this.X,
+            1 => this.Y,
+            2 => this.Z,
+            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
+        };
+    }
+
+    /// <inheritdoc />
+    public T this[Index index]
+    {
+        get => index.GetOffset(Dimension) switch
+        {
+            0 => this.X,
+            1 => this.Y,
+            2 => this.Z,
+            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
+        };
+    }
 
     /// <summary>
     /// Length of the Vector
@@ -146,6 +179,13 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public string ToString(string? format, IFormatProvider? provider)
     {
         return $"({this.X.ToString(format, provider)}, {this.Y.ToString(format, provider)}, {this.Z.ToString(format, provider)})";
+    }
+
+    /// <inheritdoc />
+    bool ISpanFormattable.TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        charsWritten = 0;
+        return false;
     }
 
     /// <summary>
@@ -251,20 +291,28 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> Max(Vector3<T> a, Vector3<T> b) => new(T.Max(a.X, b.X), T.Max(a.Y, b.Y), T.Max(a.Z, b.Z));
 
+    /// <inheritdoc />
+    public static Vector3<T> MinMagnitude(Vector3<T> a, Vector3<T> b) => a.Length < b.Length ? a : b;
+
+    /// <inheritdoc />
+    public static Vector3<T> MaxMagnitude(Vector3<T> a, Vector3<T> b) => a.Length > b.Length ? a : b;
+
     /// <summary>
     /// Parses the two component vector using the given value and number separator
     /// </summary>
     /// <param name="value">Value to parse</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns>The parsed vector</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two or three values present after the split</exception>
-    public static Vector3<T> Parse(string value, string separator = ",")
+    public static Vector3<T> Parse(string value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
 
-        return Parse(value.AsSpan(), separator);
+        return Parse(value.AsSpan(), separator, style, provider);
     }
 
     /// <summary>
@@ -272,10 +320,12 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// </summary>
     /// <param name="value">Value to parse</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns>The parsed vector</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two or three values present after the split</exception>
-    public static Vector3<T> Parse(ReadOnlySpan<char> value, string separator = ",")
+    public static Vector3<T> Parse(ReadOnlySpan<char> value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Value cannot be null or empty", nameof(value));
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
@@ -284,9 +334,9 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (written is < 2 or > 3) throw new FormatException("String to parse not properly formatted");
 
-        T x = T.Parse(value[ranges[0]], null);
-        T y = T.Parse(value[ranges[1]], null);
-        return new Vector3<T>(x, y, written is 3 ? T.Parse(value[ranges[2]], null) : T.Zero);
+        T x = T.Parse(value[ranges[0]], style, provider);
+        T y = T.Parse(value[ranges[1]], style, provider);
+        return new Vector3<T>(x, y, written is 3 ? T.Parse(value[ranges[2]], style, provider) : T.Zero);
     }
 
     /// <summary>
@@ -295,8 +345,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="value">Value to parse</param>
     /// <param name="result">Resulting vector, if any</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(string? value, out Vector3<T> result, string separator = ",")
+    public static bool TryParse(string? value, out Vector3<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(separator))
         {
@@ -304,7 +356,7 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
             return false;
         }
 
-        return TryParse(value.AsSpan(), out result, separator);
+        return TryParse(value.AsSpan(), out result, separator, style, provider);
     }
 
     /// <summary>
@@ -313,8 +365,10 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <param name="value">Value to parse</param>
     /// <param name="result">Resulting vector, if any</param>
     /// <param name="separator">Number separator, defaults to ","</param>
+    /// <param name="style">Number style</param>
+    /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(ReadOnlySpan<char> value, out Vector3<T> result, string separator = ",")
+    public static bool TryParse(ReadOnlySpan<char> value, out Vector3<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace() || string.IsNullOrEmpty(separator))
         {
@@ -324,13 +378,13 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
 
         Span<Range> ranges = stackalloc Range[3];
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        if (written is < 2 or > 3 || !T.TryParse(value[ranges[0]], null, out T? x) || !T.TryParse(value[ranges[1]], null, out T? y))
+        if (written is < 2 or > 3 || !T.TryParse(value[ranges[0]], style, provider, out T? x) || !T.TryParse(value[ranges[1]], style, provider, out T? y))
         {
             result = Zero;
             return false;
         }
 
-        result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], null, out T? z) ? z : T.Zero);
+        result = new Vector3<T>(x, y, written is 3 && T.TryParse(value[ranges[2]], style, provider, out T? z) ? z : T.Zero);
         return true;
     }
 
@@ -464,6 +518,20 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     public static Vector3<T> operator -(Vector3<T> a, Vector3<T> b) => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 
     /// <summary>
+    /// Increment operation on vector
+    /// </summary>
+    /// <param name="a">Vector</param>
+    /// <returns>The vector with each component incremented by one</returns>
+    public static Vector3<T> operator ++(Vector3<T> a) => new(a.X + T.One, a.Y + T.One, a.Z + T.One);
+
+    /// <summary>
+    /// Decrement operation on vector
+    /// </summary>
+    /// <param name="a">Vector</param>
+    /// <returns>The vector with each component decremented by one</returns>
+    public static Vector3<T> operator --(Vector3<T> a) => new(a.X - T.One, a.Y - T.One, a.Z - T.One);
+
+    /// <summary>
     /// Scalar integer multiplication on a Vector
     /// </summary>
     /// <param name="a">Vector to scale</param>
@@ -498,4 +566,157 @@ public readonly struct Vector3<T> : IAdditionOperators<Vector3<T>, Vector3<T>, V
     /// <returns>The vector with the results of the modulo operation component wise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<T> operator %(Vector3<T> a, Vector3<T> b) => new(a.X % b.X, a.Y % b.Y, a.Z % b.Z);
+
+    /// <inheritdoc />
+    static int INumberBase<Vector3<T>>.Radix => T.Radix;
+
+    /// <inheritdoc />
+    static Vector3<T> IAdditiveIdentity<Vector3<T>, Vector3<T>>.AdditiveIdentity => Zero;
+
+    /// <inheritdoc />
+    static Vector3<T> IMultiplicativeIdentity<Vector3<T>, Vector3<T>>.MultiplicativeIdentity => One;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsCanonical(Vector3<T> value) => T.IsCanonical(value.X) && T.IsCanonical(value.Y) && T.IsCanonical(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsComplexNumber(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsEvenInteger(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsFinite(Vector3<T> value) => T.IsFinite(value.X) && T.IsFinite(value.Y) && T.IsFinite(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsImaginaryNumber(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsInfinity(Vector3<T> value) => T.IsInfinity(value.X) || T.IsInfinity(value.Y) || T.IsInfinity(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsInteger(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsNaN(Vector3<T> value) => T.IsNaN(value.X) || T.IsNaN(value.Y) || T.IsNaN(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsNegative(Vector3<T> value) => T.IsNegative(value.X) || T.IsNegative(value.Y) || T.IsNegative(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsNegativeInfinity(Vector3<T> value) => T.IsNegativeInfinity(value.X) || T.IsNegativeInfinity(value.Y) || T.IsNegativeInfinity(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsNormal(Vector3<T> value) => T.IsNormal(value.X) && T.IsNormal(value.Y) && T.IsNormal(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsOddInteger(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsPositive(Vector3<T> value) => T.IsPositive(value.X) && T.IsPositive(value.Y) && T.IsPositive(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsPositiveInfinity(Vector3<T> value) => T.IsPositiveInfinity(value.X) || T.IsPositiveInfinity(value.Y) || T.IsPositiveInfinity(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsRealNumber(Vector3<T> value) => false;
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsSubnormal(Vector3<T> value) => T.IsSubnormal(value.X) || T.IsSubnormal(value.Y) || T.IsSubnormal(value.Z);
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.IsZero(Vector3<T> value) => value == Zero;
+
+    /// <inheritdoc />
+    static Vector3<T> INumberBase<Vector3<T>>.MaxMagnitudeNumber(Vector3<T> a, Vector3<T> b)
+    {
+        if (T.IsNaN(a.X) || T.IsNaN(a.Y) || T.IsNaN(a.Z)) return b;
+        if (T.IsNaN(b.X) || T.IsNaN(b.Y) || T.IsNaN(b.Z)) return a;
+        return MaxMagnitude(a, b);
+    }
+
+    /// <inheritdoc />
+    static Vector3<T> INumberBase<Vector3<T>>.MinMagnitudeNumber(Vector3<T> a, Vector3<T> b)
+    {
+        if (T.IsNaN(a.X) || T.IsNaN(a.Y) || T.IsNaN(a.Z)) return b;
+        if (T.IsNaN(b.X) || T.IsNaN(b.Y) || T.IsNaN(b.Z)) return a;
+        return MinMagnitude(a, b);
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertFromChecked<TOther>(TOther value, out Vector3<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertFromSaturating<TOther>(TOther value, out Vector3<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertFromTruncating<TOther>(TOther value, out Vector3<T> result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertToChecked<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertToSaturating<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryConvertToTruncating<TOther>(Vector3<T> value, [MaybeNullWhen(false)] out TOther result)
+    {
+        throw new NotSupportedException("Vectors are not convertible to unknown number types");
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out Vector3<T> result)
+    {
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc />
+    static bool INumberBase<Vector3<T>>.TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, out Vector3<T> result)
+    {
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc />
+    static Vector3<T> IParsable<Vector3<T>>.Parse(string s, IFormatProvider? provider)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    static Vector3<T> INumberBase<Vector3<T>>.Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static Vector3<T> INumberBase<Vector3<T>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style: style, provider: provider);
+
+    /// <inheritdoc />
+    static Vector3<T> ISpanParsable<Vector3<T>>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => Parse(s, provider: provider);
+
+    /// <inheritdoc />
+    static bool IParsable<Vector3<T>>.TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Vector3<T> result) => TryParse(s, out result, provider: provider);
+
+    /// <inheritdoc />
+    static bool ISpanParsable<Vector3<T>>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Vector3<T> result) => TryParse(s, out result, provider: provider);
+
+    /// <inheritdoc />
+    static Vector3<T> IMultiplyOperators<Vector3<T>, Vector3<T>, Vector3<T>>.operator *(Vector3<T> left, Vector3<T> right) => new(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+
+    /// <inheritdoc />
+    static Vector3<T> IDivisionOperators<Vector3<T>, Vector3<T>, Vector3<T>>.operator /(Vector3<T> left, Vector3<T> right) => new(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
 }
