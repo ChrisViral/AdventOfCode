@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Extensions.Enumerables;
 using JetBrains.Annotations;
 
@@ -10,7 +12,7 @@ namespace AdventOfCode.Collections;
 /// Counter class - counts how many instances of each value have been added to it
 /// </summary>
 /// <typeparam name="T">Type of value stored in the counter</typeparam>
-[PublicAPI]
+[PublicAPI, DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
 public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
 {
     /// <summary>Backing dictionary</summary>

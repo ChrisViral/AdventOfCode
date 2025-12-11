@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Extensions.Ranges;
 using JetBrains.Annotations;
 
@@ -12,7 +14,7 @@ namespace AdventOfCode.Collections;
 /// Sorted list where the value is it's own key
 /// </summary>
 /// <typeparam name="T">List element type</typeparam>
-[PublicAPI]
+[PublicAPI, DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where T : notnull
 {
     private readonly SortedList<T, T> list;

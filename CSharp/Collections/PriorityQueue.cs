@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Extensions.Arrays;
 using JetBrains.Annotations;
 
@@ -35,7 +37,7 @@ namespace AdventOfCode.Collections;
 /// Most operations are O(log n), while full enumeration or copying to an array is O(n log n)
 /// </summary>
 /// <typeparam name="T">Type of the queue</typeparam>
-[PublicAPI, DebuggerDisplay("Count: {Count}"), DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+[PublicAPI, DebuggerDisplay("Count: {Count}"), DebuggerTypeProxy(typeof(PriorityQueueDebugView<>))]
 public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
 {
     /// <summary>
@@ -75,6 +77,11 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.heap.Capacity;
     }
+
+    /// <summary>
+    /// Unordered items collection
+    /// </summary>
+    public ReadOnlyCollection<T> Heap { get; }
 
     /// <summary>
     /// If the collection is read only. Since we are using List{T}, it never is.
@@ -119,6 +126,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     {
         this.comparer = comparer;
         this.heap     = new List<T>(capacity);
+        this.Heap     = new ReadOnlyCollection<T>(this.heap);
     }
 
     /// <summary>
@@ -140,6 +148,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
         //Create the comparer and heap
         this.comparer = comparer;
         this.heap     = [..enumerable];
+        this.Heap     = new ReadOnlyCollection<T>(this.heap);
 
         //Heapify the list
         for (int i = this.heap.Count / 2; i >= 1; i--)
@@ -156,8 +165,9 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// ReSharper disable once MemberCanBePrivate.Global
     public PriorityQueue(PriorityQueue<T> queue)
     {
-        this.heap     = [..queue.heap];
         this.comparer = queue.comparer;
+        this.heap     = [..queue.heap];
+        this.Heap     = new ReadOnlyCollection<T>(this.heap);
     }
 
     /// <summary>
