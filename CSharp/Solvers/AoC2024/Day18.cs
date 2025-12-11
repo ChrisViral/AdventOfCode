@@ -38,7 +38,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
             this.memory[bytePos] = true;
         }
 
-        Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer);
+        Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
         AoCUtils.LogPart1(path!.Length);
 
         // This would be faster as a binary search, but 300ms is good enough
@@ -48,7 +48,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
             this.memory[bytePos] = true;
             if (!pathContents.Contains(bytePos)) continue;
 
-            path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer);
+            path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
             if (path is null)
             {
                 AoCUtils.LogPart2($"{bytePos.X},{bytePos.Y}");

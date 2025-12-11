@@ -191,6 +191,7 @@ public sealed class Day17 : GridSolver<int>
                                        T.Heuristic,
                                        T.Neighbours,
                                        MinSearchComparer<double>.Comparer,
+                                       out _,
                                        T.IsGoal);
 
         return path!.Sum(p => p.Loss);

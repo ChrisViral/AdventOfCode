@@ -91,7 +91,7 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
                 Component a = components[i];
                 Component b = components[j];
 
-                Component[] path = SearchUtils.Search(a, b, null, Component.GetNeighbours, MinSearchComparer<double>.Comparer)!;
+                Component[] path = SearchUtils.Search(a, b, null, Component.GetNeighbours, MinSearchComparer<double>.Comparer, out double _)!;
                 Component previous = path[0];
                 foreach (int k in ..(path.Length - 1))
                 {

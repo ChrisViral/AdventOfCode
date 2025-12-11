@@ -36,7 +36,7 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
     public override void Run()
     {
         // Get full path
-        Vector2<int>[] tempPath = SearchUtils.Search(this.Data.start, this.Data.end, null, Neighbours, MinSearchComparer<int>.Comparer)!;
+        Vector2<int>[] tempPath = SearchUtils.Search(this.Data.start, this.Data.end, null, Neighbours, MinSearchComparer<int>.Comparer, out _)!;
         Span<Vector2<int>> path = stackalloc Vector2<int>[tempPath.Length + 1];
         path[0] = this.Data.start;
         tempPath.AsSpan().CopyTo(path[1..]);

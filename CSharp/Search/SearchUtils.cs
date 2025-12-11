@@ -28,13 +28,26 @@ public static class SearchUtils
     /// <summary>
     /// Neighbours exploration function
     /// </summary>
+    /// <typeparam name="T">Type of object to explore</typeparam>
+    /// <param name="node">Node to explore</param>
+    /// <returns>An enumerable of all neighbouring node values</returns>
+    public delegate IEnumerable<T> Neighbours<T>(T node);
+
+    /// <summary>
+    /// Neighbours exploration function
+    /// </summary>
     /// <typeparam name="TValue">Type of object to explore</typeparam>
     /// <typeparam name="TCost">Cost type</typeparam>
     /// <param name="node">Node to explore</param>
     /// <returns>An enumerable of all neighbouring node values and their distances</returns>
     public delegate IEnumerable<MoveData<TValue, TCost>> WeightedNeighbours<TValue, TCost>(TValue node) where TCost : INumber<TCost>;
 
-    public delegate IEnumerable<T> Neighbours<T>(T node);
+    /// <summary>
+    /// Success state check function
+    /// </summary>
+    /// <typeparam name="TValue">Type of value being explored</typeparam>
+    /// <returns><see langword="true"/> if <paramref name="current"/> is deemed to be equivalent to <paramref name="goal"/>, otherwise <see langword="false"/></returns>
+    public delegate bool GoalFoundCheck<in TValue>(TValue current, TValue goal);
 
     /// <summary>
     /// A* Search<br/>
@@ -47,6 +60,7 @@ public static class SearchUtils
     /// <param name="heuristic">Heuristic function on the nodes</param>
     /// <param name="neighbours">Function finding neighbours for a given node</param>
     /// <param name="comparer">Comparer between different search nodes</param>
+    /// <param name="totalCost">Total path cost output</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
     /// ReSharper disable once CognitiveComplexity
@@ -54,7 +68,8 @@ public static class SearchUtils
                                                   [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                   [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                   IComparer<SearchNode<TValue, TCost>> comparer,
-                                                  [InstantHandle] Func<TValue, TValue, bool>? goalFound = null)
+                                                  out TCost totalCost,
+                                                  [InstantHandle] GoalFoundCheck<TValue>? goalFound = null)
         where TValue : IEquatable<TValue>
         where TCost : INumber<TCost>
     {
@@ -105,7 +120,13 @@ public static class SearchUtils
         }
 
         //If the path is not found, return null
-        if (foundGoal is null) return null;
+        if (foundGoal is null)
+        {
+            totalCost = TCost.Zero;
+            return null;
+        }
+
+        totalCost = foundGoal.CostSoFar;
 
         //Trace the path and backtrack
         Pooled<Stack<TValue>> path = StackObjectPool<TValue>.Shared.Get();
@@ -140,7 +161,7 @@ public static class SearchUtils
                                                                                      [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                                                      [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                                                      IComparer<SearchNode<TValue, TCost>> comparer,
-                                                                                     [InstantHandle] Func<TValue, TValue, bool>? goalFound = null)
+                                                                                     [InstantHandle] GoalFoundCheck<TValue>? goalFound = null)
         where TValue : IEquatable<TValue>
         where TCost : INumber<TCost>
     {
@@ -267,13 +288,15 @@ public static class SearchUtils
     /// <param name="neighbours">Function finding neighbours for a given node</param>
     /// <param name="comparer">Comparer between different search nodes</param>
     /// <param name="distances">Cached distances dictionary, creates a temporary one with 100 base capacity if not passed</param>
+    /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
     /// ReSharper disable once CognitiveComplexity
     public static int? GetPathLength<TValue, TCost>(TValue start, TValue goal,
                                                     [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                     [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                     IComparer<SearchNode<TValue, TCost>> comparer,
-                                                    Dictionary<(TValue, TValue), int>? distances = null)
+                                                    Dictionary<(TValue, TValue), int>? distances = null,
+                                                    [InstantHandle] GoalFoundCheck<TValue>? goalFound = null)
         where TValue : IEquatable<TValue>
         where TCost : INumber<TCost>
     {
@@ -282,6 +305,7 @@ public static class SearchUtils
         Pooled<PriorityQueue<SearchNode<TValue, TCost>>> search = PriorityQueueObjectPool<SearchNode<TValue, TCost>>.PoolForComparer(comparer).Get();
         search.Ref.Enqueue(new SearchNode<TValue, TCost>(start));
         Pooled<Dictionary<SearchNode<TValue, TCost>, TCost>> explored = DictionaryObjectPool<SearchNode<TValue, TCost>, TCost>.Shared.Get();
+        goalFound ??= (a, b) => a.Equals(b);
 
         using Pooled<Dictionary<(TValue, TValue), int>> pooledDistances = distances is null ? DictionaryObjectPool<(TValue, TValue), int>.Shared.Get() : default;
         distances ??= pooledDistances.Ref;
@@ -289,7 +313,7 @@ public static class SearchUtils
         while (search.Ref.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal or the distance is cached
-            if (current == goal || distances.TryGetValue((current.Value, goal), out foundDistance))
+            if (goalFound(current.Value, goal) || distances.TryGetValue((current.Value, goal), out foundDistance))
             {
                 foundGoal = current;
                 break;

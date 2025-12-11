@@ -65,7 +65,7 @@ public sealed class Day15 : IntcodeSolver
         this.oxygenPosition = this.map.PositionOf(Element.OXYGEN);
 
         // Get path length to oxygen
-        Vector2<int>[] path = SearchUtils.Search(Start, this.oxygenPosition, Heuristic, Neighbours, MinSearchComparer<int>.Comparer)!;
+        Vector2<int>[] path = SearchUtils.Search(Start, this.oxygenPosition, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _)!;
 
         // Move along path to oxygen system
         this.map[Start] = Element.START;

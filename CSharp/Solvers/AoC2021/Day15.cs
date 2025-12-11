@@ -32,7 +32,7 @@ public sealed class Day15 : GridSolver<byte>
         // Search for best path to the end
         Vector2<int> start  = Vector2<int>.Zero, end = (this.Grid.Width - 1, this.Grid.Height - 1);
         // ReSharper disable once AccessToModifiedClosure
-        Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer<double>.Comparer)!;
+        Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer<double>.Comparer, out _)!;
         int total = path.Sum(p => this.Grid[p]);
         AoCUtils.LogPart1(total);
 
@@ -51,7 +51,7 @@ public sealed class Day15 : GridSolver<byte>
 
         // Search for new best path
         end   = (fullMap.Width - 1, fullMap.Height - 1);
-        path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer<double>.Comparer)!;
+        path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer<double>.Comparer, out _)!;
         total = path.Sum(p => fullMap[p]);
         AoCUtils.LogPart2(total);
     }
