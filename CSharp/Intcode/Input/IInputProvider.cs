@@ -66,6 +66,6 @@ public interface IInputProvider
     /// <summary>
     /// Creates a copy of the current input provider
     /// </summary>
-    /// <returns>A shallow copy of the input provider</returns>
+    /// <returns>A copy of the input provider</returns>
     IInputProvider Clone();
 }

@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Intcode.Output;
 
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
-public sealed class QueueOutput : IOutputProvider
+public class QueueOutput : IOutputProvider
 {
     /// <summary>
     /// Default queue capacity
@@ -16,7 +16,7 @@ public sealed class QueueOutput : IOutputProvider
     /// <summary>
     /// Backing queue
     /// </summary>
-    private readonly Queue<long> outputQueue;
+    protected readonly Queue<long> outputQueue;
 
     /// <inheritdoc />
     public int Count
@@ -44,7 +44,7 @@ public sealed class QueueOutput : IOutputProvider
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void AddOutput(long value) => this.outputQueue.Enqueue(value);
+    public virtual void AddOutput(long value) => this.outputQueue.Enqueue(value);
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -77,5 +77,5 @@ public sealed class QueueOutput : IOutputProvider
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IOutputProvider Clone() => new QueueOutput(this.outputQueue);
+    public virtual IOutputProvider Clone() => new QueueOutput(this.outputQueue);
 }

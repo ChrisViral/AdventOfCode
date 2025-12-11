@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;
 
@@ -221,7 +222,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// Runs the Intcode VM
     /// </summary>
     /// ReSharper disable once CognitiveComplexity
-    public void Run()
+    public void Run(CancellationToken cancellationToken = default)
     {
         ObjectDisposedException.ThrowIf(this.isDisposed, this);
         if (this.Status is State.HALTED or State.RUNNING) return;
@@ -229,6 +230,13 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.Status = State.RUNNING;
         while (true)
         {
+            // Halt on cancellation
+            if (cancellationToken.IsCancellationRequested)
+            {
+                this.Status = State.HALTED;
+                return;
+            }
+
             (int modes, Opcode opcode) = ReadOpcode();
             switch (opcode)
             {

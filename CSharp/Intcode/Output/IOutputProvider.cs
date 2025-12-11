@@ -107,6 +107,6 @@ public interface IOutputProvider
     /// <summary>
     /// Creates a copy of the current output provider
     /// </summary>
-    /// <returns>A shallow copy of the output provider</returns>
+    /// <returns>A copy of the output provider</returns>
     IOutputProvider Clone();
 }
