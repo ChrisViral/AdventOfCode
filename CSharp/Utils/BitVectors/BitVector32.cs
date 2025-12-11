@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
@@ -52,14 +53,18 @@ public struct BitVector32(uint data) : IBitVector<uint, BitVector32>
     /// <inheritdoc />
     public bool this[Index index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[index.GetOffset(Size)];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this[index.GetOffset(Size)] = value;
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(int index) => this[index] ^= true;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(Index index) => this[index] ^= true;
 
     /// <inheritdoc />
@@ -83,11 +88,36 @@ public struct BitVector32(uint data) : IBitVector<uint, BitVector32>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(BitVector32 other) => this.Data == other.Data;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is BitVector32 value && Equals(value);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => this.Data.GetHashCode();
+
+    /// <inheritdoc cref="BitVectorExtensions.ToBitString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override string ToString() => this.ToBitString<uint, BitVector32>();
+
+    /// <summary>
+    /// Checks if the given BitVectors are equal
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors are equal, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator ==(BitVector32 a, BitVector32 b) => a.Data == b.Data;
+
+    /// <summary>
+    /// Checks if the given BitVectors are unequal
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors are unequal, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(BitVector32 a, BitVector32 b) => a.Data != b.Data;
 }

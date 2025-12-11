@@ -55,3 +55,34 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
     /// <returns>The created BitVector from the specified bits</returns>
     static abstract TSelf FromBitArray(IReadOnlyList<bool> bits);
 }
+
+/// <summary>
+/// BitVector extension methods
+/// </summary>
+public static class BitVectorExtensions
+{
+    /// <summary>
+    /// Extension methods
+    /// </summary>
+    /// <param name="vector">Vector instance</param>
+    /// <typeparam name="TData">Data type</typeparam>
+    /// <typeparam name="TVector">Vector type</typeparam>
+    extension<TData, TVector>(TVector vector)
+        where TData : IBinaryInteger<TData>, IUnsignedNumber<TData>
+        where TVector : struct, IBitVector<TData, TVector>
+    {
+        /// <summary>
+        /// Creates a bit string from the given bit vector
+        /// </summary>
+        /// <returns>A string of 0 and 1's representing the vector</returns>
+        public string ToBitString()
+        {
+            Span<char> data = stackalloc char[TVector.Size];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[^(i + 1)] = vector[i] ? '1' : '0';
+            }
+            return new string(data);
+        }
+    }
+}

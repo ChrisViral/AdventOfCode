@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
@@ -32,7 +33,7 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
         {
             if (index < 0 || index >= Size) throw new ArgumentOutOfRangeException(nameof(index), index, $"Index outside of {nameof(BitVector8)} range");
 
-            return (this.Data & ((byte)1).MaskBit(index)) is not 0;
+            return (this.Data & ((byte)1U).MaskBit(index)) is not 0;
         }
         set
         {
@@ -40,11 +41,11 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
 
             if (value)
             {
-                this.Data |= ((byte)1).MaskBit(index);
+                this.Data |= ((byte)1U).MaskBit(index);
             }
             else
             {
-                this.Data &= ((byte)1).InverseMaskBit(index);
+                this.Data &= ((byte)1U).InverseMaskBit(index);
             }
         }
     }
@@ -52,14 +53,18 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
     /// <inheritdoc />
     public bool this[Index index]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[index.GetOffset(Size)];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this[index.GetOffset(Size)] = value;
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(int index) => this[index] ^= true;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(Index index) => this[index] ^= true;
 
     /// <inheritdoc />
@@ -83,11 +88,36 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(BitVector8 other) => this.Data == other.Data;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is BitVector8 value && Equals(value);
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => this.Data.GetHashCode();
+
+    /// <inheritdoc cref="BitVectorExtensions.ToBitString"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override string ToString() => this.ToBitString<byte, BitVector8>();
+
+    /// <summary>
+    /// Checks if the given BitVectors are equal
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors are equal, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator ==(BitVector8 a, BitVector8 b) => a.Data == b.Data;
+
+    /// <summary>
+    /// Checks if the given BitVectors are unequal
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors are unequal, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(BitVector8 a, BitVector8 b) => a.Data != b.Data;
 }
