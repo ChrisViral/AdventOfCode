@@ -24,12 +24,24 @@ public static class NumberExtensions
         /// Checks if an integer is even or not
         /// </summary>
         /// <value>
-        ///     <see langword="true"/> if <paramref name="value"/> is event, <see langword="false"/> otherwise
+        ///     <see langword="true"/> if <paramref name="value"/> is even, <see langword="false"/> otherwise
         /// </value>
         public bool IsEven
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => value % NumberUtils<T>.Two == T.Zero;
+        }
+
+        /// <summary>
+        /// Checks if an integer is odd or not
+        /// </summary>
+        /// <value>
+        ///     <see langword="true"/> if <paramref name="value"/> is odd, <see langword="false"/> otherwise
+        /// </value>
+        public bool IsOdd
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => value % NumberUtils<T>.Two == T.One;
         }
 
         /// <summary>
@@ -171,7 +183,7 @@ public static class NumberExtensions
         /// <param name="b">Second number</param>
         /// <returns>The LCM of a and b</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T LCM(T a, T b) => a * b / GCD(a, b);
+        public static T LCM(T a, T b) => MathUtils.LCM(a, b);
 
         /// <summary>
         /// Least Common Multiple function

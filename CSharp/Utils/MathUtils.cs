@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Vectors;
+using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
@@ -37,6 +39,107 @@ public static class MathUtils
         }
 
         return a | b;
+    }
+
+    /// <summary>
+    /// Least Common Multiple function
+    /// </summary>
+    /// <param name="a">First number</param>
+    /// <param name="b">Second number</param>
+    /// <returns>The LCM of a and b</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T LCM<T>(T a, T b) where T : IBinaryInteger<T> => a * b / GCD(a, b);
+
+    /// <summary>
+    /// Modular power function
+    /// </summary>
+    /// <param name="a">Base to exponentiate</param>
+    /// <param name="b">Exponant</param>
+    /// <param name="mod">Modulus</param>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <returns>The modular power <paramref name="a"/>^<paramref name="b"/> % <paramref name="mod"/></returns>
+    public static T ModularPower<T>(T a, T b, T mod) where T : IBinaryInteger<T>
+    {
+        if (mod == T.One) return T.Zero;
+
+        a %= mod;
+        T result = T.One;
+        while (b > T.Zero)
+        {
+            if (b.IsOdd)
+            {
+                result = (result * a) % mod;
+            }
+            b >>= 1;
+            a = (a * a) % mod;
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Modular inverse function
+    /// </summary>
+    /// <param name="n">Value to inverse</param>
+    /// <param name="mod">Modulus</param>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <returns>The modular inverse <paramref name="n"/>^(-1) % <paramref name="mod"/></returns>
+    public static T ModularInverse<T>(T n, T mod) where T : IBinaryInteger<T> => ModularPower(n, mod - NumberUtils<T>.Two, mod);
+
+    /// <summary>
+    /// 2x2 Matrix modular power
+    /// </summary>
+    /// <param name="matrix">Matrix to raise to a given power</param>
+    /// <param name="result">Output result matrix</param>
+    /// <param name="power">Power to raise the matrix at</param>
+    /// <param name="mod">Modulus</param>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// ReSharper disable once InconsistentNaming
+    public static void Matrix2x2Power<T>(ReadOnlySpan2D<T> matrix, ref Span2D<T> result, T power, T mod) where T : unmanaged, IBinaryInteger<T>
+    {
+        Span2D<T> a = stackalloc T[4].AsSpan2D(2, 2);
+        matrix.CopyTo(a);
+
+        result[0, 0] = T.One;
+        result[1, 1] = T.One;
+
+        Span2D<T> mulResult = stackalloc T[4].AsSpan2D(2, 2);
+        while (power > T.Zero)
+        {
+            if (power.IsOdd)
+            {
+                MatrixMultiplication(result, a, ref mulResult, mod);
+                mulResult.CopyTo(result);
+            }
+
+            MatrixMultiplication(a, a, ref mulResult, mod);
+            mulResult.CopyTo(a);
+            power >>= 1;
+        }
+    }
+
+    /// <summary>
+    /// Matrix multiplication
+    /// </summary>
+    /// <param name="a">First matrix</param>
+    /// <param name="b">Second matrix</param>
+    /// <param name="result">Output result matrix</param>
+    /// <param name="mod">Modulus</param>
+    /// <typeparam name="T">Integer type</typeparam>
+    public static void MatrixMultiplication<T>(ReadOnlySpan2D<T> a, ReadOnlySpan2D<T> b, ref Span2D<T> result, T mod) where T : unmanaged, IBinaryInteger<T>
+    {
+        int n = a.Height;
+        int m = b.Width;
+        int l = a.Width;
+        foreach ((int i, int j) in Vector2<int>.EnumerateOver(n, m))
+        {
+            T cell = T.Zero;
+            for (int k = 0; k < l; k++)
+            {
+                cell += (a[i, k] * b[k, j]) % mod;
+                cell %= mod;
+            }
+            result[i, j] = cell;
+        }
     }
 
     /// <summary>
