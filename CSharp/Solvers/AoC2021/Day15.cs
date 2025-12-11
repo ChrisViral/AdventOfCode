@@ -64,8 +64,8 @@ public sealed class Day15 : GridSolver<byte>
     /// <returns>An enumerable of all the neighbours of the current node</returns>
     private static IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node, Grid<byte> map)
     {
-        return node.Adjacent()
-                   .Where(n => map.WithinGrid(n))
+        return node.AsAdjacentEnumerable()
+                   .Where(map.WithinGrid)
                    .Select(n => new MoveData<Vector2<int>, double>(n, map[n]));
     }
 

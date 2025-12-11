@@ -73,7 +73,7 @@ public sealed class Day20 : Solver<Day20.MapData>
     // ReSharper disable once CognitiveComplexity
     private IEnumerable<MoveData<LayeredPosition, int>> LayeredNeighbours(LayeredPosition current)
     {
-        foreach (Vector2<int> adjacent in current.Position.Adjacent())
+        foreach (Vector2<int> adjacent in current.Position.AsAdjacentEnumerable())
         {
             if (this.Data.Grid.TryGetPosition(adjacent, out Element value))
             {
@@ -103,7 +103,7 @@ public sealed class Day20 : Solver<Day20.MapData>
 
     private IEnumerable<MoveData<Vector2<int>, int>> GetNeighbours(Vector2<int> current)
     {
-        foreach (Vector2<int> adjacent in current.Adjacent())
+        foreach (Vector2<int> adjacent in current.AsAdjacentEnumerable())
         {
             if (this.Data.Grid.TryGetPosition(adjacent, out Element value) && value is not Element.NONE)
             {

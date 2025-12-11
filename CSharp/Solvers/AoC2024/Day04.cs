@@ -24,7 +24,7 @@ public sealed class Day04 : GridSolver<char>
     public override void Run()
     {
         int hits = 0;
-        Vector2<int>[] directions = Vector2<int>.Zero.Adjacent(includeDiagonals: true).ToArray();
+        Vector2<int>[] directions = Vector2<int>.Zero.AsAdjacentEnumerable(withDiagonals: true).ToArray();
         foreach (Vector2<int> xPos in this.Data.Dimensions.Enumerate())
         {
             if (this.Data[xPos] is not 'X') continue;

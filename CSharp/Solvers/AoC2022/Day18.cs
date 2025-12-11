@@ -25,7 +25,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     public override void Run()
     {
         HashSet<Vector3<int>> points = new(this.Data);
-        int surface = this.Data.Sum(p => p.Adjacent(false).Count(a => !points.Contains(a)));
+        int surface = this.Data.Sum(p => p.AsAdjacentEnumerable().Count(a => !points.Contains(a)));
         AoCUtils.LogPart1(surface);
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
@@ -44,7 +44,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
             }
         }
 
-        surface -= pockets.Sum(p => p.Adjacent(false).Count(points.Contains));
+        surface -= pockets.Sum(p => p.AsAdjacentEnumerable().Count(points.Contains));
         AoCUtils.LogPart2(surface);
     }
 
@@ -61,7 +61,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         visited.Clear();
         while (search.TryPop(out Vector3<int> current))
         {
-            foreach (Vector3<int> adjacent in current.Adjacent(false))
+            foreach (Vector3<int> adjacent in current.Adjacent())
             {
                 if (!visited.Add(adjacent)) continue;
 

@@ -70,7 +70,7 @@ public sealed class Day11 : GridSolver<byte>
         {
             // Flash and add all adjacent
             flashes++;
-            position.Adjacent(true)
+            position.AsAdjacentEnumerable(withDiagonals: true)
                     .Where(p => this.Grid.WithinGrid(p) && WillFlash(p) && Flashed.Add(p))
                     .ForEach(ToFlash.Enqueue);
         }

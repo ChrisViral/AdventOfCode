@@ -162,7 +162,7 @@ public sealed class Day18 : GridSolver<char>
         {
             bool EmptyOrKey(char value) => value is EMPTY || value == this.keyID;
 
-            return currentPosition.Adjacent().Where(a => EmptyOrKey(this.Grid[a]));
+            return currentPosition.AsAdjacentEnumerable().Where(a => EmptyOrKey(this.Grid[a]));
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ public sealed class Day18 : GridSolver<char>
         {
             bool NotWallOrKey(char value) => value is not WALL || value == this.keyID;
 
-            return currentPosition.Adjacent().Where(a => NotWallOrKey(this.Grid[a]));
+            return currentPosition.AsAdjacentEnumerable().Where(a => NotWallOrKey(this.Grid[a]));
         }
 
         /// <inheritdoc />

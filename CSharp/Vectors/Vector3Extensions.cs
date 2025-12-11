@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Utils;
@@ -8,6 +9,10 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
 
+/// <summary>
+/// Vector3 enumerable
+/// </summary>
+[PublicAPI]
 public static class Vector3Extensions
 {
     /// <summary>
@@ -56,8 +61,11 @@ public static class Vector3Extensions
             return this.z < this.maxZ;
         }
 
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpaceEnumerator<T> GetEnumerator() => this;
+        public readonly SpaceEnumerator<T> GetEnumerator() => this;
     }
 
     /// <summary>
@@ -130,6 +138,160 @@ public static class Vector3Extensions
         IEnumerator IEnumerable.GetEnumerator() => this;
     }
 
+    /// <summary>
+    /// Adjacent vector enumerator
+    /// </summary>
+    /// <param name="vector">Vector to get the adjacent positions for</param>
+    /// <param name="withDiagonals">If diagonal adjacents should be included</param>
+    /// <param name="withSelf">If the self vector should be included</param>
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public ref struct AdjacentEnumerator<T>(Vector3<T> vector, bool withDiagonals, bool withSelf) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    {
+        /// <summary>
+        /// Orthogonal offsets
+        /// </summary>
+        public static readonly ImmutableArray<Vector3<T>> Offsets =
+        [
+            Vector3<T>.Up,
+            Vector3<T>.Right,
+            Vector3<T>.Down,
+            Vector3<T>.Left,
+            Vector3<T>.Backwards,
+            Vector3<T>.Forwards
+        ];
+
+        /// <summary>
+        /// Orthogonal and diagonal offsets
+        /// </summary>
+        public static readonly ImmutableArray<Vector3<T>> AllOffsets =
+        [
+            // Middle face
+            Vector3<T>.Up,
+            Vector3<T>.Up + Vector3<T>.Left,
+            Vector3<T>.Left,
+            Vector3<T>.Down + Vector3<T>.Left,
+            Vector3<T>.Down,
+            Vector3<T>.Down + Vector3<T>.Right,
+            Vector3<T>.Right,
+            Vector3<T>.Up + Vector3<T>.Right,
+
+            // Back face
+            Vector3<T>.Backwards,
+            Vector3<T>.Backwards + Vector3<T>.Up,
+            Vector3<T>.Backwards + Vector3<T>.Up + Vector3<T>.Left,
+            Vector3<T>.Backwards + Vector3<T>.Left,
+            Vector3<T>.Backwards + Vector3<T>.Down + Vector3<T>.Left,
+            Vector3<T>.Backwards + Vector3<T>.Down,
+            Vector3<T>.Backwards + Vector3<T>.Down + Vector3<T>.Right,
+            Vector3<T>.Backwards + Vector3<T>.Right,
+            Vector3<T>.Backwards + Vector3<T>.Up + Vector3<T>.Right,
+
+            // Front face
+            Vector3<T>.Forwards,
+            Vector3<T>.Forwards + Vector3<T>.Up,
+            Vector3<T>.Forwards + Vector3<T>.Up + Vector3<T>.Left,
+            Vector3<T>.Forwards + Vector3<T>.Left,
+            Vector3<T>.Forwards + Vector3<T>.Down + Vector3<T>.Left,
+            Vector3<T>.Forwards + Vector3<T>.Down,
+            Vector3<T>.Forwards + Vector3<T>.Down + Vector3<T>.Right,
+            Vector3<T>.Forwards + Vector3<T>.Right,
+            Vector3<T>.Forwards + Vector3<T>.Up + Vector3<T>.Right,
+        ];
+
+        private readonly bool withSelf = withSelf;
+        private readonly Vector3<T> vector = vector;
+        private readonly ReadOnlySpan<Vector3<T>> offsets = withDiagonals ? AllOffsets.AsSpan() : Offsets.AsSpan();
+        private int index = -1;
+
+        /// <summary>
+        /// Current enumerator value
+        /// </summary>
+        public readonly Vector3<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+        }
+
+        /// <summary>
+        /// Move to the next enumerator value
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            this.index++;
+            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+        }
+
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly AdjacentEnumerator<T> GetEnumerator() => this;
+    }
+
+    /// <summary>
+    /// Adjacent vector enumerator
+    /// </summary>
+    /// <param name="vector">Vector to get the adjacent positions for</param>
+    /// <param name="withDiagonals">If diagonal adjacents should be included</param>
+    /// <param name="withSelf">If the self vector should be included</param>
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class AdjacentEnumerable<T>(Vector3<T> vector, bool withDiagonals, bool withSelf) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    {
+        private readonly bool withSelf = withSelf;
+        private readonly Vector3<T> vector = vector;
+        private readonly ImmutableArray<Vector3<T>> offsets = withDiagonals ? AdjacentEnumerator<T>.AllOffsets : AdjacentEnumerator<T>.Offsets;
+        private int index = -1;
+
+        /// <summary>
+        /// Current enumerator value
+        /// </summary>
+        public Vector3<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+        }
+
+        /// <inheritdoc />
+        object IEnumerator.Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.Current;
+        }
+
+        /// <summary>
+        /// Move to the next enumerator value
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            this.index++;
+            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+        }
+
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IEnumerator<Vector3<T>> GetEnumerator() => this;
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        IEnumerator IEnumerable.GetEnumerator() => this;
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset() { }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Dispose() { }
+    }
+
     extension<T>(Vector3<T> value) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
@@ -143,40 +305,22 @@ public static class Vector3Extensions
         }
 
         /// <summary>
-        /// Lists out the 27 vectors adjacent to this one
+        /// Gets all the adjacent Vector3 to this one
         /// </summary>
-        /// <param name="includeDiagonals">If diagonal vectors should be included</param>
-        /// <param name="includeSelf">If self vector should be included</param>
-        /// <returns>An enumerable of the adjacent vectors</returns>
+        /// <param name="withDiagonals">If diagonal vectors should be included</param>
+        /// <param name="withSelf">If self vector should be included</param>
+        /// <returns>Adjacent vectors</returns>
         /// ReSharper disable once CognitiveComplexity
-        public IEnumerable<Vector3<T>> Adjacent(bool includeDiagonals = true, bool includeSelf = false)
-        {
-            if (includeDiagonals)
-            {
-                for (T x = -T.One; x <= T.One; x++)
-                {
-                    for (T y = -T.One; y <= T.One; y++)
-                    {
-                        for (T z = -T.One; z <= T.One; z++)
-                        {
-                            if (!includeSelf && x == T.Zero && y == T.Zero && z == T.Zero) continue;
+        public AdjacentEnumerator<T> Adjacent(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
 
-                            yield return value + new Vector3<T>(x, y, z);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (includeSelf) yield return value;
-                yield return value + Vector3<T>.Left;
-                yield return value + Vector3<T>.Right;
-                yield return value + Vector3<T>.Up;
-                yield return value + Vector3<T>.Down;
-                yield return value + Vector3<T>.Backwards;
-                yield return value + Vector3<T>.Forwards;
-            }
-        }
+        /// <summary>
+        /// Gets all the adjacent Vector3 to this one
+        /// </summary>
+        /// <param name="withDiagonals">If diagonal vectors should be included</param>
+        /// <param name="withSelf">If self vector should be included</param>
+        /// <returns>Adjacent vectors</returns>
+        /// ReSharper disable once CognitiveComplexity
+        public AdjacentEnumerable<T> AsAdjacentEnumerable(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
 
         /// <summary>
         /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums

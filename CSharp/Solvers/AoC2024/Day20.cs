@@ -60,7 +60,7 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
 
     private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node)
     {
-        foreach (Vector2<int> adjacent in node.Adjacent())
+        foreach (Vector2<int> adjacent in node.AsAdjacentEnumerable())
         {
             if (this.Data.racetrack.TryGetPosition(adjacent, out bool isWall) && !isWall)
             {

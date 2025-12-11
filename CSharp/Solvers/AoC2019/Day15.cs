@@ -115,7 +115,7 @@ public sealed class Day15 : IntcodeSolver
         AoCUtils.LogPart2(spreadTime);
     }
 
-    private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node) => node.Adjacent()
+    private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node) => node.AsAdjacentEnumerable()
                                                                                           .Where(p => this.map[p] is not Element.WALL)
                                                                                           .Select(p => new MoveData<Vector2<int>, int>(p, 1));
 

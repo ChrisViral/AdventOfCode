@@ -76,7 +76,7 @@ public sealed class Day12 : GridSolver<int>
     private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node)
     {
         int current = this.Grid[node];
-        foreach (Vector2<int> adjacent in node.Adjacent())
+        foreach (Vector2<int> adjacent in node.AsAdjacentEnumerable())
         {
             if (!this.Grid.WithinGrid(adjacent)) continue;
 

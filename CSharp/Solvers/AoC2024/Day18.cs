@@ -64,7 +64,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
 
     private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node)
     {
-        foreach (Vector2<int> adjacent in node.Adjacent().Where(a => this.memory.TryGetPosition(a, out bool wall) && !wall))
+        foreach (Vector2<int> adjacent in node.AsAdjacentEnumerable().Where(a => this.memory.TryGetPosition(a, out bool wall) && !wall))
         {
             yield return new MoveData<Vector2<int>, int>(adjacent, 1);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
@@ -9,6 +10,10 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode.Vectors;
 
+/// <summary>
+/// Vector2 Extensions
+/// </summary>
+[PublicAPI]
 public static class Vector2Extensions
 {
     /// <summary>
@@ -50,8 +55,11 @@ public static class Vector2Extensions
             return this.y < this.maxY;
         }
 
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpaceEnumerator<T> GetEnumerator() => this;
+        public readonly SpaceEnumerator<T> GetEnumerator() => this;
     }
 
     /// <summary>
@@ -117,6 +125,135 @@ public static class Vector2Extensions
     }
 
     /// <summary>
+    /// Adjacent vector enumerator
+    /// </summary>
+    /// <param name="vector">Vector to get the adjacent positions for</param>
+    /// <param name="withDiagonals">If diagonal adjacents should be included</param>
+    /// <param name="withSelf">If the self vector should be included</param>
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public ref struct AdjacentEnumerator<T>(Vector2<T> vector, bool withDiagonals, bool withSelf) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    {
+        /// <summary>
+        /// Orthogonal offsets
+        /// </summary>
+        public static readonly ImmutableArray<Vector2<T>> Offsets =
+        [
+            Vector2<T>.Up,
+            Vector2<T>.Right,
+            Vector2<T>.Down,
+            Vector2<T>.Left
+        ];
+
+        /// <summary>
+        /// Orthogonal and diagonal offsets
+        /// </summary>
+        public static readonly ImmutableArray<Vector2<T>> AllOffsets =
+        [
+            Vector2<T>.Up,
+            Vector2<T>.Up + Vector2<T>.Left,
+            Vector2<T>.Left,
+            Vector2<T>.Down + Vector2<T>.Left,
+            Vector2<T>.Down,
+            Vector2<T>.Down + Vector2<T>.Right,
+            Vector2<T>.Right,
+            Vector2<T>.Up + Vector2<T>.Right
+        ];
+
+        private readonly bool withSelf = withSelf;
+        private readonly Vector2<T> vector = vector;
+        private readonly ReadOnlySpan<Vector2<T>> offsets = withDiagonals ? AllOffsets.AsSpan() : Offsets.AsSpan();
+        private int index = -1;
+
+        /// <summary>
+        /// Current enumerator value
+        /// </summary>
+        public readonly Vector2<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+        }
+
+        /// <summary>
+        /// Move to the next enumerator value
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            this.index++;
+            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+        }
+
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly AdjacentEnumerator<T> GetEnumerator() => this;
+    }
+
+    /// <summary>
+    /// Adjacent vector enumerator
+    /// </summary>
+    /// <param name="vector">Vector to get the adjacent positions for</param>
+    /// <param name="withDiagonals">If diagonal adjacents should be included</param>
+    /// <param name="withSelf">If the self vector should be included</param>
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class AdjacentEnumerable<T>(Vector2<T> vector, bool withDiagonals, bool withSelf) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    {
+        private readonly bool withSelf = withSelf;
+        private readonly Vector2<T> vector = vector;
+        private readonly ImmutableArray<Vector2<T>> offsets = withDiagonals ? AdjacentEnumerator<T>.AllOffsets : AdjacentEnumerator<T>.Offsets;
+        private int index = -1;
+
+        /// <summary>
+        /// Current enumerator value
+        /// </summary>
+        public Vector2<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+        }
+
+        /// <inheritdoc />
+        object IEnumerator.Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.Current;
+        }
+
+        /// <summary>
+        /// Move to the next enumerator value
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            this.index++;
+            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+        }
+
+        /// <summary>
+        /// Enumerator instance
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IEnumerator<Vector2<T>> GetEnumerator() => this;
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        IEnumerator IEnumerable.GetEnumerator() => this;
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset() { }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Dispose() { }
+    }
+
+    /// <summary>
     /// Integer vector extensions
     /// </summary>
     /// <param name="value">Vector value</param>
@@ -136,33 +273,20 @@ public static class Vector2Extensions
         /// <summary>
         /// Gets all the adjacent Vector2 to this one
         /// </summary>
-        /// <param name="includeDiagonals">If diagonal vectors should be included</param>
-        /// <param name="includeSelf">If self vector should be included</param>
+        /// <param name="withDiagonals">If diagonal vectors should be included</param>
+        /// <param name="withSelf">If self vector should be included</param>
         /// <returns>Adjacent vectors</returns>
         /// ReSharper disable once CognitiveComplexity
-        public IEnumerable<Vector2<T>> Adjacent(bool includeDiagonals = false, bool includeSelf = false)
-        {
-            if (includeDiagonals)
-            {
-                for (T y = value.Y - T.One; y <= value.Y + T.One; y++)
-                {
-                    for (T x = value.X - T.One; x <= value.X + T.One; x++)
-                    {
-                        if (!includeSelf && x == value.X && y == value.Y) continue;
+        public AdjacentEnumerator<T> Adjacent(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
 
-                        yield return new Vector2<T>(x, y);
-                    }
-                }
-            }
-            else
-            {
-                if (includeSelf) yield return value;
-                yield return value + Vector2<T>.Up;
-                yield return value + Vector2<T>.Left;
-                yield return value + Vector2<T>.Right;
-                yield return value + Vector2<T>.Down;
-            }
-        }
+        /// <summary>
+        /// Gets all the adjacent Vector2 to this one
+        /// </summary>
+        /// <param name="withDiagonals">If diagonal vectors should be included</param>
+        /// <param name="withSelf">If self vector should be included</param>
+        /// <returns>Adjacent vectors</returns>
+        /// ReSharper disable once CognitiveComplexity
+        public AdjacentEnumerable<T> AsAdjacentEnumerable(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
 
         /// <summary>
         /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
@@ -248,7 +372,7 @@ public static class Vector2Extensions
     /// </summary>
     /// <param name="value">Vector value</param>
     /// <typeparam name="T">Floating point type</typeparam>
-    extension<T>(Vector2<T> value) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
+    extension<T>(Vector2<T> value) where T : unmanaged, IBinaryFloatingPointIeee754<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Creates a normalized version of this vector

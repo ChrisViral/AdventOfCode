@@ -77,7 +77,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
 
         foreach ((Vector2<int> position, Node node) in nodes)
         {
-            foreach (Vector2<int> neighbour in position.Adjacent()
+            foreach (Vector2<int> neighbour in position.AsAdjacentEnumerable()
                                                        .Where(p => this.Data.WithinGrid(p)
                                                                 && this.Data[p] is not Element.FOREST))
 
@@ -109,7 +109,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
     {
         return this.Data[position] switch
         {
-            Element.PATH  => position.Adjacent().Where(p => this.Data.WithinGrid(p) && this.Data[p] is not Element.FOREST),
+            Element.PATH  => position.AsAdjacentEnumerable().Where(p => this.Data.WithinGrid(p) && this.Data[p] is not Element.FOREST),
             Element.UP    => Enumerable.Repeat(position + Direction.UP, 1),
             Element.DOWN  => Enumerable.Repeat(position + Direction.DOWN, 1),
             Element.LEFT  => Enumerable.Repeat(position + Direction.LEFT, 1),
