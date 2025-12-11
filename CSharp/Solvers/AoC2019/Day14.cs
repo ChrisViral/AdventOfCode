@@ -11,7 +11,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 14
 /// </summary>
-public partial class Day14 : Solver<Day14.Chemical>
+public sealed partial class Day14 : Solver<Day14.Chemical>
 {
     /// <summary>
     /// Reaction reactant

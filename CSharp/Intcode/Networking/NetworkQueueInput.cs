@@ -11,7 +11,7 @@ namespace AdventOfCode.Intcode.Networking;
 /// Networked queue input accepting packets
 /// </summary>
 [PublicAPI]
-public class NetworkQueueInput : IInputProvider
+public sealed class NetworkQueueInput : IInputProvider
 {
     /// <summary>
     /// Next value to provide

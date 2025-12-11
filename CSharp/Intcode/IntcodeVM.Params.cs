@@ -2,7 +2,7 @@ using System;
 
 namespace AdventOfCode.Intcode;
 
-public partial class IntcodeVM
+public sealed partial class IntcodeVM
 {
     /// <summary>
     /// Intcode parameter mode

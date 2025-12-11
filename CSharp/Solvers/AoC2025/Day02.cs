@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 02
 /// </summary>
-public partial class Day02 : Solver<Day02.IdRange[]>
+public sealed partial class Day02 : Solver<Day02.IdRange[]>
 {
     public readonly record struct IdRange(long Start, long End);
 

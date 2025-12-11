@@ -14,7 +14,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 22
 /// </summary>
-public partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movements)>
+public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movements)>
 {
     /// <summary>
     /// No element

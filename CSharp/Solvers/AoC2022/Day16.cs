@@ -15,7 +15,7 @@ namespace AdventOfCode.Solvers.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 16
 /// </summary>
-public partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
+public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
 {
     /// <summary>
     /// Valve object

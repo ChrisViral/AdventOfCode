@@ -6,7 +6,7 @@ namespace AdventOfCode.Utils;
 /// String utilities
 /// </summary>
 [PublicAPI]
-public class StringUtils
+public static class StringUtils
 {
     /// <summary>
     /// Lowercase letters of the alphabet

@@ -17,7 +17,7 @@ namespace AdventOfCode.Solvers.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 17
 /// </summary>
-public partial class Day17 : IntcodeSolver
+public sealed partial class Day17 : IntcodeSolver
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     private enum Element

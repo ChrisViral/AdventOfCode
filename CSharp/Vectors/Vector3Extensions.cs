@@ -74,7 +74,7 @@ public static class Vector3Extensions
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
     /// <param name="maxZ">Max space Z value (exclusive)</param>
-    public class SpaceEnumerable<T>(T maxX, T maxY, T maxZ) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
+    public sealed class SpaceEnumerable<T>(T maxX, T maxY, T maxZ) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
         where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;

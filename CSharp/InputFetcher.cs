@@ -21,7 +21,7 @@ public static partial class InputFetcher
     /// <see cref="Settings"/> JSON source generation context
     /// </summary>
     [JsonSerializable(typeof(Settings)), JsonSourceGenerationOptions(WriteIndented = true)]
-    private partial class SettingsJsonContext : JsonSerializerContext;
+    private sealed partial class SettingsJsonContext : JsonSerializerContext;
 
     /// <summary>
     /// Input fetcher settings struct

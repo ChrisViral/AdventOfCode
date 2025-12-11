@@ -67,7 +67,7 @@ public static class Vector2Extensions
     /// </summary>
     /// <param name="maxX">Max space X value (exclusive)</param>
     /// <param name="maxY">Max space Y value (exclusive)</param>
-    public class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
+    public sealed class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
         where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         private readonly T maxX = maxX;
