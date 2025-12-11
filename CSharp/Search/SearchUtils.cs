@@ -484,4 +484,38 @@ public static class SearchUtils
         // Return path length
         return !foundEndNodes.Ref.IsEmpty ? foundEndNodes.Ref.Max(n => n.Cost) : null;
     }
+
+    /// <summary>
+    /// Counts all possible pathes from start through to the goal
+    /// </summary>
+    /// <typeparam name="T">Type of element to search for</typeparam>
+    /// <param name="start">Starting point</param>
+    /// <param name="goal">Ending point</param>
+    /// <param name="neighbours">Neighbours function</param>
+    /// <returns>The total count of pathes found</returns>
+    public static int CountPossiblePaths<T>(T start, T goal, Neighbours<T> neighbours) where T : IEquatable<T>
+    {
+        Pooled<Queue<T>> search = QueueObjectPool<T>.Shared.Get();
+        search.Ref.Enqueue(start);
+
+        int possiblePaths = 0;
+        while (search.Ref.TryDequeue(out T? current))
+        {
+            // If we found the goal
+            if (current.Equals(goal))
+            {
+                possiblePaths++;
+                continue;
+            }
+
+            // Look through all neighbouring nodes
+            foreach (T neighbour in neighbours(current))
+            {
+                search.Ref.Enqueue(neighbour);
+            }
+        }
+
+        // Return path length
+        return possiblePaths;
+    }
 }
