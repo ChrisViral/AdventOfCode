@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Utils.BitVectors;
+namespace AdventOfCode.Vectors.BitVectors;
 
 /// <summary>
 /// 64 wide bit vector
@@ -68,13 +67,13 @@ public struct BitVector64(ulong data) : IBitVector<ulong, BitVector64>
     public void InvertBit(Index index) => this[index] ^= true;
 
     /// <inheritdoc />
-    public static BitVector64 FromBitArray(IReadOnlyList<bool> bits)
+    public static BitVector64 FromBitArray(ReadOnlySpan<bool> bits)
     {
-        if (bits.Count > Size) throw new ArgumentException($"{nameof(BitVector64)} only supports up to {Size} bits", nameof(bits));
+        if (bits.Length > Size) throw new ArgumentException($"{nameof(BitVector64)} only supports up to {Size} bits", nameof(bits));
 
         // Mask out data
         ulong data = 0UL;
-        for (int i = bits.Count - 1; i >= 0; i--)
+        for (int i = bits.Length - 1; i >= 0; i--)
         {
             data <<= 1;
             if (bits[i])

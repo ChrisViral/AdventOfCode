@@ -10,9 +10,9 @@ using AdventOfCode.Search;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.BitVectors;
 using AdventOfCode.Utils.Pooling;
 using AdventOfCode.Vectors;
+using AdventOfCode.Vectors.BitVectors;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.AoC2019;

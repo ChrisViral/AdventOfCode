@@ -1,51 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Utils.BitVectors;
+namespace AdventOfCode.Vectors.BitVectors;
 
 /// <summary>
-/// 8 wide bit vector
+/// 128 wide bit vector
 /// </summary>
 /// <param name="data">Initial data</param>
 [PublicAPI]
-public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
+public struct BitVector128(UInt128 data) : IBitVector<UInt128, BitVector128>
 {
     /// <inheritdoc />
-    public static int Size => 8;
+    public static int Size => 128;
 
     /// <summary>
     /// Creates a new BitVector via copy
     /// </summary>
     /// <param name="other">Other bit vector to copy</param>
-    public BitVector8(BitVector8 other) : this(other.Data) { }
+    public BitVector128(BitVector128 other) : this(other.Data) { }
 
     /// <inheritdoc />
-    public byte Data { get; set; } = data;
+    public UInt128 Data { get; set; } = data;
 
     /// <inheritdoc />
     public bool this[int index]
     {
         get
         {
-            if (index < 0 || index >= Size) throw new ArgumentOutOfRangeException(nameof(index), index, $"Index outside of {nameof(BitVector8)} range");
+            if (index < 0 || index >= Size) throw new ArgumentOutOfRangeException(nameof(index), index, $"Index outside of {nameof(BitVector128)} range");
 
-            return (this.Data & ((byte)1U).MaskBit(index)) is not 0;
+            return (this.Data & ((UInt128)1UL).MaskBit(index)) != (UInt128)0;
         }
         set
         {
-            if (index < 0 || index >= Size) throw new ArgumentOutOfRangeException(nameof(index), index, $"Index outside of {nameof(BitVector8)} range");
+            if (index < 0 || index >= Size) throw new ArgumentOutOfRangeException(nameof(index), index, $"Index outside of {nameof(BitVector128)} range");
 
             if (value)
             {
-                this.Data |= ((byte)1U).MaskBit(index);
+                this.Data |= ((UInt128)1UL).MaskBit(index);
             }
             else
             {
-                this.Data &= ((byte)1U).InverseMaskBit(index);
+                this.Data &= ((UInt128)1UL).InverseMaskBit(index);
             }
         }
     }
@@ -68,13 +67,13 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
     public void InvertBit(Index index) => this[index] ^= true;
 
     /// <inheritdoc />
-    public static BitVector8 FromBitArray(IReadOnlyList<bool> bits)
+    public static BitVector128 FromBitArray(ReadOnlySpan<bool> bits)
     {
-        if (bits.Count > Size) throw new ArgumentException($"{nameof(BitVector8)} only supports up to {Size} bits", nameof(bits));
+        if (bits.Length > Size) throw new ArgumentException($"{nameof(BitVector128)} only supports up to {Size} bits", nameof(bits));
 
         // Mask out data
-        byte data = 0;
-        for (int i = bits.Count - 1; i >= 0; i--)
+        UInt128 data = 0UL;
+        for (int i = bits.Length - 1; i >= 0; i--)
         {
             data <<= 1;
             if (bits[i])
@@ -84,16 +83,16 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
         }
 
         // Return result
-        return new BitVector8(data);
+        return new BitVector128(data);
     }
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(BitVector8 other) => this.Data == other.Data;
+    public bool Equals(BitVector128 other) => this.Data == other.Data;
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override bool Equals([NotNullWhen(true)] object? obj) => obj is BitVector8 value && Equals(value);
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is BitVector128 value && Equals(value);
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -101,7 +100,7 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
 
     /// <inheritdoc cref="BitVectorExtensions.ToBitString"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override string ToString() => this.ToBitString<byte, BitVector8>();
+    public override string ToString() => this.ToBitString<UInt128, BitVector128>();
 
     /// <summary>
     /// Checks if the given BitVectors are equal
@@ -110,7 +109,7 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
     /// <param name="b">Second vector</param>
     /// <returns><see langword="true"/> if both vectors are equal, otherwise <see langword="false"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator ==(BitVector8 a, BitVector8 b) => a.Data == b.Data;
+    public static bool operator ==(BitVector128 a, BitVector128 b) => a.Data == b.Data;
 
     /// <summary>
     /// Checks if the given BitVectors are unequal
@@ -119,5 +118,5 @@ public struct BitVector8(byte data) : IBitVector<byte, BitVector8>
     /// <param name="b">Second vector</param>
     /// <returns><see langword="true"/> if both vectors are unequal, otherwise <see langword="false"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(BitVector8 a, BitVector8 b) => a.Data != b.Data;
+    public static bool operator !=(BitVector128 a, BitVector128 b) => a.Data != b.Data;
 }

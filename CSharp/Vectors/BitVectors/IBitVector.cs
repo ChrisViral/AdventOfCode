@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Utils.BitVectors;
+namespace AdventOfCode.Vectors.BitVectors;
 
 /// <summary>
 ///
@@ -53,7 +53,33 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
     /// <returns></returns>
     /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="Size"/></exception>
     /// <returns>The created BitVector from the specified bits</returns>
-    static abstract TSelf FromBitArray(IReadOnlyList<bool> bits);
+    static abstract TSelf FromBitArray(ReadOnlySpan<bool> bits);
+
+    /// <summary>
+    /// Creates a new BitVector from a given list of bits
+    /// </summary>
+    /// <param name="bits">Bits to create the vector from</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="Size"/></exception>
+    /// <returns>The created BitVector from the specified bits</returns>
+    static virtual TSelf FromBitArray(IReadOnlyList<bool> bits)
+    {
+        if (bits.Count > TSelf.Size) throw new ArgumentException($"{nameof(BitVector32)} only supports up to {TSelf.Size} bits", nameof(bits));
+
+        // Mask out data
+        TData data = TData.Zero;
+        for (int i = bits.Count - 1; i >= 0; i--)
+        {
+            data <<= 1;
+            if (bits[i])
+            {
+                data |= TData.One;
+            }
+        }
+
+        // Return result
+        return new TSelf { Data = data };
+    }
 }
 
 /// <summary>

@@ -8,7 +8,7 @@ using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Search;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.BitVectors;
+using AdventOfCode.Vectors.BitVectors;
 using Microsoft.Z3;
 
 namespace AdventOfCode.Solvers.AoC2025;
@@ -92,7 +92,7 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
 
     private static int GetMinimumPresses(Machine machine)
     {
-        return SearchUtils.GetPathLength(new BitVector16(), BitVector16.FromBitArray(machine.Lights), null,
+        return SearchUtils.GetPathLength(new BitVector16(), BitVector16.FromBitArray(machine.Lights.AsSpan()), null,
                                          machine.GetUpdatedStates, MinSearchComparer<int>.Comparer)!.Value;
     }
 
