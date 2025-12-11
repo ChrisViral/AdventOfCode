@@ -114,8 +114,8 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
     private static bool GetReflectionRow(Grid<bool> grid, out int reflection, int ignore = -1)
     {
-        Span<bool> up   = Span<bool>.Empty;
-        Span<bool> down = grid.GetRow(0);
+        ReadOnlySpan<bool> up   = Span<bool>.Empty;
+        ReadOnlySpan<bool> down = grid.GetRow(0);
 
         for (int i = 1; i < grid.Height; i++)
         {
@@ -136,8 +136,8 @@ public sealed class Day13 : Solver<Grid<bool>[]>
         {
             for (int a = i - 2, b = i + 1; a >= 0 && b < grid.Height; a--, b++)
             {
-                Span<bool> u = grid.GetRow(a);
-                Span<bool> d = grid.GetRow(b);
+                ReadOnlySpan<bool> u = grid.GetRow(a);
+                ReadOnlySpan<bool> d = grid.GetRow(b);
                 if (!u.SequenceEqual(d)) return false;
             }
 

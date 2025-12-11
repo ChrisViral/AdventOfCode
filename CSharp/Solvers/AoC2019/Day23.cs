@@ -29,13 +29,10 @@ public sealed class Day23 : Solver<NAT>
 
         // Wait for first packet to come in
         this.Data.WaitForFirstPacket();
-
-        // Wait for completion
         AoCUtils.LogPart1(this.Data.StoredPacket.Y);
 
         // Wait until the network completes
         this.Data.WaitForCompletion();
-
         AoCUtils.LogPart2(this.Data.StoredPacket.Y);
     }
 

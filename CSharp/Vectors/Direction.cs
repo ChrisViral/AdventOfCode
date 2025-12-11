@@ -36,9 +36,9 @@ public static class DirectionsUtils
     public const int HORIZONTAL_MASK = 0b1000;
 
     /// <summary>
-    /// All possible directions
+    /// All cardinal directions
     /// </summary>
-    public static ImmutableArray<Direction> CardinalDirections { get; } =
+    private static ImmutableArray<Direction> Directions { get; } =
     [
         Direction.UP,
         Direction.DOWN,
@@ -48,6 +48,11 @@ public static class DirectionsUtils
 
     extension(Direction direction)
     {
+        /// <summary>
+        /// All cardinal directions
+        /// </summary>
+        public static ImmutableArray<Direction> CardinalDirections => Directions;
+
         /// <summary>
         /// Gets a Vector2 from a given Direction
         /// </summary>

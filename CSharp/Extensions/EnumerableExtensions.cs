@@ -5,6 +5,8 @@ using System.Numerics;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Delegates;
 using AdventOfCode.Extensions.Ranges;
+using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -418,6 +420,117 @@ public static class EnumerableExtensions
             }
 
             return result;
+        }
+    }
+
+    /// <param name="e">Ref enumerable</param>
+    /// <typeparam name="T">Enumerable value type</typeparam>
+    extension<T>(RefEnumerable<T?> e) where T : IEquatable<T>
+    {
+        /// <summary>
+        /// Coutns the occurence of a value in a RefEnumerable
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> appears in the enumerable</returns>
+        /// ReSharper disable once CognitiveComplexity
+        public int Count(T? value)
+        {
+            int count = 0;
+            if (value is null)
+            {
+                foreach (T? element in e)
+                {
+                    if (element is null)
+                    {
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (T? element in e)
+                {
+                    if (value.Equals(element))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+    }
+
+    /// <param name="span">Span</param>
+    /// <typeparam name="T">Span value type</typeparam>
+    extension<T>(Span2D<T?> span) where T : IEquatable<T>
+    {
+        /// <summary>
+        /// Coutns the occurence of a value in a Span2D
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> appears in the span</returns>
+        /// ReSharper disable once CognitiveComplexity
+        public int Count(T? value)
+        {
+            int count = 0;
+            if (value is null)
+            {
+                foreach (T? element in span)
+                {
+                    if (element is null)
+                    {
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (T? element in span)
+                {
+                    if (value.Equals(element))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+    }
+
+    /// <param name="span">Span</param>
+    /// <typeparam name="T">Span value type</typeparam>
+    extension<T>(ReadOnlySpan2D<T?> span) where T : IEquatable<T>
+    {
+        /// <summary>
+        /// Coutns the occurence of a value in a ReadOnlySpan2D
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> appears in the span</returns>
+        /// ReSharper disable once CognitiveComplexity
+        public int Count(T? value)
+        {
+            int count = 0;
+            if (value is null)
+            {
+                foreach (T? element in span)
+                {
+                    if (element is null)
+                    {
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (T? element in span)
+                {
+                    if (value.Equals(element))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
     }
 }

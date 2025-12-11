@@ -134,7 +134,7 @@ public sealed class Day15 : IntcodeSolver
         this.map.PrintToConsole();
 
         // Go through all possible directions
-        foreach (Direction direction in DirectionsUtils.CardinalDirections)
+        foreach (Direction direction in Direction.CardinalDirections)
         {
             // Check if the location has already been explored
             Vector2<int> movePosition = position + direction;

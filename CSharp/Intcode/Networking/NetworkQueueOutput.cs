@@ -34,11 +34,14 @@ public sealed class NetworkQueueOutput : QueueOutput
     /// <inheritdoc />
     public override void AddOutput(long value)
     {
-        base.AddOutput(value);
-        if (this.Count < 3) return;
+        if (this.Count < 2)
+        {
+            base.AddOutput(value);
+            return;
+        }
 
         int address = (int)GetValue();
-        Packet packet = new(GetValue(), GetValue());
+        Packet packet = new(GetValue(), value);
         this.network.TransmitPacket(address, packet);
     }
 

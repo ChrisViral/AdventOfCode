@@ -21,9 +21,9 @@ public static class PrimitiveUtils<T>
     /// </summary>
     static PrimitiveUtils() => BufferSize = typeof(T) switch
     {
-        var t when t == typeof(bool) => 1,
-        var t when t == typeof(char) => 2,
-        { IsPrimitive: true }        => Marshal.SizeOf<T>(),
-        _                            => 0
+        { } t when t == typeof(bool)  => 1,
+        { } t when t == typeof(char)  => 2,
+        { IsPrimitive: true }         => Marshal.SizeOf<T>(),
+        _                             => 0
     };
 }

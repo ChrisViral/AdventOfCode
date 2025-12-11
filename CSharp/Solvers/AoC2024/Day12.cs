@@ -26,7 +26,7 @@ public sealed class Day12 : GridSolver<char>
     {
         Queue<Vector2<int>> visiting = [];
         HashSet<Vector2<int>> notVisited = [..this.Grid.Dimensions.Enumerate()];
-        Dictionary<Direction, HashSet<Vector2<int>>> fences = DirectionsUtils.CardinalDirections.ToDictionary(d => d, _ => new HashSet<Vector2<int>>());
+        Dictionary<Direction, HashSet<Vector2<int>>> fences = Direction.CardinalDirections.ToDictionary(d => d, _ => new HashSet<Vector2<int>>());
 
         (int regular, int bulk) prices = (0, 0);
         while (notVisited.Count > 0)
@@ -50,7 +50,7 @@ public sealed class Day12 : GridSolver<char>
         do
         {
             area++;
-            foreach (Direction direction in DirectionsUtils.CardinalDirections)
+            foreach (Direction direction in Direction.CardinalDirections)
             {
                 Vector2<int> neighbourPosition = currentPosition + direction;
                 if (this.Grid.TryGetPosition(neighbourPosition, out char otherRegion) && otherRegion == region)

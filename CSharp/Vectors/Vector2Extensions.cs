@@ -170,7 +170,7 @@ public static class Vector2Extensions
         public readonly Vector2<T> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.vector + this.offsets[index];
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ public static class Vector2Extensions
         public Vector2<T> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.withSelf && index == this.offsets.Length ? this.vector : this.offsets[index];
+            get => this.withSelf && index == this.offsets.Length ? this.vector : this.vector + this.offsets[index];
         }
 
         /// <inheritdoc />

@@ -42,7 +42,7 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
         Vector2<int> start = this.Data.PositionOf(Pipe.START);
         List<(Vector2<int> pos, Direction dir)> heads = [];
 
-        foreach (Direction dir in DirectionsUtils.CardinalDirections)
+        foreach (Direction dir in Direction.CardinalDirections)
         {
             Vector2<int> targetPos = start + dir;
             if (!this.Data.WithinGrid(targetPos)) continue;
