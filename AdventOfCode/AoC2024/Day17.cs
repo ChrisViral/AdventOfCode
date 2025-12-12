@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2024;

@@ -2,7 +2,7 @@
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2020;

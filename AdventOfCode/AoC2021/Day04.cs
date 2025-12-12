@@ -2,7 +2,7 @@ using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2021;

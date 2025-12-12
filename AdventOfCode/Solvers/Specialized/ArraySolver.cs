@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Solvers.Base;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;

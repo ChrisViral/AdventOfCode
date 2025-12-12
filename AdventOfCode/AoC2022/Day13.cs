@@ -2,7 +2,7 @@
 using System.Text;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.StringBuilders;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2022;

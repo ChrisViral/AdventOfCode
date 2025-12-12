@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using SpanLinq;
 

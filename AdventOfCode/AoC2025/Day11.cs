@@ -1,6 +1,6 @@
 ﻿using System.Collections.Frozen;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2025;

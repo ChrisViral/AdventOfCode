@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.Networking;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2019;

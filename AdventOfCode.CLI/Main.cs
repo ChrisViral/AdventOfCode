@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using AdventOfCode.CLI;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 Console.Title = "Advent of Code";

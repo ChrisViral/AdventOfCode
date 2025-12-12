@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 using AdventOfCode.Maths;
 using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2023;

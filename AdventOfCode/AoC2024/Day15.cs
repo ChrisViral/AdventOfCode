@@ -2,7 +2,7 @@ using System.Diagnostics;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using SpanLinq;
 

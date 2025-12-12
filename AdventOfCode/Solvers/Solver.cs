@@ -2,7 +2,7 @@ using System.Collections;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Solvers.Base;
+namespace AdventOfCode.Solvers;
 
 /// <summary>
 /// Solver base class

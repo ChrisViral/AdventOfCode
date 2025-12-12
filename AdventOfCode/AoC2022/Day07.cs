@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2022;

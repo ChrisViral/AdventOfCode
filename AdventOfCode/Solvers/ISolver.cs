@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace AdventOfCode.Solvers.Base;
+namespace AdventOfCode.Solvers;
 
 /// <summary>
 /// Solver interface

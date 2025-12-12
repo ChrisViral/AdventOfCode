@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2024;

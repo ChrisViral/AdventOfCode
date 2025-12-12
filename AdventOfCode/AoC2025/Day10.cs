@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors.BitVectors;
+using AdventOfCode.Solvers;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using Microsoft.Z3;
@@ -74,7 +75,7 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day10(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solvers.Base.Solver.Run"/>
+    /// <inheritdoc cref="Solvers.Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

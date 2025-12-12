@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions;
 using SpanLinq;

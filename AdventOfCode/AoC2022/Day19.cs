@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2022;

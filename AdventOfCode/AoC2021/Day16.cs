@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Text;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using static System.Convert;
 

@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2023;

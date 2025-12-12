@@ -65,7 +65,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day24(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solvers.Base.Solver.Run"/>
+    /// <inheritdoc cref="Solvers.Solver.Run"/>
     public override void Run()
     {
         int collisions = 0;

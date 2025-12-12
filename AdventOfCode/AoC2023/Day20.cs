@@ -3,7 +3,7 @@ using System.Diagnostics;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2023;

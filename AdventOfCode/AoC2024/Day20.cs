@@ -5,7 +5,7 @@ using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Base;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using SpanLinq;
 
