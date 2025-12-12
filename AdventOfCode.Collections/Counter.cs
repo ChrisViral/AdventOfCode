@@ -34,6 +34,15 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     }
 
     /// <summary>
+    /// The count values stored within this counter
+    /// </summary>
+    public Dictionary<T, int>.ValueCollection Counts
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Values;
+    }
+
+    /// <summary>
     /// Gets the count for a given key in the dictionary. If the key is not present, 0 is returned
     /// </summary>
     /// <param name="key">Value to find in the Counter</param>
@@ -109,8 +118,8 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <param name="comparer">Match equality comparer</param>
     public Counter(IEnumerable<T> source, IEqualityComparer<T> comparer)
     {
-        this.dictionary = source is ICollection<T> collection
-                              ? new Dictionary<T, int>(collection.Count, comparer)
+        this.dictionary = source.TryGetNonEnumeratedCount(out int count)
+                              ? new Dictionary<T, int>(count, comparer)
                               : new Dictionary<T, int>(comparer);
         AddRange(source);
     }
