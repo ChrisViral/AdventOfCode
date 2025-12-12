@@ -47,7 +47,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
         this.expandedData = new (string, int[])[this.Data.Length];
     }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

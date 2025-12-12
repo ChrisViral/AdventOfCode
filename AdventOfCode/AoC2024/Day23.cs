@@ -125,7 +125,7 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day23(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -224,7 +224,7 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
         return result;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override NetworkNode[] Convert(string[] rawInput)
     {
         Dictionary<string, NetworkNode> nodes = new(rawInput.Length);

@@ -50,7 +50,7 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IngredientList"/>[] fails</exception>
     public Day21(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -103,6 +103,6 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
         AoCUtils.LogPart2(string.Join(',', sortedAllergens.Values));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override IngredientList[] Convert(string[] rawInput) => RegexFactory<IngredientList>.ConstructObjects(IngredientList.Matcher, rawInput);
 }

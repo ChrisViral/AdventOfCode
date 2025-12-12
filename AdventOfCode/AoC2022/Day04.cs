@@ -46,7 +46,7 @@ public sealed partial class Day04 : Solver<((int, int) first, (int, int) second)
         AoCUtils.LogPart2(partialOverlaps);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override ((int, int), (int, int))[] Convert(string[] lines)
     {
         return RegexFactory<(int a, int b, int c, int d)>.ConstructObjects(Matcher, lines)

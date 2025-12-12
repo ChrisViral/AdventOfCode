@@ -66,7 +66,7 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Adapter"/>[] fails</exception>
     public Day10(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -87,7 +87,7 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
         AoCUtils.LogPart2(this.Data[0].Paths);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Adapter[] Convert(string[] rawInput)
     {
         Adapter[] adapters = new Adapter[rawInput.Length + 2];

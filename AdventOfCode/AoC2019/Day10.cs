@@ -26,7 +26,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Vector2{T}"/>[] fails</exception>
     public Day10(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -105,7 +105,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
         AoCUtils.LogPart2((lastVaporized.X * 100) + lastVaporized.Y);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Vector2<int>[] Convert(string[] rawInput)
     {
         int width = rawInput[0].Length;

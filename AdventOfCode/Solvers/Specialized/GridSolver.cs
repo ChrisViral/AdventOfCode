@@ -45,7 +45,7 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Grid{T}"/> fails</exception>
     protected GridSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Grid<T> Convert(string[] rawInput)
     {
         int height = rawInput.Length;

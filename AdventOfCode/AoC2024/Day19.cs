@@ -16,7 +16,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day19(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -83,7 +83,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
         return count;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (string[], string[]) Convert(string[] rawInput)
     {
         string[] towels = rawInput[0].Split(", ");

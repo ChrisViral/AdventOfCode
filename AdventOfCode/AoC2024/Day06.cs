@@ -42,7 +42,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
     /// <exception cref="InvalidOperationException">Thrown if the conversion to (<see cref="Grid{T}"/> <see cref="Vector2{T}"/>) fails</exception>
     public Day06(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

@@ -18,7 +18,7 @@ public abstract class ArraySolver<T> : Solver<T[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <typeparamref name="T"/><c>[]</c> fails</exception>
     protected ArraySolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected sealed override T[] Convert(string[] rawInput) => rawInput.ConvertAll(ConvertLine);
 
     /// <summary>

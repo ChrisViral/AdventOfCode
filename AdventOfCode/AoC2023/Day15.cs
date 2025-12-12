@@ -41,7 +41,7 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
     public Day15(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -105,6 +105,6 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
         hash %= BOXES;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(InstructionMatcher, rawInput[0].Split(','));
 }

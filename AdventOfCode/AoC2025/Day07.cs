@@ -61,7 +61,7 @@ public sealed class Day07 : GridSolver<Day07.ManifoldElement>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day07(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

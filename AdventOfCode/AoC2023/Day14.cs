@@ -39,7 +39,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
         this.directionOrders[Direction.EAST]  = this.directionOrders[Direction.WEST].AsEnumerable().Reverse().ToArray();
     }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

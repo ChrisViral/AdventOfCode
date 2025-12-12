@@ -72,7 +72,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     private int pointer;
     private readonly HashSet<int> visited = [];
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -117,6 +117,6 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
         return true;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Instruction[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new Instruction(s));
 }

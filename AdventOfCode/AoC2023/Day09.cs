@@ -18,7 +18,7 @@ public sealed class Day09 : ArraySolver<long[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
     public Day09(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -44,6 +44,6 @@ public sealed class Day09 : ArraySolver<long[]>
             : values[^1] + (done ? first : GetNextValue(diff));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override long[] ConvertLine(string line) => line.Split(' ', DEFAULT_OPTIONS).ConvertAll(long.Parse);
 }

@@ -202,7 +202,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="bool"/>[,,] fails</exception>
     public Day17(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -210,7 +210,7 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
         AoCUtils.LogPart2(this.Data.part2.Simulate(6));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Cube<Vector3<int>>, Cube<Vector4>) Convert(string[] rawInput)
     {
         Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new Vector3<int>(x, y, 0), v => v.AsAdjacentEnumerable(withDiagonals: true));

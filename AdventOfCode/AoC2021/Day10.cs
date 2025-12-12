@@ -42,7 +42,7 @@ public sealed class Day10 : Solver
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day10(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

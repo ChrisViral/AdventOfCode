@@ -20,7 +20,7 @@ public sealed class Day09 : GridSolver<byte>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day09(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

@@ -32,7 +32,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day17(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -137,7 +137,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (long, long, long, int[]) Convert(string[] rawInput)
     {
         // Registers

@@ -43,7 +43,7 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day08(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -74,7 +74,7 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
         };
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<Colour[]> image, int layerCount) Convert(string[] rawInput)
     {
         // Create grid

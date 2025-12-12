@@ -104,7 +104,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day22(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -165,7 +165,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         AoCUtils.LogPart2(count);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (bool, Cuboid)[] Convert(string[] rawInput)
     {
         (string, int, int, int, int, int, int)[] data = RegexFactory<(string, int, int, int, int, int, int)>.ConstructObjects(Matcher, rawInput);

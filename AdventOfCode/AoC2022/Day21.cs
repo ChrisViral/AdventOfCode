@@ -175,7 +175,7 @@ public sealed partial class Day21 : Solver<Dictionary<string, Day21.Monkey>>
         AoCUtils.LogPart2(stack!);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Dictionary<string, Monkey> Convert(string[] lines)
     {
         Dictionary<string, Monkey> monkeys = new(lines.Length);

@@ -31,7 +31,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day15(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -117,7 +117,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
         return false;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Vector2<int>, int) ConvertLine(string line)
     {
         int[] values = Matcher.Match(line).CapturedGroups

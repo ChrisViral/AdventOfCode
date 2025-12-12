@@ -103,7 +103,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day07(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -135,7 +135,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
         AoCUtils.LogPart2(result);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Dictionary<string, Bag> Convert(string[] rawInput)
     {
         Dictionary<string, Bag> bags = new(rawInput.Length);

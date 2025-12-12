@@ -108,7 +108,7 @@ public sealed partial class Day02 : Solver<Day02.Game[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Game"/>[] fails</exception>
     public Day02(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -120,6 +120,6 @@ public sealed partial class Day02 : Solver<Day02.Game[]>
         AoCUtils.LogPart2(powers);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Game[] Convert(string[] rawInput) => RegexFactory<Game>.ConstructObjects(GameMatcher, rawInput);
 }

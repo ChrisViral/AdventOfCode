@@ -25,7 +25,7 @@ public sealed class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day16(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -76,7 +76,7 @@ public sealed class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<bool>, Vector2<int>, Vector2<int>) Convert(string[] rawInput)
     {
         Grid<bool> maze    = new(rawInput[0].Length, rawInput.Length, rawInput, l => l.AsSpan().Select(c => c is not '#').ToArray(), b => b ? "." : "#");

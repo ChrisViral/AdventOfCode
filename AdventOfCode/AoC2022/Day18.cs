@@ -17,7 +17,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day18(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -73,6 +73,6 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         return true;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Vector3<int> ConvertLine(string line) => Vector3<int>.Parse(line);
 }

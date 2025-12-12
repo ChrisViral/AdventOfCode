@@ -24,7 +24,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day02(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -69,7 +69,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
         AoCUtils.LogPart2(position.X * position.Y);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (string command, int value) ConvertLine(string line)
     {
         string[] splits = line.Split(' ');

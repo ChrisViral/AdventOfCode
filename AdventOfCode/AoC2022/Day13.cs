@@ -171,7 +171,7 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
         AoCUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (PacketList, PacketList)[] Convert(string[] lines)
     {
         (PacketList, PacketList)[] pairs = new (PacketList, PacketList)[lines.Length / 2];

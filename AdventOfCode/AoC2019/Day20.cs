@@ -56,7 +56,7 @@ public sealed class Day20 : Solver<Day20.MapData>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day20(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -119,7 +119,7 @@ public sealed class Day20 : Solver<Day20.MapData>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     // ReSharper disable once CognitiveComplexity
     protected override MapData Convert(string[] rawInput)
     {

@@ -28,7 +28,7 @@ public sealed class Day01 : Solver<SortedList<int>>
         AoCUtils.LogPart2(this.Data[..3].Sum());
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override SortedList<int> Convert(string[] lines)
     {
         int total = 0;

@@ -246,7 +246,7 @@ public sealed class Day17 : Solver<Direction[]>
         AoCUtils.LogPart2(totalHeight);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Direction[] Convert(string[] lines) => lines[0].Select(c => c is '<' ? Direction.LEFT : Direction.RIGHT)
                                                                        .ToArray();
 }

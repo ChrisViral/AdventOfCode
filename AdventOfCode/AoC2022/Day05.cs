@@ -123,7 +123,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
         AoCUtils.LogPart2(new string(message));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Stack<char>[], Move[]) Convert(string[] lines)
     {
         // Create necessary stacks

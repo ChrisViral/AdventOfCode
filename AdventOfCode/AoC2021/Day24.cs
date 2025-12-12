@@ -21,7 +21,7 @@ public sealed class Day24 : Solver<(int a, int b, int c)[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day24(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -72,7 +72,7 @@ public sealed class Day24 : Solver<(int a, int b, int c)[]>
         AoCUtils.LogPart2(smallestResult.ToString());
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (int a, int b, int c)[] Convert(string[] rawInput)
     {
         (int, int, int)[] result = new (int, int, int)[DIGITS];

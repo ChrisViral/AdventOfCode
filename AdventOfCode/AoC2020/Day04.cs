@@ -78,7 +78,7 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day04(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -90,7 +90,7 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
         AoCUtils.LogPart2(valid.Count(p => p.Validate()));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PassportMatcher,
                                                                                                        AoCUtils.CombineLines(rawInput)
                                                                                                                .Select(l => string.Join(' ', l))

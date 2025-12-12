@@ -45,7 +45,7 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="DigInstruction"/>[] fails</exception>
     public Day18(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -73,6 +73,6 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
         return MathUtils.Picks(interior, perimeter);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override DigInstruction[] Convert(string[] rawInput) => RegexFactory<DigInstruction>.ConstructObjects(InstructionMatcher, rawInput);
 }

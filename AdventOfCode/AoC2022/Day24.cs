@@ -136,7 +136,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
         return time;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Vector2<int>, Vector2<int>, Blizzard[]) Convert(string[] lines)
     {
         // get start and end positions

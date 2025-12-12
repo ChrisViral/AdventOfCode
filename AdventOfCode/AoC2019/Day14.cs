@@ -125,7 +125,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day14(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -208,7 +208,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
         return oreRequired;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Chemical Convert(string[] rawInput)
     {
         Dictionary<string, Chemical> chemicals = new(rawInput.Length);

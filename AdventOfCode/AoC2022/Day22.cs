@@ -229,7 +229,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
         };
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<char>, Movement[]) Convert(string[] lines)
     {
         string[] map = lines[..^1];

@@ -22,7 +22,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day13(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

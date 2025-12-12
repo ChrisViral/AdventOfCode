@@ -29,7 +29,7 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day20(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -110,7 +110,7 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
         return validCheats;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<bool>, Vector2<int>, Vector2<int>) Convert(string[] rawInput)
     {
         Grid<bool> racetrack = new(rawInput[0].Length, rawInput.Length, rawInput,

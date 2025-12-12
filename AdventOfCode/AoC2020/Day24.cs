@@ -55,7 +55,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Neighbour"/>[][] fails</exception>
     public Day24(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -141,7 +141,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
         yield return position + Vector2<int>.Right + Vector2<int>.Down; //SouthWest
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Neighbour[][] Convert(string[] rawInput)
     {
         Neighbour[][] directions = new Neighbour[rawInput.Length][];

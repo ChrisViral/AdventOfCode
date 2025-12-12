@@ -160,7 +160,7 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day19(string input) : base(input.Trim(), options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -218,7 +218,7 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
         return valid;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Dictionary<string, Workflow>, Part[]) Convert(string[] rawInput)
     {
         int separation = rawInput.IndexOf(string.Empty);

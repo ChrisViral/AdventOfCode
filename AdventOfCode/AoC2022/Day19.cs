@@ -169,6 +169,6 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
         AoCUtils.LogPart2(maxOpened);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Blueprint[] Convert(string[] lines) => RegexFactory<Blueprint>.ConstructObjects(Matcher, lines);
 }

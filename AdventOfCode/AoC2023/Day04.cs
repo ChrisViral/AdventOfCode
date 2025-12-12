@@ -27,7 +27,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day04(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -69,7 +69,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
         AoCUtils.LogPart2(total);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Card[] Convert(string[] rawInput)
     {
         return RegexFactory<Card>.ConstructObjects(CardMatcher, rawInput);

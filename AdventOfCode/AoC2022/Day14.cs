@@ -35,7 +35,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day14(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -91,7 +91,7 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         AoCUtils.LogPart2(count);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Vector2<int>[] ConvertLine(string line) => line.Split("->", DEFAULT_OPTIONS).Select(s => Vector2<int>.Parse(s)).ToArray();
 
     private static bool FillSand(Vector2<int> source, Grid<CaveElement> cave, ref int count, ref Vector2<int> position)

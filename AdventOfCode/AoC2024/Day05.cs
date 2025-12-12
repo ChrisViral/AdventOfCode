@@ -27,7 +27,7 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Rule"/>[][] fails</exception>
     public Day05(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -69,7 +69,7 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
         return update[update.Length / 2].Value;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Rule[][] Convert(string[] rawInput)
     {
         int i = 0;

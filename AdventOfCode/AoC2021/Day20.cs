@@ -25,7 +25,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day20(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -70,7 +70,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
         return newImage;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (string, Grid<bool>) Convert(string[] rawInput)
     {
         int width = rawInput[1].Length;

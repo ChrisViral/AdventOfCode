@@ -22,7 +22,7 @@ public sealed class Day15 : GridSolver<byte>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day15(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -66,6 +66,6 @@ public sealed class Day15 : GridSolver<byte>
                    .Select(n => new MoveData<Vector2<int>, double>(n, map[n]));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
 }

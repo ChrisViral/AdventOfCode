@@ -22,7 +22,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day13(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -69,7 +69,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
         return index;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (int, int[]) Convert(string[] rawInput) => (int.Parse(rawInput[0]),
                                                                    rawInput[1].Split(',').ConvertAll(s => s is not "x" ? int.Parse(s) : NO_SERVICE));
 }

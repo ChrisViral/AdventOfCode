@@ -26,7 +26,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day08(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -60,7 +60,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
         return steps;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Direction[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
     {
         Direction[] directions = rawInput[0].ToCharArray().ConvertAll(Direction.Parse);

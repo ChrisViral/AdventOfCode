@@ -132,7 +132,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day12(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -209,6 +209,6 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
                                                          this.Data[2].GetCurrentState(axes),
                                                          this.Data[3].GetCurrentState(axes));
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Moon[] Convert(string[] rawInput) => RegexFactory<Moon>.ConstructObjects(MoonMatcher, rawInput);
 }

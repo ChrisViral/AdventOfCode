@@ -33,7 +33,7 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Robot"/>[] fails</exception>
     public Day14(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -89,6 +89,6 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
         };
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Robot[] Convert(string[] rawInput) => RegexFactory<Robot>.ConstructObjects(RobotMatcher, rawInput);
 }

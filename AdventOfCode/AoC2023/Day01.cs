@@ -40,7 +40,7 @@ public sealed class Day01 : Solver
     /// <param name="input">Puzzle input</param>
     public Day01(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

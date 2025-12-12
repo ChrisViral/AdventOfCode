@@ -84,7 +84,7 @@ public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ClawMachine"/>[] fails</exception>
     public Day13(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -109,7 +109,7 @@ public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
         AoCUtils.LogPart2(totalPrice);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override ClawMachine[] Convert(string[] rawInput)
     {
         string[] machineClumps = rawInput.Chunk(3).Select(lines => string.Concat(lines)).ToArray();

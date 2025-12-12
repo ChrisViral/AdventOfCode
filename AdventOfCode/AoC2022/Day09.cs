@@ -27,7 +27,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day09(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -35,7 +35,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
         AoCUtils.LogPart2(SimulateRope(10));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Vector2<int> ConvertLine(string line) => Vector2<int>.ParseFromDirection(line);
 
     private int SimulateRope(int knotCount)

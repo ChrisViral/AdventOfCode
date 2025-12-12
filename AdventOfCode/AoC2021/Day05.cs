@@ -30,7 +30,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day05(string input) : base(input) => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -79,7 +79,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
         AoCUtils.LogPart2(crosses);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Vector2<int> from, Vector2<int> to)[] Convert(string[] rawInput)
     {
         // Extract digits

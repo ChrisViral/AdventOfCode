@@ -18,7 +18,7 @@ public sealed class Day06 : Solver<(int time, int record)[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
     public Day06(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -49,7 +49,7 @@ public sealed class Day06 : Solver<(int time, int record)[]>
         return total;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (int, int)[] Convert(string[] rawInput)
     {
         int[] times   = rawInput[0][5..].Split(' ', DEFAULT_OPTIONS).ConvertAll(int.Parse);

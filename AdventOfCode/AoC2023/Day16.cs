@@ -53,7 +53,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
         this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
     }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

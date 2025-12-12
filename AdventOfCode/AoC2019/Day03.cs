@@ -17,7 +17,7 @@ public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day03(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -69,7 +69,7 @@ public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)
         AoCUtils.LogPart2(closest);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Vector2<int>[], Vector2<int>[]) Convert(string[] rawInput)
     {
         string[] splits = rawInput[0].Split(',');

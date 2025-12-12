@@ -18,7 +18,7 @@ public sealed class Day12 : GridSolver<int>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day12(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -85,6 +85,6 @@ public sealed class Day12 : GridSolver<int>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override int[] LineConverter(string line) => line.Select(c => c - 'a').ToArray();
 }

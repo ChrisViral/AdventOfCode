@@ -51,7 +51,7 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     /// </summary>
     private Grid<bool> Crt { get; } = new(40, 6, v => v ? "█" : " ");
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -77,7 +77,7 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
         AoCUtils.Log(this.Crt);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Operation, int) ConvertLine(string line)
     {
         string[] splits = line.Split(' ', DEFAULT_OPTIONS);

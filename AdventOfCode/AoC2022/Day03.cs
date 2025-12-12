@@ -45,7 +45,7 @@ public sealed class Day03 : Solver<string[]>
         AoCUtils.LogPart2(total);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override string[] Convert(string[] lines) => lines;
 
     /// <summary>

@@ -137,7 +137,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day19(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -161,7 +161,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         AoCUtils.LogPart2(this.Data.messages.Count(match.IsMatch));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Rule[], string[]) Convert(string[] rawInput)
     {
         //Get all rules

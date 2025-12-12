@@ -157,7 +157,7 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
         AoCUtils.LogPart2(PlayRound(LONG_ROUNDS, true));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Monkey[] Convert(string[] lines)
     {
         Monkey[] monkeys = new Monkey[lines.Length / 6];

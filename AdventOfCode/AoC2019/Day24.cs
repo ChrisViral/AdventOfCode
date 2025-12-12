@@ -35,7 +35,7 @@ public sealed class Day24 : GridSolver<bool>
         this.center = this.Grid.Dimensions / 2;
     }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

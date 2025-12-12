@@ -60,7 +60,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day05(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -95,6 +95,6 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override BoardingPass[] Convert(string[] rawInput) => rawInput.ConvertAll(s => new BoardingPass(s));
 }

@@ -67,7 +67,7 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day25(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -130,7 +130,7 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
         AoCUtils.LogPart2("Merry Christmas!");
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Dictionary<string, Component> Convert(string[] rawInput)
     {
         Dictionary<string, Component> components = new(rawInput.Length);

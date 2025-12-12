@@ -24,7 +24,7 @@ public sealed partial class Day02 : Solver<Day02.IdRange[]>
     [GeneratedRegex(@"(\d+)-(\d+)")]
     private static partial Regex RangeMatcher { get; }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -85,6 +85,6 @@ public sealed partial class Day02 : Solver<Day02.IdRange[]>
         return true;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override IdRange[] Convert(string[] rawInput) => RegexFactory<IdRange>.ConstructObjects(RangeMatcher, rawInput[0]);
 }

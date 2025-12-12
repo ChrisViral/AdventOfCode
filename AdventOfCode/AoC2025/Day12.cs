@@ -32,7 +32,7 @@ public sealed partial class Day12 : Solver<(Grid<bool>[] presents, Day12.Region[
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day12(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -48,7 +48,7 @@ public sealed partial class Day12 : Solver<(Grid<bool>[] presents, Day12.Region[
         AoCUtils.LogPart1(canFit);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<bool>[], Region[]) Convert(string[] rawInput)
     {
         Grid<bool>[] presents = new Grid<bool>[PRESENT_COUNT];

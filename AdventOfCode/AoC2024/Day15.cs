@@ -33,7 +33,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day15(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -299,7 +299,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         warehouse[rightPos]  = Element.EMPTY;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Grid<Element>, Direction[]) Convert(string[] rawInput)
     {
         int separator = rawInput.IndexOf(string.Empty);

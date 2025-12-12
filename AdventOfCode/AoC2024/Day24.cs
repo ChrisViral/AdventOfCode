@@ -116,7 +116,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Wire"/>[] fails</exception>
     public Day24(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -173,7 +173,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
         AoCUtils.LogPart2(string.Join(',', invalidWires.Select(w => w.ID).Order()));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Wire[] Convert(string[] rawInput)
     {
         Dictionary<string, Wire> wires = new(rawInput.Length);

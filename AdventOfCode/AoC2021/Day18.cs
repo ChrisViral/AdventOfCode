@@ -263,7 +263,7 @@ public sealed class Day18 : ArraySolver<Day18.Number>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Number"/>[] fails</exception>
     public Day18(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -278,6 +278,6 @@ public sealed class Day18 : ArraySolver<Day18.Number>
         AoCUtils.LogPart2(maxMagnitude);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Number ConvertLine(string line) => Number.ParseNumber(line);
 }

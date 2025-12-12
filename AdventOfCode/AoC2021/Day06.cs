@@ -23,7 +23,7 @@ public sealed class Day06 : Solver<int[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day06(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -60,6 +60,6 @@ public sealed class Day06 : Solver<int[]>
         return children;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override int[] Convert(string[] rawInput) => rawInput[0].Split(',').ConvertAll(int.Parse);
 }

@@ -31,7 +31,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day22(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -132,7 +132,7 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// <returns>A string representation of the game state</returns>
     private static string GetState(IEnumerable<int> p1, IEnumerable<int> p2) => StateBuilder.Clear().AppendJoin(',', p1).Append('-').AppendJoin(',', p2).ToString();
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (int[], int[]) Convert(string[] rawInput)
     {
         int end = Enumerable.Range(1, rawInput.Length).First(i => rawInput[i][0] is 'P');

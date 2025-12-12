@@ -21,6 +21,6 @@ public abstract class IntcodeSolver : Solver<IntcodeVM>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
     protected IntcodeSolver(string input) : base(input, [], StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
 }

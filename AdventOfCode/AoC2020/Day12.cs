@@ -138,7 +138,7 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Navigation"/>[] fails</exception>
     public Day12(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -153,6 +153,6 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
         AoCUtils.LogPart2(Math.Abs(ship.X) + Math.Abs(ship.Y));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Navigation[] Convert(string[] rawInput) => RegexFactory<Navigation>.ConstructObjects(Navigation.Matcher, rawInput);
 }

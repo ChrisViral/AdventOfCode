@@ -56,7 +56,7 @@ public sealed class Day04 : Solver<Day04.BingoData>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day04(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -109,6 +109,6 @@ public sealed class Day04 : Solver<Day04.BingoData>
         return Buffer.TrueForAll(n => n is MARKED);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override BingoData Convert(string[] rawInput) => new(rawInput);
 }

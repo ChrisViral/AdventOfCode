@@ -21,7 +21,7 @@ public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day14(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -85,7 +85,7 @@ public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (string, Dictionary<(char, char), char>) Convert(string[] rawInput)
     {
         Dictionary<(char, char), char> rules = new(rawInput.Length - 1);

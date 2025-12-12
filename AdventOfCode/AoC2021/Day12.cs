@@ -38,7 +38,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
     public Day12(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -108,7 +108,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Dictionary<string, Cave> Convert(string[] rawInput)
     {
         Dictionary<string, Cave> caves = new();

@@ -221,7 +221,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day23(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -380,7 +380,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     /// <returns><see langword="true"/> if the hallways are passable, otherwise <see langword="false"/></returns>
     private static bool IsPassable(HallwayNode[] blockers) => blockers.All(n => n.Current is Amphipod.NONE);
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     protected override GraphData Convert(string[] rawInput)
     {

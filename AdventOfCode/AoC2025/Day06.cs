@@ -23,7 +23,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day06(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

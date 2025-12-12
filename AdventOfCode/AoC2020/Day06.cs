@@ -15,7 +15,7 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
     public Day06(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -41,7 +41,7 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
         AoCUtils.LogPart2(allTotal);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
                                                                                .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
                                                                                .ToArray();

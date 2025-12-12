@@ -24,7 +24,7 @@ public sealed class Day20 : ArraySolver<long>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day20(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -89,6 +89,6 @@ public sealed class Day20 : ArraySolver<long>
              + decrypted[(zero + 3000) % decrypted.Length];
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override long ConvertLine(string line) => long.Parse(line);
 }

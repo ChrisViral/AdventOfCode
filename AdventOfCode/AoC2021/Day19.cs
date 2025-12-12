@@ -60,7 +60,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day19(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -131,7 +131,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
         return false;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override List<Vector3<int>[]> Convert(string[] rawInput)
     {
         List<Vector3<int>[]> scanners = [];

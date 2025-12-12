@@ -140,7 +140,7 @@ public sealed class Day16 : Solver<Day16.Packet>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day16(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -155,7 +155,7 @@ public sealed class Day16 : Solver<Day16.Packet>
     /// <returns></returns>
     private static string ToBinaryString(byte value) => System.Convert.ToString(value, 2).PadLeft(8, '0');
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Packet Convert(string[] rawInput)
     {
         byte[] bytes = FromHexString(rawInput[0]);

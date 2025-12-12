@@ -27,7 +27,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day17(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -71,7 +71,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
         AoCUtils.LogPart2(count);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Range, Range) Convert(string[] rawInput)
     {
         (int aX, int bX, int aY, int bY) = new RegexFactory<(int, int, int, int)>(RangeMatcher).ConstructObject(rawInput[0]);

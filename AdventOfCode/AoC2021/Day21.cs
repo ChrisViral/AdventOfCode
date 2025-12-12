@@ -37,7 +37,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day21(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -97,7 +97,7 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         }
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Player, Player) Convert(string[] rawInput)
     {
         Player p1 = new(int.Parse(rawInput[0][28..]) - 1, 0);

@@ -28,7 +28,7 @@ public sealed class Day06 : Solver<string>
         AoCUtils.LogPart2(FindUniqueSliceOfLength(14));
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override string Convert(string[] lines)
     {
         return lines[0];

@@ -100,7 +100,7 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day11(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -123,7 +123,7 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
         AoCUtils.LogPart2(count);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (long, Stone)[] Convert(string[] rawInput)
     {
         Span<Range> splits = stackalloc Range[10];

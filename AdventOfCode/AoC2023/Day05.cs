@@ -64,7 +64,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day05(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -116,7 +116,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
         AoCUtils.Log($"Task {id} finished");
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (long[] seeds, Dictionary<string, Map> maps) Convert(string[] rawInput)
     {
         long[] seeds = rawInput[0][7..].Split(' ', DEFAULT_OPTIONS).ConvertAll(long.Parse);

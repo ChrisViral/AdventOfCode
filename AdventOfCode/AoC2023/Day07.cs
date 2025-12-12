@@ -111,7 +111,7 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day07(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -136,6 +136,6 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
         return winnings;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Hand ConvertLine(string line) => new(line);
 }

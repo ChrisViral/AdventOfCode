@@ -19,7 +19,7 @@ public sealed partial class Day03 : Solver<string>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day03(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -55,6 +55,6 @@ public sealed partial class Day03 : Solver<string>
         AoCUtils.LogPart2(conditionalResult);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override string Convert(string[] rawInput) => string.Join(string.Empty, rawInput);
 }

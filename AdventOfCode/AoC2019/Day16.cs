@@ -26,7 +26,7 @@ public sealed class Day16 : Solver<int[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day16(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -128,7 +128,7 @@ public sealed class Day16 : Solver<int[]>
         return Math.Abs(result) % 10;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override int[] Convert(string[] rawInput) => rawInput[0].AsSpan()
                                                                       .Select(c => c - '0')
                                                                       .ToArray();

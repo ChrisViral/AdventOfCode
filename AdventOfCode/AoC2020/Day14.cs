@@ -226,7 +226,7 @@ public sealed partial class Day14 : Solver<Day14.Instruction[]>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
     public Day14(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -243,6 +243,6 @@ public sealed partial class Day14 : Solver<Day14.Instruction[]>
         AoCUtils.LogPart2(memory.Values.Sum());
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Instruction[] Convert(string[] rawInput) => RegexFactory<Instruction>.ConstructObjects(Instruction.Matcher, rawInput);
 }

@@ -217,7 +217,7 @@ public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] val
         return distance < remainingTime;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override (Valve, Valve[]) Convert(string[] lines)
     {
         Dictionary<string, Valve> valves = new(lines.Length);

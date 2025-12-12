@@ -17,7 +17,7 @@ public sealed class Day03 : GridSolver<bool>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day03(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

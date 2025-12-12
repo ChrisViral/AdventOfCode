@@ -151,7 +151,7 @@ public sealed class Day07 : Solver<Day07.Directory>
         AoCUtils.LogPart2(toDeleteSize);
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override Directory Convert(string[] lines)
     {
         // Create the root

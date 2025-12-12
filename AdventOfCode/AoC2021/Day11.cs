@@ -26,7 +26,7 @@ public sealed class Day11 : GridSolver<byte>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day11(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -96,6 +96,6 @@ public sealed class Day11 : GridSolver<byte>
         return false;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override byte[] LineConverter(string line) => line.Select(c => (byte)(c - '0')).ToArray();
 }

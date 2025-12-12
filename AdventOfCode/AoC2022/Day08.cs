@@ -19,7 +19,7 @@ public sealed class Day08 : GridSolver<int>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
     public Day08(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -120,7 +120,7 @@ public sealed class Day08 : GridSolver<int>
         return maxHeight is 9;
     }
 
-    /// <inheritdoc cref="Solver{T}.Convert"/>
+    /// <inheritdoc />
     protected override int[] LineConverter(string line)
     {
         int[] row = new int[line.Length];
