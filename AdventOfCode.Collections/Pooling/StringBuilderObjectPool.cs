@@ -1,0 +1,23 @@
+﻿using System.Text;
+using JetBrains.Annotations;
+using Microsoft.Extensions.ObjectPool;
+
+namespace AdventOfCode.Collections.Pooling;
+
+/// <summary>
+/// StringBuilder object pool
+/// </summary>
+[PublicAPI]
+public sealed class StringBuilderObjectPool : WrappedObjectPool<StringBuilder>
+{
+    /// <inheritdoc />
+    public StringBuilderObjectPool(StringBuilderPooledObjectPolicy policy) : base(policy) { }
+
+    /// <inheritdoc />
+    public StringBuilderObjectPool(StringBuilderPooledObjectPolicy policy, int maximumRetained) : base(policy, maximumRetained) { }
+
+    /// <summary>
+    /// Shared pool instance
+    /// </summary>
+    public static StringBuilderObjectPool Shared { get; } = new(new StringBuilderPooledObjectPolicy());
+}

@@ -3,14 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode", "AdventOfCode.csproj", "{480DF98A-C535-4748-90B6-B40B68A26A90}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2FA1A6A2-09B8-4157-A533-16AA30B35C59}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Tools", "AdventOfCode.Tools\AdventOfCode.Tools.csproj", "{D4C759FD-07D4-42B1-A759-E8399F38824C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Utils", "AdventOfCode.Utils\AdventOfCode.Utils.csproj", "{4FB58D3D-F7FD-4115-AA89-25D15049DEEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Maths", "AdventOfCode.Maths\AdventOfCode.Maths.csproj", "{B70BDEC8-920C-4873-B5E5-8141048881B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Collections", "AdventOfCode.Collections\AdventOfCode.Collections.csproj", "{7425645E-E876-4D6D-8460-9B6CDBD718F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Intcode", "AdventOfCode.Intcode\AdventOfCode.Intcode.csproj", "{6BFE36F0-3CAB-4D2D-B98F-CE06C95871DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode", "AdventOfCode\AdventOfCode.csproj", "{7AF13DF2-EE0C-4BE4-9562-76DCB0325F51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Console", "AdventOfCode.Console\AdventOfCode.Console.csproj", "{29255595-B1B8-4E31-9DF0-8576284344BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +26,30 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{480DF98A-C535-4748-90B6-B40B68A26A90}.Debug|x64.ActiveCfg = Debug|x64
-		{480DF98A-C535-4748-90B6-B40B68A26A90}.Debug|x64.Build.0 = Debug|x64
-		{480DF98A-C535-4748-90B6-B40B68A26A90}.Release|x64.ActiveCfg = Release|x64
-		{480DF98A-C535-4748-90B6-B40B68A26A90}.Release|x64.Build.0 = Release|x64
-		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Debug|x64.Build.0 = Debug|Any CPU
-		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Release|x64.ActiveCfg = Release|Any CPU
-		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Release|x64.Build.0 = Release|Any CPU
+		{4FB58D3D-F7FD-4115-AA89-25D15049DEEF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4FB58D3D-F7FD-4115-AA89-25D15049DEEF}.Debug|x64.Build.0 = Debug|Any CPU
+		{4FB58D3D-F7FD-4115-AA89-25D15049DEEF}.Release|x64.ActiveCfg = Release|Any CPU
+		{4FB58D3D-F7FD-4115-AA89-25D15049DEEF}.Release|x64.Build.0 = Release|Any CPU
+		{B70BDEC8-920C-4873-B5E5-8141048881B3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B70BDEC8-920C-4873-B5E5-8141048881B3}.Debug|x64.Build.0 = Debug|Any CPU
+		{B70BDEC8-920C-4873-B5E5-8141048881B3}.Release|x64.ActiveCfg = Release|Any CPU
+		{B70BDEC8-920C-4873-B5E5-8141048881B3}.Release|x64.Build.0 = Release|Any CPU
+		{7425645E-E876-4D6D-8460-9B6CDBD718F4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7425645E-E876-4D6D-8460-9B6CDBD718F4}.Debug|x64.Build.0 = Debug|Any CPU
+		{7425645E-E876-4D6D-8460-9B6CDBD718F4}.Release|x64.ActiveCfg = Release|Any CPU
+		{7425645E-E876-4D6D-8460-9B6CDBD718F4}.Release|x64.Build.0 = Release|Any CPU
+		{6BFE36F0-3CAB-4D2D-B98F-CE06C95871DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6BFE36F0-3CAB-4D2D-B98F-CE06C95871DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{6BFE36F0-3CAB-4D2D-B98F-CE06C95871DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{6BFE36F0-3CAB-4D2D-B98F-CE06C95871DE}.Release|x64.Build.0 = Release|Any CPU
+		{7AF13DF2-EE0C-4BE4-9562-76DCB0325F51}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7AF13DF2-EE0C-4BE4-9562-76DCB0325F51}.Debug|x64.Build.0 = Debug|Any CPU
+		{7AF13DF2-EE0C-4BE4-9562-76DCB0325F51}.Release|x64.ActiveCfg = Release|Any CPU
+		{7AF13DF2-EE0C-4BE4-9562-76DCB0325F51}.Release|x64.Build.0 = Release|Any CPU
+		{29255595-B1B8-4E31-9DF0-8576284344BB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{29255595-B1B8-4E31-9DF0-8576284344BB}.Debug|x64.Build.0 = Debug|Any CPU
+		{29255595-B1B8-4E31-9DF0-8576284344BB}.Release|x64.ActiveCfg = Release|Any CPU
+		{29255595-B1B8-4E31-9DF0-8576284344BB}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

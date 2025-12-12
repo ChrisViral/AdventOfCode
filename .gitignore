@@ -242,7 +242,6 @@ fabric.properties
 
 # Custom
 results.txt
-[Ii]nput/
-!*/Intcode/Input/
+AdventOfCode/Input/
 CSharp/.idea/.idea.AdventOfCode/.idea/discord.xml
 *.ddargs.json
