@@ -83,12 +83,12 @@ public struct BitVector64(ulong data) : IBitVector<ulong, BitVector64>
         }
 
         // Return result
-        return new BitVector64(data);
+        return data;
     }
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(BitVector64 other) => this.Data == other.Data;
+    public bool Equals(BitVector64 other) => this == other;
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -100,23 +100,109 @@ public struct BitVector64(ulong data) : IBitVector<ulong, BitVector64>
 
     /// <inheritdoc cref="BitVectorExtensions.ToBitString"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override string ToString() => this.ToBitString<ulong, BitVector64>();
+    public override string ToString() => this.ToBitString();
 
     /// <summary>
-    /// Checks if the given BitVectors are equal
+    /// Bitwise or operator
     /// </summary>
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
-    /// <returns><see langword="true"/> if both vectors are equal, otherwise <see langword="false"/></returns>
+    /// <returns>A new vector made of the bitwise or of both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator |(BitVector64 a, BitVector64 b) => new() { Data = a.Data | b.Data };
+
+    /// <summary>
+    /// Bitwise and operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>A new vector made of the bitwise and of both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator &(BitVector64 a, BitVector64 b) => new() { Data = a.Data & b.Data };
+
+    /// <summary>
+    /// Bitwise xor operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>A new vector made of the bitwise xor of both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator ^(BitVector64 a, BitVector64 b) => new() { Data = a.Data ^ b.Data };
+
+    /// <summary>
+    /// Left shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the left-shifted data of this vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator <<(BitVector64 vector, int shift) => new() { Data = vector.Data << shift };
+
+    /// <summary>
+    /// Right shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the right-shifted data of this vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator >>(BitVector64 vector, int shift) => new() { Data = vector.Data >> shift };
+
+    /// <summary>
+    /// Unsigned right shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the unsigned right-shifted data of this vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static BitVector64 operator >>>(BitVector64 vector, int shift) => new() { Data = vector.Data >>> shift };
+
+    /// <summary>
+    /// Equality operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors have identical data, otherwise <see langword="false"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(BitVector64 a, BitVector64 b) => a.Data == b.Data;
 
     /// <summary>
-    /// Checks if the given BitVectors are unequal
+    /// Inequality operator
     /// </summary>
     /// <param name="a">First vector</param>
     /// <param name="b">Second vector</param>
-    /// <returns><see langword="true"/> if both vectors are unequal, otherwise <see langword="false"/></returns>
+    /// <returns><see langword="true"/> if both vectors do not have identical data, otherwise <see langword="false"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(BitVector64 a, BitVector64 b) => a.Data != b.Data;
+
+    /// <summary>
+    /// Truthiness
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns><see langword="true"/> if the vector has a nonzero value, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator true(BitVector64 vector) => vector.Data != 0UL;
+
+    /// <summary>
+    /// Falsiness
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns><see langword="true"/> if the vector has a zero value, otherwise <see langword="false"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator false(BitVector64 vector) => vector.Data == 0UL;
+
+    /// <summary>
+    /// Implicit cast from data type
+    /// </summary>
+    /// <param name="value">Data value</param>
+    /// <returns>Creates a new vector with the specified data</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator BitVector64(ulong value) => new() { Data = value };
+
+    /// <summary>
+    /// Explicit cast from to type
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns>Extracts the data from this vector</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static explicit operator ulong(BitVector64 vector) => vector.Data;
 }

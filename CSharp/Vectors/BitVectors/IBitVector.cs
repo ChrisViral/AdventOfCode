@@ -6,14 +6,10 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Vectors.BitVectors;
 
 /// <summary>
-///
+/// BitVector interface
 /// </summary>
-/// <typeparam name="TData"></typeparam>
-/// <typeparam name="TSelf"></typeparam>
 [PublicAPI]
-public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
-    where TData : IBinaryInteger<TData>, IUnsignedNumber<TData>
-    where TSelf : struct, IBitVector<TData, TSelf>
+public interface IBitVector
 {
     /// <summary>
     /// Bit width of the vector
@@ -32,11 +28,6 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
     bool this[Index index] { get; set; }
 
     /// <summary>
-    /// Vector data
-    /// </summary>
-    TData Data { get; set; }
-
-    /// <summary>
     /// Inverts the bit at the given index
     /// </summary>
     /// <param name="index">Index to invert the bit at</param>
@@ -45,13 +36,29 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
 
     /// <inheritdoc cref="InvertBit(int)"/>
     void InvertBit(Index index);
+}
+
+/// <summary>
+/// BitVector interface
+/// </summary>
+/// <typeparam name="TData">Vector internal data</typeparam>
+/// <typeparam name="TSelf">Vector self type</typeparam>
+[PublicAPI]
+public interface IBitVector<TData, TSelf> : IBitVector, IEquatable<TSelf>
+    where TData : IBinaryInteger<TData>, IUnsignedNumber<TData>
+    where TSelf : struct, IBitVector<TData, TSelf>
+{
+    /// <summary>
+    /// Vector data
+    /// </summary>
+    TData Data { get; set; }
 
     /// <summary>
     /// Creates a new BitVector from a given list of bits
     /// </summary>
     /// <param name="bits">Bits to create the vector from</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="Size"/></exception>
+    /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="IBitVector.Size"/></exception>
     /// <returns>The created BitVector from the specified bits</returns>
     static abstract TSelf FromBitArray(ReadOnlySpan<bool> bits);
 
@@ -60,7 +67,7 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
     /// </summary>
     /// <param name="bits">Bits to create the vector from</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="Size"/></exception>
+    /// <exception cref="ArgumentException">When the size of <paramref name="bits"/> is greater than <see cref="IBitVector.Size"/></exception>
     /// <returns>The created BitVector from the specified bits</returns>
     static virtual TSelf FromBitArray(IReadOnlyList<bool> bits)
     {
@@ -78,8 +85,100 @@ public interface IBitVector<TData, TSelf> : IEquatable<TSelf>
         }
 
         // Return result
-        return new TSelf { Data = data };
+        return data;
     }
+
+    /// <summary>
+    /// Bitwise or operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>A new vector made of the bitwise or of both vectors</returns>
+    static abstract TSelf operator |(TSelf a, TSelf b);
+
+    /// <summary>
+    /// Bitwise and operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>A new vector made of the bitwise and of both vectors</returns>
+    static abstract TSelf operator &(TSelf a, TSelf b);
+
+    /// <summary>
+    /// Bitwise xor operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>A new vector made of the bitwise xor of both vectors</returns>
+    static abstract TSelf operator ^(TSelf a, TSelf b);
+
+    /// <summary>
+    /// Left shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the left-shifted data of this vector</returns>
+    static abstract TSelf operator <<(TSelf vector, int shift);
+
+    /// <summary>
+    /// Right shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the right-shifted data of this vector</returns>
+    static abstract TSelf operator >>(TSelf vector, int shift);
+
+    /// <summary>
+    /// Unsigned right shift operator
+    /// </summary>
+    /// <param name="vector">Vector to shift</param>
+    /// <param name="shift">Shift amount</param>
+    /// <returns>A new vector made of the unsigned right-shifted data of this vector</returns>
+    static abstract TSelf operator >>>(TSelf vector, int shift);
+
+    /// <summary>
+    /// Equality operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors have identical data, otherwise <see langword="false"/></returns>
+    static abstract bool operator ==(TSelf a, TSelf b);
+
+    /// <summary>
+    /// Inequality operator
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns><see langword="true"/> if both vectors do not have identical data, otherwise <see langword="false"/></returns>
+    static abstract bool operator !=(TSelf a, TSelf b);
+
+    /// <summary>
+    /// Truthiness
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns><see langword="true"/> if the vector has a nonzero value, otherwise <see langword="false"/></returns>
+    static abstract bool operator true(TSelf vector);
+
+    /// <summary>
+    /// Falsiness
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns><see langword="true"/> if the vector has a zero value, otherwise <see langword="false"/></returns>
+    static abstract bool operator false(TSelf vector);
+
+    /// <summary>
+    /// Implicit cast from data type
+    /// </summary>
+    /// <param name="value">Data value</param>
+    /// <returns>Creates a new vector with the specified data</returns>
+    static abstract implicit operator TSelf(TData value);
+
+    /// <summary>
+    /// Explicit cast from to type
+    /// </summary>
+    /// <param name="vector">Vector</param>
+    /// <returns>Extracts the data from this vector</returns>
+    static abstract explicit operator TData(TSelf vector);
 }
 
 /// <summary>
@@ -91,11 +190,8 @@ public static class BitVectorExtensions
     /// Extension methods
     /// </summary>
     /// <param name="vector">Vector instance</param>
-    /// <typeparam name="TData">Data type</typeparam>
     /// <typeparam name="TVector">Vector type</typeparam>
-    extension<TData, TVector>(TVector vector)
-        where TData : IBinaryInteger<TData>, IUnsignedNumber<TData>
-        where TVector : struct, IBitVector<TData, TVector>
+    extension<TVector>(TVector vector) where TVector : struct, IBitVector
     {
         /// <summary>
         /// Creates a bit string from the given bit vector

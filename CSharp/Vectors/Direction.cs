@@ -155,6 +155,22 @@ public static class DirectionsUtils
         /// <returns><see langword="true"/> if the direction is horizontal, else <see langword="false"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsHorizontal() => ((int)direction & HORIZONTAL_MASK) is not 0;
+
+        /// <summary>
+        /// Gets the string cardinal name for the direction
+        /// </summary>
+        /// <returns>The name of the cardinal direction, in lowercase</returns>
+        /// <exception cref="InvalidOperationException">When the direction is <see cref="Direction.NONE"/></exception>
+        /// <exception cref="InvalidEnumArgumentException">When the direction is an invalid value</exception>
+        public string ToCardinalString() => direction switch
+        {
+            Direction.NORTH => "north",
+            Direction.SOUTH => "south",
+            Direction.EAST  => "east",
+            Direction.WEST  => "west",
+            Direction.NONE  => throw new InvalidOperationException("None is not a cardinal direciton"),
+            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+        };
     }
 
     extension(Direction)
@@ -171,8 +187,8 @@ public static class DirectionsUtils
         {
             'u' or 'n' or '^' => Direction.UP,
             'd' or 's' or 'v' => Direction.DOWN,
-            'l' or 'e' or '<' => Direction.LEFT,
-            'r' or 'w' or '>' => Direction.RIGHT,
+            'l' or 'w' or '<' => Direction.LEFT,
+            'r' or 'e' or '>' => Direction.RIGHT,
             _                 => throw new FormatException("Direction could not properly be parsed from input")
         };
 
@@ -207,8 +223,8 @@ public static class DirectionsUtils
             {
                 "u" or "up"    or "n" or "north" or "^" => Direction.UP,
                 "d" or "down"  or "s" or "south" or "v" => Direction.DOWN,
-                "l" or "left"  or "e" or "east"  or "<" => Direction.LEFT,
-                "r" or "right" or "w" or "west"  or ">" => Direction.RIGHT,
+                "l" or "left"  or "w" or "west"  or "<" => Direction.LEFT,
+                "r" or "right" or "e" or "east"  or ">" => Direction.RIGHT,
                 _                                       => throw new FormatException("Direction could not properly be parsed from input")
             };
         }
@@ -237,11 +253,11 @@ public static class DirectionsUtils
                     direction = Direction.DOWN;
                     return true;
 
-                case 'l' or 'e' or '<':
+                case 'l' or 'w' or '<':
                     direction = Direction.LEFT;
                     return true;
 
-                case 'r' or 'w' or '>':
+                case 'r' or 'e' or '>':
                     direction = Direction.RIGHT;
                     return true;
 
@@ -287,11 +303,11 @@ public static class DirectionsUtils
                     direction = Direction.DOWN;
                     return true;
 
-                case "l" or "left" or "e" or "east" or ">":
+                case "l" or "left" or "w" or "west" or "<":
                     direction = Direction.LEFT;
                     return true;
 
-                case "r" or "right" or "w" or "west" or "<":
+                case "r" or "right" or "e" or "east" or ">":
                     direction = Direction.RIGHT;
                     return true;
 
