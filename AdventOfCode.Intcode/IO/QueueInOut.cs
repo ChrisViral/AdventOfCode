@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Intcode.Input;
-using AdventOfCode.Intcode.Output;
+using AdventOfCode.Intcode.IO.Input;
+using AdventOfCode.Intcode.IO.Output;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode;
+namespace AdventOfCode.Intcode.IO;
 
 /// <summary>
 /// Simultaneous intcode input/output queue

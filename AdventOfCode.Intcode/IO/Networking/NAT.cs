@@ -3,7 +3,7 @@ using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.Tasks;
 using SpanLinq;
 
-namespace AdventOfCode.Intcode.Networking;
+namespace AdventOfCode.Intcode.IO.Networking;
 
 /// <summary>
 /// Intcode NAT (Not Always Transmitting)

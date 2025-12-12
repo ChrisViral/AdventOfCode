@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode.Input;
+namespace AdventOfCode.Intcode.IO.Input;
 
 /// <summary>
 /// Intcode input provider interface

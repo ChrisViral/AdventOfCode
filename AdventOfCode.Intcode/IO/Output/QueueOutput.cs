@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode.Output;
+namespace AdventOfCode.Intcode.IO.Output;
 
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
 public class QueueOutput : IOutputProvider

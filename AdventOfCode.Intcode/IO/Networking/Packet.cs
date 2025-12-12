@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Intcode.Networking;
+﻿namespace AdventOfCode.Intcode.IO.Networking;
 
 /// <summary>
 /// Intcode network packet

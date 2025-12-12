@@ -4,7 +4,7 @@ using System.Text;
 using AdventOfCode.Collections.Pooling;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode.Output;
+namespace AdventOfCode.Intcode.IO.Output;
 
 /// <summary>
 /// Intcode output interface

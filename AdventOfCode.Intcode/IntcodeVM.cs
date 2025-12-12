@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using AdventOfCode.Intcode.Input;
-using AdventOfCode.Intcode.Output;
+using AdventOfCode.Intcode.IO.Input;
+using AdventOfCode.Intcode.IO.Output;
 
 namespace AdventOfCode.Intcode;
 

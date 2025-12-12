@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Intcode.Output;
+using AdventOfCode.Intcode.IO.Output;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode.Networking;
+namespace AdventOfCode.Intcode.IO.Networking;
 
 /// <summary>
 /// Networked queue output broadcasting packets

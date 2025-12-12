@@ -1,5 +1,5 @@
 ﻿using AdventOfCode.Intcode;
-using AdventOfCode.Intcode.Networking;
+using AdventOfCode.Intcode.IO.Networking;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

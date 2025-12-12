@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Intcode.Input;
+using AdventOfCode.Intcode.IO.Input;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Intcode.Networking;
+namespace AdventOfCode.Intcode.IO.Networking;
 
 /// <summary>
 /// Networked queue input accepting packets
