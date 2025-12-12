@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace AdventOfCode.Console;
+namespace AdventOfCode.CLI;
 
 /// <summary>
 /// SolverData info
@@ -15,7 +15,7 @@ public readonly struct SolverData
     /// <summary>
     /// Type qualifier for the solvers
     /// </summary>
-    private const string QUALIFIER = $"{nameof(AdventOfCode)}.{nameof(Solvers)}.AoC";
+    private const string QUALIFIER = $"{nameof(AdventOfCode)}.AoC";
 
     public readonly int year;
     public readonly int day;

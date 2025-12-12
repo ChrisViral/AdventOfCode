@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using AdventOfCode.Extensions.Assemblies;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Console;
+namespace AdventOfCode.CLI;
 
 /// <summary>
 /// Input fetching helper class
@@ -105,7 +105,7 @@ public static partial class InputFetcher
 #endif
 
             // Prompt user to add cookie to file
-            await System.Console.Error.WriteLineAsync("Could not find the input fetcher settings file, please add your cookie to the generated file.\n" + settingsFile.FullName).ConfigureAwait(false);
+            await Console.Error.WriteLineAsync("Could not find the input fetcher settings file, please add your cookie to the generated file.\n" + settingsFile.FullName).ConfigureAwait(false);
             throw new FileNotFoundException("Could not find input fetcher settings file", settingsFile.FullName);
         }
 
@@ -120,7 +120,7 @@ public static partial class InputFetcher
         TimeSpan timeSinceLastRequest = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(settings.LastRequestTimestamp);
         if (timeSinceLastRequest.TotalSeconds < 900d)
         {
-            await System.Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.").ConfigureAwait(false);
+            await Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.").ConfigureAwait(false);
             throw new InvalidOperationException("Request rate limited");
         }
 
@@ -166,7 +166,7 @@ public static partial class InputFetcher
     private static async Task CopyFileToProject(FileInfo sourceFile, string subfolder, bool overwrite = true)
     {
         // Get target path in project
-        string targetPath = Path.GetFullPath(Path.Combine("..", "..", "..", subfolder, sourceFile.Name));
+        string targetPath = Path.GetFullPath(Path.Combine("..", "..", "..", "..", nameof(AdventOfCode), subfolder, sourceFile.Name));
         FileInfo targetFile = new(targetPath);
 
         // Don't clobber unless requested to

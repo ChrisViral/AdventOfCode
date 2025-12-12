@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
-using AdventOfCode;
-using AdventOfCode.Console;
+using AdventOfCode.CLI;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
@@ -30,11 +28,13 @@ try
     Debug.Assert(typeof(ISolver).IsAssignableFrom(baseSolverType), $"{baseSolverType} does not inherit from {typeof(ISolver)}");
 
     //Get solver types
-    Type? solverType = Assembly.GetExecutingAssembly()
-                               .GetTypes()
-                               .Where(t => t is { IsAbstract: false, IsGenericType: false }
-                                        && t.IsAssignableTo(baseSolverType)
-                                        && t.GetConstructor(constructorParamTypes) is not null)
+    Type? solverType = AppDomain.CurrentDomain
+                                .GetAssemblies()
+                                .Single(a => a.GetName().Name == nameof(AdventOfCode))
+                                .GetTypes()
+                                .Where(t => t is { IsAbstract: false, IsGenericType: false }
+                                         && t.IsAssignableTo(baseSolverType)
+                                         && t.GetConstructor(constructorParamTypes) is not null)
                                .SingleOrDefault(t => t.FullName == solverData.fullName);
 
     //Make sure the type exists
@@ -64,7 +64,7 @@ AoCUtils.LogElapsed(AoCUtils.PartsWatch);
 
 //Setup trace file
 #if DEBUG
-using TextWriterTraceListener textListener = new(File.CreateText(Path.Combine("..", "..", "..", "results.txt")));
+using TextWriterTraceListener textListener = new(File.CreateText(Path.Combine("..", "..", "..", "..", nameof(AdventOfCode), "results.txt")));
 #else
 using TextWriterTraceListener textListener = new(File.CreateText("results.txt"));
 #endif
