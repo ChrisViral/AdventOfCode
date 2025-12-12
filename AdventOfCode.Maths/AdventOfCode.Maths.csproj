@@ -28,4 +28,8 @@
     <ProjectReference Include="..\AdventOfCode.Utils\AdventOfCode.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="AdventOfCode.Maths.csproj.DotSettings" />
+  </ItemGroup>
+
 </Project>

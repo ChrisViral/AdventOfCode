@@ -26,4 +26,8 @@
     <ProjectReference Include="..\AdventOfCode\AdventOfCode.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="AdventOfCode.CLI.csproj.DotSettings" />
+  </ItemGroup>
+
 </Project>

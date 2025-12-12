@@ -30,4 +30,8 @@
     <ProjectReference Include="..\AdventOfCode.Collections\AdventOfCode.Collections.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="AdventOfCode.Intcode.csproj.DotSettings" />
+  </ItemGroup>
+
 </Project>

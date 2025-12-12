@@ -26,4 +26,8 @@
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="AdventOfCode.Utils.csproj.DotSettings" />
+  </ItemGroup>
+
 </Project>
