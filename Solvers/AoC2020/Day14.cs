@@ -1,8 +1,5 @@
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using AdventOfCode.Solvers.Base;
+﻿using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers.AoC2022;

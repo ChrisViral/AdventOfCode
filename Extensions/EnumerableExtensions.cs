@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Delegates;
 using AdventOfCode.Extensions.Ranges;

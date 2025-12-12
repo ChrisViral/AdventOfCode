@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Vectors;

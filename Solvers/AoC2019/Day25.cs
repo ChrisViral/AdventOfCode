@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;

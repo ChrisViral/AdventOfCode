@@ -1,6 +1,4 @@
-﻿using System;
-using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Extensions.Numbers;
+﻿using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

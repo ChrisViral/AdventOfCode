@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Collections;
 using JetBrains.Annotations;

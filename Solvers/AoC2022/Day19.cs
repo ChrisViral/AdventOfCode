@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;

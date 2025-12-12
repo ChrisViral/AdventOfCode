@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using AdventOfCode.Vectors;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;

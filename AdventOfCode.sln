@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Tools", "AdventOfCode.Tools\AdventOfCode.Tools.csproj", "{D4C759FD-07D4-42B1-A759-E8399F38824C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -20,6 +22,10 @@ Global
 		{480DF98A-C535-4748-90B6-B40B68A26A90}.Debug|x64.Build.0 = Debug|x64
 		{480DF98A-C535-4748-90B6-B40B68A26A90}.Release|x64.ActiveCfg = Release|x64
 		{480DF98A-C535-4748-90B6-B40B68A26A90}.Release|x64.Build.0 = Release|x64
+		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Debug|x64.Build.0 = Debug|Any CPU
+		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Release|x64.ActiveCfg = Release|Any CPU
+		{D4C759FD-07D4-42B1-A759-E8399F38824C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

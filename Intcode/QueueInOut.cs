@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Intcode.Input;
 using AdventOfCode.Intcode.Output;

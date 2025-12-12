@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Frozen;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.Regexes;

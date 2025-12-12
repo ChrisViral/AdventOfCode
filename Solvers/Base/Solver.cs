@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;

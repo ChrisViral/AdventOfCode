@@ -1,6 +1,5 @@
 ﻿using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;
-using System;
 using AdventOfCode.Extensions.Ranges;
 
 namespace AdventOfCode.Solvers.AoC2020;

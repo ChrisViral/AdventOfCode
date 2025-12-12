@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventOfCode.Collections;
+﻿using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;

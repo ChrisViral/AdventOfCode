@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

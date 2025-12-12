@@ -1,7 +1,4 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Buffers;
 using System.Runtime.InteropServices;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;

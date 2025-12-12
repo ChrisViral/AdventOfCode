@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using AdventOfCode.Extensions.Numbers;
+﻿using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;

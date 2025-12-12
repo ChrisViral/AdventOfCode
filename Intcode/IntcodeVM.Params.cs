@@ -1,5 +1,3 @@
-using System;
-
 namespace AdventOfCode.Intcode;
 
 public sealed partial class IntcodeVM

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Extensions.Ranges;

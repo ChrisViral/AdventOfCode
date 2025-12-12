@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

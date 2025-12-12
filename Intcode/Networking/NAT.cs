@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.Tasks;
 using SpanLinq;

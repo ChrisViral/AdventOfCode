@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;

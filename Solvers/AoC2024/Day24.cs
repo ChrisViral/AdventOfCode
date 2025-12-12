@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Utils;

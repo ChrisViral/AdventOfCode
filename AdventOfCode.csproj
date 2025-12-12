@@ -10,6 +10,7 @@
     <AssemblyVersion>2024.2.*</AssemblyVersion>
     <FileVersion>2024.2.0.0</FileVersion>
     <Deterministic>false</Deterministic>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>none</DebugType>

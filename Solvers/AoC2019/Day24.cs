@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
@@ -11,6 +9,7 @@ using AdventOfCode.Utils;
 using AdventOfCode.Vectors;
 using AdventOfCode.Vectors.BitVectors;
 using CommunityToolkit.HighPerformance;
+using MemoryExtensions = System.MemoryExtensions;
 
 namespace AdventOfCode.Solvers.AoC2019;
 
@@ -104,7 +103,7 @@ public sealed class Day24 : GridSolver<bool>
     private static BitVector32 GridToBitVector(DelayedGrid<bool> grid)
     {
         ReadOnlySpan2D<bool> data = grid.AsSpan2D();
-        if (data.TryGetSpan(out System.ReadOnlySpan<bool> bitArray))
+        if (data.TryGetSpan(out ReadOnlySpan<bool> bitArray))
         {
             return BitVector32.FromBitArray(bitArray);
         }
@@ -171,11 +170,11 @@ public sealed class Day24 : GridSolver<bool>
 
     private static int CountSurroundingInside(Direction checkDirection, DelayedGrid<bool> levelMap) => checkDirection switch
     {
-        Direction.UP    => levelMap.GetRow(^1).Count(true),
-        Direction.DOWN  => levelMap.GetRow(0).Count(true),
+        Direction.UP    => MemoryExtensions.Count(levelMap.GetRow(^1), true),
+        Direction.DOWN  => MemoryExtensions.Count(levelMap.GetRow(0), true),
         Direction.LEFT  => levelMap.GetColumn(^1).Count(true),
         Direction.RIGHT => levelMap.GetColumn(0).Count(true),
-        Direction.NONE  => throw new System.InvalidOperationException("None is not a valid check direction"),
+        Direction.NONE  => throw new InvalidOperationException("None is not a valid check direction"),
         _               => throw new InvalidEnumArgumentException(nameof(checkDirection), (int)checkDirection, typeof(Direction))
     };
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;
 using AdventOfCode.Solvers.Specialized;

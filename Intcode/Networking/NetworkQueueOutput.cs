@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using AdventOfCode.Intcode.Output;
 using JetBrains.Annotations;
 

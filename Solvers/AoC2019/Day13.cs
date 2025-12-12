@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Solvers.Base;

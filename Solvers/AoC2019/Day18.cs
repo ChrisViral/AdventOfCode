@@ -1,8 +1,5 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Buffers;
 using System.Diagnostics;
-using System.Linq;
 using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;

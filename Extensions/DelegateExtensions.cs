@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Extensions.Delegates;

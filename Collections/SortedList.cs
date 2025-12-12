@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Extensions.Ranges;
