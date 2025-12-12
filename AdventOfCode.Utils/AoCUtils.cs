@@ -60,6 +60,8 @@ public static class AoCUtils
         }
 
         Trace.WriteLine($"Part 1: {text}\nin {GetElapsedString(PartsWatch.Elapsed)}\n");
+
+        GC.Collect();
         PartsWatch.Restart();
     }
 

@@ -116,12 +116,12 @@ public sealed class NAT : IDisposable
         do
         {
             // Wait until the network is idle
-            await WaitForIdle(IDLE_TIMER);
+            await WaitForIdle(IDLE_TIMER).ConfigureAwait(false);
 
             if (this.lastRelayed.Y == this.StoredPacket.Y)
             {
                 // Duplicate Y value on packets, exit
-                await this.shutdownSource.CancelAsync();
+                await this.shutdownSource.CancelAsync().ConfigureAwait(false);
             }
             else
             {
@@ -144,7 +144,7 @@ public sealed class NAT : IDisposable
             try
             {
                 // Wait until network is idle
-                await Task.Delay(idleTime, this.idleSource.Token);
+                await Task.Delay(idleTime, this.idleSource.Token).ConfigureAwait(false);
                 return;
             }
             catch (OperationCanceledException)

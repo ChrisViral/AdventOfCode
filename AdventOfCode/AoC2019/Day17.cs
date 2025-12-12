@@ -268,7 +268,7 @@ public sealed partial class Day17 : IntcodeSolver
     {
         // Print prompt
         this.VM.Run();
-        System.Console.Write(this.VM.Output.ReadLine());
+        Console.Write(this.VM.Output.ReadLine());
 
         // Push answer
         this.VM.Input.WriteLine(line);

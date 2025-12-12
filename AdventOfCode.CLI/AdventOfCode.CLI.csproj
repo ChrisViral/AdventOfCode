@@ -8,6 +8,7 @@
     <IsPackable>false</IsPackable>
     <AssemblyVersion>2025.1.0</AssemblyVersion>
     <FileVersion>2025.1.0</FileVersion>
+    <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

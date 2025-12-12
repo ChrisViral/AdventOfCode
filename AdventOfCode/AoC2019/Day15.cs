@@ -76,7 +76,7 @@ public sealed class Day15 : IntcodeSolver
         AoCUtils.LogPart1(path.Length);
 
         //Adjust cursor
-        System.Console.SetCursorPosition(0, System.Console.CursorTop - 3);
+        Console.SetCursorPosition(0, Console.CursorTop - 3);
 
         // Fill map
         HashSet<Vector2<int>> spreadLocations = new(this.map.Size);
@@ -108,7 +108,7 @@ public sealed class Day15 : IntcodeSolver
         while (!spread.IsEmpty);
 
         //Adjust back down
-        System.Console.SetCursorPosition(0, System.Console.CursorTop + 3);
+        Console.SetCursorPosition(0, Console.CursorTop + 3);
         AoCUtils.LogPart2(spreadTime);
     }
 
