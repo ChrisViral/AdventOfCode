@@ -59,6 +59,30 @@ public struct BitVector128(UInt128 data) : IBitVector<UInt128, BitVector128>
     }
 
     /// <inheritdoc />
+    public BitVector128 this[Range range]
+    {
+        get
+        {
+            // Get start and length
+            (int start, int length) = range.GetOffsetAndLength(Size);
+            int end = start + length;
+
+            // Check range
+            if (start < 0 || end >= Size) throw new ArgumentOutOfRangeException(nameof(range), range, $"Range outside of {nameof(BitVector128)} range");
+
+            // Create mask over range
+            UInt128 mask = UInt128.MaxValue;
+            int endCrop = Size - end;
+            mask <<= endCrop;
+            mask >>= endCrop + start - 1;
+            mask <<= start;
+
+            // Return masked value
+            return this & mask;
+        }
+    }
+
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(int index) => this[index] ^= true;
 

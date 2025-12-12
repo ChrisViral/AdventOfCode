@@ -49,6 +49,12 @@ public interface IBitVector<TData, TSelf> : IBitVector, IEquatable<TSelf>
     where TSelf : struct, IBitVector<TData, TSelf>
 {
     /// <summary>
+    /// Gets a masked version of the BitVector in the given range
+    /// </summary>
+    /// <param name="range">Range to mask</param>
+    TSelf this[Range range] { get; }
+
+    /// <summary>
     /// Vector data
     /// </summary>
     TData Data { get; set; }

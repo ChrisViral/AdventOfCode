@@ -59,6 +59,30 @@ public struct BitVector64(ulong data) : IBitVector<ulong, BitVector64>
     }
 
     /// <inheritdoc />
+    public BitVector64 this[Range range]
+    {
+        get
+        {
+            // Get start and length
+            (int start, int length) = range.GetOffsetAndLength(Size);
+            int end = start + length;
+
+            // Check range
+            if (start < 0 || end >= Size) throw new ArgumentOutOfRangeException(nameof(range), range, $"Range outside of {nameof(BitVector64)} range");
+
+            // Create mask over range
+            ulong mask = ulong.MaxValue;
+            int endCrop = Size - end;
+            mask <<= endCrop;
+            mask >>= endCrop + start - 1;
+            mask <<= start;
+
+            // Return masked value
+            return this & mask;
+        }
+    }
+
+    /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void InvertBit(int index) => this[index] ^= true;
 
