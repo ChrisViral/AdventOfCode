@@ -1,5 +1,4 @@
 using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 

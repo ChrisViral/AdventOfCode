@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using Microsoft.Z3;

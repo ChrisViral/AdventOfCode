@@ -5,7 +5,6 @@ using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using CommunityToolkit.HighPerformance;

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using AdventOfCode.Extensions.Numbers;
 using AdventOfCode.Maths;
-using AdventOfCode.Solvers;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using CommunityToolkit.HighPerformance;
