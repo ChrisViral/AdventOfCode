@@ -3,6 +3,7 @@ using AdventOfCode.Collections;
 using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2018;
@@ -10,10 +11,10 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 03
 /// </summary>
-public sealed partial class Day03 : Solver<Day03.FabricArea[]>
+public sealed partial class Day03 : RegexSolver<Day03.FabricArea>
 {
     [GeneratedRegex(@"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")]
-    private static partial Regex FabricAreaMatcher { get; }
+    protected override partial Regex Matcher { get; }
 
     public sealed class FabricArea(int id, int offsetX, int offsetY, int width, int height)
     {
@@ -42,6 +43,7 @@ public sealed partial class Day03 : Solver<Day03.FabricArea[]>
     public Day03(string input) : base(input) { }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Counter<Vector2<int>> claims = new(1000);
@@ -52,7 +54,4 @@ public sealed partial class Day03 : Solver<Day03.FabricArea[]>
         FabricArea notOverlapping = this.Data.First(a => !a.Overlaps(claims));
         AoCUtils.LogPart2(notOverlapping.ID);
     }
-
-    /// <inheritdoc />
-    protected override FabricArea[] Convert(string[] rawInput) => RegexFactory<FabricArea>.ConstructObjects(FabricAreaMatcher, rawInput);
 }

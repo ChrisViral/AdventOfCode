@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers;
+using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2018;
@@ -11,7 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 04
 /// </summary>
-public sealed partial class Day04 : Solver<Day04.Schedule[]>
+public sealed partial class Day04 : RegexSolver<Day04.Schedule>
 {
     public enum ScheduleAction
     {
@@ -44,7 +45,7 @@ public sealed partial class Day04 : Solver<Day04.Schedule[]>
     }
 
     [GeneratedRegex(@"\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (?:Guard #(\d+) (begins shift)|(falls asleep)|(wakes up))")]
-    private static partial Regex ScheduleMatcher { get; }
+    protected override partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
@@ -54,6 +55,7 @@ public sealed partial class Day04 : Solver<Day04.Schedule[]>
     public Day04(string input) : base(input) { }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         this.Data.Sort();
@@ -107,7 +109,4 @@ public sealed partial class Day04 : Solver<Day04.Schedule[]>
                                        .MaxBy(g => g.maxMin.m);
         AoCUtils.LogPart2(id * minuteIndex);
     }
-
-    /// <inheritdoc />
-    protected override Schedule[] Convert(string[] rawInput) => RegexFactory<Schedule>.ConstructObjects(ScheduleMatcher, rawInput);
 }
