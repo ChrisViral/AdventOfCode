@@ -20,20 +20,21 @@ public sealed class Day01 : ArraySolver<int>
     public override void Run()
     {
         int frequency = 0;
-        HashSet<int> frequencies = new(100);
+        HashSet<int> frequencies = new(100) { 0 };
         foreach (int n in this.Data)
         {
-            frequencies.Add(frequency);
             frequency += n;
+            frequencies.Add(frequency);
         }
         AoCUtils.LogPart1(frequency);
 
         int i = 0;
-        while (frequencies.Add(frequency))
+        do
         {
             frequency += this.Data[i++];
             i %= this.Data.Length;
         }
+        while (frequencies.Add(frequency));
         AoCUtils.LogPart2(frequency);
     }
 
