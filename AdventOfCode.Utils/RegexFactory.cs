@@ -3,9 +3,84 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Extensions.Regexes;
+using AdventOfCode.Extensions.Types;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
+
+/// <summary>
+/// RegexFactory helper class
+/// </summary>
+internal static class RegexFactoryHelper
+{
+    /// <summary>
+    /// Expected type parameters for the Parse method
+    /// </summary>
+    private static readonly Type[] ParseMethodParameters = [typeof(string), typeof(IFormatProvider)];
+    /// <summary>
+    /// Parameter buffer for parse method invocation
+    /// </summary>
+    private static readonly object?[] ParseBuffer = new object[ParseMethodParameters.Length];
+
+    /// <summary>
+    /// Checks if a type is valid to be converted in a RegexFactory
+    /// </summary>
+    /// <param name="type">Type to check</param>
+    /// <returns><see langword="true"/> if the type can be converted in a RegexFactory, otherwise <see langword="false"/></returns>
+    public static bool IsValidType(Type type)
+    {
+        type = Nullable.GetUnderlyingType(type) ?? type;
+        return type.IsImplementationOf<IConvertible>() || type.IsGenericImplementationOf(typeof(IParsable<>), type);
+    }
+
+    /// <summary>
+    /// Converts a regex capture to the target type
+    /// </summary>
+    /// <param name="capture">Capture to convert</param>
+    /// <param name="targetType">Type to convert the capture to</param>
+    /// <returns></returns>
+    /// <exception cref="InvalidCastException">When the valud in <paramref name="capture"/> could not be converted to <paramref name="targetType"/></exception>
+    /// <exception cref="MissingMethodException">When the <see cref="IParsable{TSelf}.Parse"/> method could not be found on <paramref name="targetType"/></exception>
+    public static object ConvertCapture(string capture, Type targetType)
+    {
+        if (targetType.IsImplementationOf<IConvertible>())
+        {
+            //Create and set the value
+            return Convert.ChangeType(capture, targetType)
+                ?? throw new InvalidCastException($"Could not convert {capture} to {targetType.Name}");
+        }
+
+        // Get the normal interface implementation
+        MethodInfo? parse = targetType.GetMethod(nameof(IParsable<>.Parse),
+                                                 BindingFlags.Static | BindingFlags.Public,
+                                                 ParseMethodParameters);
+        if (parse is null)
+        {
+            // Get the explicit interface implementation
+            Type constrainedType = typeof(IParsable<>).MakeGenericType(targetType);
+            parse = targetType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
+                              .FirstOrDefault(m => m.IsPrivate
+                                                && m.ReturnType == targetType
+                                                && m.Name.Contains($".{nameof(IParsable<>.Parse)}")
+                                                && m.Name.Contains(nameof(IParsable<>))
+                                                && m.GetParameters() is [{ } first, { } second]
+                                                && first.ParameterType == ParseMethodParameters[0]
+                                                && second.ParameterType == ParseMethodParameters[1]);
+            if (parse is null)
+            {
+                parse = constrainedType.GetMethod(nameof(IParsable<>.Parse),
+                                                  BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
+                                                  ParseMethodParameters);
+                if (parse?.GetMethodBody() is null) throw new MissingMethodException(targetType.FullName, nameof(IParsable<>.Parse));
+            }
+        }
+        ParseBuffer[0] = capture;
+        object parsed = parse.Invoke(null, ParseBuffer)
+                     ?? throw new InvalidCastException($"Could not parse {capture} to type {targetType.Name}");
+        ParseBuffer[0] = null;
+        return parsed;
+    }
+}
 
 /// <summary>
 /// Regex object creation factory
@@ -14,11 +89,8 @@ namespace AdventOfCode.Utils;
 [PublicAPI]
 public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)] T> where T : notnull
 {
-    /// <summary>Convertible type</summary>
-    /// ReSharper disable once StaticMemberInGenericType
-    private static readonly Type ConvertibleType = typeof(IConvertible);
     /// <summary>Stored object type</summary>
-    private static readonly Type ObjectType      = typeof(T);
+    private static readonly Type ObjectType = typeof(T);
 
     private readonly Regex regex;
     private readonly Dictionary<int, ConstructorInfo> constructors;
@@ -38,11 +110,11 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
         //Get potential constructors
         this.constructors = ObjectType.GetConstructors()
                                       .Where(c => c.GetParameters()
-                                                   .All(p => ConvertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(p.ParameterType) ?? p.ParameterType)))
+                                                   .All(p => RegexFactoryHelper.IsValidType(p.ParameterType)))
                                       .ToDictionary(c => c.GetParameters().Length, c => c);
         //Get potential fields
         this.fields = ObjectType.GetFields(BindingFlags.Public | BindingFlags.Instance)
-                                .Where(f => ConvertibleType.IsAssignableFrom(Nullable.GetUnderlyingType(f.FieldType) ?? f.FieldType))
+                                .Where(f => RegexFactoryHelper.IsValidType(f.FieldType))
                                 .ToDictionary(f => f.Name, f => f);
     }
 
@@ -70,8 +142,7 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
             //Get the underlying type if a nullable
             Type paramType = paramsInfo[j].ParameterType;
             paramType = Nullable.GetUnderlyingType(paramType) ?? paramType;
-            //Create and set the value
-            parameters[j] = Convert.ChangeType(captures[j], paramType) ?? throw new InvalidCastException($"Could not convert {captures[j]} to {paramType}");
+            parameters[j] = RegexFactoryHelper.ConvertCapture(captures[j], paramType);
         }
 
         return (T)constructor.Invoke(parameters);
@@ -108,7 +179,7 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
                 Type paramType = paramsInfo[j].ParameterType;
                 paramType = Nullable.GetUnderlyingType(paramType) ?? paramType;
                 //Create and set the value
-                parameters[j] = Convert.ChangeType(captures[j].Value, paramType) ?? throw new InvalidCastException($"Could not convert {captures[j].ValueSpan} to {paramType}");
+                parameters[j] = RegexFactoryHelper.ConvertCapture(captures[j].Value, paramType);
             }
             results[i] = (T)constructor.Invoke(parameters);
         }
@@ -173,7 +244,7 @@ public sealed class RegexFactory<[MeansImplicitUse(ImplicitUseTargetFlags.WithMe
             //Get the underlying type if a nullable
             Type fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
             //Create and set the value
-            object result = Convert.ChangeType(value, fieldType) ?? throw new InvalidCastException($"Could not convert {value} to {fieldType}");
+            object result = RegexFactoryHelper.ConvertCapture(value, fieldType);
             field.SetValue(obj, result);
         }
 
