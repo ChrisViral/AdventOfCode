@@ -459,10 +459,10 @@ public static class EnumerableExtensions
 
     /// <param name="span">Span</param>
     /// <typeparam name="T">Span value type</typeparam>
-    extension<T>(Span2D<T?> span) where T : IEquatable<T>
+    extension<T>(ReadOnlySpan2D<T?> span) where T : IEquatable<T>
     {
         /// <summary>
-        /// Coutns the occurence of a value in a Span2D
+        /// Coutns the occurence of a value in a ReadOnlySpan2D
         /// </summary>
         /// <param name="value">Value to count</param>
         /// <returns>The amount of times <paramref name="value"/> appears in the span</returns>
@@ -496,38 +496,23 @@ public static class EnumerableExtensions
 
     /// <param name="span">Span</param>
     /// <typeparam name="T">Span value type</typeparam>
-    extension<T>(ReadOnlySpan2D<T?> span) where T : IEquatable<T>
+    extension<T>(ReadOnlySpan2D<T?> span) where T : IAdditionOperators<T, T, T>, IAdditiveIdentity<T, T>
     {
         /// <summary>
-        /// Coutns the occurence of a value in a ReadOnlySpan2D
+        /// Sums the members of a ReadOnlySpan2D
         /// </summary>
-        /// <param name="value">Value to count</param>
-        /// <returns>The amount of times <paramref name="value"/> appears in the span</returns>
-        /// ReSharper disable once CognitiveComplexity
-        public int Count(T? value)
+        /// <returns>The sum of all the members in the span</returns>
+        public T Sum()
         {
-            int count = 0;
-            if (value is null)
+            T result = T.AdditiveIdentity;
+            foreach (T? value in span)
             {
-                foreach (T? element in span)
+                if (value is not null)
                 {
-                    if (element is null)
-                    {
-                        count++;
-                    }
+                    result += value;
                 }
             }
-            else
-            {
-                foreach (T? element in span)
-                {
-                    if (value.Equals(element))
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
+            return result;
         }
     }
 }
