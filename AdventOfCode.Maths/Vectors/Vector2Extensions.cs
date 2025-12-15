@@ -268,6 +268,15 @@ public static class Vector2Extensions
         }
 
         /// <summary>
+        /// Absolute length of both vector components summed
+        /// </summary>
+        public T ManhattanLength
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => T.Abs(value.X) + T.Abs(value.Y);
+        }
+
+        /// <summary>
         /// Gets all the adjacent Vector2 to this one
         /// </summary>
         /// <param name="withDiagonals">If diagonal vectors should be included</param>
@@ -337,7 +346,6 @@ public static class Vector2Extensions
     /// <param name="maxX">Max value for the x component, exclusive</param>
     /// <param name="maxY">Max value for the y component, exclusive</param>
     /// <returns>An enumerator of all the vectors in the given range</returns>
-    /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
         public static SpaceEnumerator<T> EnumerateOver(T maxX, T maxY)
         {
@@ -353,7 +361,6 @@ public static class Vector2Extensions
         /// <param name="maxX">Max value for the x component, exclusive</param>
         /// <param name="maxY">Max value for the y component, exclusive</param>
         /// <returns>An enumerator of all the vectors in the given range</returns>
-        /// <exception cref="WrongNumericalTypeException">If <typeparamref name="T"/> is not an integer type</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/> or <paramref name="maxY"/> are smaller or equal to zero</exception>
         public static SpaceEnumerable<T> MakeEnumerable(T maxX, T maxY)
         {
@@ -361,6 +368,27 @@ public static class Vector2Extensions
             if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
 
             return new SpaceEnumerable<T>(maxX, maxY);
+        }
+
+        /// <summary>
+        /// The Manhattan distance between both vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>Tge straight line distance between both vectors</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T ManhattanDistance(Vector2<T> a, Vector2<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y);
+
+        /// <summary>
+        /// The Manhattan distance between both vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>Tge straight line distance between both vectors</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TResult ManhattanDistance<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryInteger<TResult>, IMinMaxValue<TResult>
+        {
+            return ManhattanDistance(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
         }
     }
 

@@ -18,9 +18,12 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
 {
     /// <summary>If this is an integer vector type</summary>
-    private static readonly bool IsInteger = typeof(T).IsImplementationOf(typeof(IBinaryInteger<>));
+    private static readonly bool IsInteger = typeof(T).IsGenericImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
     private static readonly T Epsilon = !IsInteger ? T.CreateChecked(1E-5) : T.Zero;
+    /// <summary>Parse number style</summary>
+    /// ReSharper disable once StaticMemberInGenericType
+    private static readonly NumberStyles Style = IsInteger ? NumberStyles.Integer : NumberStyles.Float | NumberStyles.AllowThousands;
     /// <summary>Up vector</summary>
     public static readonly Vector2<T> Up    = new(T.Zero, -T.One);
     /// <summary>Down vector</summary>
@@ -98,13 +101,6 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => GetLength<double>();
-    }
-
-    /// <inheritdoc />
-    public T ManhattanLength
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => T.Abs(this.X) + T.Abs(this.Y);
     }
 
     /// <summary>
@@ -273,9 +269,13 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Distance(Vector2<T> a, Vector2<T> b) => (a - b).Length;
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Distance" />
+    /// <typeparam name="TResult">Result value type</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T ManhattanDistance(Vector2<T> a, Vector2<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y);
+    public static TResult Distance<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryFloatingPointIeee754<TResult>, IMinMaxValue<TResult>
+    {
+        return (a - b).GetLength<TResult>();
+    }
 
     /// <summary>
     /// Calculates the signed angle, in degrees, between two vectors. The result is in the range [-180, 180]
@@ -303,6 +303,27 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     }
 
     /// <summary>
+    /// Gets the area of the rectangle formed by two vectors
+    /// </summary>
+    /// <param name="a">First vector</param>
+    /// <param name="b">Second vector</param>
+    /// <returns>Area between both vectors</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T Area(Vector2<T> a, Vector2<T> b)
+    {
+        Vector2<T> diff = Abs(a - b);
+        return diff.X * diff.Y;
+    }
+
+    /// <inheritdoc cref="Area"/>
+    /// <typeparam name="TResult">Result value type</typeparam>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TResult Area<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return Vector2<TResult>.Area(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
+    }
+
+    /// <summary>
     /// Gives the absolute value of a given vector
     /// </summary>
     /// <param name="vector">Vector to get the absolute value of</param>
@@ -319,13 +340,37 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<T> ComponentMultiply(Vector2<T> a, Vector2<T> b) => new(a.X * b.X, a.Y * b.Y);
 
+    /// <inheritdoc cref="ComponentMultiply"/>
+    /// <typeparam name="TResult">Result value type</typeparam>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TResult> ComponentMultiply<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return Vector2<TResult>.ComponentMultiply(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
+    }
+
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Cross(Vector2<T> a, Vector2<T> b) => (a.X * b.Y) - (a.Y * b.X);
 
+    /// <inheritdoc cref="Cross"/>
+    /// <typeparam name="TResult">Result value type</typeparam>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TResult Cross<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return Vector2<TResult>.Cross(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
+    }
+
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Dot(Vector2<T> a, Vector2<T> b) => a.X * b.X + a.Y * b.Y;
+
+    /// <inheritdoc cref="Dot"/>
+    /// <typeparam name="TResult">Result value type</typeparam>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TResult Dot<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryNumber<TResult>, IMinMaxValue<TResult>
+    {
+        return Vector2<TResult>.Dot(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
+    }
 
     /// <summary>
     /// Gets the minimum value vector for the passed values
@@ -480,7 +525,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <returns>The parsed vector</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
-    public static Vector2<T> Parse(string value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
+    public static Vector2<T> Parse(string value, string separator = ",", NumberStyles? style = null, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value cannot be null or empty");
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
@@ -499,7 +544,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <exception cref="ArgumentException">If <paramref name="value"/> is empty</exception>
     /// <exception cref="ArgumentNullException">If <paramref name="separator"/> is null or empty</exception>
     /// <exception cref="FormatException">If there isn't exactly two values present after the split</exception>
-    public static Vector2<T> Parse(ReadOnlySpan<char> value, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
+    public static Vector2<T> Parse(ReadOnlySpan<char> value, string separator = ",", NumberStyles? style = null, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Value cannot be empty", nameof(value));
         if (string.IsNullOrEmpty(separator)) throw new ArgumentNullException(nameof(separator), "Separator cannot be null or empty");
@@ -508,8 +553,9 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (written is not 2) throw new FormatException("String to parse not properly formatted");
 
-        T x = T.Parse(value[ranges[0]], style, provider);
-        T y = T.Parse(value[ranges[1]], style, provider);
+        style ??= Style;
+        T x = T.Parse(value[ranges[0]], style.Value, provider);
+        T y = T.Parse(value[ranges[1]], style.Value, provider);
         return new Vector2<T>(x, y);
     }
 
@@ -522,7 +568,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <param name="style">Number style</param>
     /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(string? value, out Vector2<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
+    public static bool TryParse(string? value, out Vector2<T> result, string separator = ",", NumberStyles? style = null, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -542,7 +588,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <param name="style">Number style</param>
     /// <param name="provider">Format provider</param>
     /// <returns><see langword="true"/> if the parse succeeded, otherwise <see langword="false"/></returns>
-    public static bool TryParse(ReadOnlySpan<char> value, out Vector2<T> result, string separator = ",", NumberStyles style = default, IFormatProvider? provider = null)
+    public static bool TryParse(ReadOnlySpan<char> value, out Vector2<T> result, string separator = ",", NumberStyles? style = null, IFormatProvider? provider = null)
     {
         if (value.IsEmpty || value.IsWhiteSpace() || string.IsNullOrEmpty(separator))
         {
@@ -552,9 +598,10 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
 
         Span<Range> ranges = stackalloc Range[2];
         int written = value.Split(ranges, separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        style ??= Style;
         if (written is not 2
-         || !T.TryParse(value[ranges[0]], style, provider, out T x)
-         || !T.TryParse(value[ranges[1]], style, provider, out T y))
+         || !T.TryParse(value[ranges[0]], style.Value, provider, out T x)
+         || !T.TryParse(value[ranges[1]], style.Value, provider, out T y))
         {
             result = Zero;
             return false;

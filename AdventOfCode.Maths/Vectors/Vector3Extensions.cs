@@ -302,6 +302,15 @@ public static class Vector3Extensions
         }
 
         /// <summary>
+        /// Absolute length of both vector components summed
+        /// </summary>
+        public T ManhattanLength
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => T.Abs(value.X) + T.Abs(value.Y) + T.Abs(value.Z);
+        }
+
+        /// <summary>
         /// Gets all the adjacent Vector3 to this one
         /// </summary>
         /// <param name="withDiagonals">If diagonal vectors should be included</param>
@@ -379,6 +388,27 @@ public static class Vector3Extensions
             if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
 
             return new SpaceEnumerable<T>(maxX, maxY, maxZ);
+        }
+
+        /// <summary>
+        /// The Manhattan distance between both vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>Tge straight line distance between both vectors</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T ManhattanDistance(Vector3<T> a, Vector3<T> b) => T.Abs(a.X - b.X) + T.Abs(a.Y - b.Y) + T.Abs(a.Z - b.Z);
+
+        /// <summary>
+        /// The Manhattan distance between both vectors
+        /// </summary>
+        /// <param name="a">First vector</param>
+        /// <param name="b">Second vector</param>
+        /// <returns>Tge straight line distance between both vectors</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TResult ManhattanDistance<TResult>(Vector3<T> a, Vector3<T> b) where TResult : unmanaged, IBinaryInteger<TResult>, IMinMaxValue<TResult>
+        {
+            return ManhattanDistance(Vector3<TResult>.CreateChecked(a), Vector3<TResult>.CreateChecked(b));
         }
     }
 

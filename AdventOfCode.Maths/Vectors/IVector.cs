@@ -102,11 +102,6 @@ public interface IVector<out T> : IVector
     /// </summary>
     /// <param name="index">Component's index</param>
     T this[Index index] { get; }
-
-    /// <summary>
-    /// Absolute length of both vector components summed
-    /// </summary>
-    T ManhattanLength { get; }
 }
 
 /// <summary>
@@ -126,14 +121,6 @@ public interface IVector<TSelf, out TComponent> : IVector<TComponent>, INumber<T
     /// <param name="b">Second vector</param>
     /// <returns>The distance between both vectors</returns>
     static abstract double Distance(TSelf a, TSelf b);
-
-    /// <summary>
-    /// The Manhattan distance between both vectors
-    /// </summary>
-    /// <param name="a">First vector</param>
-    /// <param name="b">Second vector</param>
-    /// <returns>Tge straight line distance between both vectors</returns>
-    static abstract TComponent ManhattanDistance(TSelf a, TSelf b);
 
     /// <summary>
     /// Calculates the cross product of both vectors
