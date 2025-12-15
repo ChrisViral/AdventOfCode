@@ -20,4 +20,8 @@ public static class StringUtils
     /// Number characters
     /// </summary>
     public const string DIGITS = "0123456789";
+    /// <summary>
+    /// Amount of letters in the alphabet
+    /// </summary>
+    public const int LETTER_COUNT = 26;
 }
