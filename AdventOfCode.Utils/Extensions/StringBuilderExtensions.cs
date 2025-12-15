@@ -31,5 +31,23 @@ public static class StringBuilderExtensions
         /// <param name="destination">Span to fill</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CopyTo(Span<char> destination) => stringBuilder.CopyTo(0, destination, destination.Length);
+
+        /// <summary>
+        /// Counts the amount of instance of the specified character in the  StringBuilder
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> is found within the StringBuilder</returns>
+        public int Count(char value)
+        {
+            int count = 0;
+            for (int i = 0; i < stringBuilder.Length; i++)
+            {
+                if (stringBuilder[i] == value)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
     }
 }
