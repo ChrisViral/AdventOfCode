@@ -283,7 +283,7 @@ public static class SearchUtils
     /// <param name="heuristic">Heuristic function on the nodes</param>
     /// <param name="neighbours">Function finding neighbours for a given node</param>
     /// <param name="comparer">Comparer between different search nodes</param>
-    /// <param name="distances">Cached distances dictionary, creates a temporary one with 100 base capacity if not passed</param>
+    /// <param name="distances">Cached distances dictionary, creates a temporary one with 100 base capacity if not provided</param>
     /// <param name="goalFound">A function that compares the current and end nodes to test if the goal node has been reached</param>
     /// <returns>The optimal found path, or null if no path was found</returns>
     /// ReSharper disable once CognitiveComplexity
@@ -291,7 +291,7 @@ public static class SearchUtils
                                                     [InstantHandle] SearchNode<TValue, TCost>.Heuristic? heuristic,
                                                     [InstantHandle] WeightedNeighbours<TValue, TCost> neighbours,
                                                     IComparer<SearchNode<TValue, TCost>> comparer,
-                                                    Dictionary<(TValue, TValue), int>? distances = null,
+                                                    Dictionary<TValue, int>? distances = null,
                                                     [InstantHandle] GoalFoundCheck<TValue>? goalFound = null)
         where TValue : IEquatable<TValue>
         where TCost : INumber<TCost>
@@ -303,13 +303,13 @@ public static class SearchUtils
         Pooled<Dictionary<SearchNode<TValue, TCost>, TCost>> explored = DictionaryObjectPool<SearchNode<TValue, TCost>, TCost>.Shared.Get();
         goalFound ??= (a, b) => a.Equals(b);
 
-        using Pooled<Dictionary<(TValue, TValue), int>> pooledDistances = distances is null ? DictionaryObjectPool<(TValue, TValue), int>.Shared.Get() : default;
+        using Pooled<Dictionary<TValue, int>> pooledDistances = distances is null ? DictionaryObjectPool<TValue, int>.Shared.Get() : default;
         distances ??= pooledDistances.Ref;
 
         while (search.Ref.TryDequeue(out SearchNode<TValue, TCost>? current))
         {
             //If we found the goal or the distance is cached
-            if (goalFound(current.Value, goal) || distances.TryGetValue((current.Value, goal), out foundDistance))
+            if (goalFound(current.Value, goal) || distances.TryGetValue(current.Value, out foundDistance))
             {
                 foundGoal = current;
                 break;
@@ -354,7 +354,7 @@ public static class SearchUtils
         {
             //Push back and go deeper
             foundGoal = foundGoal.Parent;
-            distances.Add((foundGoal.Value, goal), ++foundDistance);
+            distances.Add(foundGoal.Value, ++foundDistance);
         }
 
         //Copy the path back to an array and return

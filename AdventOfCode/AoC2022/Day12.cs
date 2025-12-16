@@ -41,12 +41,10 @@ public sealed class Day12 : GridSolver<int>
             }
         }
 
-        Dictionary<(Vector2<int>, Vector2<int>), int> distances = new();
         int path = SearchUtils.GetPathLength(start, end,
                                              p => Vector2<int>.ManhattanDistance(p, end),
                                              FindNeighbours,
-                                             MinSearchComparer<double>.Comparer,
-                                             distances)
+                                             MinSearchComparer<double>.Comparer)
                               .GetValueOrDefault(-1);
         AoCUtils.LogPart1(path);
 
@@ -54,12 +52,10 @@ public sealed class Day12 : GridSolver<int>
         foreach (Vector2<int> position in Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
                                                       .Where(p => p != start && this.Grid[p] is 0))
         {
-            distances.Clear();
             path = SearchUtils.GetPathLength(position, end,
                                              p => Vector2<int>.ManhattanDistance(p, end),
                                              FindNeighbours,
-                                             MinSearchComparer<double>.Comparer,
-                                             distances)
+                                             MinSearchComparer<double>.Comparer)
                               .GetValueOrDefault(-1);
             if (path is -1) continue;
 
