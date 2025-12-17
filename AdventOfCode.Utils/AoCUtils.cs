@@ -11,6 +11,8 @@ namespace AdventOfCode.Utils;
 [PublicAPI]
 public static class AoCUtils
 {
+    private static TimeSpan part1Elapsed;
+
     /// <summary>
     /// The Stopwatch for individual parts
     /// </summary>
@@ -53,6 +55,7 @@ public static class AoCUtils
     public static void LogPart1<T>(T answer) where T : notnull
     {
         PartsWatch.Stop();
+        part1Elapsed = PartsWatch.Elapsed;
         string text = answer.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(text))
         {
@@ -96,11 +99,10 @@ public static class AoCUtils
     public static void LogParse(Stopwatch watch) => Trace.WriteLine($"Problem input parsed in: {GetElapsedString(watch.Elapsed)}\n");
 
     /// <summary>
-    /// Logs the elapsed time on the stopwatch
+    /// Logs the total elapsed time of the solver
     /// </summary>
-    /// <param name="watch">Stopwatch to log the time for</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void LogElapsed(Stopwatch watch) => Trace.WriteLine($"Total elapsed time: {GetElapsedString(watch.Elapsed)}\n");
+    public static void LogElapsed() => Trace.WriteLine($"Total elapsed time: {GetElapsedString(PartsWatch.Elapsed + part1Elapsed)}\n");
 
     /// <summary>
     /// Produces a interval-based formatted time string

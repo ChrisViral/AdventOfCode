@@ -60,7 +60,7 @@ catch (Exception e)
 AoCUtils.LogPart1(0);
 AoCUtils.LogPart2(0);
 AoCUtils.Log(0);
-AoCUtils.LogElapsed(AoCUtils.PartsWatch);
+AoCUtils.LogElapsed();
 
 //Setup trace file
 #if DEBUG
@@ -75,19 +75,16 @@ Trace.AutoFlush = true;
 
 AoCUtils.Log($"Running Solver for {solverData}\n");
 AoCUtils.LogParse(parseWatch);
-Stopwatch watch = Stopwatch.StartNew();
 
 #if DEBUG
 //In debug mode we want to break at the exception location
 solver.RunAndStartStopwatch();
-watch.Stop();
 solver.Dispose();
 #else
 try
 {
     //Run solver
     solver.RunAndStartStopwatch();
-    watch.Stop();
 }
 catch (Exception e)
 {
@@ -102,7 +99,7 @@ finally
 #endif
 
 //Write total timer
-AoCUtils.LogElapsed(watch);
+AoCUtils.LogElapsed();
 
 //Cleanup and exit
 Trace.Close();
