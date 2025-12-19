@@ -45,6 +45,10 @@ internal static class RegexFactoryHelper
     {
         if (targetType.IsImplementationOf<IConvertible>())
         {
+            if (targetType.IsEnum)
+            {
+                targetType = Enum.GetUnderlyingType(targetType);
+            }
             //Create and set the value
             return Convert.ChangeType(capture, targetType)
                 ?? throw new InvalidCastException($"Could not convert {capture} to {targetType.Name}");
