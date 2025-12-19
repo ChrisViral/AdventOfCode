@@ -4,6 +4,7 @@ using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using FastEnumUtility;
+
 using static AdventOfCode.AoC2018.Common.VirtualMachine;
 
 namespace AdventOfCode.AoC2018;
