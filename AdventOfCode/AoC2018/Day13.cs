@@ -156,12 +156,12 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
             {
                 case '<' or '>':
                     tracks[position] = Track.HORIZONTAL;
-                    carts.Add(new Cart(position, Direction.Parse(track)));
+                    carts.Add(new Cart(position, Direction.ParseDirection(track)));
                     break;
 
                 case '^' or 'v':
                     tracks[position] = Track.VERTICAL;
-                    carts.Add(new Cart(position, Direction.Parse(track)));
+                    carts.Add(new Cart(position, Direction.ParseDirection(track)));
                     break;
 
                 default:

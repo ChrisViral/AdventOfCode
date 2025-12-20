@@ -63,7 +63,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
     /// <inheritdoc />
     protected override (Direction[], Dictionary<string, (string, string)>) Convert(string[] rawInput)
     {
-        Direction[] directions = rawInput[0].ToCharArray().ConvertAll(Direction.Parse);
+        Direction[] directions = rawInput[0].ToCharArray().ConvertAll(Direction.ParseDirection);
         (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NodeMatcher, rawInput[1..]);
         Dictionary<string, (string, string)> map = new(nodes.Length);
 

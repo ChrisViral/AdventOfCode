@@ -179,7 +179,7 @@ public sealed partial class Day25 : IntcodeSolver
         AoCUtils.Log(line);
         do
         {
-            Direction direction = Direction.Parse(ItemMatcher.Match(line).Groups[1].ValueSpan);
+            Direction direction = Direction.ParseDirection(ItemMatcher.Match(line).Groups[1].ValueSpan);
             if (direction != returnDirection)
             {
                 directions.Add(direction);

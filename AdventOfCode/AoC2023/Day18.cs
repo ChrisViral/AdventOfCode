@@ -20,7 +20,7 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
 
         public DigInstruction(char direction, int length, string longLength, char longDir)
         {
-            this.instruction = Direction.Parse(direction).ToVector(length);
+            this.instruction = Direction.ParseDirection(direction).ToVector(length);
             Direction longDirection = longDir switch
             {
                 '0' => Direction.RIGHT,

@@ -309,7 +309,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
                                       e => ((char)e).ToString());
 
         Direction[] moves = rawInput.AsSpan(separator + 1)
-                                    .SelectMany(l => l.AsSpan().Select(Direction.Parse))
+                                    .SelectMany(l => l.AsSpan().Select(Direction.ParseDirection))
                                     .ToArray();
         return (warehouse, moves);
     }

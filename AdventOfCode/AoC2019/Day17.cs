@@ -135,7 +135,7 @@ public sealed partial class Day17 : IntcodeSolver
                     case Element.LEFT:
                     case Element.RIGHT:
                         startPosition  = (x++, y);
-                        startDirection = Direction.Parse((char)current);
+                        startDirection = Direction.ParseDirection((char)current);
                         currentRow.Add(Element.SCAFFOLD);
                         continue;
 

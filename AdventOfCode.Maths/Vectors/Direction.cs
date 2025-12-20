@@ -182,7 +182,7 @@ public static class DirectionsUtils
         /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
         /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Direction Parse(char value) => char.ToLowerInvariant(value) switch
+        public static Direction ParseDirection(char value) => char.ToLowerInvariant(value) switch
         {
             'u' or 'n' or '^' => Direction.UP,
             'd' or 's' or 'v' => Direction.DOWN,
@@ -200,8 +200,8 @@ public static class DirectionsUtils
         /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
         /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Direction Parse(string value) => value is not null
-                                                           ? Parse(value.AsSpan())
+        public static Direction ParseDirection(string value) => value is not null
+                                                           ? Direction.ParseDirection(value.AsSpan())
                                                            : throw new ArgumentNullException(nameof(value), "Parse value is null");
 
         /// <summary>
@@ -211,7 +211,7 @@ public static class DirectionsUtils
         /// <returns>The parsed direction</returns>
         /// <exception cref="ArgumentException">If <paramref name="value"/> is empty or whitespace</exception>
         /// <exception cref="FormatException">If <paramref name="value"/> is not a valid Direction string</exception>
-        public static Direction Parse(ReadOnlySpan<char> value)
+        public static Direction ParseDirection(ReadOnlySpan<char> value)
         {
             if (value.IsEmpty || value.IsWhiteSpace()) throw new ArgumentException("Parse value cannot be empty", nameof(value));
 
@@ -234,7 +234,7 @@ public static class DirectionsUtils
         /// <param name="value">Value to parse</param>
         /// <param name="direction">The parsed direction output</param>
         /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-        public static bool TryParse(char value, out Direction direction)
+        public static bool TryParseDirection(char value, out Direction direction)
         {
             if (value is char.MinValue || char.IsWhiteSpace(value))
             {
@@ -273,7 +273,16 @@ public static class DirectionsUtils
         /// <param name="direction">The parsed direction output</param>
         /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryParse(string value, out Direction direction) => TryParse(value.AsSpan(), out direction);
+        public static bool TryParseDirection(string? value, out Direction direction)
+        {
+            if (value is not null)
+            {
+                return Direction.TryParseDirection(value.AsSpan(), out direction);
+            }
+
+            direction = Direction.NONE;
+            return false;
+        }
 
         /// <summary>
         /// Tries to parse the given char span into a direction
@@ -281,7 +290,7 @@ public static class DirectionsUtils
         /// <param name="value">Value to parse</param>
         /// <param name="direction">The parsed direction output</param>
         /// <returns><see langword="true"/> if the value was successfully parsed, otherwise <see langword="false"/></returns>
-        public static bool TryParse(ReadOnlySpan<char> value, out Direction direction)
+        public static bool TryParseDirection(ReadOnlySpan<char> value, out Direction direction)
         {
             if (value.IsEmpty || value.IsWhiteSpace())
             {
