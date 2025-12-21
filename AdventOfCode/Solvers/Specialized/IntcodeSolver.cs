@@ -22,5 +22,5 @@ public abstract class IntcodeSolver : Solver<IntcodeVM>
     protected IntcodeSolver(string input) : base(input, [], StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
-    protected override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
+    protected sealed override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);
 }

@@ -46,7 +46,7 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
     protected GridSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
 
     /// <inheritdoc />
-    protected override Grid<T> Convert(string[] rawInput)
+    protected sealed override Grid<T> Convert(string[] rawInput)
     {
         int height = rawInput.Length;
         switch (this.ParseMode)

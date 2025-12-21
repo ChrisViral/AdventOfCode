@@ -1,11 +1,10 @@
 ﻿using System.Text.RegularExpressions;
+using AdventOfCode.AoC2018.ElfCode;
 using AdventOfCode.Extensions.Arrays;
 using AdventOfCode.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using FastEnumUtility;
-
-using static AdventOfCode.AoC2018.Common.VirtualMachine;
 
 namespace AdventOfCode.AoC2018;
 
@@ -48,7 +47,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
             {
                 // Run instruction
                 Registers sampleRegisters = sample.Before;
-                RunInstruction(sample.Instruction with { Opcode = opcode }, ref sampleRegisters);
+                VirtualMachine.RunInstruction(sample.Instruction with { Opcode = opcode }, ref sampleRegisters);
                 if (sampleRegisters == sample.After)
                 {
                     // Valid, increment
@@ -94,7 +93,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
         foreach (Instruction instruction in this.Data.program)
         {
             Opcode opcode = opcodeMap[(int)instruction.Opcode];
-            RunInstruction(instruction with { Opcode = opcode }, ref registers);
+            VirtualMachine.RunInstruction(instruction with { Opcode = opcode }, ref registers);
         }
         AoCUtils.LogPart2(registers[0]);
     }

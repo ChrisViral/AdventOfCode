@@ -25,8 +25,5 @@ public abstract class RegexSolver<[MeansImplicitUse(ImplicitUseTargetFlags.WithM
     protected RegexSolver(string input, char[]? splitters = null, StringSplitOptions options = DEFAULT_OPTIONS) : base(input, splitters, options) { }
 
     /// <inheritdoc />
-    public override void Run() { }
-
-    /// <inheritdoc />
-    protected override T[] Convert(string[] rawInput) => RegexFactory<T>.ConstructObjects(this.Matcher, rawInput);
+    protected sealed override T[] Convert(string[] rawInput) => RegexFactory<T>.ConstructObjects(this.Matcher, rawInput);
 }
