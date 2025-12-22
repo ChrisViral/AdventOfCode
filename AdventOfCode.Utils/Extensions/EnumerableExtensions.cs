@@ -515,4 +515,27 @@ public static class EnumerableExtensions
             return result;
         }
     }
+
+    /// <param name="span">Span</param>
+    /// <typeparam name="TValue">Span value type</typeparam>
+    /// <typeparam name="TSum">Summation value type</typeparam>
+    extension<TValue, TSum>(ReadOnlySpan2D<TValue?> span) where TSum : IAdditionOperators<TSum, TSum, TSum>, IAdditiveIdentity<TSum, TSum>
+    {
+        /// <summary>
+        /// Sums the members of a ReadOnlySpan2D
+        /// </summary>
+        /// <returns>The sum of all the members in the span</returns>
+        public TSum Sum([InstantHandle] Func<TValue, TSum> selector)
+        {
+            TSum result = TSum.AdditiveIdentity;
+            foreach (TValue? value in span)
+            {
+                if (value is not null)
+                {
+                    result += selector(value);
+                }
+            }
+            return result;
+        }
+    }
 }

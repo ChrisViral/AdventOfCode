@@ -265,6 +265,19 @@ public class Grid<T> : IEnumerable<T>
     /// <summary>
     /// Creates a new Span2D over a section of the grid
     /// </summary>
+    /// <param name="width">Span width, from the top left corner</param>
+    /// <param name="height">Span height, from the top left corner</param>
+    /// <returns>Span over the specified part of the grid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ReadOnlySpan2D<T> AsSpan2D(int width, int height) => this.grid.AsSpan2D(0, 0, height, width);
+
+    /// <summary>
+    /// Creates a new Span2D over a section of the grid
+    /// </summary>
+    /// <param name="column">Span column start, from the top left corner</param>
+    /// <param name="width">Span width, from the top left corner</param>
+    /// <param name="row">Span row start, from the top left corner</param>
+    /// <param name="height">Span height, from the top left corner</param>
     /// <returns>Span over the specified part of the grid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ReadOnlySpan2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
