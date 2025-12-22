@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Types;
+namespace AdventOfCode.Utils.Extensions.Types;
 
 /// <summary>
 /// Type extensions

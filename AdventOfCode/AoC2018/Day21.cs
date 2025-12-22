@@ -1,5 +1,5 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2018;

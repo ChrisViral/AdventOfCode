@@ -1,7 +1,8 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 
 namespace AdventOfCode.AoC2020;
 

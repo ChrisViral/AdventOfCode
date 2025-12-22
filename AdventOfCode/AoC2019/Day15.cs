@@ -1,10 +1,10 @@
 using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Extensions.Enumerables;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 
 namespace AdventOfCode.AoC2019;
 

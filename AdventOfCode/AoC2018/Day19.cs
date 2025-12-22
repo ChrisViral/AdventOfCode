@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Extensions.Numbers;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2018;

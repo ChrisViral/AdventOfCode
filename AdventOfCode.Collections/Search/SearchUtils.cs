@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Collections;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections.Search;

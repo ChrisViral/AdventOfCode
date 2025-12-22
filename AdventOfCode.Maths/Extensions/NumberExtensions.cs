@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using SpanLinq;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Numbers;
+namespace AdventOfCode.Utils.Extensions.Numbers;
 
 /// <summary>
 /// Number extensions

@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Extensions.Enumerables;
+﻿using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

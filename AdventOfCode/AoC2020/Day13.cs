@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Numbers;
+﻿using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

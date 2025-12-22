@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Types;
+using AdventOfCode.Utils.Extensions.Types;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Maths.Vectors;

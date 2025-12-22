@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

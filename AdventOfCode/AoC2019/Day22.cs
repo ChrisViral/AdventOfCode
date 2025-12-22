@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

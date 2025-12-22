@@ -1,6 +1,6 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

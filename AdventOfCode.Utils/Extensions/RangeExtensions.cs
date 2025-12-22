@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Ranges;
+namespace AdventOfCode.Utils.Extensions.Ranges;
 
 /// <summary>
 /// Range extension methods

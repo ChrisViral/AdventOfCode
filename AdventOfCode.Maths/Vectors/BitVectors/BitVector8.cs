@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Numbers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Maths.Vectors.BitVectors;

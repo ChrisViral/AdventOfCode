@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Spans;
 using CommunityToolkit.HighPerformance;
 using MemoryExtensions = System.MemoryExtensions;
 

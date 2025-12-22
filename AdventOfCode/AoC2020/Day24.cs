@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;

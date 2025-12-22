@@ -1,6 +1,6 @@
 ﻿using System.Collections.Frozen;
 using System.ComponentModel;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using SpanLinq;

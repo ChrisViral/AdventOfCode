@@ -3,7 +3,7 @@ using System.Collections.Frozen;
 using System.Diagnostics;
 using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;

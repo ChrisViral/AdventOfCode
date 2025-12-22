@@ -1,5 +1,5 @@
 ﻿using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;

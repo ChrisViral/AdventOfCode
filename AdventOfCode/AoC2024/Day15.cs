@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;

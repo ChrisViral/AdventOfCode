@@ -1,9 +1,9 @@
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Arrays;
+namespace AdventOfCode.Utils.Extensions.Arrays;
 
 /// <summary>
 /// Array extension methods

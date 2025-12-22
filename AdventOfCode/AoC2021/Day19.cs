@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Extensions.Ranges;
+﻿using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 using Transformation = System.Func<AdventOfCode.Maths.Vectors.Vector3<int>, AdventOfCode.Maths.Vectors.Vector3<int>>;
 
 namespace AdventOfCode.AoC2021;

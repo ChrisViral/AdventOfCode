@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

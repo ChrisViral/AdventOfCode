@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 
 namespace AdventOfCode.AoC2023;
 

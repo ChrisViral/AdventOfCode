@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Extensions.Regexes;
+using AdventOfCode.Utils.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;

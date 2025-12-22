@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;

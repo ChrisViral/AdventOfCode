@@ -3,7 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.StringBuilders;
+namespace AdventOfCode.Utils.Extensions.StringBuilders;
 
 /// <summary>
 /// StringBuilder extension methods

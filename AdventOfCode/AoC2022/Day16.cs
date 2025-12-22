@@ -2,8 +2,8 @@ using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Extensions.Ranges;
-using AdventOfCode.Extensions.Regexes;
+using AdventOfCode.Utils.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

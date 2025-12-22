@@ -1,9 +1,9 @@
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 
 namespace AdventOfCode.AoC2021;
 

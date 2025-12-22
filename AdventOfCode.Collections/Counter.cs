@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
-using AdventOfCode.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;

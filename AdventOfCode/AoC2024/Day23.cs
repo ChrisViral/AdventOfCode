@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Extensions.Enumerables;
-using AdventOfCode.Solvers;
+﻿using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Collections;
 using SpanLinq;
 
 namespace AdventOfCode.AoC2024;

@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Tasks;
+namespace AdventOfCode.Utils.Extensions.Tasks;
 
 /// <summary>
 /// <see cref="Task"/> Extensions

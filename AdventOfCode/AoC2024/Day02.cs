@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Extensions.Arrays;
-using AdventOfCode.Extensions.Enumerables;
+﻿using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using SpanLinq;

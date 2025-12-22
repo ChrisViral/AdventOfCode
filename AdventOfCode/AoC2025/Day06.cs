@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions;
+using AdventOfCode.Utils.Extensions.Spans;
 using SpanLinq;
 
 namespace AdventOfCode.AoC2025;

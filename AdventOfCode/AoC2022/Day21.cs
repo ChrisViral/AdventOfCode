@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Extensions.Regexes;
+using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

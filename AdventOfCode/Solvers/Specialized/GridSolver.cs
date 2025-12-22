@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using AdventOfCode.Collections;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Solvers.Specialized;

@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Numbers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Maths.Vectors;

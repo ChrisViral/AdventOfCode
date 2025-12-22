@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Text;
-using AdventOfCode.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using static System.Convert;

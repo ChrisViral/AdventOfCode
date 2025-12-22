@@ -3,7 +3,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
-namespace AdventOfCode.Extensions.Assemblies;
+namespace AdventOfCode.Utils.Extensions.Assemblies;
 
 /// <summary>
 /// Assembly extensions
