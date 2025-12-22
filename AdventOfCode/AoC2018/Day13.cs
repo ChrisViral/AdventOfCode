@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
-using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2018;
 
@@ -66,7 +66,8 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
 
                 // Invalid
                 default:
-                    throw new InvalidEnumArgumentException(nameof(track), (int)track, typeof(Track));
+                    track.ThrowInvalid();
+                    return;
             }
         }
 

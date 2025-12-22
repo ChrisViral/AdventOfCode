@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
@@ -7,6 +6,7 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2018;
 
@@ -89,7 +89,8 @@ public sealed partial class Day17 : Solver<(Grid<Day17.Element> map, Vector2<int
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(movedTo), (int)movedTo, typeof(Element));
+                    movedTo.ThrowInvalid();
+                    return;
             }
 
             bool hasFlow = false;
@@ -138,7 +139,8 @@ public sealed partial class Day17 : Solver<(Grid<Day17.Element> map, Vector2<int
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(element), (int)element, typeof(Element));
+                    element.ThrowInvalid();
+                    return;
             }
         }
         AoCUtils.LogPart1(water);

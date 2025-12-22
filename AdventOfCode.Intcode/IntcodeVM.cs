@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventOfCode.Intcode.IO.Input;
 using AdventOfCode.Intcode.IO.Output;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.Intcode;
 
@@ -283,7 +284,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                     return;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
+                    opcode.ThrowInvalid();
+                    return;
             }
         }
     }
@@ -350,7 +352,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                 return ref *address;
 
             default:
-                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+                throw mode.Invalid();
         }
 #else
         switch (mode)
@@ -365,7 +367,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
                 return ref *(this.relative + ReadNextInt64());
 
             default:
-                throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(ParamMode));
+                throw mode.Invalid();
         }
 #endif
     }

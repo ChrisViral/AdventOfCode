@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
+using AdventOfCode.Utils.Extensions.Enums;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
@@ -126,7 +126,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
             Anchor.BOTTOM_LEFT  => new Vector2<int>(0, height - 1),
             Anchor.BOTTOM_RIGHT => new Vector2<int>(width - 1, height - 1),
             Anchor.MIDDLE       => new Vector2<int>(width / 2, height / 2),
-            _                   => throw new InvalidEnumArgumentException(nameof(anchor), (int)anchor, typeof(Anchor))
+            _                   => throw anchor.Invalid()
         };
         FillDefault(converter, defaultValue);
     }

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Collections;
+﻿using AdventOfCode.Collections;
+using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
@@ -68,7 +68,7 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
                 return grid;
 
             default:
-                throw new InvalidEnumArgumentException(nameof(this.ParseMode), (int)this.ParseMode, typeof(GridParseMode));
+                throw this.ParseMode.Invalid();
         }
     }
 

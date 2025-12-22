@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Collections;
+﻿using AdventOfCode.Collections;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2018;
 
@@ -98,7 +98,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
                     throw new InvalidOperationException("Lumberyard should never be NONE");
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(yard), (int)yard, typeof(Lumber));
+                    throw yard.Invalid();
             }
         }
 
@@ -126,7 +126,8 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
                 throw new InvalidOperationException("Lumberyard should never be NONE");
 
             default:
-                throw new InvalidEnumArgumentException(nameof(acre), (int)acre, typeof(Lumber));
+                acre.ThrowInvalid();
+                return;
         }
     }
 
@@ -195,7 +196,8 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
                     throw new InvalidOperationException("Lumberyard should never be NONE");
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(otherYard), (int)otherYard, typeof(Lumber));
+                    otherYard.ThrowInvalid();
+                    return;
             }
         }
 
@@ -212,6 +214,6 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
         Lumber.TREES => "|",
         Lumber.YARD  => "#",
         Lumber.NONE  => throw new InvalidOperationException("Lumberyard should never be NONE"),
-        _            => throw new InvalidEnumArgumentException(nameof(yard), (int)yard, typeof(Lumber))
+        _            => throw yard.Invalid()
     };
 }

@@ -1,8 +1,8 @@
-using System.ComponentModel;
 using System.Text;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
@@ -51,7 +51,7 @@ public sealed class Day16 : Solver<Day16.Packet>
         /// <summary>
         /// Value of this packet
         /// </summary>
-        public long Value => Type switch
+        public long Value => this.Type switch
         {
             PacketType.SUM => this.SubPackets!.Sum(p => p.Value),
             PacketType.MUL => this.SubPackets!.Aggregate(1L, (t, p) => t * p.Value),
@@ -61,7 +61,7 @@ public sealed class Day16 : Solver<Day16.Packet>
             PacketType.GTG => this.SubPackets![0].Value >  this.SubPackets[1].Value ? 1L : 0L,
             PacketType.LST => this.SubPackets![0].Value <  this.SubPackets[1].Value ? 1L : 0L,
             PacketType.EQU => this.SubPackets![0].Value == this.SubPackets[1].Value ? 1L : 0L,
-            _              => throw new InvalidEnumArgumentException(nameof(Type), (int)Type, typeof(PacketType))
+            _              => throw this.Type.Invalid()
         };
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using AdventOfCode.Collections;
 using AdventOfCode.Collections.Pooling;
@@ -9,6 +8,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2018;
 
@@ -306,7 +306,7 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
         {
             Alliance.ELF    => "E",
             Alliance.GOBLIN => "G",
-            _               => throw new InvalidEnumArgumentException(nameof(this.alliance), (int)this.alliance, typeof(Alliance))
+            _               => throw this.alliance.Invalid()
         };
 
         /// <inheritdoc />

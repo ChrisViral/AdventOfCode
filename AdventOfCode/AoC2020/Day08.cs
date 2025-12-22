@@ -3,6 +3,7 @@ using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2020;
 
@@ -56,7 +57,8 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(this.Operation), (int)this.Operation, typeof(Operations));
+                    this.Operation.ThrowInvalid();
+                    return;
             }
         }
     }

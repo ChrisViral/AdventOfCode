@@ -3,6 +3,7 @@ using System.ComponentModel;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using SpanLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -370,7 +371,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
         Amphipod.B    =>  1,
         Amphipod.C    =>  2,
         Amphipod.D    =>  3,
-        _             => throw new InvalidEnumArgumentException(nameof(amphipod), (int)amphipod, typeof(Amphipod))
+        _             => throw amphipod.Invalid()
     };
 
     /// <summary>

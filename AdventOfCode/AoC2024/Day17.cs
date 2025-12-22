@@ -1,8 +1,8 @@
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2024;
 
@@ -132,7 +132,8 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(opcode), (int)opcode, typeof(Opcode));
+                    opcode.ThrowInvalid();
+                    return;
             }
         }
     }

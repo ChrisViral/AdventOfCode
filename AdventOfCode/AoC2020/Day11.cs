@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Collections;
+﻿using AdventOfCode.Collections;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2020;
 
@@ -176,7 +176,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
             Seat.FLOOR => ".",
             Seat.EMPTY => "L",
             Seat.TAKEN => "#",
-            _          => throw new InvalidEnumArgumentException(nameof(seat), (int)seat, typeof(Seat))
+            _          => throw seat.Invalid()
         };
     }
 }

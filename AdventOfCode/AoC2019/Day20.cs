@@ -1,11 +1,11 @@
 ﻿using System.Collections.Frozen;
-using System.ComponentModel;
 using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2019;
 
@@ -252,6 +252,6 @@ public sealed class Day20 : Solver<Day20.MapData>
         Element.WALL     => "▓",
         Element.TELEPORT => "@",
         Element.ENTRANCE => "X",
-        _                => throw new InvalidEnumArgumentException(nameof(element), (int)element, typeof(Element))
+        _                => throw element.Invalid()
     };
 }

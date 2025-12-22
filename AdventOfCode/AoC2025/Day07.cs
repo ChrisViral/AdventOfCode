@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2025;
 
@@ -48,7 +48,8 @@ public sealed class Day07 : GridSolver<Day07.ManifoldElement>
                     throw new InvalidOperationException("Invalid splitter direction detected");
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction));
+                    direction.ThrowInvalid();
+                    return;
             }
         }
     }

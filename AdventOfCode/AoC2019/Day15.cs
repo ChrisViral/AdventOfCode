@@ -5,6 +5,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2019;
 
@@ -201,6 +202,6 @@ public sealed class Day15 : IntcodeSolver
         Element.ROBOT   => '¤',
         Element.PATH    => '·',
         Element.UNKNOWN => '░',
-        _               => throw new InvalidEnumArgumentException(nameof(element), (int)element, typeof(Element))
+        _               => throw element.Invalid()
     };
 }

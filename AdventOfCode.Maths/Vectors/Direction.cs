@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Utils.Extensions.Enums;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Maths.Vectors;
@@ -107,7 +108,7 @@ public static class DirectionsUtils
             Direction.LEFT  => Direction.DOWN,
             Direction.DOWN  => Direction.RIGHT,
             Direction.RIGHT => Direction.UP,
-            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+            _               => throw direction.Invalid()
         };
 
         /// <summary>
@@ -122,7 +123,7 @@ public static class DirectionsUtils
             Direction.RIGHT => Direction.DOWN,
             Direction.DOWN  => Direction.LEFT,
             Direction.LEFT  => Direction.UP,
-            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+            _               => throw direction.Invalid()
         };
 
         /// <summary>
@@ -138,7 +139,7 @@ public static class DirectionsUtils
             Direction.RIGHT => direction.TurnRight(),
             Direction.DOWN  => direction.Invert(),
             Direction.LEFT  => direction.TurnLeft(),
-            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+            _               => throw direction.Invalid()
         };
 
         /// <summary>
@@ -168,7 +169,7 @@ public static class DirectionsUtils
             Direction.EAST  => "east",
             Direction.WEST  => "west",
             Direction.NONE  => throw new InvalidOperationException("None is not a cardinal direciton"),
-            _               => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Direction))
+            _               => throw direction.Invalid()
         };
     }
 

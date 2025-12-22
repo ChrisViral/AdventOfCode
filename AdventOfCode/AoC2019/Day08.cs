@@ -4,6 +4,7 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using SpanLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -70,7 +71,7 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
             Colour.BLACK       => "░",
             Colour.WHITE       => "▓",
             Colour.TRANSPARENT => " ",
-            _                  => throw new InvalidEnumArgumentException(nameof(top), (int)top, typeof(Colour))
+            _                  => throw top.Invalid()
         };
     }
 

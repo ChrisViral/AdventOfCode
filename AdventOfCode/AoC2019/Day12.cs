@@ -6,6 +6,7 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;
@@ -77,7 +78,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
             Axes.X => new AxisState(this.position.X, this.velocity.X),
             Axes.Y => new AxisState(this.position.Y, this.velocity.Y),
             Axes.Z => new AxisState(this.position.Z, this.velocity.Z),
-            _      => throw new InvalidEnumArgumentException(nameof(axes), (int)axes, typeof(Axes))
+            _      => throw axes.Invalid()
         };
 
         /// <summary>

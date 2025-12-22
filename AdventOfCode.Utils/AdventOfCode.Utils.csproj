@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="AndanteSoft.SpanLinq" Version="1.0.1" />
     <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+    <PackageReference Include="FastEnum" Version="2.0.6" />
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>

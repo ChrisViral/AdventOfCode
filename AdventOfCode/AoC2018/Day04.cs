@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2018;
 
@@ -81,7 +81,8 @@ public sealed partial class Day04 : RegexSolver<Day04.Schedule>
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(schedule.Action), (int)schedule.Action, typeof(ScheduleAction));
+                    schedule.Action.ThrowInvalid();
+                    return;
             }
         }
 

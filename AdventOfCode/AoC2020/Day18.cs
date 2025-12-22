@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2020;
 
@@ -119,7 +119,7 @@ public sealed class Day18 : Solver<string[][]>
         {
             Operation.ADD      => a + b,
             Operation.MULTIPLY => a * b,
-            _                  => throw new InvalidEnumArgumentException(nameof(operation), (int)operation, typeof(Operation))
+            _                  => throw operation.Invalid()
         };
     }
 
@@ -211,7 +211,7 @@ public sealed class Day18 : Solver<string[][]>
                 return b;
 
             default:
-                throw new InvalidEnumArgumentException(nameof(operation), (int)operation, typeof(Operation));
+                throw operation.Invalid();
         }
     }
 

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using AdventOfCode.Utils.Extensions.Enums;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2018.ElfCode;
@@ -116,7 +116,7 @@ public static class VirtualMachine
             Opcode.EQIR => instruction.A == registers[instruction.B] ? TRUE : FALSE,
             Opcode.EQRI => registers[instruction.A] == instruction.B ? TRUE : FALSE,
             Opcode.EQRR => registers[instruction.A] == registers[instruction.B] ? TRUE : FALSE,
-            _           => throw new InvalidEnumArgumentException(nameof(instruction.Opcode), (int)instruction.Opcode, typeof(Opcode))
+            _           => throw instruction.Opcode.Invalid()
         };
         // ReSharper restore RedundantCast
     }

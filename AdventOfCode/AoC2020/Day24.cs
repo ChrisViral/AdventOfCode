@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2020;
 
@@ -75,7 +75,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
                     Neighbour.NORTH_WEST => Vector2<int>.Up,
                     Neighbour.SOUTH_EAST => Vector2<int>.Down,
                     Neighbour.SOUTH_WEST => Vector2<int>.Right + Direction.DOWN,
-                    _                    => throw new InvalidEnumArgumentException(nameof(direction), (int)direction, typeof(Neighbour))
+                    _                    => throw direction.Invalid()
                 };
             }
 

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Collections;
+﻿using AdventOfCode.Collections;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Spans;
 
 namespace AdventOfCode.AoC2018;
@@ -97,23 +97,23 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
                 Gear.NONE     => throw new InvalidOperationException("Invalid gear for the region"),
                 Gear.TORCH    => Gear.CLIMBING,
                 Gear.CLIMBING => Gear.TORCH,
-                _             => throw new InvalidEnumArgumentException(nameof(state.Gear), (int)state.Gear, typeof(Gear))
+                _             => throw state.Gear.Invalid()
             },
             Region.WET => state.Gear switch
             {
                 Gear.NONE     => Gear.CLIMBING,
                 Gear.TORCH    => throw new InvalidOperationException("Invalid gear for the region"),
                 Gear.CLIMBING => Gear.NONE,
-                _             => throw new InvalidEnumArgumentException(nameof(state.Gear), (int)state.Gear, typeof(Gear))
+                _             => throw state.Gear.Invalid()
             },
             Region.NARROW => state.Gear switch
             {
                 Gear.NONE     => Gear.TORCH,
                 Gear.TORCH    => Gear.NONE,
                 Gear.CLIMBING => throw new InvalidOperationException("Invalid gear for the region"),
-                _             => throw new InvalidEnumArgumentException(nameof(state.Gear), (int)state.Gear, typeof(Gear))
+                _             => throw state.Gear.Invalid()
             },
-            _ => throw new InvalidEnumArgumentException(nameof(currentRegion), (int)currentRegion, typeof(Region))
+            _ => throw currentRegion.Invalid()
         };
 
         // Return gear switch move
@@ -141,7 +141,8 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
                     continue;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(targetRegion), (int)targetRegion, typeof(Region));
+                    targetRegion.ThrowInvalid();
+                    yield break;
             }
         }
     }

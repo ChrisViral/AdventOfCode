@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using CommunityToolkit.HighPerformance;
 
 namespace AdventOfCode.AoC2019;
@@ -47,7 +47,7 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
                 InstructionType.REVERSE => DECK_SIZE1 - position - 1,
                 InstructionType.CUT     => (position - instruction.Value).Mod(DECK_SIZE1),
                 InstructionType.DEAL    => (position * instruction.Value) % DECK_SIZE1,
-                _                       => throw new InvalidEnumArgumentException(nameof(instruction.Type), (int)instruction.Type, typeof(InstructionType))
+                _                       => throw instruction.Type.Invalid()
             };
         }
         AoCUtils.LogPart1(position);
@@ -72,7 +72,8 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(instruction.Type), (int)instruction.Type, typeof(InstructionType));
+                    instruction.Type.ThrowInvalid();
+                    return;
             }
         }
 

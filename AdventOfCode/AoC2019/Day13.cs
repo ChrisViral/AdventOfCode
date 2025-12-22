@@ -3,6 +3,7 @@ using AdventOfCode.Collections;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2019;
 
@@ -124,6 +125,6 @@ public sealed class Day13 : IntcodeSolver
         ArcadeObject.BLOCK  => '░',
         ArcadeObject.PADDLE => '_',
         ArcadeObject.BALL   => 'O',
-        _                   => throw new InvalidEnumArgumentException(nameof(arcadeObject), (int)arcadeObject, typeof(ArcadeObject))
+        _                   => throw arcadeObject.Invalid()
     };
 }

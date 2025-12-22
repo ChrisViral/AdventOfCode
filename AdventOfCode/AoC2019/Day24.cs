@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using AdventOfCode.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Ranges;
@@ -7,6 +6,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Spans;
 using CommunityToolkit.HighPerformance;
 using MemoryExtensions = System.MemoryExtensions;
@@ -175,7 +175,7 @@ public sealed class Day24 : GridSolver<bool>
         Direction.LEFT  => levelMap.GetColumn(^1).Count(true),
         Direction.RIGHT => levelMap.GetColumn(0).Count(true),
         Direction.NONE  => throw new InvalidOperationException("None is not a valid check direction"),
-        _               => throw new InvalidEnumArgumentException(nameof(checkDirection), (int)checkDirection, typeof(Direction))
+        _               => throw checkDirection.Invalid()
     };
 
     private bool TryGetLevel(bool hasBug, int level, Dictionary<int, DelayedGrid<bool>> levels, Queue<int> levelsToUpdate, [NotNullWhen(true)] out DelayedGrid<bool>? levelMap)

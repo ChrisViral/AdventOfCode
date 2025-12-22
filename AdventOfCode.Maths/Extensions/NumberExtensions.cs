@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Maths;
-using AdventOfCode.Utils;
 using JetBrains.Annotations;
 using SpanLinq;
 
