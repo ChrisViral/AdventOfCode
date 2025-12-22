@@ -16,6 +16,15 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
                                     IModulusOperators<Vector3<T>, T, Vector3<T>>, ICrossProductOperator<Vector3<T>, T, Vector3<T>>
     where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
 {
+    /// <summary>
+    /// Internal data buffer
+    /// </summary>
+    [InlineArray(3)]
+    internal struct Data
+    {
+        private T element;
+    }
+
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsGenericImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
@@ -60,44 +69,55 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     public static Vector3<T> MaxValue  { get; } = new(T.MaxValue, T.MaxValue, T.MaxValue);
 
     /// <summary>
+    /// Components array
+    /// </summary>
+    internal readonly Data data;
+
+    /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T X { get; init; }
+    public T X
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get  => this.data[0];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        init => this.data[0] = value;
+    }
 
     /// <summary>
     /// Y component of the Vector
     /// </summary>
-    public T Y { get; init; }
+    public T Y
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get  => this.data[1];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        init => this.data[1] = value;
+    }
 
     /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T Z { get; init; }
+    public T Z
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get  => this.data[2];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        init => this.data[2] = value;
+    }
 
     /// <inheritdoc />
     public T this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => index switch
-        {
-            0 => this.X,
-            1 => this.Y,
-            2 => this.Z,
-            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
-        };
+        get => this.data[index];
     }
 
     /// <inheritdoc />
     public T this[Index index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => index.GetOffset(Dimension) switch
-        {
-            0 => this.X,
-            1 => this.Y,
-            2 => this.Z,
-            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
-        };
+        get => this.data[index];
     }
 
     /// <inheritdoc />
@@ -165,9 +185,9 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     /// <param name="z">Z component</param>
     public Vector3(T x, T y, T z)
     {
-        this.X = x;
-        this.Y = y;
-        this.Z = z;
+        this.data[0] = x;
+        this.data[1] = y;
+        this.data[2] = z;
     }
 
     /// <summary>
@@ -190,18 +210,18 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
         switch (components.Length)
         {
             case 1:
-                this.X = components[0];
+                this.data[0] = components[0];
                 break;
 
             case 2:
-                this.X = components[0];
-                this.Y = components[1];
+                this.data[0] = components[0];
+                this.data[1] = components[1];
                 break;
 
             case 3:
-                this.X = components[0];
-                this.Y = components[1];
-                this.Z = components[2];
+                this.data[0] = components[0];
+                this.data[1] = components[1];
+                this.data[2] = components[2];
                 break;
 
             default:
@@ -215,9 +235,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     /// <param name="copy">Vector to copy</param>
     public Vector3(Vector3<T> copy)
     {
-        this.X = copy.X;
-        this.Y = copy.Y;
-        this.Z = copy.Z;
+        this.data = copy.data;
     }
 
     /// <inheritdoc cref="object.Equals(object)"/>
@@ -730,7 +748,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     /// <inheritdoc />
     bool IVector.TryGetComponentChecked<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromChecked(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromChecked(this.data[index], out result);
 
         result = default;
         return false;
@@ -739,7 +757,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     /// <inheritdoc />
     bool IVector.TryGetComponentSaturating<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromSaturating(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromSaturating(this.data[index], out result);
 
         result = default;
         return false;
@@ -748,7 +766,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
     /// <inheritdoc />
     bool IVector.TryGetComponentTruncating<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromTruncating(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromTruncating(this.data[index], out result);
 
         result = default;
         return false;
@@ -1137,7 +1155,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
             return false;
         }
 
-        if (vector.TryMakeFromComponentsChecked([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsChecked(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;
@@ -1164,7 +1182,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
             return false;
         }
 
-        if (vector.TryMakeFromComponentsSaturating([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsSaturating(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;
@@ -1191,7 +1209,7 @@ public readonly struct Vector3<T> : IVector<Vector3<T>, T>, IDivisionOperators<V
             return false;
         }
 
-        if (vector.TryMakeFromComponentsTruncating([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsTruncating(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;

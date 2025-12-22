@@ -17,6 +17,12 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
                                             IModulusOperators<Vector2<T>, T, Vector2<T>>, ICrossProductOperator<Vector2<T>, T, T>
     where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
 {
+    [InlineArray(2)]
+    internal struct Data
+    {
+        private T element;
+    }
+
     /// <summary>If this is an integer vector type</summary>
     private static readonly bool IsInteger = typeof(T).IsGenericImplementationOf(typeof(IBinaryInteger<>));
     /// <summary>Small comparison value for floating point numbers</summary>
@@ -63,37 +69,45 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     private static partial Regex DirectionMatch { get; }
 
     /// <summary>
+    /// Components array
+    /// </summary>
+    internal readonly Data data;
+
+    /// <summary>
     /// X component of the Vector
     /// </summary>
-    public T X { get; init; }
+    public T X
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get  => this.data[0];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        init => this.data[0] = value;
+    }
 
     /// <summary>
     /// Y component of the Vector
     /// </summary>
-    public T Y { get; init; }
+    public T Y
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get  => this.data[1];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        init => this.data[1] = value;
+    }
+
 
     /// <inheritdoc />
     public T this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => index switch
-        {
-            0 => this.X,
-            1 => this.Y,
-            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
-        };
+        get => this.data[index];
     }
 
     /// <inheritdoc />
     public T this[Index index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => index.GetOffset(Dimension) switch
-        {
-            0 => this.X,
-            1 => this.Y,
-            _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Vector dimension out of range")
-        };
+        get => this.data[index];
     }
 
     /// <inheritdoc />
@@ -120,8 +134,8 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <param name="y">Y component</param>
     public Vector2(T x, T y)
     {
-        this.X = x;
-        this.Y = y;
+        this.data[0] = x;
+        this.data[1] = y;
     }
 
     /// <summary>
@@ -142,12 +156,12 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
         switch (components.Length)
         {
             case 1:
-                this.X = components[0];
+                this.data[0] = components[0];
                 break;
 
             case 2:
-                this.X = components[0];
-                this.Y = components[1];
+                this.data[0] = components[0];
+                this.data[1] = components[1];
                 break;
 
             default:
@@ -161,8 +175,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <param name="copy">Vector to copy</param>
     public Vector2(Vector2<T> copy)
     {
-        this.X = copy.X;
-        this.Y = copy.Y;
+        this.data = copy.data;
     }
 
     /// <inheritdoc />
@@ -819,7 +832,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <inheritdoc />
     bool IVector.TryGetComponentChecked<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromChecked(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromChecked(this.data[index], out result);
 
         result = default;
         return false;
@@ -828,7 +841,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <inheritdoc />
     bool IVector.TryGetComponentSaturating<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromSaturating(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromSaturating(this.data[index], out result);
 
         result = default;
         return false;
@@ -837,7 +850,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <inheritdoc />
     bool IVector.TryGetComponentTruncating<TResult>(int index, out TResult result)
     {
-        if (index >= 0 && index < Dimension) return TResult.TryConvertFromTruncating(this[index], out result);
+        if (index >= 0 && index < Dimension) return TResult.TryConvertFromTruncating(this.data[index], out result);
 
         result = default;
         return false;
@@ -1169,7 +1182,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
             return false;
         }
 
-        if (vector.TryMakeFromComponentsChecked([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsChecked(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;
@@ -1196,7 +1209,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
             return false;
         }
 
-        if (vector.TryMakeFromComponentsSaturating([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsSaturating(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;
@@ -1223,7 +1236,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
             return false;
         }
 
-        if (vector.TryMakeFromComponentsTruncating([value.X, value.Y], out IVector? created) && created is TOther other)
+        if (vector.TryMakeFromComponentsTruncating(value.AsSpan(), out IVector? created) && created is TOther other)
         {
             result = other;
             return true;

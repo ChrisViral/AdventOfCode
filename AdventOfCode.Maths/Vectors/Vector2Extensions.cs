@@ -250,6 +250,15 @@ public static class Vector2Extensions
         public void Dispose() { }
     }
 
+    extension<T>(in Vector2<T> value) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
+    {
+        /// <summary>
+        /// Returns a span of the values of the vector
+        /// </summary>
+        /// <returns>Span over the values of the vector</returns>
+        public ReadOnlySpan<T> AsSpan() => value.data;
+    }
+
     /// <summary>
     /// Integer vector extensions
     /// </summary>

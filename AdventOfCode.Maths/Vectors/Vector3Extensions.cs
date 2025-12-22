@@ -289,6 +289,15 @@ public static class Vector3Extensions
         public void Dispose() { }
     }
 
+    extension<T>(in Vector3<T> value) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
+    {
+        /// <summary>
+        /// Returns a span of the values of the vector
+        /// </summary>
+        /// <returns>Span over the values of the vector</returns>
+        public ReadOnlySpan<T> AsSpan() => value.data;
+    }
+
     extension<T>(Vector3<T> value) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
