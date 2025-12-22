@@ -116,6 +116,29 @@ public static class EnumerableExtensions
         }
 
         /// <summary>
+        /// Creates an enumerable of pairs of elements
+        /// </summary>
+        /// <param name="isCircular">If the list is circular (last element is paired with the first element)</param>
+        /// <returns>Pairs of subsequent elements in the enumerable</returns>
+        [Pure, LinqTunnel]
+        public IEnumerable<(T first, T second)> Pairwise(bool isCircular = false)
+        {
+            using IEnumerator<T> enumerator = enumerable.GetEnumerator();
+            if (!enumerator.MoveNext()) yield break;
+
+            T first = enumerator.Current;
+            T previous = enumerator.Current;
+            while (enumerator.MoveNext())
+            {
+                T current = enumerator.Current;
+                yield return (previous, current);
+                previous = current;
+            }
+
+            if (isCircular) yield return (previous, first);
+        }
+
+        /// <summary>
         /// Returns the sequence where every element is repeated a given amount of times
         /// </summary>
         /// <param name="count">Amount of times to repeat each element</param>
