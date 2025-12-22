@@ -2,7 +2,8 @@
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Microsoft.Z3;
+using AdventOfCode.Utils.Extensions.Numbers;
+using SpanLinq;
 
 namespace AdventOfCode.AoC2018;
 
@@ -11,9 +12,12 @@ namespace AdventOfCode.AoC2018;
 /// </summary>
 public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
 {
-    public sealed record Nanobot(Vector3<int> Position, int Radius);
+    public sealed record Nanobot(Vector3<long> Position, long Radius)
+    {
+        public bool IsInRange(Vector3<long> other) => Vector3<long>.ManhattanDistance(this.Position, other) <= this.Radius;
+    }
 
-    public sealed record VectorZ3(IntExpr X, IntExpr Y, IntExpr Z);
+    private const int SEARCH_SIZE = 10;
 
     /// <inheritdoc />
     [GeneratedRegex(@"pos=<(-?\d+,-?\d+,-?\d+)>, r=(\d+)")]
@@ -30,65 +34,74 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Nanobot strongest = this.Data.MaxBy(n => n.Radius)!;
-        int nanobotsInRange = this.Data.Count(n => Vector3<int>.ManhattanDistance(n.Position, strongest.Position) <= strongest.Radius);
+        Nanobot strongest = this.Data.MaxBy(n => n.Radius);
+        int nanobotsInRange = this.Data.Count(n => strongest.IsInRange(n.Position));
         AoCUtils.LogPart1(nanobotsInRange);
 
-        // It's Z3 time
-        using Context context = new();
+        // Get maximum component size
+        int digitCount = this.Data
+                            .AsSpan()
+                            .Select(n => Vector3<long>.Abs(n.Position))
+                            .Aggregate(Vector3<long>.Max)
+                            .AsSpan()
+                            .Max()
+                            .DigitCount;
+        // Get max component magnitude
+        int magnitude = (digitCount - 1).Pow10;
 
-        // Variables
-        IntExpr x = context.MkIntConst("x");
-        IntExpr y = context.MkIntConst("y");
-        IntExpr z = context.MkIntConst("z");
-
-        // Create position and distance to origin expression
-        VectorZ3 position = new(x, y, z);
-        ArithExpr distanceToOrigin = ManhattanDistanceZ3(context, position, Vector3<int>.Zero);
-
-        // Create total in range summation
-        ArithExpr? inRange = null;
-        foreach (Nanobot nanobot in this.Data)
+        // Setup for search
+        int bestInRange   = 0;
+        long bestDistance = int.MaxValue;
+        Vector3<long> bestPosition = Vector3<long>.Zero;
+        Vector3<long> offset       = Vector3<long>.Zero;
+        for (int precision = magnitude / SEARCH_SIZE; precision > 0; precision /= 10)
         {
-            // Get nanobots in range
-            ArithExpr dist = ManhattanDistanceZ3(context, position, nanobot.Position);
-            ArithExpr term = (ArithExpr)context.MkITE(context.MkLe(dist, context.MkInt(nanobot.Radius)),
-                                                      context.MkInt(1),
-                                                      context.MkInt(0));
-            inRange = inRange is not null ? context.MkAdd(inRange, term) : term;
+            // For each degree of precision, test areas at regular intervals
+            foreach (Vector3<long> position in Search(precision, offset))
+            {
+                // Count how many nanobots are in range
+                int inRange = this.Data.Count(n => n.IsInRange(position));
+                if (bestInRange < inRange)
+                {
+                    // If we have a new best, keep it
+                    bestInRange  = inRange;
+                    bestPosition = position;
+                    bestDistance = position.ManhattanLength;
+                }
+                else if (bestInRange == inRange)
+                {
+                    // If we have a match, keep the one closer to the origin
+                    long distance = position.ManhattanLength;
+                    if (bestDistance > distance)
+                    {
+                        bestInRange  = inRange;
+                        bestPosition = position;
+                        bestDistance = distance;
+                    }
+                }
+            }
+
+            // Setup new offset to current best position
+            offset = bestPosition;
         }
 
-        // Optimize
-        Optimize optimize = context.MkOptimize();
-
-        // Maximize in range, minimize distance to origin
-        optimize.MkMaximize(inRange);
-        optimize.MkMinimize(distanceToOrigin);
-
-        // Run solver
-        optimize.Check();
-        Model model = optimize.Model;
-
-        // Get final position out
-        int px = ((IntNum)model.Evaluate(x)).Int;
-        int py = ((IntNum)model.Evaluate(y)).Int;
-        int pz = ((IntNum)model.Evaluate(z)).Int;
-        AoCUtils.LogPart2(px + py + pz);
+        // Return final distance from origin
+        AoCUtils.LogPart2(bestPosition.ManhattanLength);
     }
 
-    private static ArithExpr ManhattanDistanceZ3(Context context, VectorZ3 a, Vector3<int> b)
+    private static IEnumerable<Vector3<long>> Search(long precision, Vector3<long> offset)
     {
-        // Manhattan distance
-        IntExpr dx = AbsZ3(context, context.MkSub(a.X, context.MkInt(b.X)));
-        IntExpr dy = AbsZ3(context, context.MkSub(a.Y, context.MkInt(b.Y)));
-        IntExpr dz = AbsZ3(context, context.MkSub(a.Z, context.MkInt(b.Z)));
-        return context.MkAdd(dx, dy, dz);
-    }
-
-    private static IntExpr AbsZ3(Context context, ArithExpr value)
-    {
-        return (IntExpr)context.MkITE(context.MkGe(value, context.MkInt(0)),
-                                      value,
-                                      context.MkUnaryMinus(value));
+        for (int x = -SEARCH_SIZE + 1; x < SEARCH_SIZE; x++)
+        {
+            long xValue = (x * precision) + offset.X;
+            for (int y = -SEARCH_SIZE + 1; y < SEARCH_SIZE; y++)
+            {
+                long yValue = (y * precision) + offset.Y;
+                for (int z = -SEARCH_SIZE + 1; z < SEARCH_SIZE; z++)
+                {
+                    yield return new Vector3<long>(xValue, yValue, (z * precision) + offset.Z);
+                }
+            }
+        }
     }
 }
