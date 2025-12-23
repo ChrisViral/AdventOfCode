@@ -95,7 +95,6 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
         init => this.data[1] = value;
     }
 
-
     /// <inheritdoc />
     public T this[int index]
     {
@@ -257,14 +256,6 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
         Vector2<TResult> resultVector = Vector2<TResult>.CreateChecked(this);
         return TResult.Sqrt((resultVector.X * resultVector.X) + (resultVector.Y * resultVector.Y));
     }
-
-    /// <inheritdoc />
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool IEquatable<Vector2<T>>.Equals(Vector2<T> other) => Equals(other);
-
-    /// <inheritdoc />
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    int IComparable<Vector2<T>>.CompareTo(Vector2<T> other) => CompareTo(other);
 
     /// <summary>
     /// Converts the vector to the target type

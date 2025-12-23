@@ -397,7 +397,7 @@ public static class Vector2Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TResult ManhattanDistance<TResult>(Vector2<T> a, Vector2<T> b) where TResult : unmanaged, IBinaryInteger<TResult>, IMinMaxValue<TResult>
         {
-            return ManhattanDistance(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
+            return Vector2<TResult>.ManhattanDistance(Vector2<TResult>.CreateChecked(a), Vector2<TResult>.CreateChecked(b));
         }
     }
 
@@ -440,6 +440,6 @@ public static class Vector2Extensions
         /// <param name="angle">Angle to rotate by</param>
         /// <returns>The rotated vector</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2<T> Rotate(Vector2<T> vector, Angle angle) => Rotate(vector, angle.Radians);
+        public static Vector2<T> Rotate(Vector2<T> vector, Angle angle) => Vector2<T>.Rotate(vector, angle.Radians);
     }
 }

@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Maths.Vectors;
 
 /// <summary>
-/// Vector3 enumerable
+/// Vector3 extensions
 /// </summary>
 [PublicAPI]
 public static class Vector3Extensions
@@ -346,7 +346,7 @@ public static class Vector3Extensions
         {
             if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
             if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
+            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
 
             return new SpaceEnumerator<T>(value.X, value.Y, value.Y);
         }
@@ -360,7 +360,7 @@ public static class Vector3Extensions
         {
             if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
             if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
+            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
 
             return new SpaceEnumerable<T>(value.X, value.Y, value.Z);
         }
@@ -417,7 +417,7 @@ public static class Vector3Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TResult ManhattanDistance<TResult>(Vector3<T> a, Vector3<T> b) where TResult : unmanaged, IBinaryInteger<TResult>, IMinMaxValue<TResult>
         {
-            return ManhattanDistance(Vector3<TResult>.CreateChecked(a), Vector3<TResult>.CreateChecked(b));
+            return Vector3<TResult>.ManhattanDistance(Vector3<TResult>.CreateChecked(a), Vector3<TResult>.CreateChecked(b));
         }
     }
 

@@ -8,98 +8,8 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 17
 /// </summary>
-public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Day17.Vector4> part2)>
+public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Vector4<int>> part2)>
 {
-    /// <summary>
-    /// Four component integer vector
-    /// </summary>
-    public readonly struct Vector4 : IEquatable<Vector4>
-    {
-        /// <summary>
-        /// X component
-        /// </summary>
-        private int X { get; }
-
-        /// <summary>
-        /// Y component
-        /// </summary>
-        private int Y { get; }
-
-        /// <summary>
-        /// Z component
-        /// </summary>
-        private int Z { get; }
-
-        /// <summary>
-        /// W component
-        /// </summary>
-        private int W { get; }
-
-        /// <summary>
-        /// Creates a new 4 component vector
-        /// </summary>
-        /// <param name="x">X component</param>
-        /// <param name="y">Y component</param>
-        /// <param name="z">Z component</param>
-        /// <param name="w">W component</param>
-        public Vector4(int x, int y, int z, int w)
-        {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.W = w;
-        }
-
-        /// <inheritdoc cref="object.Equals(object)"/>
-        public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
-
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(Vector4 other) => this.X == other.X && this.Y == other.Y && this.Z == other.Z && this.W == other.W;
-
-        /// <inheritdoc cref="object.GetHashCode"/>
-        public override int GetHashCode() => HashCode.Combine(this.X, this.Y, this.Z, this.W);
-
-        /// <summary>
-        /// Gets all the adjacent vectors to this one
-        /// </summary>
-        /// <returns></returns>
-        /// ReSharper disable once CognitiveComplexity
-        public IEnumerable<Vector4> Adjacent()
-        {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    for (int z = -1; z <= 1; z++)
-                    {
-                        for (int w = -1; w <= 1; w++)
-                        {
-                            if (x is 0 && y is 0 && z is 0 && w is 0) continue;
-
-                            yield return new Vector4(this.X + x, this.Y + y, this.Z + z, this.W + w);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Equality operator on two vectors
-        /// </summary>
-        /// <param name="a">First vector</param>
-        /// <param name="b">Second vector</param>
-        /// <returns>True if both are equals, false otherwise</returns>
-        public static bool operator ==(Vector4 a, Vector4 b) => a.Equals(b);
-
-        /// <summary>
-        /// Inequality operator on two vectors
-        /// </summary>
-        /// <param name="a">First vector</param>
-        /// <param name="b">Second vector</param>
-        /// <returns>True if both are unequal, false otherwise</returns>
-        public static bool operator !=(Vector4 a, Vector4 b) => !a.Equals(b);
-    }
-
     /// <summary>
     /// Conway cube implementation
     /// </summary>
@@ -211,10 +121,10 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<D
     }
 
     /// <inheritdoc />
-    protected override (Cube<Vector3<int>>, Cube<Vector4>) Convert(string[] rawInput)
+    protected override (Cube<Vector3<int>>, Cube<Vector4<int>>) Convert(string[] rawInput)
     {
         Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new Vector3<int>(x, y, 0), v => v.AsAdjacentEnumerable(withDiagonals: true));
-        Cube<Vector4> cube4 = new(rawInput, (x, y) => new Vector4(x, y, 0, 0), v => v.Adjacent());
+        Cube<Vector4<int>> cube4 = new(rawInput, (x, y) => new Vector4<int>(x, y, 0, 0), v => v.Adjacent(withDiagonals: true));
         return (cube3, cube4);
     }
 }
