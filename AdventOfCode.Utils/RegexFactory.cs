@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Utils.Extensions.Types;
+using FastEnumUtility;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
@@ -30,7 +31,7 @@ internal static class RegexFactoryHelper
     public static bool IsValidType(Type type)
     {
         type = Nullable.GetUnderlyingType(type) ?? type;
-        return type.IsImplementationOf<IConvertible>() || type.IsGenericImplementationOf(typeof(IParsable<>), type);
+        return type is { IsEnum: true, IsClass: false } || type.IsImplementationOf<IConvertible>() || type.IsGenericImplementationOf(typeof(IParsable<>), type);
     }
 
     /// <summary>
@@ -43,12 +44,13 @@ internal static class RegexFactoryHelper
     /// <exception cref="MissingMethodException">When the <see cref="IParsable{TSelf}.Parse"/> method could not be found on <paramref name="targetType"/></exception>
     public static object ConvertCapture(string capture, Type targetType)
     {
+        if (targetType.IsEnum)
+        {
+            return Enum.Parse(targetType, capture, true);
+        }
+
         if (targetType.IsImplementationOf<IConvertible>())
         {
-            if (targetType.IsEnum)
-            {
-                targetType = Enum.GetUnderlyingType(targetType);
-            }
             //Create and set the value
             return Convert.ChangeType(capture, targetType)
                 ?? throw new InvalidCastException($"Could not convert {capture} to {targetType.Name}");
