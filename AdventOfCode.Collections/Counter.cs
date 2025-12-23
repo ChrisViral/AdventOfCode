@@ -24,6 +24,9 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
         get => this.dictionary.Count;
     }
 
+    /// <inheritdoc cref="Dictionary{TKey, TValue}.Capacity"/>
+    public int Capacity => this.dictionary.Capacity;
+
     /// <summary>
     /// The keys stored within this counter
     /// </summary>
