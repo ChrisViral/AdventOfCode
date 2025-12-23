@@ -92,7 +92,7 @@ public static class NumberExtensions
             if (value.IsEven || value.IsMultiple(NumberUtils<T>.Three) || value.IsMultiple(NumberUtils<T>.Five)) return false;
 
             // Get square root of n
-            T limit = double.CeilToInt<double, T>(Math.Sqrt(double.CreateChecked(value)));
+            T limit = MathUtils.CeilToInt<T, double>(Math.Sqrt(double.CreateChecked(value)));
             for (T i = NumberUtils<T>.Seven; i <= limit; i += NumberUtils<T>.Six)
             {
                 // We don't need to check anything that is a multiple of two, three, or five
@@ -373,29 +373,5 @@ public static class NumberExtensions
         /// <returns><see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are approximately equal, otherwise <see langword="false"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Approximately(T a, T b) => T.Abs(a - b) <= FloatUtils<T>.Epsilon;
-
-        /// <summary>
-        /// Gets the ceiling of a floating point value as an integer number
-        /// </summary>
-        /// <typeparam name="TResult">Integer target type</typeparam>
-        /// <param name="value">The value to get the ceiling for</param>
-        /// <returns>The ceiling of <paramref name="value"/> as an integer</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TResult CeilToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
-        {
-            return TResult.CreateChecked(T.Ceiling(value));
-        }
-
-        /// <summary>
-        /// Gets the floor of a floating point value as an integer number
-        /// </summary>
-        /// <typeparam name="TResult">Integer target type</typeparam>
-        /// <param name="value">The value to get the floor for</param>
-        /// <returns>The floor of <paramref name="value"/> as an integer</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TResult FloorToInt<TResult>(T value) where TResult : IBinaryInteger<TResult>
-        {
-            return TResult.CreateChecked(T.Floor(value));
-        }
     }
 }

@@ -49,6 +49,36 @@ public static class MathUtils
     public static T LCM<T>(T a, T b) where T : IBinaryInteger<T> => a * b / GCD(a, b);
 
     /// <summary>
+    /// Gets the ceiling of a floating point value as an integer number
+    /// </summary>
+    /// <typeparam name="TValue">Floating point source type</typeparam>
+    /// <typeparam name="TResult">Integer target type</typeparam>
+    /// <param name="value">The value to get the ceiling for</param>
+    /// <returns>The ceiling of <paramref name="value"/> as an integer</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TResult CeilToInt<TResult, TValue>(TValue value)
+        where TValue : IBinaryFloatingPointIeee754<TValue>
+        where TResult : IBinaryInteger<TResult>
+    {
+        return TResult.CreateChecked(TValue.Ceiling(value));
+    }
+
+    /// <summary>
+    /// Gets the floor of a floating point value as an integer number
+    /// </summary>
+    /// <typeparam name="TValue">Floating point source type</typeparam>
+    /// <typeparam name="TResult">Integer target type</typeparam>
+    /// <param name="value">The value to get the floor for</param>
+    /// <returns>The floor of <paramref name="value"/> as an integer</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TResult FloorToInt<TResult, TValue>(TValue value)
+        where TValue : IBinaryFloatingPointIeee754<TValue>
+        where TResult : IBinaryInteger<TResult>
+    {
+        return TResult.CreateChecked(TValue.Floor(value));
+    }
+
+    /// <summary>
     /// Modular power function
     /// </summary>
     /// <param name="a">Base to exponentiate</param>
