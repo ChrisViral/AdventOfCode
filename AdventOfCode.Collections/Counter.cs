@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Utils.Extensions.Enumerables;
@@ -11,11 +12,52 @@ namespace AdventOfCode.Collections;
 /// Counter class - counts how many instances of each value have been added to it
 /// </summary>
 /// <typeparam name="T">Type of value stored in the counter</typeparam>
+[PublicAPI]
+public sealed class Counter<T> : Counter<T, int> where T : notnull
+{
+    /// <inheritdoc />
+    public Counter() { }
+
+    /// <inheritdoc />
+    public Counter(IDictionary<T, int> source) : base(source) { }
+
+    /// <inheritdoc />
+    public Counter(IDictionary<T, int> source, IEqualityComparer<T> comparer) : base(source, comparer) { }
+
+    /// <inheritdoc />
+    public Counter(IEnumerable<KeyValuePair<T, int>> source) : base(source) { }
+
+    /// <inheritdoc />
+    public Counter(IEnumerable<KeyValuePair<T, int>> source, IEqualityComparer<T> comparer) : base(source, comparer) { }
+
+    /// <inheritdoc />
+    public Counter(int capacity) : base(capacity) { }
+
+    /// <inheritdoc />
+    public Counter(IEqualityComparer<T> comparer) : base(comparer) { }
+
+    /// <inheritdoc />
+    public Counter(int capacity, IEqualityComparer<T> comparer) : base(capacity, comparer) { }
+
+    /// <inheritdoc />
+    public Counter(IEnumerable<T> source) : base(source) { }
+
+    /// <inheritdoc />
+    public Counter(IEnumerable<T> source, IEqualityComparer<T> comparer) : base(source, comparer) { }
+}
+
+/// <summary>
+/// Counter class - counts how many instances of each value have been added to it
+/// </summary>
+/// <typeparam name="TKey">Type of value stored in the counter</typeparam>
+/// <typeparam name="TCount">Type integer stored in the counter</typeparam>
 [PublicAPI, DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
-public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int>, ICollection<T> where T : notnull
+public class Counter<TKey, TCount> : IDictionary<TKey, TCount>, IReadOnlyDictionary<TKey, TCount>, ICollection<TKey>
+    where TKey : notnull
+    where TCount : struct, IBinaryInteger<TCount>
 {
     /// <summary>Backing dictionary</summary>
-    private readonly Dictionary<T, int> dictionary;
+    private readonly Dictionary<TKey, TCount> dictionary;
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count"/>
     public int Count
@@ -25,12 +67,16 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     }
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Capacity"/>
-    public int Capacity => this.dictionary.Capacity;
+    public int Capacity
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.dictionary.Capacity;
+    }
 
     /// <summary>
     /// The keys stored within this counter
     /// </summary>
-    public Dictionary<T, int>.KeyCollection Keys
+    public Dictionary<TKey, TCount>.KeyCollection Keys
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Keys;
@@ -39,7 +85,7 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <summary>
     /// The count values stored within this counter
     /// </summary>
-    public Dictionary<T, int>.ValueCollection Counts
+    public Dictionary<TKey, TCount>.ValueCollection Counts
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Values;
@@ -50,10 +96,10 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// </summary>
     /// <param name="key">Value to find in the Counter</param>
     /// <returns>The amount of that value stored in the counter, or 0 if none is</returns>
-    public int this[T key]
+    public TCount this[TKey key]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => this.dictionary.GetValueOrDefault(key, 0);
+        get => this.dictionary.GetValueOrDefault(key, TCount.Zero);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.dictionary[key] = value;
     }
@@ -61,69 +107,69 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <summary>
     /// Creates a new Counter
     /// </summary>
-    public Counter() => this.dictionary = new Dictionary<T, int>();
+    public Counter() => this.dictionary = new Dictionary<TKey, TCount>();
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
-    public Counter(IDictionary<T, int> source) => this.dictionary = new Dictionary<T, int>(source);
+    public Counter(IDictionary<TKey, TCount> source) => this.dictionary = new Dictionary<TKey, TCount>(source);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IDictionary<T, int> source, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(source, comparer);
+    public Counter(IDictionary<TKey, TCount> source, IEqualityComparer<TKey> comparer) => this.dictionary = new Dictionary<TKey, TCount>(source, comparer);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data enumerable</param>
-    public Counter(IEnumerable<KeyValuePair<T, int>> source) => this.dictionary = new Dictionary<T, int>(source);
+    public Counter(IEnumerable<KeyValuePair<TKey, TCount>> source) => this.dictionary = new Dictionary<TKey, TCount>(source);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data dictionary</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IEnumerable<KeyValuePair<T, int>> source, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(source, comparer);
+    public Counter(IEnumerable<KeyValuePair<TKey, TCount>> source, IEqualityComparer<TKey> comparer) => this.dictionary = new Dictionary<TKey, TCount>(source, comparer);
 
     /// <summary>
     /// Creates a new Counter with the given capacity
     /// </summary>
     /// <param name="capacity">Counter capacity</param>
-    public Counter(int capacity) => this.dictionary = new Dictionary<T, int>(capacity);
+    public Counter(int capacity) => this.dictionary = new Dictionary<TKey, TCount>(capacity);
 
     /// <summary>
     /// Creates a new Counter with a specific <see cref="EqualityComparer{T}"/>
     /// </summary>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(comparer);
+    public Counter(IEqualityComparer<TKey> comparer) => this.dictionary = new Dictionary<TKey, TCount>(comparer);
 
     /// <summary>
     /// Creates a new Counter with the given capacity
     /// </summary>
     /// <param name="capacity">Counter capacity</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(int capacity, IEqualityComparer<T> comparer) => this.dictionary = new Dictionary<T, int>(capacity, comparer);
+    public Counter(int capacity, IEqualityComparer<TKey> comparer) => this.dictionary = new Dictionary<TKey, TCount>(capacity, comparer);
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data enumerable</param>
-    public Counter(IEnumerable<T> source) : this(source, EqualityComparer<T>.Default) { }
+    public Counter(IEnumerable<TKey> source) : this(source, EqualityComparer<TKey>.Default) { }
 
     /// <summary>
     /// Creates a new Counter from existing data
     /// </summary>
     /// <param name="source">Data enumerable</param>
     /// <param name="comparer">Match equality comparer</param>
-    public Counter(IEnumerable<T> source, IEqualityComparer<T> comparer)
+    public Counter(IEnumerable<TKey> source, IEqualityComparer<TKey> comparer)
     {
         this.dictionary = source.TryGetNonEnumeratedCount(out int count)
-                              ? new Dictionary<T, int>(count, comparer)
-                              : new Dictionary<T, int>(comparer);
+                              ? new Dictionary<TKey, TCount>(count, comparer)
+                              : new Dictionary<TKey, TCount>(comparer);
         AddRange(source);
     }
 
@@ -132,9 +178,9 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// </summary>
     /// <param name="value">Value to add</param>
     /// <returns><see langword="true"/> if the value was already in the counter and was incremented, otherwise <see langword="false"/></returns>
-    public bool Add(T value)
+    public bool Add(TKey value)
     {
-        if (this.dictionary.TryAdd(value, 1)) return true;
+        if (this.dictionary.TryAdd(value, TCount.One)) return true;
 
         this.dictionary[value]++;
         return false;
@@ -146,7 +192,7 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// </summary>
     /// <param name="values">Values to add</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void AddRange(IEnumerable<T> values) => values.ForEach(v => Add(v));
+    public void AddRange(IEnumerable<TKey> values) => values.ForEach(v => Add(v));
 
     /// <inheritdoc cref="ICollection{T}.Clear"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -154,20 +200,20 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
 
     /// <inheritdoc cref="ICollection{T}.Contains"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Contains(T value) => this.dictionary.ContainsKey(value);
+    public bool Contains(TKey value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void CopyTo(T[] array, int arrayIndex) => this.dictionary.Keys.CopyTo(array, arrayIndex);
+    public void CopyTo(TKey[] array, int arrayIndex) => this.dictionary.Keys.CopyTo(array, arrayIndex);
 
     /// <inheritdoc cref="ICollection{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerator<T> GetEnumerator() => this.dictionary.Keys.GetEnumerator();
+    public IEnumerator<TKey> GetEnumerator() => this.dictionary.Keys.GetEnumerator();
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
-    public bool Remove(T value)
+    public bool Remove(TKey value)
     {
-        if (!this.dictionary.TryGetValue(value, out int count)) return false;
+        if (!this.dictionary.TryGetValue(value, out TCount count)) return false;
         if (count is 1) return this.dictionary.Remove(value);
 
         this.dictionary[value]--;
@@ -181,44 +227,44 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
     /// <param name="count">Value count output parameter</param>
     /// <returns><see langword="true"/> if the value was in the Counter and the count was found, otherwise <see langword="false"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TryGetCount(T value, out int count) => this.dictionary.TryGetValue(value, out count);
+    public bool TryGetCount(TKey value, out TCount count) => this.dictionary.TryGetValue(value, out count);
 
     /// <summary>
     /// Returns this counter as a dictionary specific implementation
     /// </summary>
     /// <returns>Dictionary implementation of the Counter</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IDictionary<T, int> AsDictionary() => this;
+    public IDictionary<TKey, TCount> AsDictionary() => this;
 
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
-    bool ICollection<KeyValuePair<T, int>>.IsReadOnly => false;
+    bool ICollection<KeyValuePair<TKey, TCount>>.IsReadOnly => false;
 
     /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
-    bool ICollection<T>.IsReadOnly => false;
+    bool ICollection<TKey>.IsReadOnly => false;
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Keys"/>
-    ICollection<T> IDictionary<T, int>.Keys
+    ICollection<TKey> IDictionary<TKey, TCount>.Keys
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Keys;
     }
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
-    ICollection<int> IDictionary<T, int>.Values
+    ICollection<TCount> IDictionary<TKey, TCount>.Values
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Values;
     }
 
     /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Keys"/>
-    IEnumerable<T> IReadOnlyDictionary<T, int>.Keys
+    IEnumerable<TKey> IReadOnlyDictionary<TKey, TCount>.Keys
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Keys;
     }
 
     /// <inheritdoc ref="IReadOnlyDictionary{TKey, TValue}.Values"/>
-    IEnumerable<int> IReadOnlyDictionary<T, int>.Values
+    IEnumerable<TCount> IReadOnlyDictionary<TKey, TCount>.Values
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Values;
@@ -226,55 +272,55 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void IDictionary<T, int>.Add(T key, int value) => this.dictionary.Add(key, value);
+    void IDictionary<TKey, TCount>.Add(TKey key, TCount value) => this.dictionary.Add(key, value);
 
     /// <inheritdoc cref="ICollection{T}.Add"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void ICollection<KeyValuePair<T, int>>.Add(KeyValuePair<T, int> item)
+    void ICollection<KeyValuePair<TKey, TCount>>.Add(KeyValuePair<TKey, TCount> item)
     {
-        ((ICollection<KeyValuePair<T, int>>)this.dictionary).Add(item);
+        ((ICollection<KeyValuePair<TKey, TCount>>)this.dictionary).Add(item);
     }
 
     /// <inheritdoc cref="ICollection{T}.Add"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void ICollection<T>.Add(T value) => Add(value);
+    void ICollection<TKey>.Add(TKey value) => Add(value);
 
     /// <inheritdoc cref="ICollection{T}.Contains"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool ICollection<KeyValuePair<T, int>>.Contains(KeyValuePair<T, int> item)
+    bool ICollection<KeyValuePair<TKey, TCount>>.Contains(KeyValuePair<TKey, TCount> item)
     {
-        return ((ICollection<KeyValuePair<T, int>>)this.dictionary).Contains(item);
+        return ((ICollection<KeyValuePair<TKey, TCount>>)this.dictionary).Contains(item);
     }
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.ContainsKey"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool IDictionary<T, int>.ContainsKey(T value) => this.dictionary.ContainsKey(value);
+    bool IDictionary<TKey, TCount>.ContainsKey(TKey value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void ICollection<KeyValuePair<T, int>>.CopyTo(KeyValuePair<T, int>[] array, int arrayIndex)
+    void ICollection<KeyValuePair<TKey, TCount>>.CopyTo(KeyValuePair<TKey, TCount>[] array, int arrayIndex)
     {
-        ((ICollection<KeyValuePair<T, int>>)this.dictionary).CopyTo(array, arrayIndex);
+        ((ICollection<KeyValuePair<TKey, TCount>>)this.dictionary).CopyTo(array, arrayIndex);
     }
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool ICollection<KeyValuePair<T, int>>.Remove(KeyValuePair<T, int> item)
+    bool ICollection<KeyValuePair<TKey, TCount>>.Remove(KeyValuePair<TKey, TCount> item)
     {
-        return ((ICollection<KeyValuePair<T, int>>)this.dictionary).Remove(item);
+        return ((ICollection<KeyValuePair<TKey, TCount>>)this.dictionary).Remove(item);
     }
 
     /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.ContainsKey"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool IReadOnlyDictionary<T, int>.ContainsKey(T value) => this.dictionary.ContainsKey(value);
+    bool IReadOnlyDictionary<TKey, TCount>.ContainsKey(TKey value) => this.dictionary.ContainsKey(value);
 
     /// <inheritdoc cref="IDictionary{TKey, TValue}.TryGetValue"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool IDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
+    bool IDictionary<TKey, TCount>.TryGetValue(TKey key, out TCount value) => this.dictionary.TryGetValue(key, out value);
 
     /// <inheritdoc cref="IReadOnlyDictionary{TKey, TValue}.TryGetValue"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool IReadOnlyDictionary<T, int>.TryGetValue(T key, out int value) => this.dictionary.TryGetValue(key, out value);
+    bool IReadOnlyDictionary<TKey, TCount>.TryGetValue(TKey key, out TCount value) => this.dictionary.TryGetValue(key, out value);
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -282,5 +328,5 @@ public sealed class Counter<T> : IDictionary<T, int>, IReadOnlyDictionary<T, int
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    IEnumerator<KeyValuePair<T, int>> IEnumerable<KeyValuePair<T, int>>.GetEnumerator() => this.dictionary.GetEnumerator();
+    IEnumerator<KeyValuePair<TKey, TCount>> IEnumerable<KeyValuePair<TKey, TCount>>.GetEnumerator() => this.dictionary.GetEnumerator();
 }

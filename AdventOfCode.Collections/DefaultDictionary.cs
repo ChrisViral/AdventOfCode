@@ -7,6 +7,11 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
 
+/// <summary>
+/// Dictionary which provides a default value when
+/// </summary>
+/// <typeparam name="TKey"></typeparam>
+/// <typeparam name="TValue"></typeparam>
 [PublicAPI, DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
 public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     where TKey : notnull
@@ -155,7 +160,13 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.TryGetValue" />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) => this.dictionary.TryGetValue(key, out value);
+    public bool TryGetValue(TKey key, out TValue value)
+    {
+        if (this.dictionary.TryGetValue(key, out value!)) return true;
+
+        value = this.defaultValue;
+        return false;
+    }
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

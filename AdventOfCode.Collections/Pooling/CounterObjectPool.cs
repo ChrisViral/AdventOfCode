@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections.Pooling;
@@ -6,9 +7,12 @@ namespace AdventOfCode.Collections.Pooling;
 /// <summary>
 /// Counter object pool
 /// </summary>
-/// <typeparam name="T">Pool object type</typeparam>
+/// <typeparam name="TKey">Counter key type</typeparam>
+/// <typeparam name="TCount">Counter count type</typeparam>
 [PublicAPI]
-public sealed class CounterObjectPool<T> : CollectionObjectPool<Counter<T>, T> where T : notnull
+public sealed class CounterObjectPool<TKey, TCount> : CollectionObjectPool<Counter<TKey, TCount>, TKey>
+    where TKey : notnull
+    where TCount : struct, IBinaryInteger<TCount>
 {
     /// <summary>
     /// List pool policy
@@ -18,17 +22,17 @@ public sealed class CounterObjectPool<T> : CollectionObjectPool<Counter<T>, T> w
     {
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override Counter<T> CreateWithCapacity(int capacity) => new(capacity);
+        protected override Counter<TKey, TCount> CreateWithCapacity(int capacity) => new(capacity);
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override int GetObjectCapacity(Counter<T> obj) => obj.Capacity;
+        protected override int GetObjectCapacity(Counter<TKey, TCount> obj) => obj.Capacity;
     }
 
     /// <summary>
     /// Shared pool instance
     /// </summary>
-    public static CounterObjectPool<T> Shared { get; } = new(new Policy());
+    public static CounterObjectPool<TKey, TCount> Shared { get; } = new(new Policy());
 
     /// <inheritdoc />
     public CounterObjectPool(Policy policy) : base(policy) { }

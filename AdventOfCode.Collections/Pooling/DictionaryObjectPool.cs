@@ -9,7 +9,8 @@ namespace AdventOfCode.Collections.Pooling;
 /// <typeparam name="TKey">Pool object key type</typeparam>
 /// <typeparam name="TValue">Pool object value type</typeparam>
 [PublicAPI]
-public sealed class DictionaryObjectPool<TKey, TValue> : CollectionObjectPool<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>> where TKey : notnull
+public sealed class DictionaryObjectPool<TKey, TValue> : CollectionObjectPool<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>
+    where TKey : notnull
 {
     /// <summary>
     /// Dictionary pool policy
