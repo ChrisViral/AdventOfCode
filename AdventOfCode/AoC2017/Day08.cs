@@ -52,7 +52,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
 
         public int ConditionValue { get; } = conditionValue;
 
-        public bool Execute(Counter<string> registers)
+        public bool Execute(DefaultDictionary<string, int> registers)
         {
             int conditionRegister = registers[this.ConditionRegister];
             bool conditionValid = this.Condition switch
@@ -99,7 +99,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     public override void Run()
     {
         int max = int.MinValue;
-        Counter<string> registers = new(100);
+        DefaultDictionary<string, int> registers = new(100, 0);
         foreach (Instruction instruction in this.Data)
         {
             if (instruction.Execute(registers))
@@ -107,7 +107,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
                 max = Math.Max(max, registers[instruction.Register]);
             }
         }
-        int maxRegister = registers.Counts.Max();
+        int maxRegister = registers.Values.Max();
         AoCUtils.LogPart1(maxRegister);
         AoCUtils.LogPart2(max);
     }
