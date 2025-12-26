@@ -10,21 +10,25 @@ public sealed class Day09 : Solver<string>
 {
     private sealed class Group
     {
-        private Group? parent;
-        private readonly List<Group> children = [];
-        private int garbageCount;
+        private readonly List<Group> children;
 
-        private int? score;
-        private int Score => this.score ??= this.parent?.Score + 1 ?? 1;
+        public int TotalScore { get; }
 
-        public int TotalScore => this.Score + this.children.Sum(c => c.TotalScore);
+        public int TotalGarbage { get; }
 
-        public int TotalGarbage => this.garbageCount + this.children.Sum(c => c.TotalGarbage);
-
-        public static Group ParseGroup(ref ReadOnlySpan<char> data)
+        private Group(int depth, int garbage, List<Group> children)
         {
-            Group group = new();
+            this.children     = children;
+            this.TotalScore   = depth + this.children.Sum(c => c.TotalScore);
+            this.TotalGarbage = garbage + this.children.Sum(c => c.TotalGarbage);
+        }
+
+        // ReSharper disable once CognitiveComplexity
+        public static Group ParseGroup(ref ReadOnlySpan<char> data, int depth = 1)
+        {
+            int garbage = 0;
             bool isGarbage = false;
+            List<Group> children = [];
             for (int i = 1; i < data.Length; i++)
             {
                 if (isGarbage)
@@ -40,7 +44,7 @@ public sealed class Day09 : Solver<string>
                             break;
 
                         default:
-                            group.garbageCount++;
+                            garbage++;
                             break;
                     }
                 }
@@ -50,15 +54,13 @@ public sealed class Day09 : Solver<string>
                     {
                         case '{':
                             data = data[i..];
-                            Group child = ParseGroup(ref data);
-                            child.parent = group;
-                            group.children.Add(child);
+                            children.Add(ParseGroup(ref data, depth + 1));
                             i = -1;
                             break;
 
                         case '}':
                             data = data[(i + 1)..];
-                            return group;
+                            return new Group(depth, garbage, children);
 
                         case '<':
                             isGarbage = true;

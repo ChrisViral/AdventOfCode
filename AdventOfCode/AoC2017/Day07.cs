@@ -47,7 +47,7 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
         }
     }
 
-    [GeneratedRegex(@"(\w+) \((\d+)\)(?: -> ([\w, ]+))?")]
+    [GeneratedRegex(@"([a-z]+) \((\d+)\)(?: -> ([a-z, ]+))?")]
     protected override partial Regex Matcher { get; }
 
     /// <summary>
@@ -69,7 +69,10 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
         Program problem = root;
         while (!problem.IsBalanced)
         {
-            problem = problem.Children.GroupBy(c => c.TotalWeight).First(g => g.Count() is 1).First();
+            problem = problem.Children
+                             .GroupBy(c => c.TotalWeight)
+                             .First(g => g.Count() is 1)
+                             .First();
         }
 
         int expectedWeight = problem.Parent!.Children.First(c => c != problem).TotalWeight;
