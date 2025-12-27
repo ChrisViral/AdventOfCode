@@ -129,17 +129,16 @@ public sealed class Day20 : Solver<Day20.MapData>
         Grid<Element> grid = new(width, height, ElementToString);
 
         // Parse raws properly
-        Span<Element> row = stackalloc Element[width];
         ReadOnlySpan<string> rawInputs = rawInput.AsSpan(2, height);
         foreach (int y in ..height)
         {
+            Span<Element> row = grid[y];
             ReadOnlySpan<char> line = rawInputs[y].AsSpan(2, width);
             foreach (int x in ..width)
             {
                 char c = line[x];
                 row[x] = !char.IsLetter(c) && !char.IsWhiteSpace(c) ? (Element)c : Element.NONE;
             }
-            grid.SetRow(y, row);
         }
 
         // Parse teleporters

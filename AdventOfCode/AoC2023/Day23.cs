@@ -55,13 +55,10 @@ public sealed class Day23 : GridSolver<Day23.Element>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Element[] row = new Element[this.Data.Width];
-        this.Data.GetRow(0, row);
-        Vector2<int> startPosition = new(row.IndexOf(Element.PATH), 0);
+        Vector2<int> startPosition = new(this.Data[0].IndexOf(Element.PATH), 0);
 
         int last = this.Data.Height - 1;
-        this.Data.GetRow(last, row);
-        Vector2<int> endPosition = new(row.IndexOf(Element.PATH), last);
+        Vector2<int> endPosition = new(this.Data[last].IndexOf(Element.PATH), last);
 
         int longestPath = (int)Math.Round(SearchUtils.GetMaxPathLengthDFS(startPosition, endPosition, GetNeighboursWithSlopes)!.Value);
         AoCUtils.LogPart1(longestPath);

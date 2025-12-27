@@ -4,6 +4,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using SpanLinq;
 
 namespace AdventOfCode.AoC2021;
 
@@ -46,8 +47,6 @@ public sealed class Day04 : Solver<Day04.BingoData>
 
     /// <summary>Marked bingo location value</summary>
     private const int MARKED = -1;
-    /// <summary>Temp bingo buffer</summary>
-    private static readonly int[] Buffer = new int[BingoData.SIZE];
 
     /// <summary>
     /// Creates a new <see cref="Day04"/> Solver for 2021 - 04 with the input data properly parsed
@@ -99,14 +98,9 @@ public sealed class Day04 : Solver<Day04.BingoData>
     private static bool CheckBoard(Grid<int> board, Vector2<int> position)
     {
         (int x, int y) = position;
-        board.GetColumn(x, Buffer);
-        if (Buffer.TrueForAll(n => n is MARKED))
-        {
-            return true;
-        }
-
-        board.GetRow(y, Buffer);
-        return Buffer.TrueForAll(n => n is MARKED);
+        Span<int> column = stackalloc int[BingoData.SIZE];
+        board.GetColumn(x, ref column);
+        return column.All(n => n is MARKED) || board[y].All(n => n is MARKED);
     }
 
     /// <inheritdoc />

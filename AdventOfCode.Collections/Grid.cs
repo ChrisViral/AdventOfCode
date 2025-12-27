@@ -105,6 +105,29 @@ public class Grid<T> : IEnumerable<T>
     }
 
     /// <summary>
+    /// Gets the given row of the grid<br/>
+    /// </summary>
+    /// <param name="row">Row index of the row to get</param>
+    /// <returns>The specified row of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
+    public virtual Span<T> this[int row]
+    {
+        get
+        {
+            if (row < 0 || row >= this.Height) throw new ArgumentOutOfRangeException(nameof(row), row, "Row index must be within limits of Grid");
+            return this.grid.GetRowSpan(row);
+        }
+    }
+
+    /// <summary>
+    /// Gets the given row of the grid<br/>
+    /// </summary>
+    /// <param name="row">Row index of the row to get</param>
+    /// <returns>The specified row of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
+    public virtual Span<T> this[Index row] => this[row.GetOffset(this.Height)];
+
+    /// <summary>
     /// Gets a slice of this Grid in a certain range
     /// </summary>
     /// <param name="xRange">X range of the slice</param>
@@ -283,51 +306,6 @@ public class Grid<T> : IEnumerable<T>
     public ReadOnlySpan2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
 
     /// <summary>
-    /// Gets the given row of the grid<br/>
-    /// <b>NOTE</b>: This allocates a new array on each call
-    /// </summary>
-    /// <param name="y">Row index of the row to get</param>
-    /// <returns>The specified row of the grid</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
-    public ReadOnlySpan<T> GetRow(int y)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-
-        return this.grid.GetRowSpan(y);
-    }
-
-    /// <inheritdoc cref="GetRow(int)"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ReadOnlySpan<T> GetRow(Index y) => GetRow(y.GetOffset(this.Height));
-
-    /// <summary>
-    /// Gets the given row of the grid without allocations
-    /// </summary>
-    /// <param name="y">Row index of the row to get</param>
-    /// <param name="row">Array in which to store the row data</param>
-    /// <returns>The specified row of the grid</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="y"/> is not within the limits of the Grid</exception>
-    /// <exception cref="ArgumentException">If <paramref name="row"/> is too small to fit the size of the row</exception>
-    public void GetRow(int y, in T[] row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length < this.Width) throw new ArgumentException("Pre allocated column array is too small", nameof(row));
-
-        if (this.rowBufferSize is not 0)
-        {
-            //For primitives only
-            Buffer.BlockCopy(this.grid, y * this.rowBufferSize, row, 0, this.rowBufferSize);
-            return;
-        }
-
-        this.grid.GetRowSpan(y).CopyTo(row);
-    }
-
-    /// <inheritdoc cref="GetRow(int, in T[])"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void GetRow(Index y, in T[] row) => GetRow(y.GetOffset(this.Height), row);
-
-    /// <summary>
     /// Gets the given column of the grid<br/>
     /// <b>NOTE</b>: This allocates a new array on each call
     /// </summary>
@@ -353,26 +331,6 @@ public class Grid<T> : IEnumerable<T>
     /// <returns>The specified column of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
-    public void GetColumn(int x, in T[] column)
-    {
-        if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
-        if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
-
-        this.grid.GetColumn(x).CopyTo(column);
-    }
-
-    /// <inheritdoc cref="GetColumn(int, in T[])"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void GetColumn(Index x, in T[] column) => GetColumn(x.GetOffset(this.Width), column);
-
-    /// <summary>
-    /// Gets the given column of the grid without allocations
-    /// </summary>
-    /// <param name="x">Column index of the column to get</param>
-    /// <param name="column">Array in which to store the column data</param>
-    /// <returns>The specified column of the grid</returns>
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
-    /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
     public void GetColumn(int x, ref Span<T> column)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
@@ -384,51 +342,6 @@ public class Grid<T> : IEnumerable<T>
     /// <inheritdoc cref="GetColumn(int, ref Span{T})"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void GetColumn(Index x, ref Span<T> column) => GetColumn(x.GetOffset(this.Width), ref column);
-
-    /// <summary>
-    /// Set the given row of the grid by the specified array
-    /// </summary>
-    /// <param name="y">Row index</param>
-    /// <param name="row">Row values</param>
-    /// <exception cref="ArgumentOutOfRangeException">If the row index is out of bounds of the grid</exception>
-    /// <exception cref="ArgumentException">If the row values array is larger than the width of the grid</exception>
-    public virtual void SetRow(int y, T[] row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
-
-        if (this.rowBufferSize is not 0)
-        {
-            //For primitives only
-            Buffer.BlockCopy(row, 0, this.grid, y * this.rowBufferSize, this.rowBufferSize);
-            return;
-        }
-
-        row.CopyTo(this.grid.GetRowSpan(y));
-    }
-
-    /// <inheritdoc cref="SetRow(int, T[])"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual void SetRow(Index y, T[] row) => SetRow(y.GetOffset(this.Height), row);
-
-    /// <summary>
-    /// Set the given row of the grid by the specified array
-    /// </summary>
-    /// <param name="y">Row index</param>
-    /// <param name="row">Row values</param>
-    /// <exception cref="ArgumentOutOfRangeException">If the row index is out of bounds of the grid</exception>
-    /// <exception cref="ArgumentException">If the row values array is larger than the width of the grid</exception>
-    public virtual void SetRow(int y, ReadOnlySpan<T> row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
-
-        row.CopyTo(this.grid.GetRowSpan(y));
-    }
-
-    /// <inheritdoc cref="SetRow(int, ReadOnlySpan{T})"/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual void SetRow(Index y, ReadOnlySpan<T> row) => SetRow(y.GetOffset(this.Height), row);
 
     /// <summary>
     /// Set the given row of the grid by the specified array

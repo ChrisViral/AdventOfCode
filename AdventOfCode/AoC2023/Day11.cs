@@ -3,6 +3,7 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using SpanLinq;
 
 namespace AdventOfCode.AoC2023;
 
@@ -29,22 +30,20 @@ public sealed class Day11 : GridSolver<bool>
                                               .Where(p => this.Data[p])
                                               .ToArray();
 
-        bool[] buffer = new bool[this.Data.Height];
+        Span<bool> buffer = stackalloc bool[this.Data.Height];
         HashSet<int> emptyColumns = [];
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, buffer);
-            if (buffer.Exists(b => b)) continue;
+            this.Data.GetColumn(x, ref buffer);
+            if (buffer.Any(b => b)) continue;
 
             emptyColumns.Add(x);
         }
 
-        buffer = new bool[this.Data.Width];
         HashSet<int> emptyRows = [];
         foreach (int y in ..this.Data.Height)
         {
-            this.Data.GetRow(y, buffer);
-            if (buffer.Exists(b => b)) continue;
+            if (this.Data[y].Any(b => b)) continue;
 
             emptyRows.Add(y);
         }

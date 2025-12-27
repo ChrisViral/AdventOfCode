@@ -112,12 +112,12 @@ public sealed class Day13 : Solver<Grid<bool>[]>
     private static bool GetReflectionRow(Grid<bool> grid, out int reflection, int ignore = -1)
     {
         ReadOnlySpan<bool> up   = Span<bool>.Empty;
-        ReadOnlySpan<bool> down = grid.GetRow(0);
+        ReadOnlySpan<bool> down = grid[0];
 
         for (int i = 1; i < grid.Height; i++)
         {
             AoCUtils.SwapSpans(ref up, ref down);
-            down = grid.GetRow(i);
+            down = grid[i];
             if (i == ignore) continue;
 
             if (!up.SequenceEqual(down) || !IsReflected(i)) continue;
@@ -133,8 +133,8 @@ public sealed class Day13 : Solver<Grid<bool>[]>
         {
             for (int a = i - 2, b = i + 1; a >= 0 && b < grid.Height; a--, b++)
             {
-                ReadOnlySpan<bool> u = grid.GetRow(a);
-                ReadOnlySpan<bool> d = grid.GetRow(b);
+                ReadOnlySpan<bool> u = grid[a];
+                ReadOnlySpan<bool> d = grid[b];
                 if (!u.SequenceEqual(d)) return false;
             }
 

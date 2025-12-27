@@ -43,6 +43,21 @@ public sealed class DelayedGrid<T> : Grid<T>
         set => this.backupGrid[tuple.y, tuple.x] = value;
     }
 
+    /// <summary>
+    /// Gets the given row of the grid<br/>
+    /// </summary>
+    /// <param name="row">Row index of the row to get</param>
+    /// <returns>The specified row of the grid</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
+    public override Span<T> this[int row]
+    {
+        get
+        {
+            if (row < 0 || row >= this.Height) throw new ArgumentOutOfRangeException(nameof(row), row, "Row index must be within limits of Grid");
+            return this.backupGrid.GetRowSpan(row);
+        }
+    }
+
     /// <inheritdoc />
     public DelayedGrid(int width, int height, Converter<T, string>? toString = null) : base(width, height, toString)
     {
@@ -71,31 +86,6 @@ public sealed class DelayedGrid<T> : Grid<T>
     public DelayedGrid(ReadOnlySpan2D<T> span) : base(span)
     {
         this.backupGrid = span.ToArray();
-    }
-
-    /// <inheritdoc />
-    public override void SetRow(int y, T[] row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
-
-        if (this.rowBufferSize is not 0)
-        {
-            //For primitives only
-            Buffer.BlockCopy(row, 0, this.backupGrid, y * this.rowBufferSize, this.rowBufferSize);
-            return;
-        }
-
-        row.CopyTo(this.backupGrid.GetRowSpan(y));
-    }
-
-    /// <inheritdoc />
-    public override void SetRow(int y, ReadOnlySpan<T> row)
-    {
-        if (y < 0 || y >= this.Height) throw new ArgumentOutOfRangeException(nameof(y), y, "Row index must be within limits of Grid");
-        if (row.Length != this.Width) throw new ArgumentException("Row is not the same width as grid", nameof(row));
-
-        row.CopyTo(this.backupGrid.GetRowSpan(y));
     }
 
     /// <inheritdoc />

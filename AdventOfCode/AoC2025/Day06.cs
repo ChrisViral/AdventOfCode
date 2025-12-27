@@ -27,13 +27,13 @@ public sealed partial class Day06 : Solver<Grid<string>>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        string[] column = new string[this.Data.Height];
+        Span<string> column = new string[this.Data.Height];
         int numCount = column.Length - 1;
         long total = 0L;
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, column);
-            ReadOnlySpan<string> numbers = column.AsSpan(0, numCount);
+            this.Data.GetColumn(x, ref column);
+            ReadOnlySpan<string> numbers = column[..numCount];
             total += column[^1][0] switch
             {
                 '+' => numbers.Sum(long.Parse),
@@ -47,9 +47,9 @@ public sealed partial class Day06 : Solver<Grid<string>>
         long[] numbersBuffer = new long[4];
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, column);
+            this.Data.GetColumn(x, ref column);
             Span<long> numbers = numbersBuffer.AsSpan(0, column[0].Length);
-            ParseVerticalNumbers(column.AsSpan(0, column.Length - 1), ref numbers);
+            ParseVerticalNumbers(column[..^1], ref numbers);
             total += column[^1][0] switch
             {
                 '+' => numbers.Sum(),
@@ -88,7 +88,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
         int width  = operators.Count;
         int height = rawInput.Length;
         Grid<string> grid = new(width, height, s => s);
-        grid.SetRow(^1, line);
+        line.CopyTo(grid[^1]);
 
         // Parse rest of grid
         foreach (int y in ..(height - 1))
@@ -100,7 +100,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 line[x] = input.Slice(operatorGroup.Index, operatorGroup.Length).ToString();
             }
 
-            grid.SetRow(y, line);
+            line.CopyTo(grid[y]);
         }
         return grid;
     }
