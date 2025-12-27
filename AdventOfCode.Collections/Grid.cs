@@ -530,7 +530,7 @@ public class Grid<T> : IGrid<T>
             }
         }
 
-        return new Vector2<int>(-1, -1);
+        throw new InvalidOperationException($"Value {value} could not be found");
     }
 
     /// <summary>

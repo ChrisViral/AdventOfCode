@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Utils.Extensions.Types;
-using FastEnumUtility;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
