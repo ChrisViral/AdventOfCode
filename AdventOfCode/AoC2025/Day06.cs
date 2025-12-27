@@ -32,7 +32,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
         long total = 0L;
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, ref column);
+            this.Data.GetColumn(x, column);
             ReadOnlySpan<string> numbers = column[..numCount];
             total += column[^1][0] switch
             {
@@ -47,7 +47,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
         long[] numbersBuffer = new long[4];
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, ref column);
+            this.Data.GetColumn(x, column);
             Span<long> numbers = numbersBuffer.AsSpan(0, column[0].Length);
             ParseVerticalNumbers(column[..^1], ref numbers);
             total += column[^1][0] switch

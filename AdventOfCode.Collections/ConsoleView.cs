@@ -100,7 +100,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="height">Height of the view</param>
     /// <param name="toChar">Element to char conversion function</param>
     /// <param name="fps">Display FPS</param>
-    private ConsoleView(int width, int height, Converter<T, char> toChar, int fps) : base(width, height)
+    private ConsoleView(int width, int height, [InstantHandle] Converter<T, char> toChar, int fps) : base(width, height)
     {
         //Setup
         this.viewBuffer = new char[height * (width + 1)];
@@ -117,7 +117,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="anchor">Anchor from which the position written in the view is offset by, defaults to MIDDLE</param>
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
-    public ConsoleView(int width, int height, Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, [InstantHandle] Converter<T, char> converter, Anchor anchor = Anchor.MIDDLE, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor switch
         {
@@ -141,7 +141,7 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// <param name="defaultValue">The default value to fill the view with</param>
     /// <param name="fps">Target FPS of the display, defaults to 30</param>
     /// ReSharper disable once MemberCanBeProtected.Global
-    public ConsoleView(int width, int height, Converter<T, char> converter, Vector2<int> anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
+    public ConsoleView(int width, int height, [InstantHandle] Converter<T, char> converter, Vector2<int> anchor, T defaultValue = default!, int fps = 30) : this(width, height, converter, fps)
     {
         this.anchor = anchor;
         FillDefault(converter, defaultValue);
@@ -232,13 +232,12 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// </summary>
     /// <param name="vector">Vector to move</param>
     /// <param name="direction">Direction to move in</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, Wrap wrap = Wrap.NONE)
     {
-        return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
+        return MoveWithinGrid(vector, direction.ToVector<int>(), wrap);
     }
 
     /// <summary>
@@ -246,13 +245,12 @@ public sealed class ConsoleView<T> : Grid<T> where T : notnull
     /// </summary>
     /// <param name="vector">Vector to move</param>
     /// <param name="travel">Vector to travel in</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns>The resulting Vector after the move</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, bool wrapX = false, bool wrapY = false)
+    public override Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, Wrap wrap = Wrap.NONE)
     {
-        Vector2<int>? result = base.MoveWithinGrid(vector - this.anchor, travel, wrapX, wrapY);
+        Vector2<int>? result = base.MoveWithinGrid(vector - this.anchor, travel, wrap);
         return result.HasValue ? result.Value + this.anchor : null;
     }
 

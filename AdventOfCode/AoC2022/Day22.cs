@@ -53,11 +53,11 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
         {
             foreach (int _ in ..distance)
             {
-                Vector2<int> moved = this.Data.board.MoveWithinGrid(position, direction, true, true)!.Value;
+                Vector2<int> moved = this.Data.board.MoveWithinGrid(position, direction, Wrap.BOTH)!.Value;
                 char element    = this.Data.board[moved];
                 for (; element is NONE; element = this.Data.board[moved])
                 {
-                    moved = this.Data.board.MoveWithinGrid(moved, direction, true, true)!.Value;
+                    moved = this.Data.board.MoveWithinGrid(moved, direction, Wrap.BOTH)!.Value;
                 }
 
                 if (element is WALL) break;

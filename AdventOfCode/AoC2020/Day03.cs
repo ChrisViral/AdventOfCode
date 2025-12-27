@@ -1,3 +1,4 @@
+using AdventOfCode.Collections;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
@@ -49,7 +50,7 @@ public sealed class Day03 : GridSolver<bool>
                 hits++;
             }
             //Move along slope
-            position = this.Data.MoveWithinGrid(position.Value, slope, true);
+            position = this.Data.MoveWithinGrid(position.Value, slope, Wrap.HORIZONTAL);
         }
         while (position is not null); //Keep moving until out of bounds at the bottom
 

@@ -79,12 +79,12 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
         Span<bool> rRight = stackalloc bool[grid.Height];
         Span<bool> rLeft  = stackalloc bool[grid.Height];
-        grid.GetColumn(0, ref right);
+        grid.GetColumn(0, right);
 
         for (int i = 1; i < grid.Width; i++)
         {
             AoCUtils.SwapSpans(ref left, ref right);
-            grid.GetColumn(i, ref right);
+            grid.GetColumn(i, right);
             if (i == ignore) continue;
 
             if (!left.SequenceEqual(right) || !IsReflected(i, ref rLeft, ref rRight)) continue;
@@ -100,8 +100,8 @@ public sealed class Day13 : Solver<Grid<bool>[]>
         {
             for (int a = i - 2, b = i + 1; a >= 0 && b < grid.Width; a--, b++)
             {
-                grid.GetColumn(a, ref l);
-                grid.GetColumn(b, ref r);
+                grid.GetColumn(a, l);
+                grid.GetColumn(b, r);
                 if (!l.SequenceEqual(r)) return false;
             }
 

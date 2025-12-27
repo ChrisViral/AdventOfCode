@@ -9,11 +9,24 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.StringBuilders;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enums;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Collections;
+
+/// <summary>
+/// Grid movement wrap flags
+/// </summary>
+[Flags]
+public enum Wrap
+{
+    NONE       = 0b00,
+    VERTICAL   = 0b01,
+    HORIZONTAL = 0b10,
+    BOTH       = 0b11
+}
 
 /// <summary>
 /// Generic grid structure
@@ -186,7 +199,7 @@ public class Grid<T> : IGrid<T>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> is the than or equal to zero</exception>
     /// <exception cref="ArgumentException">If the input lines is not of the same size as the amount of rows in the grid</exception>
     /// <exception cref="InvalidOperationException">If a certain line does not produce a row of the same length as the grid</exception>
-    public Grid(int width, int height, string[] input, Converter<string, T[]> converter, Converter<T, string>? toString = null)
+    public Grid(int width, int height, string[] input, [InstantHandle] Converter<string, T[]> converter, Converter<T, string>? toString = null)
         : this(width, height, toString)
     {
         Populate(input, converter);
@@ -346,7 +359,7 @@ public class Grid<T> : IGrid<T>
     /// <returns>The specified column of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="x"/> is not within the limits of the Grid</exception>
     /// <exception cref="ArgumentException">If <paramref name="column"/> is too small to fit the size of the column</exception>
-    public void GetColumn(int x, ref Span<T> column)
+    public void GetColumn(int x, Span<T> column)
     {
         if (x < 0 || x >= this.Width) throw new ArgumentOutOfRangeException(nameof(x), x, "Column index must be within limits of Grid");
         if (column.Length < this.Height) throw new ArgumentException("Pre allocated column array is too small", nameof(column));
@@ -354,9 +367,9 @@ public class Grid<T> : IGrid<T>
         this.grid.GetColumn(x).CopyTo(column);
     }
 
-    /// <inheritdoc cref="GetColumn(int, ref Span{T})"/>
+    /// <inheritdoc cref="GetColumn(int, Span{T})"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void GetColumn(Index x, ref Span<T> column) => GetColumn(x.GetOffset(this.Width), ref column);
+    public void GetColumn(Index x, Span<T> column) => GetColumn(x.GetOffset(this.Width), column);
 
     /// <summary>
     /// Set the given row of the grid by the specified array
@@ -407,13 +420,12 @@ public class Grid<T> : IGrid<T>
     /// </summary>
     /// <param name="vector">Vector to move</param>
     /// <param name="direction">Direction to move in</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns>The resulting Vector after the move, or null if the movement was invalid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Direction direction, Wrap wrap = Wrap.NONE)
     {
-        return MoveWithinGrid(vector, direction.ToVector<int>(), wrapX, wrapY);
+        return MoveWithinGrid(vector, direction.ToVector<int>(), wrap);
     }
 
     /// <summary>
@@ -421,15 +433,14 @@ public class Grid<T> : IGrid<T>
     /// </summary>
     /// <param name="vector">Vector to move</param>
     /// <param name="travel">Vector to travel in</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns>The resulting Vector after the move</returns>
-    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, bool wrapX = false, bool wrapY = false)
+    public virtual Vector2<int>? MoveWithinGrid(Vector2<int> vector, Vector2<int> travel, Wrap wrap = Wrap.NONE)
     {
         (int x, int y) result = vector + travel;
 
         //Wrap x axis
-        if (wrapX)
+        if (wrap.HasFlags(Wrap.HORIZONTAL))
         {
             if (result.x >= this.Width)
             {
@@ -443,7 +454,7 @@ public class Grid<T> : IGrid<T>
         else if (!result.x.IsInRange(0, this.Width)) return null;
 
         //Wrap y axis
-        if (wrapY)
+        if (wrap.HasFlags(Wrap.VERTICAL))
         {
             if (result.y >= this.Height)
             {
@@ -466,12 +477,11 @@ public class Grid<T> : IGrid<T>
     /// <param name="vector">Vector to move</param>
     /// <param name="direction">Direction to move in</param>
     /// <param name="moved">The resulting moved vector, if succeeded</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the movement is invalid</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the movement is invalid</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns><see langword="true"/> if the move succeeded, else <see langword="false"/></returns>
-    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Direction direction, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
+    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Direction direction, out Vector2<int> moved, Wrap wrap = Wrap.NONE)
     {
-        Vector2<int>? move = MoveWithinGrid(vector, direction, wrapX, wrapY);
+        Vector2<int>? move = MoveWithinGrid(vector, direction, wrap);
         if (move.HasValue)
         {
             moved = move.Value;
@@ -488,12 +498,11 @@ public class Grid<T> : IGrid<T>
     /// <param name="vector">Vector to move</param>
     /// <param name="travel">Vector to travel in</param>
     /// <param name="moved">The resulting moved vector, if succeeded</param>
-    /// <param name="wrapX">If the vector should wrap around horizontally in the grid, else the limits act like walls</param>
-    /// <param name="wrapY">If the vector should wrap around vertically in the grid, else the limits act like walls</param>
+    /// <param name="wrap">If the vector should wrap around in some directions when going off the grid</param>
     /// <returns><see langword="true"/> if the move succeeded, else <see langword="false"/></returns>
-    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Vector2<int> travel, out Vector2<int> moved, bool wrapX = false, bool wrapY = false)
+    public virtual bool TryMoveWithinGrid(Vector2<int> vector, Vector2<int> travel, out Vector2<int> moved, Wrap wrap = Wrap.NONE)
     {
-        Vector2<int>? move = MoveWithinGrid(vector, travel, wrapX, wrapY);
+        Vector2<int>? move = MoveWithinGrid(vector, travel, wrap);
         if (move.HasValue)
         {
             moved = move.Value;

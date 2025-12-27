@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Maths.Vectors;
+﻿using AdventOfCode.Collections;
+using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using SpanLinq;
@@ -47,7 +48,7 @@ public sealed class Day25 : GridSolver<Day25.Element>
                     Vector2<int> position = new(x, y);
                     if (this.Grid[position] is not Element.EAST) continue;
 
-                    this.Grid.TryMoveWithinGrid(position, Direction.EAST, out Vector2<int> movedPos, true, true);
+                    this.Grid.TryMoveWithinGrid(position, Direction.EAST, out Vector2<int> movedPos, Wrap.BOTH);
                     if (this.Grid[movedPos] is Element.EMPTY)
                     {
                         moves.Add((position, movedPos));
@@ -73,7 +74,7 @@ public sealed class Day25 : GridSolver<Day25.Element>
                     Vector2<int> position = new(x, y);
                     if (this.Grid[position] is not Element.SOUTH) continue;
 
-                    this.Grid.TryMoveWithinGrid(position, Direction.SOUTH, out Vector2<int> movedPos, true, true);
+                    this.Grid.TryMoveWithinGrid(position, Direction.SOUTH, out Vector2<int> movedPos, Wrap.BOTH);
                     if (this.Grid[movedPos] is Element.EMPTY)
                     {
                         moves.Add((position, movedPos));

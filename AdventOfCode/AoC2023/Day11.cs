@@ -33,7 +33,7 @@ public sealed class Day11 : GridSolver<bool>
         HashSet<int> emptyColumns = [];
         foreach (int x in ..this.Data.Width)
         {
-            this.Data.GetColumn(x, ref buffer);
+            this.Data.GetColumn(x, buffer);
             if (buffer.Any(b => b)) continue;
 
             emptyColumns.Add(x);

@@ -99,7 +99,7 @@ public sealed class Day04 : Solver<Day04.BingoData>
     {
         (int x, int y) = position;
         Span<int> column = stackalloc int[BingoData.SIZE];
-        board.GetColumn(x, ref column);
+        board.GetColumn(x, column);
         return column.All(n => n is MARKED) || board[y].All(n => n is MARKED);
     }
 
