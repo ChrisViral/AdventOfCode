@@ -20,7 +20,7 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">Type of element within the grid</typeparam>
 [PublicAPI, DebuggerDisplay("Width = {Width}, Height = {Height}"), DebuggerTypeProxy(typeof(GridDebugView<>))]
-public class Grid<T> : IEnumerable<T>
+public class Grid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
 
@@ -264,6 +264,21 @@ public class Grid<T> : IEnumerable<T>
         else
         {
             Array.Copy(other.grid, this.grid, this.Size);
+        }
+    }
+
+    /// <inheritdoc />
+    public void CopyFrom(IGrid<T> other)
+    {
+        if (other is Grid<T> otherGrid)
+        {
+            CopyFrom(otherGrid);
+            return;
+        }
+
+        foreach ((Vector2<int> position, T element) in other.EnumeratePositions())
+        {
+            this[position] = element;
         }
     }
 
@@ -542,9 +557,17 @@ public class Grid<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual void Clear() => Array.Clear(this.grid);
 
+    /// <inheritdoc />
+    public IEnumerable<(Vector2<int> position, T element)> EnumeratePositions()
+    {
+        return this.Dimensions
+                   .AsEnumerable()
+                   .Select(position => (position, this[position]));
+    }
+
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Enumerator GetEnumerator() => new(this);
+    public Span2D<T>.Enumerator GetEnumerator() => this.grid.AsSpan2D().GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -568,26 +591,5 @@ public class Grid<T> : IEnumerable<T>
         }
 
         return this.toStringBuilder.ToStringAndClear();
-    }
-
-    /// <summary>
-    /// Rapid ref enumerator using 2D spans
-    /// </summary>
-    /// <param name="grid">Grid to create the enumerator from</param>
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct Enumerator(Grid<T> grid)
-    {
-        private Span2D<T>.Enumerator enumerator = grid.grid.AsSpan2D().GetEnumerator();
-
-        /// <inheritdoc cref="CommunityToolkit.HighPerformance.Span2D{T}.Enumerator.Current"/>
-        public readonly ref T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref this.enumerator.Current;
-        }
-
-        /// <inheritdoc cref="CommunityToolkit.HighPerformance.Span2D{T}.Enumerator.MoveNext()"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext() => this.enumerator.MoveNext();
     }
 }
