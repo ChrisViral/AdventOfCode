@@ -90,6 +90,17 @@ public struct BitVector32(uint data) : IBitVector<uint, BitVector32>
     public void InvertBit(Index index) => this[index] ^= true;
 
     /// <inheritdoc />
+    public void CopyTo(Span<bool> span)
+    {
+        if (span.Length < Size) throw new ArgumentException("The span to copy to is not large enough to accept the BitVector", nameof(span));
+
+        for (int i = 0; i < Size; i++)
+        {
+            span[i] = this[^(i + 1)];
+        }
+    }
+
+    /// <inheritdoc />
     public static BitVector32 FromBitArray(ReadOnlySpan<bool> bits)
     {
         if (bits.Length > Size) throw new ArgumentException($"{nameof(BitVector32)} only supports up to {Size} bits", nameof(bits));

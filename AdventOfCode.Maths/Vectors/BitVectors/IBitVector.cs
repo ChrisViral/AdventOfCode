@@ -34,6 +34,12 @@ public interface IBitVector
 
     /// <inheritdoc cref="InvertBit(int)"/>
     void InvertBit(Index index);
+
+    /// <summary>
+    /// Copies the internal data to a boolean span
+    /// </summary>
+    /// <param name="span">Span to copy to</param>
+    void CopyTo(Span<bool> span);
 }
 
 /// <summary>
