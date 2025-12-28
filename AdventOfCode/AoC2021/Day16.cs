@@ -46,7 +46,7 @@ public sealed class Day16 : Solver<Day16.Packet>
         /// <summary>
         /// Sum of the version of this packet and it's sub-packets
         /// </summary>
-        public int VersionSum => Version + (this.SubPackets?.Sum(p => p.VersionSum) ?? 0);
+        public int VersionSum => this.Version + (this.SubPackets?.Sum(p => p.VersionSum) ?? 0);
 
         /// <summary>
         /// Value of this packet
@@ -57,7 +57,7 @@ public sealed class Day16 : Solver<Day16.Packet>
             PacketType.MUL => this.SubPackets!.Aggregate(1L, (t, p) => t * p.Value),
             PacketType.MIN => this.SubPackets!.Min(p => p.Value),
             PacketType.MAX => this.SubPackets!.Max(p => p.Value),
-            PacketType.VAL => Size,
+            PacketType.VAL => this.Size,
             PacketType.GTG => this.SubPackets![0].Value >  this.SubPackets[1].Value ? 1L : 0L,
             PacketType.LST => this.SubPackets![0].Value <  this.SubPackets[1].Value ? 1L : 0L,
             PacketType.EQU => this.SubPackets![0].Value == this.SubPackets[1].Value ? 1L : 0L,

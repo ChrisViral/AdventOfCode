@@ -16,7 +16,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
     {
         public bool IsInSourceRange(long value) => value >= this.Source && value < this.Source + this.Length;
 
-        public long MapValue(long value) => (value - Source) + Destination;
+        public long MapValue(long value) => (value - this.Source) + this.Destination;
     }
 
     public readonly partial struct Map

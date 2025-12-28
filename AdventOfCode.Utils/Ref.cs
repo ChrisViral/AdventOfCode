@@ -16,7 +16,7 @@ public sealed class Ref<T>(T value) where T : struct
     /// <summary>
     /// Wrapped value
     /// </summary>
-    public ref T Value => ref value;
+    public ref T Value => ref this.value;
 
     /// <summary>
     /// By-Ref struct wrapper

@@ -56,7 +56,7 @@ public static class Vector4Extensions
                     if (++this.z == this.maxZ)
                     {
                         this.z = T.Zero;
-                        w++;
+                        this.w++;
                     }
                 }
             }
@@ -118,7 +118,7 @@ public static class Vector4Extensions
                     if (++this.z == this.maxZ)
                     {
                         this.z = T.Zero;
-                        w++;
+                        this.w++;
                     }
                 }
             }

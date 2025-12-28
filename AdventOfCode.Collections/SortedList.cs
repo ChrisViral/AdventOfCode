@@ -112,7 +112,7 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// <param name="value">Value to find</param>
     /// <returns>True if the value is in the list, false otherwise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Contains(T value) => list.ContainsKey(value);
+    public bool Contains(T value) => this.list.ContainsKey(value);
 
     /// <inheritdoc cref="ICollection{T}.CopyTo"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

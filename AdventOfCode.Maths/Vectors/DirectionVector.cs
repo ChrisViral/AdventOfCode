@@ -20,22 +20,22 @@ public readonly record struct DirectionVector<T>((Direction direction, T length)
         switch (T.Sign(vector.X))
         {
             case < 0:
-                X = (Direction.LEFT, T.Abs(vector.X));
+                this.X = (Direction.LEFT, T.Abs(vector.X));
                 break;
 
             case > 0:
-                X = (Direction.RIGHT, T.Abs(vector.X));
+                this.X = (Direction.RIGHT, T.Abs(vector.X));
                 break;
         }
 
         switch (T.Sign(vector.Y))
         {
             case < 0:
-                Y = (Direction.UP, T.Abs(vector.Y));
+                this.Y = (Direction.UP, T.Abs(vector.Y));
                 break;
 
             case > 0:
-                Y = (Direction.DOWN, T.Abs(vector.Y));
+                this.Y = (Direction.DOWN, T.Abs(vector.Y));
                 break;
         }
     }

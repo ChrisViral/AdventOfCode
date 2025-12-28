@@ -21,14 +21,14 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         /// <summary>
         /// Range length
         /// </summary>
-        public long Length => Math.Abs(To - From);
+        public long Length => Math.Abs(this.To - this.From);
 
         /// <summary>
         /// Checks if two ranges overlap
         /// </summary>
         /// <param name="other">Other range to check</param>
         /// <returns><see langword="true"/>if both ranges overlap, <see langword="false"/> otherwise</returns>
-        public bool Overlaps(Range other) => From < other.To || To > other.From;
+        public bool Overlaps(Range other) => this.From < other.To || this.To > other.From;
     }
 
     /// <summary>
