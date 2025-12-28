@@ -373,6 +373,7 @@ public sealed class RingBuffer<T> : IList<T>
     }
 
     /// <inheritdoc />
+    /// ReSharper disable once CognitiveComplexity
     public void Insert(int index, T item)
     {
         // Check bounds
@@ -390,26 +391,42 @@ public sealed class RingBuffer<T> : IList<T>
             return;
         }
 
-        // Get normalized index and last element
-        index = NormalizeIndexIn(index);
-        int currentIndex = this.IsFull ? PreviousIndex(this.end) : this.end;
-        ref T current = ref this.buffer[currentIndex];
-        for ( ; currentIndex != index; currentIndex = PreviousIndex(currentIndex))
+        int normalizedIndex = NormalizeIndexIn(index);
+        if (this.IsSingleSegment)
         {
-            // Nudge elements back
-            ref T previous = ref currentIndex is not 0 ? ref Unsafe.Subtract(ref current, 1) : ref this.buffer[^1];
-            current = previous;
-            current = ref previous;
+            if (this.end is 0)
+            {
+                this.buffer[0] = this.buffer[^1];
+                ShiftBuffer(normalizedIndex, this.Count - index - 1);
+            }
+            else
+            {
+                ShiftBuffer(normalizedIndex, this.Count - index);
+            }
+        }
+        else if (normalizedIndex > this.start)
+        {
+            ShiftBuffer(0, this.SecondSegmentLength);
+            this.buffer[0] = this.buffer[^1];
+            ShiftBuffer(normalizedIndex, this.Capacity - normalizedIndex - 1);
+        }
+        else
+        {
+            ShiftBuffer(normalizedIndex, this.Count - index);
         }
 
         // Set item
-        current = item;
+        this.buffer[normalizedIndex] = item;
         this.version++;
 
-        if (!this.IsFull)
+        // Else only move end index and increment count
+        this.end = NextIndex(this.end);
+        if (this.IsFull)
         {
-            // Else only move end index and increment count
-            this.end = NextIndex(this.end);
+            this.start = this.end;
+        }
+        else
+        {
             this.Count++;
         }
     }
@@ -538,6 +555,9 @@ public sealed class RingBuffer<T> : IList<T>
     /// <returns>The index in normal space</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private int NormalizeIndexOut(int index) => (index - this.start).Mod(this.Capacity);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void ShiftBuffer(int index, int length, int offset = 1) => Array.Copy(this.buffer, index, this.buffer, index + offset, length);
 
     /// <inheritdoc />
     bool ICollection<T>.IsReadOnly => false;
