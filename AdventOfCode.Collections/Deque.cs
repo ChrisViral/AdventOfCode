@@ -249,10 +249,36 @@ public sealed class Deque<T> : IList<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CopyTo(Span<T> span) => this.buffer.CopyTo(span);
 
+    /// <summary>
+    /// Converts this Deque to an array
+    /// </summary>
+    /// <returns>The created array</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public T[] ToArray() => this.buffer.ToArray();
+
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => this.buffer.Clear();
 
+    /// <summary>
+    /// Ensures the Deque has at least the given capacity
+    /// </summary>
+    public void EnsureCapacity(int capacity)
+    {
+        if (capacity < this.Capacity) return;
+
+        int newCapacity = capacity * CAPACITY_MULTIPLIER;
+        while (newCapacity < capacity)
+        {
+            newCapacity *= CAPACITY_MULTIPLIER;
+        }
+
+        this.Capacity = newCapacity;
+    }
+
+    /// <summary>
+    /// Ensures enough room exists in the deque to add a new item
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void EnsureCapacity()
     {
@@ -261,6 +287,12 @@ public sealed class Deque<T> : IList<T>
             this.buffer.Capacity *= CAPACITY_MULTIPLIER;
         }
     }
+
+    /// <summary>
+    /// Trims the extra capacity of this Deque to fit it's current contents
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void TrimExcess() => this.Capacity = this.Count;
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

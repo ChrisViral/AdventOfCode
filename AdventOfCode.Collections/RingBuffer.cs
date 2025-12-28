@@ -514,6 +514,19 @@ public sealed class RingBuffer<T> : IList<T>
         }
     }
 
+    /// <summary>
+    /// Converts this RingBuffer to an array
+    /// </summary>
+    /// <returns>The created array</returns>
+    public T[] ToArray()
+    {
+        if (this.Count is 0) return [];
+
+        T[] array = new T[this.Count];
+        CopyTo(array);
+        return array;
+    }
+
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
@@ -605,7 +618,7 @@ public sealed class RingBuffer<T> : IList<T>
         private bool hasReachedEnd = ringBuffer.IsEmpty;
 
         /// <inheritdoc />
-        public T Current { get; private set; }
+        public T Current { get; private set; } = default!;
 
         /// <inheritdoc />
         public bool MoveNext()

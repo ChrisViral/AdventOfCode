@@ -82,11 +82,6 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     public ReadOnlyCollection<T> Heap { get; }
 
     /// <summary>
-    /// If the collection is read only. Since we are using List{T}, it never is.
-    /// </summary>
-    bool ICollection<T>.IsReadOnly => false;
-
-    /// <summary>
     /// Index of the last member
     /// </summary>
     private int Last
@@ -266,9 +261,6 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
         this.heap.Add(value);
         HeapUp(this.Last);
     }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void ICollection<T>.Add(T value) => Enqueue(value);
 
     /// <summary>
     /// Removes and returns the first element of the queue.<br/>
@@ -496,31 +488,8 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void TrimExcess() => this.heap.TrimExcess();
 
-    /// <summary>
-    /// Returns an IEnumerator of <typeparamref name="T"/> from this PriorityQueue<br/>
-    /// <b>WARNING</b>: Obtaining the first element of the iterator is <b>O(n)</b>. Every subsequent elements is <b>O(log n)</b>
-    /// </summary>
-    /// <returns>Iterator going through this sequence</returns>
-    public IEnumerator<T> GetEnumerator()
-    {
-        //If the queue is empty, we have nothing to return
-        if (this.Count is 0) yield break;
-
-        //Clone the queue and pop everything
-        PriorityQueue<T> s = new(this);
-        while (!s.IsEmpty)
-        {
-            yield return s.Dequeue();
-        }
-    }
-
-    /// <summary>
-    /// Returns an IEnumerator from this PriorityQueue<br/>
-    /// <b>WARNING</b>: Obtaining the first element of the iterator is <b>O(n)</b>. Every subsequent elements is <b>O(log n)</b>
-    /// </summary>
-    /// <returns>Iterator going through this sequence</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    /// <inheritdoc />
+    public IEnumerator<T> GetEnumerator() => this.heap.Order(this.comparer).GetEnumerator();
 
     /// <summary>
     /// Returns the index of the parent node
@@ -545,4 +514,15 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     /// <returns>Index of the right child node</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int RightChild(int i) => (2 * i) + 2;
+
+    /// <inheritdoc />
+    bool ICollection<T>.IsReadOnly => false;
+
+    /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    void ICollection<T>.Add(T value) => Enqueue(value);
+
+    /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
