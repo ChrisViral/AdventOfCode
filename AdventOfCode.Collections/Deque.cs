@@ -37,6 +37,15 @@ public sealed class Deque<T> : IList<T>
         set => this.buffer.Capacity = value;
     }
 
+    /// <summary>
+    /// If this Deque is empty
+    /// </summary>
+    public bool IsEmpty
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.buffer.IsEmpty;
+    }
+
     /// <inheritdoc />
     public T this[int index]
     {

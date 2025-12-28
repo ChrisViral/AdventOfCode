@@ -461,19 +461,25 @@ public sealed class RingBuffer<T> : IList<T>
         }
 
         // Get normalized index and element to remove
-        index = NormalizeIndexIn(index);
-        ref T current = ref this.buffer[index];
-        for (index = NextIndex(index); index != this.end; index = NextIndex(index))
+        int normalizedIndex = NormalizeIndexIn(index);
+        if (this.IsSingleSegment)
         {
-            // Push elements forward
-            ref T next = ref index is not 0 ? ref Unsafe.Add(ref current, 1) : ref this.buffer[0];
-            current = next;
-            current = ref next;
+            ShiftBufferBack(normalizedIndex, this.IsFull ? this.Count - index - 1 : this.Count - index);
+        }
+        else if (normalizedIndex < this.start)
+        {
+            ShiftBufferBack(normalizedIndex, this.IsFull ? this.SecondSegmentLength - normalizedIndex - 1 : this.SecondSegmentLength - normalizedIndex);
+        }
+        else
+        {
+            ShiftBufferBack(normalizedIndex, this.Capacity - normalizedIndex - 1);
+            this.buffer[^1] = this.buffer[0];
+            ShiftBufferBack(0, this.SecondSegmentLength - 1);
         }
 
         // Clear final element and decrement count
-        current = default!;
         this.end = PreviousIndex(this.end);
+        this.buffer[this.end] = default!;
         this.Count--;
         this.version++;
     }
@@ -556,8 +562,21 @@ public sealed class RingBuffer<T> : IList<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private int NormalizeIndexOut(int index) => (index - this.start).Mod(this.Capacity);
 
+    /// <summary>
+    /// Shifts the buffer forwards one step
+    /// </summary>
+    /// <param name="index">Index to shift the buffer from</param>
+    /// <param name="length">Size of the buffer to shift</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void ShiftBuffer(int index, int length, int offset = 1) => Array.Copy(this.buffer, index, this.buffer, index + offset, length);
+    private void ShiftBuffer(int index, int length) => Array.Copy(this.buffer, index, this.buffer, index + 1, length);
+
+    /// <summary>
+    /// Shifts the buffer backwards one step
+    /// </summary>
+    /// <param name="index">Index to shift the buffer from</param>
+    /// <param name="length">Size of the buffer to shift</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void ShiftBufferBack(int index, int length) => Array.Copy(this.buffer, index + 1, this.buffer, index, length);
 
     /// <inheritdoc />
     bool ICollection<T>.IsReadOnly => false;
