@@ -13,6 +13,7 @@ using AdventOfCode.Utils.Extensions.Strings;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Collections;
 
@@ -567,11 +568,16 @@ public class Grid<T> : IGrid<T>
     public virtual void Clear() => Array.Clear(this.grid);
 
     /// <inheritdoc />
-    public IEnumerable<(Vector2<int> position, T element)> EnumeratePositions()
+    public IEnumerable<GridPosition<T>> EnumeratePositions()
     {
-        return this.Dimensions
-                   .AsEnumerable()
-                   .Select(position => (position, this[position]));
+        for (int y = 0; y < this.Height; y++)
+        {
+            for (int x = 0; x < this.Width; x++)
+            {
+                Vector2<int> position = new(x, y);
+                yield return new GridPosition<T>(position, this[position]);
+            }
+        }
     }
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>

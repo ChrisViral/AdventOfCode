@@ -156,9 +156,9 @@ public class SparseGrid<T> : IGrid<T>
     }
 
     /// <inheritdoc />
-    public IEnumerable<(Vector2<int> position, T element)> EnumeratePositions()
+    public IEnumerable<GridPosition<T>> EnumeratePositions()
     {
-        return this.grid.Select(p => (p.Key, p.Value));
+        return this.grid.Select(p => new GridPosition<T>(p.Key, p.Value));
     }
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>

@@ -3,6 +3,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -58,7 +59,7 @@ public sealed class Day08 : GridSolver<int>
         AoCUtils.LogPart1(visibleCount);
 
         int scenicScore = 0;
-        foreach (Vector2<int> position in Vector2<int>.MakeEnumerable(this.Data.Width - 1, this.Data.Height - 1)
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Data.Width - 1, this.Data.Height - 1)
                                                       .Where(p => p.X is not 0 && p.Y is not 0))
         {
             int currentScore = 1;

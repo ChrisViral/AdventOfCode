@@ -7,6 +7,7 @@ using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2017;
 
@@ -45,7 +46,7 @@ public sealed class Day14 : Solver<string>
         AoCUtils.LogPart1(used);
 
         int groups = 0;
-        HashSet<Vector2<int>> positions = new(Vector2<int>.MakeEnumerable(SIZE, SIZE));
+        HashSet<Vector2<int>> positions = Vector2<int>.EnumerateOver(SIZE, SIZE).ToHashSet();
         while (!positions.IsEmpty)
         {
             if (RemoveGroup(positions, disk))

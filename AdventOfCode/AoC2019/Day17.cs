@@ -7,6 +7,7 @@ using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.AoC2019;
 
@@ -63,7 +64,7 @@ public sealed partial class Day17 : IntcodeSolver
 
         // Find intersections
         Vector2<int> search = grid.Dimensions - (2, 2);
-        int alignment = search.AsEnumerable()
+        int alignment = search.Enumerate()
                               .Select(p => p + Vector2<int>.One)
                               .Where(p => p.AsAdjacentEnumerable(withSelf: true).All(adj => grid[adj] is Element.SCAFFOLD))
                               .Sum(p => p.X * p.Y);

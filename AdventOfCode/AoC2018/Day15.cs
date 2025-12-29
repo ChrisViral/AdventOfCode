@@ -9,6 +9,7 @@ using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Enums;
+using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 

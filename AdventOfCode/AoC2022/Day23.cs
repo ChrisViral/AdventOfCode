@@ -6,6 +6,7 @@ using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -173,7 +174,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
     }
 
     /// <inheritdoc />
-    protected override Elf[] Convert(string[] lines) => Vector2<int>.MakeEnumerable(lines[0].Length, lines.Length)
+    protected override Elf[] Convert(string[] lines) => Vector2<int>.EnumerateOver(lines[0].Length, lines.Length)
                                                                     .Where(p => lines[p.Y][p.X] is '#')
                                                                     .Select(p => new Elf(p))
                                                                     .ToArray();

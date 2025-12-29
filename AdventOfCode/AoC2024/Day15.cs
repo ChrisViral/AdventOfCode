@@ -69,7 +69,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         }
 
         // Calculate final coordinates
-        int coordinates = warehouse.Dimensions.AsEnumerable()
+        int coordinates = warehouse.Dimensions.Enumerate()
                                    .Where(p => warehouse[p] is Element.BOX)
                                    .Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart1(coordinates);
@@ -125,7 +125,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
             //bigWarehouse[position] = Element.EMPTY;
         }
         // Calculate final coordinates
-        coordinates = bigWarehouse.Dimensions.AsEnumerable()
+        coordinates = bigWarehouse.Dimensions.Enumerate()
                                   .Where(p => bigWarehouse[p] is Element.BOX_LEFT)
                                   .Sum(p => (100 * p.Y) + p.X);
         AoCUtils.LogPart2(coordinates);

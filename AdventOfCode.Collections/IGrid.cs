@@ -5,6 +5,15 @@ using JetBrains.Annotations;
 namespace AdventOfCode.Collections;
 
 /// <summary>
+/// Grid position struct
+/// </summary>
+/// <param name="Position">Vector position in grid</param>
+/// <param name="Element">Element value at position</param>
+/// <typeparam name="T">Element type</typeparam>
+[PublicAPI]
+public readonly record struct GridPosition<T>(Vector2<int> Position, T Element);
+
+/// <summary>
 /// Grid base interface
 /// </summary>
 /// <typeparam name="T">Grid element type</typeparam>
@@ -83,5 +92,5 @@ public interface IGrid<T> : IEnumerable<T>
     /// Enumerates the contents of the grid as a position/element pair
     /// </summary>
     /// <returns>An enumerable which has all the positions and elements in the grid</returns>
-    IEnumerable<(Vector2<int> position, T element)> EnumeratePositions();
+    IEnumerable<GridPosition<T>> EnumeratePositions();
 }

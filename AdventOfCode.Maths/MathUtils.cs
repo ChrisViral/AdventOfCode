@@ -4,6 +4,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Maths;
 

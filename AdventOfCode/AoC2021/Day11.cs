@@ -4,6 +4,7 @@ using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2021;
 
@@ -57,7 +58,7 @@ public sealed class Day11 : GridSolver<byte>
     {
         // Check all octopi that will flash
         int flashes = 0;
-        Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
+        Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height)
                     .Where(WillFlash)
                     .ForEach(ToFlash.Enqueue);
         Flashed.AddRange(ToFlash);

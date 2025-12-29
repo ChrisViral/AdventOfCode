@@ -2,6 +2,7 @@
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -49,7 +50,7 @@ public sealed class Day12 : GridSolver<int>
         AoCUtils.LogPart1(path);
 
         int shortestPath = path;
-        foreach (Vector2<int> position in Vector2<int>.MakeEnumerable(this.Grid.Width, this.Grid.Height)
+        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height)
                                                       .Where(p => p != start && this.Grid[p] is 0))
         {
             path = SearchUtils.GetPathLength(position, end,

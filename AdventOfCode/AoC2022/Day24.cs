@@ -6,6 +6,7 @@ using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -144,7 +145,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
         Vector2<int> start = new(0, -1);
         Vector2<int> end   = new(lines[^1].IndexOf('.') - 1, lines.Length - 2);
         // Create blizzards
-        Blizzard[] blizzards = Vector2<int>.MakeEnumerable(lines[0].Length, lines.Length)
+        Blizzard[] blizzards = Vector2<int>.EnumerateOver(lines[0].Length, lines.Length)
                                            .Select(p => (pos: p - Vector2<int>.One, dir: lines[p.Y][p.X]))
                                            .Where(b  => b.dir is '<' or '>' or '^' or 'v')
                                            .Select(b => new Blizzard(b.pos, b.dir))

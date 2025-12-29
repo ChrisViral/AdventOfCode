@@ -4,6 +4,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enumerables;
+using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 
@@ -25,12 +26,12 @@ public sealed partial class Day03 : RegexSolver<Day03.FabricArea>
 
         public void SetClaim(Counter<Vector2<int>> claims)
         {
-            this.Dimensions.AsEnumerable().ForEach(p => claims[p + this.Offset]++);
+            this.Dimensions.Enumerate().ForEach(p => claims[p + this.Offset]++);
         }
 
         public bool Overlaps(Counter<Vector2<int>> claims)
         {
-            return this.Dimensions.AsEnumerable().Any(p => claims[p + this.Offset] > 1);
+            return this.Dimensions.Enumerate().Any(p => claims[p + this.Offset] > 1);
         }
     }
 
