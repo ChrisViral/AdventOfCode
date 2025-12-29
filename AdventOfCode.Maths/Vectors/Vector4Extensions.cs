@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Maths.Vectors;
 
@@ -14,39 +14,51 @@ public static class Vector4Extensions
     /// <summary>
     /// Two dimensional vector space enumerator
     /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    /// <param name="maxZ">Max space Z value (exclusive)</param>
-    /// <param name="maxW">Max space W value (exclusive)</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct SpaceEnumerator<T>(T maxX, T maxY, T maxZ, T maxW) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    public ref struct SpaceEnumerator<T>: IValueEnumerator<Vector4<T>>
+        where T: unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-        private readonly T maxZ = maxZ;
-        private readonly T maxW = maxW;
+        private readonly T maxX;
+        private readonly T maxY;
+        private readonly T maxZ;
+        private readonly T maxW;
 
-        private T x = -T.One;
+        private T x = T.Zero;
         private T y = T.Zero;
         private T z = T.Zero;
         private T w = T.Zero;
 
         /// <summary>
-        /// Current enumerator value
+        /// Two dimensional vector space enumerator
         /// </summary>
-        public readonly Vector4<T> Current
+        /// <param name="maxX">Max space X value (exclusive)</param>
+        /// <param name="maxY">Max space Y value (exclusive)</param>
+        /// <param name="maxZ">Max space Z value (exclusive)</param>
+        /// <param name="maxW">Max space W value (exclusive)</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, <paramref name="maxZ"/>, or <paramref name="maxW"/> are smaller or equal to zero</exception>
+        public SpaceEnumerator(T maxX, T maxY, T maxZ, T maxW)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y, this.z, this.w);
+            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
+            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
+            if (maxW <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxW), maxW, "W boundary value must be greater than zero");
+
+            this.maxX = maxX;
+            this.maxY = maxY;
+            this.maxZ = maxZ;
+            this.maxW = maxW;
         }
 
-        /// <summary>
-        /// Move to the next enumerator value
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
+        /// <inheritdoc />
+        public bool TryGetNext(out Vector4<T> current)
         {
+            if (this.w == this.maxW)
+            {
+                current = default;
+                return false;
+            }
+
+            current = new Vector4<T>(this.x, this.y, this.z, this.w);
             if (++this.x == this.maxX)
             {
                 this.x = T.Zero;
@@ -60,93 +72,28 @@ public static class Vector4Extensions
                     }
                 }
             }
-
-            return this.w < this.maxW;
+            return true;
         }
 
-        /// <summary>
-        /// Enumerator instance
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly SpaceEnumerator<T> GetEnumerator() => this;
-    }
-
-    /// <summary>
-    /// Two dimensional vector space enumerable
-    /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    /// <param name="maxZ">Max space Z value (exclusive)</param>
-    /// <param name="maxW">Max space W value (exclusive)</param>
-    public sealed class SpaceEnumerable<T>(T maxX, T maxY, T maxZ, T maxW) : IEnumerable<Vector4<T>>, IEnumerator<Vector4<T>>
-        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
-    {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-        private readonly T maxZ = maxZ;
-        private readonly T maxW = maxW;
-
-        private T x = -T.One;
-        private T y = T.Zero;
-        private T z = T.Zero;
-        private T w = T.Zero;
-
         /// <inheritdoc />
-        public Vector4<T> Current
+        public bool TryGetNonEnumeratedCount(out int count)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y, this.z, this.w);
+            count = int.CreateChecked(this.maxX * this.maxY * this.maxZ * this.maxW);
+            return true;
         }
 
         /// <inheritdoc />
-        object IEnumerator.Current
+        public bool TryGetSpan(out ReadOnlySpan<Vector4<T>> span)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.Current;
+            span = default;
+            return false;
         }
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            if (++this.x == this.maxX)
-            {
-                this.x = T.Zero;
-                if (++this.y == this.maxY)
-                {
-                    this.y = T.Zero;
-                    if (++this.z == this.maxZ)
-                    {
-                        this.z = T.Zero;
-                        this.w++;
-                    }
-                }
-            }
-
-            return this.w < this.maxW;
-        }
+        public bool TryCopyTo(scoped Span<Vector4<T>> destination, Index offset) => false;
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Reset()
-        {
-            this.x = -T.One;
-            this.y = T.Zero;
-            this.z = T.Zero;
-            this.w = T.Zero;
-        }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void IDisposable.Dispose() { }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public IEnumerator<Vector4<T>> GetEnumerator() => this;
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        IEnumerator IEnumerable.GetEnumerator() => this;
+        public void Dispose() { }
     }
 
     extension<T>(in Vector4<T> value) where T : unmanaged, IBinaryNumber<T>, IMinMaxValue<T>
@@ -184,29 +131,9 @@ public static class Vector4Extensions
         /// </summary>
         /// <returns>An enumerator of all the vectors in the given range</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <see cref="Vector4{T}.X"/>, <see cref="Vector4{T}.Y"/>, <see cref="Vector4{T}.Z"/>, or <see cref="Vector4{T}.W"/> are smaller or equal to zero</exception>
-        public SpaceEnumerator<T> Enumerate()
+        public ValueEnumerable<SpaceEnumerator<T>, Vector4<T>> Enumerate()
         {
-            if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
-            if (value.W <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.W), value.W, "W boundary value must be greater than zero");
-
-            return new SpaceEnumerator<T>(value.X, value.Y, value.Y, value.W);
-        }
-
-        /// <summary>
-        /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-        /// </summary>
-        /// <returns>An enumerator of all the vectors in the given range</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <see cref="Vector4{T}.X"/>, <see cref="Vector4{T}.Y"/>, <see cref="Vector4{T}.Z"/>,  or <see cref="Vector4{T}.W"/> are smaller or equal to zero</exception>
-        public SpaceEnumerable<T> AsEnumerable()
-        {
-            if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
-            if (value.W <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.W), value.W, "W boundary value must be greater than zero");
-
-            return new SpaceEnumerable<T>(value.X, value.Y, value.Z, value.W);
+            return new ValueEnumerable<SpaceEnumerator<T>, Vector4<T>>(new SpaceEnumerator<T>(value.X, value.Y, value.Y, value.W));
         }
 
         /// <summary>
@@ -218,33 +145,9 @@ public static class Vector4Extensions
         /// <param name="maxW">Max value for the w component, exclusive</param>
         /// <returns>An enumerator of all the vectors in the given range</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, <paramref name="maxZ"/>, or <paramref name="maxW"/> are smaller or equal to zero</exception>
-        public static SpaceEnumerator<T> EnumerateOver(T maxX, T maxY, T maxZ, T maxW)
+        public static ValueEnumerable<SpaceEnumerator<T>, Vector4<T>> EnumerateOver(T maxX, T maxY, T maxZ, T maxW)
         {
-            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-            if (maxW <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxW), maxW, "W boundary value must be greater than zero");
-
-            return new SpaceEnumerator<T>(maxX, maxY, maxZ, maxW);
-        }
-
-        /// <summary>
-        /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-        /// </summary>
-        /// <param name="maxX">Max value for the x component, exclusive</param>
-        /// <param name="maxY">Max value for the y component, exclusive</param>
-        /// <param name="maxZ">Max value for the z component, exclusive</param>
-        /// <param name="maxW">Max value for the w component, exclusive</param>
-        /// <returns>An enumerator of all the vectors in the given range</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, <paramref name="maxZ"/>, or <paramref name="maxW"/> are smaller or equal to zero</exception>
-        public static SpaceEnumerable<T> MakeEnumerable(T maxX, T maxY, T maxZ, T maxW)
-        {
-            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-            if (maxW <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxW), maxW, "W boundary value must be greater than zero");
-
-            return new SpaceEnumerable<T>(maxX, maxY, maxZ, maxW);
+            return new ValueEnumerable<SpaceEnumerator<T>, Vector4<T>>(new SpaceEnumerator<T>(maxX, maxY, maxZ, maxW));
         }
 
         /// <summary>
