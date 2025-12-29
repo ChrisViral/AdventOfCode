@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Maths.Vectors;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Collections;
 
@@ -12,7 +13,7 @@ namespace AdventOfCode.Collections;
 /// Dictionary backed sparse grid
 /// </summary>
 /// <typeparam name="T">Grid element</typeparam>
-[PublicAPI, DebuggerDisplay("Size = {Size}"), DebuggerTypeProxy(typeof(SparseGridDebugView<>))]
+[PublicAPI, ZLinqDropInExtension, DebuggerDisplay("Size = {Size}"), DebuggerTypeProxy(typeof(SparseGridDebugView<>))]
 public class SparseGrid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;

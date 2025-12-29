@@ -33,7 +33,7 @@ public enum Wrap
 /// Generic grid structure
 /// </summary>
 /// <typeparam name="T">Type of element within the grid</typeparam>
-[PublicAPI, DebuggerDisplay("Width = {Width}, Height = {Height}"), DebuggerTypeProxy(typeof(GridDebugView<>))]
+[PublicAPI, ZLinqDropInExtension, DebuggerDisplay("Width = {Width}, Height = {Height}"), DebuggerTypeProxy(typeof(GridDebugView<>))]
 public class Grid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;

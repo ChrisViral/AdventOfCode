@@ -5,6 +5,7 @@ using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Collections;
 
@@ -25,7 +26,7 @@ public enum Anchor
 /// Console interactive view
 /// </summary>
 /// <typeparam name="T">Type of object in the view</typeparam>
-[PublicAPI]
+[PublicAPI, ZLinqDropInExtension]
 public sealed class ConsoleView<T> : Grid<T> where T : notnull
 {
     private readonly Vector2<int> anchor;

@@ -2,6 +2,7 @@
 using AdventOfCode.Maths.Vectors;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Collections;
 
@@ -9,7 +10,7 @@ namespace AdventOfCode.Collections;
 /// Delayed grid which does not apply changes until requested
 /// </summary>
 /// <typeparam name="T">Grid element type</typeparam>
-[PublicAPI]
+[PublicAPI, ZLinqDropInExtension]
 public sealed class DelayedGrid<T> : Grid<T>
 {
     /// <summary>Backup array</summary>
