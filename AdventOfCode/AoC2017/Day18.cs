@@ -15,6 +15,9 @@ namespace AdventOfCode.AoC2017;
 /// </summary>
 public sealed partial class Day18 : RegexSolver<Day18.Instruction>
 {
+    /// <summary>
+    /// Duet opcodes
+    /// </summary>
     public enum Opcode
     {
         SND,
@@ -26,6 +29,9 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         JGZ
     }
 
+    /// <summary>
+    /// Program state
+    /// </summary>
     public enum State
     {
         IDLE,
@@ -34,21 +40,41 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         HALTED
     }
 
+    /// <summary>
+    /// Duet program registers
+    /// </summary>
     [InlineArray(StringUtils.LETTER_COUNT)]
     public struct Registers
     {
         private long element;
     }
 
+    /// <summary>
+    /// Instruction value reference
+    /// </summary>
+    /// <param name="Value">Integer value</param>
+    /// <param name="IsRegister">Wether or not the value points to a register or is an immediate value</param>
     public readonly record struct Ref(int Value, bool IsRegister) : IParsable<Ref>
     {
+        /// <summary>
+        /// Gets the value for this reference
+        /// </summary>
+        /// <param name="registers">Program registers</param>
+        /// <returns>The correct value this reference points to</returns>
         public long GetValue(in Registers registers) => this.IsRegister
-                                                           ? registers[this.Value]
-                                                           : this.Value;
+                                                            ? registers[this.Value]
+                                                            : this.Value;
 
+        /// <summary>
+        /// Gets the register value as a ref for this reference
+        /// </summary>
+        /// <param name="registers">Program registers</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">If this reference is not pointing to registers</exception>
         public ref long GetRegister(ref Registers registers)
         {
             if (!this.IsRegister) throw new InvalidOperationException("Cannot get register value for non-register ref");
+
             return ref registers[this.Value];
         }
 
@@ -70,33 +96,58 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             return false;
         }
 
+        /// <inheritdoc />
         public override string ToString() => this.IsRegister
                                                  ? this.Value.AsAsciiLower.ToString()
                                                  : this.Value.ToString();
     }
 
+    /// <summary>
+    /// Duet instruction
+    /// </summary>
+    /// <param name="Opcode">Instruction opcode</param>
+    /// <param name="X">First operand</param>
+    /// <param name="Y">Second operant</param>
     public readonly record struct Instruction(Opcode Opcode, Ref X, Ref Y)
     {
-        // ReSharper disable once IntroduceOptionalParameters.Global
+        /// <summary>
+        /// Creates a new single operand instruction
+        /// </summary>
+        /// <param name="opcode">Instruction opcode</param>
+        /// <param name="x">First operand</param>
+        /// ReSharper disable once IntroduceOptionalParameters.Global
         public Instruction(Opcode opcode, Ref x) : this(opcode, x, default) { }
     }
 
+    /// <summary>
+    /// Duet program
+    /// </summary>
     [DebuggerDisplay("Program {id}")]
     public class Program
     {
         public readonly int id;
         private readonly ImmutableArray<Instruction> instructions;
+        private readonly Queue<long> receiveQueue = new();
         private int address;
         private long lastSound;
         private Registers registers;
         private State state;
 
+        /// <summary>
+        /// Program send recipient
+        /// </summary>
         public Program Recipient { get; set; } = null!;
 
+        /// <summary>
+        /// Total send calls
+        /// </summary>
         public int Sends { get; private set; }
 
-        private readonly Queue<long> receiveQueue = new();
-
+        /// <summary>
+        /// Creates a new program with the specified instructions and ID
+        /// </summary>
+        /// <param name="instructions">Program instructions</param>
+        /// <param name="id">Program ID</param>
         public Program(Instruction[] instructions, int id)
         {
             this.id = id;
@@ -104,6 +155,10 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             this.registers['p'.AsIndex] = id;
         }
 
+        /// <summary>
+        /// Run the program in normal mode
+        /// </summary>
+        /// <returns>The first recovered sound value</returns>
         public long RunProgram()
         {
             while (this.address >= 0 && this.address < this.instructions.Length)
@@ -115,6 +170,12 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             return long.MinValue;
         }
 
+        /// <summary>
+        /// Runs an normal mode instruction
+        /// </summary>
+        /// <param name="instruction">Instruction to run</param>
+        /// <returns>The recovered sound value, if any</returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">For unknown opcodes</exception>
         private long? RunInstruction(in Instruction instruction)
         {
             switch (instruction.Opcode)
@@ -150,6 +211,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
                     {
                         return this.lastSound;
                     }
+
                     return null;
 
                 case Opcode.JGZ:
@@ -161,6 +223,9 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             }
         }
 
+        /// <summary>
+        /// Run the program in parallel mode
+        /// </summary>
         public void RunProgramParallel()
         {
             if (this.state == State.HALTED) return;
@@ -175,6 +240,11 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             this.state = State.HALTED;
         }
 
+        /// <summary>
+        /// Runs a parallel mode instruction
+        /// </summary>
+        /// <param name="instruction">Instruction to run</param>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">For unknown opcodes</exception>
         private void RunInstructionParallel(in Instruction instruction)
         {
             switch (instruction.Opcode)
@@ -225,9 +295,12 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             }
         }
 
+        /// <summary>
+        /// Resets the program to it's base state
+        /// </summary>
         public void Reset()
         {
-            this.address   = 0;
+            this.address = 0;
             this.lastSound = 0;
             this.registers = new Registers();
             this.registers['p'.AsIndex] = this.id;
@@ -235,6 +308,10 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             this.Sends = 0;
         }
     }
+
+    /// <inheritdoc />
+    [GeneratedRegex(@"([a-z]{3}) ([a-z]|-?\d+)(?: ([a-z]|-?\d+))?")]
+    protected override partial Regex Matcher { get; }
 
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
@@ -268,9 +345,6 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         while (a.Sends != aLastSend || b.Sends != bLastSend);
 
         AoCUtils.LogPart2(b.Sends);
-    }
 
-    /// <inheritdoc />
-    [GeneratedRegex(@"([a-z]{3}) ([a-z]|-?\d+)(?: ([a-z]|-?\d+))?")]
-    protected override partial Regex Matcher { get; }
+    }
 }
