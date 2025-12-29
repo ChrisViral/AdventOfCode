@@ -37,56 +37,56 @@ public static class StringExtensions
         }
 
         /// <inheritdoc cref="char.IsAsciiLetter" />
-        public bool IsAsciiLetter
+        public bool IsLetterChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsAsciiLetter(value);
         }
 
         /// <inheritdoc cref="char.IsAsciiLetterLower" />
-        public bool IsAsciiLower
+        public bool IsLowerChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsAsciiLetterLower(value);
         }
 
         /// <inheritdoc cref="char.IsAsciiLetterUpper" />
-        public bool IsAsciiUpper
+        public bool IsUpperChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsAsciiLetterUpper(value);
         }
 
         /// <inheritdoc cref="char.IsAsciiDigit" />
-        public bool IsAsciiDigit
+        public bool IsDigitChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsAsciiDigit(value);
         }
 
         /// <inheritdoc cref="char.IsAsciiLetterOrDigit" />
-        public bool IsAsciiLetterOrDigit
+        public bool IsLetterOrDigitChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsAsciiLetterOrDigit(value);
         }
 
         /// <inheritdoc cref="char.IsWhiteSpace(char)" />
-        public bool IsWhiteSpace
+        public bool IsWhiteSpaceChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.IsWhiteSpace(value);
         }
 
         /// <inheritdoc cref="char.ToLowerInvariant" />
-        public char ToLower
+        public char ToLowerChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.ToLowerInvariant(value);
         }
 
         /// <inheritdoc cref="char.ToUpperInvariant" />
-        public char ToUpper
+        public char ToUpperChar
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => char.ToUpperInvariant(value);
@@ -150,14 +150,14 @@ public static class StringExtensions
     extension(string value)
     {
         /// <inheritdoc cref="string.IsNullOrEmpty" />
-        public bool IsNullOrEmpty
+        public bool IsNullEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => string.IsNullOrEmpty(value);
         }
 
         /// <inheritdoc cref="string.IsNullOrWhiteSpace" />
-        public bool IsNullOrWhiteSpace
+        public bool IsNullWhiteSpace
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => string.IsNullOrWhiteSpace(value);
