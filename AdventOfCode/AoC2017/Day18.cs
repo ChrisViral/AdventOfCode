@@ -123,7 +123,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
     /// Duet program
     /// </summary>
     [DebuggerDisplay("Program {id}")]
-    public class Program
+    public sealed class Program
     {
         public readonly int id;
         private readonly ImmutableArray<Instruction> instructions;
