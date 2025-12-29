@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2022;
 
@@ -101,7 +101,7 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
         {
             // Setup blizzard positions
             blizzardPositions.Clear();
-            blizzardPositions.AddRange(this.Data.blizzards.Select(b => b.UpdatePosition(limit)));
+            blizzardPositions.AddRange(this.Data.blizzards.AsEnumerable().Select(b => b.UpdatePosition(limit)));
 
             // Loop through all current search nodes
             while (!pathFound && search.TryPop(out Vector2<int> position))

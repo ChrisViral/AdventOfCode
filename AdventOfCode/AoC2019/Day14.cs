@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2019;
 

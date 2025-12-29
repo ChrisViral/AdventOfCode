@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Intcode;
+﻿using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.IO;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2019;
 

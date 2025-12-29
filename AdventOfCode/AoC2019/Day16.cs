@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers;
+﻿using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
-using SpanLinq;
+using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2019;
 

@@ -8,7 +8,7 @@ using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Ranges;
 using CommunityToolkit.HighPerformance;
-using SpanLinq;
+using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 

@@ -1,8 +1,8 @@
 ﻿using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Numbers;
 
 namespace AdventOfCode.AoC2022;
 

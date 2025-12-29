@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;

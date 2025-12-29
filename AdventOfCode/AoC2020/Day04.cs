@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using ZLinq;
 
 namespace AdventOfCode.AoC2020;
 

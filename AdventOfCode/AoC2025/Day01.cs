@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Solvers.Specialized;
+﻿using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Numbers;
 
 namespace AdventOfCode.AoC2025;
 

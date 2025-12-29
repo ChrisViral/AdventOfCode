@@ -1,8 +1,9 @@
-﻿using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Maths.Vectors;
+﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 using Transformation = System.Func<AdventOfCode.Maths.Vectors.Vector3<int>, AdventOfCode.Maths.Vectors.Vector3<int>>;
 
 namespace AdventOfCode.AoC2021;
@@ -76,7 +77,7 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
                 foreach (Transformation transformation in Rotations)
                 {
                     beacons.Clear();
-                    beacons.AddRange(this.Data[i].Select(transformation));
+                    beacons.AddRange(this.Data[i].AsEnumerable().Select(transformation));
                     if (CheckMatching(allBeacons, beacons, out Vector3<int> scanner))
                     {
                         scanners.Add(scanner);

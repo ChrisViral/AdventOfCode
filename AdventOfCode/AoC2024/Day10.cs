@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Maths.Vectors;
+﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using SpanLinq;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using ZLinq;
 
 namespace AdventOfCode.AoC2024;
 

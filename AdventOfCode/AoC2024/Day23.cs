@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
+﻿using AdventOfCode.Collections.Pooling;
+using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
-using SpanLinq;
 
 namespace AdventOfCode.AoC2024;
 
@@ -189,25 +189,19 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
                 nodes.Add(node);
 
                 // Make new set of included nodes
-                HashSet<NetworkNode> newIncluded = ObjectPool<HashSet<NetworkNode>>.Shared.Rent();
-                newIncluded.EnsureCapacity(16);
-                newIncluded.AddRange(included);
-                newIncluded.IntersectWith(node.Connections);
+                using Pooled<HashSet<NetworkNode>> newIncluded = HashSetObjectPool<NetworkNode>.Shared.Get();
+                newIncluded.Ref.EnsureCapacity(16);
+                newIncluded.Ref.AddRange(included);
+                newIncluded.Ref.IntersectWith(node.Connections);
 
                 // Make new set of excluded nodes
-                HashSet<NetworkNode> newExcluded = ObjectPool<HashSet<NetworkNode>>.Shared.Rent();
-                newIncluded.EnsureCapacity(16);
-                newExcluded.AddRange(excluded);
-                newExcluded.IntersectWith(node.Connections);
+                using Pooled<HashSet<NetworkNode>> newExcluded = HashSetObjectPool<NetworkNode>.Shared.Get();
+                newIncluded.Ref.EnsureCapacity(16);
+                newExcluded.Ref.AddRange(excluded);
+                newExcluded.Ref.IntersectWith(node.Connections);
 
                 // Recurse to find further cliques
-                FindCliques(nodes, newIncluded, newExcluded, cliques);
-
-                // Return sets to pool
-                newIncluded.Clear();
-                newExcluded.Clear();
-                ObjectPool<HashSet<NetworkNode>>.Shared.Return(newIncluded);
-                ObjectPool<HashSet<NetworkNode>>.Shared.Return(newExcluded);
+                FindCliques(nodes, newIncluded.Ref, newExcluded.Ref, cliques);
 
                 // Remove back added node
                 nodes.Remove(node);

@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2023;
 

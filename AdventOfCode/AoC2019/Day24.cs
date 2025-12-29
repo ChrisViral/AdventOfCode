@@ -1,15 +1,15 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.Spans;
 using CommunityToolkit.HighPerformance;
-using MemoryExtensions = System.MemoryExtensions;
+using ZLinq;
 
 namespace AdventOfCode.AoC2019;
 
@@ -77,7 +77,7 @@ public sealed class Day24 : GridSolver<bool>
         }
 
         // Sum
-        int bugs = levels.Values.Sum(map => map.AsSpan2D().Count(true));
+        int bugs = levels.Values.AsValueEnumerable().Sum(map => map.AsSpan2D().Count(true));
         AoCUtils.LogPart2(bugs);
     }
 
@@ -170,8 +170,8 @@ public sealed class Day24 : GridSolver<bool>
 
     private static int CountSurroundingInside(Direction checkDirection, DelayedGrid<bool> levelMap) => checkDirection switch
     {
-        Direction.UP    => MemoryExtensions.Count(levelMap[^1], true),
-        Direction.DOWN  => MemoryExtensions.Count(levelMap[0], true),
+        Direction.UP    => levelMap[^1].Count(true),
+        Direction.DOWN  => levelMap[0].Count(true),
         Direction.LEFT  => levelMap.GetColumn(^1).Count(true),
         Direction.RIGHT => levelMap.GetColumn(0).Count(true),
         Direction.NONE  => throw new InvalidOperationException("None is not a valid check direction"),

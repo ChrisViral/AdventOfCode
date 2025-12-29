@@ -3,7 +3,6 @@ using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Enumerables;
-using SpanLinq;
 
 namespace AdventOfCode.AoC2017;
 
@@ -18,13 +17,13 @@ public sealed class Day06 : Solver<int[]>
         private int element;
 
         /// <inheritdoc />
-        public bool Equals(MemoryBanks other) => SpanEnumerable.SequenceEqual<int>(this, other);
+        public bool Equals(MemoryBanks other) => ((ReadOnlySpan<int>)this).SequenceEqual(other);
 
         /// <inheritdoc />
         public override bool Equals(object? obj) => obj is MemoryBanks other && Equals(other);
 
         /// <inheritdoc />
-        public override int GetHashCode() => SpanEnumerable.Aggregate<int>(this, HashCode.Combine);
+        public override int GetHashCode() => ((ReadOnlySpan<int>)this).Aggregate(HashCode.Combine);
     }
 
     private const int SIZE = 16;

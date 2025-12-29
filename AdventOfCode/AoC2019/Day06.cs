@@ -90,7 +90,7 @@ public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
     {
         return orbitalObject.Parent is null
                    ? orbitalObject.Children
-                   : orbitalObject.Children.Append(orbitalObject.Parent);
+                   : orbitalObject.Children.AsEnumerable().Append(orbitalObject.Parent);
     }
 
     /// <inheritdoc />

@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using AdventOfCode.Maths;
 using JetBrains.Annotations;
-using SpanLinq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Utils.Extensions.Numbers;

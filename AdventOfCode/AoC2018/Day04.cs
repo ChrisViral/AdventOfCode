@@ -1,10 +1,11 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 

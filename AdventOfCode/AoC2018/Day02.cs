@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2018;
 

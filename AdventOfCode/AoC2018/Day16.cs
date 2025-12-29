@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Ranges;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2018;

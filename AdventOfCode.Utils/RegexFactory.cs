@@ -5,6 +5,7 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Utils.Extensions.Types;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Utils;
 

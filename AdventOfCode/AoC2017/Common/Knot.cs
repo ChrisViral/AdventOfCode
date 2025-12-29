@@ -2,7 +2,6 @@
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
-using SpanLinq;
 
 namespace AdventOfCode.AoC2017.Common;
 
@@ -75,7 +74,7 @@ public static class Knot
             int end = position + length - 1;
             if (end < SIZE)
             {
-                MemoryExtensions.Reverse(list[position..(end + 1)]);
+                list[position..(end + 1)].Reverse();
             }
             else
             {

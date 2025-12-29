@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;

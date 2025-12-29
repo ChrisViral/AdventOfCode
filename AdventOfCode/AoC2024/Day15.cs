@@ -1,10 +1,10 @@
 using System.Diagnostics;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
-using SpanLinq;
+using AdventOfCode.Utils.Extensions.Arrays;
+using ZLinq;
 
 namespace AdventOfCode.AoC2024;
 

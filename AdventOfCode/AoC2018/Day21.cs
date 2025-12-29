@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 
 namespace AdventOfCode.AoC2018;
 

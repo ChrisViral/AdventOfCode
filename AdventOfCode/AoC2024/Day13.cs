@@ -3,6 +3,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.AoC2024;
 

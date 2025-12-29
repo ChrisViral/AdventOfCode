@@ -3,12 +3,12 @@ using System.Diagnostics;
 using AdventOfCode.Collections;
 using AdventOfCode.Collections.Pooling;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;

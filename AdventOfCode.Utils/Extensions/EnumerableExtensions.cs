@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using AdventOfCode.Utils.Extensions.Delegates;
 using JetBrains.Annotations;
+using ZLinq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Utils.Extensions.Enumerables;
@@ -240,7 +241,7 @@ public static class EnumerableExtensions
         public IEnumerable<T> WhereNot([InstantHandle] Func<T, int, bool> predicate) => enumerable.Where(predicate.Inverted);
     }
 
-    /// <param name="e">Enumerator to sum</param>
+    /// <param name="e">Enumerable to sum</param>
     /// <typeparam name="T">Type of value to sum</typeparam>
     extension<T>([InstantHandle] IEnumerable<T> e) where T : IAdditionOperators<T, T, T>
     {
@@ -267,7 +268,7 @@ public static class EnumerableExtensions
         }
     }
 
-    /// <param name="e">Enumerator to multiply</param>
+    /// <param name="e">Enumerable to multiply</param>
     /// <typeparam name="T">Type of value to multiply</typeparam>
     extension<T>([InstantHandle] IEnumerable<T> e) where T : IMultiplyOperators<T, T, T>
     {
@@ -290,6 +291,72 @@ public static class EnumerableExtensions
                 result *= enumerator.Current;
             }
 
+            return result;
+        }
+    }
+
+    /// <param name="e">Enumerable to multiply</param>
+    /// <typeparam name="TEnumerator">Enumerator type</typeparam>
+    /// <typeparam name="TSource">Type of value to multiply</typeparam>
+    extension<TEnumerator, TSource>(ValueEnumerable<TEnumerator, TSource> e)
+        where TEnumerator : struct, IValueEnumerator<TSource>, allows ref struct
+    {
+        /// <summary>
+        /// Applies an action to each member of the enumerable
+        /// </summary>
+        /// <param name="action">Action to apply</param>
+        public void ForEach([InstantHandle] Action<TSource> action)
+        {
+            using TEnumerator enumerator = e.Enumerator;
+            while (enumerator.TryGetNext(out TSource element))
+            {
+                action(element);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the given values and returns the result
+        /// </summary>
+        /// <returns>The product of all the values</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        public TResult Multiply<TResult>([InstantHandle] Func<TSource, TResult> selector)
+            where TResult : IMultiplyOperators<TResult, TResult, TResult>
+        {
+            using TEnumerator enumerator = e.Enumerator;
+            if (!enumerator.TryGetNext(out TSource element)) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+            TResult result = selector(element);
+            while (enumerator.TryGetNext(out element))
+            {
+                result *= selector(element);
+            }
+            return result;
+        }
+    }
+
+    /// <param name="e">Enumerable to multiply</param>
+    /// <typeparam name="TEnumerator">Enumerator type</typeparam>
+    /// <typeparam name="TSource">Type of value to multiply</typeparam>
+    extension<TEnumerator, TSource>(ValueEnumerable<TEnumerator, TSource> e)
+        where TEnumerator : struct, IValueEnumerator<TSource>, allows ref struct
+        where TSource : IMultiplyOperators<TSource, TSource, TSource>
+    {
+        /// <summary>
+        /// Multiplies the given values and returns the result
+        /// </summary>
+        /// <returns>The product of all the values</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        public TSource Multiply()
+        {
+            using TEnumerator enumerator = e.Enumerator;
+            if (!enumerator.TryGetNext(out TSource result)) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+            while (enumerator.TryGetNext(out TSource current))
+            {
+                result *= current;
+            }
             return result;
         }
     }

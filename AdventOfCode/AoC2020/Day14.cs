@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Enumerables;
 
 namespace AdventOfCode.AoC2020;
 

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers;
+﻿using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using AdventOfCode.Utils.Extensions.Ranges;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;

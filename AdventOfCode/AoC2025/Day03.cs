@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers;
+﻿using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
-using SpanLinq;
+using AdventOfCode.Utils.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2025;
 
@@ -27,7 +27,7 @@ public sealed class Day03 : Solver
     public override void Run()
     {
         long pow1 = (PART1_COUNT - 1).LongPow10;
-        long joltage = this.Data.Sum(b => GetMaxJoltage(b, PART1_COUNT, pow1));
+        long joltage = this.Data.AsValueEnumerable().Sum(b => GetMaxJoltage(b, PART1_COUNT, pow1));
         AoCUtils.LogPart1(joltage);
 
         long pow2 = (PART2_COUNT - 1).LongPow10;

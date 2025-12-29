@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
+using AdventOfCode.Utils.Extensions.Regexes;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 

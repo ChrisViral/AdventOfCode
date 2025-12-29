@@ -2,7 +2,7 @@
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using SpanLinq;
+using ZLinq;
 
 namespace AdventOfCode.AoC2021;
 

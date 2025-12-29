@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Regexes;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 

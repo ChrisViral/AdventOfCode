@@ -49,10 +49,10 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        int area = CalculateShapeSize(this.Data.Select(d => d.instruction));
+        int area = CalculateShapeSize(this.Data.AsEnumerable().Select(d => d.instruction));
         AoCUtils.LogPart1(area);
 
-        long longArea = CalculateShapeSize(this.Data.Select(d => d.longInstruction));
+        long longArea = CalculateShapeSize(this.Data.AsEnumerable().Select(d => d.longInstruction));
         AoCUtils.LogPart2(longArea);
     }
 

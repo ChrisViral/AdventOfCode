@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enumerables;
 
 namespace AdventOfCode.AoC2018;
 

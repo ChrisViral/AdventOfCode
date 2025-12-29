@@ -1,9 +1,10 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Maths.Vectors;
+﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using ZLinq;
 
 namespace AdventOfCode.AoC2023;
 

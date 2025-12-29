@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.Extensions.Tasks;
-using SpanLinq;
 
 namespace AdventOfCode.Intcode.IO.Networking;
 

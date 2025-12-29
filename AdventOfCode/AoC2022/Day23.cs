@@ -1,11 +1,11 @@
 ﻿using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2022;
 
@@ -131,7 +131,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
     public override void Run()
     {
         // Create the basic data
-        HashSet<Vector2<int>> elves = new(this.Data.Select(e => e.Position));
+        HashSet<Vector2<int>> elves = new(this.Data.AsEnumerable().Select(e => e.Position));
         Counter<Vector2<int>> plannedMoves = new();
         // Simulate movement for
         (..ROUNDS).AsEnumerable().ForEach(_ => SimulateRound(elves, plannedMoves));
@@ -168,7 +168,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
         this.Data.ForEach(e => e.CompleteMove(plannedMoves));
         // Update the elves positions, and clear the planned moves
         elves.Clear();
-        elves.AddRange(this.Data.Select(e => e.Position));
+        elves.AddRange(this.Data.AsEnumerable().Select(e => e.Position));
         plannedMoves.Clear();
     }
 

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Numerics;
-using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using ZLinq;
 
 namespace AdventOfCode.AoC2021;
 

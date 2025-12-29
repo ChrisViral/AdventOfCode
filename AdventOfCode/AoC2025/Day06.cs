@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Spans;
-using SpanLinq;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2025;
 
@@ -37,7 +37,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
             total += column[^1][0] switch
             {
                 '+' => numbers.Sum(long.Parse),
-                '*' => numbers.Multiply(long.Parse),
+                '*' => numbers.AsValueEnumerable().Multiply(long.Parse),
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }
@@ -53,7 +53,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
             total += column[^1][0] switch
             {
                 '+' => numbers.Sum(),
-                '*' => numbers.Multiply(),
+                '*' => numbers.AsValueEnumerable().Multiply(),
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }

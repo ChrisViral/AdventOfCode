@@ -2,6 +2,7 @@
 using AdventOfCode.Collections.Pooling;
 using AdventOfCode.Utils.Extensions.Collections;
 using JetBrains.Annotations;
+using ZLinq;
 
 namespace AdventOfCode.Collections.Search;
 

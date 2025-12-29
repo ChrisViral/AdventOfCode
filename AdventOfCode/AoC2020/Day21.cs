@@ -1,8 +1,9 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Enumerables;
+using ZLinq;
 
 namespace AdventOfCode.AoC2020;
 

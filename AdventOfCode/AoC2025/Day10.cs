@@ -1,11 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using AdventOfCode.Collections.Search;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
 using Microsoft.Z3;
+using ZLinq;
 
 namespace AdventOfCode.AoC2025;
 

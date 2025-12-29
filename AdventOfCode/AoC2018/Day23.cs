@@ -3,7 +3,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Numbers;
-using SpanLinq;
+using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 
@@ -34,7 +34,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        Nanobot strongest = this.Data.MaxBy(n => n.Radius);
+        Nanobot strongest = this.Data.MaxBy(n => n.Radius)!;
         int nanobotsInRange = this.Data.Count(n => strongest.IsInRange(n.Position));
         AoCUtils.LogPart1(nanobotsInRange);
 

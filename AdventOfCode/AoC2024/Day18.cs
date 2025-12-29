@@ -4,6 +4,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
+using ZLinq;
 
 namespace AdventOfCode.AoC2024;
 

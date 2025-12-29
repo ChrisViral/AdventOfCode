@@ -1,8 +1,8 @@
 using System.Text;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Ranges;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
@@ -160,7 +160,7 @@ public sealed class Day16 : Solver<Day16.Packet>
     {
         byte[] bytes = FromHexString(rawInput[0]);
         StringBuilder builder = new(bytes.Length * 4);
-        string bits = builder.AppendJoin(string.Empty, bytes.Select(ToBinaryString))
+        string bits = builder.AppendJoin(string.Empty, bytes.AsEnumerable().Select(ToBinaryString))
                              .ToString();
         return Packet.ParsePacket(bits);
     }

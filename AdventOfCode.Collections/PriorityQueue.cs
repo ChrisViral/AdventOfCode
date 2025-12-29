@@ -489,7 +489,7 @@ public sealed class PriorityQueue<T> : ICollection<T> where T : notnull
     public void TrimExcess() => this.heap.TrimExcess();
 
     /// <inheritdoc />
-    public IEnumerator<T> GetEnumerator() => this.heap.Order(this.comparer).GetEnumerator();
+    public IEnumerator<T> GetEnumerator() => this.heap.AsEnumerable().Order(this.comparer).GetEnumerator();
 
     /// <summary>
     /// Returns the index of the parent node

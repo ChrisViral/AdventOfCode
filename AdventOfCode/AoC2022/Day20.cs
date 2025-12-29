@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers.Specialized;
+﻿using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2022;
 
@@ -30,7 +30,7 @@ public sealed class Day20 : ArraySolver<long>
         long grove = DecryptData(this.Data);
         AoCUtils.LogPart1(grove);
 
-        grove = DecryptData(this.Data.Select(v => v * DECRYPTION_KEY), LOOPS);
+        grove = DecryptData(this.Data.AsEnumerable().Select(v => v * DECRYPTION_KEY), LOOPS);
         AoCUtils.LogPart2(grove);
     }
 

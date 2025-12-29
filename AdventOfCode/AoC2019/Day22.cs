@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Maths;
+﻿using AdventOfCode.Maths;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
 
 namespace AdventOfCode.AoC2019;

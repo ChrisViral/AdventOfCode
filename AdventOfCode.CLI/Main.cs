@@ -2,6 +2,7 @@
 using AdventOfCode.CLI;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using ZLinq;
 
 Console.Title = "Advent of Code";
 SolverData solverData;

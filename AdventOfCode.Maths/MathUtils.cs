@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
+using AdventOfCode.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
 

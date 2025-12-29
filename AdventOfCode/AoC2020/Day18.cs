@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Solvers;
+﻿using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2020;

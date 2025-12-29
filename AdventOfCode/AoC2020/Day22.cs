@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 
 namespace AdventOfCode.AoC2020;
 

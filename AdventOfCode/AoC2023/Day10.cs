@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using AdventOfCode.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2023;
 
@@ -61,7 +61,7 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
             }
         }
 
-        ReplaceStart(start, heads.Select(h => h.dir));
+        ReplaceStart(start, heads.AsEnumerable().Select(h => h.dir));
         int distance = 0;
         Grid<bool> path = new(this.Data.Width, this.Data.Height) { [start] = true };
         do

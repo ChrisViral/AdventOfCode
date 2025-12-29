@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Collections;
+using AdventOfCode.Utils.Extensions.Numbers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -67,7 +67,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
         (string label, string left, string right)[] nodes = RegexFactory<(string, string, string)>.ConstructObjects(NodeMatcher, rawInput[1..]);
         Dictionary<string, (string, string)> map = new(nodes.Length);
 
-        map.AddRange(nodes.Select(n => new KeyValuePair<string, (string, string)>(n.label, (n.left, n.right))));
+        map.AddRange(nodes.AsEnumerable().Select(n => new KeyValuePair<string, (string, string)>(n.label, (n.left, n.right))));
         return (directions, map);
     }
 }

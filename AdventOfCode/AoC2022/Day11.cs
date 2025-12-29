@@ -1,8 +1,9 @@
-﻿using AdventOfCode.Utils.Extensions.Enumerables;
+﻿using AdventOfCode.Solvers;
+using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -61,7 +62,7 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
         /// <param name="data">Data to parse from</param>
         public Monkey(IReadOnlyList<string> data)
         {
-            this.Items = new Queue<long>(data[1][16..].Split(", ").Select(long.Parse));
+            this.Items = new Queue<long>(data[1][16..].Split(", ").AsEnumerable().Select(long.Parse));
             string[] operation = data[2][17..].Split(' ');
             if (operation[1] is "+")
             {

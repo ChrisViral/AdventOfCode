@@ -1,6 +1,7 @@
-﻿using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Solvers.Specialized;
+﻿using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Arrays;
+using ZLinq;
 
 namespace AdventOfCode.AoC2021;
 

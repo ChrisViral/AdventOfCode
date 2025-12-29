@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using AdventOfCode.Solvers;
+using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
 
 namespace AdventOfCode.AoC2023;
 

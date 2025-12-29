@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Maths.Vectors;
+﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using AdventOfCode.Utils.Extensions.Numbers;
+using AdventOfCode.Utils.Extensions.Ranges;
 using Microsoft.Z3;
 
 namespace AdventOfCode.AoC2023;
