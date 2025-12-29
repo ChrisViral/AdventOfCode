@@ -3,6 +3,7 @@ using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2021;
 
@@ -125,7 +126,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         }
 
         // Count what's left
-        long count = Vector3<int>.MakeEnumerable(SIZE, SIZE, SIZE).Count(p => grid[p.X, p.Y, p.Z]);
+        long count = Vector3<int>.EnumerateOver(SIZE, SIZE, SIZE).Count(p => grid[p.X, p.Y, p.Z]);
         AoCUtils.LogPart1(count);
 
         // Setup buffers

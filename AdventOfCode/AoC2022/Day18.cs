@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -21,11 +22,11 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     public override void Run()
     {
         HashSet<Vector3<int>> points = new(this.Data);
-        int surface = this.Data.Sum(p => p.AsAdjacentEnumerable().Count(a => !points.Contains(a)));
+        int surface = this.Data.Sum(p => p.Adjacent().Count(a => !points.Contains(a)));
         AoCUtils.LogPart1(surface);
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
-        HashSet<Vector3<int>> empty   = new(Vector3<int>.MakeEnumerable(max.X, max.Y, max.Z).Where(p => !points.Contains(p)));
+        HashSet<Vector3<int>> empty   = Vector3<int>.EnumerateOver(max.X, max.Y, max.Z).Where(p => !points.Contains(p)).ToHashSet();
         HashSet<Vector3<int>> pockets = [], outside = [], visited = [];
         Stack<Vector3<int>>   search  = new();
         foreach (Vector3<int> point in empty)
@@ -40,7 +41,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
             }
         }
 
-        surface -= pockets.Sum(p => p.AsAdjacentEnumerable().Count(points.Contains));
+        surface -= pockets.Sum(p => p.Adjacent().Count(points.Contains));
         AoCUtils.LogPart2(surface);
     }
 

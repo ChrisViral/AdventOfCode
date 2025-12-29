@@ -3,6 +3,8 @@ using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using ZLinq;
+using ZLinq.Internal;
 
 namespace AdventOfCode.Maths.Vectors;
 
@@ -15,91 +17,46 @@ public static class Vector3Extensions
     /// <summary>
     /// Two dimensional vector space enumerator
     /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    /// <param name="maxZ">Max space Z value (exclusive)</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct SpaceEnumerator<T>(T maxX, T maxY, T maxZ) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
-    {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-        private readonly T maxZ = maxZ;
-
-        private T x = -T.One;
-        private T y = T.Zero;
-        private T z = T.Zero;
-
-        /// <summary>
-        /// Current enumerator value
-        /// </summary>
-        public readonly Vector3<T> Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y, this.z);
-        }
-
-        /// <summary>
-        /// Move to the next enumerator value
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            if (++this.x == this.maxX)
-            {
-                this.x = T.Zero;
-                if (++this.y == this.maxY)
-                {
-                    this.y = T.Zero;
-                    this.z++;
-                }
-            }
-
-            return this.z < this.maxZ;
-        }
-
-        /// <summary>
-        /// Enumerator instance
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly SpaceEnumerator<T> GetEnumerator() => this;
-    }
-
-    /// <summary>
-    /// Two dimensional vector space enumerable
-    /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    /// <param name="maxZ">Max space Z value (exclusive)</param>
-    public sealed class SpaceEnumerable<T>(T maxX, T maxY, T maxZ) : IEnumerable<Vector3<T>>, IEnumerator<Vector3<T>>
+    public ref struct SpaceEnumerator<T> : IValueEnumerator<Vector3<T>>
         where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-        private readonly T maxZ = maxZ;
+        private readonly T maxX;
+        private readonly T maxY;
+        private readonly T maxZ;
 
-        private T x = -T.One;
+        private T x = T.Zero;
         private T y = T.Zero;
         private T z = T.Zero;
 
-        /// <inheritdoc />
-        public Vector3<T> Current
+        /// <summary>
+        /// Two dimensional vector space enumerator
+        /// </summary>
+        /// <param name="maxX">Max space X value (exclusive)</param>
+        /// <param name="maxY">Max space Y value (exclusive)</param>
+        /// <param name="maxZ">Max space Z value (exclusive)</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
+        public SpaceEnumerator(T maxX, T maxY, T maxZ)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y, this.z);
+            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
+            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
+            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
+
+            this.maxX = maxX;
+            this.maxY = maxY;
+            this.maxZ = maxZ;
         }
 
         /// <inheritdoc />
-        object IEnumerator.Current
+        public bool TryGetNext(out Vector3<T> current)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.Current;
-        }
+            if (this.z == this.maxZ)
+            {
+                current = default;
+                return false;
+            }
 
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
+            current = new Vector3<T>(this.x, this.y, this.z);
             if (++this.x == this.maxX)
             {
                 this.x = T.Zero;
@@ -109,30 +66,28 @@ public static class Vector3Extensions
                     this.z++;
                 }
             }
-
-            return this.z < this.maxZ;
+            return true;
         }
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Reset()
+        public bool TryGetNonEnumeratedCount(out int count)
         {
-            this.x = -T.One;
-            this.y = T.Zero;
-            this.z = T.Zero;
+            count = int.CreateChecked(this.maxX * this.maxY * this.maxZ);
+            return true;
         }
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void IDisposable.Dispose() { }
+        public bool TryGetSpan(out ReadOnlySpan<Vector3<T>> span)
+        {
+            span = default;
+            return false;
+        }
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public IEnumerator<Vector3<T>> GetEnumerator() => this;
+        public bool TryCopyTo(scoped Span<Vector3<T>> destination, Index offset) => false;
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        IEnumerator IEnumerable.GetEnumerator() => this;
+        public void Dispose() { }
     }
 
     /// <summary>
@@ -142,7 +97,8 @@ public static class Vector3Extensions
     /// <param name="withDiagonals">If diagonal adjacents should be included</param>
     /// <param name="withSelf">If the self vector should be included</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct AdjacentEnumerator<T>(Vector3<T> vector, bool withDiagonals, bool withSelf) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    public ref struct AdjacentEnumerator<T>(Vector3<T> vector, bool withDiagonals, bool withSelf) : IValueEnumerator<Vector3<T>>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Orthogonal offsets
@@ -198,33 +154,76 @@ public static class Vector3Extensions
         private readonly bool withSelf = withSelf;
         private readonly Vector3<T> vector = vector;
         private readonly ReadOnlySpan<Vector3<T>> offsets = withDiagonals ? AllOffsets.AsSpan() : Offsets.AsSpan();
-        private int index = -1;
+        private int index = 0;
 
-        /// <summary>
-        /// Current enumerator value
-        /// </summary>
-        public readonly Vector3<T> Current
+        /// <inheritdoc />
+        public bool TryGetNext(out Vector3<T> current)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.withSelf && this.index == this.offsets.Length ? this.vector : this.vector + this.offsets[this.index];
+            if (this.index >= this.offsets.Length)
+            {
+                if (this.withSelf && this.index == this.offsets.Length)
+                {
+                    current = this.vector;
+                    this.index++;
+                    return true;
+                }
+
+                current = default;
+                return false;
+            }
+
+            current = this.offsets[this.index++];
+            return true;
         }
 
-        /// <summary>
-        /// Move to the next enumerator value
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
+        /// <inheritdoc />
+        public bool TryGetNonEnumeratedCount(out int count)
         {
-            this.index++;
-            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+            count = this.offsets.Length;
+            if (this.withSelf) count++;
+            return true;
         }
 
-        /// <summary>
-        /// Enumerator instance
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly AdjacentEnumerator<T> GetEnumerator() => this;
+        /// <inheritdoc />
+        public bool TryGetSpan(out ReadOnlySpan<Vector3<T>> span)
+        {
+            if (this.withSelf)
+            {
+                span = default;
+                return false;
+            }
+
+            span = this.offsets;
+            return true;
+        }
+
+        /// <inheritdoc />
+        public bool TryCopyTo(scoped Span<Vector3<T>> destination, Index offset)
+        {
+            if (!this.withSelf)
+            {
+                if (EnumeratorHelper.TryGetSlice(this.offsets, offset, destination.Length, out ReadOnlySpan<Vector3<T>> slice))
+                {
+                    slice.CopyTo(destination);
+                    return true;
+                }
+                return false;
+            }
+
+            Span<Vector3<T>> temp = stackalloc Vector3<T>[this.offsets.Length + 1];
+            this.offsets.CopyTo(temp);
+            temp[^1] = this.vector;
+
+            if (EnumeratorHelper.TryGetSlice(temp, offset, destination.Length, out ReadOnlySpan<Vector3<T>> tempSlice))
+            {
+                tempSlice.CopyTo(destination);
+                return true;
+            }
+            return false;
+        }
+
+        /// <inheritdoc />
+        public void Dispose() { }
     }
 
     /// <summary>
@@ -326,7 +325,10 @@ public static class Vector3Extensions
         /// <param name="withSelf">If self vector should be included</param>
         /// <returns>Adjacent vectors</returns>
         /// ReSharper disable once CognitiveComplexity
-        public AdjacentEnumerator<T> Adjacent(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
+        public ValueEnumerable<AdjacentEnumerator<T>, Vector3<T>> Adjacent(bool withDiagonals = false, bool withSelf = false)
+        {
+            return new ValueEnumerable<AdjacentEnumerator<T>, Vector3<T>>(new AdjacentEnumerator<T>(value, withDiagonals, withSelf));
+        }
 
         /// <summary>
         /// Gets all the adjacent Vector3 to this one
@@ -342,27 +344,9 @@ public static class Vector3Extensions
         /// </summary>
         /// <returns>An enumerator of all the vectors in the given range</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <see cref="Vector3{T}.X"/>, <see cref="Vector3{T}.Y"/>, or <see cref="Vector3{T}.Z"/> are smaller or equal to zero</exception>
-        public SpaceEnumerator<T> Enumerate()
+        public ValueEnumerable<SpaceEnumerator<T>, Vector3<T>> Enumerate()
         {
-            if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
-
-            return new SpaceEnumerator<T>(value.X, value.Y, value.Y);
-        }
-
-        /// <summary>
-        /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension, using this vector's values as the maximums
-        /// </summary>
-        /// <returns>An enumerator of all the vectors in the given range</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <see cref="Vector3{T}.X"/>, <see cref="Vector3{T}.Y"/>, or <see cref="Vector3{T}.Z"/> are smaller or equal to zero</exception>
-        public SpaceEnumerable<T> AsEnumerable()
-        {
-            if (value.X <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.X), value.X, "X boundary value must be greater than zero");
-            if (value.Y <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Y), value.Y, "Y boundary value must be greater than zero");
-            if (value.Z <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value.Z), value.Z, "Z boundary value must be greater than zero");
-
-            return new SpaceEnumerable<T>(value.X, value.Y, value.Z);
+            return new ValueEnumerable<SpaceEnumerator<T>, Vector3<T>>(new SpaceEnumerator<T>(value.X, value.Y, value.Y));
         }
 
         /// <summary>
@@ -373,30 +357,9 @@ public static class Vector3Extensions
         /// <param name="maxZ">Max value for the z component, exclusive</param>
         /// <returns>An enumerator of all the vectors in the given range</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
-        public static SpaceEnumerator<T> EnumerateOver(T maxX, T maxY, T maxZ)
+        public static ValueEnumerable<SpaceEnumerator<T>, Vector3<T>> EnumerateOver(T maxX, T maxY, T maxZ)
         {
-            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-
-            return new SpaceEnumerator<T>(maxX, maxY, maxZ);
-        }
-
-        /// <summary>
-        /// Enumerates in row order all the vectors which have components in the range [0,max[ for each dimension
-        /// </summary>
-        /// <param name="maxX">Max value for the x component, exclusive</param>
-        /// <param name="maxY">Max value for the y component, exclusive</param>
-        /// <param name="maxZ">Max value for the z component, exclusive</param>
-        /// <returns>An enumerator of all the vectors in the given range</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="maxX"/>, <paramref name="maxY"/>, or <paramref name="maxZ"/> are smaller or equal to zero</exception>
-        public static SpaceEnumerable<T> MakeEnumerable(T maxX, T maxY, T maxZ)
-        {
-            if (maxX <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxX), maxX, "X boundary value must be greater than zero");
-            if (maxY <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxY), maxY, "Y boundary value must be greater than zero");
-            if (maxZ <= T.Zero) throw new ArgumentOutOfRangeException(nameof(maxZ), maxZ, "Z boundary value must be greater than zero");
-
-            return new SpaceEnumerable<T>(maxX, maxY, maxZ);
+            return new ValueEnumerable<SpaceEnumerator<T>, Vector3<T>>(new SpaceEnumerator<T>(maxX, maxY, maxZ));
         }
 
         /// <summary>
