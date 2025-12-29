@@ -21,8 +21,8 @@ public ref struct FromRange : IValueEnumerator<int>
         this.sign = Math.Sign(range.End.Value - range.Start.Value);
         if (this.sign is 0) this.sign = 1;
 
-        this.start = range.Start.IsFromEnd   ? range.Start.Value           : range.Start.Value - this.sign;
-        this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign : range.End.Value;
+        this.start = range.Start.IsFromEnd   ? range.Start.Value  + this.sign : range.Start.Value;
+        this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign    : range.End.Value;
         this.lastValue = this.start;
     }
 
@@ -35,7 +35,8 @@ public ref struct FromRange : IValueEnumerator<int>
             return false;
         }
 
-        current = this.lastValue += this.sign;
+        current = this.lastValue;
+        this.lastValue += this.sign;
         return true;
     }
 
