@@ -30,7 +30,7 @@ public sealed class Day09 : GridSolver<byte>
         {
             // Check if the position is a low point
             byte value = this.Grid[position];
-            if (position.AsAdjacentEnumerable()
+            if (position.Adjacent()
                         .Where(p => this.Grid.WithinGrid(p))
                         .Any(pos => value >= this.Grid[pos])) continue;
 
@@ -52,7 +52,7 @@ public sealed class Day09 : GridSolver<byte>
             while (search.TryDequeue(out Vector2<int> current))
             {
                 // Add adjacent not already searched
-                current.AsAdjacentEnumerable()
+                current.Adjacent()
                        .Where(pos => this.Grid.WithinGrid(pos) && this.Grid[pos] is not 9 && basin.Add(pos))
                        .ForEach(search.Enqueue);
             }

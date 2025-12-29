@@ -77,7 +77,7 @@ public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
         // Get path from start to santa
         OrbitalObject start = this.Data["YOU"];
         OrbitalObject end   = this.Data["SAN"];
-        int pathLength = SearchUtils.GetPathLengthBFS(start, end, Neighbours)!.Value;
+        int pathLength = SearchUtils.GetPathLengthBFS(start, end, o => Neighbours(o))!.Value;
         AoCUtils.LogPart2(pathLength - 2);
     }
 

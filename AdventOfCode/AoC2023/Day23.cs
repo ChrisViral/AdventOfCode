@@ -70,7 +70,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
 
         foreach ((Vector2<int> position, Node node) in nodes)
         {
-            foreach (Vector2<int> neighbour in position.AsAdjacentEnumerable()
+            foreach (Vector2<int> neighbour in position.Adjacent()
                                                        .Where(p => this.Data.WithinGrid(p)
                                                                 && this.Data[p] is not Element.FOREST))
 

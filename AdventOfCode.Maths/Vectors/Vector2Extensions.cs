@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using AdventOfCode.Utils.Extensions.Numbers;
 using JetBrains.Annotations;
 using ZLinq;
+using ZLinq.Internal;
 
 namespace AdventOfCode.Maths.Vectors;
 
@@ -82,75 +83,14 @@ public static class Vector2Extensions
     }
 
     /// <summary>
-    /// Two dimensional vector space enumerable
-    /// </summary>
-    /// <param name="maxX">Max space X value (exclusive)</param>
-    /// <param name="maxY">Max space Y value (exclusive)</param>
-    public sealed class SpaceEnumerable<T>(T maxX, T maxY) : IEnumerable<Vector2<T>>, IEnumerator<Vector2<T>>
-        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
-    {
-        private readonly T maxX = maxX;
-        private readonly T maxY = maxY;
-
-        private T x = -T.One;
-        private T y = T.Zero;
-
-        /// <inheritdoc />
-        public Vector2<T> Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(this.x, this.y);
-        }
-
-        /// <inheritdoc />
-        object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.Current;
-        }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            if (++this.x == this.maxX)
-            {
-                this.x = T.Zero;
-                this.y++;
-            }
-
-            return this.y < this.maxY;
-        }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Reset()
-        {
-            this.x = -T.One;
-            this.y = T.Zero;
-        }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void IDisposable.Dispose() { }
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public IEnumerator<Vector2<T>> GetEnumerator() => this;
-
-        /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        IEnumerator IEnumerable.GetEnumerator() => this;
-    }
-
-    /// <summary>
     /// Adjacent vector enumerator
     /// </summary>
     /// <param name="vector">Vector to get the adjacent positions for</param>
     /// <param name="withDiagonals">If diagonal adjacents should be included</param>
     /// <param name="withSelf">If the self vector should be included</param>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public ref struct AdjacentEnumerator<T>(Vector2<T> vector, bool withDiagonals, bool withSelf) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
+    public ref struct AdjacentEnumerator<T>(Vector2<T> vector, bool withDiagonals, bool withSelf) : IValueEnumerator<Vector2<T>>
+        where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>
     {
         /// <summary>
         /// Orthogonal offsets
@@ -181,33 +121,76 @@ public static class Vector2Extensions
         private readonly bool withSelf = withSelf;
         private readonly Vector2<T> vector = vector;
         private readonly ReadOnlySpan<Vector2<T>> offsets = withDiagonals ? AllOffsets.AsSpan() : Offsets.AsSpan();
-        private int index = -1;
+        private int index = 0;
 
-        /// <summary>
-        /// Current enumerator value
-        /// </summary>
-        public readonly Vector2<T> Current
+        /// <inheritdoc />
+        public bool TryGetNext(out Vector2<T> current)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.withSelf && this.index == this.offsets.Length ? this.vector : this.vector + this.offsets[this.index];
+            if (this.index >= this.offsets.Length)
+            {
+                if (this.withSelf && this.index == this.offsets.Length)
+                {
+                    current = this.vector;
+                    this.index++;
+                    return true;
+                }
+
+                current = default;
+                return false;
+            }
+
+            current = this.offsets[this.index++];
+            return true;
         }
 
-        /// <summary>
-        /// Move to the next enumerator value
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
+        /// <inheritdoc />
+        public bool TryGetNonEnumeratedCount(out int count)
         {
-            this.index++;
-            return this.withSelf ? this.index <= this.offsets.Length : this.index < this.offsets.Length;
+            count = this.offsets.Length;
+            if (this.withSelf) count++;
+            return true;
         }
 
-        /// <summary>
-        /// Enumerator instance
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly AdjacentEnumerator<T> GetEnumerator() => this;
+        /// <inheritdoc />
+        public bool TryGetSpan(out ReadOnlySpan<Vector2<T>> span)
+        {
+            if (this.withSelf)
+            {
+                span = default;
+                return false;
+            }
+
+            span = this.offsets;
+            return true;
+        }
+
+        /// <inheritdoc />
+        public bool TryCopyTo(scoped Span<Vector2<T>> destination, Index offset)
+        {
+            if (!this.withSelf)
+            {
+                if (EnumeratorHelper.TryGetSlice(this.offsets, offset, destination.Length, out ReadOnlySpan<Vector2<T>> slice))
+                {
+                    slice.CopyTo(destination);
+                    return true;
+                }
+                return false;
+            }
+
+            Span<Vector2<T>> temp = stackalloc Vector2<T>[this.offsets.Length + 1];
+            this.offsets.CopyTo(temp);
+            temp[^1] = this.vector;
+
+            if (EnumeratorHelper.TryGetSlice(temp, offset, destination.Length, out ReadOnlySpan<Vector2<T>> tempSlice))
+            {
+                tempSlice.CopyTo(destination);
+                return true;
+            }
+            return false;
+        }
+
+        /// <inheritdoc />
+        public void Dispose() { }
     }
 
     /// <summary>
@@ -314,7 +297,10 @@ public static class Vector2Extensions
         /// <param name="withSelf">If self vector should be included</param>
         /// <returns>Adjacent vectors</returns>
         /// ReSharper disable once CognitiveComplexity
-        public AdjacentEnumerator<T> Adjacent(bool withDiagonals = false, bool withSelf = false) => new(value, withDiagonals, withSelf);
+        public ValueEnumerable<AdjacentEnumerator<T>, Vector2<T>> Adjacent(bool withDiagonals = false, bool withSelf = false)
+        {
+            return new ValueEnumerable<AdjacentEnumerator<T>, Vector2<T>>(new AdjacentEnumerator<T>(value, withDiagonals, withSelf));
+        }
 
         /// <summary>
         /// Gets all the adjacent Vector2 to this one

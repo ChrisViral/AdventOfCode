@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
+using ZLinq;
 
 namespace AdventOfCode.AoC2017;
 

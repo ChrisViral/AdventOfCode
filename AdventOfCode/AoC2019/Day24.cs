@@ -86,7 +86,7 @@ public sealed class Day24 : GridSolver<bool>
         foreach (Vector2<int> position in current.Dimensions.Enumerate())
         {
             bool hasBug = current[position];
-            int surrounding = position.AsAdjacentEnumerable()
+            int surrounding = position.Adjacent()
                                       .Where(current.WithinGrid)
                                       .Count(p => current[p]);
             if (hasBug)

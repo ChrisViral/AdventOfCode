@@ -108,10 +108,10 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
             while (!pathFound && search.TryPop(out Vector2<int> position))
             {
                 // Look through possible moves
-                foreach (Vector2<int> move in position.AsAdjacentEnumerable(withSelf: true).Where(m => m == start
-                                                                                                       || m == end
-                                                                                                       || ((..limit.X).IsInRange(m.X)
-                                                                                                        && (..limit.Y).IsInRange(m.Y))))
+                foreach (Vector2<int> move in position.Adjacent(withSelf: true).Where(m => m == start
+                                                                                        || m == end
+                                                                                        || ((..limit.X).IsInRange(m.X)
+                                                                                         && (..limit.Y).IsInRange(m.Y))))
                 {
                     // If at end, mark that we have reached it
                     if (move == end)

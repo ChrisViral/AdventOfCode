@@ -22,12 +22,11 @@ public sealed class Day04 : GridSolver<char>
     public override void Run()
     {
         int hits = 0;
-        Vector2<int>[] directions = Vector2<int>.Zero.AsAdjacentEnumerable(withDiagonals: true).ToArray();
         foreach (Vector2<int> xPos in this.Data.Dimensions.Enumerate())
         {
             if (this.Data[xPos] is not 'X') continue;
 
-            foreach (Vector2<int> direction in directions)
+            foreach (Vector2<int> direction in Vector2<int>.Zero.Adjacent(withDiagonals: true))
             {
                 if (this.Data.TryMoveWithinGrid(xPos, direction, out Vector2<int> mPos) && this.Data[mPos] is 'M'
                  && this.Data.TryMoveWithinGrid(mPos, direction, out Vector2<int> aPos) && this.Data[aPos] is 'A'

@@ -4,6 +4,7 @@ using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2020;
 
@@ -59,10 +60,11 @@ public sealed class Day11 : GridSolver<Day11.Seat>
                 foreach (int i in ..width)
                 {
                     Vector2<int> position = new(i, j);
+                    // ReSharper disable AccessToModifiedClosure
                     switch (current[position])
                     {
                         case Seat.EMPTY:
-                            if (position.AsAdjacentEnumerable(withDiagonals: true).Where(p => current.WithinGrid(p)).All(p => previous[p] is not Seat.TAKEN))
+                            if (position.Adjacent(withDiagonals: true).Where(p => current.WithinGrid(p)).All(p => previous[p] is not Seat.TAKEN))
                             {
                                 current[position] = Seat.TAKEN;
                                 changes = true;
@@ -71,13 +73,14 @@ public sealed class Day11 : GridSolver<Day11.Seat>
 
                         case Seat.TAKEN:
                             int taken = 0;
-                            if (position.AsAdjacentEnumerable(withDiagonals: true).Where(p => current.WithinGrid(p)).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
+                            if (position.Adjacent(withDiagonals: true).Where(p => current.WithinGrid(p)).Any(p => (taken += previous[p] is Seat.TAKEN ? 1 : 0) is 4))
                             {
                                 current[position] = Seat.EMPTY;
                                 changes = true;
                             }
                             break;
                     }
+                    // ReSharper restore AccessToModifiedClosure
                 }
             }
         }
