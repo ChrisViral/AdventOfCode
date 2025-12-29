@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using AdventOfCode.Utils.ValueEnumerators;
 using JetBrains.Annotations;
+using ZLinq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Utils.Extensions.Ranges;
@@ -14,28 +16,15 @@ public static class RangeExtensions
     /// <summary>
     /// Optimized Range enumerator struct
     /// </summary>
-    public ref struct RangeEnumerator
+    /// <param name="range">Range to create the iterator for</param>
+    public ref struct RangeEnumerator(Range range)
     {
-        private readonly int end;
-        private readonly int sign;
+        private FromRange enumerator = new(range);
 
         /// <summary>
         /// Current iteration pointer
         /// </summary>
         public int Current { get; private set; }
-
-        /// <summary>
-        /// Creates a new range iterator from the given range
-        /// </summary>
-        /// <param name="range">Range to create the iterator for</param>
-        public RangeEnumerator(Range range)
-        {
-            this.sign = Math.Sign(range.End.Value - range.Start.Value);
-            if (this.sign is 0) this.sign = 1;
-
-            this.Current = range.Start.IsFromEnd ? range.Start.Value           : range.Start.Value - this.sign;
-            this.end     = range.End.IsFromEnd   ? range.End.Value + this.sign : range.End.Value;
-        }
 
         /// <summary>
         /// Moves the iteration forwards one step
@@ -44,8 +33,14 @@ public static class RangeExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            this.Current += this.sign;
-            return this.Current != this.end;
+            if (this.enumerator.TryGetNext(out int current))
+            {
+                this.Current = current;
+                return true;
+            }
+
+            this.Current = -1;
+            return false;
         }
     }
 
@@ -75,16 +70,9 @@ public static class RangeExtensions
         /// If <see cref="Range.End"/> is marked as <see cref="Index.IsFromEnd"/>, then the last value is included
         /// </summary>
         /// <returns>An enumerable over the specified range</returns>
-        public IEnumerable<int> AsEnumerable()
+        public ValueEnumerable<FromRange, int> AsValueEnumerable()
         {
-            int sign  = Math.Sign(range.End.Value - range.Start.Value);
-            if (sign is 0) sign = 1;
-            int start = range.Start.IsFromEnd ? range.Start.Value + sign : range.Start.Value;
-            int end   = range.End.IsFromEnd   ? range.End.Value + sign   : range.End.Value;
-            for (int i = start; i != end; i += sign)
-            {
-                yield return i;
-            }
+            return new ValueEnumerable<FromRange, int>(new FromRange(range));
         }
 
         /// <summary>

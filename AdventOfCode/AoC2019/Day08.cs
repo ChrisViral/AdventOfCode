@@ -48,7 +48,7 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
     public override void Run()
     {
         // Get the best layer index and the count the relevant values on it
-        int bestLayer = (..this.Data.layerCount).AsEnumerable().MinBy(i => this.Data.image.Count(p => p[i] is Colour.BLACK));
+        int bestLayer = (..this.Data.layerCount).MinBy(i => this.Data.image.Count(p => p[i] is Colour.BLACK))!.Value;
         int checksum = this.Data.image.Count(p => p[bestLayer] is Colour.WHITE) * this.Data.image.Count(p => p[bestLayer] is Colour.TRANSPARENT);
         AoCUtils.LogPart1(checksum);
 

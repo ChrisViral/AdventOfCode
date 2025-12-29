@@ -5,6 +5,7 @@ using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2024;
 
@@ -40,12 +41,11 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
         AoCUtils.LogPart1(dangerLevel);
 
         // The easter egg might not be *the* lowest danger time, so we'll take the best five and print them all
-        IEnumerable<int> potentialTimes = (1..^10_000).AsEnumerable().OrderBy(GetDangerLevel).Take(5);
         Grid<bool> view = new(SpaceSize.X, SpaceSize.Y, toString: v => v ? @"█" : " ");
 
         // Print potential answers
         AoCUtils.LogPart2("One of the following times should have a christmas tree\n");
-        foreach (int time in potentialTimes)
+        foreach (int time in (1..^10_000).OrderBy(GetDangerLevel).Take(5))
         {
             FillGrid(view, time);
             AoCUtils.Log($"Time: {time}");

@@ -1,10 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
 using ZLinq;
-using ZLinq.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Utils.Extensions.Regexes;

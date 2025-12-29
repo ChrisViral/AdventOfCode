@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using ZLinq;
 using ZLinq.Internal;
 
-namespace AdventOfCode.Utils;
+namespace AdventOfCode.Utils.ValueEnumerators;
 
 /// <summary>
 /// Span2D bridge for ZLinq

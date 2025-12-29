@@ -25,11 +25,12 @@ public sealed class Day07 : Solver<int[]>
         // Get maximum crab value
         int max = this.Data.Max();
         // Minimize distance to any point within the crabs
-        long best = (..^max).AsEnumerable().Min(position => this.Data.Sum(crab => Math.Abs(position - crab)));
+
+        long best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab)));
         AoCUtils.LogPart1(best);
 
         // Minimize the distance of triangular value
-        best = (..^max).AsEnumerable().Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular));
+        best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular));
         AoCUtils.LogPart2(best);
     }
 

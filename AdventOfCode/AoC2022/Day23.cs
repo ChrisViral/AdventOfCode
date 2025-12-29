@@ -134,7 +134,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
         HashSet<Vector2<int>> elves = new(this.Data.AsEnumerable().Select(e => e.Position));
         Counter<Vector2<int>> plannedMoves = new();
         // Simulate movement for
-        (..ROUNDS).AsEnumerable().ForEach(_ => SimulateRound(elves, plannedMoves));
+        (..ROUNDS).AsValueEnumerable().ForEach(_ => SimulateRound(elves, plannedMoves));
         // Get all four bounds
         int top    = this.Data.Min(e => e.Position.Y);
         int bottom = this.Data.Max(e => e.Position.Y);

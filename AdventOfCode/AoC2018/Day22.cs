@@ -5,7 +5,6 @@ using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Spans;
-using ZLinq;
 
 namespace AdventOfCode.AoC2018;
 
@@ -73,7 +72,6 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
 
         // Get risk level across map
         int riskLevel = map.AsSpan2D(this.Data.target.X + 1, this.Data.target.Y + 1)
-                           .AsValueEnumerable()
                            .Sum(t => (int)t);
         AoCUtils.LogPart1(riskLevel);
 

@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
+using ZLinq;
+using ZLinq.Linq;
+using FromRange = AdventOfCode.Utils.ValueEnumerators.FromRange;
 
 namespace AdventOfCode.Collections;
 
@@ -60,10 +63,10 @@ public sealed class SortedList<T> : ICollection<T>, IReadOnlyCollection<T> where
     /// </summary>
     /// <param name="range">Range to get the values from</param>
     /// <returns>An enumerable of the values in the given range</returns>
-    public IEnumerable<T> this[Range range]
+    public ValueEnumerable<Select<FromRange, int, T>, T> this[Range range]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => range.AsEnumerable().Select(index => this.list.Keys[index]);
+        get => range.Select(index => this.list.Keys[index]);
     }
 
     /// <inheritdoc cref="SortedList{TKey,TValue}()"/>

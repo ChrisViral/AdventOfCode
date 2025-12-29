@@ -47,7 +47,7 @@ public sealed class Day07 : IntcodeSolver
 
         // Go over phase permutations
         long maxOutput = 0L;
-        int[] phases = (..5).AsEnumerable().ToArray();
+        int[] phases = (..5).ToArray();
         foreach (int[] ampPerm in phases.PermutationsInPlace())
         {
             foreach (int i in ..amplifiers.Length)
@@ -70,7 +70,7 @@ public sealed class Day07 : IntcodeSolver
 
         // Go over phase permutations
         maxOutput = 0L;
-        phases    = (5..10).AsEnumerable().ToArray();
+        phases    = (5..10).ToArray();
         foreach (int[] ampPerm in phases.PermutationsInPlace())
         {
             foreach (int i in ..amplifiers.Length)

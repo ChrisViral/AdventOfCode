@@ -225,8 +225,7 @@ public sealed class Day17 : Solver<Direction[]>
             // Find the next index that matches
             int next = i + 1;
             int other = states.FindIndex(next, states.Count - next, s => states[i] == s);
-            if (other is not -1 && (..50).AsEnumerable()
-                                         .All(j => states[i + j] == states[other + j]))
+            if (other is not -1 && (..50).All(j => states[i + j] == states[other + j]))
             {
                 cycleStart = i;
                 cycleEnd   = other;
