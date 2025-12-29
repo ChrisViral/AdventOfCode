@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -7,6 +6,7 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.Utils.Extensions.Strings;
 
 namespace AdventOfCode.AoC2017;
 
@@ -55,7 +55,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         /// <inheritdoc />
         public static Ref Parse(string s, IFormatProvider? provider) => int.TryParse(s, out int value)
                                                                             ? new Ref(value, false)
-                                                                            : new Ref(s[0]- StringUtils.ALPHABET[0], true);
+                                                                            : new Ref(s[0].AsIndex, true);
 
         /// <inheritdoc />
         public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Ref result)
@@ -71,7 +71,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         }
 
         public override string ToString() => this.IsRegister
-                                                 ? new string((char)(StringUtils.ALPHABET[0] + this.Value), 1)
+                                                 ? this.Value.AsAsciiLower.ToString()
                                                  : this.Value.ToString();
     }
 
@@ -89,20 +89,19 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
         private int address;
         private long lastSound;
         private Registers registers;
+        private State state;
 
         public Program Recipient { get; set; } = null!;
 
-        public State State { get; private set; }
-
         public int Sends { get; private set; }
 
-        private readonly ConcurrentQueue<long> receiveQueue = new();
+        private readonly Queue<long> receiveQueue = new();
 
         public Program(Instruction[] instructions, int id)
         {
             this.id = id;
             this.instructions = [..instructions];
-            this.registers['p' - StringUtils.ALPHABET[0]] = id;
+            this.registers['p'.AsIndex] = id;
         }
 
         public long RunProgram()
@@ -164,16 +163,16 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
 
         public void RunProgramParallel()
         {
-            if (this.State == State.HALTED) return;
+            if (this.state == State.HALTED) return;
 
-            this.State = State.RUNNING;
+            this.state = State.RUNNING;
             while (this.address >= 0 && this.address < this.instructions.Length)
             {
                 RunInstructionParallel(this.instructions[this.address]);
-                if (this.State is State.BLOCKED) return;
+                if (this.state is State.BLOCKED) return;
             }
 
-            this.State = State.HALTED;
+            this.state = State.HALTED;
         }
 
         private void RunInstructionParallel(in Instruction instruction)
@@ -214,7 +213,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
                         return;
                     }
 
-                    this.State = State.BLOCKED;
+                    this.state = State.BLOCKED;
                     return;
 
                 case Opcode.JGZ:
@@ -231,8 +230,8 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
             this.address   = 0;
             this.lastSound = 0;
             this.registers = new Registers();
-            this.registers['p' - StringUtils.ALPHABET[0]] = this.id;
-            this.State = State.IDLE;
+            this.registers['p'.AsIndex] = this.id;
+            this.state = State.IDLE;
             this.Sends = 0;
         }
     }

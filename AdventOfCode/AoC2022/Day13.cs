@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.StringBuilders;
+using AdventOfCode.Utils.Extensions.Strings;
 using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 

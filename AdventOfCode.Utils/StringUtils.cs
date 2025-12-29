@@ -9,19 +9,23 @@ namespace AdventOfCode.Utils;
 public static class StringUtils
 {
     /// <summary>
-    /// Lowercase letters of the alphabet
+    /// Lowercase ASCII letters
     /// </summary>
-    public const string ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    public const string ASCII_LOWER = "abcdefghijklmnopqrstuvwxyz";
     /// <summary>
-    /// Uppercase letters of the alphabet
+    /// Uppercase ASCII letters
     /// </summary>
-    public const string ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public const string ASCII_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /// <summary>
-    /// Number characters
+    /// ASCII digits
     /// </summary>
-    public const string DIGITS = "0123456789";
+    public const string ASCII_DIGITS = "0123456789";
     /// <summary>
-    /// Amount of letters in the alphabet
+    /// Amount of ASCII letters
     /// </summary>
     public const int LETTER_COUNT = 26;
+    /// <summary>
+    /// Amount of ASCII digits
+    /// </summary>
+    public const int DIGIT_COUNT = 10;
 }

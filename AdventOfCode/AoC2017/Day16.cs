@@ -71,7 +71,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
     public override void Run()
     {
         Span<char> programs = stackalloc char[SIZE];
-        StringUtils.ALPHABET.AsSpan(0, SIZE).CopyTo(programs);
+        StringUtils.ASCII_LOWER.AsSpan(0, SIZE).CopyTo(programs);
 
         foreach (Move move in this.Data)
         {

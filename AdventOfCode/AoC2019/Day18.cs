@@ -25,7 +25,7 @@ public sealed class Day18 : GridSolver<char>
     /// <summary>Entrance position value</summary>
     private const char ENTRANCE    = '@';
     /// <summary>Valid key IDs</summary>
-    private const string KEY_IDS   = StringUtils.ALPHABET_UPPER;
+    private const string KEY_IDS   = StringUtils.ASCII_UPPER;
     /// <summary>Amount of robots to use</summary>
     private const int ROBOTS_COUNT = 4;
 
@@ -36,7 +36,7 @@ public sealed class Day18 : GridSolver<char>
     /// <summary>
     /// Key ID offset
     /// </summary>
-    private static readonly int IDOffset = StringUtils.ALPHABET_UPPER[0];
+    private static readonly int IDOffset = StringUtils.ASCII_UPPER[0];
 
     /// <summary>
     /// Branch path data

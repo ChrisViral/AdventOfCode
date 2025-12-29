@@ -6,7 +6,7 @@ using System.Text;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.StringBuilders;
+using AdventOfCode.Utils.Extensions.Strings;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;

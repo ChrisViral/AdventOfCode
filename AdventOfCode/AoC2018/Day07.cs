@@ -60,7 +60,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
 
         int time = 0;
         completed.Clear();
-        HashSet<char> available = new(StringUtils.ALPHABET_UPPER);
+        HashSet<char> available = new(StringUtils.ASCII_UPPER);
 
         List<Worker> freeWorkers = Enumerable.Range(0, WORKER_COUNT)
                                              .Select(_ => new Worker())
@@ -81,7 +81,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
                 // Assign it to any free worker
                 Worker worker = freeWorkers[^1];
                 worker.ID = step.ID;
-                worker.TimeRemaining = step.ID - StringUtils.ALPHABET_UPPER[0] + 61;
+                worker.TimeRemaining = step.ID - StringUtils.ASCII_UPPER[0] + 61;
                 busyWorkers.Add(worker);
                 freeWorkers.RemoveAt(freeWorkers.Count - 1);
                 available.Remove(step.ID);
@@ -112,10 +112,10 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
         Step[] steps = new Step[StringUtils.LETTER_COUNT];
         foreach (int i in ..steps.Length)
         {
-            steps[i] = new Step(StringUtils.ALPHABET_UPPER[i], []);
+            steps[i] = new Step(StringUtils.ASCII_UPPER[i], []);
         }
 
-        char offset = StringUtils.ALPHABET_UPPER[0];
+        char offset = StringUtils.ASCII_UPPER[0];
         foreach (int i in ..rawInput.Length)
         {
             Match match = StepMatcher.Match(rawInput[i]);
