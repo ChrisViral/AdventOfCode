@@ -27,7 +27,7 @@ public sealed class Day05 : Solver<string>
         foreach (char toRemove in StringUtils.ASCII_LOWER)
         {
             char toRemoveUpper = char.ToUpperInvariant(toRemove);
-            polymer = new LinkedList<char>(this.Data.Where(c => c != toRemove && c != toRemoveUpper));
+            polymer = new LinkedList<char>(this.Data.AsEnumerable().Where(c => c != toRemove && c != toRemoveUpper));
             SimplifyPolymer(polymer);
             minSize = Math.Min(minSize, polymer.Count);
         }

@@ -1,4 +1,5 @@
-﻿using ZLinq;
+﻿using System.Runtime.CompilerServices;
+using ZLinq;
 
 namespace AdventOfCode.Utils.ValueEnumerators;
 
@@ -16,6 +17,7 @@ public ref struct FromRange : IValueEnumerator<int>
     /// Creates a new range iterator from the given range
     /// </summary>
     /// <param name="range">Range to create the iterator for</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FromRange(Range range)
     {
         this.sign = Math.Sign(range.End.Value - range.Start.Value);
@@ -27,6 +29,7 @@ public ref struct FromRange : IValueEnumerator<int>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetNext(out int current)
     {
         if (this.lastValue == this.end)
@@ -41,6 +44,7 @@ public ref struct FromRange : IValueEnumerator<int>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetNonEnumeratedCount(out int count)
     {
         count = (this.end - this.start) * this.sign;
@@ -48,6 +52,7 @@ public ref struct FromRange : IValueEnumerator<int>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetSpan(out ReadOnlySpan<int> span)
     {
         span = default;
@@ -55,8 +60,10 @@ public ref struct FromRange : IValueEnumerator<int>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryCopyTo(scoped Span<int> destination, Index offset) => false;
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose() { }
 }

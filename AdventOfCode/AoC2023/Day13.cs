@@ -84,7 +84,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
         for (int i = 1; i < grid.Width; i++)
         {
-            AoCUtils.SwapSpans(ref left, ref right);
+            AoCUtils.Swap(ref left, ref right);
             grid.GetColumn(i, right);
             if (i == ignore) continue;
 
@@ -117,7 +117,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
         for (int i = 1; i < grid.Height; i++)
         {
-            AoCUtils.SwapSpans(ref up, ref down);
+            AoCUtils.Swap(ref up, ref down);
             down = grid[i];
             if (i == ignore) continue;
 

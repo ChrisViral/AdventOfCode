@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.HighPerformance;
+﻿using System.Runtime.CompilerServices;
+using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
 using ZLinq;
 using ZLinq.Internal;
@@ -41,6 +42,7 @@ public ref struct FromSpan2D<T>(ReadOnlySpan2D<T> span) : IValueEnumerator<T>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetNonEnumeratedCount(out int count)
     {
         count = (int)this.spanRef.Length;
@@ -48,6 +50,7 @@ public ref struct FromSpan2D<T>(ReadOnlySpan2D<T> span) : IValueEnumerator<T>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetSpan(out ReadOnlySpan<T> span)
     {
         if (this.spanRef.TryGetSpan(out span))
@@ -123,5 +126,6 @@ public ref struct FromSpan2D<T>(ReadOnlySpan2D<T> span) : IValueEnumerator<T>
     }
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose() { }
 }

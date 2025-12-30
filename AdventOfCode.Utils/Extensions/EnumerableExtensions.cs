@@ -1,5 +1,7 @@
-﻿using System.Numerics;
+using System.Numerics;
 using AdventOfCode.Utils.Extensions.Delegates;
+using AdventOfCode.Utils.ValueEnumerators;
+using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -74,6 +76,7 @@ public static class EnumerableExtensions
         /// <param name="length">Total length to reach</param>
         /// <param name="count">Required cache size, if available</param>
         /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+        [Pure, LinqTunnel]
         private IEnumerable<T> LoopWithCache(int length, int? count)
         {
             //Create cache over first iteration
@@ -102,6 +105,7 @@ public static class EnumerableExtensions
         /// </summary>
         /// <param name="length">Total length to reach</param>
         /// <returns>A sequence looping over the input sequence and of the specified length</returns>
+        [Pure, LinqTunnel]
         private IEnumerable<T> LoopWithoutCache(int length)
         {
             //Not caching
@@ -175,6 +179,39 @@ public static class EnumerableExtensions
         }
 
         /// <summary>
+        /// Counts the instance of a value in the enumerable
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> is found in the enumerable</returns>
+        /// <exception cref="ArgumentNullException">If the <paramref name="enumerable"/> is <see langword="null"/></exception>
+        [Pure]
+        public int Count(T value) => enumerable.Count(value, EqualityComparer<T>.Default);
+
+        /// <summary>
+        /// Counts the instance of a value in the enumerable
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <param name="comparer">Equality comparer</param>
+        /// <returns>The amount of times <paramref name="value"/> is found in the enumerable</returns>
+        /// <exception cref="ArgumentNullException">If the <paramref name="enumerable"/> is <see langword="null"/></exception>
+        [Pure]
+        public int Count(T value, IEqualityComparer<T> comparer)
+        {
+            if (enumerable is null) throw new ArgumentNullException(nameof(enumerable), "Enumerable to sum cannot be null");
+
+            int count = 0;
+            using IEnumerator<T> enumerator = enumerable.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (comparer.Equals(value, enumerator.Current))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Sums the given values and returns the result
         /// </summary>
         /// <typeparam name="TResult">Type of value to sum</typeparam>
@@ -182,6 +219,7 @@ public static class EnumerableExtensions
         /// <returns>The sum of all the values</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="enumerable"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="enumerable"/> is empty</exception>
+        [Pure]
         public TResult Sum<TResult>([InstantHandle] Func<T, TResult> selector) where TResult : IAdditionOperators<TResult, TResult, TResult>
         {
             if (enumerable is null) throw new ArgumentNullException(nameof(enumerable), "Enumerable to sum cannot be null");
@@ -207,6 +245,7 @@ public static class EnumerableExtensions
         /// <returns>The product of all the values</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException">If the enumerable is empty</exception>
+        [Pure]
         public TResult Multiply<TResult>([InstantHandle] Func<T, TResult> selector) where TResult : IMultiplyOperators<TResult, TResult, TResult>
         {
             if (enumerable is null) throw new ArgumentNullException(nameof(enumerable), "Enumerable to sum cannot be null");
@@ -251,6 +290,7 @@ public static class EnumerableExtensions
         /// <returns>The sum of all the values</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        [Pure]
         public T Sum()
         {
             if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
@@ -278,6 +318,7 @@ public static class EnumerableExtensions
         /// <returns>The product of all the values</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        [Pure]
         public T Multiply()
         {
             if (e is null) throw new ArgumentNullException(nameof(e), "Enumerable to sum cannot be null");
@@ -295,10 +336,10 @@ public static class EnumerableExtensions
         }
     }
 
-    /// <param name="e">Enumerable to multiply</param>
+    /// <param name="enumerable">Enumerable to multiply</param>
     /// <typeparam name="TEnumerator">Enumerator type</typeparam>
     /// <typeparam name="TSource">Type of value to multiply</typeparam>
-    extension<TEnumerator, TSource>(ValueEnumerable<TEnumerator, TSource> e)
+    extension<TEnumerator, TSource>(ValueEnumerable<TEnumerator, TSource> enumerable)
         where TEnumerator : struct, IValueEnumerator<TSource>, allows ref struct
     {
         /// <summary>
@@ -307,7 +348,7 @@ public static class EnumerableExtensions
         /// <param name="action">Action to apply</param>
         public void ForEach([InstantHandle] Action<TSource> action)
         {
-            using TEnumerator enumerator = e.Enumerator;
+            using TEnumerator enumerator = enumerable.Enumerator;
             while (enumerator.TryGetNext(out TSource element))
             {
                 action(element);
@@ -315,21 +356,99 @@ public static class EnumerableExtensions
         }
 
         /// <summary>
+        /// Counts the instance of a value in the enumerable
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <returns>The amount of times <paramref name="value"/> is found in the enumerable</returns>
+        [Pure]
+        public int Count(TSource value) => enumerable.Count(value, EqualityComparer<TSource>.Default);
+
+        /// <summary>
+        /// Counts the instance of a value in the enumerable
+        /// </summary>
+        /// <param name="value">Value to count</param>
+        /// <param name="comparer">Equality comparer</param>
+        /// <returns>The amount of times <paramref name="value"/> is found in the enumerable</returns>
+        [Pure]
+        public int Count(TSource value, IEqualityComparer<TSource> comparer)
+        {
+            int count = 0;
+            using TEnumerator enumerator = enumerable.Enumerator;
+            while (enumerator.TryGetNext(out TSource current))
+            {
+                if (comparer.Equals(value, current))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Multiplies the given values and returns the result
         /// </summary>
         /// <returns>The product of all the values</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
-        /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="enumerable"/> is null</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="enumerable"/> is empty</exception>
+        [Pure]
+        public TResult Sum<TResult>([InstantHandle] Func<TSource, TResult> selector)
+            where TResult : IAdditionOperators<TResult, TResult, TResult>
+        {
+            using TEnumerator enumerator = enumerable.Enumerator;
+            if (!enumerator.TryGetNext(out TSource element)) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+            TResult result = selector(element);
+            while (enumerator.TryGetNext(out element))
+            {
+                result += selector(element);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies the given values and returns the result
+        /// </summary>
+        /// <returns>The product of all the values</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="enumerable"/> is null</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="enumerable"/> is empty</exception>
+        [Pure]
         public TResult Multiply<TResult>([InstantHandle] Func<TSource, TResult> selector)
             where TResult : IMultiplyOperators<TResult, TResult, TResult>
         {
-            using TEnumerator enumerator = e.Enumerator;
+            using TEnumerator enumerator = enumerable.Enumerator;
             if (!enumerator.TryGetNext(out TSource element)) throw new InvalidOperationException("Cannot multiply an empty collection");
 
             TResult result = selector(element);
             while (enumerator.TryGetNext(out element))
             {
                 result *= selector(element);
+            }
+            return result;
+        }
+    }
+
+    /// <param name="e">Enumerable to multiply</param>
+    /// <typeparam name="TEnumerator">Enumerator type</typeparam>
+    /// <typeparam name="TSource">Type of value to multiply</typeparam>
+    extension<TEnumerator, TSource>(ValueEnumerable<TEnumerator, TSource> e)
+        where TEnumerator : struct, IValueEnumerator<TSource>, allows ref struct
+        where TSource : IAdditionOperators<TSource, TSource, TSource>
+    {
+        /// <summary>
+        /// Multiplies the given values and returns the result
+        /// </summary>
+        /// <returns>The product of all the values</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
+        /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        [Pure]
+        public TSource Sum()
+        {
+            using TEnumerator enumerator = e.Enumerator;
+            if (!enumerator.TryGetNext(out TSource result)) throw new InvalidOperationException("Cannot multiply an empty collection");
+
+            while (enumerator.TryGetNext(out TSource current))
+            {
+                result += current;
             }
             return result;
         }
@@ -348,6 +467,7 @@ public static class EnumerableExtensions
         /// <returns>The product of all the values</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="e"/> is null</exception>
         /// <exception cref="InvalidOperationException">If <paramref name="e"/> is empty</exception>
+        [Pure]
         public TSource Multiply()
         {
             using TEnumerator enumerator = e.Enumerator;
@@ -358,6 +478,20 @@ public static class EnumerableExtensions
                 result *= current;
             }
             return result;
+        }
+    }
+
+    /// <param name="enumerable">Ref enumerable</param>
+    /// <typeparam name="T">Enumerable value type</typeparam>
+    extension<T>(RefEnumerable<T> enumerable)
+    {
+        /// <summary>
+        /// Returns this RefEnumerable as a ValueEnumerable
+        /// </summary>
+        /// <returns>ValueEnumerable instance</returns>
+        public ValueEnumerable<FromRefEnumerable<T>, T> AsValueEnumerable()
+        {
+            return new ValueEnumerable<FromRefEnumerable<T>, T>(new FromRefEnumerable<T>(enumerable));
         }
     }
 }

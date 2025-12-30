@@ -24,7 +24,7 @@ public sealed class Day04 : ArraySolver<string[]>
                                           .Count() == p.Length);
         AoCUtils.LogPart1(valid);
 
-        valid = this.Data.Count(p => p.Select(w => w.Order())
+        valid = this.Data.Count(p => p.Select(w => w.AsEnumerable().Order())
                                       .Distinct(SequenceComparer<char>.Instance)
                                       .Count() == p.Length);
         AoCUtils.LogPart2(valid);

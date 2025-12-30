@@ -3,6 +3,7 @@ using AdventOfCode.Solvers;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Collections;
 using AdventOfCode.Utils.Extensions.Ranges;
+using ZLinq;
 
 namespace AdventOfCode.AoC2022;
 
@@ -247,5 +248,5 @@ public sealed class Day17 : Solver<Direction[]>
 
     /// <inheritdoc />
     protected override Direction[] Convert(string[] lines) => lines[0].Select(c => c is '<' ? Direction.LEFT : Direction.RIGHT)
-                                                                       .ToArray();
+                                                                      .ToArray();
 }
