@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using AdventOfCode.Utils.Extensions.Strings;
 using AdventOfCode.Utils.Extensions.Types;
 using JetBrains.Annotations;
 
@@ -66,7 +67,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// Regex direction match
     /// </summary>
     [GeneratedRegex(@"^\s*(U|N|D|S|L|W|R|E)\s*(\d+)\s*$", RegexOptions.IgnoreCase)]
-    private static partial Regex DirectionMatch { get; }
+    private static partial Regex DirectionMatcher { get; }
 
     /// <summary>
     /// Components array
@@ -411,18 +412,18 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     /// <exception cref="OverflowException">If the number parse causes an overflow</exception>
     public static Vector2<T> ParseFromDirection(string value)
     {
-        GroupCollection groups = DirectionMatch.Match(value).Groups;
+        GroupCollection groups = DirectionMatcher.Match(value).Groups;
         //Parse direction first
-        Vector2<T> direction = groups[1].Value switch
+        Vector2<T> direction = groups[1].ValueSpan[0].ToUpperChar switch
         {
-            "U" => Up,
-            "N" => Up,
-            "D" => Down,
-            "S" => Down,
-            "L" => Left,
-            "W" => Left,
-            "R" => Right,
-            "E" => Right,
+            'U' => Up,
+            'N' => Up,
+            'D' => Down,
+            'S' => Down,
+            'L' => Left,
+            'W' => Left,
+            'R' => Right,
+            'E' => Right,
             _   => throw new FormatException($"Direction value ({groups[1].Value}) cannot be parsed into a direction")
         };
 
@@ -440,7 +441,7 @@ public readonly partial struct Vector2<T> : IVector<Vector2<T>, T>, IDivisionOpe
     {
         //Check if it matches at all
         direction = Zero;
-        Match match = DirectionMatch.Match(value);
+        Match match = DirectionMatcher.Match(value);
         if (!match.Success) return false;
 
         GroupCollection groups = match.Groups;
