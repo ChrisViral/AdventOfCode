@@ -4,16 +4,20 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AdventOfCode.Collections.DebugViews;
+using AdventOfCode.Collections.Pooling;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Numbers;
 using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Strings;
+using AdventOfCode.Utils.Extensions.Spans;
+using AdventOfCode.Utils.ValueEnumerators;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using JetBrains.Annotations;
 using ZLinq;
+
+[assembly: ZLinqDropInExternalExtension("AdventOfCode.Collections", "AdventOfCode.Collections.Grid`1", "AdventOfCode.Utils.ValueEnumerators.FromSpan2D`1", GenerateAsPublic = true)]
 
 namespace AdventOfCode.Collections;
 
@@ -33,7 +37,7 @@ public enum Wrap
 /// Generic grid structure
 /// </summary>
 /// <typeparam name="T">Type of element within the grid</typeparam>
-[PublicAPI, ZLinqDropInExtension, DebuggerDisplay("Width = {Width}, Height = {Height}"), DebuggerTypeProxy(typeof(GridDebugView<>))]
+[PublicAPI, DebuggerDisplay("Width = {Width}, Height = {Height}"), DebuggerTypeProxy(typeof(GridDebugView<>))]
 public class Grid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
@@ -41,7 +45,6 @@ public class Grid<T> : IGrid<T>
     protected readonly T[,] grid;
     protected readonly int rowBufferSize;
     protected readonly Converter<T, string> toString;
-    protected readonly StringBuilder toStringBuilder = new();
 
     /// <summary>
     /// Grid width
@@ -312,7 +315,7 @@ public class Grid<T> : IGrid<T>
     /// </summary>
     /// <returns>Span over the entire grid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ReadOnlySpan2D<T> AsSpan2D() => this.grid.AsSpan2D();
+    public Span2D<T> AsSpan2D() => this.grid.AsSpan2D();
 
     /// <summary>
     /// Creates a new Span2D over a section of the grid
@@ -321,7 +324,7 @@ public class Grid<T> : IGrid<T>
     /// <param name="height">Span height, from the top left corner</param>
     /// <returns>Span over the specified part of the grid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ReadOnlySpan2D<T> AsSpan2D(int width, int height) => this.grid.AsSpan2D(0, 0, height, width);
+    public Span2D<T> AsSpan2D(int width, int height) => this.grid.AsSpan2D(0, 0, height, width);
 
     /// <summary>
     /// Creates a new Span2D over a section of the grid
@@ -332,7 +335,7 @@ public class Grid<T> : IGrid<T>
     /// <param name="height">Span height, from the top left corner</param>
     /// <returns>Span over the specified part of the grid</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ReadOnlySpan2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
+    public Span2D<T> AsSpan2D(int column, int width, int row, int height) => this.grid.AsSpan2D(row, column, height, width);
 
     /// <summary>
     /// Gets the given column of the grid<br/>
@@ -562,6 +565,161 @@ public class Grid<T> : IGrid<T>
     }
 
     /// <summary>
+    /// Splits the grid into equally sized chunks
+    /// </summary>
+    /// <param name="chunkSize">Chunk size</param>
+    /// <returns>An enumerable of the grid in chunks</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="chunkSize"/> is less than zero or greater than the width/height</exception>
+    /// <exception cref="ArgumentException">If <paramref name="chunkSize"/> is not a factor of the width/height</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ValueEnumerable<FromChunks, Grid<T>> Chunk(int chunkSize)
+    {
+        return new ValueEnumerable<FromChunks, Grid<T>>(new FromChunks(this, chunkSize, chunkSize));
+    }
+
+    /// <summary>
+    /// Splits the grid into equally sized chunks
+    /// </summary>
+    /// <param name="chunkWidth">Chunk width</param>
+    /// <param name="chunkHeight">Chunk height</param>
+    /// <returns>An enumerable of the grid in chunks</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="chunkWidth"/> or <paramref name="chunkHeight"/> are less than zero or greater than the width/height</exception>
+    /// <exception cref="ArgumentException">If <paramref name="chunkWidth"/> or <paramref name="chunkHeight"/> are not factors of the width/height</exception>
+    /// ReSharper disable once CognitiveComplexity
+    public ValueEnumerable<FromChunks, Grid<T>> Chunk(int chunkWidth, int chunkHeight)
+    {
+        return new ValueEnumerable<FromChunks, Grid<T>>(new FromChunks(this, chunkWidth, chunkHeight));
+    }
+
+    /// <summary>
+    /// Combines the given list of chunks into one big grid
+    /// </summary>
+    /// <param name="chunks">Chunks to combine</param>
+    /// <param name="size">Combined width/hieight</param>
+    /// <returns>A new grid of the specified dimensions, made of the combined chunks</returns>
+    /// <exception cref="ArgumentException">Is <paramref name="chunks"/> is empty</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="size"/> is less than one</exception>
+    /// <exception cref="InvalidOperationException">If the size of the chunks does not match with the width/height in some way</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Grid<T> CombineChunks(IReadOnlyList<Grid<T>> chunks, int size) => CombineChunks(chunks, size, size);
+
+    /// <summary>
+    /// Combines the given list of chunks into one big grid
+    /// </summary>
+    /// <param name="chunks">Chunks to combine</param>
+    /// <param name="width">Combined width</param>
+    /// <param name="height">Combined height</param>
+    /// <returns>A new grid of the specified dimensions, made of the combined chunks</returns>
+    /// <exception cref="ArgumentException">Is <paramref name="chunks"/> is empty</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="width"/> or <paramref name="height"/> are less than one</exception>
+    /// <exception cref="InvalidOperationException">If the size of the chunks does not match with the width/height in some way</exception>
+    /// ReSharper disable once CognitiveComplexity
+    public static Grid<T> CombineChunks(IReadOnlyList<Grid<T>> chunks, int width, int height)
+    {
+        // Make sure we have some data
+        if (chunks.Count is 0) throw new ArgumentException("Chunks list is empty");
+
+        // Make sure our target dimensions are valid
+        if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), width, "Width must be greater than zero");
+        if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), height, "Width must be greater than zero");
+
+        // Check that the chunks fit within the target size
+        Grid<T> first = chunks[0];
+        int chunkWidth = first.Width;
+        int chunkHeight = first.Height;
+        if (chunkWidth > width || chunkHeight > height) throw new InvalidOperationException("Chunks are too big to combine into the specified width or height");
+        if (!chunkWidth.IsFactor(width)) throw new InvalidOperationException("Chunks width not a factor of target width");
+        if (!chunkHeight.IsFactor(height)) throw new InvalidOperationException("Chunks height not a factor of target height");
+        if (!chunks.Skip(1).All(c => c.Width == chunkWidth && c.Height == chunkHeight)) throw new InvalidOperationException("Chunks size is not uniform");
+
+        // Get the horizontal and vertical counts of chunks and make sure we have the right amount of items
+        int xCount = width / chunkWidth;
+        int yCount = height / chunkHeight;
+        if (chunks.Count != xCount * yCount) throw new InvalidOperationException("Chunks list does not have the appropriate amount of items to properly combine");
+
+        // Trivial case
+        if (xCount is 1 && yCount is 1) return first;
+
+        int i = 0;
+        Grid<T> combined = new(width, height, first.toString);
+        for (int y = 0; y < height; y += chunkHeight)
+        {
+            for (int x = 0; x < width; x += chunkWidth)
+            {
+                // Combine into bigger grid
+                Grid<T> chunk = chunks[i++];
+                chunk.AsSpan2D().CopyTo(combined.AsSpan2D(x, chunkWidth, y, chunkHeight));
+            }
+        }
+        return combined;
+    }
+    /// <summary>
+    /// Creates a new grid rotated to the right
+    /// </summary>
+    /// <returns>A copy of the grid rotated to the right</returns>
+    public Grid<T> RotateRight()
+    {
+        Grid<T> rotated = new(this.Height, this.Width, this.toString);
+        AsSpan2D().RotateRight(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
+    /// Creates a new grid rotated to the left
+    /// </summary>
+    /// <returns>A copy of the grid rotated to the left</returns>
+    public Grid<T> RotateLeft()
+    {
+        Grid<T> rotated = new(this.Height, this.Width, this.toString);
+        AsSpan2D().RotateLeft(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
+    /// Creates a new grid rotated a half turn
+    /// </summary>
+    /// <returns>A copy of the grid rotated to the left</returns>
+    public Grid<T> RotateHalf()
+    {
+        Grid<T> rotated = new(this.Width, this.Height, this.toString);
+        AsSpan2D().RotateHalf(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
+    /// Creates a new grid flipped vertically
+    /// </summary>
+    /// <returns>A copy of the grid flipped verticallyt</returns>
+    public Grid<T> FlipVertical()
+    {
+        Grid<T> rotated = new(this.Width, this.Height, this.toString);
+        AsSpan2D().FlipVertical(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
+    /// Creates a new grid flipped horizontally
+    /// </summary>
+    /// <returns>A copy of the grid flipped horizontally</returns>
+    public Grid<T> FlipHorizontal()
+    {
+        Grid<T> rotated = new(this.Width, this.Height, this.toString);
+        AsSpan2D().FlipHorizontal(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
+    /// Creates a new grid rotated a half turn
+    /// </summary>
+    /// <returns>A copy of the grid rotated to the left</returns>
+    public Grid<T> Transpose()
+    {
+        Grid<T> rotated = new(this.Height, this.Width, this.toString);
+        AsSpan2D().Transpose(rotated.AsSpan2D());
+        return rotated;
+    }
+
+    /// <summary>
     /// Clears this grid
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -580,6 +738,15 @@ public class Grid<T> : IGrid<T>
         }
     }
 
+    /// <summary>
+    /// Converts this to a value enumerable
+    /// </summary>
+    /// <returns>Value enumerable over this grid</returns>
+    public ValueEnumerable<FromSpan2D<T>, T> AsValueEnumerable()
+    {
+        return new ValueEnumerable<FromSpan2D<T>, T>(new FromSpan2D<T>(AsSpan2D()));
+    }
+
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span2D<T>.Enumerator GetEnumerator() => this.grid.AsSpan2D().GetEnumerator();
@@ -595,16 +762,98 @@ public class Grid<T> : IGrid<T>
     /// <inheritdoc cref="object.ToString"/>
     public override string ToString()
     {
+        using Pooled<StringBuilder> sb = StringBuilderObjectPool.Shared.Get();
         foreach (int j in ..this.Height)
         {
             foreach (int i in ..this.Width)
             {
-                this.toStringBuilder.Append(this.toString(this[i, j]));
+                sb.Ref.Append(this.toString(this[i, j]));
             }
-
-            this.toStringBuilder.AppendLine();
+            sb.Ref.AppendLine();
         }
 
-        return this.toStringBuilder.ToStringAndClear();
+        return sb.Ref.ToString(0, sb.Ref.Length - Environment.NewLine.Length);
+    }
+
+    /// <summary>
+    /// Grid chunk enumerator
+    /// </summary>
+    public ref struct FromChunks : IValueEnumerator<Grid<T>>
+    {
+        private readonly Grid<T> grid;
+        private readonly int chunkWidth;
+        private readonly int chunkHeight;
+        private int x;
+        private int y;
+
+        /// <summary>
+        /// Creates a new ChunkEnumerator
+        /// </summary>
+        /// <param name="grid">Grid to chunk up</param>
+        /// <param name="chunkWidth">Chunk width</param>
+        /// <param name="chunkHeight">Chunk height</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="chunkWidth"/> or <paramref name="chunkHeight"/> are less than zero or greater than the width/height</exception>
+        /// <exception cref="ArgumentException">If <paramref name="chunkWidth"/> or <paramref name="chunkHeight"/> are not factors of the width/height</exception>
+        public FromChunks(Grid<T> grid, int chunkWidth, int chunkHeight)
+        {
+            // Make sure we have a multiple of the size in each direction
+            if (chunkWidth <= 0 || chunkWidth > grid.Width) throw new ArgumentOutOfRangeException(nameof(chunkWidth), chunkWidth, "Chunk width must be greater than zero and less than the grid's width");
+            if (chunkHeight <= 0 || chunkHeight > grid.Height) throw new ArgumentOutOfRangeException(nameof(chunkHeight), chunkHeight, "Chunk height must be greater than zero and less than the grid's height");
+            if (!chunkWidth.IsFactor(grid.Width)) throw new ArgumentException("Chunk width must be a factor of grid width", nameof(chunkWidth));
+            if (!chunkHeight.IsFactor(grid.Height)) throw new ArgumentException("Chunk height must be a factor of grid height", nameof(chunkHeight));
+
+            this.grid        = grid;
+            this.chunkWidth  = chunkWidth;
+            this.chunkHeight = chunkHeight;
+        }
+
+        /// <inheritdoc />
+        public bool TryGetNext(out Grid<T> current)
+        {
+            // End condition
+            if (this.y == this.grid.Height)
+            {
+                current = null!;
+                return false;
+            }
+
+            // Create chunk
+            current = new Grid<T>(this.chunkWidth, this.chunkHeight, this.grid.toString);
+            ReadOnlySpan2D<T> source = this.grid.AsSpan2D(this.x, this.chunkWidth, this.y, this.chunkHeight);
+            source.CopyTo(current.AsSpan2D());
+
+            // Increment to next chunk
+            this.x += this.chunkWidth;
+            if (this.x == this.grid.Width)
+            {
+                this.x = 0;
+                this.y += this.chunkHeight;
+            }
+            return true;
+        }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetNonEnumeratedCount(out int count)
+        {
+            count = (this.grid.Width / this.chunkWidth) * (this.grid.Height / this.chunkHeight);
+            return true;
+        }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetSpan(out ReadOnlySpan<Grid<T>> span)
+        {
+            span = default;
+            return false;
+        }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryCopyTo(scoped Span<Grid<T>> destination, Index offset) => false;
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Dispose() { }
     }
 }

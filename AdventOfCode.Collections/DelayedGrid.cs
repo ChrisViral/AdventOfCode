@@ -4,13 +4,15 @@ using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
 using ZLinq;
 
+[assembly: ZLinqDropInExternalExtension("AdventOfCode.Collections", "AdventOfCode.Collections.DelayedGrid`1", "AdventOfCode.Utils.ValueEnumerators.FromSpan2D`1", GenerateAsPublic = true)]
+
 namespace AdventOfCode.Collections;
 
 /// <summary>
 /// Delayed grid which does not apply changes until requested
 /// </summary>
 /// <typeparam name="T">Grid element type</typeparam>
-[PublicAPI, ZLinqDropInExtension]
+[PublicAPI]
 public sealed class DelayedGrid<T> : Grid<T>
 {
     /// <summary>Backup array</summary>

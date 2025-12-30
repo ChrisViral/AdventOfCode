@@ -6,6 +6,9 @@ using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Maths.Vectors;
 using JetBrains.Annotations;
 using ZLinq;
+using ZLinq.Linq;
+
+[assembly: ZLinqDropInExternalExtension("AdventOfCode.Collections", "AdventOfCode.Collections.SparseGrid`1", "ZLinq.Linq.FromEnumerable`1", GenerateAsPublic = true)]
 
 namespace AdventOfCode.Collections;
 
@@ -13,7 +16,7 @@ namespace AdventOfCode.Collections;
 /// Dictionary backed sparse grid
 /// </summary>
 /// <typeparam name="T">Grid element</typeparam>
-[PublicAPI, ZLinqDropInExtension, DebuggerDisplay("Size = {Size}"), DebuggerTypeProxy(typeof(SparseGridDebugView<>))]
+[PublicAPI, DebuggerDisplay("Size = {Size}"), DebuggerTypeProxy(typeof(SparseGridDebugView<>))]
 public class SparseGrid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
@@ -157,10 +160,15 @@ public class SparseGrid<T> : IGrid<T>
     }
 
     /// <inheritdoc />
-    public IEnumerable<GridPosition<T>> EnumeratePositions()
-    {
-        return this.grid.Select(p => new GridPosition<T>(p.Key, p.Value));
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<GridPosition<T>> EnumeratePositions() => this.grid.Select(p => new GridPosition<T>(p.Key, p.Value));
+
+    /// <summary>
+    /// Converts this SparseGrid to a value enumerable
+    /// </summary>
+    /// <returns>ValueEnumerable over the grid</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ValueEnumerable<FromEnumerable<T>, T> AsValueEnumerable() => this.grid.Values.AsValueEnumerable();
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

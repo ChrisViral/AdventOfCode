@@ -7,6 +7,8 @@ using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 using ZLinq;
 
+[assembly: ZLinqDropInExternalExtension("AdventOfCode.Collections", "AdventOfCode.Collections.ConsoleView`1", "AdventOfCode.Utils.ValueEnumerators.FromSpan2D`1", GenerateAsPublic = true)]
+
 namespace AdventOfCode.Collections;
 
 /// <summary>
@@ -26,7 +28,7 @@ public enum Anchor
 /// Console interactive view
 /// </summary>
 /// <typeparam name="T">Type of object in the view</typeparam>
-[PublicAPI, ZLinqDropInExtension]
+[PublicAPI]
 public sealed class ConsoleView<T> : Grid<T> where T : notnull
 {
     private readonly Vector2<int> anchor;
