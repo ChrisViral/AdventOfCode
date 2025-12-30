@@ -15,7 +15,6 @@ namespace AdventOfCode.Collections;
 public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     where TKey : notnull
 {
-    private readonly TValue defaultValue;
     private readonly Dictionary<TKey, TValue> dictionary;
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count" />
@@ -31,6 +30,11 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.dictionary.Capacity;
     }
+
+    /// <summary>
+    /// Default value of the dictionary
+    /// </summary>
+    public TValue DefaultValue { get; }
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Keys" />
     public Dictionary<TKey, TValue>.KeyCollection Keys
@@ -50,7 +54,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public TValue this[TKey key]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => this.dictionary.GetValueOrDefault(key, this.defaultValue);
+        get => this.dictionary.GetValueOrDefault(key, this.DefaultValue);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.dictionary[key] = value;
     }
@@ -62,7 +66,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>();
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -73,7 +77,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(IDictionary<TKey, TValue> source, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(source);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -85,7 +89,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(IDictionary<TKey, TValue> source, IEqualityComparer<TKey> comparer, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(source, comparer);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -96,7 +100,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(IEnumerable<KeyValuePair<TKey, TValue>> source, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(source);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -108,7 +112,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(IEnumerable<KeyValuePair<TKey, TValue>> source, IEqualityComparer<TKey> comparer, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(source, comparer);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -119,7 +123,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(int capacity, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(capacity);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -130,7 +134,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(IEqualityComparer<TKey> comparer, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(comparer);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
     }
 
     /// <summary>
@@ -142,16 +146,34 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     public DefaultDictionary(int capacity, IEqualityComparer<TKey> comparer, TValue defaultValue)
     {
         this.dictionary   = new Dictionary<TKey, TValue>(capacity, comparer);
-        this.defaultValue = defaultValue;
+        this.DefaultValue = defaultValue;
+    }
+
+    /// <summary>
+    /// Copies a DefaultDictionary
+    /// </summary>
+    /// <param name="other">Other dictionary to copy from</param>
+    public DefaultDictionary(DefaultDictionary<TKey, TValue> other)
+    {
+        this.dictionary   = new Dictionary<TKey, TValue>(other.dictionary);
+        this.DefaultValue = other.DefaultValue;
     }
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Add(TKey key, TValue value) => this.dictionary.Add(key, value);
 
+    /// <inheritdoc cref="Dictionary{TKey, TValue}.TryAdd" />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void TryAdd(TKey key, TValue value) => this.dictionary.TryAdd(key, value);
+
     /// <inheritdoc cref="Dictionary{TKey, TValue}.ContainsKey" />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool ContainsKey(TKey key) => this.dictionary.ContainsKey(key);
+
+    /// <inheritdoc cref="Dictionary{TKey, TValue}.ContainsValue" />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool ContainsValue(TValue value) => this.dictionary.ContainsValue(value);
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -163,7 +185,7 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     {
         if (this.dictionary.TryGetValue(key, out value!)) return true;
 
-        value = this.defaultValue;
+        value = this.DefaultValue;
         return false;
     }
 

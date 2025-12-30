@@ -17,11 +17,11 @@ namespace AdventOfCode.Collections;
 /// </summary>
 /// <typeparam name="T">Grid element</typeparam>
 [PublicAPI, DebuggerDisplay("Size = {Size}"), DebuggerTypeProxy(typeof(SparseGridDebugView<>))]
-public class SparseGrid<T> : IGrid<T>
+public sealed class SparseGrid<T> : IGrid<T>
 {
     private static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
 
-    protected readonly Dictionary<Vector2<int>, T> grid;
+    private readonly DefaultDictionary<Vector2<int>, T> grid;
 
     /// <summary>
     /// Size of the grid
@@ -34,7 +34,7 @@ public class SparseGrid<T> : IGrid<T>
     /// <param name="x">X coordinate</param>
     /// <param name="y">Y coordinate</param>
     /// <returns>The element at the specified position</returns>
-    public virtual T this[int x, int y]
+    public T this[int x, int y]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[new Vector2<int>(x, y)];
@@ -48,7 +48,7 @@ public class SparseGrid<T> : IGrid<T>
     /// <param name="vector">Position vector in the grid</param>
     /// <returns>The element at the specified position</returns>
     /// ReSharper disable once VirtualMemberNeverOverridden.Global
-    public virtual T this[Vector2<int> vector]
+    public T this[Vector2<int> vector]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[vector];
@@ -61,7 +61,7 @@ public class SparseGrid<T> : IGrid<T>
     /// </summary>
     /// <param name="tuple">Position tuple in the grid</param>
     /// <returns>The element at the specified position</returns>
-    public virtual T this[(int x, int y) tuple]
+    public T this[(int x, int y) tuple]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.grid[new Vector2<int>(tuple)];
@@ -72,19 +72,21 @@ public class SparseGrid<T> : IGrid<T>
     /// <summary>
     /// Creates a new sparse grid
     /// </summary>
-    public SparseGrid() => this.grid = new Dictionary<Vector2<int>, T>();
+    /// <param name="defaultValue">Default value provided by the grid</param>
+    public SparseGrid(T defaultValue) => this.grid = new DefaultDictionary<Vector2<int>, T>(defaultValue);
 
     /// <summary>
     /// Creates a new sparse grid with the specified capacity
     /// </summary>
     /// <param name="capacity">Grid initial capacity</param>
-    public SparseGrid(int capacity) => this.grid = new Dictionary<Vector2<int>, T>(capacity);
+    /// <param name="defaultValue">Default value provided by the grid</param>
+    public SparseGrid(int capacity, T defaultValue) => this.grid = new DefaultDictionary<Vector2<int>, T>(capacity, defaultValue);
 
     /// <summary>
     /// Grid copy constructor
     /// </summary>
     /// <param name="other">Other grid to create a copy of</param>
-    public SparseGrid(SparseGrid<T> other) => this.grid = new Dictionary<Vector2<int>, T>(other.grid);
+    public SparseGrid(SparseGrid<T> other) => this.grid = new DefaultDictionary<Vector2<int>, T>(other.grid);
 
     /// <inheritdoc />
     public void CopyFrom(IGrid<T> other)
@@ -101,7 +103,7 @@ public class SparseGrid<T> : IGrid<T>
     /// <param name="position">Position to get the value for</param>
     /// <param name="value">The value, if it was found</param>
     /// <returns><see langword="true"/> if the value was found, otherwise <see langword="false"/></returns>
-    public virtual bool TryGetPosition(Vector2<int> position, [MaybeNullWhen(false)] out T value)
+    public bool TryGetPosition(Vector2<int> position, [MaybeNullWhen(false)] out T value)
     {
         return this.grid.TryGetValue(position, out value);
     }
@@ -112,7 +114,7 @@ public class SparseGrid<T> : IGrid<T>
     /// <param name="position">Position vector</param>
     /// <returns>True if the Vector2 is within the grid, false otherwise</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual bool WithinGrid(Vector2<int> position)
+    public bool WithinGrid(Vector2<int> position)
     {
         return this.grid.ContainsKey(position);
     }
@@ -122,7 +124,7 @@ public class SparseGrid<T> : IGrid<T>
     /// </summary>
     /// <param name="value">Value to find</param>
     /// <returns>The first position in the grid that the value is found at, or <c>(-1, -1)</c> if it wasn't</returns>
-    public virtual Vector2<int> PositionOf(T value)
+    public Vector2<int> PositionOf(T value)
     {
         foreach (KeyValuePair<Vector2<int>, T> pair in this.grid)
         {
@@ -146,7 +148,7 @@ public class SparseGrid<T> : IGrid<T>
     /// Clears this grid
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public virtual void Clear() => this.grid.Clear();
+    public void Clear() => this.grid.Clear();
 
     /// <summary>
     /// Copies the values of the grid to an array
