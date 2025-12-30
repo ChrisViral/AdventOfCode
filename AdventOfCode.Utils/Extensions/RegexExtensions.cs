@@ -24,21 +24,21 @@ public static class RegexExtensions
         /// <inheritdoc />
         public bool TryGetNext(out Group current)
         {
-            if (this.index == this.groups.Count)
+            while (this.index < this.groups.Count)
             {
-                current = null!;
-                return false;
+                current = this.groups[this.index++];
+                if (!current.ValueSpan.IsEmpty) return true;
             }
 
-            current = this.groups[this.index++];
-            return true;
+            current = null!;
+            return false;
         }
 
         /// <inheritdoc />
         public bool TryGetNonEnumeratedCount(out int count)
         {
-            count = this.groups.Count - 1;
-            return true;
+            count = 0;
+            return false;
         }
 
         /// <inheritdoc />

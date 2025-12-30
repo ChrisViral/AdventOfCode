@@ -1,122 +1,29 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using AdventOfCode.AoC2017.Common;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enums;
 using AdventOfCode.Utils.Extensions.Strings;
+using FastEnumUtility;
 
 namespace AdventOfCode.AoC2017;
 
 /// <summary>
 /// Solver for 2017 Day 18
 /// </summary>
-public sealed partial class Day18 : RegexSolver<Day18.Instruction>
+public sealed class Day18 : RegexSolver<Instruction>
 {
-    /// <summary>
-    /// Duet opcodes
-    /// </summary>
-    public enum Opcode
-    {
-        SND,
-        SET,
-        ADD,
-        MUL,
-        MOD,
-        RCV,
-        JGZ
-    }
-
     /// <summary>
     /// Program state
     /// </summary>
-    public enum State
+    private enum State
     {
         IDLE,
         RUNNING,
         BLOCKED,
         HALTED
-    }
-
-    /// <summary>
-    /// Duet program registers
-    /// </summary>
-    [InlineArray(StringUtils.LETTER_COUNT)]
-    public struct Registers
-    {
-        private long element;
-    }
-
-    /// <summary>
-    /// Instruction value reference
-    /// </summary>
-    /// <param name="Value">Integer value</param>
-    /// <param name="IsRegister">Wether or not the value points to a register or is an immediate value</param>
-    public readonly record struct Ref(int Value, bool IsRegister) : IParsable<Ref>
-    {
-        /// <summary>
-        /// Gets the value for this reference
-        /// </summary>
-        /// <param name="registers">Program registers</param>
-        /// <returns>The correct value this reference points to</returns>
-        public long GetValue(in Registers registers) => this.IsRegister
-                                                            ? registers[this.Value]
-                                                            : this.Value;
-
-        /// <summary>
-        /// Gets the register value as a ref for this reference
-        /// </summary>
-        /// <param name="registers">Program registers</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException">If this reference is not pointing to registers</exception>
-        public ref long GetRegister(ref Registers registers)
-        {
-            if (!this.IsRegister) throw new InvalidOperationException("Cannot get register value for non-register ref");
-
-            return ref registers[this.Value];
-        }
-
-        /// <inheritdoc />
-        public static Ref Parse(string s, IFormatProvider? provider) => int.TryParse(s, out int value)
-                                                                            ? new Ref(value, false)
-                                                                            : new Ref(s[0].AsIndex, true);
-
-        /// <inheritdoc />
-        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out Ref result)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                result = default;
-                return false;
-            }
-
-            result = Parse(s, provider);
-            return false;
-        }
-
-        /// <inheritdoc />
-        public override string ToString() => this.IsRegister
-                                                 ? this.Value.AsAsciiLower.ToString()
-                                                 : this.Value.ToString();
-    }
-
-    /// <summary>
-    /// Duet instruction
-    /// </summary>
-    /// <param name="Opcode">Instruction opcode</param>
-    /// <param name="X">First operand</param>
-    /// <param name="Y">Second operant</param>
-    public readonly record struct Instruction(Opcode Opcode, Ref X, Ref Y)
-    {
-        /// <summary>
-        /// Creates a new single operand instruction
-        /// </summary>
-        /// <param name="opcode">Instruction opcode</param>
-        /// <param name="x">First operand</param>
-        /// ReSharper disable once IntroduceOptionalParameters.Global
-        public Instruction(Opcode opcode, Ref x) : this(opcode, x, default) { }
     }
 
     /// <summary>
@@ -218,6 +125,10 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
                     this.address += instruction.X.GetValue(this.registers) > 0L ? (int)instruction.Y.GetValue(this.registers) : 1;
                     return null;
 
+                case Opcode.SUB:
+                case Opcode.JNZ:
+                    throw new InvalidOperationException($"{instruction.Opcode.FastToString()} opcode not currently defined");
+
                 default:
                     throw instruction.Opcode.Invalid();
             }
@@ -290,6 +201,9 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
                     this.address += instruction.X.GetValue(this.registers) > 0L ? (int)instruction.Y.GetValue(this.registers) : 1;
                     return;
 
+                case Opcode.JNZ:
+                    throw new InvalidOperationException("JNZ opcode not currently defined");
+
                 default:
                     throw instruction.Opcode.Invalid();
             }
@@ -310,8 +224,7 @@ public sealed partial class Day18 : RegexSolver<Day18.Instruction>
     }
 
     /// <inheritdoc />
-    [GeneratedRegex(@"([a-z]{3}) ([a-z]|-?\d+)(?: ([a-z]|-?\d+))?")]
-    protected override partial Regex Matcher { get; }
+    protected override Regex Matcher => Instruction.Matcher;
 
     /// <summary>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
