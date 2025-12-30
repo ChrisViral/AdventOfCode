@@ -58,12 +58,15 @@ public abstract class GridSolver<T> : Solver<Grid<T>>
             case GridParseMode.CONVERT:
                 Span<T> line = LineConverter(rawInput[0]);
                 width = line.Length;
-                Grid<T> grid = new(width, height, StringConversion);
-                line.CopyTo(grid[0]);
+                Grid<T> grid = new(width, height, StringConversion)
+                {
+                    [0] = line
+                };
+
                 foreach (int y in 1..height)
                 {
                     line = LineConverter(rawInput[y]);
-                    line.CopyTo(grid[y]);
+                    grid[y] = line;
                 }
 
                 return grid;

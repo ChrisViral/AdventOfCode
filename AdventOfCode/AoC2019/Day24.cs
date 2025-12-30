@@ -169,8 +169,8 @@ public sealed class Day24 : GridSolver<bool>
 
     private static int CountSurroundingInside(Direction checkDirection, DelayedGrid<bool> levelMap) => checkDirection switch
     {
-        Direction.UP    => levelMap[^1].Count(true),
-        Direction.DOWN  => levelMap[0].Count(true),
+        Direction.UP    => levelMap[^1].AsValueEnumerable().Count(true),
+        Direction.DOWN  => levelMap[0].AsValueEnumerable().Count(true),
         Direction.LEFT  => levelMap.GetColumn(^1).AsValueEnumerable().Count(true),
         Direction.RIGHT => levelMap.GetColumn(0).AsValueEnumerable().Count(true),
         Direction.NONE  => throw new InvalidOperationException("None is not a valid check direction"),

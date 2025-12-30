@@ -87,8 +87,10 @@ public sealed partial class Day06 : Solver<Grid<string>>
         // Create grid and fill with operators
         int width  = operators.Count;
         int height = rawInput.Length;
-        Grid<string> grid = new(width, height, s => s);
-        line.CopyTo(grid[^1]);
+        Grid<string> grid = new(width, height, s => s)
+        {
+            [^1] = line
+        };
 
         // Parse rest of grid
         foreach (int y in ..(height - 1))
@@ -100,7 +102,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 line[x] = input.Slice(operatorGroup.Index, operatorGroup.Length).ToString();
             }
 
-            line.CopyTo(grid[y]);
+            grid[y] = line;
         }
         return grid;
     }

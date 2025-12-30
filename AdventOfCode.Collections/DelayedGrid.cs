@@ -52,12 +52,13 @@ public sealed class DelayedGrid<T> : Grid<T>
     /// <param name="row">Row index of the row to get</param>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
-    public override Span<T> this[int row]
+    public override ReadOnlySpan<T> this[int row]
     {
-        get
+        set
         {
             if (row < 0 || row >= this.Height) throw new ArgumentOutOfRangeException(nameof(row), row, "Row index must be within limits of Grid");
-            return this.backupGrid.GetRowSpan(row);
+            if (value.Length != this.Width) throw new ArgumentException("Assigned span must be of the same length as grid width", nameof(value));
+            value.CopyTo(this.backupGrid.GetRowSpan(row));
         }
     }
 

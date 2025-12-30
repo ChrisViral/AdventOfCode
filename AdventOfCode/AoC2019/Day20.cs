@@ -132,7 +132,7 @@ public sealed class Day20 : Solver<Day20.MapData>
         ReadOnlySpan<string> rawInputs = rawInput.AsSpan(2, height);
         foreach (int y in ..height)
         {
-            Span<Element> row = grid[y];
+            Span<Element> row = grid.GetRow(y);
             ReadOnlySpan<char> line = rawInputs[y].AsSpan(2, width);
             foreach (int x in ..width)
             {

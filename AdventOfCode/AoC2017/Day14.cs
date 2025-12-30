@@ -41,7 +41,7 @@ public sealed class Day14 : Solver<string>
             i.TryFormat(line[^3..], out int written);
             BitVector128 hash = Knot.Hash(line[..^(3 - written)]);
             used += (int)UInt128.PopCount(hash.Data);
-            hash.CopyTo(disk[i]);
+            hash.CopyTo(disk.GetRow(i));
         }
         AoCUtils.LogPart1(used);
 
