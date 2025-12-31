@@ -95,6 +95,38 @@ public static class CollectionExtensions
     extension<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
     {
         /// <summary>
+        /// Gets the value for the given key in the dictionary, or creates a new one and adds it to the dictionary
+        /// </summary>
+        /// <param name="key">Key to get at in the dictionary</param>
+        /// <param name="factory">Factory method creating the value</param>
+        /// <returns>The fetched or created value</returns>
+        public TValue GetOrCreate(TKey key, Func<TValue> factory)
+        {
+            if (!dictionary.TryGetValue(key, out TValue? value))
+            {
+                value = factory();
+                dictionary.Add(key, value);
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// Gets the value for the given key in the dictionary, or creates a new one and adds it to the dictionary
+        /// </summary>
+        /// <param name="key">Key to get at in the dictionary</param>
+        /// <param name="factory">Factory method creating the value</param>
+        /// <returns>The fetched or created value</returns>
+        public TValue GetOrCreate(TKey key, Func<TKey, TValue> factory)
+        {
+            if (!dictionary.TryGetValue(key, out TValue? value))
+            {
+                value = factory(key);
+                dictionary.Add(key, value);
+            }
+            return value;
+        }
+
+        /// <summary>
         /// Converts a generic dictionary to a ValueEnumerable of it's KeyValue pairs
         /// </summary>
         /// <returns>Value enumerable of KeyValue pairs</returns>
