@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using AdventOfCode.Utils.Extensions.Enumerables;
 using JetBrains.Annotations;
+using ZLinq;
+using ZLinq.Linq;
 
 namespace AdventOfCode.Collections;
 
@@ -57,7 +59,7 @@ public class Counter<TKey, TCount> : IDictionary<TKey, TCount>, IReadOnlyDiction
     where TCount : struct, IBinaryInteger<TCount>
 {
     /// <summary>Backing dictionary</summary>
-    private readonly Dictionary<TKey, TCount> dictionary;
+    internal readonly Dictionary<TKey, TCount> dictionary;
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.Count"/>
     public int Count
@@ -206,9 +208,18 @@ public class Counter<TKey, TCount> : IDictionary<TKey, TCount>, IReadOnlyDiction
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CopyTo(TKey[] array, int arrayIndex) => this.dictionary.Keys.CopyTo(array, arrayIndex);
 
-    /// <inheritdoc cref="ICollection{T}.GetEnumerator"/>
+    /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerator<TKey> GetEnumerator() => this.dictionary.Keys.GetEnumerator();
+    public IEnumerator<KeyValuePair<TKey, TCount>> GetEnumerator() => this.dictionary.GetEnumerator();
+
+    /// <summary>
+    /// ValueEnumerable over this counter
+    /// </summary>
+    /// <returns>ValueEnumerable of this Counter</returns>
+    public ValueEnumerable<FromDictionary<TKey, TCount>, KeyValuePair<TKey, TCount>> AsValueEnumerable()
+    {
+        return new ValueEnumerable<FromDictionary<TKey, TCount>, KeyValuePair<TKey, TCount>>(new FromDictionary<TKey, TCount>(this.dictionary));
+    }
 
     /// <inheritdoc cref="ICollection{T}.Remove"/>
     public bool Remove(TKey value)
@@ -328,5 +339,5 @@ public class Counter<TKey, TCount> : IDictionary<TKey, TCount>, IReadOnlyDiction
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    IEnumerator<KeyValuePair<TKey, TCount>> IEnumerable<KeyValuePair<TKey, TCount>>.GetEnumerator() => this.dictionary.GetEnumerator();
+    IEnumerator<TKey> IEnumerable<TKey>.GetEnumerator() => this.dictionary.Keys.GetEnumerator();
 }

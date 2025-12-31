@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Collections.DebugViews;
 using JetBrains.Annotations;
+using ZLinq;
+using ZLinq.Linq;
 
 namespace AdventOfCode.Collections;
 
@@ -196,6 +198,15 @@ public sealed class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     /// <inheritdoc cref="Dictionary{TKey, TValue}.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Dictionary<TKey, TValue>.Enumerator GetEnumerator() => this.dictionary.GetEnumerator();
+
+    /// <summary>
+    /// ValueEnumerable over this DefaultDictionary
+    /// </summary>
+    /// <returns>ValueEnumerable of this DefaultDictionary</returns>
+    public ValueEnumerable<FromDictionary<TKey, TValue>, KeyValuePair<TKey, TValue>> AsValueEnumerable()
+    {
+        return new ValueEnumerable<FromDictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>(new FromDictionary<TKey, TValue>(this.dictionary));
+    }
 
     /// <inheritdoc />
     ICollection<TKey> IDictionary<TKey, TValue>.Keys
