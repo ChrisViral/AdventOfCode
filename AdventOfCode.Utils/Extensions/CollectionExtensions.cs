@@ -1,6 +1,8 @@
 ﻿using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
+using ZLinq;
+using ZLinq.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode.Utils.Extensions.Collections;
@@ -85,6 +87,20 @@ public static class CollectionExtensions
             }
             // Remove last element
             list.RemoveAt(lastIndex);
+        }
+    }
+
+    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="TValue">Value type</typeparam>
+    extension<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
+    {
+        /// <summary>
+        /// Converts a generic dictionary to a ValueEnumerable of it's KeyValue pairs
+        /// </summary>
+        /// <returns>Value enumerable of KeyValue pairs</returns>
+        public ValueEnumerable<FromEnumerable<KeyValuePair<TKey, TValue>>, KeyValuePair<TKey, TValue>> AsValueEnumerable()
+        {
+            return ((IEnumerable<KeyValuePair<TKey, TValue>>)dictionary).AsValueEnumerable();
         }
     }
 

@@ -356,6 +356,19 @@ public static class EnumerableExtensions
         }
 
         /// <summary>
+        /// Adds all the elements in this ValueEnumerable to a collection
+        /// </summary>
+        /// <param name="collection">Collection to add to</param>
+        public void AddTo([InstantHandle] ICollection<TSource> collection)
+        {
+            using TEnumerator enumerator = enumerable.Enumerator;
+            while (enumerator.TryGetNext(out TSource element))
+            {
+                collection.Add(element);
+            }
+        }
+
+        /// <summary>
         /// Counts the instance of a value in the enumerable
         /// </summary>
         /// <param name="value">Value to count</param>
