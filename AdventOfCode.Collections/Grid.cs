@@ -363,7 +363,7 @@ public class Grid<T> : IGrid<T>
 
     /// <inheritdoc cref="GetColumn(int)"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public RefEnumerable<T> GetRow(Index y) => GetColumn(y.GetOffset(this.Height));
+    public Span<T> GetRow(Index y) => GetRow(y.GetOffset(this.Height));
 
     /// <summary>
     /// Gets the given column of the grid
