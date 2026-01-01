@@ -2,7 +2,8 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Collections.Pooling;
+// ReSharper disable once CheckNamespace
+namespace AdventOfCode.Collections.Pooling.Arrays;
 
 /// <summary>
 /// Pooled array wrapper
@@ -11,7 +12,7 @@ namespace AdventOfCode.Collections.Pooling;
 /// <param name="pool">Pool the array came from</param>
 /// <typeparam name="T">Array element type</typeparam>
 [PublicAPI]
-public readonly ref struct PooledArray<T>(T[] array, ArrayPool<T> pool) : IDisposable
+public readonly ref struct FromArrayPool<T>(T[] array, ArrayPool<T> pool, int requestedLength) : IDisposable
 {
     /// <summary>
     /// Pool this array came from
@@ -24,6 +25,21 @@ public readonly ref struct PooledArray<T>(T[] array, ArrayPool<T> pool) : IDispo
     public T[] Ref { get; } = array;
 
     /// <summary>
+    /// The length of array that was actually requested
+    /// </summary>
+    public int RequestedLength { get; } = requestedLength;
+
+    /// <summary>
+    /// The requested array as a span
+    /// </summary>
+    public Span<T> AsSpan => this.Ref.AsSpan(this.RequestedLength);
+
+    /// <summary>
+    /// The requested array as an ArraySegment
+    /// </summary>
+    public ArraySegment<T> AsArraySegement => new ArraySegment<T>(this.Ref, 0, this.RequestedLength);
+
+    /// <summary>
     /// Returns the array to the pool
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -32,10 +48,10 @@ public readonly ref struct PooledArray<T>(T[] array, ArrayPool<T> pool) : IDispo
     /// <summary>
     /// Gets the pooled array
     /// </summary>
-    /// <param name="pooled">Pooled array to get the refrence from</param>
+    /// <param name="fromArrayPool">Pooled array to get the refrence from</param>
     /// <returns>The unwrapped array reference</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static explicit operator T[](in PooledArray<T> pooled) => pooled.Ref;
+    public static explicit operator T[](in FromArrayPool<T> fromArrayPool) => fromArrayPool.Ref;
 }
 
 /// <summary>
@@ -57,6 +73,6 @@ public static class ArrayPoolExtensions
         /// <param name="minimumLength">Array minimum length</param>
         /// <returns>The wrapped rented array reference</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public PooledArray<T> RentTracked(int minimumLength) => new(pool.Rent(minimumLength), pool);
+        public FromArrayPool<T> RentTracked(int minimumLength) => new(pool.Rent(minimumLength), pool, minimumLength);
     }
 }

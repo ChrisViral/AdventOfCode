@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using System.Diagnostics;
 using AdventOfCode.Collections;
-using AdventOfCode.Collections.Pooling;
+using AdventOfCode.Collections.Pooling.Arrays;
 using AdventOfCode.Collections.Search;
 using AdventOfCode.Maths.Vectors;
 using AdventOfCode.Maths.Vectors.BitVectors;
@@ -271,7 +271,7 @@ public sealed class Day18 : GridSolver<char>
         int FindBestKeyPathInternal(HashSet<Key> remaining, ref BitVector32 unlocked, Dictionary<BranchData<T>, int> branchCache, int distanceSoFar, int bestSoFar)
         {
             int best = int.MaxValue;
-            PooledArray<Key> keyArray = ArrayPool<Key>.Shared.RentTracked(remaining.Count);
+            FromArrayPool<Key> keyArray = ArrayPool<Key>.Shared.RentTracked(remaining.Count);
             remaining.CopyTo(keyArray.Ref);
             foreach (Key key in keyArray.Ref.AsSpan(0, remaining.Count))
             {

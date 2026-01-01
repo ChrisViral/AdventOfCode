@@ -73,6 +73,28 @@ public static class CollectionExtensions
         /// Removes an element from the list by swapping the last element of the list in it's spot, and then removing the last element.<br/>
         /// This should technically run in O(1)
         /// </summary>
+        /// <param name="item">Item to remove</param>
+        public bool RemoveSwap(T item)
+        {
+            int index = list.IndexOf(item);
+            if (index is -1) return false;
+
+            int lastIndex = list.Count - 1;
+            if (index != lastIndex)
+            {
+                // Move the last element to the element to remove's spot
+                list[index] = list[lastIndex];
+            }
+
+            // Remove last element
+            list.RemoveAt(lastIndex);
+            return true;
+        }
+
+        /// <summary>
+        /// Removes an element from the list by swapping the last element of the list in it's spot, and then removing the last element.<br/>
+        /// This should technically run in O(1)
+        /// </summary>
         /// <param name="index">Index to remove at</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is out of the range of the list</exception>
         public void RemoveSwap(int index)
