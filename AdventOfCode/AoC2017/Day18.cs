@@ -93,22 +93,22 @@ public sealed class Day18 : RegexSolver<Instruction>
                     return null;
 
                 case Opcode.SET:
-                    instruction.X.GetRegister(ref this.registers) = instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) = instruction.Y.GetValue(this.registers);
                     this.address++;
                     return null;
 
                 case Opcode.ADD:
-                    instruction.X.GetRegister(ref this.registers) += instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) += instruction.Y.GetValue(this.registers);
                     this.address++;
                     return null;
 
                 case Opcode.MUL:
-                    instruction.X.GetRegister(ref this.registers) *= instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) *= instruction.Y.GetValue(this.registers);
                     this.address++;
                     return null;
 
                 case Opcode.MOD:
-                    instruction.X.GetRegister(ref this.registers) %= instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) %= instruction.Y.GetValue(this.registers);
                     this.address++;
                     return null;
 
@@ -167,29 +167,29 @@ public sealed class Day18 : RegexSolver<Instruction>
                     return;
 
                 case Opcode.SET:
-                    instruction.X.GetRegister(ref this.registers) = instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) = instruction.Y.GetValue(this.registers);
                     this.address++;
                     return;
 
                 case Opcode.ADD:
-                    instruction.X.GetRegister(ref this.registers) += instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) += instruction.Y.GetValue(this.registers);
                     this.address++;
                     return;
 
                 case Opcode.MUL:
-                    instruction.X.GetRegister(ref this.registers) *= instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) *= instruction.Y.GetValue(this.registers);
                     this.address++;
                     return;
 
                 case Opcode.MOD:
-                    instruction.X.GetRegister(ref this.registers) %= instruction.Y.GetValue(this.registers);
+                    instruction.X.GetRegister(this.registers) %= instruction.Y.GetValue(this.registers);
                     this.address++;
                     return;
 
                 case Opcode.RCV:
                     if (this.receiveQueue.TryDequeue(out long received))
                     {
-                        instruction.X.GetRegister(ref this.registers) = received;
+                        instruction.X.GetRegister(this.registers) = received;
                         this.address++;
                         return;
                     }

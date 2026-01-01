@@ -43,11 +43,11 @@ public sealed class Day23 : RegexSolver<Instruction>
         AoCUtils.LogPart1(multiplications);
 
         // Extract registers index for lower and upper bound
-        int lowerBoundIndex = this.Data[0].X.Value;
-        int upperBoundIndex = this.Data[1].X.Value;
+        int lowerBoundIndex = (int)this.Data[0].X.Value;
+        int upperBoundIndex = (int)this.Data[1].X.Value;
 
         // Calculate jump address for end of setup
-        int setupEnd = this.Data[3].Y.Value + 3;
+        long setupEnd = this.Data[3].Y.Value + 3;
 
         // Run program until we finish setup
         address = 0;
@@ -63,7 +63,7 @@ public sealed class Day23 : RegexSolver<Instruction>
         int notPrime = 0;
         int lowerBound = (int)registers[lowerBoundIndex];
         int upperBound = (int)registers[upperBoundIndex];
-        int step = -this.Data[^2].Y.Value;
+        int step = (int)-this.Data[^2].Y.Value;
         for (int b = lowerBound; b <= upperBound; b += step)
         {
             if (!b.IsPrime())
@@ -79,17 +79,17 @@ public sealed class Day23 : RegexSolver<Instruction>
         switch (instruction.Opcode)
         {
             case Opcode.SET:
-                instruction.X.GetRegister(ref registers) = instruction.Y.GetValue(registers);
+                instruction.X.GetRegister(registers) = instruction.Y.GetValue(registers);
                 address++;
                 return;
 
             case Opcode.SUB:
-                instruction.X.GetRegister(ref registers) -= instruction.Y.GetValue(registers);
+                instruction.X.GetRegister(registers) -= instruction.Y.GetValue(registers);
                 address++;
                 return;
 
             case Opcode.MUL:
-                instruction.X.GetRegister(ref registers) *= instruction.Y.GetValue(registers);
+                instruction.X.GetRegister(registers) *= instruction.Y.GetValue(registers);
                 address++;
                 return;
 
