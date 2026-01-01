@@ -167,7 +167,7 @@ public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placement
         if (state.Elevator is FLOOR_COUNT && TryGetFastMoves(state, out int fastSteps, out Placements updatedPlacements))
         {
             // If we can, apply this move and do nothing else
-            yield return new MoveData<Facility, int>(new Facility(FLOOR_COUNT, updatedPlacements), fastSteps);
+            yield return new MoveData<Facility, int>(state with { Placement = updatedPlacements }, fastSteps);
             yield break;
         }
 
