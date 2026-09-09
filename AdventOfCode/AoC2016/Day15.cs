@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using AdventOfCode.Maths;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using Microsoft.Z3;
 
 namespace AdventOfCode.AoC2016;
 
@@ -10,16 +10,7 @@ namespace AdventOfCode.AoC2016;
 /// </summary>
 public sealed partial class Day15 : RegexSolver<Day15.Disc>
 {
-    public readonly record struct Disc(int Index, int Positions, int Start)
-    {
-        public BoolExpr GetDiscExpr(Context context, IntExpr t)
-        {
-            // pos = (t + index + start) % positions
-            ArithExpr discPosition = context.MkMod((IntExpr)(t + context.MkInt(this.Index + this.Start)), context.MkInt(this.Positions));
-            // pos == 0
-            return context.MkEq(discPosition, context.MkInt(0));
-        }
-    }
+    public readonly record struct Disc(int Index, int Positions, int Start);
 
     /// <inheritdoc />
     [GeneratedRegex(@"Disc #(\d+) has (\d+) positions; at time=0, it is at position (\d+)")]
@@ -36,31 +27,22 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        // Create optimizer
-        using Context context = new();
-        using Optimize optimize = context.MkOptimize();
+        Span<int> remainders = stackalloc int[this.Data.Length + 1];
+        Span<int> moduli     = stackalloc int[remainders.Length];
+        for (int i = 0; i < this.Data.Length; i++)
+        {
+            Disc disc = this.Data[i];
+            remainders[i] = -disc.Start - disc.Index;
+            moduli[i] = disc.Positions;
+        }
 
-        // Create time variable and add a constraint for it to be greater than zer0
-        IntExpr t = context.MkIntConst("t");
-        // t > 0
-        BoolExpr constraint = context.MkGe(t, context.MkInt(0));
-        optimize.Add(constraint);
-
-        // Add all input discs
-        // ReSharper disable once AccessToDisposedClosure
-        optimize.Add(this.Data.AsEnumerable().Select(d => d.GetDiscExpr(context, t)));
-
-        // Minimize for time
-        optimize.MkMinimize(t);
-
-        // Evaluate answer
-        optimize.Check();
-        AoCUtils.LogPart1(optimize.Model.Evaluate(t));
+        int time = MathUtils.ChineseRemainder(remainders[..^1], moduli[..^1]);
+        AoCUtils.LogPart1(time);
 
         // Add final disc and evaluate again
-        Disc finalDisc = new(this.Data.Length + 1, 11, 0);
-        optimize.Add(finalDisc.GetDiscExpr(context, t));
-        optimize.Check();
-        AoCUtils.LogPart2(optimize.Model.Evaluate(t));
+        remainders[^1] = this.Data.Length - 1;
+        moduli[^1]     = 11;
+        time = MathUtils.ChineseRemainder(remainders, moduli);
+        AoCUtils.LogPart2(time);
     }
 }
