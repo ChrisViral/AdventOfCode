@@ -12,8 +12,26 @@ namespace AdventOfCode.Utils.Extensions.Spans;
 /// Span extensions
 /// </summary>
 [PublicAPI]
-public static class Span2DExtensions
+public static class SpanExtensions
 {
+    /// <param name="span">Span instance</param>
+    /// <typeparam name="T">Value contained in the span</typeparam>
+    extension<T>(Span<T> span)
+    {
+        /// <summary>
+        /// Applies an in-place modification to all the values of the span
+        /// </summary>
+        /// <param name="modifier">Modification function</param>
+        public void Apply([InstantHandle] Func<T, T> modifier)
+        {
+            for (int i = 0; i < span.Length; i++)
+            {
+                ref T value = ref span[i];
+                value = modifier(value);
+            }
+        }
+    }
+
     /// <param name="span">Span instance</param>
     /// <typeparam name="T">Value contained in the span</typeparam>
     extension<T>(Span2D<T> span)

@@ -12,6 +12,8 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
 {
     public readonly record struct Disc(int Index, int Positions, int Start);
 
+    private static readonly Disc FinalDisc = new(7, 11, 0);
+
     /// <inheritdoc />
     [GeneratedRegex(@"Disc #(\d+) has (\d+) positions; at time=0, it is at position (\d+)")]
     protected override partial Regex Matcher { get; }
@@ -40,8 +42,8 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
         AoCUtils.LogPart1(time);
 
         // Add final disc and evaluate again
-        remainders[^1] = this.Data.Length - 1;
-        moduli[^1]     = 11;
+        remainders[^1] = -FinalDisc.Start - FinalDisc.Index;
+        moduli[^1]     = FinalDisc.Positions;
         time = MathUtils.ChineseRemainder(remainders, moduli);
         AoCUtils.LogPart2(time);
     }

@@ -14,6 +14,19 @@ public static class ArrayExtensions
     /// <typeparam name="T">Array element type</typeparam>
     extension<T>(T[] array)
     {
+        /// <summary>
+        /// Applies an in-place modification to all the values of the array
+        /// </summary>
+        /// <param name="modifier">Modification function</param>
+        public void Apply([InstantHandle] Func<T, T> modifier)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                ref T value = ref array[i];
+                value = modifier(value);
+            }
+        }
+
         /// <inheritdoc cref="Array.BinarySearch{T}(T[], T)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int BinarySearch(T value) => Array.BinarySearch(array, value);
