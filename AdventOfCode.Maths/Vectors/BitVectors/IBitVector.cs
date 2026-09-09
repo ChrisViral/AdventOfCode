@@ -212,7 +212,7 @@ public static class BitVectorExtensions
             Span<char> data = stackalloc char[TVector.Size];
             for (int i = 0; i < data.Length; i++)
             {
-                data[^(i + 1)] = vector[i] ? '1' : '0';
+                data[i] = vector[i] ? '1' : '0';
             }
             return new string(data);
         }
