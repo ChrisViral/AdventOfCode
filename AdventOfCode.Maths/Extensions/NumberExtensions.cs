@@ -147,6 +147,46 @@ public static class NumberExtensions
         public T InverseMaskBit(int n) => ~(T.One << n);
 
         /// <summary>
+        /// Integer power function
+        /// </summary>
+        /// <param name="pow">Power to apply</param>
+        /// <returns>The result of <paramref name="value"/> ^ <paramref name="pow"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="pow"/> is a negative value</exception>
+        public T Pow(int pow)
+        {
+            if (pow < 0) throw new ArgumentOutOfRangeException(nameof(pow), "Power must be a positive value");
+            if (pow is 0) return T.One;
+
+            T result = T.One;
+            while (pow > 0)
+            {
+                if (pow.IsOdd)
+                {
+                    result = checked(result * value);
+                }
+
+                pow /= 2;
+                value = checked(value * value);
+            }
+
+            return result;
+        }
+
+        public T Log(T baseValue)
+        {
+            if (value <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value), "Value to log must be positive non-zero number");
+            if (baseValue <= T.One) throw new ArgumentOutOfRangeException(nameof(baseValue), "Log base must be greater than one");
+
+            T count = T.Zero;
+            while (value >= baseValue)
+            {
+                value /= baseValue;
+                count++;
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Greatest Common Divisor function
         /// </summary>
         /// <param name="a">First number</param>
