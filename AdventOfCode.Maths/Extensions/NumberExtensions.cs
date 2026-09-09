@@ -172,6 +172,12 @@ public static class NumberExtensions
             return result;
         }
 
+        /// <summary>
+        /// Integer floor logarithm
+        /// </summary>
+        /// <param name="baseValue">Log base</param>
+        /// <returns>The result of the base <paramref name="baseValue"/> log of <paramref name="value"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="value"/> is zero or less, or if <paramref name="baseValue"/> is one or less</exception>
         public T Log(T baseValue)
         {
             if (value <= T.Zero) throw new ArgumentOutOfRangeException(nameof(value), "Value to log must be positive non-zero number");

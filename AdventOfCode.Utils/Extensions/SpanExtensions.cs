@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Utils.Extensions.Ranges;
+﻿using System.Buffers;
+using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.ValueEnumerators;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
@@ -29,6 +30,26 @@ public static class SpanExtensions
                 ref T value = ref span[i];
                 value = modifier(value);
             }
+        }
+
+        /// <summary>
+        /// Rotates the data in a span in-place by the given amount of steps
+        /// </summary>
+        /// <param name="steps">Steps to rotate the data by</param>
+        public void Rotate(int steps)
+        {
+            // Get span length
+            int length = span.Length;
+            if (length is 1) return;
+
+            // Get bounded amount of steps
+            steps = ((steps % length) + length) % length;
+            if (steps is 0) return;
+
+            // Rotate data
+            span[..^steps].Reverse();
+            span[^steps..].Reverse();
+            span.Reverse();
         }
     }
 
