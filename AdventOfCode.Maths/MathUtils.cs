@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 using AdventOfCode.Maths.Vectors;
+using AdventOfCode.Utils.Extensions.Enumerables;
 using AdventOfCode.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
 using JetBrains.Annotations;
@@ -77,6 +78,33 @@ public static class MathUtils
         where TResult : IBinaryInteger<TResult>
     {
         return TResult.CreateChecked(TValue.Floor(value));
+    }
+
+    /// <summary>
+    /// Chinese remainder theorem
+    /// </summary>
+    /// <param name="remainders">Remainder list</param>
+    /// <param name="moduli">Modulus list</param>
+    /// <typeparam name="T">Integer type</typeparam>
+    /// <returns>The smallest number that satisfies the input modular equations</returns>
+    /// <exception cref="ArgumentException">If <paramref name="remainders"/> has a different length from <paramref name="moduli"/>, or if any value in <paramref name="moduli"/> is less than 1</exception>
+    public static T ChineseRemainder<T>(ReadOnlySpan<T> remainders, ReadOnlySpan<T> moduli) where T : IBinaryInteger<T>
+    {
+        if (remainders.Length != moduli.Length) throw new ArgumentException("Remainders and moduli must be of the same length", nameof(remainders));
+        if (moduli.Any(m => m <= T.Zero)) throw new ArgumentException("Moduli must all be greater than zero", nameof(moduli));
+
+        T product = moduli.AsValueEnumerable().Multiply();
+        T result = T.Zero;
+
+        for (int i = 0; i < moduli.Length; i++)
+        {
+            T modulus = moduli[i];
+            T partial = product / modulus;
+            T inverse = ModularInverse(partial, modulus);
+            result += remainders[i] * partial * inverse;
+        }
+
+        return result.Mod(product);
     }
 
     /// <summary>

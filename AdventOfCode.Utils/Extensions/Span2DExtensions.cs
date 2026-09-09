@@ -12,7 +12,7 @@ namespace AdventOfCode.Utils.Extensions.Spans;
 /// Span extensions
 /// </summary>
 [PublicAPI]
-public static class SpanExtensions
+public static class Span2DExtensions
 {
     /// <param name="span">Span instance</param>
     /// <typeparam name="T">Value contained in the span</typeparam>
