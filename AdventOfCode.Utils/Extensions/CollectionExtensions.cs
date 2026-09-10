@@ -54,7 +54,7 @@ public static class CollectionExtensions
         /// Enumerate pairs of items in the given list
         /// </summary>
         /// <returns>An exhaustive list of all item pairs in <paramref name="list"/></returns>
-        public IEnumerable<(T, T)> EnumeratePairs()
+        public IEnumerable<(T first, T second)> EnumeratePairs()
         {
             if (list.Count <= 1) yield break;
 
