@@ -27,20 +27,20 @@ public sealed class Day02 : ArraySolver<Direction[]>
     {
         Grid<char> keypad = new(3, 3)
         {
-            [0] = "123",
-            [1] = "456",
-            [2] = "789"
+            [0] = ['1', '2', '3'],
+            [1] = ['4', '5', '6'],
+            [2] = ['7', '8', '9']
         };
         string code = GetCode(keypad);
         AoCUtils.LogPart1(code);
 
         keypad = new Grid<char>(5, 5)
         {
-            [0] = "  1  ",
-            [1] = " 234 ",
-            [2] = "56789",
-            [3] = " ABC ",
-            [4] = "  D  ",
+            [0] = [' ', ' ', '1', ' ', ' '],
+            [1] = [' ', '2', '3', '4', ' '],
+            [2] = ['5', '6', '7', '8', '9'],
+            [3] = [' ', 'A', 'B', 'C', ' '],
+            [4] = [' ', ' ', 'D', ' ', ' '],
         };
         code = GetCode(keypad);
         AoCUtils.LogPart2(code);

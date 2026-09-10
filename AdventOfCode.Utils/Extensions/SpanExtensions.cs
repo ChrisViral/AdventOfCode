@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using AdventOfCode.Utils.Extensions.Ranges;
 using AdventOfCode.Utils.ValueEnumerators;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
@@ -25,7 +24,7 @@ public static class SpanExtensions
         /// <param name="modifier">Modification function</param>
         public void Apply([InstantHandle] Func<T, T> modifier)
         {
-            for (int i = 0; i < span.Length; i++)
+            foreach (int i in ..span.Length)
             {
                 ref T value = ref span[i];
                 value = modifier(value);
@@ -64,6 +63,18 @@ public static class SpanExtensions
         public ValueEnumerable<FromSpan2D<T>, T> AsValueEnumerable()
         {
             return new ValueEnumerable<FromSpan2D<T>, T>(new FromSpan2D<T>(span));
+        }
+
+        public void Apply([InstantHandle] Func<T, T> modification)
+        {
+            foreach (int j in ..span.Height)
+            {
+                foreach (int i in ..span.Width)
+                {
+                    ref T value = ref span[j, i];
+                    value = modification(value);
+                }
+            }
         }
 
         /// <summary>

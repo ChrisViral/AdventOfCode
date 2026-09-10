@@ -127,7 +127,7 @@ public class Grid<T> : IGrid<T>
     /// <param name="row">Row index of the row to get</param>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
-    public virtual ReadOnlySpan<T> this[int row]
+    public virtual Span<T> this[int row]
     {
         get
         {
@@ -148,7 +148,7 @@ public class Grid<T> : IGrid<T>
     /// <param name="row">Row index of the row to get</param>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
-    public virtual ReadOnlySpan<T> this[Index row]
+    public virtual Span<T> this[Index row]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this[row.GetOffset(this.Height)];
@@ -164,7 +164,7 @@ public class Grid<T> : IGrid<T>
     /// <returns>The grid slice</returns>
     /// <exception cref="ArgumentOutOfRangeException">If any part of the slice is outside of the grid's range</exception>
     /// <exception cref="InvalidOperationException">If the grid slice is of size 0 in one dimension</exception>
-    public virtual ReadOnlySpan2D<T> this[Range xRange, Range yRange]
+    public virtual Span2D<T> this[Range xRange, Range yRange]
     {
         get
         {

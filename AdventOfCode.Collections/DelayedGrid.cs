@@ -52,7 +52,7 @@ public sealed class DelayedGrid<T> : Grid<T>
     /// <param name="row">Row index of the row to get</param>
     /// <returns>The specified row of the grid</returns>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="row"/> is not within the limits of the Grid</exception>
-    public override ReadOnlySpan<T> this[int row]
+    public override Span<T> this[int row]
     {
         set
         {
