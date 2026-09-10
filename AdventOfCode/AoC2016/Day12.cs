@@ -1,39 +1,17 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.AoC2016.Assembunny;
 
 namespace AdventOfCode.AoC2016;
 
 /// <summary>
 /// Solver for 2016 Day 12
 /// </summary>
-public sealed partial class Day12 : RegexSolver<Day12.Instruction>
+public sealed class Day12 : RegexSolver<Instruction>
 {
-    public enum Opcode
-    {
-        CPY,
-        INC,
-        DEC,
-        JNZ
-    }
-
-    [InlineArray(4)]
-    private struct Registers
-    {
-        private int element;
-    }
-
-    public readonly record struct Instruction(Opcode Opcode, RegisterRef<int> X, RegisterRef<int> Y)
-    {
-        // ReSharper disable once IntroduceOptionalParameters.Global
-        public Instruction(Opcode opcode, RegisterRef<int> x) : this(opcode, x, default) { }
-    }
-
     /// <inheritdoc />
-    [GeneratedRegex(@"([a-z]{3}) (-?\d+|[a-z])(?: (-?\d+|[a-z]))?")]
-    protected override partial Regex Matcher { get; }
+    protected override Regex Matcher => Instruction.Matcher;
 
     /// <summary>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
@@ -50,7 +28,7 @@ public sealed partial class Day12 : RegexSolver<Day12.Instruction>
         Registers registers = new();
         while (address >= 0 && address < this.Data.Length)
         {
-            ExecuteInstruction(this.Data[address], ref address, ref registers);
+            this.Data[address].Execute(ref address, ref registers);
         }
         AoCUtils.LogPart1(registers[0]);
 
@@ -59,39 +37,8 @@ public sealed partial class Day12 : RegexSolver<Day12.Instruction>
         registers[2] = 1;
         while (address >= 0 && address < this.Data.Length)
         {
-            ExecuteInstruction(this.Data[address], ref address, ref registers);
+            this.Data[address].Execute(ref address, ref registers);
         }
         AoCUtils.LogPart2(registers[0]);
-    }
-
-    private static void ExecuteInstruction(in Instruction instruction, ref int address, ref Registers registers)
-    {
-        switch (instruction.Opcode)
-        {
-            case Opcode.CPY:
-                instruction.Y.GetRegister(registers) = instruction.X.GetValue(registers);
-                break;
-
-            case Opcode.INC:
-                instruction.X.GetRegister(registers)++;
-                break;
-
-            case Opcode.DEC:
-                instruction.X.GetRegister(registers)--;
-                break;
-
-            case Opcode.JNZ:
-                if (instruction.X.GetValue(registers) is not 0)
-                {
-                    address += instruction.Y.GetValue(registers);
-                    return;
-                }
-                break;
-
-            default:
-                throw instruction.Opcode.Invalid();
-        }
-
-        address++;
     }
 }
