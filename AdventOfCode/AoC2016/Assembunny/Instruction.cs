@@ -15,7 +15,8 @@ public enum Opcode
     INC,
     DEC,
     JNZ,
-    TGL
+    TGL,
+    OUT
 }
 
 /// <summary>
@@ -56,9 +57,11 @@ public readonly partial record struct Instruction(Opcode Opcode, RegisterRef<int
     /// <param name="registers">Current registers</param>
     /// <param name="instructions">Instruction list, required to run <see cref="Opcode.TGL"/> instructions</param>
     /// <exception cref="InvalidEnumArgumentException">If <see cref="Opcode"/> is invalid/></exception>
+    /// <returns>The instructio output, if any</returns>
     /// ReSharper disable once CognitiveComplexity
-    public void Execute(ref int address, ref Registers registers, Span<Instruction> instructions = default)
+    public int? Execute(ref int address, ref Registers registers, Span<Instruction> instructions = default)
     {
+        int? output = null;
         switch (this.Opcode)
         {
             case Opcode.CPY when this.Y.IsRegister:
@@ -77,7 +80,7 @@ public readonly partial record struct Instruction(Opcode Opcode, RegisterRef<int
                 if (this.X.GetValue(registers) is not 0)
                 {
                     address += this.Y.GetValue(registers);
-                    return;
+                    return output;
                 }
                 break;
 
@@ -92,10 +95,15 @@ public readonly partial record struct Instruction(Opcode Opcode, RegisterRef<int
                 target = target with { Opcode = newOpcode };
                 break;
 
+            case Opcode.OUT:
+                output = this.X.GetValue(registers);
+                break;
+
             default:
                 throw this.Opcode.Invalid();
         }
 
         address++;
+        return output;
     }
 }
