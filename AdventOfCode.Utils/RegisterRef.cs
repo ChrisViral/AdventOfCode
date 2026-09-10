@@ -14,6 +14,11 @@ public readonly record struct RegisterRef<T>(T Value, bool IsRegister) : IParsab
     where T :IBinaryInteger<T>
 {
     /// <summary>
+    /// If this register has been properly set with or is invalid/unset
+    /// </summary>
+    public bool IsSet { get; } = true;
+
+    /// <summary>
     /// Gets the value for this reference
     /// </summary>
     /// <param name="registers">Program registers</param>
@@ -54,7 +59,11 @@ public readonly record struct RegisterRef<T>(T Value, bool IsRegister) : IParsab
     }
 
     /// <inheritdoc />
-    public override string ToString() => this.IsRegister
-                                             ? this.Value.AsAsciiLower.ToString()
-                                             : this.Value.ToString()!;
+    public override string ToString()
+    {
+        if (!this.IsSet) return "-";
+        return this.IsRegister
+                   ? this.Value.AsAsciiLower.ToString()
+                   : this.Value.ToString()!;
+    }
 }
