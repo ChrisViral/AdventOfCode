@@ -570,7 +570,7 @@ public class Grid<T> : IGrid<T>
             }
         }
 
-        throw new InvalidOperationException($"Value {value} could not be found");
+        return -Vector2<int>.One;
     }
 
     /// <summary>

@@ -123,7 +123,8 @@ public sealed class SparseGrid<T> : IGrid<T>
     /// Gets the position of the given value in the grid, if it exists
     /// </summary>
     /// <param name="value">Value to find</param>
-    /// <returns>The first position in the grid that the value is found at, or <c>(-1, -1)</c> if it wasn't</returns>
+    /// <returns>The first position in the grid that the value is found at</returns>
+    /// <exception cref="KeyNotFoundException">If the value was not found in the grid</exception>
     public Vector2<int> PositionOf(T value)
     {
         foreach (KeyValuePair<Vector2<int>, T> pair in this.grid)
@@ -134,7 +135,7 @@ public sealed class SparseGrid<T> : IGrid<T>
             }
         }
 
-        throw new InvalidOperationException($"Value {value} could not be found");
+        throw new KeyNotFoundException($"Value {value} could not be found");
     }
 
     /// <summary>
