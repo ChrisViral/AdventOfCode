@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Buffers;
+using JetBrains.Annotations;
 
 namespace AdventOfCode.Utils;
 
@@ -40,4 +41,68 @@ public static class StringUtils
     /// Amount of hex digits
     /// </summary>
     public const int HEX_COUNT = 16;
+
+    /// <summary>
+    /// SearchValues for lowercase ASCII letter pairs
+    /// </summary>
+    public static SearchValues<string> PairsLowercase { get; } = SearchValues.Create([
+        "aa",
+        "bb",
+        "cc",
+        "dd",
+        "ee",
+        "ff",
+        "gg",
+        "hh",
+        "ii",
+        "jj",
+        "kk",
+        "ll",
+        "mm",
+        "nn",
+        "oo",
+        "pp",
+        "qq",
+        "rr",
+        "ss",
+        "tt",
+        "uu",
+        "vv",
+        "ww",
+        "xx",
+        "yy",
+        "zz"
+    ], StringComparison.Ordinal);
+
+    /// <summary>
+    /// SearchValues for uppercase ASCII letter pairs
+    /// </summary>
+    public static SearchValues<string> PairsUppercase { get; } = SearchValues.Create([
+        "AA",
+        "BB",
+        "CC",
+        "DD",
+        "EE",
+        "FF",
+        "GG",
+        "HH",
+        "II",
+        "JJ",
+        "KK",
+        "LL",
+        "MM",
+        "NN",
+        "OO",
+        "PP",
+        "QQ",
+        "RR",
+        "SS",
+        "TT",
+        "UU",
+        "VV",
+        "WW",
+        "XX",
+        "YY",
+        "ZZ"
+    ], StringComparison.Ordinal);
 }

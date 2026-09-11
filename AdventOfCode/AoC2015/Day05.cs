@@ -13,34 +13,6 @@ public sealed partial class Day05 : ArraySolver<string>
 {
     private static readonly SearchValues<char> Vowels = SearchValues.Create("aeiou");
     private static readonly SearchValues<string> Banned = SearchValues.Create(["ab", "cd", "pq", "xy"], StringComparison.Ordinal);
-    private static readonly SearchValues<string> Pairs = SearchValues.Create([
-        "aa",
-        "bb",
-        "cc",
-        "dd",
-        "ee",
-        "ff",
-        "gg",
-        "hh",
-        "ii",
-        "jj",
-        "kk",
-        "ll",
-        "mm",
-        "nn",
-        "oo",
-        "pp",
-        "qq",
-        "rr",
-        "ss",
-        "tt",
-        "uu",
-        "vv",
-        "ww",
-        "xx",
-        "yy",
-        "zz"
-    ], StringComparison.Ordinal);
 
     [GeneratedRegex(@"([a-z]{2})[a-z]*\1")]
     private static partial Regex PairMatcher { get; }
@@ -61,7 +33,7 @@ public sealed partial class Day05 : ArraySolver<string>
     {
         int nice = this.Data.AsValueEnumerable()
                        .Count(l => l.AsSpan().CountAny(Vowels) >= 3
-                                && l.AsSpan().ContainsAny(Pairs)
+                                && l.AsSpan().ContainsAny(StringUtils.PairsLowercase)
                                 && !l.AsSpan().ContainsAny(Banned));
         AoCUtils.LogPart1(nice);
 
