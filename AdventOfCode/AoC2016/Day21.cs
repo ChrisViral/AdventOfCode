@@ -5,6 +5,7 @@ using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Arrays;
 using AdventOfCode.Utils.Extensions.Regexes;
 using AdventOfCode.Utils.Extensions.Spans;
+using AdventOfCode.Utils.ValueEnumerators;
 
 namespace AdventOfCode.AoC2016;
 
@@ -175,14 +176,14 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         Match match;
         if ((match = SwapPositionsInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group x);
             enumerator.TryGetNext(out Group y);
             return new SwapPositionsInstruction(int.Parse(x.ValueSpan), int.Parse(y.ValueSpan));
         }
         if ((match = SwapLettersInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group x);
             enumerator.TryGetNext(out Group y);
             return new SwapLettersInstruction(x.ValueSpan[0], y.ValueSpan[0]);
@@ -190,7 +191,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
 
         if ((match = RotateStepsInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group direction);
             enumerator.TryGetNext(out Group steps);
             int sign = direction.ValueSpan is "left" ? -1 : 1;
@@ -199,14 +200,14 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
 
         if ((match = RotatePositionInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group x);
             return new RotatePositionInstruction(x.ValueSpan[0]);
         }
 
         if ((match = ReversePositionsInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group x);
             enumerator.TryGetNext(out Group y);
             return new ReversePositionsInstruction(int.Parse(x.ValueSpan), int.Parse(y.ValueSpan));
@@ -214,7 +215,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
 
         if ((match = MovePositionInstruction.Matcher.Match(line)).Success)
         {
-            using RegexExtensions.CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
+            using CapturesEnumerator enumerator = match.CapturedGroups.Enumerator;
             enumerator.TryGetNext(out Group x);
             enumerator.TryGetNext(out Group y);
             return new MovePositionInstruction(int.Parse(x.ValueSpan), int.Parse(y.ValueSpan));

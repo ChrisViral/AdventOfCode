@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using AdventOfCode.Utils.ValueEnumerators;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -12,49 +13,7 @@ namespace AdventOfCode.Utils.Extensions.Regexes;
 [PublicAPI]
 public static class RegexExtensions
 {
-    /// <summary>
-    /// Regex captures enumerator
-    /// </summary>
-    /// <param name="groups">Regex group collection</param>
-    public ref struct CapturesEnumerator(GroupCollection groups) : IValueEnumerator<Group>
-    {
-        private readonly GroupCollection groups = groups;
-        private int index = 1;
-
-        /// <inheritdoc />
-        public bool TryGetNext(out Group current)
-        {
-            while (this.index < this.groups.Count)
-            {
-                current = this.groups[this.index++];
-                if (!current.ValueSpan.IsEmpty) return true;
-            }
-
-            current = null!;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryGetNonEnumeratedCount(out int count)
-        {
-            count = 0;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryGetSpan(out ReadOnlySpan<Group> span)
-        {
-            span = default;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryCopyTo(scoped Span<Group> destination, Index offset) => false;
-
-        /// <inheritdoc />
-        public void Dispose() { }
-    }
-
+    /// <param name="match">Match instance</param>
     extension(Match match)
     {
         /// <summary>
@@ -66,5 +25,16 @@ public static class RegexExtensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new(new CapturesEnumerator(match.Groups));
         }
+    }
+
+    /// <param name="enumerator">ValueMatch enumerator</param>
+    extension(Regex.ValueMatchEnumerator enumerator)
+    {
+        /// <summary>
+        /// Gets a ValueEnumerable over this ValueMatchEnumerator
+        /// </summary>
+        /// <value>Enumerable of the ValueMatches</value>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ValueEnumerable<FromValueMatchEnumerator, MatchData> AsValueEnumerable() => new(new FromValueMatchEnumerator(enumerator));
     }
 }
