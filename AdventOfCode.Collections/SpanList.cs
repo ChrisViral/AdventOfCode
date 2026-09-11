@@ -173,6 +173,7 @@ public ref struct SpanList<T>(Span<T> span)
         if (this.Count == this.Capacity) throw new InvalidOperationException("SpanList already at maximum capacity, cannot add another item");
 
         this.span[index..this.Count].CopyTo(this.span[(index + 1)..(this.Count + 1)]);
+        this.span[index] = item;
         this.Count++;
         this.version++;
     }
@@ -185,6 +186,12 @@ public ref struct SpanList<T>(Span<T> span)
     /// <exception cref="InvalidOperationException">If adding these items causes an overflow of the list</exception>
     public void InsertRange(int index, IEnumerable<T> values)
     {
+        if (index == this.Count)
+        {
+            AddRange(values);
+            return;
+        }
+
         if (values.TryGetNonEnumeratedCount(out int count) && this.Count + count > this.Capacity)
         {
             throw new InvalidOperationException("Inserting this range of items would cause an overflow of the list");
@@ -204,6 +211,12 @@ public ref struct SpanList<T>(Span<T> span)
     /// <exception cref="InvalidOperationException">If inserting these items causes an overflow of the list</exception>
     public void InsertRange(int index, ReadOnlySpan<T> values)
     {
+        if (index == this.Count)
+        {
+            AddRange(values);
+            return;
+        }
+
         if (this.Count + values.Length > this.Capacity)
         {
             throw new InvalidOperationException("Adding this range of items would cause an overflow of the list");
@@ -247,6 +260,7 @@ public ref struct SpanList<T>(Span<T> span)
         }
 
         this.Count--;
+        this.version++;
         if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
         {
             this.span[this.Count] = default!;
@@ -337,12 +351,11 @@ public ref struct SpanList<T>(Span<T> span)
     public void RemoveRange(int start, int length)
     {
         if (start < 0) throw new ArgumentOutOfRangeException(nameof(start), "Start value must be greater than zero");
-        if (start + length >= this.Count) throw new ArgumentOutOfRangeException(nameof(length), "Length must stay within list range");
+        if (start + length - 1 >= this.Count) throw new ArgumentOutOfRangeException(nameof(length), "Length must stay within list range");
 
         if (start + length < this.Count)
         {
-            int leftoverLength = this.Count - (start + length);
-            this.span.Slice(start + length, leftoverLength).CopyTo(this.span.Slice(this.Count - length, leftoverLength));
+            this.span[(start + length)..this.Count].CopyTo(this.span.Slice(start, this.Count - (start + length)));
         }
 
         this.Count -= length;
@@ -399,9 +412,7 @@ public ref struct SpanList<T>(Span<T> span)
         if (start < 0) throw new ArgumentOutOfRangeException(nameof(start), "Start value must be greater than zero");
         if (start + length >= this.Count) throw new ArgumentOutOfRangeException(nameof(length), "Length must stay within list range");
 
-        Span<T> slice = this.span.Slice(start, length);
-        int count = this.Count - start;
-        return new SpanList<T>(slice, count);
+        return new SpanList<T>(this.span[start..], length);
     }
 
     /// <summary>
@@ -486,21 +497,33 @@ public ref struct SpanList<T>(Span<T> span)
     /// Sorts the elements in this list
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Sort() => this.AsSpan.Sort();
+    public void Sort()
+    {
+        this.AsSpan.Sort();
+        this.version++;
+    }
 
     /// <summary>
     /// Sorts the elements in this list using a comparison function
     /// </summary>
     /// <param name="comparison">Comparison function</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Sort([InstantHandle] Comparison<T> comparison) => this.AsSpan.Sort(comparison);
+    public void Sort([InstantHandle] Comparison<T> comparison)
+    {
+        this.AsSpan.Sort(comparison);
+        this.version++;
+    }
 
     /// <summary>
     /// Sorts the elements in this list using a comparer
     /// </summary>
     /// <param name="comparer">Comparer instance</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Sort<TComparer>(TComparer comparer) where TComparer : IComparer<T> => this.AsSpan.Sort(comparer);
+    public void Sort<TComparer>(TComparer comparer) where TComparer : IComparer<T>
+    {
+        this.AsSpan.Sort(comparer);
+        this.version++;
+    }
 
     /// <inheritdoc cref="System.MemoryExtensions.Reverse{T}(System.Span{T})" />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
