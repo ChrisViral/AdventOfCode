@@ -6,3 +6,4 @@
 [assembly: ZLinqDropInExternalExtension("AdventOfCode.Utils.Extensions.Spans", "CommunityToolkit.HighPerformance.ReadOnlySpan2D`1", "AdventOfCode.Utils.ValueEnumerators.FromSpan2D`1", GenerateAsPublic = true)]
 [assembly: ZLinqDropInExternalExtension("AdventOfCode.Utils.Extensions.Spans", "CommunityToolkit.HighPerformance.Span2D`1", "AdventOfCode.Utils.ValueEnumerators.FromSpan2D`1", GenerateAsPublic = true)]
 [assembly: ZLinqDropInExternalExtension("AdventOfCode.Utils.Extensions.Enumerables", "CommunityToolkit.HighPerformance.Enumerables.RefEnumerable`1", "AdventOfCode.Utils.ValueEnumerators.FromRefEnumerable`1", GenerateAsPublic = true)]
+[assembly: ZLinqDropInExternalExtension("AdventOfCode.Utils.Extensions.Regexes", "System.Text.RegularExpressions.Regex+ValueMatchEnumerator", "AdventOfCode.Utils.ValueEnumerators.FromValueMatchEnumerator", GenerateAsPublic = true)]

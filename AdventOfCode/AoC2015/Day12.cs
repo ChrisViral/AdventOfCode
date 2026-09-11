@@ -28,7 +28,6 @@ public sealed partial class Day12 : Solver<string>
     public override void Run()
     {
         int result = NumberMatcher.EnumerateMatches(this.Data)
-                                  .AsValueEnumerable()
                                   .Sum(m => int.Parse(this.Data.AsSpan(m.Index, m.Length)));
         AoCUtils.LogPart1(result);
 
