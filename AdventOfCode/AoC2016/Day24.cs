@@ -1,6 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Collections.Search;
+﻿using AdventOfCode.Collections.Search;
 using AdventOfCode.Maths.Vectors;
+using AdventOfCode.Maths.Vectors.BitVectors;
 using AdventOfCode.Solvers.Specialized;
 using AdventOfCode.Utils;
 using AdventOfCode.Utils.Extensions.Enumerables;
@@ -14,33 +14,10 @@ namespace AdventOfCode.AoC2016;
 /// </summary>
 public sealed class Day24 : GridSolver<char>
 {
-    [InlineArray(LOCATIONS)]
-    private struct Checks : IEquatable<Checks>
-    {
-        private bool element;
-
-        /// <inheritdoc />
-        public bool Equals(Checks other) => ((ReadOnlySpan<bool>)this).SequenceEqual(other);
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj) => obj is Checks other && Equals(other);
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            HashCode hashCode = new();
-            for (int i = 0; i < LOCATIONS; i++)
-            {
-                hashCode.Add(this[i]);
-            }
-            return hashCode.ToHashCode();
-        }
-    }
-
-    private readonly record struct State(int Location, Checks Checks, bool UseLocation)
+    private readonly record struct State(int Location, BitVector8 Checks, bool UseLocation)
     {
         /// <inheritdoc />
-        public bool Equals(State other) => this.Checks.Equals(other.Checks)
+        public bool Equals(State other) => this.Checks == other.Checks
                                         && (!this.UseLocation || this.Location == other.Location);
 
         /// <inheritdoc />
@@ -95,10 +72,10 @@ public sealed class Day24 : GridSolver<char>
         }
 
         // Setup locations checks
-        Checks startChecks = new();
-        startChecks[0] = true;
-        Checks endChecks = new();
-        endChecks[..this.locations.Count].Fill(true);
+        BitVector8 startChecks = new() { [0] = true };
+        Span<bool> final = stackalloc bool[this.locations.Count];
+        final.Fill(true);
+        BitVector8 endChecks = BitVector8.FromBitArray(final);
 
         // Setup start/end state
         State startState = new(0, startChecks, false);
@@ -130,7 +107,7 @@ public sealed class Day24 : GridSolver<char>
 
             // Mark the location as checked
             check++;
-            Checks newChecks = state.Checks;
+            BitVector8 newChecks = state.Checks;
             newChecks[newLocation] = true;
 
             // Get distance between current and new location
