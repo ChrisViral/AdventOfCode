@@ -38,7 +38,7 @@ public static partial class InputFetcher
     /// <summary>
     /// Session cookie file
     /// </summary>
-    private static readonly string SettingsPath = Path.Join(INPUT_FOLDER, "settings.json");
+    private static readonly string SettingsPath = Path.Combine(INPUT_FOLDER, "settings.json");
 
     /// <summary>
     /// Gets the associated input file, or fetches it from the AoC website if needed
