@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using AdventOfCode.Utils.Extensions.Spans;
 using JetBrains.Annotations;
 using ZLinq;
 using ZLinq.Internal;
@@ -172,7 +173,7 @@ public static class Vector3Extensions
                 return false;
             }
 
-            current = this.offsets[this.index++];
+            current = this.vector + this.offsets[this.index++];
             return true;
         }
 
@@ -187,14 +188,8 @@ public static class Vector3Extensions
         /// <inheritdoc />
         public bool TryGetSpan(out ReadOnlySpan<Vector3<T>> span)
         {
-            if (this.withSelf)
-            {
-                span = default;
-                return false;
-            }
-
-            span = this.offsets;
-            return true;
+            span = default;
+            return false;
         }
 
         /// <inheritdoc />
@@ -205,6 +200,8 @@ public static class Vector3Extensions
                 if (EnumeratorHelper.TryGetSlice(this.offsets, offset, destination.Length, out ReadOnlySpan<Vector3<T>> slice))
                 {
                     slice.CopyTo(destination);
+                    Vector3<T> copy = this.vector;
+                    destination.Apply(v => v + copy);
                     return true;
                 }
                 return false;
@@ -217,6 +214,8 @@ public static class Vector3Extensions
             if (EnumeratorHelper.TryGetSlice(temp, offset, destination.Length, out ReadOnlySpan<Vector3<T>> tempSlice))
             {
                 tempSlice.CopyTo(destination);
+                Vector3<T> copy = this.vector;
+                destination.Apply(v => v + copy);
                 return true;
             }
             return false;
