@@ -58,13 +58,9 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// </summary>
     private readonly ImmutableArray<long> initialState;
     /// <summary>
-    /// Allocation handle
-    /// </summary>
-    private readonly IntPtr handle;
-    /// <summary>
     /// Buffer address
     /// </summary>
-    private readonly long* buffer;
+    private long* buffer;
     /// <summary>
     /// Instruction pointer
     /// </summary>
@@ -166,8 +162,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
 
         // Create unmanaged buffer
         this.bufferSize = splitCount + BUFFER_SIZE;
-        this.handle     = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
-        this.buffer     = (long*)this.handle;
+        this.buffer     = (long*)NativeMemory.AllocZeroed((nuint)this.bufferSize * sizeof(long));
         this.ip         = this.buffer;
         this.relative   = this.buffer;
 
@@ -203,8 +198,7 @@ public sealed unsafe partial class IntcodeVM : IDisposable
         this.Output = other.Output.Clone();
 
         // Create buffer
-        this.handle   = Marshal.AllocHGlobal(this.bufferSize * sizeof(long));
-        this.buffer   = (long*)this.handle;
+        this.buffer   = (long*)NativeMemory.AllocZeroed((nuint)this.bufferSize * sizeof(long));
         this.initialState.CopyTo(new Span<long>(this.buffer, this.bufferSize));
 
         // Initialize pointers to correct address
@@ -379,6 +373,8 @@ public sealed unsafe partial class IntcodeVM : IDisposable
 
         // Release resources
         ReleaseUnmanagedResources();
+        this.buffer = null;
+        this.ip = null;
 
         // Mark as disposed
         this.isDisposed = true;
@@ -388,10 +384,5 @@ public sealed unsafe partial class IntcodeVM : IDisposable
     /// <summary>
     /// Releases unmanaged resources owned by the VM
     /// </summary>
-    private void ReleaseUnmanagedResources()
-    {
-        // Free the memory
-        Marshal.FreeHGlobal(this.handle);
-        this.ip = null;
-    }
+    private void ReleaseUnmanagedResources() => NativeMemory.Free(this.buffer);
 }
