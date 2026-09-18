@@ -7,10 +7,10 @@ using Serilog;
 Console.Title = "Advent of Code";
 
 // Flush existing file
-const string RESULTS_FILE = "results.txt";
-if (File.Exists(RESULTS_FILE))
+string results = Path.Combine("Output", "results.txt");
+if (File.Exists(results))
 {
-    File.Delete(RESULTS_FILE);
+    File.Delete(results);
 }
 
 // DI Configuration
@@ -18,7 +18,7 @@ Cli.Ext.ConfigureServices(services =>
 {
     Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(RESULTS_FILE)
+                .WriteTo.File(results)
                 .Enrich.FromLogContext()
                 .CreateLogger();
 

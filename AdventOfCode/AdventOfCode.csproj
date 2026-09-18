@@ -5,8 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>2025.1.0</AssemblyVersion>
-    <FileVersion>2025.1.0</FileVersion>
     <OutputType>Exe</OutputType>
     <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
   </PropertyGroup>
@@ -25,9 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Input\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Input\**" />
+    <None Include="Output\**" />
     <None Remove="AdventOfCode.csproj.DotSettings" />
   </ItemGroup>
 

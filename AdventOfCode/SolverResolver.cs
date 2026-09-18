@@ -6,14 +6,16 @@ using Challenge.CLI;
 using Challenge.Utils.Extensions.Assemblies;
 using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode;
 
 /// <summary>
 /// Solver resolver and input fetcher
 /// </summary>
+/// <param name="logger">Logger instance</param>
 [PublicAPI]
-public sealed partial class SolverResolver : ISolverResolver
+public sealed partial class SolverResolver(ILogger<SolverResolver> logger) : ISolverResolver
 {
     /// <summary>
     /// <see cref="Settings"/> JSON source generation context
@@ -45,11 +47,13 @@ public sealed partial class SolverResolver : ISolverResolver
     /// <inheritdoc />
     public string ChallengeName => "Advent of Code";
 
+    /// <summary>
+    /// Logger instance
+    /// </summary>
+    private ILogger Logger { get; } = logger;
+
     /// <inheritdoc />
-    public string GetSolverFullName(int year, int day, string module)
-    {
-        return $"{nameof(AdventOfCode)}.AoC{year}.Day{day:D2}";
-    }
+    public string GetSolverFullName(int year, int day, string module) => $"{nameof(AdventOfCode)}.AoC{year}.Day{day:D2}";
 
     /// <inheritdoc />
     public async Task<Result<string>> FetchInput(int year, int day, string module, CancellationToken token = default)
@@ -83,11 +87,6 @@ public sealed partial class SolverResolver : ISolverResolver
             }
         }
 
-#if DEBUG
-        //Additionally write to project if in debug
-        await CopyFileToProject(inputFile, Path.Combine(INPUT_FOLDER, year.ToString()), overwrite: false).ConfigureAwait(false);
-#endif
-
         //Return the fetched input
         return input;
     }
@@ -100,7 +99,7 @@ public sealed partial class SolverResolver : ISolverResolver
     /// <returns>The input for the problem</returns>
     /// <exception cref="FileNotFoundException">If the settings file is not found</exception>
     /// <exception cref="InvalidOperationException">If the fetch is being rate limited</exception>
-    private static async Task<string> GetInputFromWebsite(int year, int day)
+    private async Task<string> GetInputFromWebsite(int year, int day)
     {
         // Check if settings exist
         FileInfo settingsFile = new(SettingsPath);
@@ -112,13 +111,8 @@ public sealed partial class SolverResolver : ISolverResolver
                 await JsonSerializer.SerializeAsync(emptyFileWriteStream, default, SettingsJsonContext.Default.Settings).ConfigureAwait(false);
             }
 
-#if DEBUG
-            // Copy to project folder
-            await CopyFileToProject(settingsFile, INPUT_FOLDER).ConfigureAwait(false);
-#endif
-
             // Prompt user to add cookie to file
-            await Console.Error.WriteLineAsync("Could not find the input fetcher settings file, please add your cookie to the generated file.\n" + settingsFile.FullName).ConfigureAwait(false);
+            this.Logger.LogError("Could not find the input fetcher settings file, please add your cookie to the generated file.\n{FileName}", settingsFile.FullName);
             throw new FileNotFoundException("Could not find input fetcher settings file", settingsFile.FullName);
         }
 
@@ -133,7 +127,7 @@ public sealed partial class SolverResolver : ISolverResolver
         TimeSpan timeSinceLastRequest = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(settings.LastRequestTimestamp);
         if (timeSinceLastRequest.TotalSeconds < 900d)
         {
-            await Console.Error.WriteLineAsync($"Only {timeSinceLastRequest.TotalSeconds:F0} seconds elapsed since last request, please wait at least 900 seconds.").ConfigureAwait(false);
+            this.Logger.LogError("Only {Seconds:F0} seconds elapsed since last request, please wait at least 900 seconds", timeSinceLastRequest.TotalSeconds);
             throw new InvalidOperationException("Request rate limited");
         }
 
@@ -161,38 +155,7 @@ public sealed partial class SolverResolver : ISolverResolver
             await JsonSerializer.SerializeAsync(settingsWriteFileStream, updatedSettings, SettingsJsonContext.Default.Settings).ConfigureAwait(false);
         }
 
-#if DEBUG
-        // Copy to project folder
-        await CopyFileToProject(settingsFile, INPUT_FOLDER).ConfigureAwait(false);
-#endif
-
         // Return fetched input
         return await responseReader.ReadToEndAsync().ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Copies the given file to the project folder
-    /// </summary>
-    /// <param name="sourceFile">Source file to copy</param>
-    /// <param name="subfolder">Subfolder to copy the file to</param>
-    /// <param name="overwrite">If existing files should be overwritten</param>
-    private static async Task CopyFileToProject(FileInfo sourceFile, string subfolder, bool overwrite = true)
-    {
-        // Get target path in project
-        string targetPath = Path.GetFullPath(Path.Combine("..", "..", "..", "..", nameof(AdventOfCode), subfolder, sourceFile.Name));
-        FileInfo targetFile = new(targetPath);
-
-        // Don't clobber unless requested to
-        if (!overwrite && targetFile.Exists) return;
-
-        // Create directory if needed
-        if (!targetFile.Directory!.Exists)
-        {
-            targetFile.Directory.Create();
-        }
-
-        // Copy file over
-        byte[] fileData = await File.ReadAllBytesAsync(sourceFile.FullName).ConfigureAwait(false);
-        await File.WriteAllBytesAsync(targetPath, fileData).ConfigureAwait(false);
     }
 }
