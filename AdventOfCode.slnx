@@ -4,6 +4,7 @@
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path="README.md" />
   </Folder>
   <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj" />
   <Project Path="AdventOfCode/AdventOfCode.csproj" />
