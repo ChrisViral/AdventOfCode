@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
     <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Properties\AdventOfCode.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
