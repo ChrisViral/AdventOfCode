@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2017.Common;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -20,8 +20,9 @@ public sealed class Day23 : RegexSolver<Instruction>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -40,7 +41,7 @@ public sealed class Day23 : RegexSolver<Instruction>
             }
         }
         while (address >= 0 && address < this.Data.Length);
-        ChallengeUtils.LogPart1(multiplications);
+        LogAnswer(multiplications);
 
         // Extract registers index for lower and upper bound
         int lowerBoundIndex = (int)this.Data[0].X.Value;
@@ -71,7 +72,7 @@ public sealed class Day23 : RegexSolver<Instruction>
                 notPrime++;
             }
         }
-        ChallengeUtils.LogPart2(notPrime);
+        LogAnswer(notPrime);
     }
 
     private static void RunInstruction(in Instruction instruction, ref Registers registers, ref int address)

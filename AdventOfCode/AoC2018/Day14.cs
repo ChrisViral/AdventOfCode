@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -16,8 +16,9 @@ public sealed class Day14 : Solver<int>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -34,7 +35,7 @@ public sealed class Day14 : Solver<int>
         while (recipes.Length < (this.Data + PART1_SIZE));
 
         string score = recipes.ToString(this.Data, PART1_SIZE);
-        ChallengeUtils.LogPart1(score);
+        LogAnswer(score);
 
         Span<char> value = stackalloc char[this.Data.DigitCount];
         Span<char> test = stackalloc char[value.Length + 1];
@@ -50,7 +51,7 @@ public sealed class Day14 : Solver<int>
             matchIndex = test[..testLength].IndexOf(value, StringComparison.Ordinal);
         }
         while (matchIndex is -1);
-        ChallengeUtils.LogPart2(testStart + matchIndex);
+        LogAnswer(testStart + matchIndex);
     }
 
     private static int GenerateRecipes(StringBuilder recipes, ref int firstIndex, ref int secondIndex)

@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 using Transformation = System.Func<Challenge.Maths.Vectors.Vector3<int>, Challenge.Maths.Vectors.Vector3<int>>;
 
@@ -58,8 +58,9 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
     /// Creates a new <see cref="Day19"/> Solver for 2021 - 19 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input) { }
+    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -94,10 +95,10 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
             }
         }
 
-        ChallengeUtils.LogPart1(allBeacons.Count);
+        LogAnswer(allBeacons.Count);
 
         int distance = scanners.Max(first => scanners.Max(second => Vector3<int>.ManhattanDistance(first, second)));
-        ChallengeUtils.LogPart2(distance);
+        LogAnswer(distance);
     }
 
     // ReSharper disable once CognitiveComplexity

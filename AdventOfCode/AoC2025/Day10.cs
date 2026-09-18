@@ -5,6 +5,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 using ZLinq;
 
@@ -72,19 +73,20 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int presses = this.Data.Sum(GetMinimumPresses);
-        ChallengeUtils.LogPart1(presses);
+        LogAnswer(presses);
 
         JoltagePressHelper helper = new();
         helper.ForEach(this.Data);
-        ChallengeUtils.LogPart2(joltagePresses);
+        LogAnswer(joltagePresses);
     }
 
     private static int GetMinimumPresses(Machine machine)

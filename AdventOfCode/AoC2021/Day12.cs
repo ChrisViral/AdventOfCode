@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -35,8 +35,9 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     /// Creates a new <see cref="Day12"/> Solver for 2021 - 12 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -49,7 +50,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
         // Explore the caves and list the paths
         path.Push(start);
         HashSet<string> paths = new(ExploreCave(start, visited, path));
-        ChallengeUtils.LogPart1(paths.Count);
+        LogAnswer(paths.Count);
 
         foreach (Cave cave in this.Data.Values.Where(cave => cave is { IsSmall: true, Name: not START and not END }))
         {
@@ -59,7 +60,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
             cave.AllowTwice = false;
         }
 
-        ChallengeUtils.LogPart2(paths.Count);
+        LogAnswer(paths.Count);
     }
 
     /// <summary>

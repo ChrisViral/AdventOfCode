@@ -1,5 +1,6 @@
 ﻿using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -12,8 +13,9 @@ public sealed class Day05 : Solver<string>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -21,7 +23,7 @@ public sealed class Day05 : Solver<string>
     {
         LinkedList<char> polymer = new(this.Data);
         SimplifyPolymer(polymer);
-        ChallengeUtils.LogPart1(polymer.Count);
+        LogAnswer(polymer.Count);
 
         int minSize = polymer.Count;
         foreach (char toRemove in StringUtils.ASCII_LOWER)
@@ -31,7 +33,7 @@ public sealed class Day05 : Solver<string>
             SimplifyPolymer(polymer);
             minSize = Math.Min(minSize, polymer.Count);
         }
-        ChallengeUtils.LogPart2(minSize);
+        LogAnswer(minSize);
     }
 
     private static void SimplifyPolymer(LinkedList<char> polymer)

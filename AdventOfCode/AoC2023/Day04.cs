@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -24,8 +25,9 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -48,7 +50,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
             total += 1 << (matches - 1);
         }
 
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = 0;
         int currentCards = 1;
@@ -66,7 +68,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
             currentCards += scratchcards[i];
         }
 
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <inheritdoc />

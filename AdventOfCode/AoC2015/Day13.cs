@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -31,8 +32,9 @@ public sealed partial class Day13 : Solver<(ImmutableArray<string> people, Dicti
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -51,11 +53,11 @@ public sealed partial class Day13 : Solver<(ImmutableArray<string> people, Dicti
         };
 
         int max = GetMaxHappiness(startingPerson, startingState, 0, this.Data.people.AsSpan(0, peopleCount - 1));
-        ChallengeUtils.LogPart1(max);
+        LogAnswer(max);
 
         startingState[peopleCount - 1] = false;
         max = GetMaxHappiness(startingPerson, startingState, 0, this.Data.people.AsSpan());
-        ChallengeUtils.LogPart2(max);
+        LogAnswer(max);
     }
 
     private int GetMaxHappiness(string currentPerson, BitVector16 state, int happiness, ReadOnlySpan<string> people)

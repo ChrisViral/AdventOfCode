@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -47,8 +47,9 @@ public sealed class Day16 : GridSolver<Day16.Element>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input)
+    public Day16(string input, ILogger logger) : base(input, logger)
     {
         this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
     }
@@ -58,7 +59,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
     public override void Run()
     {
         int count = EnergizeGrid(Vector2<int>.Zero, Direction.RIGHT);
-        ChallengeUtils.LogPart1(count);
+        LogAnswer(count);
 
         int max = this.Data.Width - 1;
         int maxCount = Math.Max(count, EnergizeGrid(new Vector2<int>(max, 0), Direction.LEFT));
@@ -75,7 +76,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
             maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(x, max), Direction.UP));
         }
 
-        ChallengeUtils.LogPart2(maxCount);
+        LogAnswer(maxCount);
     }
 
     public int EnergizeGrid(Vector2<int> startPosition, Direction startDirection)

@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -14,8 +14,9 @@ public sealed class Day02 : ArraySolver<string>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -35,10 +36,10 @@ public sealed class Day02 : ArraySolver<string>
                 threes++;
             }
         }
-        ChallengeUtils.LogPart1(twos * threes);
+        LogAnswer(twos * threes);
 
         string correctID = FindCorrectID();
-        ChallengeUtils.LogPart2(correctID);
+        LogAnswer(correctID);
     }
 
     // ReSharper disable once CognitiveComplexity

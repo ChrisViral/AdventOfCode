@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -36,8 +37,9 @@ public sealed class Day24 : GridSolver<char>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input) : base(input) { }
+    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -83,7 +85,7 @@ public sealed class Day24 : GridSolver<char>
 
         // Search for a way to get to all locations
         SearchUtils.Search(startState, endState, null, SearchPath, MinSearchComparer<int>.Comparer, out int pathLength);
-        ChallengeUtils.LogPart1(pathLength);
+        LogAnswer(pathLength);
 
         // Switch to checking for current location for path completion
         startState = startState with { UseLocation = true };
@@ -91,7 +93,7 @@ public sealed class Day24 : GridSolver<char>
 
         // Search again
         SearchUtils.Search(startState, endState, null, SearchPath, MinSearchComparer<int>.Comparer, out pathLength);
-        ChallengeUtils.LogPart2(pathLength);
+        LogAnswer(pathLength);
     }
 
     private IEnumerable<Vector2<int>> SearchNeighbours(Vector2<int> position) => position.AsAdjacentEnumerable()

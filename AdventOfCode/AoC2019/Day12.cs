@@ -8,6 +8,7 @@ using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -130,8 +131,9 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -159,7 +161,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
             zStates.Add(GetSystemState(Axes.Z));
         }
 
-        ChallengeUtils.LogPart1(this.Data.Sum(m => m.Energy));
+        LogAnswer(this.Data.Sum(m => m.Energy));
 
         Axes axes = Axes.ALL;
         do
@@ -197,7 +199,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
         while (axes is not Axes.NONE);
 
         long repeatTime = long.LCM(xStates.Count, yStates.Count, zStates.Count);
-        ChallengeUtils.LogPart2(repeatTime);
+        LogAnswer(repeatTime);
     }
 
     /// <summary>

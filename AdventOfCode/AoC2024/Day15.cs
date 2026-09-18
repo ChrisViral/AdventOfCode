@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -30,8 +30,9 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day15(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -72,7 +73,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         int coordinates = warehouse.Dimensions.Enumerate()
                                    .Where(p => warehouse[p] is Element.BOX)
                                    .Sum(p => (100 * p.Y) + p.X);
-        ChallengeUtils.LogPart1(coordinates);
+        LogAnswer(coordinates);
 
         // Double warehouse size horizontally
         ConsoleView<Element> bigWarehouse = new(this.Data.warehouse.Width * 2, this.Data.warehouse.Height, e => (char)e, Anchor.TOP_LEFT, Element.EMPTY, 60);
@@ -128,7 +129,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         coordinates = bigWarehouse.Dimensions.Enumerate()
                                   .Where(p => bigWarehouse[p] is Element.BOX_LEFT)
                                   .Sum(p => (100 * p.Y) + p.X);
-        ChallengeUtils.LogPart2(coordinates);
+        LogAnswer(coordinates);
     }
 
     private static bool TryMoveBox(Vector2<int> boxStart, Grid<Element> warehouse, Direction direction)

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Solvers;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -50,8 +50,9 @@ public sealed class Day21 : Solver<Day21.Stats>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -59,10 +60,10 @@ public sealed class Day21 : Solver<Day21.Stats>
     {
         Stats player = new(HIT_POINTS, 0, 0);
         int cost = ChooseWeaponMinCost(player);
-        ChallengeUtils.LogPart1(cost);
+        LogAnswer(cost);
 
         cost = ChooseWeaponMaxCost(player);
-        ChallengeUtils.LogPart2(cost);
+        LogAnswer(cost);
     }
 
     private int ChooseWeaponMinCost(Stats player)

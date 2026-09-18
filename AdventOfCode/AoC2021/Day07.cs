@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -15,8 +15,9 @@ public sealed class Day07 : Solver<int[]>
     /// Creates a new <see cref="Day07"/> Solver for 2021 - 07 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -27,11 +28,11 @@ public sealed class Day07 : Solver<int[]>
         // Minimize distance to any point within the crabs
 
         long best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab)));
-        ChallengeUtils.LogPart1(best);
+        LogAnswer(best);
 
         // Minimize the distance of triangular value
         best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular));
-        ChallengeUtils.LogPart2(best);
+        LogAnswer(best);
     }
 
     /// <inheritdoc />

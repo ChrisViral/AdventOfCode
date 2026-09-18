@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -64,18 +64,19 @@ public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
     /// Creates a new <see cref="Day02"/> Solver for 2022 - 02 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int score = this.Data.Sum(moves => moves.self.GetResultFromScore(moves.opponent));
-        ChallengeUtils.LogPart1(score);
+        LogAnswer(score);
 
         score = this.Data.Sum(moves => moves.self.GetScoreFromResult(moves.opponent));
-        ChallengeUtils.LogPart2(score);
+        LogAnswer(score);
     }
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>

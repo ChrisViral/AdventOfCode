@@ -4,6 +4,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -158,8 +159,9 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input.Trim(), options: StringSplitOptions.TrimEntries) { }
+    public Day19(string input, ILogger logger) : base(input.Trim(), logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -179,13 +181,13 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
             }
         }
 
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         Range defaultRange = MIN..MAX;
         PartRange range    = new(defaultRange, defaultRange, defaultRange, defaultRange);
         Workflow start     = this.Data.workflows[START];
         long variations    = CountRangeSize(range, start);
-        ChallengeUtils.LogPart2(variations);
+        LogAnswer(variations);
     }
 
     public long CountRangeSize(PartRange partRange, in Workflow workflow)

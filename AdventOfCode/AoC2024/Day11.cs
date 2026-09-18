@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -97,8 +97,9 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -113,14 +114,14 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
         {
             count += stone.GetCountAtDepth(PART1_BLINKS, stonesCache, countCache);
         }
-        ChallengeUtils.LogPart1(count);
+        LogAnswer(count);
 
         count = 0L;
         foreach ((_, Stone stone) in this.Data)
         {
             count += stone.GetCountAtDepth(PART2_BLINKS, stonesCache, countCache);
         }
-        ChallengeUtils.LogPart2(count);
+        LogAnswer(count);
     }
 
     /// <inheritdoc />

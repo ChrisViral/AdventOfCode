@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers.Specialized;
+﻿using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -12,8 +12,9 @@ public sealed class Day05 : ArraySolver<int>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -31,7 +32,7 @@ public sealed class Day05 : ArraySolver<int>
             jumpTable[i]++;
             steps++;
         }
-        ChallengeUtils.LogPart1(steps);
+        LogAnswer(steps);
 
 
         this.Data.CopyTo(jumpTable);
@@ -42,7 +43,7 @@ public sealed class Day05 : ArraySolver<int>
             jumpTable[i] += jump >= 3 ? -1 : 1;
             steps++;
         }
-        ChallengeUtils.LogPart2(steps);
+        LogAnswer(steps);
     }
 
     /// <inheritdoc />

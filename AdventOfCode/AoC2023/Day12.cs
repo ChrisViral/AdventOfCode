@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -40,8 +40,9 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input) : base(input)
+    public Day12(string input, ILogger logger) : base(input, logger)
     {
         this.expandedData = new (string, int[])[this.Data.Length];
     }
@@ -51,7 +52,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
     public override void Run()
     {
         long total = this.Data.Sum(d => CountMatches(d.condition, d.groups));
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         foreach (int i in ..this.Data.Length)
         {
@@ -62,7 +63,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
         }
 
         total = this.expandedData.Sum(d => CountMatches(d.condition, d.groups));
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     // ReSharper disable once CognitiveComplexity

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections.Pooling;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -52,8 +52,9 @@ public sealed class Day20 : Solver<string>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -68,9 +69,9 @@ public sealed class Day20 : Solver<string>
 
         // Answers
         int furthestRoom = map.Values.Max(r => r.Depth);
-        ChallengeUtils.LogPart1(furthestRoom);
+        LogAnswer(furthestRoom);
         int farRooms = map.Values.Count(r => r.Depth >= 1000);
-        ChallengeUtils.LogPart2(farRooms);
+        LogAnswer(farRooms);
     }
 
     private void ExploreAllRooms(Room start, out Dictionary<Vector2<int>, Room> map)

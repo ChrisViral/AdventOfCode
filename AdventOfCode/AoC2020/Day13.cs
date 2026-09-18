@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -20,8 +20,9 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,7 +39,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
                 shortestId = id;
             }
         }
-        ChallengeUtils.LogPart1(shortestId * shortestWait);
+        LogAnswer(shortestId * shortestWait);
 
         long lastStart = 0L;
         long lastFreq = this.Data.buses[0];
@@ -56,7 +57,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
             lastFreq = freq;
         }
 
-        ChallengeUtils.LogPart2(lastStart);
+        LogAnswer(lastStart);
     }
 
     /// <summary>

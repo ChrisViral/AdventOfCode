@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -64,8 +64,9 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -125,9 +126,9 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
         }
         while (result is 0);
 
-        ChallengeUtils.LogPart1(result);
+        LogAnswer(result);
 
-        ChallengeUtils.LogPart2("Merry Christmas!");
+        LogAnswer("Merry Christmas!");
     }
 
     /// <inheritdoc />

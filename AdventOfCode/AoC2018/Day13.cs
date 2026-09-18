@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -86,8 +86,9 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day13(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -99,7 +100,7 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
             UpdateCarts(out firstCrash);
         }
         while (!firstCrash.HasValue);
-        ChallengeUtils.LogPart1($"{firstCrash.Value.X},{firstCrash.Value.Y}");
+        LogAnswer($"{firstCrash.Value.X},{firstCrash.Value.Y}");
 
         do
         {
@@ -108,7 +109,7 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
         while (this.Data.carts.Count > 1);
 
         Vector2<int> lastCart = this.Data.carts[0].Position;
-        ChallengeUtils.LogPart2($"{lastCart.X},{lastCart.Y}");
+        LogAnswer($"{lastCart.X},{lastCart.Y}");
     }
 
     // ReSharper disable once CognitiveComplexity

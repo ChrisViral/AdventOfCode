@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -29,8 +29,9 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,7 +39,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     {
         // Run with initial params
         RunProgram(this.Data.a, this.Data.b, this.Data.c);
-        ChallengeUtils.LogPart1(string.Join(',', this.output));
+        LogAnswer(string.Join(',', this.output));
 
         // Search from 0
         long minInitialA = long.MaxValue;
@@ -73,7 +74,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
                 }
             }
         }
-        ChallengeUtils.LogPart2(minInitialA);
+        LogAnswer(minInitialA);
     }
 
     // ReSharper disable once CognitiveComplexity

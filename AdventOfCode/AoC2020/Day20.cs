@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -305,8 +306,9 @@ public sealed class Day20 : Solver<Day20.Tile[]>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Tile"/>[] fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -339,7 +341,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             }
             image.Add(row);
         }
-        ChallengeUtils.LogPart1((long)image[0][0].ID * image[0][^1].ID * image[^1][0].ID * image[^1][^1].ID);
+        LogAnswer((long)image[0][0].ID * image[0][^1].ID * image[^1][0].ID * image[^1][^1].ID);
 
         int strippedSize = topLeftCorner.Size - 2;
         char[][] fullImage = new char[image.Count * strippedSize][];
@@ -364,7 +366,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         }
 
         Tile fullTile = new(fullImage);
-        ChallengeUtils.LogPart2(fullTile.CalculateRoughness());
+        LogAnswer(fullTile.CalculateRoughness());
     }
 
     /// <inheritdoc />

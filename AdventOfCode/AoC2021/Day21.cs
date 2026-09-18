@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -34,8 +34,9 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
     /// Creates a new <see cref="Day21"/> Solver for 2021 - 21 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -58,12 +59,12 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         }
         while (next.Score < 1000);
 
-        ChallengeUtils.LogPart1(current.Score * rolls);
+        LogAnswer(current.Score * rolls);
 
         // Simulate all possible games
         long p1Wins = 0L, p2Wins = 0L;
         SimulateGame(this.Data.p1, this.Data.p2, ref p1Wins, ref p2Wins);
-        ChallengeUtils.LogPart2(Math.Max(p1Wins, p2Wins));
+        LogAnswer(Math.Max(p1Wins, p2Wins));
     }
 
     /// <summary>

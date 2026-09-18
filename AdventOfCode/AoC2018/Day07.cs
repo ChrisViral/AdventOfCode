@@ -3,6 +3,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -31,8 +32,9 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -56,7 +58,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
             }
         }
 
-        ChallengeUtils.LogPart1(order.ToString());
+        LogAnswer(order.ToString());
 
         int time = 0;
         completed.Clear();
@@ -103,7 +105,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
             }
         }
 
-        ChallengeUtils.LogPart2(time);
+        LogAnswer(time);
     }
 
     /// <inheritdoc />

@@ -3,6 +3,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -135,8 +136,9 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Navigation"/>[] fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -145,12 +147,12 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
         Vector2<int> position = Vector2<int>.Zero;
         Vector2<int> direction = Vector2<int>.Right;
         this.Data.ForEach(i => i.Execute(ref position, ref direction));
-        ChallengeUtils.LogPart1(Math.Abs(position.X) + Math.Abs(position.Y));
+        LogAnswer(Math.Abs(position.X) + Math.Abs(position.Y));
 
         Vector2<int> ship = Vector2<int>.Zero;
         Vector2<int> waypoint = (Vector2<int>.Right * 10) + Vector2<int>.Up;
         this.Data.ForEach(i => i.ExecuteWaypoint(ref ship, ref waypoint));
-        ChallengeUtils.LogPart2(Math.Abs(ship.X) + Math.Abs(ship.Y));
+        LogAnswer(Math.Abs(ship.X) + Math.Abs(ship.Y));
     }
 
     /// <inheritdoc />

@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -20,8 +21,9 @@ public sealed class Day13 : Solver<int>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -43,7 +45,7 @@ public sealed class Day13 : Solver<int>
         Vector2<int> start = Vector2<int>.One;
         Vector2<int> end   = (31, 39);
         int pathLength = SearchUtils.GetPathLengthBFS(start, end, p => Neighbours(p, maze))!.Value;
-        ChallengeUtils.LogPart1(pathLength);
+        LogAnswer(pathLength);
 
         HashSet<Vector2<int>> visited = new(100);
         Queue<Vector2<int>> visiting   = new(100);
@@ -64,7 +66,7 @@ public sealed class Day13 : Solver<int>
 
             ChallengeUtils.Swap(ref visiting, ref visitNext);
         }
-        ChallengeUtils.LogPart2(visited.Count);
+        LogAnswer(visited.Count);
     }
 
     private static IEnumerable<Vector2<int>> Neighbours(Vector2<int> node, Grid<bool> maze)

@@ -2,9 +2,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -31,8 +31,9 @@ public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictiona
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -54,7 +55,7 @@ public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictiona
             diffs.Add(currentDiff);
             previousPots = currentPots;
         }
-        ChallengeUtils.LogPart1(previousPots);
+        LogAnswer(previousPots);
 
         int generation = PART1_GENERATIONS;
         do
@@ -70,7 +71,7 @@ public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictiona
 
         int maxDiff = diffs.AsDictionary().MaxBy(p => p.Value).Key;
         long result = previousPots + ((PART2_GENERATIONS - generation) * maxDiff);
-        ChallengeUtils.LogPart2(result);
+        LogAnswer(result);
     }
 
     private void ApplyGeneratation(ref int startOffset)

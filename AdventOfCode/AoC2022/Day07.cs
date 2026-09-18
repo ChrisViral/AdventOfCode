@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -131,8 +131,9 @@ public sealed class Day07 : Solver<Day07.Directory>
     /// Creates a new <see cref="Day07"/> Solver for 2022 - 07 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -142,14 +143,14 @@ public sealed class Day07 : Solver<Day07.Directory>
                                  .Select(dir => dir.Size)
                                  .Where(size => size < MAX_SIZE)
                                  .Sum();
-        ChallengeUtils.LogPart1(smallDirsTotal);
+        LogAnswer(smallDirsTotal);
 
         int toFree   = this.Data.Size - MAX_USED;
         int toDeleteSize = this.Data
                                .Select(d => d.Size)
                                .OrderBy(s => s)
                                .First(s => s >= toFree);
-        ChallengeUtils.LogPart2(toDeleteSize);
+        LogAnswer(toDeleteSize);
     }
 
     /// <inheritdoc />

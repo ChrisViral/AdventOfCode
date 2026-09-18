@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
-using Challenge.Utils;
 using Challenge.Solvers;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -257,8 +257,9 @@ public sealed class Day22 : Solver<Day22.Stats>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -273,11 +274,11 @@ public sealed class Day22 : Solver<Day22.Stats>
 
         // Part 1: no bleed
         int manaCost = ExecutePlayerTurn(state, 0);
-        ChallengeUtils.LogPart1(manaCost);
+        LogAnswer(manaCost);
 
         // Part 2: with bleed
         manaCost = ExecutePlayerTurn(state, 0, BLEED);
-        ChallengeUtils.LogPart2(manaCost);
+        LogAnswer(manaCost);
     }
 
     /// <summary>

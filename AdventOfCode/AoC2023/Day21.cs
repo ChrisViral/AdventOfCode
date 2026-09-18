@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -21,8 +22,9 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -52,7 +54,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
         }
 
         int current = visited.Values.Count(v => v == STEPS.IsEven);
-        ChallengeUtils.LogPart1(current);
+        LogAnswer(current);
 
         int width = this.Data.garden.Width;
         int radius = width / 2;
@@ -99,7 +101,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 
         long x = (LONG_STEPS - radius) / width;
         long final = (a * x * x) + (b * x) + c;
-        ChallengeUtils.LogPart2(final);
+        LogAnswer(final);
     }
 
     private bool CheckValidInfinite(Vector2<int> plot) => this.Data.garden[plot.X.Mod(this.Data.garden.Width),

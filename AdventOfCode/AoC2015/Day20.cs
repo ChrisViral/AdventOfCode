@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -16,8 +16,9 @@ public sealed class Day20 : Solver<int>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -25,11 +26,11 @@ public sealed class Day20 : Solver<int>
     {
         int house = 3;
         for (int gifts = GetGiftsAtHouse(house); gifts < this.Data; gifts = GetGiftsAtHouse(++house));
-        ChallengeUtils.LogPart1(house);
+        LogAnswer(house);
 
         house = 3;
         for (int gifts = GetGiftsAtHouseLimited(house, HOUSE_LIMIT); gifts < this.Data; gifts = GetGiftsAtHouseLimited(++house, HOUSE_LIMIT));
-        ChallengeUtils.LogPart2(house);
+        LogAnswer(house);
     }
 
     private static int GetGiftsAtHouse(int house)

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -161,19 +161,20 @@ public sealed partial class Day21 : Solver<Dictionary<string, Day21.Monkey>>
     /// Creates a new <see cref="Day21"/> Solver for 2022 - 21 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Monkey root = this.Data["root"];
-        ChallengeUtils.LogPart1(root.Value);
+        LogAnswer(root.Value);
 
         // Just process the equation out with Wolfram after
         root.TryFetchValue(out long _, out string? stack);
-        ChallengeUtils.LogPart2(stack!);
+        LogAnswer(stack!);
     }
 
     /// <inheritdoc />

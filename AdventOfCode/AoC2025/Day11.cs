@@ -1,7 +1,7 @@
 ﻿using System.Collections.Frozen;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -42,8 +42,9 @@ public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -53,7 +54,7 @@ public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
         Device end = this.Data[OUT];
 
         int pathes = GetPathesCount(you, end);
-        ChallengeUtils.LogPart1(pathes);
+        LogAnswer(pathes);
 
         Device svr = this.Data["svr"];
         Device dac = this.Data["dac"];
@@ -76,7 +77,7 @@ public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
             totalPathes *= GetPathesCount(fft, end);
         }
 
-        ChallengeUtils.LogPart2(totalPathes);
+        LogAnswer(totalPathes);
     }
 
     private static FrozenSet<Device> GetAllParents(Device device)

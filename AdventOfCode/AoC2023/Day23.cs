@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -48,8 +48,9 @@ public sealed class Day23 : GridSolver<Day23.Element>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -61,7 +62,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
         Vector2<int> endPosition = new(this.Data[last].IndexOf(Element.PATH), last);
 
         int longestPath = (int)Math.Round(SearchUtils.GetMaxPathLengthDFS(startPosition, endPosition, GetNeighboursWithSlopes)!.Value);
-        ChallengeUtils.LogPart1(longestPath);
+        LogAnswer(longestPath);
 
         Dictionary<Vector2<int>, Node> nodes = this.Data.Dimensions
                                                    .Enumerate()
@@ -95,7 +96,7 @@ public sealed class Day23 : GridSolver<Day23.Element>
         Node start = nodes[startPosition];
         Node end   = nodes[endPosition];
         longestPath = (int)Math.Round(SearchUtils.GetMaxPathLengthDFS(start, end, Node.GetNeighbours)!.Value);
-        ChallengeUtils.LogPart2(longestPath);
+        LogAnswer(longestPath);
     }
 
     public IEnumerable<Vector2<int>> GetNeighboursWithSlopes(Vector2<int> position)

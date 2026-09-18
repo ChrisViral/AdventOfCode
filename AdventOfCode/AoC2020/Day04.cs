@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -76,8 +77,9 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day04(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -85,10 +87,10 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     {
         //Calculate valid for Part 1
         List<Passport> valid = this.Data.Where(p => p.IsValid).ToList();
-        ChallengeUtils.LogPart1(valid.Count);
+        LogAnswer(valid.Count);
 
         //Validate for Part 2
-        ChallengeUtils.LogPart2(valid.Count(p => p.Validate()));
+        LogAnswer(valid.Count(p => p.Validate()));
     }
 
     /// <inheritdoc />

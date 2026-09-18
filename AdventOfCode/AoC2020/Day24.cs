@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -52,8 +52,9 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Neighbour"/>[][] fails</exception>
-    public Day24(string input) : base(input) { }
+    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -86,7 +87,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
                 flipped.Remove(pos);
             }
         }
-        ChallengeUtils.LogPart1(flipped.Count);
+        LogAnswer(flipped.Count);
 
         //Setup new stated and updated tiles
         HashSet<Vector2<int>> newState = [];
@@ -123,7 +124,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
             newState.Clear();
             updated.Clear();
         }
-        ChallengeUtils.LogPart2(flipped.Count);
+        LogAnswer(flipped.Count);
     }
 
     /// <summary>

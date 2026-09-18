@@ -1,11 +1,11 @@
 ﻿using System.Collections.Frozen;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -53,19 +53,20 @@ public sealed class Day20 : Solver<Day20.MapData>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day20(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int? path = SearchUtils.GetPathLength(this.Data.Start, this.Data.End, null, GetNeighbours, MinSearchComparer<int>.Comparer);
-        ChallengeUtils.LogPart1(path!.Value);
+        LogAnswer(path!.Value);
 
         path = SearchUtils.GetPathLength(new LayeredPosition(this.Data.Start, 0), new LayeredPosition(this.Data.End, 0),
                                          null, LayeredNeighbours, MinSearchComparer<int>.Comparer);
-        ChallengeUtils.LogPart2(path!.Value);
+        LogAnswer(path!.Value);
     }
 
     // ReSharper disable once CognitiveComplexity

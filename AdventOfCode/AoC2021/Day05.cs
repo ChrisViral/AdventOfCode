@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -28,8 +29,9 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
     /// Creates a new <see cref="Day05"/> Solver for 2021 - 05 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day05(string input) : base(input) => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
+    public Day05(string input, ILogger logger) : base(input, logger) => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -57,7 +59,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
         }
 
         int crosses = this.grid.Count(n => n > 1);
-        ChallengeUtils.LogPart1(crosses);
+        LogAnswer(crosses);
 
         // Check diagonal lines
         foreach ((Vector2<int> from, Vector2<int> to) in this.Data.Where(d => d.from.X != d.to.X && d.from.Y != d.to.Y))
@@ -77,7 +79,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
         }
 
         crosses = this.grid.Count(n => n > 1);
-        ChallengeUtils.LogPart2(crosses);
+        LogAnswer(crosses);
     }
 
     /// <inheritdoc />

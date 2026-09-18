@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -20,8 +20,9 @@ public sealed class Day18 : GridSolver<bool>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -32,7 +33,7 @@ public sealed class Day18 : GridSolver<bool>
         {
             UpdateLights(lights);
         }
-        ChallengeUtils.LogPart1(lights.Count(true));
+        LogAnswer(lights.Count(true));
 
         lights = new DelayedGrid<bool>(this.Grid);
         SetFixedLights(lights);
@@ -42,7 +43,7 @@ public sealed class Day18 : GridSolver<bool>
         {
             UpdateLights(lights, true);
         }
-        ChallengeUtils.LogPart2(lights.Count(true));
+        LogAnswer(lights.Count(true));
     }
 
     // ReSharper disable once CognitiveComplexity

@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AdventOfCode.AoC2017.Common;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Solvers.Specialized;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -230,8 +230,9 @@ public sealed class Day18 : RegexSolver<Instruction>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -239,7 +240,7 @@ public sealed class Day18 : RegexSolver<Instruction>
     {
         Program a = new(this.Data, 0);
         long recovered = a.RunProgram();
-        ChallengeUtils.LogPart1(recovered);
+        LogAnswer(recovered);
 
         a.Reset();
         Program b = new(this.Data, 1);
@@ -257,7 +258,7 @@ public sealed class Day18 : RegexSolver<Instruction>
         }
         while (a.Sends != aLastSend || b.Sends != bLastSend);
 
-        ChallengeUtils.LogPart2(b.Sends);
+        LogAnswer(b.Sends);
 
     }
 }

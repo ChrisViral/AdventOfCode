@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -20,8 +20,9 @@ public sealed partial class Day06 : Solver<Grid<string>>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day06(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day06(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -41,7 +42,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = 0L;
         long[] numbersBuffer = new long[4];
@@ -57,7 +58,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     private static void ParseVerticalNumbers(ReadOnlySpan<string> column, ref Span<long> output)

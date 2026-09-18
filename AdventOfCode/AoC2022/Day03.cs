@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -12,8 +12,9 @@ public sealed class Day03 : Solver<string[]>
     /// Creates a new <see cref="Day03"/> Solver for 2022 - 03 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day03(string input) : base(input) { }
+    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -30,7 +31,7 @@ public sealed class Day03 : Solver<string[]>
             total += GetPriority(first[index]);
         }
 
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = 0;
         for (int i = 0; i < this.Data.Length; /*i += 3*/)
@@ -42,7 +43,7 @@ public sealed class Day03 : Solver<string[]>
             total += GetPriority(match);
         }
 
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <inheritdoc />

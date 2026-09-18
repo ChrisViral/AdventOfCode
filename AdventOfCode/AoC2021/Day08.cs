@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -19,8 +19,9 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
     /// Creates a new <see cref="Day08"/> Solver for 2021 - 08 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -28,7 +29,7 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
     {
         // Count outputs with known segments length
         int count = this.Data.SelectMany(data => data.outputs).Count(segments => segments.Length is 2 or 3 or 4 or 7);
-        ChallengeUtils.LogPart1(count);
+        LogAnswer(count);
 
         // Create sets for every digit
         long total = 0L;
@@ -61,7 +62,7 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
             values.ForEach(value => value.Clear());
         }
 
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <inheritdoc />

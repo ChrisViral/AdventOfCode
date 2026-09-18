@@ -8,6 +8,7 @@ using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -95,8 +96,9 @@ public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placement
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -112,10 +114,10 @@ public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placement
 
         // Find best path
         SearchUtils.Search(start, end, MinTravel, GetPotentialMoves, MinSearchComparer<int>.Comparer, out int pathLength);
-        ChallengeUtils.LogPart1(pathLength);
+        LogAnswer(pathLength);
 
         // Moving a pair of objects from the first floor to the top floor takes 12 steps, so two new pairs adds 24 steps
-        ChallengeUtils.LogPart2(pathLength + 24);
+        LogAnswer(pathLength + 24);
     }
 
     /// <summary>

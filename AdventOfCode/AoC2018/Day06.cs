@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -17,8 +17,9 @@ public sealed class Day06 : ArraySolver<Vector2<int>>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -63,7 +64,7 @@ public sealed class Day06 : ArraySolver<Vector2<int>>
         }
 
         int largest = notInfinite.Max(i => area[i]);
-        ChallengeUtils.LogPart1(largest);
+        LogAnswer(largest);
 
         int inRange = 0;
         foreach (Vector2<int> p in (max - min).Enumerate())
@@ -76,7 +77,7 @@ public sealed class Day06 : ArraySolver<Vector2<int>>
             }
         }
 
-        ChallengeUtils.LogPart2(inRange);
+        LogAnswer(inRange);
     }
 
     /// <inheritdoc />

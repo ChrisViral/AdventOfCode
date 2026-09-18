@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Maths;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -22,8 +22,9 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -39,12 +40,12 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
         }
 
         int time = MathUtils.ChineseRemainder(remainders[..^1], moduli[..^1]);
-        ChallengeUtils.LogPart1(time);
+        LogAnswer(time);
 
         // Add final disc and evaluate again
         remainders[^1] = -FinalDisc.Start - FinalDisc.Index;
         moduli[^1]     = FinalDisc.Positions;
         time = MathUtils.ChineseRemainder(remainders, moduli);
-        ChallengeUtils.LogPart2(time);
+        LogAnswer(time);
     }
 }

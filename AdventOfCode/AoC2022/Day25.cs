@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -14,8 +14,9 @@ public sealed class Day25 : ArraySolver<long>
     /// Creates a new <see cref="Day25"/> Solver for 2022 - 25 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,7 +24,7 @@ public sealed class Day25 : ArraySolver<long>
     {
         // Get the data sum and then convert to SNAFU
         long sum = this.Data.Sum();
-        ChallengeUtils.LogPart1(ToSNAFU(sum));
+        LogAnswer(ToSNAFU(sum));
     }
 
     /// <summary>

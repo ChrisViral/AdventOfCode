@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -14,8 +14,9 @@ public sealed class Day07 : ArraySolver<(long test, long[] operands)>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,10 +24,10 @@ public sealed class Day07 : ArraySolver<(long test, long[] operands)>
     {
         ILookup<bool, (long test, long[] operands)> calibrations = this.Data.ToLookup(IsValidOperation);
         long calibrationResult = calibrations[true].Sum(e => e.test);
-        ChallengeUtils.LogPart1(calibrationResult);
+        LogAnswer(calibrationResult);
 
         calibrationResult += calibrations[false].Where(IsValidWithConcatenation).Sum(e => e.test);
-        ChallengeUtils.LogPart2(calibrationResult);
+        LogAnswer(calibrationResult);
     }
 
     private static bool IsValidOperation((long test, long[] operands) equation)

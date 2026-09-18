@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -28,8 +28,9 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
     /// Creates a new <see cref="Day15"/> Solver for 2022 - 15 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -47,7 +48,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
             }
         }
 
-        ChallengeUtils.LogPart1(invalids.Count);
+        LogAnswer(invalids.Count);
 
         //Parallel.For(0, LIMIT + 1, () => new int[LIMIT + 1], CheckRow, null);
 
@@ -57,7 +58,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
             if (FindLocation(sensor, distance, ref frequency)) break;
         }
 
-        ChallengeUtils.LogPart2(frequency);
+        LogAnswer(frequency);
     }
 
     /* I'm leaving this brute force brilliance in for the sole reason that it actually fucking worked lmao
@@ -92,7 +93,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
         }
 
         int count = Interlocked.Increment(ref this.rowsChecked);
-        if (count.IsMultiple(1000)) ChallengeUtils.Log(count);
+        if (count.IsMultiple(1000)) Log(count);
 
         return space;
     }

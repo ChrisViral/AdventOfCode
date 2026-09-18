@@ -2,6 +2,7 @@
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -131,7 +132,7 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
             }
 
             this.OpenedGeodesCache = GetMaxOpenedGeodesInternal(maxTime, State.Default);
-            ChallengeUtils.Log($"Blueprint {this.ID} opened geodes: {this.OpenedGeodesCache}");
+            Serilog.Log.Information("Blueprint {ID} opened geodes: {Geodes}", this.ID, this.OpenedGeodesCache);
         }
     }
 
@@ -150,8 +151,9 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
     /// Creates a new <see cref="Day19"/> Solver for 2022 - 19 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day19(string input) : base(input) { }
+    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -160,13 +162,13 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
         // Process all blueprints
         Parallel.ForEach(this.Data, b => b.CalculateMaxOpenedGeodes(FIRST_TIME));
         int qualityLevels = this.Data.Sum(b => b.OpenedGeodesCache * b.ID);
-        ChallengeUtils.LogPart1(qualityLevels);
+        LogAnswer(qualityLevels);
 
         // Process first three blueprints blueprints
         Blueprint[] remaining = this.Data[..3];
         Parallel.ForEach(remaining, b => b.CalculateMaxOpenedGeodes(SECOND_TIME));
         int maxOpened = remaining.Multiply(b => b.OpenedGeodesCache);
-        ChallengeUtils.LogPart2(maxOpened);
+        LogAnswer(maxOpened);
     }
 
     /// <inheritdoc />

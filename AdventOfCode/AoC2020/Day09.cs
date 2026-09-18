@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -13,8 +13,9 @@ public sealed class Day09 : Solver<long[]>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/>[] fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -30,7 +31,7 @@ public sealed class Day09 : Solver<long[]>
                 break;
             }
         }
-        ChallengeUtils.LogPart1(invalid);
+        LogAnswer(invalid);
 
         int start = 0, end = 1;
         long sum = this.Data[start] + this.Data[end];
@@ -47,7 +48,7 @@ public sealed class Day09 : Solver<long[]>
         }
 
         long[] slice = this.Data[start..++end];
-        ChallengeUtils.LogPart2(slice.Min() + slice.Max());
+        LogAnswer(slice.Min() + slice.Max());
     }
 
     /// <summary>

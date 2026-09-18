@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Challenge.Utils;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -24,8 +25,9 @@ public sealed partial class Day05 : ArraySolver<string>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -35,12 +37,12 @@ public sealed partial class Day05 : ArraySolver<string>
                        .Count(l => l.AsSpan().CountAny(Vowels) >= 3
                                 && l.AsSpan().ContainsAny(StringUtils.PairsLowercase)
                                 && !l.AsSpan().ContainsAny(Banned));
-        ChallengeUtils.LogPart1(nice);
+        LogAnswer(nice);
 
         nice = this.Data.AsValueEnumerable()
                    .Count(l => PairMatcher.IsMatch(l)
                             && TripleMatcher.IsMatch(l));
-        ChallengeUtils.LogPart2(nice);
+        LogAnswer(nice);
     }
 
     /// <inheritdoc />

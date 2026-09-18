@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -21,8 +21,9 @@ public sealed partial class Day10 : Solver<string>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -33,13 +34,13 @@ public sealed partial class Day10 : Solver<string>
         {
             result = GroupMatcher.Replace(result, Expander);
         }
-        ChallengeUtils.LogPart1(result.Length);
+        LogAnswer(result.Length);
 
         foreach (int _ in PART1_REPEATS..PART2_REPEATS)
         {
             result = GroupMatcher.Replace(result, Expander);
         }
-        ChallengeUtils.LogPart2(result.Length);
+        LogAnswer(result.Length);
     }
 
     private static string Expander(Match match)

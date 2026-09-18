@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -16,18 +16,19 @@ public sealed partial class Day09 : Solver<string>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int decompressedLength = GetDecompressedLength();
-        ChallengeUtils.LogPart1(decompressedLength);
+        LogAnswer(decompressedLength);
 
         long expandedLength = GetExpandedLength(0, this.Data.Length);
-        ChallengeUtils.LogPart2(expandedLength);
+        LogAnswer(expandedLength);
     }
 
     private int GetDecompressedLength()

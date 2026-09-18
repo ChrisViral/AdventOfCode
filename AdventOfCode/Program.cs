@@ -11,6 +11,7 @@ Cli.Ext.ConfigureServices(services =>
 {
     Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
+                .WriteTo.File("results.txt")
                 .Enrich.FromLogContext()
                 .CreateLogger();
 

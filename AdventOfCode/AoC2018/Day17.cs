@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -55,8 +55,9 @@ public sealed partial class Day17 : Solver<(Grid<Day17.Element> map, Vector2<int
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     [GeneratedRegex(@"([xy])=(\d+), [xy]=(\d+)\.\.(\d+)")]
     private static partial Regex LineMatcher { get; }
@@ -143,8 +144,8 @@ public sealed partial class Day17 : Solver<(Grid<Day17.Element> map, Vector2<int
                     return;
             }
         }
-        ChallengeUtils.LogPart1(water);
-        ChallengeUtils.LogPart2(filled);
+        LogAnswer(water);
+        LogAnswer(filled);
     }
 
     private bool FlowInDirection(Vector2<int> flowStart, Direction direction, out Vector2<int> flowEnd)

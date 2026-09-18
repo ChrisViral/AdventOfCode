@@ -1,10 +1,10 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Spans;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -39,8 +39,9 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -74,7 +75,7 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
         // Get risk level across map
         int riskLevel = map.AsSpan2D(this.Data.target.X + 1, this.Data.target.Y + 1)
                            .Sum(t => (int)t);
-        ChallengeUtils.LogPart1(riskLevel);
+        LogAnswer(riskLevel);
 
         // Search path to target
         SearchState start = new(Vector2<int>.Zero, Gear.TORCH);
@@ -83,7 +84,7 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
                            s => FindTargetRegions(s, map),
                            MinSearchComparer<int>.Comparer,
                            out int totalTime);
-        ChallengeUtils.LogPart2(totalTime);
+        LogAnswer(totalTime);
     }
 
     // ReSharper disable once CognitiveComplexity

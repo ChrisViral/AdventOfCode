@@ -5,6 +5,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -45,8 +46,9 @@ public sealed partial class Day04 : RegexSolver<Day04.Room>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -70,9 +72,9 @@ public sealed partial class Day04 : RegexSolver<Day04.Room>
             }
             frequencies.Clear();
         }
-        ChallengeUtils.LogPart1(result);
+        LogAnswer(result);
 
         Room storage = this.Data.Single(r => r.DecryptedID.Contains("northpole"));
-        ChallengeUtils.LogPart2(storage.Sector);
+        LogAnswer(storage.Sector);
     }
 }

@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -14,8 +14,9 @@ public sealed class Day24 : ArraySolver<int>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input) : base(input) { }
+    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -28,7 +29,7 @@ public sealed class Day24 : ArraySolver<int>
         {
             entanglement = FindBestFirstGroup(new BitVector32(), 1, maxGroupSize, 0, targetWeight, 3);
         }
-        ChallengeUtils.LogPart1(entanglement);
+        LogAnswer(entanglement);
 
         entanglement = long.MaxValue;
         targetWeight = totalWeight / 4;
@@ -36,7 +37,7 @@ public sealed class Day24 : ArraySolver<int>
         {
             entanglement = FindBestFirstGroup(new BitVector32(), 1, maxGroupSize, 0, targetWeight, 4);
         }
-        ChallengeUtils.LogPart2(entanglement);
+        LogAnswer(entanglement);
     }
 
     // ReSharper disable once CognitiveComplexity

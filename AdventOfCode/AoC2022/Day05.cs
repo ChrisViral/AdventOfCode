@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -66,8 +66,9 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
     /// Creates a new <see cref="Day05"/> Solver for 2022 - 05 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day05(string input) : base(input, options: StringSplitOptions.None) { }
+    public Day05(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.None) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -93,7 +94,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
             message[i] = stacks[i].Peek();
         }
 
-        ChallengeUtils.LogPart1(new string(message));
+        LogAnswer(new string(message));
 
         // Create another copy
         stacks = CopyStacks();
@@ -121,7 +122,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
         {
             message[i] = stacks[i].Peek();
         }
-        ChallengeUtils.LogPart2(new string(message));
+        LogAnswer(new string(message));
     }
 
     /// <inheritdoc />

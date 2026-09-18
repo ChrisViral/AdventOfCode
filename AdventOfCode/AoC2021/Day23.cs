@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.ComponentModel;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -220,8 +220,9 @@ public sealed class Day23 : Solver<Day23.GraphData>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day23(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -229,7 +230,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     {
         // Sort into respective rooms
         int minEnergy = SortAmphipods();
-        ChallengeUtils.LogPart1(minEnergy);
+        LogAnswer(minEnergy);
 
         // Update room capacities
         this.Data.Rooms.ForEach(r => r.RoomCapacity = 4);
@@ -264,7 +265,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
 
         // Sort into respective rooms
         minEnergy = SortAmphipods();
-        ChallengeUtils.LogPart2(minEnergy);
+        LogAnswer(minEnergy);
     }
 
     /// <summary>

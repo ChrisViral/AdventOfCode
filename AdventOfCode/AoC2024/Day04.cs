@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -14,8 +14,9 @@ public sealed class Day04 : GridSolver<char>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -36,7 +37,7 @@ public sealed class Day04 : GridSolver<char>
                 }
             }
         }
-        ChallengeUtils.LogPart1(hits);
+        LogAnswer(hits);
 
         hits = 0;
         foreach (Vector2<int> startPos in this.Data.Dimensions.Enumerate())
@@ -95,7 +96,7 @@ public sealed class Day04 : GridSolver<char>
                 }
             }
         }
-        ChallengeUtils.LogPart2(hits);
+        LogAnswer(hits);
     }
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>

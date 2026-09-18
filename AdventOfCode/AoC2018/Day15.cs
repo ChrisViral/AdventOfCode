@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 using Challenge.Collections;
 using Challenge.Collections.Pooling;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -323,8 +323,9 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -333,7 +334,7 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
         // Simulates one round of combat
         int rounds = SimulateCombat(out List<Unit> units);
         int outcome = units.Sum(u => u.HitPoints) * rounds;
-        ChallengeUtils.LogPart1(outcome);
+        LogAnswer(outcome);
 
         // Count the elves on the map
         int elfCount = this.Data.Count(e => e is Unit { IsElf: true });
@@ -348,7 +349,7 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
 
         // Print final outcome
         outcome = units.Sum(u => u.HitPoints) * rounds;
-        ChallengeUtils.LogPart2(outcome);
+        LogAnswer(outcome);
     }
 
     /// <summary>

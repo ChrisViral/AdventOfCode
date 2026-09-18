@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -25,8 +25,9 @@ public sealed class Day14 : Solver<byte[]>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -34,11 +35,11 @@ public sealed class Day14 : Solver<byte[]>
     {
         List<string> cache = new(30_000);
         int keyIndex = GetFinalKeyIndex(cache);
-        ChallengeUtils.LogPart1(keyIndex);
+        LogAnswer(keyIndex);
 
         cache.Clear();
         keyIndex = GetFinalKeyIndex(cache, PART2_HASHES);
-        ChallengeUtils.LogPart2(keyIndex);
+        LogAnswer(keyIndex);
     }
 
     private int GetFinalKeyIndex(List<string> cache, int extraHashes = 0)

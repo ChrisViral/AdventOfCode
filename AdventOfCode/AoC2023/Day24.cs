@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 
 namespace AdventOfCode.AoC2023;
@@ -62,8 +62,9 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input) : base(input) { }
+    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
     public override void Run()
@@ -83,7 +84,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
             }
         }
 
-        ChallengeUtils.LogPart1(collisions);
+        LogAnswer(collisions);
 
         // Yeah, I hate using a package this way, but I am absolutely fucking not solving a system of nine unknown variables by hand
         // ReSharper disable once RedundantNameQualifier
@@ -109,7 +110,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
 
         solver.Check();
         Expr result = solver.Model.Evaluate(px + py + pz);
-        ChallengeUtils.LogPart2(result);
+        LogAnswer(result);
     }
 
     /// <inheritdoc />

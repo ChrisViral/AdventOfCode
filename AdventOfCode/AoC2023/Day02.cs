@@ -2,6 +2,7 @@
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -106,8 +107,9 @@ public sealed partial class Day02 : Solver<Day02.Game[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Game"/>[] fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -115,10 +117,10 @@ public sealed partial class Day02 : Solver<Day02.Game[]>
     {
         Set maxSet = new(12, 13, 14);
         int sum = this.Data.Where(g => g.IsValid(maxSet)).Sum(g => g.id);
-        ChallengeUtils.LogPart1(sum);
+        LogAnswer(sum);
 
         int powers = this.Data.Sum(g => g.Power);
-        ChallengeUtils.LogPart2(powers);
+        LogAnswer(powers);
     }
 
     /// <inheritdoc />

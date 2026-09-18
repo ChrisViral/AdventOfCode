@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -20,8 +21,9 @@ public sealed class Day13 : Solver<Grid<bool>[]>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day13(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -41,14 +43,14 @@ public sealed class Day13 : Solver<Grid<bool>[]>
             total += reflection;
             lines[i] = reflection;
         }
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = 0;
         foreach (int i in ..this.Data.Length)
         {
             total += FindSmudgedReflection(this.Data[i], lines[i]);
         }
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     private static int FindSmudgedReflection(Grid<bool> grid, int ignoredLine)

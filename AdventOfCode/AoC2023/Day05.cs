@@ -4,6 +4,7 @@ using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -62,8 +63,9 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -82,7 +84,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
             min = Math.Min(value, min);
         }
 
-        ChallengeUtils.LogPart1(min);
+        LogAnswer(min);
 
         // CBA to optimize it, running it in parallel takes less time to write and runs in less than a minute
         ParallelLoopResult result = Parallel.For(0, this.Data.seeds.Length / 2, ParallelFindMin);
@@ -91,7 +93,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
             Thread.Sleep(1000);
         }
 
-        ChallengeUtils.LogPart2(this.minSeed);
+        LogAnswer(this.minSeed);
     }
 
     public void ParallelFindMin(int i)
@@ -114,7 +116,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
         }
 
         this.minSeed.Update(c => Math.Min(min, c));
-        ChallengeUtils.Log($"Task {id} finished");
+        Log($"Task {id} finished");
     }
 
     /// <inheritdoc />

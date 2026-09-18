@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers.Specialized;
+﻿using Challenge.Solvers.Specialized;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -14,8 +14,9 @@ public sealed class Day08 : ArraySolver<string>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,10 +24,10 @@ public sealed class Day08 : ArraySolver<string>
     {
         int codeLength = this.Data.AsValueEnumerable().Sum(l => l.Length);
         int valueLength = this.Data.AsValueEnumerable().Sum(CalculateValueLength);
-        ChallengeUtils.LogPart1(codeLength - valueLength);
+        LogAnswer(codeLength - valueLength);
 
         int escapedLength = this.Data.AsValueEnumerable().Sum(l => SymbolDisplay.FormatLiteral(l, true).Length);
-        ChallengeUtils.LogPart2(escapedLength - codeLength);
+        LogAnswer(escapedLength - codeLength);
     }
 
     private static int CalculateValueLength(string code)

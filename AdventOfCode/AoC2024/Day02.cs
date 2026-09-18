@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -14,8 +14,9 @@ public sealed class Day02 : ArraySolver<int[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,10 +24,10 @@ public sealed class Day02 : ArraySolver<int[]>
     {
         int[][] unsafeReports = this.Data.WhereNot(IsSafe).ToArray();
         int safe = this.Data.Length - unsafeReports.Length;
-        ChallengeUtils.LogPart1(safe);
+        LogAnswer(safe);
 
         int safeDampened = unsafeReports.Count(IsSafeDampened);
-        ChallengeUtils.LogPart2(safe + safeDampened);
+        LogAnswer(safe + safeDampened);
     }
 
     private static bool IsSafe(ICollection<int> report)

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -23,8 +23,9 @@ public sealed partial class Day15 : RegexSolver<Day15.Ingredient>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -32,10 +33,10 @@ public sealed partial class Day15 : RegexSolver<Day15.Ingredient>
     {
         Span<int> recipe = stackalloc int[this.Data.Length];
         int score = FindBestRecipe(0, recipe);
-        ChallengeUtils.LogPart1(score);
+        LogAnswer(score);
 
         score = FindBestRecipe(0, recipe, CALORY_TARGET);
-        ChallengeUtils.LogPart2(score);
+        LogAnswer(score);
     }
 
     private int FindBestRecipe(int ingredientIndex, Span<int> recipe, int? caloryTarget = null)

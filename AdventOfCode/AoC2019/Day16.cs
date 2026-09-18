@@ -1,6 +1,7 @@
 ﻿using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -23,8 +24,9 @@ public sealed class Day16 : Solver<int[]>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -50,7 +52,7 @@ public sealed class Day16 : Solver<int[]>
         // Get first eight digits
         Span<char> result = stackalloc char[8];
         current[..8].Select(c => (char)(c + '0')).CopyTo(result);
-        ChallengeUtils.LogPart1(result.ToString());
+        LogAnswer(result.ToString());
 
         // Get starting offset
         int start = this.Data.AsSpan(0, 7).Aggregate((acc, d) => (acc * 10) + d);
@@ -81,7 +83,7 @@ public sealed class Day16 : Solver<int[]>
 
         // Get first eight digits
         current[..8].Select(c => (char)(c + '0')).CopyTo(result);
-        ChallengeUtils.LogPart2(result.ToString());
+        LogAnswer(result.ToString());
     }
 
     /// <summary>

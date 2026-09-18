@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -31,8 +31,9 @@ public sealed partial class Day10 : RegexSolver<Day10.Light>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -57,8 +58,8 @@ public sealed partial class Day10 : RegexSolver<Day10.Light>
         Vector2<int> size = Vector2<int>.Abs(max - min) + Vector2<int>.One;
         Grid<bool> grid = new(size.X, size.Y, b => b ? "▓" : " ");
         this.Data.ForEach(l => grid[l.Position - min] = true);
-        ChallengeUtils.LogPart1($"\n{grid}");
-        ChallengeUtils.LogPart2(iterations - 1);
+        LogAnswer($"\n{grid}");
+        LogAnswer(iterations - 1);
     }
 
     private (Vector2<int>, Vector2<int>) GetMinMax()

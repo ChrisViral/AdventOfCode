@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections.Pooling;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -122,8 +122,9 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -156,13 +157,13 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
 
         // Count groups with a node starting with t
         int validGroups = groups.Count(g => g.A[0] is 't' || g.B[0] is 't' || g.C[0] is 't');
-        ChallengeUtils.LogPart1(validGroups);
+        LogAnswer(validGroups);
 
         // Run algorithm and find largest group
         HashSet<NetworkNode> nodes = [..this.Data];
         List<NetworkNode[]> cliques = FindAllCliques(nodes);
         NetworkNode[] largestGroup = cliques.MaxBy(c => c.Length)!;
-        ChallengeUtils.LogPart2(string.Join(',', largestGroup.AsEnumerable().OrderBy(n => n.ID)));
+        LogAnswer(string.Join(',', largestGroup.AsEnumerable().OrderBy(n => n.ID)));
     }
 
     /// <summary>

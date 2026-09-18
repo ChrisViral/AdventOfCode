@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -15,8 +15,9 @@ public sealed class Day01 : Solver<DirectionVector<int>[]>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day01(string input) : base(input) { }
+    public Day01(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,8 +39,8 @@ public sealed class Day01 : Solver<DirectionVector<int>[]>
                 }
             }
         }
-        ChallengeUtils.LogPart1(position.ManhattanLength);
-        ChallengeUtils.LogPart2(hqPosition!.Value.ManhattanLength);
+        LogAnswer(position.ManhattanLength);
+        LogAnswer(hqPosition!.Value.ManhattanLength);
     }
 
     /// <inheritdoc />

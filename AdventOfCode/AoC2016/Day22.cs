@@ -5,6 +5,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -30,8 +31,9 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -43,7 +45,7 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
         int valid = this.Data.EnumeratePairs()
                              .Where(p => p.first.Used is not 0)
                              .Count(p => p.first.Used <= p.second.Available);
-        ChallengeUtils.LogPart1(valid);
+        LogAnswer(valid);
 
         // Get grid size and smallest available space size
         int minSize = int.MaxValue;
@@ -78,7 +80,7 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
         int toStart = (goalPosition.X - 1) * 5;
 
         // Result is moving the empty to goal, and then goal to start
-        ChallengeUtils.LogPart2(toGoal + toStart);
+        LogAnswer(toGoal + toStart);
     }
 
     /// <inheritdoc />

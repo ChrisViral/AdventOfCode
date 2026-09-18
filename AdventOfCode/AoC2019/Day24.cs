@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
@@ -8,6 +7,7 @@ using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -26,8 +26,9 @@ public sealed class Day24 : GridSolver<bool>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="System.InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input) : base(input)
+    public Day24(string input, ILogger logger) : base(input, logger)
     {
         this.emptyTemplate = new Grid<bool>(this.Grid);
         this.emptyTemplate.Clear();
@@ -51,7 +52,7 @@ public sealed class Day24 : GridSolver<bool>
             current.Apply();
             latest = GridToBitVector(current);
         }
-        ChallengeUtils.LogPart1(latest.Data);
+        LogAnswer(latest.Data);
 
         // Create levels map
         Dictionary<int, DelayedGrid<bool>> levels = new(100)
@@ -77,7 +78,7 @@ public sealed class Day24 : GridSolver<bool>
 
         // Sum
         int bugs = levels.Values.Sum(map => map.AsValueEnumerable().Count(true));
-        ChallengeUtils.LogPart2(bugs);
+        LogAnswer(bugs);
     }
 
     private static void UpdateBugs(DelayedGrid<bool> current)

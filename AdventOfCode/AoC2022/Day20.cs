@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -20,18 +20,19 @@ public sealed class Day20 : ArraySolver<long>
     /// Creates a new <see cref="Day20"/> Solver for 2022 - 20 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long grove = DecryptData(this.Data);
-        ChallengeUtils.LogPart1(grove);
+        LogAnswer(grove);
 
         grove = DecryptData(this.Data.AsEnumerable().Select(v => v * DECRYPTION_KEY), LOOPS);
-        ChallengeUtils.LogPart2(grove);
+        LogAnswer(grove);
     }
 
     // ReSharper disable once CognitiveComplexity

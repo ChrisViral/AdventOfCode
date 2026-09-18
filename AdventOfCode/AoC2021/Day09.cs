@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -17,8 +17,9 @@ public sealed class Day09 : GridSolver<byte>
     /// Creates a new <see cref="Day09"/> Solver for 2021 - 09 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,7 +39,7 @@ public sealed class Day09 : GridSolver<byte>
             risk += value + 1;
         }
 
-        ChallengeUtils.LogPart1(risk);
+        LogAnswer(risk);
 
         Queue<Vector2<int>> search  = new();
         HashSet<Vector2<int>> basin = [];
@@ -64,7 +65,7 @@ public sealed class Day09 : GridSolver<byte>
 
         // Get three largest sizes
         int final = sizes.Dequeue() * sizes.Dequeue() * sizes.Dequeue();
-        ChallengeUtils.LogPart2(final);
+        LogAnswer(final);
     }
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>

@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -27,8 +28,9 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -67,7 +69,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
             }
 
         }
-        ChallengeUtils.LogPart1(threefold);
+        LogAnswer(threefold);
 
         // Create final opcode map
         Opcode[] opcodeMap = new Opcode[OPCODE_COUNT];
@@ -95,7 +97,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
             Opcode opcode = opcodeMap[(int)instruction.Opcode];
             VirtualMachine.RunInstruction(instruction with { Opcode = opcode }, ref registers);
         }
-        ChallengeUtils.LogPart2(registers[0]);
+        LogAnswer(registers[0]);
     }
 
     /// <inheritdoc />

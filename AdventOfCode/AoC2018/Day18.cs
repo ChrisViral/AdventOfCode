@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -28,8 +28,9 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -48,7 +49,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
             resourceValues.Add(GetResourceValue(lumberyard));
             lumberyardStates.Add(lumberyard.ToString(), i);
         }
-        ChallengeUtils.LogPart1(resourceValues[^1]);
+        LogAnswer(resourceValues[^1]);
 
         int finalIndex = -1;
         foreach (int i in PART1_CYCLES..PART2_CYCLES)
@@ -73,7 +74,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
             lumberyardStates[lumberyardState] = i;
         }
 
-        ChallengeUtils.LogPart2(resourceValues[finalIndex]);
+        LogAnswer(resourceValues[finalIndex]);
     }
 
     private static int GetResourceValue(DelayedGrid<Lumber> lumberyard)

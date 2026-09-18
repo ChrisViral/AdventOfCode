@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -33,17 +33,18 @@ public sealed partial class Day02 : RegexSolver<Day02.Box>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int totalArea = this.Data.Sum(b => b.Area + int.Min(b.TopArea, b.FrontArea, b.SideArea));
-        ChallengeUtils.LogPart1(totalArea);
+        LogAnswer(totalArea);
 
         int totalLength = this.Data.Sum(b => b.Volume + b.Perimeter - (int.Max(b.Length, b.Width, b.Height) * 2));
-        ChallengeUtils.LogPart2(totalLength);
+        LogAnswer(totalLength);
     }
 }

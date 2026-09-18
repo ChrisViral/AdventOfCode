@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -64,8 +64,9 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Adapter"/>[] fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -84,8 +85,8 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
             counts[-this.Data[i++].Jolts + this.Data[i].Jolts]++;
         }
 
-        ChallengeUtils.LogPart1(counts[1] * counts[3]);
-        ChallengeUtils.LogPart2(this.Data[0].Paths);
+        LogAnswer(counts[1] * counts[3]);
+        LogAnswer(this.Data[0].Paths);
     }
 
     /// <inheritdoc />

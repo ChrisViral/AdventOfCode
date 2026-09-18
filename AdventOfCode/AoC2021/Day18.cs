@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Numerics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -260,22 +260,23 @@ public sealed class Day18 : ArraySolver<Day18.Number>
     /// Creates a new <see cref="Day18"/> Solver for 2021 - 18 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Number"/>[] fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Number sum = this.Data.Sum();
-        ChallengeUtils.LogPart1(sum.Magnitude);
+        LogAnswer(sum.Magnitude);
 
         int maxMagnitude = this.Data.SelectMany(n => this.Data
                                                          .Where(m => m != n)
                                                          .Select(m => n + m))
                                .Max(n => n.Magnitude);
 
-        ChallengeUtils.LogPart2(maxMagnitude);
+        LogAnswer(maxMagnitude);
     }
 
     /// <inheritdoc />

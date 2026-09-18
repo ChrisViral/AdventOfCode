@@ -1,6 +1,7 @@
 ﻿using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -23,8 +24,9 @@ public sealed class Day18 : Solver<Day18.Tile[]>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -46,7 +48,7 @@ public sealed class Day18 : Solver<Day18.Tile[]>
             GenerateNextRow(currentRow, nextRow, ref safe);
             ChallengeUtils.Swap(ref currentRow, ref nextRow);
         }
-        ChallengeUtils.LogPart1(safe);
+        LogAnswer(safe);
 
         // Generate rows
         foreach (int _ in PART1_ROWS..PART2_ROWS)
@@ -54,7 +56,7 @@ public sealed class Day18 : Solver<Day18.Tile[]>
             GenerateNextRow(currentRow, nextRow, ref safe);
             ChallengeUtils.Swap(ref currentRow, ref nextRow);
         }
-        ChallengeUtils.LogPart2(safe);
+        LogAnswer(safe);
     }
 
     private void GenerateNextRow(Span<Tile> currentRow, Span<Tile> nextRow, ref int safe)

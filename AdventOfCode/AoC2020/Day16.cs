@@ -3,6 +3,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -78,8 +79,9 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day16(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -100,7 +102,7 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
                 totalError += error;
             }
         }
-        ChallengeUtils.LogPart1(totalError);
+        LogAnswer(totalError);
 
         int length = this.Data.fields.Count;
         Field[] order = new Field[length];
@@ -134,7 +136,7 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
             }
         }
 
-        ChallengeUtils.LogPart2(result);
+        LogAnswer(result);
     }
 
     /// <inheritdoc />

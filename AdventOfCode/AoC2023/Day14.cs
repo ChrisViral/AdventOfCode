@@ -1,8 +1,8 @@
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -29,8 +29,9 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input)
+    public Day14(string input, ILogger logger) : base(input, logger)
     {
         this.directionOrders[Direction.NORTH] = Vector2<int>.EnumerateOver(this.Data.Width, this.Data.Height).ToArray();
         this.directionOrders[Direction.SOUTH] = this.directionOrders[Direction.UP].AsEnumerable().Reverse().ToArray();
@@ -45,7 +46,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     {
         SlideReflector(Direction.NORTH);
         int load = CalculateLoad(this.Data);
-        ChallengeUtils.LogPart1(load);
+        LogAnswer(load);
 
         SlideReflector(Direction.WEST);
         SlideReflector(Direction.SOUTH);
@@ -71,7 +72,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
         string[] endState = this.states.First(p => p.Value == end).Key.Split('\n', DEFAULT_OPTIONS);
         Grid<Rock> finalGrid = new(this.Data.Width, this.Data.Height, endState, LineConverter);
         load = CalculateLoad(finalGrid);
-        ChallengeUtils.LogPart2(load);
+        LogAnswer(load);
     }
 
     // ReSharper disable once CognitiveComplexity

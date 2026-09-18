@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -175,8 +175,9 @@ public sealed class Day17 : Solver<Direction[]>
     /// Creates a new <see cref="Day17"/> Solver for 2022 - 17 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -216,7 +217,7 @@ public sealed class Day17 : Solver<Direction[]>
             states.Add(state);
         }
 
-        ChallengeUtils.LogPart1(heightAt2022);
+        LogAnswer(heightAt2022);
 
         // Find a cycle of at least length 50
         int cycleStart = 0;
@@ -243,7 +244,7 @@ public sealed class Day17 : Solver<Direction[]>
         long cyclesHeight   = cycles * cycleHeight;
         int remainderHeight = statesArray[cycleStart..(cycleStart + (int)remainder)].Sum(s => s.gain);
         long totalHeight    = heightAtStart + cyclesHeight + remainderHeight;
-        ChallengeUtils.LogPart2(totalHeight);
+        LogAnswer(totalHeight);
     }
 
     /// <inheritdoc />

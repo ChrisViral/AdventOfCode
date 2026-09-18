@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -14,18 +14,19 @@ public sealed class Day09 : ArraySolver<long[]>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long total = this.Data.Sum(a => GetNextValue(a));
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = this.Data.Sum(a => GetNextValue(a, true));
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     private static long GetNextValue(in Span<long> values, bool backwards = false)

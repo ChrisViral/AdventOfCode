@@ -2,6 +2,7 @@
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018.ElfCode;
 
@@ -17,8 +18,9 @@ public abstract partial class ElfCodeSolver : Solver<Program>
     /// Creates a new <see cref="ElfCodeSolver"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    protected ElfCodeSolver(string input) : base(input) { }
+    protected ElfCodeSolver(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     protected sealed override Program Convert(string[] rawInput)

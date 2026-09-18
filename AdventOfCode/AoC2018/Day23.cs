@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -27,8 +27,9 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -36,7 +37,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
     {
         Nanobot strongest = this.Data.MaxBy(n => n.Radius)!;
         int nanobotsInRange = this.Data.Count(n => strongest.IsInRange(n.Position));
-        ChallengeUtils.LogPart1(nanobotsInRange);
+        LogAnswer(nanobotsInRange);
 
         // Get maximum component size
         int digitCount = this.Data
@@ -86,7 +87,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
         }
 
         // Return final distance from origin
-        ChallengeUtils.LogPart2(bestPosition.ManhattanLength);
+        LogAnswer(bestPosition.ManhattanLength);
     }
 
     private static IEnumerable<Vector3<long>> Search(long precision, Vector3<long> offset)

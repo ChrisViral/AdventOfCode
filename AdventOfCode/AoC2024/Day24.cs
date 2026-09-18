@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -114,8 +114,9 @@ public sealed class Day24 : Solver<Day24.Wire[]>
     /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Wire"/>[] fails</exception>
-    public Day24(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day24(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -136,7 +137,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
                 number |= 1;
             }
         }
-        ChallengeUtils.LogPart1(number);
+        LogAnswer(number);
 
         // Prepare invalid gates set
         HashSet<GateWire> invalidWires = new(8);
@@ -171,7 +172,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
             }
         }
 
-        ChallengeUtils.LogPart2(string.Join(',', invalidWires.Select(w => w.ID).Order()));
+        LogAnswer(string.Join(',', invalidWires.Select(w => w.ID).Order()));
     }
 
     /// <inheritdoc />

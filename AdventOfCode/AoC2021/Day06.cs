@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -20,18 +20,19 @@ public sealed class Day06 : Solver<int[]>
     /// Creates a new <see cref="Day06"/> Solver for 2021 - 06 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long count = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(DAYS - fish - 1));
-        ChallengeUtils.LogPart1(count);
+        LogAnswer(count);
 
         count      = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(LONG_DAYS - fish - 1));
-        ChallengeUtils.LogPart2(count);
+        LogAnswer(count);
     }
 
     /// <summary>

@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -42,8 +42,9 @@ public sealed partial class Day20 : RegexSolver<Day20.Particle>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -71,9 +72,9 @@ public sealed partial class Day20 : RegexSolver<Day20.Particle>
 
         Particle closest = this.Data.MinBy(p => p.Position.ManhattanLength)!;
         int id = this.Data.IndexOf(closest);
-        ChallengeUtils.LogPart1(id);
+        LogAnswer(id);
 
         int remaining = this.Data.Count(p => !p.IsDestroyed);
-        ChallengeUtils.LogPart2(remaining);
+        LogAnswer(remaining);
     }
 }

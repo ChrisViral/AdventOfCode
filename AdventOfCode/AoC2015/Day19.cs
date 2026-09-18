@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -26,8 +27,9 @@ public sealed partial class Day19 : Solver<(ImmutableArray<Day19.Replacement> re
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day19(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -49,14 +51,14 @@ public sealed partial class Day19 : Solver<(ImmutableArray<Day19.Replacement> re
                 molecule = molecule[(i + 1)..];
             }
         }
-        ChallengeUtils.LogPart1(molecules.Count);
+        LogAnswer(molecules.Count);
 
         molecule = this.Data.molecule;
         int steps = ElementMatcher.Count(molecule) - 1;
         steps -= molecule.Count("Rn");
         steps -= molecule.Count("Ar");
         steps -= molecule.Count('Y') * 2;
-        ChallengeUtils.LogPart2(steps);
+        LogAnswer(steps);
     }
 
     /// <inheritdoc />

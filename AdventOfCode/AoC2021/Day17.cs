@@ -4,6 +4,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -24,8 +25,9 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
     /// Creates a new <see cref="Day17"/> Solver for 2021 - 17 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -44,7 +46,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
             }
         }
 
-        ChallengeUtils.LogPart1(validY[^1].Triangular);
+        LogAnswer(validY[^1].Triangular);
 
         int minX = (1..^this.Data.xRange.From).First(n => n.Triangular >= this.Data.xRange.From);
 
@@ -67,7 +69,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
                 }
             }
         }
-        ChallengeUtils.LogPart2(count);
+        LogAnswer(count);
     }
 
     /// <inheritdoc />

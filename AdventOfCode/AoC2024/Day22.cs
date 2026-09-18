@@ -2,6 +2,7 @@
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -46,20 +47,21 @@ public sealed class Day22 : ArraySolver<long>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         (int[] prices, byte[] diffs, long secret)[] data = this.Data.Select(GeneratePrices).ToArray();
-        ChallengeUtils.LogPart1(data.Sum(s => s.secret));
+        LogAnswer(data.Sum(s => s.secret));
 
         ParallelHelper helper = new(data.Select(d => (d.prices, d.diffs)).ToArray());
         helper.ForEach(EnumerateSequences());
         int maxBananas = helper.Results.Max();
-        ChallengeUtils.LogPart2(maxBananas);
+        LogAnswer(maxBananas);
     }
 
     private static (int[] prices, byte[] diffs, long secret) GeneratePrices(long seed)

@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -17,8 +17,9 @@ public sealed class Day19 : GridSolver<char>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day19(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -55,9 +56,9 @@ public sealed class Day19 : GridSolver<char>
             position = moved;
             steps++;
         }
-        ChallengeUtils.LogPart1(path);
+        LogAnswer(path);
 
-        ChallengeUtils.LogPart2(steps);
+        LogAnswer(steps);
     }
 
     /// <inheritdoc />

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -19,8 +19,10 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
+/// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -36,7 +38,7 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
             scores[player] += score;
             player = (player + 1) % scores.Length;
         }
-        ChallengeUtils.LogPart1(scores.Max());
+        LogAnswer(scores.Max());
 
         int end = this.Data.topMarble * 100;
         foreach (int marble in ^this.Data.topMarble..end)
@@ -45,7 +47,7 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
             scores[player] += score;
             player = (player + 1) % scores.Length;
         }
-        ChallengeUtils.LogPart2(scores.Max());
+        LogAnswer(scores.Max());
     }
 
     private static int PlaceMarble(int marble, LinkedList<int> circle, ref LinkedListNode<int> current)

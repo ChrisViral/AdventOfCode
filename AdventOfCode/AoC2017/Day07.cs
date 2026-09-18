@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -55,8 +55,9 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -65,7 +66,7 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
         Dictionary<string, Program> programs = this.Data.ToDictionary(p => p.Name, p => p);
         this.Data.ForEach(p => p.ResolveChildren(programs));
         Program root = this.Data.First(p => p.Parent is null);
-        ChallengeUtils.LogPart1(root.Name);
+        LogAnswer(root.Name);
 
         Program problem = root;
         while (!problem.IsBalanced)
@@ -78,6 +79,6 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
 
         int expectedWeight = problem.Parent!.Children.First(c => c != problem).TotalWeight;
         int diff = expectedWeight - problem.TotalWeight;
-        ChallengeUtils.LogPart2(problem.Weight + diff);
+        LogAnswer(problem.Weight + diff);
     }
 }

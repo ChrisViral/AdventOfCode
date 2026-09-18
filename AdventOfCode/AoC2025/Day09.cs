@@ -1,8 +1,8 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -15,8 +15,9 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
     /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -34,7 +35,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
                 bestArea = Math.Max(bestArea, area);
             }
         }
-        ChallengeUtils.LogPart1(bestArea);
+        LogAnswer(bestArea);
 
         Vector2<int> previousCorner = this.Data[^1];
         Dictionary<Vector2<int>, bool> floor = new(this.Data.Length * 100);
@@ -74,7 +75,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
             }
         }
 
-        ChallengeUtils.LogPart2(bestArea);
+        LogAnswer(bestArea);
     }
 
     private static bool IsWithinBounds(Vector2<int> corner, Vector2<int> min, Vector2<int> max)

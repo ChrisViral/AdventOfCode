@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -30,26 +31,27 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Robot"/>[] fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int dangerLevel = GetDangerLevel(PART1_TIME);
-        ChallengeUtils.LogPart1(dangerLevel);
+        LogAnswer(dangerLevel);
 
         // The easter egg might not be *the* lowest danger time, so we'll take the best five and print them all
         Grid<bool> view = new(SpaceSize.X, SpaceSize.Y, toString: v => v ? @"█" : " ");
 
         // Print potential answers
-        ChallengeUtils.LogPart2("One of the following times should have a christmas tree\n");
+        LogAnswer("One of the following times should have a christmas tree\n");
         foreach (int time in (1..^10_000).OrderBy(GetDangerLevel).Take(5))
         {
             FillGrid(view, time);
-            ChallengeUtils.Log($"Time: {time}");
-            ChallengeUtils.Log(view + "\n");
+            Log($"Time: {time}");
+            Log(view + "\n");
             view.Clear();
         }
     }

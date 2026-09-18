@@ -2,10 +2,10 @@ using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -72,8 +72,9 @@ public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] val
     /// Creates a new <see cref="Day16"/> Solver for 2022 - 16 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -99,11 +100,11 @@ public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] val
 
         // Part 1
         int pressure = ExploreTunnels(this.Data.start, PART1_TIME, pathLengths, validValves);
-        ChallengeUtils.LogPart1(pressure);
+        LogAnswer(pressure);
 
         // Part 2
         pressure = ExploreTunnelsPair(this.Data.start, PART2_TIME, pathLengths, validValves);
-        ChallengeUtils.LogPart2(pressure);
+        LogAnswer(pressure);
     }
 
     /// <summary>

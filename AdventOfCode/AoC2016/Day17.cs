@@ -1,10 +1,10 @@
 ﻿using System.Collections.Immutable;
 using System.Security.Cryptography;
 using System.Text;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -29,8 +29,9 @@ public sealed class Day17 : Solver<string>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,9 +39,9 @@ public sealed class Day17 : Solver<string>
     {
         IEnumerable<string> pathsEnumerable = GetValidPaths();
         // ReSharper disable once PossibleMultipleEnumeration
-        ChallengeUtils.LogPart1(pathsEnumerable.First());
+        LogAnswer(pathsEnumerable.First());
         // ReSharper disable once PossibleMultipleEnumeration
-        ChallengeUtils.LogPart2(pathsEnumerable.Last().Length);
+        LogAnswer(pathsEnumerable.Last().Length);
     }
 
     // ReSharper disable once CognitiveComplexity

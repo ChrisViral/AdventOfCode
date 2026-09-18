@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -139,8 +139,9 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
     /// Creates a new <see cref="Day13"/> Solver for 2022 - 13 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -163,12 +164,12 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
             }
         }
 
-        ChallengeUtils.LogPart1(inOrder);
+        LogAnswer(inOrder);
 
         packets.Sort();
         int firstDivider  = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 2 }] }]);
         int secondDivider = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 6 }] }]);
-        ChallengeUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
+        LogAnswer((firstDivider + 1) * (secondDivider + 1));
     }
 
     /// <inheritdoc />

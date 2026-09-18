@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -13,8 +13,9 @@ public sealed class Day21 : ElfCodeSolver
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -26,9 +27,9 @@ public sealed class Day21 : ElfCodeSolver
 
         List<long> values = new(11000);
         RunVM(values, targetIp, targetRegister);
-        ChallengeUtils.LogPart1(values[0]);
-        ChallengeUtils.LogPart2(values[^1]);
-        ChallengeUtils.Log(values.Count);
+        LogAnswer(values[0]);
+        LogAnswer(values[^1]);
+        Log(values.Count);
     }
 
     private void RunVM(List<long> values, long targetIp, int targetRegister)

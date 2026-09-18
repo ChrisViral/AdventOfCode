@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -67,8 +67,9 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     private int accumulator;
     private int pointer;
@@ -79,7 +80,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     public override void Run()
     {
         RunProgram();
-        ChallengeUtils.LogPart1(this.accumulator);
+        LogAnswer(this.accumulator);
 
         foreach (int i in ..this.Data.Length)
         {
@@ -89,7 +90,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
 
             if (this.Data[i].Operation is not Operations.ACC && RunProgram(i))
             {
-                ChallengeUtils.LogPart2(this.accumulator);
+                LogAnswer(this.accumulator);
                 return;
             }
         }

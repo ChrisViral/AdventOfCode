@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -50,8 +50,9 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -67,7 +68,7 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
                 matches++;
             }
         }
-        ChallengeUtils.LogPart1(matches);
+        LogAnswer(matches);
 
         this.Data.A.Reset();
         this.Data.B.Reset();
@@ -81,7 +82,7 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
                 matches++;
             }
         }
-        ChallengeUtils.LogPart2(matches);
+        LogAnswer(matches);
     }
 
     /// <inheritdoc />

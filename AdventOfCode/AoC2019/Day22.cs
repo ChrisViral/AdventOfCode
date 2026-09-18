@@ -1,9 +1,9 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Enums;
+﻿using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths;
 using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -32,8 +32,9 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -50,7 +51,7 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
                 _                       => throw instruction.Type.Invalid()
             };
         }
-        ChallengeUtils.LogPart1(position);
+        LogAnswer(position);
 
         (long a, long b) = (1L, 0L);
         foreach (Instruction instruction in this.Data)
@@ -95,7 +96,7 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
 
         Span2D<Int128> result = stackalloc Int128[2].AsSpan2D(2, 1);
         MathUtils.MatrixMultiplication(exp, card, ref result, DECK_SIZE2);
-        ChallengeUtils.LogPart2(result[0, 0]);
+        LogAnswer(result[0, 0]);
     }
 
     /// <inheritdoc />

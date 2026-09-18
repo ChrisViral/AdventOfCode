@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -92,8 +92,9 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     public override void Run()
@@ -108,7 +109,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
             }
         }
         int maxRegister = registers.Values.Max();
-        ChallengeUtils.LogPart1(maxRegister);
-        ChallengeUtils.LogPart2(max);
+        LogAnswer(maxRegister);
+        LogAnswer(max);
     }
 }

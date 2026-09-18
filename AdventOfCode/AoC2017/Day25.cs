@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -47,8 +47,9 @@ public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -64,7 +65,7 @@ public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char
             position += action.Move;
             state = this.Data.states[action.Next];
         }
-        ChallengeUtils.LogPart1(tape.Values.AsValueEnumerable().Count(true));
+        LogAnswer(tape.Values.AsValueEnumerable().Count(true));
     }
 
     /// <inheritdoc />

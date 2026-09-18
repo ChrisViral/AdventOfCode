@@ -4,6 +4,7 @@ using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -39,15 +40,16 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int total = this.Data.Select(i => i.ToString()).Sum(HashCode);
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         List<Lens>[] boxes = new List<Lens>[BOXES];
         boxes.Fill(() => []);
@@ -86,7 +88,7 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
             }
         }
 
-        ChallengeUtils.LogPart2(power);
+        LogAnswer(power);
     }
 
     public int HashCode(string code)

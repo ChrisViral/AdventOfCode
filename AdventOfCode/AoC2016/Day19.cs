@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -13,8 +13,9 @@ public sealed class Day19 : Solver<int>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input) { }
+    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -26,7 +27,7 @@ public sealed class Day19 : Solver<int>
         int highestBit = BitOperations.Log2((uint)this.Data);
         int remainder = this.Data - (1 << highestBit);
         int final = (2 * remainder) + 1;
-        ChallengeUtils.LogPart1(final);
+        LogAnswer(final);
 
         // This is a variation of the Josephus problem,
         // but instead we need the highest power of 3 fitting within N.
@@ -41,7 +42,7 @@ public sealed class Day19 : Solver<int>
         // Calculate winning seat
         remainder = this.Data - p;
         final = remainder is 0 ? this.Data : remainder + Math.Max(0, remainder - p);
-        ChallengeUtils.LogPart2(final);
+        LogAnswer(final);
     }
 
     /// <inheritdoc />

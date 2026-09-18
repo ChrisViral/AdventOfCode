@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -106,8 +106,9 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -115,12 +116,12 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
     {
         this.Data.Sort();
         long winnings = CalculateWinnings();
-        ChallengeUtils.LogPart1(winnings);
+        LogAnswer(winnings);
 
         this.Data.Apply(Hand.ConvertJokers);
         this.Data.Sort();
         winnings = CalculateWinnings();
-        ChallengeUtils.LogPart2(winnings);
+        LogAnswer(winnings);
     }
 
     public long CalculateWinnings()

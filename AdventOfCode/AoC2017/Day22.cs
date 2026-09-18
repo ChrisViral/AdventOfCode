@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -28,8 +28,9 @@ public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -56,7 +57,7 @@ public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
 
             position += direction;
         }
-        ChallengeUtils.LogPart1(infections);
+        LogAnswer(infections);
 
         infections = 0;
         position = Vector2<int>.Zero;
@@ -90,7 +91,7 @@ public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
 
             position += direction;
         }
-        ChallengeUtils.LogPart2(infections);
+        LogAnswer(infections);
     }
 
     /// <inheritdoc />

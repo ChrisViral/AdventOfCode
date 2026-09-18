@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -32,15 +32,16 @@ public sealed class Day18 : Solver<string[][]>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[][] fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        ChallengeUtils.LogPart1(this.Data.Sum(CalculateExpression));
-        ChallengeUtils.LogPart2(this.Data.Sum(CalculateAdvancedExpression));
+        LogAnswer(this.Data.Sum(CalculateExpression));
+        LogAnswer(this.Data.Sum(CalculateAdvancedExpression));
     }
 
     /// <summary>

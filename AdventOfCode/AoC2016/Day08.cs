@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -116,8 +116,9 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -125,7 +126,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     {
         Grid<bool> screen = new(50, 6, b => b ? "#" : ".");
         this.Data.ForEach(i => i.ApplyToScreen(screen));
-        ChallengeUtils.LogPart1(screen.Count(true));
-        ChallengeUtils.LogPart2("\n" + screen);
+        LogAnswer(screen.Count(true));
+        LogAnswer("\n" + screen);
     }
 }

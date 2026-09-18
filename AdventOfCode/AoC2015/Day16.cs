@@ -1,8 +1,8 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -50,18 +50,19 @@ public sealed partial class Day16 : RegexSolver<Day16.Sue>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         Sue sue = this.Data.First(sue => sue.Compounds.All(c => KnownData[c.Name] == c.Amount));
-        ChallengeUtils.LogPart1(sue.Number);
+        LogAnswer(sue.Number);
 
         sue = this.Data.First(IsValidSue);
-        ChallengeUtils.LogPart2(sue.Number);
+        LogAnswer(sue.Number);
     }
 
     // ReSharper disable once CognitiveComplexity

@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -37,19 +37,20 @@ public sealed partial class Day03 : RegexSolver<Day03.Triangle>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day03(string input) : base(input) { }
+    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int possible = this.Data.Count(t => t.IsPossible);
-        ChallengeUtils.LogPart1(possible);
+        LogAnswer(possible);
 
         possible = this.Data.Chunk(3)
                        .SelectMany(c => (..3).Select(i => new Triangle(c[0][i], c[1][i], c[2][i])))
                        .Count(t => t.IsPossible);
-        ChallengeUtils.LogPart2(possible);
+        LogAnswer(possible);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -28,8 +28,9 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,12 +39,12 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
         //Play a single game
         Queue<int> winner = PlayCombat(this.Data.p1, this.Data.p2);
         int count = winner.Count;
-        ChallengeUtils.LogPart1(winner.Sum(c => c * count--));
+        LogAnswer(winner.Sum(c => c * count--));
 
         //Play a recursive game
         winner = PlayRecursiveCombat(this.Data.p1, this.Data.p2).deck;
         count = winner.Count;
-        ChallengeUtils.LogPart2(winner.Sum(c => c * count--));
+        LogAnswer(winner.Sum(c => c * count--));
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2016.Assembunny;
-using Challenge.Utils;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -20,8 +20,9 @@ public sealed class Day25 : RegexSolver<Instruction>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -30,7 +31,7 @@ public sealed class Day25 : RegexSolver<Instruction>
         // Test program until we find a value that works
         int value = 0;
         while (!TestOutput(++value));
-        ChallengeUtils.LogPart1(value);
+        LogAnswer(value);
     }
 
     private bool TestOutput(int value)

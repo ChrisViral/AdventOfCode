@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -32,8 +32,9 @@ public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
     /// Creates a new <see cref="Day13"/> Solver for 2021 - 13 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -42,14 +43,14 @@ public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
         // Apply the first fold and check how many sections are still marked
         Grid<bool> grid = ApplyFold(this.Data.folds[0], this.Data.grid);
         int enabled = grid.Count(b => b);
-        ChallengeUtils.LogPart1(enabled);
+        LogAnswer(enabled);
 
         // Apply the rest of the folds
         foreach (int i in 1..this.Data.folds.Count)
         {
             grid = ApplyFold(this.Data.folds[i], grid);
         }
-        ChallengeUtils.LogPart2($"\n{grid}");
+        LogAnswer($"\n{grid}");
     }
 
     /// <summary>

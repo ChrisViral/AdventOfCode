@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
 using FastEnumUtility;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -87,8 +88,9 @@ public sealed partial class Day23 : RegexSolver<Day23.Instruction>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -101,7 +103,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Instruction>
             Instruction instruction = this.Data[address];
             instruction.ExecuteInstruction(ref address, ref registers);
         }
-        ChallengeUtils.LogPart1(registers[1]);
+        LogAnswer(registers[1]);
 
         registers = new Registers();
         registers[0] = 1;
@@ -111,6 +113,6 @@ public sealed partial class Day23 : RegexSolver<Day23.Instruction>
             Instruction instruction = this.Data[address];
             instruction.ExecuteInstruction(ref address, ref registers);
         }
-        ChallengeUtils.LogPart2(registers[1]);
+        LogAnswer(registers[1]);
     }
 }

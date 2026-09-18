@@ -1,12 +1,12 @@
 ﻿using AdventOfCode.AoC2017.Common;
 using Challenge.Collections;
 using Challenge.Collections.Pooling;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -22,8 +22,9 @@ public sealed class Day14 : Solver<string>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -43,7 +44,7 @@ public sealed class Day14 : Solver<string>
             used += (int)UInt128.PopCount(hash.Data);
             hash.CopyTo(disk.GetRow(i));
         }
-        ChallengeUtils.LogPart1(used);
+        LogAnswer(used);
 
         int groups = 0;
         HashSet<Vector2<int>> positions = Vector2<int>.EnumerateOver(SIZE, SIZE).ToHashSet();
@@ -54,7 +55,7 @@ public sealed class Day14 : Solver<string>
                 groups++;
             }
         }
-        ChallengeUtils.LogPart2(groups);
+        LogAnswer(groups);
     }
 
     private static bool RemoveGroup(HashSet<Vector2<int>> unexplored, Grid<bool> disk)

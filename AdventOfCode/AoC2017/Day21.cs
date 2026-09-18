@@ -7,6 +7,7 @@ using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -46,8 +47,9 @@ public sealed partial class Day21 : Solver<FrozenDictionary<Grid<bool>, Grid<boo
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -66,13 +68,13 @@ public sealed partial class Day21 : Solver<FrozenDictionary<Grid<bool>, Grid<boo
         {
             UpdateArt(ref current);
         }
-        ChallengeUtils.LogPart1(current.AsValueEnumerable().Count(true));
+        LogAnswer(current.AsValueEnumerable().Count(true));
 
         foreach (int _ in PART1..PART2)
         {
             UpdateArt(ref current);
         }
-        ChallengeUtils.LogPart2(current.AsValueEnumerable().Count(true));
+        LogAnswer(current.AsValueEnumerable().Count(true));
     }
 
     private void UpdateArt(ref Grid<bool> current)

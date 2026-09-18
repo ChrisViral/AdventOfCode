@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -16,8 +16,9 @@ public sealed class Day08 : GridSolver<int>
     /// Creates a new <see cref="Day08"/> Solver for 2022 - 08 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -56,7 +57,7 @@ public sealed class Day08 : GridSolver<int>
             }
         }
 
-        ChallengeUtils.LogPart1(visibleCount);
+        LogAnswer(visibleCount);
 
         int scenicScore = 0;
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Data.Width - 1, this.Data.Height - 1)
@@ -100,7 +101,7 @@ public sealed class Day08 : GridSolver<int>
         }
 
         // Part 2 answer
-        ChallengeUtils.LogPart2(scenicScore);
+        LogAnswer(scenicScore);
     }
 
     private bool SetVisibility(Grid<bool> visibilities, Vector2<int> position, ref int maxHeight, ref int count)

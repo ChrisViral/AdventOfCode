@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Strings;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -21,8 +22,9 @@ public sealed partial class Day11 : Solver<string>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -37,7 +39,7 @@ public sealed partial class Day11 : Solver<string>
 
         Span<char> password = stackalloc char[data.Length];
         data.AsValueEnumerable().Select(c => c.AsAsciiLower).CopyTo(password);
-        ChallengeUtils.LogPart1(password.ToString());
+        LogAnswer(password.ToString());
 
         do
         {
@@ -45,7 +47,7 @@ public sealed partial class Day11 : Solver<string>
         }
         while (!IsValid(data));
         data.AsValueEnumerable().Select(c => c.AsAsciiLower).CopyTo(password);
-        ChallengeUtils.LogPart2(password.ToString());
+        LogAnswer(password.ToString());
     }
 
     private static void Increment(Span<int> data)

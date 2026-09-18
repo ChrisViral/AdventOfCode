@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -24,8 +24,9 @@ public sealed partial class Day13 : RegexSolver<Day13.Firewall>
     /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input) : base(input) { }
+    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -34,10 +35,10 @@ public sealed partial class Day13 : RegexSolver<Day13.Firewall>
         int severity = this.Data
                            .Where(f => f.Period.IsFactor(f.Depth))
                            .Sum(f => f.Depth * f.Range);
-        ChallengeUtils.LogPart1(severity);
+        LogAnswer(severity);
 
         int delay = Enumerable.InfiniteSequence(1, 1)
                               .First(d => this.Data.All(f => !f.Period.IsFactor(f.Depth + d)));
-        ChallengeUtils.LogPart2(delay);
+        LogAnswer(delay);
     }
 }

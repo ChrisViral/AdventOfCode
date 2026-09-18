@@ -1,6 +1,6 @@
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -57,8 +57,9 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -74,7 +75,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
             existing.Add(pass.Id);
             seats[pass.Row, pass.Column] = true;
         }
-        ChallengeUtils.LogPart1(max);
+        LogAnswer(max);
 
         //Part 2
         for (int row = 0; row <= BoardingPass.MAX_ROW; row++)
@@ -87,7 +88,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
                     int id = rowId + col;
                     if (existing.Contains(id + 1) && existing.Contains(id - 1))
                     {
-                        ChallengeUtils.LogPart2(id);
+                        LogAnswer(id);
                         return;
                     }
                 }

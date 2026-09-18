@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -122,8 +122,9 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -132,7 +133,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
         // Setup
         Queue<Chemical> productionQueue = new(100);
         int oreRequired = ProduceOneFuel(productionQueue);
-        ChallengeUtils.LogPart1(oreRequired);
+        LogAnswer(oreRequired);
 
         // Setup to churn numbers
         int fuelProduced  = 1;
@@ -151,7 +152,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
             fuelProduced--;
         }
 
-        ChallengeUtils.LogPart2(fuelProduced);
+        LogAnswer(fuelProduced);
     }
 
     /// <summary>

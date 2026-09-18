@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -41,8 +41,9 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
     /// Creates a new <see cref="Day22"/> Solver for 2022 - 22 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day22(string input) : base(input, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day22(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity
@@ -71,7 +72,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
 
         // Get final position value
         int password = CalculateLocationPassword(position, direction);
-        ChallengeUtils.LogPart1(password);
+        LogAnswer(password);
 
         // Definitely not coding a generic way of generating the faces
 
@@ -150,7 +151,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
 
         // Get final position value
         password = CalculateLocationPassword(position, direction);
-        ChallengeUtils.LogPart2(password);
+        LogAnswer(password);
     }
 
     /// <summary>

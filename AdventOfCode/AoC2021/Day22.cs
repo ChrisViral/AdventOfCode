@@ -3,6 +3,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -102,8 +103,9 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
     /// Creates a new <see cref="Day22"/> Solver for 2021 - 22 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day22(string input) : base(input) { }
+    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -127,7 +129,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 
         // Count what's left
         long count = Vector3<int>.EnumerateOver(SIZE, SIZE, SIZE).Count(p => grid[p.X, p.Y, p.Z]);
-        ChallengeUtils.LogPart1(count);
+        LogAnswer(count);
 
         // Setup buffers
         List<Cuboid> current     = new(INTERSECT_SIZE) { this.Data[0].cube };
@@ -163,7 +165,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         }
 
         count = current.Sum(cube => cube.Volume);
-        ChallengeUtils.LogPart2(count);
+        LogAnswer(count);
     }
 
     /// <inheritdoc />

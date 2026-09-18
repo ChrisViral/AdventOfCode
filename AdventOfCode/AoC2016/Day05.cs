@@ -2,6 +2,7 @@
 using System.Text;
 using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -16,8 +17,9 @@ public sealed class Day05 : Solver<string>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -67,8 +69,8 @@ public sealed class Day05 : Solver<string>
             }
         }
         // Print passwords
-        ChallengeUtils.LogPart1(firstPassword.ToString());
-        ChallengeUtils.LogPart2(secondPassword.ToString());
+        LogAnswer(firstPassword.ToString());
+        LogAnswer(secondPassword.ToString());
     }
 
     /// <inheritdoc />

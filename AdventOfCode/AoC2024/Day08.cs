@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -20,8 +20,9 @@ public sealed class Day08 : GridSolver<char>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -89,8 +90,8 @@ public sealed class Day08 : GridSolver<char>
                 }
             }
         }
-        ChallengeUtils.LogPart1(antinodes.Count);
-        ChallengeUtils.LogPart2(harmonicAntinodes.Count);
+        LogAnswer(antinodes.Count);
+        LogAnswer(harmonicAntinodes.Count);
     }
 
     /// <inheritdoc />

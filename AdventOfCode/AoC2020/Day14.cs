@@ -4,6 +4,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -223,8 +224,9 @@ public sealed partial class Day14 : Solver<Day14.Instruction[]>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -234,13 +236,13 @@ public sealed partial class Day14 : Solver<Day14.Instruction[]>
         Dictionary<long, long> memory = new();
         Bitmask bitmask = default;
         this.Data.ForEach(i => i.Execute(memory, ref bitmask));
-        ChallengeUtils.LogPart1(memory.Values.Sum());
+        LogAnswer(memory.Values.Sum());
 
         //Part two decoding
         memory.Clear();
         Bitmask bitmaskV2 = default;
         this.Data.ForEach(i => i.ExecuteV2(memory, ref bitmaskV2));
-        ChallengeUtils.LogPart2(memory.Values.Sum());
+        LogAnswer(memory.Values.Sum());
     }
 
     /// <inheritdoc />

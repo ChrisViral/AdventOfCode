@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -17,8 +17,9 @@ public sealed class Day04 : GridSolver<bool>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -40,7 +41,7 @@ public sealed class Day04 : GridSolver<bool>
                 rollPositions.Add(position);
             }
         }
-        ChallengeUtils.LogPart1(accessible.Count);
+        LogAnswer(accessible.Count);
 
         int removed = accessible.Count;
         accessible.Clear();
@@ -49,7 +50,7 @@ public sealed class Day04 : GridSolver<bool>
             removed += RemoveRolls(rollPositions, accessible);
         }
 
-        ChallengeUtils.LogPart2(removed);
+        LogAnswer(removed);
     }
 
     private static bool GetAccessible(HashSet<Vector2<int>> rollPositions, List<Vector2<int>> accessible)

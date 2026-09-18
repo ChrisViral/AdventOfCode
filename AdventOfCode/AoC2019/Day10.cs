@@ -1,7 +1,7 @@
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -23,8 +23,9 @@ public sealed class Day10 : Solver<Vector2<int>[]>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Vector2{T}"/>[] fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -53,7 +54,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
             // Clear current
             currentStation.Clear();
         }
-        ChallengeUtils.LogPart1(bestStation.Count);
+        LogAnswer(bestStation.Count);
 
         // Create a fake initial vaporization extremely far and ever so slightly to the up left
         Vector2<int> lastDirection = (-1, -999999999);
@@ -102,7 +103,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
             lastDirectionReduced = vaporizeDirectionReduced;
             asteroids.Remove(toVaporize);
         }
-        ChallengeUtils.LogPart2((lastVaporized.X * 100) + lastVaporized.Y);
+        LogAnswer((lastVaporized.X * 100) + lastVaporized.Y);
     }
 
     /// <inheritdoc />

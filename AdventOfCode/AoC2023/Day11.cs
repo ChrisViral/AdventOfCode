@@ -2,6 +2,7 @@
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -18,8 +19,9 @@ public sealed class Day11 : GridSolver<bool>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -48,10 +50,10 @@ public sealed class Day11 : GridSolver<bool>
         }
 
         long total = GetTotalDistances(galaxies, emptyRows, emptyColumns);
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = GetTotalDistances(galaxies, emptyRows, emptyColumns, OLD_EXPANSION);
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     private long GetTotalDistances(Vector2<int>[] galaxies, HashSet<int> emptyRows, HashSet<int> emptyColumns, int emptyExpansion = 2)

@@ -1,8 +1,8 @@
 using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
@@ -137,15 +137,16 @@ public sealed class Day16 : Solver<Day16.Packet>
     /// Creates a new <see cref="Day16"/> Solver for 2021 - 16 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        ChallengeUtils.LogPart1(this.Data.VersionSum);
-        ChallengeUtils.LogPart2(this.Data.Value);
+        LogAnswer(this.Data.VersionSum);
+        LogAnswer(this.Data.Value);
     }
 
     /// <summary>

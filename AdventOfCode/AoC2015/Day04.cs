@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -22,8 +22,9 @@ public sealed class Day04 : Solver<byte[]>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,7 +39,7 @@ public sealed class Day04 : Solver<byte[]>
             GetHeader(++value, header);
         }
         while (!expectedHeader.StartsWith(header));
-        ChallengeUtils.LogPart1(value);
+        LogAnswer(value);
 
         header = stackalloc byte[PART2_SIZE];
         do
@@ -46,7 +47,7 @@ public sealed class Day04 : Solver<byte[]>
             GetHeader(++value, header);
         }
         while (!expectedHeader.SequenceEqual(header));
-        ChallengeUtils.LogPart2(value);
+        LogAnswer(value);
     }
 
     private void GetHeader(int value, Span<byte> header)

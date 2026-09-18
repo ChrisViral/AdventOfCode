@@ -1,6 +1,6 @@
 using AdventOfCode.AoC2019.Solvers;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -22,8 +22,9 @@ public sealed class Day02 : IntcodeSolver
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -32,7 +33,7 @@ public sealed class Day02 : IntcodeSolver
         this.VM[1] = 12L;
         this.VM[2] = 2L;
         this.VM.Run();
-        ChallengeUtils.LogPart1(this.VM[0]);
+        LogAnswer(this.VM[0]);
 
         foreach (int noun in ..MAX_ARG)
         {
@@ -47,7 +48,7 @@ public sealed class Day02 : IntcodeSolver
                 this.VM.Run();
                 if (this.VM[0] is TARGET)
                 {
-                    ChallengeUtils.LogPart2((noun * 100) + verb);
+                    LogAnswer((noun * 100) + verb);
                     return;
                 }
             }

@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -20,8 +20,9 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
     /// Creates a new <see cref="Day02"/> Solver for 2021 - 02 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -45,7 +46,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
             }
         }
 
-        ChallengeUtils.LogPart2(position.X * position.Y);
+        LogAnswer(position.X * position.Y);
 
         // Handle heading based movement
         position = Vector3<long>.Zero;
@@ -65,7 +66,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
             }
         }
 
-        ChallengeUtils.LogPart2(position.X * position.Y);
+        LogAnswer(position.X * position.Y);
     }
 
     /// <inheritdoc />

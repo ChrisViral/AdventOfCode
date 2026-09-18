@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -28,8 +28,9 @@ public sealed class Day25 : ArraySolver<Day25.Star>
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -53,7 +54,7 @@ public sealed class Day25 : ArraySolver<Day25.Star>
                                  .Select(s => s.Constellation)
                                  .Distinct()
                                  .Count();
-        ChallengeUtils.LogPart1(constellations);
+        LogAnswer(constellations);
     }
 
     /// <inheritdoc />

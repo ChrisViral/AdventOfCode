@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -22,8 +22,9 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
     /// Creates a new <see cref="Day10"/> Solver for 2022 - 10 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <summary>
     /// X register
@@ -71,9 +72,9 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
             }
         }
 
-        ChallengeUtils.LogPart1(this.CyclesSum);
-        ChallengeUtils.LogPart2(string.Empty);
-        ChallengeUtils.Log(this.Crt);
+        LogAnswer(this.CyclesSum);
+        LogAnswer(string.Empty);
+        Log(this.Crt);
     }
 
     /// <inheritdoc />

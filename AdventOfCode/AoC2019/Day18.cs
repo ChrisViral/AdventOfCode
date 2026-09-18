@@ -10,6 +10,7 @@ using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -203,8 +204,9 @@ public sealed class Day18 : GridSolver<char>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -229,7 +231,7 @@ public sealed class Day18 : GridSolver<char>
 
         // Run part 1
         int pathLength = FindBestKeyPath(keys, () => robot.Position);
-        ChallengeUtils.LogPart1(pathLength);
+        LogAnswer(pathLength);
 
         // Update grid
         this.Grid[start] = WALL;
@@ -253,7 +255,7 @@ public sealed class Day18 : GridSolver<char>
 
         // Run part 2
         pathLength = FindBestKeyPath(keys, () => RobotsData.FromArray(Robots));
-        ChallengeUtils.LogPart2(pathLength);
+        LogAnswer(pathLength);
     }
 
     /// <summary>

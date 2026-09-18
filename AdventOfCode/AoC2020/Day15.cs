@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -22,8 +22,9 @@ public sealed class Day15 : Solver<Dictionary<int, int>>
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -37,11 +38,11 @@ public sealed class Day15 : Solver<Dictionary<int, int>>
 
         //Part 1
         GetToTarget(ref turn, ref wasFirst, ref last, FIRST_TARGET, previous);
-        ChallengeUtils.LogPart1(last);
+        LogAnswer(last);
 
         //Part 2 (takes a couple seconds but who cares)
         GetToTarget(ref turn, ref wasFirst, ref last, SECOND_TARGET, previous);
-        ChallengeUtils.LogPart2(last);
+        LogAnswer(last);
     }
 
     /// <summary>

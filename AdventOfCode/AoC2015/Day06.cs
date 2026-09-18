@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Spans;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -36,8 +36,9 @@ public sealed partial class Day06 : RegexSolver<Day06.Instruction>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -68,7 +69,7 @@ public sealed partial class Day06 : RegexSolver<Day06.Instruction>
                     throw instruction.Change.Invalid();
             }
         }
-        ChallengeUtils.LogPart1(lights.Count(ON));
+        LogAnswer(lights.Count(ON));
 
         lights.Clear();
         foreach (Instruction instruction in this.Data)
@@ -96,6 +97,6 @@ public sealed partial class Day06 : RegexSolver<Day06.Instruction>
             }
         }
 
-        ChallengeUtils.LogPart2(lights.Sum(l => (int)l));
+        LogAnswer(lights.Sum(l => (int)l));
     }
 }

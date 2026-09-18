@@ -6,6 +6,7 @@ using Challenge.Utils.Extensions.Regexes;
 using Challenge.Utils.Extensions.Spans;
 using Challenge.Utils.ValueEnumerators;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -147,8 +148,9 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -160,14 +162,14 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         {
             instruction.Execute(scrambled);
         }
-        ChallengeUtils.LogPart1(scrambled.ToString());
+        LogAnswer(scrambled.ToString());
 
         PASSWORD.CopyTo(scrambled);
         foreach (Instruction instruction in this.Data.Reversed())
         {
             instruction.Undo(scrambled);
         }
-        ChallengeUtils.LogPart2(scrambled.ToString());
+        LogAnswer(scrambled.ToString());
     }
 
     /// <inheritdoc />

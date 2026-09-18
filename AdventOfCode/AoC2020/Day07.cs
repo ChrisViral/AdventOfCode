@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -100,8 +100,9 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
     /// Creates a new <see cref="Day07"/> Solver from the specified file
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -117,7 +118,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
                 toCheck.Enqueue(b);
             }
         }
-        ChallengeUtils.LogPart1(canContain.Count);
+        LogAnswer(canContain.Count);
 
         int result = 0;
         Queue<(Bag, int)> contained = new();
@@ -132,7 +133,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
             }
         }
 
-        ChallengeUtils.LogPart2(result);
+        LogAnswer(result);
     }
 
     /// <inheritdoc />

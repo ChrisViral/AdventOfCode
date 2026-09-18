@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2016.Assembunny;
-using Challenge.Utils;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -20,18 +20,19 @@ public sealed class Day23 : RegexSolver<Instruction>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int password = RunProgram(PART1_VALUE);
-        ChallengeUtils.LogPart1(password);
+        LogAnswer(password);
 
         password = RunProgram(PART2_VALUE);
-        ChallengeUtils.LogPart2(password);
+        LogAnswer(password);
     }
 
     private int RunProgram(int initialValue)

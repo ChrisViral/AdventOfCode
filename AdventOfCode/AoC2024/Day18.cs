@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -22,8 +22,9 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
     /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -36,7 +37,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
         }
 
         Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
-        ChallengeUtils.LogPart1(path!.Length);
+        LogAnswer(path!.Length);
 
         // This would be faster as a binary search, but 300ms is good enough
         HashSet<Vector2<int>> pathContents = [..path];
@@ -48,7 +49,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
             path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
             if (path is null)
             {
-                ChallengeUtils.LogPart2($"{bytePos.X},{bytePos.Y}");
+                LogAnswer($"{bytePos.X},{bytePos.Y}");
                 break;
             }
 

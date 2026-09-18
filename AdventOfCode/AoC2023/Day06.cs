@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -16,8 +16,9 @@ public sealed class Day06 : Solver<(int time, int record)[]>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -25,14 +26,14 @@ public sealed class Day06 : Solver<(int time, int record)[]>
     {
 
         int result = this.Data.Aggregate(1, (r, c) => r * CountRecordBreaks(c.time, c.record));
-        ChallengeUtils.LogPart1(result);
+        LogAnswer(result);
 
         long time   = long.Parse(this.Data.Select(d => d.time.ToString())
             .Aggregate((a, b) => a + b));
         long record = long.Parse(this.Data.Select(d => d.record.ToString())
             .Aggregate((a, b) => a + b));
         long total = CountRecordBreaks(time, record);
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     private static T CountRecordBreaks<T>(T time, T record) where T : IBinaryInteger<T>

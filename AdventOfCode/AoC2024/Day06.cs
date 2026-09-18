@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -39,8 +39,9 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to (<see cref="Grid{T}"/> <see cref="Vector2{T}"/>) fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -67,7 +68,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
             position = newPosition;
             visited.Add(position);
         }
-        ChallengeUtils.LogPart1(visited.Count);
+        LogAnswer(visited.Count);
 
         // We can't place an obstacle on the start position
         visited.Remove(this.Data.startPosition);
@@ -80,7 +81,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
                                                   new HashSet<(Direction, Vector2<int>)>(100)),
                          CheckIfObstacleCausesLoop,
                          data => Interlocked.Add(ref totalLoops, data.LoopsCount));
-        ChallengeUtils.LogPart2(totalLoops);
+        LogAnswer(totalLoops);
     }
 
     /// <summary>

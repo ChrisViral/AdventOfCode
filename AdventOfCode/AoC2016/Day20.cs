@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -19,8 +19,9 @@ public sealed class Day20 : ArraySolver<Day20.IPRange>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -51,7 +52,7 @@ public sealed class Day20 : ArraySolver<Day20.IPRange>
         // Check earliest available spot
         IPRange firstBlocked = merged[0];
         uint lowest = firstBlocked.Start is not 0 ? 0 : firstBlocked.End + 1;
-        ChallengeUtils.LogPart1(lowest);
+        LogAnswer(lowest);
 
         // Add allowed spots at start/end
         uint allowed = firstBlocked.Start + (uint.MaxValue - merged[^1].End);
@@ -63,7 +64,7 @@ public sealed class Day20 : ArraySolver<Day20.IPRange>
             allowed += next.Start - current.End - 1;
             current = next;
         }
-        ChallengeUtils.LogPart2(allowed);
+        LogAnswer(allowed);
     }
 
     /// <inheritdoc />

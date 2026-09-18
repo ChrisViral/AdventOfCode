@@ -3,6 +3,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -49,8 +50,9 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IngredientList"/>[] fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -88,7 +90,7 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
             impossible.ExceptWith(ingredients);
             possibilities.Add(allergen, ingredients);
         }
-        ChallengeUtils.LogPart1(impossible.Sum(i => ingredientCount[i]));
+        LogAnswer(impossible.Sum(i => ingredientCount[i]));
 
         //Get definitive allergens
         SortedDictionary<string, string> sortedAllergens = new();
@@ -102,7 +104,7 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
             sortedAllergens.Add(allergen, ingredient);
             possibilities.ForEach(p => p.Value.Remove(ingredient));
         }
-        ChallengeUtils.LogPart2(string.Join(',', sortedAllergens.Values));
+        LogAnswer(string.Join(',', sortedAllergens.Values));
     }
 
     /// <inheritdoc />

@@ -2,10 +2,10 @@ using System.ComponentModel;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -47,8 +47,9 @@ public sealed class Day15 : IntcodeSolver
     /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -74,7 +75,7 @@ public sealed class Day15 : IntcodeSolver
             this.map[move] = Element.PATH;
         }
         this.map[this.oxygenPosition] = Element.OXYGEN;
-        ChallengeUtils.LogPart1(path.Length);
+        LogAnswer(path.Length);
 
         //Adjust cursor
         Console.SetCursorPosition(0, Console.CursorTop - 3);
@@ -110,7 +111,7 @@ public sealed class Day15 : IntcodeSolver
 
         //Adjust back down
         Console.SetCursorPosition(0, Console.CursorTop + 3);
-        ChallengeUtils.LogPart2(spreadTime);
+        LogAnswer(spreadTime);
     }
 
     private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node) => node.AsAdjacentEnumerable()

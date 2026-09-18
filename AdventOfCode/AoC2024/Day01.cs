@@ -4,6 +4,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -20,8 +21,9 @@ public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day01(string input) : base(input) { }
+    public Day01(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -30,12 +32,12 @@ public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>
         this.Data.leftList.Sort();
         this.Data.rightList.Sort();
         int distance = this.Data.leftList.Zip(this.Data.rightList).Sum(d => Math.Abs(d.First - d.Second));
-        ChallengeUtils.LogPart1(distance);
+        LogAnswer(distance);
 
         Counter<int> left = new(this.Data.leftList);
         Counter<int> right = new(this.Data.rightList);
         int similarity = left.Sum<int>(v => v * left[v] * right.GetValueOrDefault(v));
-        ChallengeUtils.LogPart2(similarity);
+        LogAnswer(similarity);
     }
 
     /// <inheritdoc />

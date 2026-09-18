@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -23,8 +23,9 @@ public sealed class Day11 : IntcodeSolver
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -35,7 +36,7 @@ public sealed class Day11 : IntcodeSolver
 
         // Run and output
         PaintHull(painted);
-        ChallengeUtils.LogPart1(painted.Count);
+        LogAnswer(painted.Count);
 
         // Reset Robot and VM
         this.VM.Reset();
@@ -70,7 +71,7 @@ public sealed class Day11 : IntcodeSolver
         {
             hull[position - min] = colour;
         }
-        ChallengeUtils.LogPart2("\n" + hull);
+        LogAnswer("\n" + hull);
     }
 
     /// <summary>

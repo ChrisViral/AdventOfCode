@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -23,8 +23,9 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
     /// Creates a new <see cref="Day20"/> Solver for 2021 - 20 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -35,13 +36,13 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
         {
             image = ApplyAlgorithm(image, !i.IsEven);
         }
-        ChallengeUtils.LogPart1(image.Count(b => b));
+        LogAnswer(image.Count(b => b));
 
         foreach (int i in PASSES..LONG_PASSES)
         {
             image = ApplyAlgorithm(image, !i.IsEven);
         }
-        ChallengeUtils.LogPart2(image.Count(b => b));
+        LogAnswer(image.Count(b => b));
     }
 
     private Grid<bool> ApplyAlgorithm(Grid<bool> image, bool externStatus)

@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -18,8 +18,9 @@ public sealed class Day02 : ArraySolver<Direction[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -32,7 +33,7 @@ public sealed class Day02 : ArraySolver<Direction[]>
             [2] = ['7', '8', '9']
         };
         string code = GetCode(keypad);
-        ChallengeUtils.LogPart1(code);
+        LogAnswer(code);
 
         keypad = new Grid<char>(5, 5)
         {
@@ -43,7 +44,7 @@ public sealed class Day02 : ArraySolver<Direction[]>
             [4] = [' ', ' ', 'D', ' ', ' '],
         };
         code = GetCode(keypad);
-        ChallengeUtils.LogPart2(code);
+        LogAnswer(code);
     }
 
     private string GetCode(Grid<char> keypad)

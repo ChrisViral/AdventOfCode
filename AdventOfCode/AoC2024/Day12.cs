@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -14,8 +14,9 @@ public sealed class Day12 : GridSolver<char>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -31,8 +32,8 @@ public sealed class Day12 : GridSolver<char>
             prices += GetAreaPrices(notVisited.First(), notVisited, visiting, fences);
         }
 
-        ChallengeUtils.LogPart1(prices.regular);
-        ChallengeUtils.LogPart2(prices.bulk);
+        LogAnswer(prices.regular);
+        LogAnswer(prices.bulk);
     }
 
     // ReSharper disable once CognitiveComplexity

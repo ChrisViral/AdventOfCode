@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.IO.Networking;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -16,8 +16,9 @@ public sealed class Day23 : Solver<NAT>
     /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input) : base(input) { }
+    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -28,11 +29,11 @@ public sealed class Day23 : Solver<NAT>
 
         // Wait for first packet to come in
         this.Data.WaitForFirstPacket();
-        ChallengeUtils.LogPart1(this.Data.StoredPacket.Y);
+        LogAnswer(this.Data.StoredPacket.Y);
 
         // Wait until the network completes
         this.Data.WaitForCompletion();
-        ChallengeUtils.LogPart2(this.Data.StoredPacket.Y);
+        LogAnswer(this.Data.StoredPacket.Y);
     }
 
     /// <inheritdoc />

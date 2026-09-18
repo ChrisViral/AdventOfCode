@@ -4,6 +4,7 @@ using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -88,8 +89,9 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
     /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input) : base(input) => this.Data.Sort();
+    public Day22(string input, ILogger logger) : base(input, logger) => this.Data.Sort();
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -115,7 +117,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
         }
 
         Brick[] notSafe = this.Data.Where(b => !b.SafeToDisintegrate()).ToArray();
-        ChallengeUtils.LogPart1(this.Data.Length - notSafe.Length);
+        LogAnswer(this.Data.Length - notSafe.Length);
 
         int total = 0;
         HashSet<Brick> collapsed = [];
@@ -137,7 +139,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
             collapsed.Clear();
         }
 
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <inheritdoc />

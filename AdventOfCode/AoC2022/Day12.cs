@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -15,8 +15,9 @@ public sealed class Day12 : GridSolver<int>
     /// Creates a new <see cref="Day12"/> Solver for 2022 - 12 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -47,7 +48,7 @@ public sealed class Day12 : GridSolver<int>
                                              FindNeighbours,
                                              MinSearchComparer<double>.Comparer)
                               .GetValueOrDefault(-1);
-        ChallengeUtils.LogPart1(path);
+        LogAnswer(path);
 
         int shortestPath = path;
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height)
@@ -63,7 +64,7 @@ public sealed class Day12 : GridSolver<int>
             shortestPath = Math.Min(shortestPath, path);
         }
 
-        ChallengeUtils.LogPart2(shortestPath);
+        LogAnswer(shortestPath);
     }
 
     private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node)

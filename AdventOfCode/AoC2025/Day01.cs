@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -16,8 +16,9 @@ public sealed class Day01 : ArraySolver<int>
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day01(string input) : base(input) { }
+    public Day01(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -30,7 +31,7 @@ public sealed class Day01 : ArraySolver<int>
             dial = (dial + move).Mod(DIAL_SIZE);
             if (dial is 0) zeroes++;
         }
-        ChallengeUtils.LogPart1(zeroes);
+        LogAnswer(zeroes);
 
         zeroes = 0;
         dial   = DIAL_START;
@@ -53,7 +54,7 @@ public sealed class Day01 : ArraySolver<int>
                     break;
             }
         }
-        ChallengeUtils.LogPart2(zeroes);
+        LogAnswer(zeroes);
     }
 
     /// <inheritdoc />

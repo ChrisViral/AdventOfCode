@@ -1,9 +1,9 @@
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -52,8 +52,9 @@ public sealed class Day04 : Solver<Day04.BingoData>
     /// Creates a new <see cref="Day04"/> Solver for 2021 - 04 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -85,8 +86,8 @@ public sealed class Day04 : Solver<Day04.BingoData>
             if (this.Data.Boards.IsEmpty) break;
         }
 
-        ChallengeUtils.LogPart1(winner!.Value);
-        ChallengeUtils.LogPart2(loser!.Value);
+        LogAnswer(winner!.Value);
+        LogAnswer(loser!.Value);
     }
 
     /// <summary>

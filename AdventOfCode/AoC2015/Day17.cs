@@ -1,6 +1,6 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -15,20 +15,21 @@ public sealed class Day17 : ArraySolver<int>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int possibilities = PossibleCombinations(0, 0, TARGET_AMOUNT);
-        ChallengeUtils.LogPart1(possibilities);
+        LogAnswer(possibilities);
 
         Counter<int> uses = new(this.Data.Length);
         MinimalCombinations(0, 0, 0, TARGET_AMOUNT, uses);
         int minUses = uses.AsDictionary().MinBy(p => p.Key).Value;
-        ChallengeUtils.LogPart2(minUses);
+        LogAnswer(minUses);
     }
 
     private int PossibleCombinations(int containerIndex, int amountUsed, int targetAmount)

@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers.Specialized;
+﻿using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -12,18 +12,19 @@ public sealed class Day02 : ArraySolver<int[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int checksum = this.Data.Sum(GetRowDiff);
-        ChallengeUtils.LogPart1(checksum);
+        LogAnswer(checksum);
 
         checksum = this.Data.Sum(GetRowQuotient);
-        ChallengeUtils.LogPart2(checksum);
+        LogAnswer(checksum);
     }
 
     private static int GetRowDiff(int[] row)

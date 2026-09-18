@@ -2,6 +2,7 @@
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -16,8 +17,9 @@ public sealed partial class Day02 : Solver<Day02.IdRange[]>
     /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input) : base(input) { }
+    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     private static readonly char[] Buffer = new char[19];
 
@@ -47,8 +49,8 @@ public sealed partial class Day02 : Solver<Day02.IdRange[]>
             }
         }
 
-        ChallengeUtils.LogPart1(invalid);
-        ChallengeUtils.LogPart2(invalid + invalidRepeated);
+        LogAnswer(invalid);
+        LogAnswer(invalid + invalidRepeated);
     }
 
     private static bool IsInvalid(ReadOnlySpan<char> value)

@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -14,8 +14,9 @@ public sealed class Day03 : Solver<int>
     /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day03(string input) : base(input) { }
+    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,7 +24,7 @@ public sealed class Day03 : Solver<int>
     {
         Vector2<int> finalPosition = GenerateSpiral().Skip(this.Data - 1)
                                                      .First();
-        ChallengeUtils.LogPart1(finalPosition.ManhattanLength);
+        LogAnswer(finalPosition.ManhattanLength);
 
         int value = 0;
         Dictionary<Vector2<int>, int> grid = new(this.Data) { [Vector2<int>.Zero] = 1 };
@@ -40,7 +41,7 @@ public sealed class Day03 : Solver<int>
             }
             grid[position] = value;
         }
-        ChallengeUtils.LogPart2(value);
+        LogAnswer(value);
     }
 
     private static IEnumerable<Vector2<int>> GenerateSpiral()

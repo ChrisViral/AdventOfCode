@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2019.Solvers;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -27,8 +27,9 @@ public sealed partial class Day25 : IntcodeSolver
     /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input) : base(input) { }
+    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -50,7 +51,7 @@ public sealed partial class Day25 : IntcodeSolver
             catch (ProgramHaltedException e)
             {
                 // If a run-ending item is found, remember it and do not pick it up next time
-                ChallengeUtils.Log("Robot halted, retrying...");
+                Log("Robot halted, retrying...");
                 inventory.Clear();
                 forbiddenItems.Add(e.Reason);
                 pathToSecurity.Clear();
@@ -78,7 +79,7 @@ public sealed partial class Day25 : IntcodeSolver
         TrySecurity(inventory, unavailable, throughSecurity.ToCardinalString(), out string password);
 
         // Log found password
-        ChallengeUtils.LogPart1(password);
+        LogAnswer(password);
     }
 
     // ReSharper disable once CognitiveComplexity
@@ -90,7 +91,7 @@ public sealed partial class Day25 : IntcodeSolver
         while (!this.VM.Output.IsEmpty)
         {
             string line = this.VM.Output.ReadLine().Trim();
-            ChallengeUtils.Log(line);
+            Log(line);
             if (string.IsNullOrWhiteSpace(line)) continue;
 
             switch (line)
@@ -157,7 +158,7 @@ public sealed partial class Day25 : IntcodeSolver
     {
         List<string> items = [];
         string line = this.VM.Output.ReadLine().Trim();
-        ChallengeUtils.Log(line);
+        Log(line);
         do
         {
             string item = ItemMatcher.Match(line).Groups[1].Value;
@@ -166,7 +167,7 @@ public sealed partial class Day25 : IntcodeSolver
                 items.Add(item);
             }
             line = this.VM.Output.ReadLine().Trim();
-            ChallengeUtils.Log(line);
+            Log(line);
         }
         while (!string.IsNullOrWhiteSpace(line));
 
@@ -176,7 +177,7 @@ public sealed partial class Day25 : IntcodeSolver
     private void PopulateDirections(List<Direction> directions, Direction returnDirection)
     {
         string line = this.VM.Output.ReadLine().Trim();
-        ChallengeUtils.Log(line);
+        Log(line);
         do
         {
             Direction direction = Direction.ParseDirection(ItemMatcher.Match(line).Groups[1].ValueSpan);
@@ -185,7 +186,7 @@ public sealed partial class Day25 : IntcodeSolver
                 directions.Add(direction);
             }
             line = this.VM.Output.ReadLine().Trim();
-            ChallengeUtils.Log(line);
+            Log(line);
         }
         while (!string.IsNullOrWhiteSpace(line));
     }
@@ -212,7 +213,7 @@ public sealed partial class Day25 : IntcodeSolver
             while (!this.VM.Output.IsEmpty)
             {
                 string line = this.VM.Output.ReadLine().Trim();
-                ChallengeUtils.Log(line);
+                Log(line);
                 Match checkMatch = SecurityMatcher.Match(line);
                 if (checkMatch.Success)
                 {

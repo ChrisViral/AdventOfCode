@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.AoC2019.Solvers;
 using AdventOfCode.Intcode;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -22,8 +22,9 @@ public sealed class Day19 : IntcodeSolver
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input) { }
+    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -37,7 +38,7 @@ public sealed class Day19 : IntcodeSolver
                 affected++;
             }
         }
-        ChallengeUtils.LogPart1(affected);
+        LogAnswer(affected);
 
         int beamHeight = 0;
         Vector2<int> startPosition = new(-1, 0);
@@ -58,7 +59,7 @@ public sealed class Day19 : IntcodeSolver
         }
         while (beamHeight < REQUIRED_SIZE);
 
-        ChallengeUtils.LogPart2(startPosition.X * 10000 + startPosition.Y);
+        LogAnswer(startPosition.X * 10000 + startPosition.Y);
     }
 
     private bool IsAffected(Vector2<int> position)

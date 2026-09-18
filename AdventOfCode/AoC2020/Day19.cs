@@ -4,6 +4,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -135,8 +136,9 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day19(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -147,7 +149,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         Rule origin = rules[0];
         origin.SetupPattern(rules);
         Regex match = new($"^{origin.Pattern}$", RegexOptions.Compiled);
-        ChallengeUtils.LogPart1(this.Data.messages.Count(match.IsMatch));
+        LogAnswer(this.Data.messages.Count(match.IsMatch));
 
         //Setup the new special patterns
         string first = rules[42].Pattern;
@@ -159,7 +161,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         //Setup for the matches again
         origin.SetupPattern(rules);
         match = new Regex($"^{origin.Pattern}$", RegexOptions.Compiled);
-        ChallengeUtils.LogPart2(this.Data.messages.Count(match.IsMatch));
+        LogAnswer(this.Data.messages.Count(match.IsMatch));
     }
 
     /// <inheritdoc />

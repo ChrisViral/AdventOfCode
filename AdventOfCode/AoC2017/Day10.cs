@@ -1,8 +1,8 @@
 ﻿using AdventOfCode.AoC2017.Common;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -15,8 +15,9 @@ public sealed class Day10 : Solver<string>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -36,11 +37,11 @@ public sealed class Day10 : Solver<string>
 
         // Hash and output
         Knot.HashIteration(ref list, ref position, ref skip, numbers);
-        ChallengeUtils.LogPart1(list[0] * list[1]);
+        LogAnswer(list[0] * list[1]);
 
         // Use full hash function
         UInt128 hash = Knot.Hash(this.Data);
-        ChallengeUtils.LogPart2(hash.ToString("x"));
+        LogAnswer(hash.ToString("x"));
     }
 
     /// <inheritdoc />

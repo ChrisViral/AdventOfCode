@@ -5,6 +5,7 @@ using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -49,8 +50,9 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
     /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input) : base(input) { }
+    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -81,7 +83,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
                              .OrderByDescending(c => c.Count)
                              .Take(3)
                              .Multiply(c => c.Count + 1);
-        ChallengeUtils.LogPart1(result);
+        LogAnswer(result);
 
         // Keep joining until everything is merged
         int mergedCount = this.Data.Length - 1;
@@ -93,7 +95,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
                 break;
             }
         }
-        ChallengeUtils.LogPart2(result);
+        LogAnswer(result);
     }
 
     /// <summary>

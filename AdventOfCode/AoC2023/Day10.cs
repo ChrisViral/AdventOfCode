@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -29,8 +29,9 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
     /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input) : base(input) { }
+    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -80,7 +81,7 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
         }
         while (heads[0].pos != heads[1].pos);
 
-        ChallengeUtils.LogPart1(distance);
+        LogAnswer(distance);
 
         int total = 0;
         foreach (int y in ..this.Data.Height)
@@ -104,7 +105,7 @@ public sealed class Day10 : GridSolver<Day10.Pipe>
             }
         }
 
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     public Direction GetNewDirection(Direction facing, Pipe junction)

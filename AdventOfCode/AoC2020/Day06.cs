@@ -1,5 +1,6 @@
 ﻿using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -13,8 +14,9 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
-    public Day06(string input) : base(input, options: StringSplitOptions.TrimEntries) { }
+    public Day06(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,8 +40,8 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
             allTotal += allAnswered.Count;
         }
 
-        ChallengeUtils.LogPart1(anyTotal);
-        ChallengeUtils.LogPart2(allTotal);
+        LogAnswer(anyTotal);
+        LogAnswer(allTotal);
     }
 
     /// <inheritdoc />

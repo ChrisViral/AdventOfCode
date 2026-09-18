@@ -6,6 +6,7 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -28,8 +29,9 @@ public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
     /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input) : base(input) { }
+    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -37,7 +39,7 @@ public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
     {
         HashSet<int> ungrouped = new(this.Data.Keys);
         RemoveGrouped(0, ungrouped);
-        ChallengeUtils.LogPart1(this.Data.Count - ungrouped.Count);
+        LogAnswer(this.Data.Count - ungrouped.Count);
 
         int groups = 1;
         while (!ungrouped.IsEmpty)
@@ -45,7 +47,7 @@ public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
             RemoveGrouped(ungrouped.First(), ungrouped);
             groups++;
         }
-        ChallengeUtils.LogPart2(groups);
+        LogAnswer(groups);
     }
 
     private void RemoveGrouped(int rootID, HashSet<int> ungrouped)

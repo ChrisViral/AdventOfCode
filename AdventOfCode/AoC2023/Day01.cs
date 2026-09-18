@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -38,7 +38,8 @@ public sealed class Day01 : Solver
     /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
-    public Day01(string input) : base(input) { }
+    /// <param name="logger">Logger instance</param>
+    public Day01(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -51,10 +52,10 @@ public sealed class Day01 : Solver
             total += (value[value.IndexOfAny(this.digits)] - '0') * 10;
             total += value[value.LastIndexOfAny(this.digits)] - '0';
         }
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         total = this.Data.Sum(GetCalibrationValue);
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     // ReSharper disable once CognitiveComplexity

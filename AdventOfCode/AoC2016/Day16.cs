@@ -1,7 +1,7 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Spans;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -22,8 +22,9 @@ public sealed class Day16 : Solver<string>
     /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input) : base(input) { }
+    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -35,10 +36,10 @@ public sealed class Day16 : Solver<string>
                  .CopyTo(Buffer);
 
         string checksum = CalculateChecksum(PART1_SIZE, ref bufferLength);
-        ChallengeUtils.LogPart1(checksum);
+        LogAnswer(checksum);
 
         checksum = CalculateChecksum(PART2_SIZE, ref bufferLength);
-        ChallengeUtils.LogPart2(checksum);
+        LogAnswer(checksum);
     }
 
     private static string CalculateChecksum(int diskSize, ref int bufferLength)

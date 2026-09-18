@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -14,8 +14,9 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     /// Creates a new <see cref="Day18"/> Solver for 2022 - 18 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day18(string input) : base(input) { }
+    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -23,7 +24,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     {
         HashSet<Vector3<int>> points = new(this.Data);
         int surface = this.Data.Sum(p => p.Adjacent().Count(a => !points.Contains(a)));
-        ChallengeUtils.LogPart1(surface);
+        LogAnswer(surface);
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
         HashSet<Vector3<int>> empty   = Vector3<int>.EnumerateOver(max.X, max.Y, max.Z).Where(p => !points.Contains(p)).ToHashSet();
@@ -42,7 +43,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         }
 
         surface -= pockets.Sum(p => p.Adjacent().Count(points.Contains));
-        ChallengeUtils.LogPart2(surface);
+        LogAnswer(surface);
     }
 
     // ReSharper disable once CognitiveComplexity

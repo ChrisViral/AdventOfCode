@@ -1,6 +1,6 @@
 ﻿using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -62,8 +62,9 @@ public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
     /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day06(string input) : base(input) { }
+    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -72,13 +73,13 @@ public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
         // Calculate the checksum of the COM
         OrbitalObject com = this.Data["COM"];
         int checksum = com.GetOrbitalChecksum();
-        ChallengeUtils.LogPart1(checksum);
+        LogAnswer(checksum);
 
         // Get path from start to santa
         OrbitalObject start = this.Data["YOU"];
         OrbitalObject end   = this.Data["SAN"];
         int pathLength = SearchUtils.GetPathLengthBFS(start, end, o => Neighbours(o))!.Value;
-        ChallengeUtils.LogPart2(pathLength - 2);
+        LogAnswer(pathLength - 2);
     }
 
     /// <summary>

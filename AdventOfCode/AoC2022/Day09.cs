@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -23,15 +23,16 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
     /// Creates a new <see cref="Day09"/> Solver for 2022 - 09 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day09(string input) : base(input) { }
+    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        ChallengeUtils.LogPart1(SimulateRope(2));
-        ChallengeUtils.LogPart2(SimulateRope(10));
+        LogAnswer(SimulateRope(2));
+        LogAnswer(SimulateRope(10));
     }
 
     /// <inheritdoc />

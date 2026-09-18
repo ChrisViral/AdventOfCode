@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -19,8 +19,9 @@ public sealed class Day15 : GridSolver<byte>
     /// Creates a new <see cref="Day15"/> Solver for 2021 - 15 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input) : base(input) { }
+    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -31,7 +32,7 @@ public sealed class Day15 : GridSolver<byte>
         // ReSharper disable once AccessToModifiedClosure
         Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer<double>.Comparer, out _)!;
         int total = path.Sum(p => this.Grid[p]);
-        ChallengeUtils.LogPart1(total);
+        LogAnswer(total);
 
         // Create scaled map
         Grid<byte> fullMap = new(this.Data.Width * FULL_SIZE, this.Data.Height * FULL_SIZE);
@@ -50,7 +51,7 @@ public sealed class Day15 : GridSolver<byte>
         end   = (fullMap.Width - 1, fullMap.Height - 1);
         path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer<double>.Comparer, out _)!;
         total = path.Sum(p => fullMap[p]);
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <summary>

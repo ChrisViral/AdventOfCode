@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
-using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -13,8 +13,9 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
     /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input) : base(input) { }
+    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -25,7 +26,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
         HashSet<string> invalidDesigns = new(this.Data.designs.Length);
         int valid = this.Data.designs.Count(d => TestDesign(d, validDesigns.GetAlternateLookup<ReadOnlySpan<char>>(),
                                                             invalidDesigns.GetAlternateLookup<ReadOnlySpan<char>>()));
-        ChallengeUtils.LogPart1(valid);
+        LogAnswer(valid);
 
         // Remove designs not part of the original ones
         validDesigns.IntersectWith(this.Data.designs);
@@ -38,7 +39,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
         }
 
         long possibleDesigns = validDesigns.Sum(d => CountDesigns(d, arrangements.GetAlternateLookup<ReadOnlySpan<char>>()));
-        ChallengeUtils.LogPart2(possibleDesigns);
+        LogAnswer(possibleDesigns);
     }
 
     private bool TestDesign(ReadOnlySpan<char> design,

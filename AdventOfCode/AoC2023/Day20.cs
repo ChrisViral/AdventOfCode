@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -124,8 +124,9 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
     /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input) : base(input) { }
+    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -157,7 +158,7 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
             }
         }
 
-        ChallengeUtils.LogPart1((long)lowPulses * highPulses);
+        LogAnswer((long)lowPulses * highPulses);
 
         this.Data.Values.ForEach(m => m.Reset());
         Module final = this.Data.Values.First(m => m.Listeners.Contains(TARGET));
@@ -186,7 +187,7 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
         }
 
         long total = long.LCM(firstTriggerHit.Values.Select(h => (long)h).ToArray());
-        ChallengeUtils.LogPart2(total);
+        LogAnswer(total);
     }
 
     /// <inheritdoc />

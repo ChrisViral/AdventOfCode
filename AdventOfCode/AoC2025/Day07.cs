@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -59,8 +59,9 @@ public sealed class Day07 : GridSolver<Day07.ManifoldElement>
     /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input) : base(input) { }
+    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -107,8 +108,8 @@ public sealed class Day07 : GridSolver<Day07.ManifoldElement>
             visited.ForEach(v => knownBeams.Add(v, downstream));
             visited.Clear();
         }
-        ChallengeUtils.LogPart1(splitters);
-        ChallengeUtils.LogPart2(knownBeams[start]!.Timelines);
+        LogAnswer(splitters);
+        LogAnswer(knownBeams[start]!.Timelines);
     }
 
     /// <inheritdoc />

@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -51,8 +51,9 @@ public sealed partial class Day04 : RegexSolver<Day04.Schedule>
     /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input) : base(input) { }
+    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -101,13 +102,13 @@ public sealed partial class Day04 : RegexSolver<Day04.Schedule>
         (int id, int[] time) = guards.MaxBy(g => g.Value.Sum());
         int minuteIndex = time.Select((m, i) => (m, i))
                               .MaxBy(value => value.m).i;
-        ChallengeUtils.LogPart1(id * minuteIndex);
+        LogAnswer(id * minuteIndex);
 
         (id, (_, minuteIndex)) = guards.Select(g => (id: g.Key,
                                                      maxMin: g.Value
                                                               .Select((m, i) => (m, i))
                                                               .MaxBy(value => value.m)))
                                        .MaxBy(g => g.maxMin.m);
-        ChallengeUtils.LogPart2(id * minuteIndex);
+        LogAnswer(id * minuteIndex);
     }
 }

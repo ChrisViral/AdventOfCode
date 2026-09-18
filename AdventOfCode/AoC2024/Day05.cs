@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -24,8 +25,9 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
     /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Rule"/>[][] fails</exception>
-    public Day05(string input) : base(input) { }
+    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -33,10 +35,10 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
     {
         ILookup<bool, Rule[]> updatesLookup = this.Data.ToLookup(u => IsUpdateValid(u));
         int middlePages = updatesLookup[true].Sum(u => u[u.Length / 2].Value);
-        ChallengeUtils.LogPart1(middlePages);
+        LogAnswer(middlePages);
 
         middlePages = updatesLookup[false].Sum(u => FixUpdate(u));
-        ChallengeUtils.LogPart2(middlePages);
+        LogAnswer(middlePages);
     }
 
     private static bool IsUpdateValid(in ReadOnlySpan<Rule> update)

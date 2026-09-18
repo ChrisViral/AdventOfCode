@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -42,8 +42,9 @@ public sealed partial class Day17 : IntcodeSolver
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -68,7 +69,7 @@ public sealed partial class Day17 : IntcodeSolver
                               .Select(p => p + Vector2<int>.One)
                               .Where(p => p.Adjacent(withSelf: true).All(adj => grid[adj] is Element.SCAFFOLD))
                               .Sum(p => p.X * p.Y);
-        ChallengeUtils.LogPart1(alignment);
+        LogAnswer(alignment);
 
         // Extract routines
         string path = GetPath(grid, startPosition, startDirection);
@@ -108,7 +109,7 @@ public sealed partial class Day17 : IntcodeSolver
             }
         }
 
-        ChallengeUtils.LogPart2(this.VM.Output.GetValue());
+        LogAnswer(this.VM.Output.GetValue());
     }
 
     private List<List<Element>> GetRows(ref Vector2<int> startPosition, ref Direction startDirection)
@@ -272,7 +273,7 @@ public sealed partial class Day17 : IntcodeSolver
 
         // Push answer
         this.VM.Input.WriteLine(line);
-        ChallengeUtils.Log(line);
+        Log(line);
     }
 
     private void PrintView(ConsoleView<Element> grid)

@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -32,8 +32,9 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     /// Creates a new <see cref="Day14"/> Solver for 2022 - 14 with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -74,8 +75,8 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         Vector2<int> position = source;
         while (FillSand(source, cave, ref count, ref position)) { }
 
-        ChallengeUtils.Log(cave);
-        ChallengeUtils.LogPart1(count);
+        Log(cave);
+        LogAnswer(count);
 
         // Add bottom wall
         foreach (int x in ..size.X)
@@ -87,8 +88,8 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         position = source;
         while (FillSand(source, cave, ref count, ref position)) { }
 
-        ChallengeUtils.Log(cave);
-        ChallengeUtils.LogPart2(count);
+        Log(cave);
+        LogAnswer(count);
     }
 
     /// <inheritdoc />

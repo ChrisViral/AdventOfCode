@@ -1,8 +1,8 @@
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -167,8 +167,9 @@ public sealed class Day17 : GridSolver<int>
     /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input) : base(input) { }
+    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -176,10 +177,10 @@ public sealed class Day17 : GridSolver<int>
     {
         Vector2<int> endPosition = new(this.Data.Width - 1, this.Data.Height - 1);
         int heatLoss = GetMinLoss(new CruciblePath(this.Data), new CruciblePath(this.Data, endPosition));
-        ChallengeUtils.LogPart1(heatLoss);
+        LogAnswer(heatLoss);
 
         heatLoss = GetMinLoss(new UltraCruciblePath(this.Data), new UltraCruciblePath(this.Data, endPosition));
-        ChallengeUtils.LogPart2(heatLoss);
+        LogAnswer(heatLoss);
     }
 
     public int GetMinLoss<T>(T start, T goal) where T : ICrucible<T>

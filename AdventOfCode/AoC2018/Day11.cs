@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -17,8 +17,9 @@ public sealed class Day11 : Solver<int>
     /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input) : base(input) { }
+    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -38,7 +39,7 @@ public sealed class Day11 : Solver<int>
         }
 
         (int bestPower, Vector2<int> bestStart) = FindBestStart(grid, 3);
-        ChallengeUtils.LogPart1($"{bestStart.X + 1},{bestStart.Y + 1}");
+        LogAnswer($"{bestStart.X + 1},{bestStart.Y + 1}");
 
         int bestSize = 3;
         Lock locker = new();
@@ -55,7 +56,7 @@ public sealed class Day11 : Solver<int>
                 }
             }
         });
-        ChallengeUtils.LogPart2($"{bestStart.X + 1},{bestStart.Y + 1},{bestSize}");
+        LogAnswer($"{bestStart.X + 1},{bestStart.Y + 1},{bestSize}");
     }
 
     private static (int, Vector2<int>) FindBestStart(Grid<int> grid, int regionSize)

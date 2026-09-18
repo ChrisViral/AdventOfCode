@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -28,15 +28,16 @@ public sealed partial class Day14 : RegexSolver<Day14.Reindeer>
     /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input) : base(input) { }
+    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int maxDistance = this.Data.Max(r => DistanceAtTime(RACE_TIME, r));
-        ChallengeUtils.LogPart1(maxDistance);
+        LogAnswer(maxDistance);
 
         SpanList<int> leaders = stackalloc int[this.Data.Length];
         Span<int> points      = stackalloc int[this.Data.Length];
@@ -66,7 +67,7 @@ public sealed partial class Day14 : RegexSolver<Day14.Reindeer>
 
             leaders.Clear();
         }
-        ChallengeUtils.LogPart2(points.Max());
+        LogAnswer(points.Max());
     }
 
     private static int DistanceAtTime(int time, in Reindeer reindeer)

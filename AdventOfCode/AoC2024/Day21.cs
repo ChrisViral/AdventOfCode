@@ -1,9 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
-using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers.Specialized;
+using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -72,18 +72,19 @@ public sealed class Day21 : ArraySolver<(string code, int value)>
     /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
     /// </summary>
     /// <param name="input">Puzzle input</param>
+    /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[] fails</exception>
-    public Day21(string input) : base(input) { }
+    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         long complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART1_DEPTH) * t.value);
-        ChallengeUtils.LogPart1(complexity);
+        LogAnswer(complexity);
 
         complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART2_DEPTH) * t.value);
-        ChallengeUtils.LogPart2(complexity);
+        LogAnswer(complexity);
     }
 
     /// <summary>
