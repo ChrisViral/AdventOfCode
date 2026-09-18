@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -99,7 +99,7 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
             UpdateCarts(out firstCrash);
         }
         while (!firstCrash.HasValue);
-        AoCUtils.LogPart1($"{firstCrash.Value.X},{firstCrash.Value.Y}");
+        ChallengeUtils.LogPart1($"{firstCrash.Value.X},{firstCrash.Value.Y}");
 
         do
         {
@@ -108,7 +108,7 @@ public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> c
         while (this.Data.carts.Count > 1);
 
         Vector2<int> lastCart = this.Data.carts[0].Position;
-        AoCUtils.LogPart2($"{lastCart.X},{lastCart.Y}");
+        ChallengeUtils.LogPart2($"{lastCart.X},{lastCart.Y}");
     }
 
     // ReSharper disable once CognitiveComplexity

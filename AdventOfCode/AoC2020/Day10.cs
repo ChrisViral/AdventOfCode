@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -84,8 +84,8 @@ public sealed class Day10 : Solver<Day10.Adapter[]>
             counts[-this.Data[i++].Jolts + this.Data[i].Jolts]++;
         }
 
-        AoCUtils.LogPart1(counts[1] * counts[3]);
-        AoCUtils.LogPart2(this.Data[0].Paths);
+        ChallengeUtils.LogPart1(counts[1] * counts[3]);
+        ChallengeUtils.LogPart2(this.Data[0].Paths);
     }
 
     /// <inheritdoc />

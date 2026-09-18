@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2022;
 
@@ -71,9 +71,9 @@ public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
             }
         }
 
-        AoCUtils.LogPart1(this.CyclesSum);
-        AoCUtils.LogPart2(string.Empty);
-        AoCUtils.Log(this.Crt);
+        ChallengeUtils.LogPart1(this.CyclesSum);
+        ChallengeUtils.LogPart2(string.Empty);
+        ChallengeUtils.Log(this.Crt);
     }
 
     /// <inheritdoc />

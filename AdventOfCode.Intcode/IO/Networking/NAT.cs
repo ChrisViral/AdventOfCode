@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Tasks;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Tasks;
 
 namespace AdventOfCode.Intcode.IO.Networking;
 

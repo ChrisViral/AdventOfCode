@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -49,7 +49,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
         // Explore the caves and list the paths
         path.Push(start);
         HashSet<string> paths = new(ExploreCave(start, visited, path));
-        AoCUtils.LogPart1(paths.Count);
+        ChallengeUtils.LogPart1(paths.Count);
 
         foreach (Cave cave in this.Data.Values.Where(cave => cave is { IsSmall: true, Name: not START and not END }))
         {
@@ -59,7 +59,7 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
             cave.AllowTwice = false;
         }
 
-        AoCUtils.LogPart2(paths.Count);
+        ChallengeUtils.LogPart2(paths.Count);
     }
 
     /// <summary>

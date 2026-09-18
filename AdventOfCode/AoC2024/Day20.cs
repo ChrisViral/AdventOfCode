@@ -1,12 +1,12 @@
 ﻿using System.Buffers;
 using System.Collections.Frozen;
 using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -50,10 +50,10 @@ public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Ve
         // Calculate valid cheats
         ReadOnlySpan<Vector2<int>> searchPath = path[..^3];
         int validCheats = searchPath.Sum(p => GetValidCheats(p, PART1_DISTANCE, indices));
-        AoCUtils.LogPart1(validCheats);
+        ChallengeUtils.LogPart1(validCheats);
 
         validCheats = searchPath.Sum(p => GetValidCheats(p, PART2_DISTANCE, indices));
-        AoCUtils.LogPart2(validCheats);
+        ChallengeUtils.LogPart2(validCheats);
     }
 
     private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node)

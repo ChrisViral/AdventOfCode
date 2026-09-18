@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using AdventOfCode.AoC2019.Solvers;
+using Challenge.Utils;
 
 namespace AdventOfCode.AoC2019;
 
@@ -31,7 +31,7 @@ public sealed class Day21 : IntcodeSolver
         ];
 
         RunProgram(walkProgram, "WALK", out long result);
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         this.VM.Reset();
 
@@ -48,7 +48,7 @@ public sealed class Day21 : IntcodeSolver
         ];
 
         RunProgram(runProgram, "RUN", out result);
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     private void RunProgram(ReadOnlySpan<string> program, string command, out long result)

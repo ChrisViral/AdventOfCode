@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -41,7 +41,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = 0L;
         long[] numbersBuffer = new long[4];
@@ -57,7 +57,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
                 _   => throw new InvalidOperationException("Unknown operator")
             };
         }
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     private static void ParseVerticalNumbers(ReadOnlySpan<string> column, ref Span<long> output)

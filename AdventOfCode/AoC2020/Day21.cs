@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -88,7 +88,7 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
             impossible.ExceptWith(ingredients);
             possibilities.Add(allergen, ingredients);
         }
-        AoCUtils.LogPart1(impossible.Sum(i => ingredientCount[i]));
+        ChallengeUtils.LogPart1(impossible.Sum(i => ingredientCount[i]));
 
         //Get definitive allergens
         SortedDictionary<string, string> sortedAllergens = new();
@@ -102,7 +102,7 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
             sortedAllergens.Add(allergen, ingredient);
             possibilities.ForEach(p => p.Value.Remove(ingredient));
         }
-        AoCUtils.LogPart2(string.Join(',', sortedAllergens.Values));
+        ChallengeUtils.LogPart2(string.Join(',', sortedAllergens.Values));
     }
 
     /// <inheritdoc />

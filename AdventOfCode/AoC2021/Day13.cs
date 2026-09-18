@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2021;
 
@@ -42,14 +42,14 @@ public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
         // Apply the first fold and check how many sections are still marked
         Grid<bool> grid = ApplyFold(this.Data.folds[0], this.Data.grid);
         int enabled = grid.Count(b => b);
-        AoCUtils.LogPart1(enabled);
+        ChallengeUtils.LogPart1(enabled);
 
         // Apply the rest of the folds
         foreach (int i in 1..this.Data.folds.Count)
         {
             grid = ApplyFold(this.Data.folds[i], grid);
         }
-        AoCUtils.LogPart2($"\n{grid}");
+        ChallengeUtils.LogPart2($"\n{grid}");
     }
 
     /// <summary>

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -47,7 +47,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
             }
         }
 
-        AoCUtils.LogPart1(invalids.Count);
+        ChallengeUtils.LogPart1(invalids.Count);
 
         //Parallel.For(0, LIMIT + 1, () => new int[LIMIT + 1], CheckRow, null);
 
@@ -57,7 +57,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
             if (FindLocation(sensor, distance, ref frequency)) break;
         }
 
-        AoCUtils.LogPart2(frequency);
+        ChallengeUtils.LogPart2(frequency);
     }
 
     /* I'm leaving this brute force brilliance in for the sole reason that it actually fucking worked lmao
@@ -92,7 +92,7 @@ public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distan
         }
 
         int count = Interlocked.Increment(ref this.rowsChecked);
-        if (count.IsMultiple(1000)) AoCUtils.Log(count);
+        if (count.IsMultiple(1000)) ChallengeUtils.Log(count);
 
         return space;
     }

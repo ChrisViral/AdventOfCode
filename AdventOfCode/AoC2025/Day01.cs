@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2025;
 
@@ -30,7 +30,7 @@ public sealed class Day01 : ArraySolver<int>
             dial = (dial + move).Mod(DIAL_SIZE);
             if (dial is 0) zeroes++;
         }
-        AoCUtils.LogPart1(zeroes);
+        ChallengeUtils.LogPart1(zeroes);
 
         zeroes = 0;
         dial   = DIAL_START;
@@ -53,7 +53,7 @@ public sealed class Day01 : ArraySolver<int>
                     break;
             }
         }
-        AoCUtils.LogPart2(zeroes);
+        ChallengeUtils.LogPart2(zeroes);
     }
 
     /// <inheritdoc />

@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -36,7 +36,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
         }
 
         Vector2<int>[]? path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
-        AoCUtils.LogPart1(path!.Length);
+        ChallengeUtils.LogPart1(path!.Length);
 
         // This would be faster as a binary search, but 300ms is good enough
         HashSet<Vector2<int>> pathContents = [..path];
@@ -48,7 +48,7 @@ public sealed class Day18 : ArraySolver<Vector2<int>>
             path = SearchUtils.Search(Vector2<int>.Zero, End, Heuristic, Neighbours, MinSearchComparer<int>.Comparer, out _);
             if (path is null)
             {
-                AoCUtils.LogPart2($"{bytePos.X},{bytePos.Y}");
+                ChallengeUtils.LogPart2($"{bytePos.X},{bytePos.Y}");
                 break;
             }
 

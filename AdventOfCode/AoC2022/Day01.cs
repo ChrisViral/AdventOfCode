@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -23,10 +23,10 @@ public sealed class Day01 : Solver<SortedList<int>>
     public override void Run()
     {
         // Top value
-        AoCUtils.LogPart1(this.Data[0]);
+        ChallengeUtils.LogPart1(this.Data[0]);
 
         // Top three values
-        AoCUtils.LogPart2(this.Data[..3].Sum());
+        ChallengeUtils.LogPart2(this.Data[..3].Sum());
     }
 
     /// <inheritdoc />

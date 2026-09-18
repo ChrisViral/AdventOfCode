@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -63,7 +63,7 @@ public sealed class Day06 : ArraySolver<Vector2<int>>
         }
 
         int largest = notInfinite.Max(i => area[i]);
-        AoCUtils.LogPart1(largest);
+        ChallengeUtils.LogPart1(largest);
 
         int inRange = 0;
         foreach (Vector2<int> p in (max - min).Enumerate())
@@ -76,7 +76,7 @@ public sealed class Day06 : ArraySolver<Vector2<int>>
             }
         }
 
-        AoCUtils.LogPart2(inRange);
+        ChallengeUtils.LogPart2(inRange);
     }
 
     /// <inheritdoc />

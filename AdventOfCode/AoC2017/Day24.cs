@@ -1,7 +1,7 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -36,7 +36,7 @@ public sealed class Day24 : Solver<FrozenDictionary<int, List<Day24.Pipe>>>
             strongest = Math.Max(strongest, strength);
             used.Remove(start);
         }
-        AoCUtils.LogPart1(strongest);
+        ChallengeUtils.LogPart1(strongest);
 
         strongest = 0;
         int longest = 0;
@@ -51,7 +51,7 @@ public sealed class Day24 : Solver<FrozenDictionary<int, List<Day24.Pipe>>>
             }
             used.Remove(start);
         }
-        AoCUtils.LogPart2(strongest);
+        ChallengeUtils.LogPart2(strongest);
     }
 
     private int GetStrongestBridge(Pipe current, int arrivalPort, HashSet<Pipe> used)

@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2015;
 
@@ -38,7 +38,7 @@ public sealed class Day04 : Solver<byte[]>
             GetHeader(++value, header);
         }
         while (!expectedHeader.StartsWith(header));
-        AoCUtils.LogPart1(value);
+        ChallengeUtils.LogPart1(value);
 
         header = stackalloc byte[PART2_SIZE];
         do
@@ -46,7 +46,7 @@ public sealed class Day04 : Solver<byte[]>
             GetHeader(++value, header);
         }
         while (!expectedHeader.SequenceEqual(header));
-        AoCUtils.LogPart2(value);
+        ChallengeUtils.LogPart2(value);
     }
 
     private void GetHeader(int value, Span<byte> header)

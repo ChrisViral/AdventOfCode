@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -234,13 +234,13 @@ public sealed partial class Day14 : Solver<Day14.Instruction[]>
         Dictionary<long, long> memory = new();
         Bitmask bitmask = default;
         this.Data.ForEach(i => i.Execute(memory, ref bitmask));
-        AoCUtils.LogPart1(memory.Values.Sum());
+        ChallengeUtils.LogPart1(memory.Values.Sum());
 
         //Part two decoding
         memory.Clear();
         Bitmask bitmaskV2 = default;
         this.Data.ForEach(i => i.ExecuteV2(memory, ref bitmaskV2));
-        AoCUtils.LogPart2(memory.Values.Sum());
+        ChallengeUtils.LogPart2(memory.Values.Sum());
     }
 
     /// <inheritdoc />

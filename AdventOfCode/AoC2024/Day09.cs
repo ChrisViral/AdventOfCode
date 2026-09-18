@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -75,7 +75,7 @@ public sealed class Day09 : Solver<string>
         {
             checksum += blockId * blockIndex++;
         }
-        AoCUtils.LogPart1(checksum);
+        ChallengeUtils.LogPart1(checksum);
 
         // Create chunk ranges and filesystem
         int chunkIndex = 0;
@@ -137,7 +137,7 @@ public sealed class Day09 : Solver<string>
         {
             checksum += i * fileSystem[i];
         }
-        AoCUtils.LogPart2(checksum);
+        ChallengeUtils.LogPart2(checksum);
     }
 
     /// <summary>

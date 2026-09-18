@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -22,7 +22,7 @@ public sealed class Day01 : Solver<int[]>
     public override void Run()
     {
         int floor = this.Data.Sum();
-        AoCUtils.LogPart1(floor);
+        ChallengeUtils.LogPart1(floor);
 
         floor = 0;
         foreach (int i in ..this.Data.Length)
@@ -30,7 +30,7 @@ public sealed class Day01 : Solver<int[]>
             floor += this.Data[i];
             if (floor < 0)
             {
-                AoCUtils.LogPart2(i + 1);
+                ChallengeUtils.LogPart2(i + 1);
                 return;
             }
         }

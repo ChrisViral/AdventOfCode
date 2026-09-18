@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Maths;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2025;
 
@@ -34,7 +34,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
                 bestArea = Math.Max(bestArea, area);
             }
         }
-        AoCUtils.LogPart1(bestArea);
+        ChallengeUtils.LogPart1(bestArea);
 
         Vector2<int> previousCorner = this.Data[^1];
         Dictionary<Vector2<int>, bool> floor = new(this.Data.Length * 100);
@@ -74,7 +74,7 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
             }
         }
 
-        AoCUtils.LogPart2(bestArea);
+        ChallengeUtils.LogPart2(bestArea);
     }
 
     private static bool IsWithinBounds(Vector2<int> corner, Vector2<int> min, Vector2<int> max)

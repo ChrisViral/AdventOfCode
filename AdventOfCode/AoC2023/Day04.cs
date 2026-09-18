@@ -1,8 +1,8 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -48,7 +48,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
             total += 1 << (matches - 1);
         }
 
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = 0;
         int currentCards = 1;
@@ -66,7 +66,7 @@ public sealed partial class Day04 : Solver<Day04.Card[]>
             currentCards += scratchcards[i];
         }
 
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

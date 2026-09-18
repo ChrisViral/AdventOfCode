@@ -1,10 +1,10 @@
 ﻿using System.Buffers;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -48,8 +48,8 @@ public sealed class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2
             }
         }
 
-        AoCUtils.LogPart1(cost);
-        AoCUtils.LogPart2(unique!.DistinctBy(m => m.Position).Count());
+        ChallengeUtils.LogPart1(cost);
+        ChallengeUtils.LogPart2(unique!.DistinctBy(m => m.Position).Count());
     }
 
     private IEnumerable<MoveData<Move, int>> Neighbours(Move move)

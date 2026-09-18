@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -94,7 +94,7 @@ public sealed class Day25 : GridSolver<Day25.Element>
         }
         while (moved);
 
-        AoCUtils.LogPart1(steps);
+        ChallengeUtils.LogPart1(steps);
     }
 
     /// <inheritdoc />

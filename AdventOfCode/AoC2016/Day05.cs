@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -67,8 +67,8 @@ public sealed class Day05 : Solver<string>
             }
         }
         // Print passwords
-        AoCUtils.LogPart1(firstPassword.ToString());
-        AoCUtils.LogPart2(secondPassword.ToString());
+        ChallengeUtils.LogPart1(firstPassword.ToString());
+        ChallengeUtils.LogPart2(secondPassword.ToString());
     }
 
     /// <inheritdoc />

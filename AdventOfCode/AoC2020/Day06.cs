@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -38,12 +38,12 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
             allTotal += allAnswered.Count;
         }
 
-        AoCUtils.LogPart1(anyTotal);
-        AoCUtils.LogPart2(allTotal);
+        ChallengeUtils.LogPart1(anyTotal);
+        ChallengeUtils.LogPart2(allTotal);
     }
 
     /// <inheritdoc />
-    protected override HashSet<char>[][] Convert(string[] rawInput) => AoCUtils.CombineLines(rawInput)
+    protected override HashSet<char>[][] Convert(string[] rawInput) => ChallengeUtils.CombineLines(rawInput)
                                                                                .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
                                                                                .ToArray();
 }

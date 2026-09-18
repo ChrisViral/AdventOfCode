@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -115,10 +115,10 @@ public sealed partial class Day02 : Solver<Day02.Game[]>
     {
         Set maxSet = new(12, 13, 14);
         int sum = this.Data.Where(g => g.IsValid(maxSet)).Sum(g => g.id);
-        AoCUtils.LogPart1(sum);
+        ChallengeUtils.LogPart1(sum);
 
         int powers = this.Data.Sum(g => g.Power);
-        AoCUtils.LogPart2(powers);
+        ChallengeUtils.LogPart2(powers);
     }
 
     /// <inheritdoc />

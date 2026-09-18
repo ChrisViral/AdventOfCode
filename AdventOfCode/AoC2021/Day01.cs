@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2021;
 
@@ -30,7 +30,7 @@ public sealed class Day01 : ArraySolver<int>
             }
         }
 
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         // Check the three window differences
         total = 0;
@@ -46,7 +46,7 @@ public sealed class Day01 : ArraySolver<int>
             previous = current;
         }
 
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

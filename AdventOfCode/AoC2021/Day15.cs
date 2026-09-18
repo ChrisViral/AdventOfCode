@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -31,7 +31,7 @@ public sealed class Day15 : GridSolver<byte>
         // ReSharper disable once AccessToModifiedClosure
         Vector2<int>[] path = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, this.Grid), MinSearchComparer<double>.Comparer, out _)!;
         int total = path.Sum(p => this.Grid[p]);
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         // Create scaled map
         Grid<byte> fullMap = new(this.Data.Width * FULL_SIZE, this.Data.Height * FULL_SIZE);
@@ -50,7 +50,7 @@ public sealed class Day15 : GridSolver<byte>
         end   = (fullMap.Width - 1, fullMap.Height - 1);
         path  = SearchUtils.Search(start, end, p => Vector2<int>.ManhattanDistance(p, end), node => FindNeighbours(node, fullMap), MinSearchComparer<double>.Comparer, out _)!;
         total = path.Sum(p => fullMap[p]);
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <summary>

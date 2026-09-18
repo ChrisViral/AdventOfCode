@@ -1,7 +1,7 @@
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -53,7 +53,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
             // Clear current
             currentStation.Clear();
         }
-        AoCUtils.LogPart1(bestStation.Count);
+        ChallengeUtils.LogPart1(bestStation.Count);
 
         // Create a fake initial vaporization extremely far and ever so slightly to the up left
         Vector2<int> lastDirection = (-1, -999999999);
@@ -102,7 +102,7 @@ public sealed class Day10 : Solver<Vector2<int>[]>
             lastDirectionReduced = vaporizeDirectionReduced;
             asteroids.Remove(toVaporize);
         }
-        AoCUtils.LogPart2((lastVaporized.X * 100) + lastVaporized.Y);
+        ChallengeUtils.LogPart2((lastVaporized.X * 100) + lastVaporized.Y);
     }
 
     /// <inheritdoc />

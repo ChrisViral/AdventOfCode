@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -36,7 +36,7 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
             scores[player] += score;
             player = (player + 1) % scores.Length;
         }
-        AoCUtils.LogPart1(scores.Max());
+        ChallengeUtils.LogPart1(scores.Max());
 
         int end = this.Data.topMarble * 100;
         foreach (int marble in ^this.Data.topMarble..end)
@@ -45,7 +45,7 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
             scores[player] += score;
             player = (player + 1) % scores.Length;
         }
-        AoCUtils.LogPart2(scores.Max());
+        ChallengeUtils.LogPart2(scores.Max());
     }
 
     private static int PlaceMarble(int marble, LinkedList<int> circle, ref LinkedListNode<int> current)

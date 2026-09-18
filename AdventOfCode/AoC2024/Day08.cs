@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -89,8 +89,8 @@ public sealed class Day08 : GridSolver<char>
                 }
             }
         }
-        AoCUtils.LogPart1(antinodes.Count);
-        AoCUtils.LogPart2(harmonicAntinodes.Count);
+        ChallengeUtils.LogPart1(antinodes.Count);
+        ChallengeUtils.LogPart2(harmonicAntinodes.Count);
     }
 
     /// <inheritdoc />

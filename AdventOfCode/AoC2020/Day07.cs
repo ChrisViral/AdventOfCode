@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -117,7 +117,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
                 toCheck.Enqueue(b);
             }
         }
-        AoCUtils.LogPart1(canContain.Count);
+        ChallengeUtils.LogPart1(canContain.Count);
 
         int result = 0;
         Queue<(Bag, int)> contained = new();
@@ -132,7 +132,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.Bag>>
             }
         }
 
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <inheritdoc />

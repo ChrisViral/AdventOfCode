@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -107,8 +107,8 @@ public sealed class Day07 : GridSolver<Day07.ManifoldElement>
             visited.ForEach(v => knownBeams.Add(v, downstream));
             visited.Clear();
         }
-        AoCUtils.LogPart1(splitters);
-        AoCUtils.LogPart2(knownBeams[start]!.Timelines);
+        ChallengeUtils.LogPart1(splitters);
+        ChallengeUtils.LogPart2(knownBeams[start]!.Timelines);
     }
 
     /// <inheritdoc />

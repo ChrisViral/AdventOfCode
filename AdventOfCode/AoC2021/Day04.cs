@@ -1,9 +1,9 @@
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -85,8 +85,8 @@ public sealed class Day04 : Solver<Day04.BingoData>
             if (this.Data.Boards.IsEmpty) break;
         }
 
-        AoCUtils.LogPart1(winner!.Value);
-        AoCUtils.LogPart2(loser!.Value);
+        ChallengeUtils.LogPart1(winner!.Value);
+        ChallengeUtils.LogPart2(loser!.Value);
     }
 
     /// <summary>

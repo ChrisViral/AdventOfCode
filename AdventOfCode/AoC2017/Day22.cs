@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -56,7 +56,7 @@ public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
 
             position += direction;
         }
-        AoCUtils.LogPart1(infections);
+        ChallengeUtils.LogPart1(infections);
 
         infections = 0;
         position = Vector2<int>.Zero;
@@ -90,7 +90,7 @@ public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
 
             position += direction;
         }
-        AoCUtils.LogPart2(infections);
+        ChallengeUtils.LogPart2(infections);
     }
 
     /// <inheritdoc />

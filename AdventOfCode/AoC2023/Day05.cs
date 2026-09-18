@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -82,7 +82,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
             min = Math.Min(value, min);
         }
 
-        AoCUtils.LogPart1(min);
+        ChallengeUtils.LogPart1(min);
 
         // CBA to optimize it, running it in parallel takes less time to write and runs in less than a minute
         ParallelLoopResult result = Parallel.For(0, this.Data.seeds.Length / 2, ParallelFindMin);
@@ -91,7 +91,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
             Thread.Sleep(1000);
         }
 
-        AoCUtils.LogPart2(this.minSeed);
+        ChallengeUtils.LogPart2(this.minSeed);
     }
 
     public void ParallelFindMin(int i)
@@ -114,7 +114,7 @@ public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day
         }
 
         this.minSeed.Update(c => Math.Min(min, c));
-        AoCUtils.Log($"Task {id} finished");
+        ChallengeUtils.Log($"Task {id} finished");
     }
 
     /// <inheritdoc />

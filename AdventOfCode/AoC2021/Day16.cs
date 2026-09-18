@@ -1,8 +1,8 @@
 using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
@@ -144,8 +144,8 @@ public sealed class Day16 : Solver<Day16.Packet>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.VersionSum);
-        AoCUtils.LogPart2(this.Data.Value);
+        ChallengeUtils.LogPart1(this.Data.VersionSum);
+        ChallengeUtils.LogPart2(this.Data.Value);
     }
 
     /// <summary>

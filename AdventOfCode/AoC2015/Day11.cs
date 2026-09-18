@@ -1,8 +1,8 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -37,7 +37,7 @@ public sealed partial class Day11 : Solver<string>
 
         Span<char> password = stackalloc char[data.Length];
         data.AsValueEnumerable().Select(c => c.AsAsciiLower).CopyTo(password);
-        AoCUtils.LogPart1(password.ToString());
+        ChallengeUtils.LogPart1(password.ToString());
 
         do
         {
@@ -45,7 +45,7 @@ public sealed partial class Day11 : Solver<string>
         }
         while (!IsValid(data));
         data.AsValueEnumerable().Select(c => c.AsAsciiLower).CopyTo(password);
-        AoCUtils.LogPart2(password.ToString());
+        ChallengeUtils.LogPart2(password.ToString());
     }
 
     private static void Increment(Span<int> data)

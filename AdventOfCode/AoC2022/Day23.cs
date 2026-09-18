@@ -1,11 +1,11 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -145,7 +145,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
         Vector2<int> topLeft     = new(left, top);
         Vector2<int> bottomRight = new(right, bottom);
         Vector2<int> size        = bottomRight - topLeft + Vector2<int>.One;
-        AoCUtils.LogPart1((size.X * size.Y) - this.Data.Length);
+        ChallengeUtils.LogPart1((size.X * size.Y) - this.Data.Length);
 
         // Execute more rounds until no moving elf exists
         int rounds;
@@ -154,7 +154,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
             SimulateRound(elves, plannedMoves);
         }
 
-        AoCUtils.LogPart2(rounds);
+        ChallengeUtils.LogPart2(rounds);
     }
 
     /// <summary>

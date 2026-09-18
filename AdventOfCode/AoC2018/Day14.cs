@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -34,7 +34,7 @@ public sealed class Day14 : Solver<int>
         while (recipes.Length < (this.Data + PART1_SIZE));
 
         string score = recipes.ToString(this.Data, PART1_SIZE);
-        AoCUtils.LogPart1(score);
+        ChallengeUtils.LogPart1(score);
 
         Span<char> value = stackalloc char[this.Data.DigitCount];
         Span<char> test = stackalloc char[value.Length + 1];
@@ -50,7 +50,7 @@ public sealed class Day14 : Solver<int>
             matchIndex = test[..testLength].IndexOf(value, StringComparison.Ordinal);
         }
         while (matchIndex is -1);
-        AoCUtils.LogPart2(testStart + matchIndex);
+        ChallengeUtils.LogPart2(testStart + matchIndex);
     }
 
     private static int GenerateRecipes(StringBuilder recipes, ref int firstIndex, ref int secondIndex)

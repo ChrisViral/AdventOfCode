@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -45,7 +45,7 @@ public sealed class Day25 : Solver<(int cardKey, int doorKey)>
         {
             key = (key * this.Data.doorKey) % MOD;
         }
-        AoCUtils.LogPart1(key);
+        ChallengeUtils.LogPart1(key);
     }
 
     /// <inheritdoc />

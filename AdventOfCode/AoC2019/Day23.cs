@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.IO.Networking;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -28,11 +28,11 @@ public sealed class Day23 : Solver<NAT>
 
         // Wait for first packet to come in
         this.Data.WaitForFirstPacket();
-        AoCUtils.LogPart1(this.Data.StoredPacket.Y);
+        ChallengeUtils.LogPart1(this.Data.StoredPacket.Y);
 
         // Wait until the network completes
         this.Data.WaitForCompletion();
-        AoCUtils.LogPart2(this.Data.StoredPacket.Y);
+        ChallengeUtils.LogPart2(this.Data.StoredPacket.Y);
     }
 
     /// <inheritdoc />

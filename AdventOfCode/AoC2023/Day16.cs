@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -58,7 +58,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
     public override void Run()
     {
         int count = EnergizeGrid(Vector2<int>.Zero, Direction.RIGHT);
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.LogPart1(count);
 
         int max = this.Data.Width - 1;
         int maxCount = Math.Max(count, EnergizeGrid(new Vector2<int>(max, 0), Direction.LEFT));
@@ -75,7 +75,7 @@ public sealed class Day16 : GridSolver<Day16.Element>
             maxCount = Math.Max(maxCount, EnergizeGrid(new Vector2<int>(x, max), Direction.UP));
         }
 
-        AoCUtils.LogPart2(maxCount);
+        ChallengeUtils.LogPart2(maxCount);
     }
 
     public int EnergizeGrid(Vector2<int> startPosition, Direction startDirection)

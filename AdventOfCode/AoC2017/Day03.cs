@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -23,7 +23,7 @@ public sealed class Day03 : Solver<int>
     {
         Vector2<int> finalPosition = GenerateSpiral().Skip(this.Data - 1)
                                                      .First();
-        AoCUtils.LogPart1(finalPosition.ManhattanLength);
+        ChallengeUtils.LogPart1(finalPosition.ManhattanLength);
 
         int value = 0;
         Dictionary<Vector2<int>, int> grid = new(this.Data) { [Vector2<int>.Zero] = 1 };
@@ -40,7 +40,7 @@ public sealed class Day03 : Solver<int>
             }
             grid[position] = value;
         }
-        AoCUtils.LogPart2(value);
+        ChallengeUtils.LogPart2(value);
     }
 
     private static IEnumerable<Vector2<int>> GenerateSpiral()

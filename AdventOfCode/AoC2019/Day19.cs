@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Intcode;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using AdventOfCode.AoC2019.Solvers;
+using AdventOfCode.Intcode;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -37,7 +37,7 @@ public sealed class Day19 : IntcodeSolver
                 affected++;
             }
         }
-        AoCUtils.LogPart1(affected);
+        ChallengeUtils.LogPart1(affected);
 
         int beamHeight = 0;
         Vector2<int> startPosition = new(-1, 0);
@@ -58,7 +58,7 @@ public sealed class Day19 : IntcodeSolver
         }
         while (beamHeight < REQUIRED_SIZE);
 
-        AoCUtils.LogPart2(startPosition.X * 10000 + startPosition.Y);
+        ChallengeUtils.LogPart2(startPosition.X * 10000 + startPosition.Y);
     }
 
     private bool IsAffected(Vector2<int> position)

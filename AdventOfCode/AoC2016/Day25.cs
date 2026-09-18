@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2016.Assembunny;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -30,7 +30,7 @@ public sealed class Day25 : RegexSolver<Instruction>
         // Test program until we find a value that works
         int value = 0;
         while (!TestOutput(++value));
-        AoCUtils.LogPart1(value);
+        ChallengeUtils.LogPart1(value);
     }
 
     private bool TestOutput(int value)

@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -74,8 +74,8 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         Vector2<int> position = source;
         while (FillSand(source, cave, ref count, ref position)) { }
 
-        AoCUtils.Log(cave);
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.Log(cave);
+        ChallengeUtils.LogPart1(count);
 
         // Add bottom wall
         foreach (int x in ..size.X)
@@ -87,8 +87,8 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
         position = source;
         while (FillSand(source, cave, ref count, ref position)) { }
 
-        AoCUtils.Log(cave);
-        AoCUtils.LogPart2(count);
+        ChallengeUtils.Log(cave);
+        ChallengeUtils.LogPart2(count);
     }
 
     /// <inheritdoc />

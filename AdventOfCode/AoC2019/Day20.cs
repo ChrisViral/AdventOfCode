@@ -1,11 +1,11 @@
 ﻿using System.Collections.Frozen;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -61,11 +61,11 @@ public sealed class Day20 : Solver<Day20.MapData>
     public override void Run()
     {
         int? path = SearchUtils.GetPathLength(this.Data.Start, this.Data.End, null, GetNeighbours, MinSearchComparer<int>.Comparer);
-        AoCUtils.LogPart1(path!.Value);
+        ChallengeUtils.LogPart1(path!.Value);
 
         path = SearchUtils.GetPathLength(new LayeredPosition(this.Data.Start, 0), new LayeredPosition(this.Data.End, 0),
                                          null, LayeredNeighbours, MinSearchComparer<int>.Comparer);
-        AoCUtils.LogPart2(path!.Value);
+        ChallengeUtils.LogPart2(path!.Value);
     }
 
     // ReSharper disable once CognitiveComplexity

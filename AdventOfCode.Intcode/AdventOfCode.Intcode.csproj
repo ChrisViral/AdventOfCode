@@ -27,11 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdventOfCode.Collections\AdventOfCode.Collections.csproj" />
+    <None Remove="AdventOfCode.Intcode.csproj.DotSettings" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="AdventOfCode.Intcode.csproj.DotSettings" />
+    <ProjectReference Include="..\Libraries\Challenge.Solvers\Challenge.Solvers.csproj" />
   </ItemGroup>
 
 </Project>

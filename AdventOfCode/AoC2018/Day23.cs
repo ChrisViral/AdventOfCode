@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -36,7 +36,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
     {
         Nanobot strongest = this.Data.MaxBy(n => n.Radius)!;
         int nanobotsInRange = this.Data.Count(n => strongest.IsInRange(n.Position));
-        AoCUtils.LogPart1(nanobotsInRange);
+        ChallengeUtils.LogPart1(nanobotsInRange);
 
         // Get maximum component size
         int digitCount = this.Data
@@ -86,7 +86,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
         }
 
         // Return final distance from origin
-        AoCUtils.LogPart2(bestPosition.ManhattanLength);
+        ChallengeUtils.LogPart2(bestPosition.ManhattanLength);
     }
 
     private static IEnumerable<Vector3<long>> Search(long precision, Vector3<long> offset)

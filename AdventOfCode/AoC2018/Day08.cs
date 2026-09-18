@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -74,8 +74,8 @@ public sealed class Day08 : Solver<Day08.Node>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.MetadataSum);
-        AoCUtils.LogPart2(this.Data.Value);
+        ChallengeUtils.LogPart1(this.Data.MetadataSum);
+        ChallengeUtils.LogPart2(this.Data.Value);
     }
 
     /// <inheritdoc />

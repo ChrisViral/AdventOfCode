@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -30,10 +30,10 @@ public sealed partial class Day07 : ArraySolver<string>
     public override void Run()
     {
         int supportsTLS = this.Data.Count(TLSMatcher.IsMatch);
-        AoCUtils.LogPart1(supportsTLS);
+        ChallengeUtils.LogPart1(supportsTLS);
 
         int suportsSSL = this.Data.Count(SupportsSSL);
-        AoCUtils.LogPart2(suportsSSL);
+        ChallengeUtils.LogPart2(suportsSSL);
     }
 
     private static bool SupportsSSL(string ip)

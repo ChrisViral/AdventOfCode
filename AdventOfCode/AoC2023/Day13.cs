@@ -1,10 +1,10 @@
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -41,14 +41,14 @@ public sealed class Day13 : Solver<Grid<bool>[]>
             total += reflection;
             lines[i] = reflection;
         }
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = 0;
         foreach (int i in ..this.Data.Length)
         {
             total += FindSmudgedReflection(this.Data[i], lines[i]);
         }
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     private static int FindSmudgedReflection(Grid<bool> grid, int ignoredLine)
@@ -84,7 +84,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
         for (int i = 1; i < grid.Width; i++)
         {
-            AoCUtils.Swap(ref left, ref right);
+            ChallengeUtils.Swap(ref left, ref right);
             grid.GetColumn(i, right);
             if (i == ignore) continue;
 
@@ -117,7 +117,7 @@ public sealed class Day13 : Solver<Grid<bool>[]>
 
         for (int i = 1; i < grid.Height; i++)
         {
-            AoCUtils.Swap(ref up, ref down);
+            ChallengeUtils.Swap(ref up, ref down);
             down = grid[i];
             if (i == ignore) continue;
 

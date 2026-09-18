@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using ZLinq;
 
@@ -65,7 +65,7 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
         Dictionary<string, Program> programs = this.Data.ToDictionary(p => p.Name, p => p);
         this.Data.ForEach(p => p.ResolveChildren(programs));
         Program root = this.Data.First(p => p.Parent is null);
-        AoCUtils.LogPart1(root.Name);
+        ChallengeUtils.LogPart1(root.Name);
 
         Program problem = root;
         while (!problem.IsBalanced)
@@ -78,6 +78,6 @@ public sealed partial class Day07 : RegexSolver<Day07.Program>
 
         int expectedWeight = problem.Parent!.Children.First(c => c != problem).TotalWeight;
         int diff = expectedWeight - problem.TotalWeight;
-        AoCUtils.LogPart2(problem.Weight + diff);
+        ChallengeUtils.LogPart2(problem.Weight + diff);
     }
 }

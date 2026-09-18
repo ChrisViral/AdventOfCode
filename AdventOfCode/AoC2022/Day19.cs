@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2022;
 
@@ -131,7 +131,7 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
             }
 
             this.OpenedGeodesCache = GetMaxOpenedGeodesInternal(maxTime, State.Default);
-            AoCUtils.Log($"Blueprint {this.ID} opened geodes: {this.OpenedGeodesCache}");
+            ChallengeUtils.Log($"Blueprint {this.ID} opened geodes: {this.OpenedGeodesCache}");
         }
     }
 
@@ -160,13 +160,13 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
         // Process all blueprints
         Parallel.ForEach(this.Data, b => b.CalculateMaxOpenedGeodes(FIRST_TIME));
         int qualityLevels = this.Data.Sum(b => b.OpenedGeodesCache * b.ID);
-        AoCUtils.LogPart1(qualityLevels);
+        ChallengeUtils.LogPart1(qualityLevels);
 
         // Process first three blueprints blueprints
         Blueprint[] remaining = this.Data[..3];
         Parallel.ForEach(remaining, b => b.CalculateMaxOpenedGeodes(SECOND_TIME));
         int maxOpened = remaining.Multiply(b => b.OpenedGeodesCache);
-        AoCUtils.LogPart2(maxOpened);
+        ChallengeUtils.LogPart2(maxOpened);
     }
 
     /// <inheritdoc />

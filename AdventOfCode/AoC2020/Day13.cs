@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -38,7 +38,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
                 shortestId = id;
             }
         }
-        AoCUtils.LogPart1(shortestId * shortestWait);
+        ChallengeUtils.LogPart1(shortestId * shortestWait);
 
         long lastStart = 0L;
         long lastFreq = this.Data.buses[0];
@@ -56,7 +56,7 @@ public sealed class Day13 : Solver<(int timestamp, int[] buses)>
             lastFreq = freq;
         }
 
-        AoCUtils.LogPart2(lastStart);
+        ChallengeUtils.LogPart2(lastStart);
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -25,7 +25,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
         HashSet<string> invalidDesigns = new(this.Data.designs.Length);
         int valid = this.Data.designs.Count(d => TestDesign(d, validDesigns.GetAlternateLookup<ReadOnlySpan<char>>(),
                                                             invalidDesigns.GetAlternateLookup<ReadOnlySpan<char>>()));
-        AoCUtils.LogPart1(valid);
+        ChallengeUtils.LogPart1(valid);
 
         // Remove designs not part of the original ones
         validDesigns.IntersectWith(this.Data.designs);
@@ -38,7 +38,7 @@ public sealed class Day19 : Solver<(string[] towels, string[] designs)>
         }
 
         long possibleDesigns = validDesigns.Sum(d => CountDesigns(d, arrangements.GetAlternateLookup<ReadOnlySpan<char>>()));
-        AoCUtils.LogPart2(possibleDesigns);
+        ChallengeUtils.LogPart2(possibleDesigns);
     }
 
     private bool TestDesign(ReadOnlySpan<char> design,

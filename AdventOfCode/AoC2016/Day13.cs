@@ -1,10 +1,10 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -43,7 +43,7 @@ public sealed class Day13 : Solver<int>
         Vector2<int> start = Vector2<int>.One;
         Vector2<int> end   = (31, 39);
         int pathLength = SearchUtils.GetPathLengthBFS(start, end, p => Neighbours(p, maze))!.Value;
-        AoCUtils.LogPart1(pathLength);
+        ChallengeUtils.LogPart1(pathLength);
 
         HashSet<Vector2<int>> visited = new(100);
         Queue<Vector2<int>> visiting   = new(100);
@@ -62,9 +62,9 @@ public sealed class Day13 : Solver<int>
                 }
             }
 
-            AoCUtils.Swap(ref visiting, ref visitNext);
+            ChallengeUtils.Swap(ref visiting, ref visitNext);
         }
-        AoCUtils.LogPart2(visited.Count);
+        ChallengeUtils.LogPart2(visited.Count);
     }
 
     private static IEnumerable<Vector2<int>> Neighbours(Vector2<int> node, Grid<bool> maze)

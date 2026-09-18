@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -67,7 +67,7 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
                 matches++;
             }
         }
-        AoCUtils.LogPart1(matches);
+        ChallengeUtils.LogPart1(matches);
 
         this.Data.A.Reset();
         this.Data.B.Reset();
@@ -81,7 +81,7 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
                 matches++;
             }
         }
-        AoCUtils.LogPart2(matches);
+        ChallengeUtils.LogPart2(matches);
     }
 
     /// <inheritdoc />

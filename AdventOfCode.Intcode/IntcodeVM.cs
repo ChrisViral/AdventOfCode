@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventOfCode.Intcode.IO.Input;
 using AdventOfCode.Intcode.IO.Output;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Enums;
 
 namespace AdventOfCode.Intcode;
 

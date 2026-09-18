@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -35,12 +35,12 @@ public sealed partial class Day05 : ArraySolver<string>
                        .Count(l => l.AsSpan().CountAny(Vowels) >= 3
                                 && l.AsSpan().ContainsAny(StringUtils.PairsLowercase)
                                 && !l.AsSpan().ContainsAny(Banned));
-        AoCUtils.LogPart1(nice);
+        ChallengeUtils.LogPart1(nice);
 
         nice = this.Data.AsValueEnumerable()
                    .Count(l => PairMatcher.IsMatch(l)
                             && TripleMatcher.IsMatch(l));
-        AoCUtils.LogPart2(nice);
+        ChallengeUtils.LogPart2(nice);
     }
 
     /// <inheritdoc />

@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AdventOfCode.AoC2017.Common;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Solvers.Specialized;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2017;
@@ -239,7 +239,7 @@ public sealed class Day18 : RegexSolver<Instruction>
     {
         Program a = new(this.Data, 0);
         long recovered = a.RunProgram();
-        AoCUtils.LogPart1(recovered);
+        ChallengeUtils.LogPart1(recovered);
 
         a.Reset();
         Program b = new(this.Data, 1);
@@ -257,7 +257,7 @@ public sealed class Day18 : RegexSolver<Instruction>
         }
         while (a.Sends != aLastSend || b.Sends != bLastSend);
 
-        AoCUtils.LogPart2(b.Sends);
+        ChallengeUtils.LogPart2(b.Sends);
 
     }
 }

@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using AdventOfCode.AoC2019.Solvers;
+using Challenge.Utils;
 
 namespace AdventOfCode.AoC2019;
 
@@ -21,11 +21,11 @@ public sealed class Day05 : IntcodeSolver
     {
         this.VM.Input.AddValue(1L);
         this.VM.Run();
-        AoCUtils.LogPart1(this.VM.Output.GetAllValues().Last());
+        ChallengeUtils.LogPart1(this.VM.Output.GetAllValues().Last());
 
         this.VM.Reset();
         this.VM.Input.AddValue(5L);
         this.VM.Run();
-        AoCUtils.LogPart2(this.VM.Output.GetValue());
+        ChallengeUtils.LogPart2(this.VM.Output.GetValue());
     }
 }

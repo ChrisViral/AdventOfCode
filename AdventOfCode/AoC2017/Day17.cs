@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -32,7 +32,7 @@ public sealed class Day17 : Solver<int>
             position++;
         }
         int result = buffer[(position + 1) % buffer.Count];
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         int size = PART1 + 1;
         foreach (int value in ^PART1..^PART2)
@@ -46,7 +46,7 @@ public sealed class Day17 : Solver<int>
             position++;
             size++;
         }
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <inheritdoc />

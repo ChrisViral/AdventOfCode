@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -38,18 +38,18 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
     public override void Run()
     {
         int dangerLevel = GetDangerLevel(PART1_TIME);
-        AoCUtils.LogPart1(dangerLevel);
+        ChallengeUtils.LogPart1(dangerLevel);
 
         // The easter egg might not be *the* lowest danger time, so we'll take the best five and print them all
         Grid<bool> view = new(SpaceSize.X, SpaceSize.Y, toString: v => v ? @"█" : " ");
 
         // Print potential answers
-        AoCUtils.LogPart2("One of the following times should have a christmas tree\n");
+        ChallengeUtils.LogPart2("One of the following times should have a christmas tree\n");
         foreach (int time in (1..^10_000).OrderBy(GetDangerLevel).Take(5))
         {
             FillGrid(view, time);
-            AoCUtils.Log($"Time: {time}");
-            AoCUtils.Log(view + "\n");
+            ChallengeUtils.Log($"Time: {time}");
+            ChallengeUtils.Log(view + "\n");
             view.Clear();
         }
     }

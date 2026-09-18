@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -71,7 +71,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
 
         // Get final position value
         int password = CalculateLocationPassword(position, direction);
-        AoCUtils.LogPart1(password);
+        ChallengeUtils.LogPart1(password);
 
         // Definitely not coding a generic way of generating the faces
 
@@ -150,7 +150,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
 
         // Get final position value
         password = CalculateLocationPassword(position, direction);
-        AoCUtils.LogPart2(password);
+        ChallengeUtils.LogPart2(password);
     }
 
     /// <summary>

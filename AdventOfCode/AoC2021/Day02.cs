@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2021;
 
@@ -45,7 +45,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
             }
         }
 
-        AoCUtils.LogPart2(position.X * position.Y);
+        ChallengeUtils.LogPart2(position.X * position.Y);
 
         // Handle heading based movement
         position = Vector3<long>.Zero;
@@ -65,7 +65,7 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
             }
         }
 
-        AoCUtils.LogPart2(position.X * position.Y);
+        ChallengeUtils.LogPart2(position.X * position.Y);
     }
 
     /// <inheritdoc />

@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -216,7 +216,7 @@ public sealed class Day17 : Solver<Direction[]>
             states.Add(state);
         }
 
-        AoCUtils.LogPart1(heightAt2022);
+        ChallengeUtils.LogPart1(heightAt2022);
 
         // Find a cycle of at least length 50
         int cycleStart = 0;
@@ -243,7 +243,7 @@ public sealed class Day17 : Solver<Direction[]>
         long cyclesHeight   = cycles * cycleHeight;
         int remainderHeight = statesArray[cycleStart..(cycleStart + (int)remainder)].Sum(s => s.gain);
         long totalHeight    = heightAtStart + cyclesHeight + remainderHeight;
-        AoCUtils.LogPart2(totalHeight);
+        ChallengeUtils.LogPart2(totalHeight);
     }
 
     /// <inheritdoc />

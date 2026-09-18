@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -54,7 +54,7 @@ public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictiona
             diffs.Add(currentDiff);
             previousPots = currentPots;
         }
-        AoCUtils.LogPart1(previousPots);
+        ChallengeUtils.LogPart1(previousPots);
 
         int generation = PART1_GENERATIONS;
         do
@@ -70,7 +70,7 @@ public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictiona
 
         int maxDiff = diffs.AsDictionary().MaxBy(p => p.Value).Key;
         long result = previousPots + ((PART2_GENERATIONS - generation) * maxDiff);
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     private void ApplyGeneratation(ref int startOffset)

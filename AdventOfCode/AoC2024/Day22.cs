@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -54,12 +54,12 @@ public sealed class Day22 : ArraySolver<long>
     public override void Run()
     {
         (int[] prices, byte[] diffs, long secret)[] data = this.Data.Select(GeneratePrices).ToArray();
-        AoCUtils.LogPart1(data.Sum(s => s.secret));
+        ChallengeUtils.LogPart1(data.Sum(s => s.secret));
 
         ParallelHelper helper = new(data.Select(d => (d.prices, d.diffs)).ToArray());
         helper.ForEach(EnumerateSequences());
         int maxBananas = helper.Results.Max();
-        AoCUtils.LogPart2(maxBananas);
+        ChallengeUtils.LogPart2(maxBananas);
     }
 
     private static (int[] prices, byte[] diffs, long secret) GeneratePrices(long seed)

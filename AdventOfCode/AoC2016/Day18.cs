@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -44,17 +44,17 @@ public sealed class Day18 : Solver<Day18.Tile[]>
         foreach (int _ in 1..PART1_ROWS)
         {
             GenerateNextRow(currentRow, nextRow, ref safe);
-            AoCUtils.Swap(ref currentRow, ref nextRow);
+            ChallengeUtils.Swap(ref currentRow, ref nextRow);
         }
-        AoCUtils.LogPart1(safe);
+        ChallengeUtils.LogPart1(safe);
 
         // Generate rows
         foreach (int _ in PART1_ROWS..PART2_ROWS)
         {
             GenerateNextRow(currentRow, nextRow, ref safe);
-            AoCUtils.Swap(ref currentRow, ref nextRow);
+            ChallengeUtils.Swap(ref currentRow, ref nextRow);
         }
-        AoCUtils.LogPart2(safe);
+        ChallengeUtils.LogPart2(safe);
     }
 
     private void GenerateNextRow(Span<Tile> currentRow, Span<Tile> nextRow, ref int safe)

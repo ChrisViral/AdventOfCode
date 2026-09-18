@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2018.ElfCode;

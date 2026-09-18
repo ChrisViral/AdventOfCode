@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -39,8 +39,8 @@ public sealed class Day18 : Solver<string[][]>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.Sum(CalculateExpression));
-        AoCUtils.LogPart2(this.Data.Sum(CalculateAdvancedExpression));
+        ChallengeUtils.LogPart1(this.Data.Sum(CalculateExpression));
+        ChallengeUtils.LogPart2(this.Data.Sum(CalculateAdvancedExpression));
     }
 
     /// <summary>

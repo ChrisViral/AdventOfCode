@@ -1,8 +1,8 @@
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -176,10 +176,10 @@ public sealed class Day17 : GridSolver<int>
     {
         Vector2<int> endPosition = new(this.Data.Width - 1, this.Data.Height - 1);
         int heatLoss = GetMinLoss(new CruciblePath(this.Data), new CruciblePath(this.Data, endPosition));
-        AoCUtils.LogPart1(heatLoss);
+        ChallengeUtils.LogPart1(heatLoss);
 
         heatLoss = GetMinLoss(new UltraCruciblePath(this.Data), new UltraCruciblePath(this.Data, endPosition));
-        AoCUtils.LogPart2(heatLoss);
+        ChallengeUtils.LogPart2(heatLoss);
     }
 
     public int GetMinLoss<T>(T start, T goal) where T : ICrucible<T>

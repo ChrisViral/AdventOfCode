@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -23,7 +23,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
     {
         HashSet<Vector3<int>> points = new(this.Data);
         int surface = this.Data.Sum(p => p.Adjacent().Count(a => !points.Contains(a)));
-        AoCUtils.LogPart1(surface);
+        ChallengeUtils.LogPart1(surface);
 
         Vector3<int> max = (this.Data.Max(p => p.X), this.Data.Max(p => p.Y), this.Data.Max(p => p.Z)) + Vector3<int>.One;
         HashSet<Vector3<int>> empty   = Vector3<int>.EnumerateOver(max.X, max.Y, max.Z).Where(p => !points.Contains(p)).ToHashSet();
@@ -42,7 +42,7 @@ public sealed class Day18 : ArraySolver<Vector3<int>>
         }
 
         surface -= pockets.Sum(p => p.Adjacent().Count(points.Contains));
-        AoCUtils.LogPart2(surface);
+        ChallengeUtils.LogPart2(surface);
     }
 
     // ReSharper disable once CognitiveComplexity

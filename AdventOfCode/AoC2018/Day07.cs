@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -56,7 +56,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
             }
         }
 
-        AoCUtils.LogPart1(order.ToString());
+        ChallengeUtils.LogPart1(order.ToString());
 
         int time = 0;
         completed.Clear();
@@ -103,7 +103,7 @@ public sealed partial class Day07 : Solver<Day07.Step[]>
             }
         }
 
-        AoCUtils.LogPart2(time);
+        ChallengeUtils.LogPart2(time);
     }
 
     /// <inheritdoc />

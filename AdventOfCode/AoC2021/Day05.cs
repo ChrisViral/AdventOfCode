@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -57,7 +57,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
         }
 
         int crosses = this.grid.Count(n => n > 1);
-        AoCUtils.LogPart1(crosses);
+        ChallengeUtils.LogPart1(crosses);
 
         // Check diagonal lines
         foreach ((Vector2<int> from, Vector2<int> to) in this.Data.Where(d => d.from.X != d.to.X && d.from.Y != d.to.Y))
@@ -77,7 +77,7 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
         }
 
         crosses = this.grid.Count(n => n > 1);
-        AoCUtils.LogPart2(crosses);
+        ChallengeUtils.LogPart2(crosses);
     }
 
     /// <inheritdoc />

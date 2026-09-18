@@ -1,11 +1,11 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
+using Challenge.Collections.Pooling;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -37,7 +37,7 @@ public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
     {
         HashSet<int> ungrouped = new(this.Data.Keys);
         RemoveGrouped(0, ungrouped);
-        AoCUtils.LogPart1(this.Data.Count - ungrouped.Count);
+        ChallengeUtils.LogPart1(this.Data.Count - ungrouped.Count);
 
         int groups = 1;
         while (!ungrouped.IsEmpty)
@@ -45,7 +45,7 @@ public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
             RemoveGrouped(ungrouped.First(), ungrouped);
             groups++;
         }
-        AoCUtils.LogPart2(groups);
+        ChallengeUtils.LogPart2(groups);
     }
 
     private void RemoveGrouped(int rootID, HashSet<int> ungrouped)

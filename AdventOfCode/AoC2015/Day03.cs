@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -30,7 +30,7 @@ public sealed class Day03 : Solver<Direction[]>
             position += direction;
             houses[position]++;
         }
-        AoCUtils.LogPart1(houses.Size);
+        ChallengeUtils.LogPart1(houses.Size);
 
         houses.Clear();
         Vector2<int> otherPosition = position = Vector2<int>.Zero;
@@ -39,9 +39,9 @@ public sealed class Day03 : Solver<Direction[]>
         {
             position += direction;
             houses[position]++;
-            AoCUtils.Swap(ref position, ref otherPosition);
+            ChallengeUtils.Swap(ref position, ref otherPosition);
         }
-        AoCUtils.LogPart2(houses.Size);
+        ChallengeUtils.LogPart2(houses.Size);
     }
 
     /// <inheritdoc />

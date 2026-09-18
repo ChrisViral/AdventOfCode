@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using ZLinq;
@@ -125,7 +125,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     {
         Grid<bool> screen = new(50, 6, b => b ? "#" : ".");
         this.Data.ForEach(i => i.ApplyToScreen(screen));
-        AoCUtils.LogPart1(screen.Count(true));
-        AoCUtils.LogPart2("\n" + screen);
+        ChallengeUtils.LogPart1(screen.Count(true));
+        ChallengeUtils.LogPart2("\n" + screen);
     }
 }

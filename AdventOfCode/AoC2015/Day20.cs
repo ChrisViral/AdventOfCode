@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Maths;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2015;
 
@@ -25,11 +25,11 @@ public sealed class Day20 : Solver<int>
     {
         int house = 3;
         for (int gifts = GetGiftsAtHouse(house); gifts < this.Data; gifts = GetGiftsAtHouse(++house));
-        AoCUtils.LogPart1(house);
+        ChallengeUtils.LogPart1(house);
 
         house = 3;
         for (int gifts = GetGiftsAtHouseLimited(house, HOUSE_LIMIT); gifts < this.Data; gifts = GetGiftsAtHouseLimited(++house, HOUSE_LIMIT));
-        AoCUtils.LogPart2(house);
+        ChallengeUtils.LogPart2(house);
     }
 
     private static int GetGiftsAtHouse(int house)

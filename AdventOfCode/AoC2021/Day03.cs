@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
@@ -48,14 +48,14 @@ public sealed class Day03 : Solver
 
         // Get epsilon from Gamma
         int epsilon = ~gamma & MASK;
-        AoCUtils.LogPart1(gamma * epsilon);
+        ChallengeUtils.LogPart1(gamma * epsilon);
 
         // Create a copy of the counts
         int[] countsCopy = counts.Copy();
         // Get oxygen generator and CO2 scrubber values
         int generator = ToInt32(GetRating(counts,     '1', '0'), 2);
         int scrubber  = ToInt32(GetRating(countsCopy, '0', '1'), 2);
-        AoCUtils.LogPart2(generator * scrubber);
+        ChallengeUtils.LogPart2(generator * scrubber);
     }
 
     /// <summary>

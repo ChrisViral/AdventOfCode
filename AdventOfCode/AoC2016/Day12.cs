@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
 using AdventOfCode.AoC2016.Assembunny;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -30,7 +30,7 @@ public sealed class Day12 : RegexSolver<Instruction>
         {
             this.Data[address].Execute(ref address, ref registers);
         }
-        AoCUtils.LogPart1(registers[0]);
+        ChallengeUtils.LogPart1(registers[0]);
 
         address = 0;
         registers = new Registers();
@@ -39,6 +39,6 @@ public sealed class Day12 : RegexSolver<Instruction>
         {
             this.Data[address].Execute(ref address, ref registers);
         }
-        AoCUtils.LogPart2(registers[0]);
+        ChallengeUtils.LogPart2(registers[0]);
     }
 }

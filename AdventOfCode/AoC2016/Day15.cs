@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Maths;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Maths;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -39,12 +39,12 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
         }
 
         int time = MathUtils.ChineseRemainder(remainders[..^1], moduli[..^1]);
-        AoCUtils.LogPart1(time);
+        ChallengeUtils.LogPart1(time);
 
         // Add final disc and evaluate again
         remainders[^1] = -FinalDisc.Start - FinalDisc.Index;
         moduli[^1]     = FinalDisc.Positions;
         time = MathUtils.ChineseRemainder(remainders, moduli);
-        AoCUtils.LogPart2(time);
+        ChallengeUtils.LogPart2(time);
     }
 }

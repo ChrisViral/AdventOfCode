@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -136,7 +136,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
                 number |= 1;
             }
         }
-        AoCUtils.LogPart1(number);
+        ChallengeUtils.LogPart1(number);
 
         // Prepare invalid gates set
         HashSet<GateWire> invalidWires = new(8);
@@ -171,7 +171,7 @@ public sealed class Day24 : Solver<Day24.Wire[]>
             }
         }
 
-        AoCUtils.LogPart2(string.Join(',', invalidWires.Select(w => w.ID).Order()));
+        ChallengeUtils.LogPart2(string.Join(',', invalidWires.Select(w => w.ID).Order()));
     }
 
     /// <inheritdoc />

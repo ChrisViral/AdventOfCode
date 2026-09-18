@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -58,12 +58,12 @@ public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
         }
         while (next.Score < 1000);
 
-        AoCUtils.LogPart1(current.Score * rolls);
+        ChallengeUtils.LogPart1(current.Score * rolls);
 
         // Simulate all possible games
         long p1Wins = 0L, p2Wins = 0L;
         SimulateGame(this.Data.p1, this.Data.p2, ref p1Wins, ref p2Wins);
-        AoCUtils.LogPart2(Math.Max(p1Wins, p2Wins));
+        ChallengeUtils.LogPart2(Math.Max(p1Wins, p2Wins));
     }
 
     /// <summary>

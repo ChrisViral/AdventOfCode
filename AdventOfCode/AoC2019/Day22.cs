@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Maths;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Maths;
+using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 
 namespace AdventOfCode.AoC2019;
@@ -50,7 +50,7 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
                 _                       => throw instruction.Type.Invalid()
             };
         }
-        AoCUtils.LogPart1(position);
+        ChallengeUtils.LogPart1(position);
 
         (long a, long b) = (1L, 0L);
         foreach (Instruction instruction in this.Data)
@@ -95,7 +95,7 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
 
         Span2D<Int128> result = stackalloc Int128[2].AsSpan2D(2, 1);
         MathUtils.MatrixMultiplication(exp, card, ref result, DECK_SIZE2);
-        AoCUtils.LogPart2(result[0, 0]);
+        ChallengeUtils.LogPart2(result[0, 0]);
     }
 
     /// <inheritdoc />

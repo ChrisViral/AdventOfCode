@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2015;
 
@@ -49,14 +49,14 @@ public sealed partial class Day19 : Solver<(ImmutableArray<Day19.Replacement> re
                 molecule = molecule[(i + 1)..];
             }
         }
-        AoCUtils.LogPart1(molecules.Count);
+        ChallengeUtils.LogPart1(molecules.Count);
 
         molecule = this.Data.molecule;
         int steps = ElementMatcher.Count(molecule) - 1;
         steps -= molecule.Count("Rn");
         steps -= molecule.Count("Ar");
         steps -= molecule.Count('Y') * 2;
-        AoCUtils.LogPart2(steps);
+        ChallengeUtils.LogPart2(steps);
     }
 
     /// <inheritdoc />

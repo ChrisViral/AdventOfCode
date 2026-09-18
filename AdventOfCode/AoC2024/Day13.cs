@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -97,7 +97,7 @@ public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
                 totalPrice += (result.X * 3L) + result.Y;
             }
         }
-        AoCUtils.LogPart1(totalPrice);
+        ChallengeUtils.LogPart1(totalPrice);
 
         totalPrice = 0L;
         foreach (ClawMachine machine in this.Data)
@@ -107,7 +107,7 @@ public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
                 totalPrice += (result.X * 3L) + result.Y;
             }
         }
-        AoCUtils.LogPart2(totalPrice);
+        ChallengeUtils.LogPart2(totalPrice);
     }
 
     /// <inheritdoc />

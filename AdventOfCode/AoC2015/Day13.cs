@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2015;
@@ -51,11 +51,11 @@ public sealed partial class Day13 : Solver<(ImmutableArray<string> people, Dicti
         };
 
         int max = GetMaxHappiness(startingPerson, startingState, 0, this.Data.people.AsSpan(0, peopleCount - 1));
-        AoCUtils.LogPart1(max);
+        ChallengeUtils.LogPart1(max);
 
         startingState[peopleCount - 1] = false;
         max = GetMaxHappiness(startingPerson, startingState, 0, this.Data.people.AsSpan());
-        AoCUtils.LogPart2(max);
+        ChallengeUtils.LogPart2(max);
     }
 
     private int GetMaxHappiness(string currentPerson, BitVector16 state, int happiness, ReadOnlySpan<string> people)

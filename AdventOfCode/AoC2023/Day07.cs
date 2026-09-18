@@ -1,8 +1,7 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2023;
 
@@ -116,12 +115,12 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
     {
         this.Data.Sort();
         long winnings = CalculateWinnings();
-        AoCUtils.LogPart1(winnings);
+        ChallengeUtils.LogPart1(winnings);
 
         this.Data.Apply(Hand.ConvertJokers);
         this.Data.Sort();
         winnings = CalculateWinnings();
-        AoCUtils.LogPart2(winnings);
+        ChallengeUtils.LogPart2(winnings);
     }
 
     public long CalculateWinnings()

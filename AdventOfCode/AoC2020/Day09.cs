@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -30,7 +30,7 @@ public sealed class Day09 : Solver<long[]>
                 break;
             }
         }
-        AoCUtils.LogPart1(invalid);
+        ChallengeUtils.LogPart1(invalid);
 
         int start = 0, end = 1;
         long sum = this.Data[start] + this.Data[end];
@@ -47,7 +47,7 @@ public sealed class Day09 : Solver<long[]>
         }
 
         long[] slice = this.Data[start..++end];
-        AoCUtils.LogPart2(slice.Min() + slice.Max());
+        ChallengeUtils.LogPart2(slice.Min() + slice.Max());
     }
 
     /// <summary>

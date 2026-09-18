@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2022;
 
@@ -72,10 +72,10 @@ public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
     public override void Run()
     {
         int score = this.Data.Sum(moves => moves.self.GetResultFromScore(moves.opponent));
-        AoCUtils.LogPart1(score);
+        ChallengeUtils.LogPart1(score);
 
         score = this.Data.Sum(moves => moves.self.GetScoreFromResult(moves.opponent));
-        AoCUtils.LogPart2(score);
+        ChallengeUtils.LogPart2(score);
     }
 
     /// <inheritdoc cref="ArraySolver{T}.ConvertLine"/>

@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -23,12 +23,12 @@ public sealed class Day17 : ArraySolver<int>
     public override void Run()
     {
         int possibilities = PossibleCombinations(0, 0, TARGET_AMOUNT);
-        AoCUtils.LogPart1(possibilities);
+        ChallengeUtils.LogPart1(possibilities);
 
         Counter<int> uses = new(this.Data.Length);
         MinimalCombinations(0, 0, 0, TARGET_AMOUNT, uses);
         int minUses = uses.AsDictionary().MinBy(p => p.Key).Value;
-        AoCUtils.LogPart2(minUses);
+        ChallengeUtils.LogPart2(minUses);
     }
 
     private int PossibleCombinations(int containerIndex, int amountUsed, int targetAmount)

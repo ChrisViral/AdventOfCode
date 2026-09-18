@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -25,8 +25,8 @@ public sealed class Day10 : GridSolver<int>
         Vector2<int> scores = this.Grid.Dimensions.Enumerate()
                                   .Where(p => this.Grid[p] is 0)
                                   .Sum(p => CalculateTrailheadScore(p, trailheadCache));
-        AoCUtils.LogPart1(scores.X);
-        AoCUtils.LogPart2(scores.Y);
+        ChallengeUtils.LogPart1(scores.X);
+        ChallengeUtils.LogPart2(scores.Y);
     }
 
     private Vector2<int> CalculateTrailheadScore(Vector2<int> startPosition, HashSet<Vector2<int>> trailheads)

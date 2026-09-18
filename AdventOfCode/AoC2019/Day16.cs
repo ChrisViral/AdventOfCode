@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -44,13 +44,13 @@ public sealed class Day16 : Solver<int[]>
             {
                 updated[i] = GetUpdatedDigit(i, current);
             }
-            AoCUtils.Swap(ref current, ref updated);
+            ChallengeUtils.Swap(ref current, ref updated);
         }
 
         // Get first eight digits
         Span<char> result = stackalloc char[8];
         current[..8].Select(c => (char)(c + '0')).CopyTo(result);
-        AoCUtils.LogPart1(result.ToString());
+        ChallengeUtils.LogPart1(result.ToString());
 
         // Get starting offset
         int start = this.Data.AsSpan(0, 7).Aggregate((acc, d) => (acc * 10) + d);
@@ -76,12 +76,12 @@ public sealed class Day16 : Solver<int[]>
             {
                 last = updated[^i] = (last + current[^i]) % 10;
             }
-            AoCUtils.Swap(ref current, ref updated);
+            ChallengeUtils.Swap(ref current, ref updated);
         }
 
         // Get first eight digits
         current[..8].Select(c => (char)(c + '0')).CopyTo(result);
-        AoCUtils.LogPart2(result.ToString());
+        ChallengeUtils.LogPart2(result.ToString());
     }
 
     /// <summary>

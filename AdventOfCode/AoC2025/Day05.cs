@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2025;
 
@@ -71,8 +71,8 @@ public sealed partial class Day05 : Solver<(Day05.IdRange[] Ranges, long[] Produ
                 }
             }
         }
-        AoCUtils.LogPart1(fresh);
-        AoCUtils.LogPart2(valid);
+        ChallengeUtils.LogPart1(fresh);
+        ChallengeUtils.LogPart2(valid);
     }
 
     private static bool MergeRanges(in IdRange a, in IdRange b, out IdRange merged)

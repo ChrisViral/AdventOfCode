@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -53,8 +53,8 @@ public sealed partial class Day02 : Solver<Day02.PasswordData[]>
             }
         }
 
-        AoCUtils.LogPart1(part1);
-        AoCUtils.LogPart2(part2);
+        ChallengeUtils.LogPart1(part1);
+        ChallengeUtils.LogPart2(part2);
     }
 
     /// <inheritdoc />

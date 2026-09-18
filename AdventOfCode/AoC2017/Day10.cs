@@ -1,8 +1,8 @@
 ﻿using AdventOfCode.AoC2017.Common;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -36,11 +36,11 @@ public sealed class Day10 : Solver<string>
 
         // Hash and output
         Knot.HashIteration(ref list, ref position, ref skip, numbers);
-        AoCUtils.LogPart1(list[0] * list[1]);
+        ChallengeUtils.LogPart1(list[0] * list[1]);
 
         // Use full hash function
         UInt128 hash = Knot.Hash(this.Data);
-        AoCUtils.LogPart2(hash.ToString("x"));
+        ChallengeUtils.LogPart2(hash.ToString("x"));
     }
 
     /// <inheritdoc />

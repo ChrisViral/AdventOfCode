@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -93,7 +93,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
             message[i] = stacks[i].Peek();
         }
 
-        AoCUtils.LogPart1(new string(message));
+        ChallengeUtils.LogPart1(new string(message));
 
         // Create another copy
         stacks = CopyStacks();
@@ -121,7 +121,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
         {
             message[i] = stacks[i].Peek();
         }
-        AoCUtils.LogPart2(new string(message));
+        ChallengeUtils.LogPart2(new string(message));
     }
 
     /// <inheritdoc />

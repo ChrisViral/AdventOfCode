@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -34,10 +34,10 @@ public sealed partial class Day13 : RegexSolver<Day13.Firewall>
         int severity = this.Data
                            .Where(f => f.Period.IsFactor(f.Depth))
                            .Sum(f => f.Depth * f.Range);
-        AoCUtils.LogPart1(severity);
+        ChallengeUtils.LogPart1(severity);
 
         int delay = Enumerable.InfiniteSequence(1, 1)
                               .First(d => this.Data.All(f => !f.Period.IsFactor(f.Depth + d)));
-        AoCUtils.LogPart2(delay);
+        ChallengeUtils.LogPart2(delay);
     }
 }

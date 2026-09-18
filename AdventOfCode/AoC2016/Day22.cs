@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -43,7 +43,7 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
         int valid = this.Data.EnumeratePairs()
                              .Where(p => p.first.Used is not 0)
                              .Count(p => p.first.Used <= p.second.Available);
-        AoCUtils.LogPart1(valid);
+        ChallengeUtils.LogPart1(valid);
 
         // Get grid size and smallest available space size
         int minSize = int.MaxValue;
@@ -78,7 +78,7 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
         int toStart = (goalPosition.X - 1) * 5;
 
         // Result is moving the empty to goal, and then goal to start
-        AoCUtils.LogPart2(toGoal + toStart);
+        ChallengeUtils.LogPart2(toGoal + toStart);
     }
 
     /// <inheritdoc />

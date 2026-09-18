@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -24,13 +24,13 @@ public sealed class Day01 : Solver<int[]>
         int matches = this.Data
                           .Where((v, i) => v == this.Data[(i + 1) % length])
                           .Sum();
-        AoCUtils.LogPart1(matches);
+        ChallengeUtils.LogPart1(matches);
 
         int half = length / 2;
         matches = this.Data
                       .Where((v, i) => v == this.Data[(i + half) % length])
                       .Sum();
-        AoCUtils.LogPart2(matches);
+        ChallengeUtils.LogPart2(matches);
     }
 
     /// <inheritdoc />

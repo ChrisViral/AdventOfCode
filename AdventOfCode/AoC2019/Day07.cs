@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Intcode;
+﻿using AdventOfCode.AoC2019.Solvers;
+using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.IO;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2019;
 
@@ -60,7 +60,7 @@ public sealed class Day07 : IntcodeSolver
             maxOutput = Math.Max(maxOutput, ampE.Output.GetValue());
             amplifiers.ForEach(amp => amp.Reset());
         }
-        AoCUtils.LogPart1(maxOutput);
+        ChallengeUtils.LogPart1(maxOutput);
 
         // Bridge amplifiers E and A
         QueueInOut ea = new();
@@ -89,6 +89,6 @@ public sealed class Day07 : IntcodeSolver
             amplifiers.ForEach(amp => amp.Reset());
         }
 
-        AoCUtils.LogPart2(maxOutput);
+        ChallengeUtils.LogPart2(maxOutput);
     }
 }

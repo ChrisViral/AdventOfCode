@@ -1,10 +1,10 @@
 ﻿using System.Buffers;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections.Pooling.Arrays;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Collections.Pooling.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -29,11 +29,11 @@ public sealed partial class Day12 : Solver<string>
     {
         int result = NumberMatcher.EnumerateMatches(this.Data)
                                   .Sum(m => int.Parse(this.Data.AsSpan(m.Index, m.Length)));
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         JsonElement root = JsonDocument.Parse(this.Data).RootElement;
         result = SumObject(root);
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     // ReSharper disable once CognitiveComplexity

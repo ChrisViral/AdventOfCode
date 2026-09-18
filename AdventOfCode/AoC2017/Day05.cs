@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2017;
 
@@ -31,7 +31,7 @@ public sealed class Day05 : ArraySolver<int>
             jumpTable[i]++;
             steps++;
         }
-        AoCUtils.LogPart1(steps);
+        ChallengeUtils.LogPart1(steps);
 
 
         this.Data.CopyTo(jumpTable);
@@ -42,7 +42,7 @@ public sealed class Day05 : ArraySolver<int>
             jumpTable[i] += jump >= 3 ? -1 : 1;
             steps++;
         }
-        AoCUtils.LogPart2(steps);
+        ChallengeUtils.LogPart2(steps);
     }
 
     /// <inheritdoc />

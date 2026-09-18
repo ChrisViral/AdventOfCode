@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -47,12 +47,12 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
                 }
             }
 
-            AoCUtils.Swap(ref currentPositions, ref nextPositions);
+            ChallengeUtils.Swap(ref currentPositions, ref nextPositions);
             parity = !parity;
         }
 
         int current = visited.Values.Count(v => v == STEPS.IsEven);
-        AoCUtils.LogPart1(current);
+        ChallengeUtils.LogPart1(current);
 
         int width = this.Data.garden.Width;
         int radius = width / 2;
@@ -71,7 +71,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
                 }
             }
 
-            AoCUtils.Swap(ref currentPositions, ref nextPositions);
+            ChallengeUtils.Swap(ref currentPositions, ref nextPositions);
             parity = !parity;
 
             if ((n - radius).IsMultiple(width))
@@ -99,7 +99,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 
         long x = (LONG_STEPS - radius) / width;
         long final = (a * x * x) + (b * x) + c;
-        AoCUtils.LogPart2(final);
+        ChallengeUtils.LogPart2(final);
     }
 
     private bool CheckValidInfinite(Vector2<int> plot) => this.Data.garden[plot.X.Mod(this.Data.garden.Width),

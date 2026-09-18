@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -56,7 +56,7 @@ public sealed class Day08 : GridSolver<int>
             }
         }
 
-        AoCUtils.LogPart1(visibleCount);
+        ChallengeUtils.LogPart1(visibleCount);
 
         int scenicScore = 0;
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Data.Width - 1, this.Data.Height - 1)
@@ -100,7 +100,7 @@ public sealed class Day08 : GridSolver<int>
         }
 
         // Part 2 answer
-        AoCUtils.LogPart2(scenicScore);
+        ChallengeUtils.LogPart2(scenicScore);
     }
 
     private bool SetVisibility(Grid<bool> visibilities, Vector2<int> position, ref int maxHeight, ref int count)

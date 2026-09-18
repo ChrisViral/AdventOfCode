@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -38,8 +38,8 @@ public sealed class Day01 : Solver<DirectionVector<int>[]>
                 }
             }
         }
-        AoCUtils.LogPart1(position.ManhattanLength);
-        AoCUtils.LogPart2(hqPosition!.Value.ManhattanLength);
+        ChallengeUtils.LogPart1(position.ManhattanLength);
+        ChallengeUtils.LogPart2(hqPosition!.Value.ManhattanLength);
     }
 
     /// <inheritdoc />

@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -39,7 +39,7 @@ public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
             }
         }
 
-        AoCUtils.LogPart1(combinations);
+        ChallengeUtils.LogPart1(combinations);
     }
 
     /// <inheritdoc />

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -40,7 +40,7 @@ public sealed class Day04 : GridSolver<bool>
                 rollPositions.Add(position);
             }
         }
-        AoCUtils.LogPart1(accessible.Count);
+        ChallengeUtils.LogPart1(accessible.Count);
 
         int removed = accessible.Count;
         accessible.Clear();
@@ -49,7 +49,7 @@ public sealed class Day04 : GridSolver<bool>
             removed += RemoveRolls(rollPositions, accessible);
         }
 
-        AoCUtils.LogPart2(removed);
+        ChallengeUtils.LogPart2(removed);
     }
 
     private static bool GetAccessible(HashSet<Vector2<int>> rollPositions, List<Vector2<int>> accessible)

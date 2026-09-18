@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -51,8 +51,8 @@ public sealed partial class Day03 : Solver<string>
             }
         }
 
-        AoCUtils.LogPart1(result);
-        AoCUtils.LogPart2(conditionalResult);
+        ChallengeUtils.LogPart1(result);
+        ChallengeUtils.LogPart2(conditionalResult);
     }
 
     /// <inheritdoc />

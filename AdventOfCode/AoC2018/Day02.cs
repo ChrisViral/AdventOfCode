@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2018;
 
@@ -35,10 +35,10 @@ public sealed class Day02 : ArraySolver<string>
                 threes++;
             }
         }
-        AoCUtils.LogPart1(twos * threes);
+        ChallengeUtils.LogPart1(twos * threes);
 
         string correctID = FindCorrectID();
-        AoCUtils.LogPart2(correctID);
+        ChallengeUtils.LogPart2(correctID);
     }
 
     // ReSharper disable once CognitiveComplexity

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2018;
@@ -67,7 +67,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
             }
 
         }
-        AoCUtils.LogPart1(threefold);
+        ChallengeUtils.LogPart1(threefold);
 
         // Create final opcode map
         Opcode[] opcodeMap = new Opcode[OPCODE_COUNT];
@@ -95,7 +95,7 @@ public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[
             Opcode opcode = opcodeMap[(int)instruction.Opcode];
             VirtualMachine.RunInstruction(instruction with { Opcode = opcode }, ref registers);
         }
-        AoCUtils.LogPart2(registers[0]);
+        ChallengeUtils.LogPart2(registers[0]);
     }
 
     /// <inheritdoc />

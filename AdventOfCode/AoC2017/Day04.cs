@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -22,12 +22,12 @@ public sealed class Day04 : ArraySolver<string[]>
     {
         int valid = this.Data.Count(p => p.Distinct()
                                           .Count() == p.Length);
-        AoCUtils.LogPart1(valid);
+        ChallengeUtils.LogPart1(valid);
 
         valid = this.Data.Count(p => p.Select(w => w.AsEnumerable().Order())
                                       .Distinct(SequenceComparer<char>.Instance)
                                       .Count() == p.Length);
-        AoCUtils.LogPart2(valid);
+        ChallengeUtils.LogPart2(valid);
     }
 
     /// <inheritdoc />

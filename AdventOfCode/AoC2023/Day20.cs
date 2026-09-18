@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -157,7 +157,7 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
             }
         }
 
-        AoCUtils.LogPart1((long)lowPulses * highPulses);
+        ChallengeUtils.LogPart1((long)lowPulses * highPulses);
 
         this.Data.Values.ForEach(m => m.Reset());
         Module final = this.Data.Values.First(m => m.Listeners.Contains(TARGET));
@@ -186,7 +186,7 @@ public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
         }
 
         long total = long.LCM(firstTriggerHit.Values.Select(h => (long)h).ToArray());
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

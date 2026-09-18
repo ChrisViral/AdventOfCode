@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -179,13 +179,13 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
             }
         }
 
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         Range defaultRange = MIN..MAX;
         PartRange range    = new(defaultRange, defaultRange, defaultRange, defaultRange);
         Workflow start     = this.Data.workflows[START];
         long variations    = CountRangeSize(range, start);
-        AoCUtils.LogPart2(variations);
+        ChallengeUtils.LogPart2(variations);
     }
 
     public long CountRangeSize(PartRange partRange, in Workflow workflow)

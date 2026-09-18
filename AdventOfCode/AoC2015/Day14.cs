@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -36,7 +36,7 @@ public sealed partial class Day14 : RegexSolver<Day14.Reindeer>
     public override void Run()
     {
         int maxDistance = this.Data.Max(r => DistanceAtTime(RACE_TIME, r));
-        AoCUtils.LogPart1(maxDistance);
+        ChallengeUtils.LogPart1(maxDistance);
 
         SpanList<int> leaders = stackalloc int[this.Data.Length];
         Span<int> points      = stackalloc int[this.Data.Length];
@@ -66,7 +66,7 @@ public sealed partial class Day14 : RegexSolver<Day14.Reindeer>
 
             leaders.Clear();
         }
-        AoCUtils.LogPart2(points.Max());
+        ChallengeUtils.LogPart2(points.Max());
     }
 
     private static int DistanceAtTime(int time, in Reindeer reindeer)

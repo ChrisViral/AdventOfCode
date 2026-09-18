@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -30,12 +30,12 @@ public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>
         this.Data.leftList.Sort();
         this.Data.rightList.Sort();
         int distance = this.Data.leftList.Zip(this.Data.rightList).Sum(d => Math.Abs(d.First - d.Second));
-        AoCUtils.LogPart1(distance);
+        ChallengeUtils.LogPart1(distance);
 
         Counter<int> left = new(this.Data.leftList);
         Counter<int> right = new(this.Data.rightList);
         int similarity = left.Sum<int>(v => v * left[v] * right.GetValueOrDefault(v));
-        AoCUtils.LogPart2(similarity);
+        ChallengeUtils.LogPart2(similarity);
     }
 
     /// <inheritdoc />

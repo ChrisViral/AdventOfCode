@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using AdventOfCode.CLI;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 Console.Title = "Advent of Code";
@@ -58,10 +58,10 @@ catch (Exception e)
 }
 
 // Preheat logging methods for timing reasons
-AoCUtils.LogPart1(0);
-AoCUtils.LogPart2(0);
-AoCUtils.Log(0);
-AoCUtils.LogElapsed();
+ChallengeUtils.LogPart1(0);
+ChallengeUtils.LogPart2(0);
+ChallengeUtils.Log(0);
+ChallengeUtils.LogElapsed();
 
 //Setup trace file
 #if DEBUG
@@ -74,8 +74,8 @@ using ConsoleTraceListener consoleListener = new();
 Trace.Listeners.Add(consoleListener);
 Trace.AutoFlush = true;
 
-AoCUtils.Log($"Running Solver for {solverData}\n");
-AoCUtils.LogParse(parseWatch);
+ChallengeUtils.Log($"Running Solver for {solverData}\n");
+ChallengeUtils.LogParse(parseWatch);
 
 #if DEBUG
 //In debug mode we want to break at the exception location
@@ -100,7 +100,7 @@ finally
 #endif
 
 //Write total timer
-AoCUtils.LogElapsed();
+ChallengeUtils.LogElapsed();
 
 //Cleanup and exit
 Trace.Close();

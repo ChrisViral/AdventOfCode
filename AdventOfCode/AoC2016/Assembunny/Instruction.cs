@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
 
 namespace AdventOfCode.AoC2016.Assembunny;
 

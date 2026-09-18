@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -85,7 +85,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
             }
         }
         while (changes);
-        AoCUtils.LogPart1(current.Count(s => s is Seat.TAKEN));
+        ChallengeUtils.LogPart1(current.Count(s => s is Seat.TAKEN));
 
         current = new Grid<Seat>(this.Grid);
         do
@@ -151,7 +151,7 @@ public sealed class Day11 : GridSolver<Day11.Seat>
             }
         }
         while (changes);
-        AoCUtils.LogPart2(current.Count(s => s is Seat.TAKEN));
+        ChallengeUtils.LogPart2(current.Count(s => s is Seat.TAKEN));
     }
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>

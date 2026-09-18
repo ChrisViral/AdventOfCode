@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -53,7 +53,7 @@ public sealed class Day25 : ArraySolver<Day25.Star>
                                  .Select(s => s.Constellation)
                                  .Distinct()
                                  .Count();
-        AoCUtils.LogPart1(constellations);
+        ChallengeUtils.LogPart1(constellations);
     }
 
     /// <inheritdoc />

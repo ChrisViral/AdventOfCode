@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using AdventOfCode.AoC2019.Solvers;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
 
 namespace AdventOfCode.AoC2019;
 
@@ -35,7 +35,7 @@ public sealed class Day11 : IntcodeSolver
 
         // Run and output
         PaintHull(painted);
-        AoCUtils.LogPart1(painted.Count);
+        ChallengeUtils.LogPart1(painted.Count);
 
         // Reset Robot and VM
         this.VM.Reset();
@@ -70,7 +70,7 @@ public sealed class Day11 : IntcodeSolver
         {
             hull[position - min] = colour;
         }
-        AoCUtils.LogPart2("\n" + hull);
+        ChallengeUtils.LogPart2("\n" + hull);
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
 
 namespace AdventOfCode.AoC2018;
 
@@ -26,9 +26,9 @@ public sealed class Day21 : ElfCodeSolver
 
         List<long> values = new(11000);
         RunVM(values, targetIp, targetRegister);
-        AoCUtils.LogPart1(values[0]);
-        AoCUtils.LogPart2(values[^1]);
-        AoCUtils.Log(values.Count);
+        ChallengeUtils.LogPart1(values[0]);
+        ChallengeUtils.LogPart2(values[^1]);
+        ChallengeUtils.Log(values.Count);
     }
 
     private void RunVM(List<long> values, long targetIp, int targetRegister)

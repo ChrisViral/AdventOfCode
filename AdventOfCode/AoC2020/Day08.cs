@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -79,7 +79,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
     public override void Run()
     {
         RunProgram();
-        AoCUtils.LogPart1(this.accumulator);
+        ChallengeUtils.LogPart1(this.accumulator);
 
         foreach (int i in ..this.Data.Length)
         {
@@ -89,7 +89,7 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
 
             if (this.Data[i].Operation is not Operations.ACC && RunProgram(i))
             {
-                AoCUtils.LogPart2(this.accumulator);
+                ChallengeUtils.LogPart2(this.accumulator);
                 return;
             }
         }

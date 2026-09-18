@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -48,7 +48,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
             resourceValues.Add(GetResourceValue(lumberyard));
             lumberyardStates.Add(lumberyard.ToString(), i);
         }
-        AoCUtils.LogPart1(resourceValues[^1]);
+        ChallengeUtils.LogPart1(resourceValues[^1]);
 
         int finalIndex = -1;
         foreach (int i in PART1_CYCLES..PART2_CYCLES)
@@ -73,7 +73,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
             lumberyardStates[lumberyardState] = i;
         }
 
-        AoCUtils.LogPart2(resourceValues[finalIndex]);
+        ChallengeUtils.LogPart2(resourceValues[finalIndex]);
     }
 
     private static int GetResourceValue(DelayedGrid<Lumber> lumberyard)

@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -38,7 +38,7 @@ public sealed class Day09 : GridSolver<byte>
             risk += value + 1;
         }
 
-        AoCUtils.LogPart1(risk);
+        ChallengeUtils.LogPart1(risk);
 
         Queue<Vector2<int>> search  = new();
         HashSet<Vector2<int>> basin = [];
@@ -64,7 +64,7 @@ public sealed class Day09 : GridSolver<byte>
 
         // Get three largest sizes
         int final = sizes.Dequeue() * sizes.Dequeue() * sizes.Dequeue();
-        AoCUtils.LogPart2(final);
+        ChallengeUtils.LogPart2(final);
     }
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -40,7 +40,7 @@ public sealed partial class Day25 : Solver<(int row, int column)>
         {
             value = (value * MULTIPLIER) % MODULO;
         }
-        AoCUtils.LogPart1(value);
+        ChallengeUtils.LogPart1(value);
     }
 
     /// <inheritdoc />

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -169,11 +169,11 @@ public sealed partial class Day21 : Solver<Dictionary<string, Day21.Monkey>>
     public override void Run()
     {
         Monkey root = this.Data["root"];
-        AoCUtils.LogPart1(root.Value);
+        ChallengeUtils.LogPart1(root.Value);
 
         // Just process the equation out with Wolfram after
         root.TryFetchValue(out long _, out string? stack);
-        AoCUtils.LogPart2(stack!);
+        ChallengeUtils.LogPart2(stack!);
     }
 
     /// <inheritdoc />

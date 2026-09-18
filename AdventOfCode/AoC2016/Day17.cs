@@ -1,10 +1,10 @@
 ﻿using System.Collections.Immutable;
 using System.Security.Cryptography;
 using System.Text;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -38,9 +38,9 @@ public sealed class Day17 : Solver<string>
     {
         IEnumerable<string> pathsEnumerable = GetValidPaths();
         // ReSharper disable once PossibleMultipleEnumeration
-        AoCUtils.LogPart1(pathsEnumerable.First());
+        ChallengeUtils.LogPart1(pathsEnumerable.First());
         // ReSharper disable once PossibleMultipleEnumeration
-        AoCUtils.LogPart2(pathsEnumerable.Last().Length);
+        ChallengeUtils.LogPart2(pathsEnumerable.Last().Length);
     }
 
     // ReSharper disable once CognitiveComplexity

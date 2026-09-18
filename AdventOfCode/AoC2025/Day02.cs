@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2025;
 
@@ -47,8 +47,8 @@ public sealed partial class Day02 : Solver<Day02.IdRange[]>
             }
         }
 
-        AoCUtils.LogPart1(invalid);
-        AoCUtils.LogPart2(invalid + invalidRepeated);
+        ChallengeUtils.LogPart1(invalid);
+        ChallengeUtils.LogPart2(invalid + invalidRepeated);
     }
 
     private static bool IsInvalid(ReadOnlySpan<char> value)

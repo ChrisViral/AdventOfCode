@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -51,10 +51,10 @@ public sealed class Day01 : Solver
             total += (value[value.IndexOfAny(this.digits)] - '0') * 10;
             total += value[value.LastIndexOfAny(this.digits)] - '0';
         }
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = this.Data.Sum(GetCalibrationValue);
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     // ReSharper disable once CognitiveComplexity

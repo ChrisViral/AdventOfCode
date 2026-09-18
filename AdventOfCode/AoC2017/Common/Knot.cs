@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2017.Common;
@@ -81,7 +81,7 @@ public static class Knot
                 int swapCounts = length / 2;
                 foreach (int offset in ..swapCounts)
                 {
-                    AoCUtils.Swap(ref list[(position + offset) % SIZE],
+                    ChallengeUtils.Swap(ref list[(position + offset) % SIZE],
                                   ref list[(end - offset) % SIZE]);
                 }
             }

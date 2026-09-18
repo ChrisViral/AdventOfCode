@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2018;
 
@@ -26,7 +26,7 @@ public sealed class Day01 : ArraySolver<int>
             frequency += n;
             frequencies.Add(frequency);
         }
-        AoCUtils.LogPart1(frequency);
+        ChallengeUtils.LogPart1(frequency);
 
         int i = 0;
         do
@@ -35,7 +35,7 @@ public sealed class Day01 : ArraySolver<int>
             i %= this.Data.Length;
         }
         while (frequencies.Add(frequency));
-        AoCUtils.LogPart2(frequency);
+        ChallengeUtils.LogPart2(frequency);
     }
 
     /// <inheritdoc />

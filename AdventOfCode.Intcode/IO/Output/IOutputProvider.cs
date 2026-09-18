@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AdventOfCode.Collections.Pooling;
+using Challenge.Collections.Pooling;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.IO.Output;

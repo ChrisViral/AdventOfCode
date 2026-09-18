@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2017;
 
@@ -55,9 +55,9 @@ public sealed class Day19 : GridSolver<char>
             position = moved;
             steps++;
         }
-        AoCUtils.LogPart1(path);
+        ChallengeUtils.LogPart1(path);
 
-        AoCUtils.LogPart2(steps);
+        ChallengeUtils.LogPart2(steps);
     }
 
     /// <inheritdoc />

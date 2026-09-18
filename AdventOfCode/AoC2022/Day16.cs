@@ -1,11 +1,11 @@
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -99,11 +99,11 @@ public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] val
 
         // Part 1
         int pressure = ExploreTunnels(this.Data.start, PART1_TIME, pathLengths, validValves);
-        AoCUtils.LogPart1(pressure);
+        ChallengeUtils.LogPart1(pressure);
 
         // Part 2
         pressure = ExploreTunnelsPair(this.Data.start, PART2_TIME, pathLengths, validValves);
-        AoCUtils.LogPart2(pressure);
+        ChallengeUtils.LogPart2(pressure);
     }
 
     /// <summary>

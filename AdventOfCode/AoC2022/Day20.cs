@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2022;
 
@@ -28,10 +28,10 @@ public sealed class Day20 : ArraySolver<long>
     public override void Run()
     {
         long grove = DecryptData(this.Data);
-        AoCUtils.LogPart1(grove);
+        ChallengeUtils.LogPart1(grove);
 
         grove = DecryptData(this.Data.AsEnumerable().Select(v => v * DECRYPTION_KEY), LOOPS);
-        AoCUtils.LogPart2(grove);
+        ChallengeUtils.LogPart2(grove);
     }
 
     // ReSharper disable once CognitiveComplexity

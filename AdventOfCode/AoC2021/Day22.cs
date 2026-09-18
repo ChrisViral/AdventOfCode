@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -127,7 +127,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 
         // Count what's left
         long count = Vector3<int>.EnumerateOver(SIZE, SIZE, SIZE).Count(p => grid[p.X, p.Y, p.Z]);
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.LogPart1(count);
 
         // Setup buffers
         List<Cuboid> current     = new(INTERSECT_SIZE) { this.Data[0].cube };
@@ -163,7 +163,7 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
         }
 
         count = current.Sum(cube => cube.Volume);
-        AoCUtils.LogPart2(count);
+        ChallengeUtils.LogPart2(count);
     }
 
     /// <inheritdoc />

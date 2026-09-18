@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -21,7 +21,7 @@ public sealed class Day05 : Solver<string>
     {
         LinkedList<char> polymer = new(this.Data);
         SimplifyPolymer(polymer);
-        AoCUtils.LogPart1(polymer.Count);
+        ChallengeUtils.LogPart1(polymer.Count);
 
         int minSize = polymer.Count;
         foreach (char toRemove in StringUtils.ASCII_LOWER)
@@ -31,7 +31,7 @@ public sealed class Day05 : Solver<string>
             SimplifyPolymer(polymer);
             minSize = Math.Min(minSize, polymer.Count);
         }
-        AoCUtils.LogPart2(minSize);
+        ChallengeUtils.LogPart2(minSize);
     }
 
     private static void SimplifyPolymer(LinkedList<char> polymer)

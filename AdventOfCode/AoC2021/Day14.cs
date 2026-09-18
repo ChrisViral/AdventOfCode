@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -54,7 +54,7 @@ public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char>
         }
 
         long diff = counter.Values.Max() - counter.Values.Min();
-        AoCUtils.LogPart1(diff);
+        ChallengeUtils.LogPart1(diff);
 
         foreach (int _ in CYCLES..LONG_CYCLES)
         {
@@ -62,7 +62,7 @@ public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char>
         }
 
         diff = counter.Values.Max() - counter.Values.Min();
-        AoCUtils.LogPart2(diff);
+        ChallengeUtils.LogPart2(diff);
     }
 
     /// <summary>

@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Regexes;
-using AdventOfCode.Utils.Extensions.Spans;
-using AdventOfCode.Utils.ValueEnumerators;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Utils.Extensions.Spans;
+using Challenge.Utils.ValueEnumerators;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -27,7 +27,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         public static partial Regex Matcher { get; }
 
         /// <inheritdoc />
-        public override void Execute(Span<char> data) => AoCUtils.Swap(ref data[this.X], ref data[this.Y]);
+        public override void Execute(Span<char> data) => ChallengeUtils.Swap(ref data[this.X], ref data[this.Y]);
 
         /// <inheritdoc />
         public override void Undo(Span<char> data) => Execute(data);
@@ -43,7 +43,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         {
             int xIndex = data.IndexOf(this.X);
             int yIndex = data.IndexOf(this.Y);
-            AoCUtils.Swap(ref data[xIndex], ref data[yIndex]);
+            ChallengeUtils.Swap(ref data[xIndex], ref data[yIndex]);
         }
 
         /// <inheritdoc />
@@ -160,14 +160,14 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         {
             instruction.Execute(scrambled);
         }
-        AoCUtils.LogPart1(scrambled.ToString());
+        ChallengeUtils.LogPart1(scrambled.ToString());
 
         PASSWORD.CopyTo(scrambled);
         foreach (Instruction instruction in this.Data.Reversed())
         {
             instruction.Undo(scrambled);
         }
-        AoCUtils.LogPart2(scrambled.ToString());
+        ChallengeUtils.LogPart2(scrambled.ToString());
     }
 
     /// <inheritdoc />

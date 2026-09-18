@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -38,7 +38,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     {
         // Run with initial params
         RunProgram(this.Data.a, this.Data.b, this.Data.c);
-        AoCUtils.LogPart1(string.Join(',', this.output));
+        ChallengeUtils.LogPart1(string.Join(',', this.output));
 
         // Search from 0
         long minInitialA = long.MaxValue;
@@ -73,7 +73,7 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
                 }
             }
         }
-        AoCUtils.LogPart2(minInitialA);
+        ChallengeUtils.LogPart2(minInitialA);
     }
 
     // ReSharper disable once CognitiveComplexity

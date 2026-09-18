@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -86,7 +86,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
                 flipped.Remove(pos);
             }
         }
-        AoCUtils.LogPart1(flipped.Count);
+        ChallengeUtils.LogPart1(flipped.Count);
 
         //Setup new stated and updated tiles
         HashSet<Vector2<int>> newState = [];
@@ -123,7 +123,7 @@ public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
             newState.Clear();
             updated.Clear();
         }
-        AoCUtils.LogPart2(flipped.Count);
+        ChallengeUtils.LogPart2(flipped.Count);
     }
 
     /// <summary>

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -71,9 +70,9 @@ public sealed partial class Day04 : RegexSolver<Day04.Room>
             }
             frequencies.Clear();
         }
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         Room storage = this.Data.Single(r => r.DecryptedID.Contains("northpole"));
-        AoCUtils.LogPart2(storage.Sector);
+        ChallengeUtils.LogPart2(storage.Sector);
     }
 }

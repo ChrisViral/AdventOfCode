@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -26,7 +26,7 @@ public sealed class Day19 : Solver<int>
         int highestBit = BitOperations.Log2((uint)this.Data);
         int remainder = this.Data - (1 << highestBit);
         int final = (2 * remainder) + 1;
-        AoCUtils.LogPart1(final);
+        ChallengeUtils.LogPart1(final);
 
         // This is a variation of the Josephus problem,
         // but instead we need the highest power of 3 fitting within N.
@@ -41,7 +41,7 @@ public sealed class Day19 : Solver<int>
         // Calculate winning seat
         remainder = this.Data - p;
         final = remainder is 0 ? this.Data : remainder + Math.Max(0, remainder - p);
-        AoCUtils.LogPart2(final);
+        ChallengeUtils.LogPart2(final);
     }
 
     /// <inheritdoc />

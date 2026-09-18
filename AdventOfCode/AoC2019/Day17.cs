@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using AdventOfCode.AoC2019.Solvers;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -68,7 +68,7 @@ public sealed partial class Day17 : IntcodeSolver
                               .Select(p => p + Vector2<int>.One)
                               .Where(p => p.Adjacent(withSelf: true).All(adj => grid[adj] is Element.SCAFFOLD))
                               .Sum(p => p.X * p.Y);
-        AoCUtils.LogPart1(alignment);
+        ChallengeUtils.LogPart1(alignment);
 
         // Extract routines
         string path = GetPath(grid, startPosition, startDirection);
@@ -108,7 +108,7 @@ public sealed partial class Day17 : IntcodeSolver
             }
         }
 
-        AoCUtils.LogPart2(this.VM.Output.GetValue());
+        ChallengeUtils.LogPart2(this.VM.Output.GetValue());
     }
 
     private List<List<Element>> GetRows(ref Vector2<int> startPosition, ref Direction startDirection)
@@ -272,7 +272,7 @@ public sealed partial class Day17 : IntcodeSolver
 
         // Push answer
         this.VM.Input.WriteLine(line);
-        AoCUtils.Log(line);
+        ChallengeUtils.Log(line);
     }
 
     private void PrintView(ConsoleView<Element> grid)

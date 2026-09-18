@@ -1,12 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using CommunityToolkit.HighPerformance;
 using ZLinq;
 
@@ -277,7 +277,7 @@ public sealed partial class Day24 : Solver<(Day24.Army immune, Day24.Army infect
         // Get the total unit count for the winning army
         Army winning = immune.IsEmpty ? infection : immune;
         int remainingUnits = winning.Sum(g => g.Units);
-        AoCUtils.LogPart1(remainingUnits);
+        ChallengeUtils.LogPart1(remainingUnits);
 
         int boost = 0;
         do
@@ -289,7 +289,7 @@ public sealed partial class Day24 : Solver<(Day24.Army immune, Day24.Army infect
 
         // Print out immune system armies
         remainingUnits = immune.Sum(g => g.Units);
-        AoCUtils.LogPart2(remainingUnits);
+        ChallengeUtils.LogPart2(remainingUnits);
     }
 
     /// <summary>

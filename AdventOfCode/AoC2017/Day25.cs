@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -64,7 +64,7 @@ public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char
             position += action.Move;
             state = this.Data.states[action.Next];
         }
-        AoCUtils.LogPart1(tape.Values.AsValueEnumerable().Count(true));
+        ChallengeUtils.LogPart1(tape.Values.AsValueEnumerable().Count(true));
     }
 
     /// <inheritdoc />

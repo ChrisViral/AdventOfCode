@@ -1,10 +1,10 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
-using Transformation = System.Func<AdventOfCode.Maths.Vectors.Vector3<int>, AdventOfCode.Maths.Vectors.Vector3<int>>;
+using Transformation = System.Func<Challenge.Maths.Vectors.Vector3<int>, Challenge.Maths.Vectors.Vector3<int>>;
 
 namespace AdventOfCode.AoC2021;
 
@@ -94,10 +94,10 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
             }
         }
 
-        AoCUtils.LogPart1(allBeacons.Count);
+        ChallengeUtils.LogPart1(allBeacons.Count);
 
         int distance = scanners.Max(first => scanners.Max(second => Vector3<int>.ManhattanDistance(first, second)));
-        AoCUtils.LogPart2(distance);
+        ChallengeUtils.LogPart2(distance);
     }
 
     // ReSharper disable once CognitiveComplexity

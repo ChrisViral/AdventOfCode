@@ -1,12 +1,12 @@
 ﻿using AdventOfCode.AoC2017.Common;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Collections.Pooling;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -43,7 +43,7 @@ public sealed class Day14 : Solver<string>
             used += (int)UInt128.PopCount(hash.Data);
             hash.CopyTo(disk.GetRow(i));
         }
-        AoCUtils.LogPart1(used);
+        ChallengeUtils.LogPart1(used);
 
         int groups = 0;
         HashSet<Vector2<int>> positions = Vector2<int>.EnumerateOver(SIZE, SIZE).ToHashSet();
@@ -54,7 +54,7 @@ public sealed class Day14 : Solver<string>
                 groups++;
             }
         }
-        AoCUtils.LogPart2(groups);
+        ChallengeUtils.LogPart2(groups);
     }
 
     private static bool RemoveGroup(HashSet<Vector2<int>> unexplored, Grid<bool> disk)

@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -40,7 +40,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
              || max.Y < min.Y
              || max.Z < min.Z)
             {
-                AoCUtils.Swap(ref min, ref max);
+                ChallengeUtils.Swap(ref min, ref max);
             }
 
             this.Min = min;
@@ -115,7 +115,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
         }
 
         Brick[] notSafe = this.Data.Where(b => !b.SafeToDisintegrate()).ToArray();
-        AoCUtils.LogPart1(this.Data.Length - notSafe.Length);
+        ChallengeUtils.LogPart1(this.Data.Length - notSafe.Length);
 
         int total = 0;
         HashSet<Brick> collapsed = [];
@@ -137,7 +137,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
             collapsed.Clear();
         }
 
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

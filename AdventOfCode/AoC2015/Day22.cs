@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2015;
@@ -273,11 +273,11 @@ public sealed class Day22 : Solver<Day22.Stats>
 
         // Part 1: no bleed
         int manaCost = ExecutePlayerTurn(state, 0);
-        AoCUtils.LogPart1(manaCost);
+        ChallengeUtils.LogPart1(manaCost);
 
         // Part 2: with bleed
         manaCost = ExecutePlayerTurn(state, 0, BLEED);
-        AoCUtils.LogPart2(manaCost);
+        ChallengeUtils.LogPart2(manaCost);
     }
 
     /// <summary>

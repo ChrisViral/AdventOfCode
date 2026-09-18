@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -41,9 +41,9 @@ public sealed partial class Day02 : RegexSolver<Day02.Box>
     public override void Run()
     {
         int totalArea = this.Data.Sum(b => b.Area + int.Min(b.TopArea, b.FrontArea, b.SideArea));
-        AoCUtils.LogPart1(totalArea);
+        ChallengeUtils.LogPart1(totalArea);
 
         int totalLength = this.Data.Sum(b => b.Volume + b.Perimeter - (int.Max(b.Length, b.Width, b.Height) * 2));
-        AoCUtils.LogPart2(totalLength);
+        ChallengeUtils.LogPart2(totalLength);
     }
 }

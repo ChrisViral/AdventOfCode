@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -47,7 +47,7 @@ public sealed class Day12 : GridSolver<int>
                                              FindNeighbours,
                                              MinSearchComparer<double>.Comparer)
                               .GetValueOrDefault(-1);
-        AoCUtils.LogPart1(path);
+        ChallengeUtils.LogPart1(path);
 
         int shortestPath = path;
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height)
@@ -63,7 +63,7 @@ public sealed class Day12 : GridSolver<int>
             shortestPath = Math.Min(shortestPath, path);
         }
 
-        AoCUtils.LogPart2(shortestPath);
+        ChallengeUtils.LogPart2(shortestPath);
     }
 
     private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node)

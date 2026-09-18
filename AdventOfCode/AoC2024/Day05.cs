@@ -1,8 +1,8 @@
 ﻿using System.Buffers;
 using System.Runtime.InteropServices;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -33,10 +33,10 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
     {
         ILookup<bool, Rule[]> updatesLookup = this.Data.ToLookup(u => IsUpdateValid(u));
         int middlePages = updatesLookup[true].Sum(u => u[u.Length / 2].Value);
-        AoCUtils.LogPart1(middlePages);
+        ChallengeUtils.LogPart1(middlePages);
 
         middlePages = updatesLookup[false].Sum(u => FixUpdate(u));
-        AoCUtils.LogPart2(middlePages);
+        ChallengeUtils.LogPart2(middlePages);
     }
 
     private static bool IsUpdateValid(in ReadOnlySpan<Rule> update)
@@ -62,7 +62,7 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
                 ref Rule before = ref update[^j];
                 if (before.MustFollow.Contains(tail.Value))
                 {
-                    AoCUtils.Swap(ref tail, ref before);
+                    ChallengeUtils.Swap(ref tail, ref before);
                 }
             }
         }

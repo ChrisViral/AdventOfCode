@@ -1,10 +1,10 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2025;
 
@@ -81,7 +81,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
                              .OrderByDescending(c => c.Count)
                              .Take(3)
                              .Multiply(c => c.Count + 1);
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         // Keep joining until everything is merged
         int mergedCount = this.Data.Length - 1;
@@ -93,7 +93,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
                 break;
             }
         }
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
             // Put largest circuit into A
             if (aCircuit.Count < bCircuit.Count)
             {
-                AoCUtils.Swap(ref aCircuit, ref bCircuit);
+                ChallengeUtils.Swap(ref aCircuit, ref bCircuit);
             }
 
             // Merge circuits

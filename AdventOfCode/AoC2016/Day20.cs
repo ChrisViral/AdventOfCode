@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -51,7 +51,7 @@ public sealed class Day20 : ArraySolver<Day20.IPRange>
         // Check earliest available spot
         IPRange firstBlocked = merged[0];
         uint lowest = firstBlocked.Start is not 0 ? 0 : firstBlocked.End + 1;
-        AoCUtils.LogPart1(lowest);
+        ChallengeUtils.LogPart1(lowest);
 
         // Add allowed spots at start/end
         uint allowed = firstBlocked.Start + (uint.MaxValue - merged[^1].End);
@@ -63,7 +63,7 @@ public sealed class Day20 : ArraySolver<Day20.IPRange>
             allowed += next.Start - current.End - 1;
             current = next;
         }
-        AoCUtils.LogPart2(allowed);
+        ChallengeUtils.LogPart2(allowed);
     }
 
     /// <inheritdoc />

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2023;
 
@@ -51,7 +51,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
     public override void Run()
     {
         long total = this.Data.Sum(d => CountMatches(d.condition, d.groups));
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         foreach (int i in ..this.Data.Length)
         {
@@ -62,7 +62,7 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
         }
 
         total = this.expandedData.Sum(d => CountMatches(d.condition, d.groups));
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     // ReSharper disable once CognitiveComplexity

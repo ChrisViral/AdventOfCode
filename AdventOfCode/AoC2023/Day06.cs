@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -25,14 +25,14 @@ public sealed class Day06 : Solver<(int time, int record)[]>
     {
 
         int result = this.Data.Aggregate(1, (r, c) => r * CountRecordBreaks(c.time, c.record));
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         long time   = long.Parse(this.Data.Select(d => d.time.ToString())
             .Aggregate((a, b) => a + b));
         long record = long.Parse(this.Data.Select(d => d.record.ToString())
             .Aggregate((a, b) => a + b));
         long total = CountRecordBreaks(time, record);
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     private static T CountRecordBreaks<T>(T time, T record) where T : IBinaryInteger<T>

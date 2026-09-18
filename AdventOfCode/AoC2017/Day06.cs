@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -70,10 +70,10 @@ public sealed class Day06 : Solver<int[]>
 
             steps++;
         }
-        AoCUtils.LogPart1(steps);
+        ChallengeUtils.LogPart1(steps);
 
         int lastSeen = states[memoryBanks];
-        AoCUtils.LogPart2(steps - lastSeen);
+        ChallengeUtils.LogPart2(steps - lastSeen);
     }
 
     /// <inheritdoc />

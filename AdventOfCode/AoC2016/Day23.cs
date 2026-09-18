@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2016.Assembunny;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2016;
 
@@ -28,10 +28,10 @@ public sealed class Day23 : RegexSolver<Instruction>
     public override void Run()
     {
         int password = RunProgram(PART1_VALUE);
-        AoCUtils.LogPart1(password);
+        ChallengeUtils.LogPart1(password);
 
         password = RunProgram(PART2_VALUE);
-        AoCUtils.LogPart2(password);
+        ChallengeUtils.LogPart2(password);
     }
 
     private int RunProgram(int initialValue)

@@ -1,7 +1,7 @@
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -45,7 +45,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     {
         SlideReflector(Direction.NORTH);
         int load = CalculateLoad(this.Data);
-        AoCUtils.LogPart1(load);
+        ChallengeUtils.LogPart1(load);
 
         SlideReflector(Direction.WEST);
         SlideReflector(Direction.SOUTH);
@@ -71,7 +71,7 @@ public sealed class Day14 : GridSolver<Day14.Rock>
         string[] endState = this.states.First(p => p.Value == end).Key.Split('\n', DEFAULT_OPTIONS);
         Grid<Rock> finalGrid = new(this.Data.Width, this.Data.Height, endState, LineConverter);
         load = CalculateLoad(finalGrid);
-        AoCUtils.LogPart2(load);
+        ChallengeUtils.LogPart2(load);
     }
 
     // ReSharper disable once CognitiveComplexity

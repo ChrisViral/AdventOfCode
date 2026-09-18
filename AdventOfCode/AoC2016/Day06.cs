@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -36,8 +36,8 @@ public sealed class Day06 : ArraySolver<string>
             leastLikely[i] = frequencies.AsValueEnumerable().MinBy(p => p.Value).Key;
             frequencies.Clear();
         }
-        AoCUtils.LogPart1(mostLikely.ToString());
-        AoCUtils.LogPart2(leastLikely.ToString());
+        ChallengeUtils.LogPart1(mostLikely.ToString());
+        ChallengeUtils.LogPart2(leastLikely.ToString());
     }
 
     /// <inheritdoc />

@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -37,7 +37,7 @@ public sealed class Day11 : GridSolver<byte>
             // Simulate flashes for each day
             flashes += SimulateFlashes();
         }
-        AoCUtils.LogPart1(flashes);
+        ChallengeUtils.LogPart1(flashes);
 
         int day = DAYS;
         do
@@ -47,7 +47,7 @@ public sealed class Day11 : GridSolver<byte>
             flashes = SimulateFlashes();
         }
         while (flashes != this.Grid.Size);
-        AoCUtils.LogPart2(day);
+        ChallengeUtils.LogPart2(day);
     }
 
     /// <summary>

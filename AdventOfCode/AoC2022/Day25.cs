@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2022;
 
@@ -23,7 +23,7 @@ public sealed class Day25 : ArraySolver<long>
     {
         // Get the data sum and then convert to SNAFU
         long sum = this.Data.Sum();
-        AoCUtils.LogPart1(ToSNAFU(sum));
+        ChallengeUtils.LogPart1(ToSNAFU(sum));
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -68,8 +68,8 @@ public sealed class Day24 : Solver<(int a, int b, int c)[]>
         }
 
         // Print both results
-        AoCUtils.LogPart1(largestResult.ToString());
-        AoCUtils.LogPart2(smallestResult.ToString());
+        ChallengeUtils.LogPart1(largestResult.ToString());
+        ChallengeUtils.LogPart2(smallestResult.ToString());
     }
 
     /// <inheritdoc />

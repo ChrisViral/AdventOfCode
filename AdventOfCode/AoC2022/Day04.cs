@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -43,8 +43,8 @@ public sealed partial class Day04 : Solver<((int, int) first, (int, int) second)
             }
         }
 
-        AoCUtils.LogPart1(fullOverlaps);
-        AoCUtils.LogPart2(partialOverlaps);
+        ChallengeUtils.LogPart1(fullOverlaps);
+        ChallengeUtils.LogPart2(partialOverlaps);
     }
 
     /// <inheritdoc />

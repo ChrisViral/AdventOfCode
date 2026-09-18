@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -43,7 +43,7 @@ public sealed class Day04 : Solver<Range>
                 valid.Add(code);
             }
         }
-        AoCUtils.LogPart1(valid.Count);
+        ChallengeUtils.LogPart1(valid.Count);
 
         int fullyValid = 0;
         foreach (int code in valid)
@@ -80,7 +80,7 @@ public sealed class Day04 : Solver<Range>
             }
         }
 
-        AoCUtils.LogPart2(fullyValid);
+        ChallengeUtils.LogPart2(fullyValid);
     }
 
     /// <inheritdoc />

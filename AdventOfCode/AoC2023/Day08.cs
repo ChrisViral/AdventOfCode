@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -31,7 +31,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
     public override void Run()
     {
         int steps = CalculateSteps(START, n => n is END);
-        AoCUtils.LogPart1(steps);
+        ChallengeUtils.LogPart1(steps);
 
         HashSet<string> endNodes = new(this.Data.map.Keys.Where(n => n[^1] is 'Z'));
         long totalSteps = this.Data.map.Keys
@@ -39,7 +39,7 @@ public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<s
                               .Select(s => (long)CalculateSteps(s, endNodes.Contains))
                               .Aggregate(long.LCM);
 
-        AoCUtils.LogPart2(totalSteps);
+        ChallengeUtils.LogPart2(totalSteps);
     }
 
     private int CalculateSteps(string start, Predicate<string> reachedEnd)

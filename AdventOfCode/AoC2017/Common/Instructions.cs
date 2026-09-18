@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Utils;
+using Challenge.Utils;
 
 namespace AdventOfCode.AoC2017.Common;
 

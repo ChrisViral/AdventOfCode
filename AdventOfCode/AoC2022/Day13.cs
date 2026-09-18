@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2022;
 
@@ -163,12 +163,12 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
             }
         }
 
-        AoCUtils.LogPart1(inOrder);
+        ChallengeUtils.LogPart1(inOrder);
 
         packets.Sort();
         int firstDivider  = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 2 }] }]);
         int secondDivider = packets.FindIndex(p => p.Elements is [PacketList { Elements: [PacketValue { Value: 6 }] }]);
-        AoCUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
+        ChallengeUtils.LogPart2((firstDivider + 1) * (secondDivider + 1));
     }
 
     /// <inheritdoc />

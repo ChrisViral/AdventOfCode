@@ -1,10 +1,10 @@
-﻿using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -83,7 +83,7 @@ public sealed class Day24 : GridSolver<char>
 
         // Search for a way to get to all locations
         SearchUtils.Search(startState, endState, null, SearchPath, MinSearchComparer<int>.Comparer, out int pathLength);
-        AoCUtils.LogPart1(pathLength);
+        ChallengeUtils.LogPart1(pathLength);
 
         // Switch to checking for current location for path completion
         startState = startState with { UseLocation = true };
@@ -91,7 +91,7 @@ public sealed class Day24 : GridSolver<char>
 
         // Search again
         SearchUtils.Search(startState, endState, null, SearchPath, MinSearchComparer<int>.Comparer, out pathLength);
-        AoCUtils.LogPart2(pathLength);
+        ChallengeUtils.LogPart2(pathLength);
     }
 
     private IEnumerable<Vector2<int>> SearchNeighbours(Vector2<int> position) => position.AsAdjacentEnumerable()

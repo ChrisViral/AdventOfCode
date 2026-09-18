@@ -1,7 +1,7 @@
 ﻿using System.Collections.Frozen;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2025;
 
@@ -53,7 +53,7 @@ public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
         Device end = this.Data[OUT];
 
         int pathes = GetPathesCount(you, end);
-        AoCUtils.LogPart1(pathes);
+        ChallengeUtils.LogPart1(pathes);
 
         Device svr = this.Data["svr"];
         Device dac = this.Data["dac"];
@@ -76,7 +76,7 @@ public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
             totalPathes *= GetPathesCount(fft, end);
         }
 
-        AoCUtils.LogPart2(totalPathes);
+        ChallengeUtils.LogPart2(totalPathes);
     }
 
     private static FrozenSet<Device> GetAllParents(Device device)

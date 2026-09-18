@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2022;
 
@@ -30,7 +30,7 @@ public sealed class Day03 : Solver<string[]>
             total += GetPriority(first[index]);
         }
 
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = 0;
         for (int i = 0; i < this.Data.Length; /*i += 3*/)
@@ -42,7 +42,7 @@ public sealed class Day03 : Solver<string[]>
             total += GetPriority(match);
         }
 
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

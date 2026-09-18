@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -36,7 +36,7 @@ public sealed class Day04 : GridSolver<char>
                 }
             }
         }
-        AoCUtils.LogPart1(hits);
+        ChallengeUtils.LogPart1(hits);
 
         hits = 0;
         foreach (Vector2<int> startPos in this.Data.Dimensions.Enumerate())
@@ -95,7 +95,7 @@ public sealed class Day04 : GridSolver<char>
                 }
             }
         }
-        AoCUtils.LogPart2(hits);
+        ChallengeUtils.LogPart2(hits);
     }
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>

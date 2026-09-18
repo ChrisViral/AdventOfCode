@@ -1,14 +1,14 @@
 ﻿using System.Buffers;
 using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Pooling.Arrays;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Collections.Pooling.Arrays;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;
@@ -229,7 +229,7 @@ public sealed class Day18 : GridSolver<char>
 
         // Run part 1
         int pathLength = FindBestKeyPath(keys, () => robot.Position);
-        AoCUtils.LogPart1(pathLength);
+        ChallengeUtils.LogPart1(pathLength);
 
         // Update grid
         this.Grid[start] = WALL;
@@ -253,7 +253,7 @@ public sealed class Day18 : GridSolver<char>
 
         // Run part 2
         pathLength = FindBestKeyPath(keys, () => RobotsData.FromArray(Robots));
-        AoCUtils.LogPart2(pathLength);
+        ChallengeUtils.LogPart2(pathLength);
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Spans;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Spans;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -35,10 +35,10 @@ public sealed class Day16 : Solver<string>
                  .CopyTo(Buffer);
 
         string checksum = CalculateChecksum(PART1_SIZE, ref bufferLength);
-        AoCUtils.LogPart1(checksum);
+        ChallengeUtils.LogPart1(checksum);
 
         checksum = CalculateChecksum(PART2_SIZE, ref bufferLength);
-        AoCUtils.LogPart2(checksum);
+        ChallengeUtils.LogPart2(checksum);
     }
 
     private static string CalculateChecksum(int diskSize, ref int bufferLength)

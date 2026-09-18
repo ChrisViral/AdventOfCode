@@ -1,10 +1,10 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers.Specialized;
 using Microsoft.Z3;
 using ZLinq;
 
@@ -75,16 +75,16 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
     public Day10(string input) : base(input) { }
 
-    /// <inheritdoc cref="Solvers.Solver.Run"/>
+    /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
         int presses = this.Data.Sum(GetMinimumPresses);
-        AoCUtils.LogPart1(presses);
+        ChallengeUtils.LogPart1(presses);
 
         JoltagePressHelper helper = new();
         helper.ForEach(this.Data);
-        AoCUtils.LogPart2(joltagePresses);
+        ChallengeUtils.LogPart2(joltagePresses);
     }
 
     private static int GetMinimumPresses(Machine machine)

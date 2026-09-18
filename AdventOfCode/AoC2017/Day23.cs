@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2017.Common;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2017;
@@ -40,7 +40,7 @@ public sealed class Day23 : RegexSolver<Instruction>
             }
         }
         while (address >= 0 && address < this.Data.Length);
-        AoCUtils.LogPart1(multiplications);
+        ChallengeUtils.LogPart1(multiplications);
 
         // Extract registers index for lower and upper bound
         int lowerBoundIndex = (int)this.Data[0].X.Value;
@@ -71,7 +71,7 @@ public sealed class Day23 : RegexSolver<Instruction>
                 notPrime++;
             }
         }
-        AoCUtils.LogPart2(notPrime);
+        ChallengeUtils.LogPart2(notPrime);
     }
 
     private static void RunInstruction(in Instruction instruction, ref Registers registers, ref int address)

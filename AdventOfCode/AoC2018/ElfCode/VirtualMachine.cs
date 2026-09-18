@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Enums;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2018.ElfCode;

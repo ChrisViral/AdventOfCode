@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -44,7 +44,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
             }
         }
 
-        AoCUtils.LogPart1(validY[^1].Triangular);
+        ChallengeUtils.LogPart1(validY[^1].Triangular);
 
         int minX = (1..^this.Data.xRange.From).First(n => n.Triangular >= this.Data.xRange.From);
 
@@ -67,7 +67,7 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
                 }
             }
         }
-        AoCUtils.LogPart2(count);
+        ChallengeUtils.LogPart2(count);
     }
 
     /// <inheritdoc />

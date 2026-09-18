@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -28,7 +28,7 @@ public sealed class Day24 : ArraySolver<int>
         {
             entanglement = FindBestFirstGroup(new BitVector32(), 1, maxGroupSize, 0, targetWeight, 3);
         }
-        AoCUtils.LogPart1(entanglement);
+        ChallengeUtils.LogPart1(entanglement);
 
         entanglement = long.MaxValue;
         targetWeight = totalWeight / 4;
@@ -36,7 +36,7 @@ public sealed class Day24 : ArraySolver<int>
         {
             entanglement = FindBestFirstGroup(new BitVector32(), 1, maxGroupSize, 0, targetWeight, 4);
         }
-        AoCUtils.LogPart2(entanglement);
+        ChallengeUtils.LogPart2(entanglement);
     }
 
     // ReSharper disable once CognitiveComplexity

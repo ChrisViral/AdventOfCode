@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -37,11 +37,11 @@ public sealed class Day15 : Solver<Dictionary<int, int>>
 
         //Part 1
         GetToTarget(ref turn, ref wasFirst, ref last, FIRST_TARGET, previous);
-        AoCUtils.LogPart1(last);
+        ChallengeUtils.LogPart1(last);
 
         //Part 2 (takes a couple seconds but who cares)
         GetToTarget(ref turn, ref wasFirst, ref last, SECOND_TARGET, previous);
-        AoCUtils.LogPart2(last);
+        ChallengeUtils.LogPart2(last);
     }
 
     /// <summary>

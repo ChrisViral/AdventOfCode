@@ -1,6 +1,6 @@
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using AdventOfCode.AoC2019.Solvers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2019;
 
@@ -32,7 +32,7 @@ public sealed class Day02 : IntcodeSolver
         this.VM[1] = 12L;
         this.VM[2] = 2L;
         this.VM.Run();
-        AoCUtils.LogPart1(this.VM[0]);
+        ChallengeUtils.LogPart1(this.VM[0]);
 
         foreach (int noun in ..MAX_ARG)
         {
@@ -47,7 +47,7 @@ public sealed class Day02 : IntcodeSolver
                 this.VM.Run();
                 if (this.VM[0] is TARGET)
                 {
-                    AoCUtils.LogPart2((noun * 100) + verb);
+                    ChallengeUtils.LogPart2((noun * 100) + verb);
                     return;
                 }
             }

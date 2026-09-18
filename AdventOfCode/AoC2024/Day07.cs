@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2024;
 
@@ -23,10 +23,10 @@ public sealed class Day07 : ArraySolver<(long test, long[] operands)>
     {
         ILookup<bool, (long test, long[] operands)> calibrations = this.Data.ToLookup(IsValidOperation);
         long calibrationResult = calibrations[true].Sum(e => e.test);
-        AoCUtils.LogPart1(calibrationResult);
+        ChallengeUtils.LogPart1(calibrationResult);
 
         calibrationResult += calibrations[false].Where(IsValidWithConcatenation).Sum(e => e.test);
-        AoCUtils.LogPart2(calibrationResult);
+        ChallengeUtils.LogPart2(calibrationResult);
     }
 
     private static bool IsValidOperation((long test, long[] operands) equation)

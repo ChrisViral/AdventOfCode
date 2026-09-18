@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AdventOfCode.Utils.Extensions.Assemblies;
+using Challenge.Utils.Extensions.Assemblies;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.CLI;

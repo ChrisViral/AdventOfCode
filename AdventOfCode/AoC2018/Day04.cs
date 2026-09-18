@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -101,13 +101,13 @@ public sealed partial class Day04 : RegexSolver<Day04.Schedule>
         (int id, int[] time) = guards.MaxBy(g => g.Value.Sum());
         int minuteIndex = time.Select((m, i) => (m, i))
                               .MaxBy(value => value.m).i;
-        AoCUtils.LogPart1(id * minuteIndex);
+        ChallengeUtils.LogPart1(id * minuteIndex);
 
         (id, (_, minuteIndex)) = guards.Select(g => (id: g.Key,
                                                      maxMin: g.Value
                                                               .Select((m, i) => (m, i))
                                                               .MaxBy(value => value.m)))
                                        .MaxBy(g => g.maxMin.m);
-        AoCUtils.LogPart2(id * minuteIndex);
+        ChallengeUtils.LogPart2(id * minuteIndex);
     }
 }

@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -35,13 +35,13 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
         {
             image = ApplyAlgorithm(image, !i.IsEven);
         }
-        AoCUtils.LogPart1(image.Count(b => b));
+        ChallengeUtils.LogPart1(image.Count(b => b));
 
         foreach (int i in PASSES..LONG_PASSES)
         {
             image = ApplyAlgorithm(image, !i.IsEven);
         }
-        AoCUtils.LogPart2(image.Count(b => b));
+        ChallengeUtils.LogPart2(image.Count(b => b));
     }
 
     private Grid<bool> ApplyAlgorithm(Grid<bool> image, bool externStatus)

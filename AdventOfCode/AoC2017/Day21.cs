@@ -1,12 +1,12 @@
 ﻿using System.Collections.Frozen;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -66,13 +66,13 @@ public sealed partial class Day21 : Solver<FrozenDictionary<Grid<bool>, Grid<boo
         {
             UpdateArt(ref current);
         }
-        AoCUtils.LogPart1(current.AsValueEnumerable().Count(true));
+        ChallengeUtils.LogPart1(current.AsValueEnumerable().Count(true));
 
         foreach (int _ in PART1..PART2)
         {
             UpdateArt(ref current);
         }
-        AoCUtils.LogPart2(current.AsValueEnumerable().Count(true));
+        ChallengeUtils.LogPart2(current.AsValueEnumerable().Count(true));
     }
 
     private void UpdateArt(ref Grid<bool> current)

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2024;
 
@@ -23,10 +23,10 @@ public sealed class Day02 : ArraySolver<int[]>
     {
         int[][] unsafeReports = this.Data.WhereNot(IsSafe).ToArray();
         int safe = this.Data.Length - unsafeReports.Length;
-        AoCUtils.LogPart1(safe);
+        ChallengeUtils.LogPart1(safe);
 
         int safeDampened = unsafeReports.Count(IsSafeDampened);
-        AoCUtils.LogPart2(safe + safeDampened);
+        ChallengeUtils.LogPart2(safe + safeDampened);
     }
 
     private static bool IsSafe(ICollection<int> report)

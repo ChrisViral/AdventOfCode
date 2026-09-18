@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -65,10 +65,10 @@ public sealed class Day03 : GridSolver<char>
                 numbers?.Add(number);
             }
         }
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         long gearRatio = gears.Values.Where(n => n.Count is 2).Sum(n => n[0] * n[1]);
-        AoCUtils.LogPart2(gearRatio);
+        ChallengeUtils.LogPart2(gearRatio);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

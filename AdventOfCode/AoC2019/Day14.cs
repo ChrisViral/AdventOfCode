@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -132,7 +132,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
         // Setup
         Queue<Chemical> productionQueue = new(100);
         int oreRequired = ProduceOneFuel(productionQueue);
-        AoCUtils.LogPart1(oreRequired);
+        ChallengeUtils.LogPart1(oreRequired);
 
         // Setup to churn numbers
         int fuelProduced  = 1;
@@ -151,7 +151,7 @@ public sealed partial class Day14 : Solver<Day14.Chemical>
             fuelProduced--;
         }
 
-        AoCUtils.LogPart2(fuelProduced);
+        ChallengeUtils.LogPart2(fuelProduced);
     }
 
     /// <summary>

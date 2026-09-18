@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2017;
 
@@ -20,10 +20,10 @@ public sealed class Day02 : ArraySolver<int[]>
     public override void Run()
     {
         int checksum = this.Data.Sum(GetRowDiff);
-        AoCUtils.LogPart1(checksum);
+        ChallengeUtils.LogPart1(checksum);
 
         checksum = this.Data.Sum(GetRowQuotient);
-        AoCUtils.LogPart2(checksum);
+        ChallengeUtils.LogPart2(checksum);
     }
 
     private static int GetRowDiff(int[] row)

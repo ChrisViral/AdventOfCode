@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -100,7 +100,7 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
                 totalError += error;
             }
         }
-        AoCUtils.LogPart1(totalError);
+        ChallengeUtils.LogPart1(totalError);
 
         int length = this.Data.fields.Count;
         Field[] order = new Field[length];
@@ -134,7 +134,7 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
             }
         }
 
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <inheritdoc />

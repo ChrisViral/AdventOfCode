@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -32,7 +32,7 @@ public sealed class Day18 : GridSolver<bool>
         {
             UpdateLights(lights);
         }
-        AoCUtils.LogPart1(lights.Count(true));
+        ChallengeUtils.LogPart1(lights.Count(true));
 
         lights = new DelayedGrid<bool>(this.Grid);
         SetFixedLights(lights);
@@ -42,7 +42,7 @@ public sealed class Day18 : GridSolver<bool>
         {
             UpdateLights(lights, true);
         }
-        AoCUtils.LogPart2(lights.Count(true));
+        ChallengeUtils.LogPart2(lights.Count(true));
     }
 
     // ReSharper disable once CognitiveComplexity

@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2023;
 
@@ -22,10 +22,10 @@ public sealed class Day09 : ArraySolver<long[]>
     public override void Run()
     {
         long total = this.Data.Sum(a => GetNextValue(a));
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = this.Data.Sum(a => GetNextValue(a, true));
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     private static long GetNextValue(in Span<long> values, bool backwards = false)

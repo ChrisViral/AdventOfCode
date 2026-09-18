@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Collections.Pooling;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -68,9 +68,9 @@ public sealed class Day20 : Solver<string>
 
         // Answers
         int furthestRoom = map.Values.Max(r => r.Depth);
-        AoCUtils.LogPart1(furthestRoom);
+        ChallengeUtils.LogPart1(furthestRoom);
         int farRooms = map.Values.Count(r => r.Depth >= 1000);
-        AoCUtils.LogPart2(farRooms);
+        ChallengeUtils.LogPart2(farRooms);
     }
 
     private void ExploreAllRooms(Room start, out Dictionary<Vector2<int>, Room> map)

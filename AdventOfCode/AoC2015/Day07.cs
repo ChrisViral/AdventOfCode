@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Regexes;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Regexes;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -112,7 +112,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.LogicGate>>
         LogicGate finalGate = this.Data["a"];
         ushort value = finalGate.Evaluate(this.Data);
         string result = value.ToString();
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         // Reset wires
         this.Data.Values.ForEach(g => g.Reset());
@@ -122,7 +122,7 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.LogicGate>>
 
         // Get value at gate A
         value = finalGate.Evaluate(this.Data);
-        AoCUtils.LogPart2(value);
+        ChallengeUtils.LogPart2(value);
     }
 
     /// <inheritdoc />

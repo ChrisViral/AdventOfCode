@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2017;
 
@@ -108,7 +108,7 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
             }
         }
         int maxRegister = registers.Values.Max();
-        AoCUtils.LogPart1(maxRegister);
-        AoCUtils.LogPart2(max);
+        ChallengeUtils.LogPart1(maxRegister);
+        ChallengeUtils.LogPart2(max);
     }
 }

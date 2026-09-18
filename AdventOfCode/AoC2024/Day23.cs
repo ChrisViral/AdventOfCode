@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Collections.Pooling;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -156,13 +156,13 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
 
         // Count groups with a node starting with t
         int validGroups = groups.Count(g => g.A[0] is 't' || g.B[0] is 't' || g.C[0] is 't');
-        AoCUtils.LogPart1(validGroups);
+        ChallengeUtils.LogPart1(validGroups);
 
         // Run algorithm and find largest group
         HashSet<NetworkNode> nodes = [..this.Data];
         List<NetworkNode[]> cliques = FindAllCliques(nodes);
         NetworkNode[] largestGroup = cliques.MaxBy(c => c.Length)!;
-        AoCUtils.LogPart2(string.Join(',', largestGroup.AsEnumerable().OrderBy(n => n.ID)));
+        ChallengeUtils.LogPart2(string.Join(',', largestGroup.AsEnumerable().OrderBy(n => n.ID)));
     }
 
     /// <summary>

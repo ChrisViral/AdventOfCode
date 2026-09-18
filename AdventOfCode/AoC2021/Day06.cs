@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -28,10 +28,10 @@ public sealed class Day06 : Solver<int[]>
     public override void Run()
     {
         long count = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(DAYS - fish - 1));
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.LogPart1(count);
 
         count      = this.Data.Length + this.Data.Sum(fish => CalculateDescendantsCount(LONG_DAYS - fish - 1));
-        AoCUtils.LogPart2(count);
+        ChallengeUtils.LogPart2(count);
     }
 
     /// <summary>

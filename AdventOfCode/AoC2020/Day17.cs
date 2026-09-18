@@ -1,7 +1,7 @@
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -116,8 +116,8 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<V
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(this.Data.part1.Simulate(6));
-        AoCUtils.LogPart2(this.Data.part2.Simulate(6));
+        ChallengeUtils.LogPart1(this.Data.part1.Simulate(6));
+        ChallengeUtils.LogPart2(this.Data.part2.Simulate(6));
     }
 
     /// <inheritdoc />

@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2017;
@@ -53,8 +53,8 @@ public sealed class Day11 : Solver<Day11.HexDirection[]>
             maxDistance = Math.Max(maxDistance, distance);
         }
 
-        AoCUtils.LogPart1(distance);
-        AoCUtils.LogPart2(maxDistance);
+        ChallengeUtils.LogPart1(distance);
+        ChallengeUtils.LogPart2(maxDistance);
     }
 
     private static int HexDistance(Vector2<int> position)

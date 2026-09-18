@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -93,8 +93,8 @@ public sealed class Day09 : Solver<string>
     {
         ReadOnlySpan<char> data = this.Data;
         Group root = Group.ParseGroup(ref data);
-        AoCUtils.LogPart1(root.TotalScore);
-        AoCUtils.LogPart2(root.TotalGarbage);
+        ChallengeUtils.LogPart1(root.TotalScore);
+        ChallengeUtils.LogPart2(root.TotalGarbage);
     }
 
     /// <inheritdoc />

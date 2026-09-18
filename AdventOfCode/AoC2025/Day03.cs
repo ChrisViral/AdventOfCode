@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -28,11 +28,11 @@ public sealed class Day03 : Solver
     {
         long pow1 = (PART1_COUNT - 1).LongPow10;
         long joltage = this.Data.AsValueEnumerable().Sum(b => GetMaxJoltage(b, PART1_COUNT, pow1));
-        AoCUtils.LogPart1(joltage);
+        ChallengeUtils.LogPart1(joltage);
 
         long pow2 = (PART2_COUNT - 1).LongPow10;
         joltage = this.Data.Sum(b => GetMaxJoltage(b, PART2_COUNT, pow2));
-        AoCUtils.LogPart2(joltage);
+        ChallengeUtils.LogPart2(joltage);
     }
 
     private static long GetMaxJoltage(ReadOnlySpan<char> bank, int count, long pow)

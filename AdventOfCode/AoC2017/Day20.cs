@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -71,9 +71,9 @@ public sealed partial class Day20 : RegexSolver<Day20.Particle>
 
         Particle closest = this.Data.MinBy(p => p.Position.ManhattanLength)!;
         int id = this.Data.IndexOf(closest);
-        AoCUtils.LogPart1(id);
+        ChallengeUtils.LogPart1(id);
 
         int remaining = this.Data.Count(p => !p.IsDestroyed);
-        AoCUtils.LogPart2(remaining);
+        ChallengeUtils.LogPart2(remaining);
     }
 }

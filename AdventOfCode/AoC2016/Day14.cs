@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -34,11 +34,11 @@ public sealed class Day14 : Solver<byte[]>
     {
         List<string> cache = new(30_000);
         int keyIndex = GetFinalKeyIndex(cache);
-        AoCUtils.LogPart1(keyIndex);
+        ChallengeUtils.LogPart1(keyIndex);
 
         cache.Clear();
         keyIndex = GetFinalKeyIndex(cache, PART2_HASHES);
-        AoCUtils.LogPart2(keyIndex);
+        ChallengeUtils.LogPart2(keyIndex);
     }
 
     private int GetFinalKeyIndex(List<string> cache, int extraHashes = 0)

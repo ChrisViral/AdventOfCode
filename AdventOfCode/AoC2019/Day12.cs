@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 
 namespace AdventOfCode.AoC2019;
@@ -159,7 +159,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
             zStates.Add(GetSystemState(Axes.Z));
         }
 
-        AoCUtils.LogPart1(this.Data.Sum(m => m.Energy));
+        ChallengeUtils.LogPart1(this.Data.Sum(m => m.Energy));
 
         Axes axes = Axes.ALL;
         do
@@ -197,7 +197,7 @@ public sealed partial class Day12 : Solver<Day12.Moon[]>
         while (axes is not Axes.NONE);
 
         long repeatTime = long.LCM(xStates.Count, yStates.Count, zStates.Count);
-        AoCUtils.LogPart2(repeatTime);
+        ChallengeUtils.LogPart2(repeatTime);
     }
 
     /// <summary>

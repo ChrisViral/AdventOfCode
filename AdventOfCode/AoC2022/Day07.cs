@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -142,14 +142,14 @@ public sealed class Day07 : Solver<Day07.Directory>
                                  .Select(dir => dir.Size)
                                  .Where(size => size < MAX_SIZE)
                                  .Sum();
-        AoCUtils.LogPart1(smallDirsTotal);
+        ChallengeUtils.LogPart1(smallDirsTotal);
 
         int toFree   = this.Data.Size - MAX_USED;
         int toDeleteSize = this.Data
                                .Select(d => d.Size)
                                .OrderBy(s => s)
                                .First(s => s >= toFree);
-        AoCUtils.LogPart2(toDeleteSize);
+        ChallengeUtils.LogPart2(toDeleteSize);
     }
 
     /// <inheritdoc />

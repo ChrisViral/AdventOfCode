@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -85,15 +85,15 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     {
         //Calculate valid for Part 1
         List<Passport> valid = this.Data.Where(p => p.IsValid).ToList();
-        AoCUtils.LogPart1(valid.Count);
+        ChallengeUtils.LogPart1(valid.Count);
 
         //Validate for Part 2
-        AoCUtils.LogPart2(valid.Count(p => p.Validate()));
+        ChallengeUtils.LogPart2(valid.Count(p => p.Validate()));
     }
 
     /// <inheritdoc />
     protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PassportMatcher,
-                                                                                                       AoCUtils.CombineLines(rawInput)
+                                                                                                       ChallengeUtils.CombineLines(rawInput)
                                                                                                                .Select(l => string.Join(' ', l))
                                                                                                                .ToList());
 }

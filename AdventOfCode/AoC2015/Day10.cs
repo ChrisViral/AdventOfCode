@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
-using AdventOfCode.Utils.Extensions.Strings;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Strings;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2015;
 
@@ -33,13 +33,13 @@ public sealed partial class Day10 : Solver<string>
         {
             result = GroupMatcher.Replace(result, Expander);
         }
-        AoCUtils.LogPart1(result.Length);
+        ChallengeUtils.LogPart1(result.Length);
 
         foreach (int _ in PART1_REPEATS..PART2_REPEATS)
         {
             result = GroupMatcher.Replace(result, Expander);
         }
-        AoCUtils.LogPart2(result.Length);
+        ChallengeUtils.LogPart2(result.Length);
     }
 
     private static string Expander(Match match)

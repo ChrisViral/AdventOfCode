@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2022;
 
@@ -30,8 +30,8 @@ public sealed class Day09 : ArraySolver<Vector2<int>>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(SimulateRope(2));
-        AoCUtils.LogPart2(SimulateRope(10));
+        ChallengeUtils.LogPart1(SimulateRope(2));
+        ChallengeUtils.LogPart2(SimulateRope(10));
     }
 
     /// <inheritdoc />

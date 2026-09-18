@@ -1,14 +1,14 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Collections;
+using Challenge.Collections.Pooling;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -333,7 +333,7 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
         // Simulates one round of combat
         int rounds = SimulateCombat(out List<Unit> units);
         int outcome = units.Sum(u => u.HitPoints) * rounds;
-        AoCUtils.LogPart1(outcome);
+        ChallengeUtils.LogPart1(outcome);
 
         // Count the elves on the map
         int elfCount = this.Data.Count(e => e is Unit { IsElf: true });
@@ -348,7 +348,7 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
 
         // Print final outcome
         outcome = units.Sum(u => u.HitPoints) * rounds;
-        AoCUtils.LogPart2(outcome);
+        ChallengeUtils.LogPart2(outcome);
     }
 
     /// <summary>

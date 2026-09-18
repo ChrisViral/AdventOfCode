@@ -1,9 +1,9 @@
 using System.Diagnostics;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -72,7 +72,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         int coordinates = warehouse.Dimensions.Enumerate()
                                    .Where(p => warehouse[p] is Element.BOX)
                                    .Sum(p => (100 * p.Y) + p.X);
-        AoCUtils.LogPart1(coordinates);
+        ChallengeUtils.LogPart1(coordinates);
 
         // Double warehouse size horizontally
         ConsoleView<Element> bigWarehouse = new(this.Data.warehouse.Width * 2, this.Data.warehouse.Height, e => (char)e, Anchor.TOP_LEFT, Element.EMPTY, 60);
@@ -128,7 +128,7 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         coordinates = bigWarehouse.Dimensions.Enumerate()
                                   .Where(p => bigWarehouse[p] is Element.BOX_LEFT)
                                   .Sum(p => (100 * p.Y) + p.X);
-        AoCUtils.LogPart2(coordinates);
+        ChallengeUtils.LogPart2(coordinates);
     }
 
     private static bool TryMoveBox(Vector2<int> boxStart, Grid<Element> warehouse, Direction direction)

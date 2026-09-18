@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
 
 namespace AdventOfCode.AoC2018;
 
@@ -22,10 +22,10 @@ public sealed class Day19 : ElfCodeSolver
     public override void Run()
     {
         int sum = RunVM();
-        AoCUtils.LogPart1(sum);
+        ChallengeUtils.LogPart1(sum);
 
         sum = RunVM(1);
-        AoCUtils.LogPart2(sum);
+        ChallengeUtils.LogPart2(sum);
     }
 
     private int RunVM(int input = 0)

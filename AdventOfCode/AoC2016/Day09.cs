@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2016;
 
@@ -24,10 +24,10 @@ public sealed partial class Day09 : Solver<string>
     public override void Run()
     {
         int decompressedLength = GetDecompressedLength();
-        AoCUtils.LogPart1(decompressedLength);
+        ChallengeUtils.LogPart1(decompressedLength);
 
         long expandedLength = GetExpandedLength(0, this.Data.Length);
-        AoCUtils.LogPart2(expandedLength);
+        ChallengeUtils.LogPart2(expandedLength);
     }
 
     private int GetDecompressedLength()

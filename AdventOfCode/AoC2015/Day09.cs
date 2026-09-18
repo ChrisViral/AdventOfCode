@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2015;
 
@@ -43,8 +43,8 @@ public sealed partial class Day09 : Solver<(ImmutableArray<string> locations, Di
             globalMin = Math.Min(globalMin, min);
             globalMax = Math.Max(globalMax, max);
         }
-        AoCUtils.LogPart1(globalMin);
-        AoCUtils.LogPart2(globalMax);
+        ChallengeUtils.LogPart1(globalMin);
+        ChallengeUtils.LogPart2(globalMax);
     }
 
     private (int min, int max) GetCriticalPaths(string currentLocation, BitVector8 visited, int travelled)

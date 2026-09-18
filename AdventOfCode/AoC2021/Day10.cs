@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -80,7 +80,7 @@ public sealed class Day10 : Solver
             incompleteScores.Add(incompleteScore);
         }
 
-        AoCUtils.LogPart1(brokenScore);
-        AoCUtils.LogPart2(incompleteScores[incompleteScores.Count / 2]);
+        ChallengeUtils.LogPart1(brokenScore);
+        ChallengeUtils.LogPart2(incompleteScores[incompleteScores.Count / 2]);
     }
 }

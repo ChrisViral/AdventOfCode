@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Maths.Vectors.BitVectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using ZLinq;
 
@@ -51,7 +51,7 @@ public sealed class Day24 : GridSolver<bool>
             current.Apply();
             latest = GridToBitVector(current);
         }
-        AoCUtils.LogPart1(latest.Data);
+        ChallengeUtils.LogPart1(latest.Data);
 
         // Create levels map
         Dictionary<int, DelayedGrid<bool>> levels = new(100)
@@ -77,7 +77,7 @@ public sealed class Day24 : GridSolver<bool>
 
         // Sum
         int bugs = levels.Values.Sum(map => map.AsValueEnumerable().Count(true));
-        AoCUtils.LogPart2(bugs);
+        ChallengeUtils.LogPart2(bugs);
     }
 
     private static void UpdateBugs(DelayedGrid<bool> current)

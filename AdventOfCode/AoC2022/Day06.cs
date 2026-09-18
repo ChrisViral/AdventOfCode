@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2022;
 
@@ -24,8 +24,8 @@ public sealed class Day06 : Solver<string>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(FindUniqueSliceOfLength(4));
-        AoCUtils.LogPart2(FindUniqueSliceOfLength(14));
+        ChallengeUtils.LogPart1(FindUniqueSliceOfLength(4));
+        ChallengeUtils.LogPart2(FindUniqueSliceOfLength(14));
     }
 
     /// <inheritdoc />

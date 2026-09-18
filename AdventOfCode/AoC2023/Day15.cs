@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -47,7 +47,7 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
     public override void Run()
     {
         int total = this.Data.Select(i => i.ToString()).Sum(HashCode);
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         List<Lens>[] boxes = new List<Lens>[BOXES];
         boxes.Fill(() => []);
@@ -86,7 +86,7 @@ public sealed partial class Day15 : Solver<Day15.Instruction[]>
             }
         }
 
-        AoCUtils.LogPart2(power);
+        ChallengeUtils.LogPart2(power);
     }
 
     public int HashCode(string code)

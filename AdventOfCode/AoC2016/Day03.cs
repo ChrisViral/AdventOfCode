@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -45,11 +45,11 @@ public sealed partial class Day03 : RegexSolver<Day03.Triangle>
     public override void Run()
     {
         int possible = this.Data.Count(t => t.IsPossible);
-        AoCUtils.LogPart1(possible);
+        ChallengeUtils.LogPart1(possible);
 
         possible = this.Data.Chunk(3)
                        .SelectMany(c => (..3).Select(i => new Triangle(c[0][i], c[1][i], c[2][i])))
                        .Count(t => t.IsPossible);
-        AoCUtils.LogPart2(possible);
+        ChallengeUtils.LogPart2(possible);
     }
 }

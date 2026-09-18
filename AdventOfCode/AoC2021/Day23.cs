@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.ComponentModel;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -229,7 +229,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
     {
         // Sort into respective rooms
         int minEnergy = SortAmphipods();
-        AoCUtils.LogPart1(minEnergy);
+        ChallengeUtils.LogPart1(minEnergy);
 
         // Update room capacities
         this.Data.Rooms.ForEach(r => r.RoomCapacity = 4);
@@ -264,7 +264,7 @@ public sealed class Day23 : Solver<Day23.GraphData>
 
         // Sort into respective rooms
         minEnergy = SortAmphipods();
-        AoCUtils.LogPart2(minEnergy);
+        ChallengeUtils.LogPart2(minEnergy);
     }
 
     /// <summary>

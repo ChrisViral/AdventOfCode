@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Maths;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -50,10 +50,10 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
     public override void Run()
     {
         int area = CalculateShapeSize(this.Data.AsEnumerable().Select(d => d.instruction));
-        AoCUtils.LogPart1(area);
+        ChallengeUtils.LogPart1(area);
 
         long longArea = CalculateShapeSize(this.Data.AsEnumerable().Select(d => d.longInstruction));
-        AoCUtils.LogPart2(longArea);
+        ChallengeUtils.LogPart2(longArea);
     }
 
     public T CalculateShapeSize<T>(IEnumerable<Vector2<T>> verticesInstructions) where T : unmanaged, IBinaryInteger<T>, IMinMaxValue<T>

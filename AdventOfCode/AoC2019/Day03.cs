@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -62,11 +62,11 @@ public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)
 
         // Get closest intersection
         int closest = intersections.Keys.Min(v => v.ManhattanLength);
-        AoCUtils.LogPart1(closest);
+        ChallengeUtils.LogPart1(closest);
 
         // Get intersection with less steps
         closest = intersections.Values.Min();
-        AoCUtils.LogPart2(closest);
+        ChallengeUtils.LogPart2(closest);
     }
 
     /// <inheritdoc />

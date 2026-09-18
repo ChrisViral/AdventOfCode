@@ -1,10 +1,10 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Spans;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Spans;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -74,7 +74,7 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
         // Get risk level across map
         int riskLevel = map.AsSpan2D(this.Data.target.X + 1, this.Data.target.Y + 1)
                            .Sum(t => (int)t);
-        AoCUtils.LogPart1(riskLevel);
+        ChallengeUtils.LogPart1(riskLevel);
 
         // Search path to target
         SearchState start = new(Vector2<int>.Zero, Gear.TORCH);
@@ -83,7 +83,7 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
                            s => FindTargetRegions(s, map),
                            MinSearchComparer<int>.Comparer,
                            out int totalTime);
-        AoCUtils.LogPart2(totalTime);
+        ChallengeUtils.LogPart2(totalTime);
     }
 
     // ReSharper disable once CognitiveComplexity

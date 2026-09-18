@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2021;
 
@@ -27,11 +27,11 @@ public sealed class Day07 : Solver<int[]>
         // Minimize distance to any point within the crabs
 
         long best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab)));
-        AoCUtils.LogPart1(best);
+        ChallengeUtils.LogPart1(best);
 
         // Minimize the distance of triangular value
         best = (..^max).Min(position => this.Data.Sum(crab => Math.Abs(position - crab).Triangular));
-        AoCUtils.LogPart2(best);
+        ChallengeUtils.LogPart2(best);
     }
 
     /// <inheritdoc />

@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2019;
 
@@ -31,8 +31,8 @@ public sealed class Day01 : ArraySolver<int>
                 compoundFuelRequirement += fuel;
             }
         }
-        AoCUtils.LogPart1(fuelRequirement);
-        AoCUtils.LogPart2(fuelRequirement + compoundFuelRequirement);
+        ChallengeUtils.LogPart1(fuelRequirement);
+        ChallengeUtils.LogPart2(fuelRequirement + compoundFuelRequirement);
     }
 
     /// <inheritdoc />

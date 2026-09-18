@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -44,7 +44,7 @@ public sealed class Day01 : Solver<int[]>
             int match = TARGET - expense;
             if (this.values.Contains(match))
             {
-                AoCUtils.LogPart1(expense * match);
+                ChallengeUtils.LogPart1(expense * match);
                 return;
             }
         }
@@ -71,7 +71,7 @@ public sealed class Day01 : Solver<int[]>
                 int third = TARGET - total;
                 if (this.values.Contains(third))
                 {
-                    AoCUtils.LogPart2(first * second * third);
+                    ChallengeUtils.LogPart2(first * second * third);
                     return;
                 }
             }

@@ -1,7 +1,8 @@
 ﻿using AdventOfCode.Intcode;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.Solvers.Specialized;
+namespace AdventOfCode.AoC2019.Solvers;
 
 /// <summary>
 /// Intcode problem solver base

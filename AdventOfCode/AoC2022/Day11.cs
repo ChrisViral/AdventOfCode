@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -153,9 +153,9 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        AoCUtils.LogPart1(PlayRound(ROUNDS, false));
+        ChallengeUtils.LogPart1(PlayRound(ROUNDS, false));
 
-        AoCUtils.LogPart2(PlayRound(LONG_ROUNDS, true));
+        ChallengeUtils.LogPart2(PlayRound(LONG_ROUNDS, true));
     }
 
     /// <inheritdoc />

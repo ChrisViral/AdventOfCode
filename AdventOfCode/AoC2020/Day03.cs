@@ -1,7 +1,7 @@
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -24,14 +24,14 @@ public sealed class Day03 : GridSolver<bool>
     {
         //Part one
         long result = CheckSlope((3, 1));
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
         //Part two
         result *= CheckSlope((1, 1));
         result *= CheckSlope((5, 1));
         result *= CheckSlope((7, 1));
         result *= CheckSlope((1, 2));
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <summary>

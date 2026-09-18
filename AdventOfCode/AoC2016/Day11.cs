@@ -1,12 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections.Pooling;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections.Pooling;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using FastEnumUtility;
 using ZLinq;
 
@@ -112,10 +112,10 @@ public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placement
 
         // Find best path
         SearchUtils.Search(start, end, MinTravel, GetPotentialMoves, MinSearchComparer<int>.Comparer, out int pathLength);
-        AoCUtils.LogPart1(pathLength);
+        ChallengeUtils.LogPart1(pathLength);
 
         // Moving a pair of objects from the first floor to the top floor takes 12 steps, so two new pairs adds 24 steps
-        AoCUtils.LogPart2(pathLength + 24);
+        ChallengeUtils.LogPart2(pathLength + 24);
     }
 
     /// <summary>

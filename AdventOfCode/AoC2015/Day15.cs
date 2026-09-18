@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -32,10 +32,10 @@ public sealed partial class Day15 : RegexSolver<Day15.Ingredient>
     {
         Span<int> recipe = stackalloc int[this.Data.Length];
         int score = FindBestRecipe(0, recipe);
-        AoCUtils.LogPart1(score);
+        ChallengeUtils.LogPart1(score);
 
         score = FindBestRecipe(0, recipe, CALORY_TARGET);
-        AoCUtils.LogPart2(score);
+        ChallengeUtils.LogPart2(score);
     }
 
     private int FindBestRecipe(int ingredientIndex, Span<int> recipe, int? caloryTarget = null)

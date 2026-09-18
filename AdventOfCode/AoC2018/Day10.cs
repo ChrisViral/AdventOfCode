@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -57,8 +57,8 @@ public sealed partial class Day10 : RegexSolver<Day10.Light>
         Vector2<int> size = Vector2<int>.Abs(max - min) + Vector2<int>.One;
         Grid<bool> grid = new(size.X, size.Y, b => b ? "▓" : " ");
         this.Data.ForEach(l => grid[l.Position - min] = true);
-        AoCUtils.LogPart1($"\n{grid}");
-        AoCUtils.LogPart2(iterations - 1);
+        ChallengeUtils.LogPart1($"\n{grid}");
+        ChallengeUtils.LogPart2(iterations - 1);
     }
 
     private (Vector2<int>, Vector2<int>) GetMinMax()

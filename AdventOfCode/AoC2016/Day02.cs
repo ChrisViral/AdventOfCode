@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -32,7 +32,7 @@ public sealed class Day02 : ArraySolver<Direction[]>
             [2] = ['7', '8', '9']
         };
         string code = GetCode(keypad);
-        AoCUtils.LogPart1(code);
+        ChallengeUtils.LogPart1(code);
 
         keypad = new Grid<char>(5, 5)
         {
@@ -43,7 +43,7 @@ public sealed class Day02 : ArraySolver<Direction[]>
             [4] = [' ', ' ', 'D', ' ', ' '],
         };
         code = GetCode(keypad);
-        AoCUtils.LogPart2(code);
+        ChallengeUtils.LogPart2(code);
     }
 
     private string GetCode(Grid<char> keypad)

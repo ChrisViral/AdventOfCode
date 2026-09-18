@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -51,10 +51,10 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
         // Get the best layer index and the count the relevant values on it
         int bestLayer = (..this.Data.layerCount).MinBy(i => this.Data.image.Count(p => p[i] is Colour.BLACK))!.Value;
         int checksum = this.Data.image.Count(p => p[bestLayer] is Colour.WHITE) * this.Data.image.Count(p => p[bestLayer] is Colour.TRANSPARENT);
-        AoCUtils.LogPart1(checksum);
+        ChallengeUtils.LogPart1(checksum);
 
         // Just print the image
-        AoCUtils.LogPart2("\n" + this.Data.image);
+        ChallengeUtils.LogPart2("\n" + this.Data.image);
     }
 
     /// <summary>

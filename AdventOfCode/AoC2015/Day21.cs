@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Solvers;
 using JetBrains.Annotations;
 using ZLinq;
 
@@ -59,10 +59,10 @@ public sealed class Day21 : Solver<Day21.Stats>
     {
         Stats player = new(HIT_POINTS, 0, 0);
         int cost = ChooseWeaponMinCost(player);
-        AoCUtils.LogPart1(cost);
+        ChallengeUtils.LogPart1(cost);
 
         cost = ChooseWeaponMaxCost(player);
-        AoCUtils.LogPart2(cost);
+        ChallengeUtils.LogPart2(cost);
     }
 
     private int ChooseWeaponMinCost(Stats player)

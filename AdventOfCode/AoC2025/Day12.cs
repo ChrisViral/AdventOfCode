@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -46,7 +46,7 @@ public sealed partial class Day12 : Solver<(Grid<bool>[] presents, Day12.Region[
                                            .Select((q, i) => q * presentSizes[i])
                                            .Sum()))
                          .Count(d => d.a > d.p);
-        AoCUtils.LogPart1(canFit);
+        ChallengeUtils.LogPart1(canFit);
     }
 
     /// <inheritdoc />

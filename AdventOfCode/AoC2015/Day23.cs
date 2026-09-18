@@ -1,9 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Numbers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers.Specialized;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2015;
@@ -101,7 +101,7 @@ public sealed partial class Day23 : RegexSolver<Day23.Instruction>
             Instruction instruction = this.Data[address];
             instruction.ExecuteInstruction(ref address, ref registers);
         }
-        AoCUtils.LogPart1(registers[1]);
+        ChallengeUtils.LogPart1(registers[1]);
 
         registers = new Registers();
         registers[0] = 1;
@@ -111,6 +111,6 @@ public sealed partial class Day23 : RegexSolver<Day23.Instruction>
             Instruction instruction = this.Data[address];
             instruction.ExecuteInstruction(ref address, ref registers);
         }
-        AoCUtils.LogPart2(registers[1]);
+        ChallengeUtils.LogPart2(registers[1]);
     }
 }

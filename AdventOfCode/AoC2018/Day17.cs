@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2018;
 
@@ -143,8 +143,8 @@ public sealed partial class Day17 : Solver<(Grid<Day17.Element> map, Vector2<int
                     return;
             }
         }
-        AoCUtils.LogPart1(water);
-        AoCUtils.LogPart2(filled);
+        ChallengeUtils.LogPart1(water);
+        ChallengeUtils.LogPart2(filled);
     }
 
     private bool FlowInDirection(Vector2<int> flowStart, Direction direction, out Vector2<int> flowEnd)

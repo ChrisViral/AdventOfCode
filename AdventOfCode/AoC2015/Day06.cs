@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Enums;
-using AdventOfCode.Utils.Extensions.Spans;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Spans;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 
 namespace AdventOfCode.AoC2015;
@@ -68,7 +68,7 @@ public sealed partial class Day06 : RegexSolver<Day06.Instruction>
                     throw instruction.Change.Invalid();
             }
         }
-        AoCUtils.LogPart1(lights.Count(ON));
+        ChallengeUtils.LogPart1(lights.Count(ON));
 
         lights.Clear();
         foreach (Instruction instruction in this.Data)
@@ -96,6 +96,6 @@ public sealed partial class Day06 : RegexSolver<Day06.Instruction>
             }
         }
 
-        AoCUtils.LogPart2(lights.Sum(l => (int)l));
+        ChallengeUtils.LogPart2(lights.Sum(l => (int)l));
     }
 }

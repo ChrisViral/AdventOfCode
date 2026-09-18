@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enums;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Solvers;
 using FastEnumUtility;
 
 namespace AdventOfCode.AoC2016;
@@ -103,10 +103,10 @@ public sealed partial class Day10 : Solver<(ImmutableArray<Day10.Input> inputs, 
         {
             recipient.ReceiveChip(chip);
         }
-        AoCUtils.LogPart1(Bot.WatchID);
+        ChallengeUtils.LogPart1(Bot.WatchID);
 
         int result = this.Data.outputs[0].Bin * this.Data.outputs[1].Bin * this.Data.outputs[2].Bin;
-        AoCUtils.LogPart2(result);
+        ChallengeUtils.LogPart2(result);
     }
 
     /// <inheritdoc />

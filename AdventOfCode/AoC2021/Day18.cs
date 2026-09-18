@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Numerics;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -268,14 +268,14 @@ public sealed class Day18 : ArraySolver<Day18.Number>
     public override void Run()
     {
         Number sum = this.Data.Sum();
-        AoCUtils.LogPart1(sum.Magnitude);
+        ChallengeUtils.LogPart1(sum.Magnitude);
 
         int maxMagnitude = this.Data.SelectMany(n => this.Data
                                                          .Where(m => m != n)
                                                          .Select(m => n + m))
                                .Max(n => n.Magnitude);
 
-        AoCUtils.LogPart2(maxMagnitude);
+        ChallengeUtils.LogPart2(maxMagnitude);
     }
 
     /// <inheritdoc />

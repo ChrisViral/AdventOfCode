@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -45,14 +45,14 @@ public sealed class Day23 : Solver<int[]>
             builder.Append(current.Value);
             current = current.NextCircular();
         }
-        AoCUtils.LogPart1(builder);
+        ChallengeUtils.LogPart1(builder);
 
         //Create large cups array
         int[] largeData = Enumerable.Range(1, AMOUNT).ToArray();
         this.Data.CopyTo(largeData, 0);
         //Move cups and get result
         current = MoveCups(largeData, PART2_MOVES).NextCircular();
-        AoCUtils.LogPart2((long)current.Value * current.NextCircular().Value);
+        ChallengeUtils.LogPart2((long)current.Value * current.NextCircular().Value);
     }
 
     /// <summary>

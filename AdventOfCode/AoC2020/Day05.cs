@@ -1,6 +1,6 @@
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -74,7 +74,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
             existing.Add(pass.Id);
             seats[pass.Row, pass.Column] = true;
         }
-        AoCUtils.LogPart1(max);
+        ChallengeUtils.LogPart1(max);
 
         //Part 2
         for (int row = 0; row <= BoardingPass.MAX_ROW; row++)
@@ -87,7 +87,7 @@ public sealed class Day05 : Solver<Day05.BoardingPass[]>
                     int id = rowId + col;
                     if (existing.Contains(id + 1) && existing.Contains(id - 1))
                     {
-                        AoCUtils.LogPart2(id);
+                        ChallengeUtils.LogPart2(id);
                         return;
                     }
                 }

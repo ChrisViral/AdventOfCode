@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -38,12 +38,12 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
         //Play a single game
         Queue<int> winner = PlayCombat(this.Data.p1, this.Data.p2);
         int count = winner.Count;
-        AoCUtils.LogPart1(winner.Sum(c => c * count--));
+        ChallengeUtils.LogPart1(winner.Sum(c => c * count--));
 
         //Play a recursive game
         winner = PlayRecursiveCombat(this.Data.p1, this.Data.p2).deck;
         count = winner.Count;
-        AoCUtils.LogPart2(winner.Sum(c => c * count--));
+        ChallengeUtils.LogPart2(winner.Sum(c => c * count--));
     }
 
     /// <summary>

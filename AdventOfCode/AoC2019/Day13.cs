@@ -1,9 +1,9 @@
 using System.ComponentModel;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.AoC2019.Solvers;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
 
 namespace AdventOfCode.AoC2019;
 
@@ -55,7 +55,7 @@ public sealed class Day13 : IntcodeSolver
                 blocks++;
             }
         }
-        AoCUtils.LogPart1(blocks);
+        ChallengeUtils.LogPart1(blocks);
 
         // Reset and "insert quarters"
         this.VM.Reset();
@@ -109,7 +109,7 @@ public sealed class Day13 : IntcodeSolver
         }
         while (!this.VM.IsHalted);
 
-        AoCUtils.LogPart2(score);
+        ChallengeUtils.LogPart2(score);
     }
 
     /// <summary>

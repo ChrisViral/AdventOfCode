@@ -1,11 +1,11 @@
 using System.ComponentModel;
-using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Enums;
+using AdventOfCode.AoC2019.Solvers;
+using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Maths.Vectors;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -74,7 +74,7 @@ public sealed class Day15 : IntcodeSolver
             this.map[move] = Element.PATH;
         }
         this.map[this.oxygenPosition] = Element.OXYGEN;
-        AoCUtils.LogPart1(path.Length);
+        ChallengeUtils.LogPart1(path.Length);
 
         //Adjust cursor
         Console.SetCursorPosition(0, Console.CursorTop - 3);
@@ -110,7 +110,7 @@ public sealed class Day15 : IntcodeSolver
 
         //Adjust back down
         Console.SetCursorPosition(0, Console.CursorTop + 3);
-        AoCUtils.LogPart2(spreadTime);
+        ChallengeUtils.LogPart2(spreadTime);
     }
 
     private IEnumerable<MoveData<Vector2<int>, int>> Neighbours(Vector2<int> node) => node.AsAdjacentEnumerable()

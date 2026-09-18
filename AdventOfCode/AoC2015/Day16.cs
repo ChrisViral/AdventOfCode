@@ -1,8 +1,8 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2015;
 
@@ -58,10 +58,10 @@ public sealed partial class Day16 : RegexSolver<Day16.Sue>
     public override void Run()
     {
         Sue sue = this.Data.First(sue => sue.Compounds.All(c => KnownData[c.Name] == c.Amount));
-        AoCUtils.LogPart1(sue.Number);
+        ChallengeUtils.LogPart1(sue.Number);
 
         sue = this.Data.First(IsValidSue);
-        AoCUtils.LogPart2(sue.Number);
+        ChallengeUtils.LogPart2(sue.Number);
     }
 
     // ReSharper disable once CognitiveComplexity

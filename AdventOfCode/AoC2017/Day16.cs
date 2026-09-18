@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2017;
 
@@ -40,7 +40,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
 
         public override void ApplyMove(Span<char> programs)
         {
-            AoCUtils.Swap(ref programs[this.a], ref programs[this.b]);
+            ChallengeUtils.Swap(ref programs[this.a], ref programs[this.b]);
         }
     }
 
@@ -54,7 +54,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
         {
             int indexA = programs.IndexOf(this.a);
             int indexB = programs.IndexOf(this.b);
-            AoCUtils.Swap(ref programs[indexA], ref programs[indexB]);
+            ChallengeUtils.Swap(ref programs[indexA], ref programs[indexB]);
         }
     }
 
@@ -78,7 +78,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
             move.ApplyMove(programs);
         }
 
-        AoCUtils.LogPart1(programs.ToString());
+        ChallengeUtils.LogPart1(programs.ToString());
 
         int loops = 0;
         string state = programs.ToString();
@@ -96,7 +96,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
         int cycle = loops - lastSeen;
         int finalIndex = LOOPS % cycle;
         string final = states.GetAt(finalIndex - 1).Key;
-        AoCUtils.LogPart2(final);
+        ChallengeUtils.LogPart2(final);
     }
 
     /// <inheritdoc />

@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -28,7 +28,7 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
     {
         // Count outputs with known segments length
         int count = this.Data.SelectMany(data => data.outputs).Count(segments => segments.Length is 2 or 3 or 4 or 7);
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.LogPart1(count);
 
         // Create sets for every digit
         long total = 0L;
@@ -61,7 +61,7 @@ public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
             values.ForEach(value => value.Clear());
         }
 
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     /// <inheritdoc />

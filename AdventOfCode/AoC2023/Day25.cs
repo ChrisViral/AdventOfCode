@@ -1,9 +1,9 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Collections.Search;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2023;
 
@@ -125,9 +125,9 @@ public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
         }
         while (result is 0);
 
-        AoCUtils.LogPart1(result);
+        ChallengeUtils.LogPart1(result);
 
-        AoCUtils.LogPart2("Merry Christmas!");
+        ChallengeUtils.LogPart2("Merry Christmas!");
     }
 
     /// <inheritdoc />

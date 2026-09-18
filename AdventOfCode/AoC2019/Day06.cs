@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Collections.Search;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
+﻿using Challenge.Collections.Search;
+using Challenge.Utils;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2019;
 
@@ -72,13 +72,13 @@ public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
         // Calculate the checksum of the COM
         OrbitalObject com = this.Data["COM"];
         int checksum = com.GetOrbitalChecksum();
-        AoCUtils.LogPart1(checksum);
+        ChallengeUtils.LogPart1(checksum);
 
         // Get path from start to santa
         OrbitalObject start = this.Data["YOU"];
         OrbitalObject end   = this.Data["SAN"];
         int pathLength = SearchUtils.GetPathLengthBFS(start, end, o => Neighbours(o))!.Value;
-        AoCUtils.LogPart2(pathLength - 2);
+        ChallengeUtils.LogPart2(pathLength - 2);
     }
 
     /// <summary>

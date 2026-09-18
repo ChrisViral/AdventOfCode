@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -48,10 +48,10 @@ public sealed class Day11 : GridSolver<bool>
         }
 
         long total = GetTotalDistances(galaxies, emptyRows, emptyColumns);
-        AoCUtils.LogPart1(total);
+        ChallengeUtils.LogPart1(total);
 
         total = GetTotalDistances(galaxies, emptyRows, emptyColumns, OLD_EXPANSION);
-        AoCUtils.LogPart2(total);
+        ChallengeUtils.LogPart2(total);
     }
 
     private long GetTotalDistances(Vector2<int>[] galaxies, HashSet<int> emptyRows, HashSet<int> emptyColumns, int emptyExpansion = 2)
@@ -79,7 +79,7 @@ public sealed class Day11 : GridSolver<bool>
 
         if (x1 > x2)
         {
-            AoCUtils.Swap(ref x1, ref x2);
+            ChallengeUtils.Swap(ref x1, ref x2);
         }
 
         int distance = 0;

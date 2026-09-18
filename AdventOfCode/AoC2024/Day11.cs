@@ -1,7 +1,7 @@
-﻿using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Numbers;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Utils;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2024;
 
@@ -113,14 +113,14 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
         {
             count += stone.GetCountAtDepth(PART1_BLINKS, stonesCache, countCache);
         }
-        AoCUtils.LogPart1(count);
+        ChallengeUtils.LogPart1(count);
 
         count = 0L;
         foreach ((_, Stone stone) in this.Data)
         {
             count += stone.GetCountAtDepth(PART2_BLINKS, stonesCache, countCache);
         }
-        AoCUtils.LogPart2(count);
+        ChallengeUtils.LogPart2(count);
     }
 
     /// <inheritdoc />

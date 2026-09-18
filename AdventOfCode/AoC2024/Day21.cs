@@ -1,9 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 
 namespace AdventOfCode.AoC2024;
 
@@ -80,10 +80,10 @@ public sealed class Day21 : ArraySolver<(string code, int value)>
     public override void Run()
     {
         long complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART1_DEPTH) * t.value);
-        AoCUtils.LogPart1(complexity);
+        ChallengeUtils.LogPart1(complexity);
 
         complexity = this.Data.Sum(t => GetMovesSequenceLength(t.code, PART2_DEPTH) * t.value);
-        AoCUtils.LogPart2(complexity);
+        ChallengeUtils.LogPart2(complexity);
     }
 
     /// <summary>

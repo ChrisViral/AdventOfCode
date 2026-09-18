@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -145,12 +145,12 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
         Vector2<int> position = Vector2<int>.Zero;
         Vector2<int> direction = Vector2<int>.Right;
         this.Data.ForEach(i => i.Execute(ref position, ref direction));
-        AoCUtils.LogPart1(Math.Abs(position.X) + Math.Abs(position.Y));
+        ChallengeUtils.LogPart1(Math.Abs(position.X) + Math.Abs(position.Y));
 
         Vector2<int> ship = Vector2<int>.Zero;
         Vector2<int> waypoint = (Vector2<int>.Right * 10) + Vector2<int>.Up;
         this.Data.ForEach(i => i.ExecuteWaypoint(ref ship, ref waypoint));
-        AoCUtils.LogPart2(Math.Abs(ship.X) + Math.Abs(ship.Y));
+        ChallengeUtils.LogPart2(Math.Abs(ship.X) + Math.Abs(ship.Y));
     }
 
     /// <inheritdoc />

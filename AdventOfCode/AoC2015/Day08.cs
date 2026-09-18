@@ -1,5 +1,5 @@
-﻿using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Solvers.Specialized;
 using Microsoft.CodeAnalysis.CSharp;
 using ZLinq;
 
@@ -23,10 +23,10 @@ public sealed class Day08 : ArraySolver<string>
     {
         int codeLength = this.Data.AsValueEnumerable().Sum(l => l.Length);
         int valueLength = this.Data.AsValueEnumerable().Sum(CalculateValueLength);
-        AoCUtils.LogPart1(codeLength - valueLength);
+        ChallengeUtils.LogPart1(codeLength - valueLength);
 
         int escapedLength = this.Data.AsValueEnumerable().Sum(l => SymbolDisplay.FormatLiteral(l, true).Length);
-        AoCUtils.LogPart2(escapedLength - codeLength);
+        ChallengeUtils.LogPart2(escapedLength - codeLength);
     }
 
     private static int CalculateValueLength(string code)

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -49,9 +49,9 @@ public sealed partial class Day03 : RegexSolver<Day03.FabricArea>
         Counter<Vector2<int>> claims = new(1000);
         this.Data.ForEach(a => a.SetClaim(claims));
         int overlaps = claims.Counts.Count(c => c >= 2);
-        AoCUtils.LogPart1(overlaps);
+        ChallengeUtils.LogPart1(overlaps);
 
         FabricArea notOverlapping = this.Data.First(a => !a.Overlaps(claims));
-        AoCUtils.LogPart2(notOverlapping.ID);
+        ChallengeUtils.LogPart2(notOverlapping.ID);
     }
 }

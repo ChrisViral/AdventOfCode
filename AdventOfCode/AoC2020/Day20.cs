@@ -1,10 +1,10 @@
 using System.Text;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Collections;
-using AdventOfCode.Utils.Extensions.Ranges;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 
 namespace AdventOfCode.AoC2020;
 
@@ -119,7 +119,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         {
             for (int i = 0; i < this.Size / 2; /*i++*/)
             {
-                AoCUtils.Swap(ref this.image[i++], ref this.image[^i]);
+                ChallengeUtils.Swap(ref this.image[i++], ref this.image[^i]);
             }
 
             if (this.ignoreBorders) return;
@@ -153,9 +153,9 @@ public sealed class Day20 : Solver<Day20.Tile[]>
                 foreach (int i in ..(this.Size / 2))
                 {
                     ref char topLeft = ref this.image[j][i];
-                    AoCUtils.Swap(ref topLeft, ref this.image[^(i + 1)][j]);
-                    AoCUtils.Swap(ref topLeft, ref this.image[^(j + 1)][^(i + 1)]);
-                    AoCUtils.Swap(ref topLeft, ref this.image[i][^(j + 1)]);
+                    ChallengeUtils.Swap(ref topLeft, ref this.image[^(i + 1)][j]);
+                    ChallengeUtils.Swap(ref topLeft, ref this.image[^(j + 1)][^(i + 1)]);
+                    ChallengeUtils.Swap(ref topLeft, ref this.image[i][^(j + 1)]);
                 }
             }
 
@@ -339,7 +339,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             }
             image.Add(row);
         }
-        AoCUtils.LogPart1((long)image[0][0].ID * image[0][^1].ID * image[^1][0].ID * image[^1][^1].ID);
+        ChallengeUtils.LogPart1((long)image[0][0].ID * image[0][^1].ID * image[^1][0].ID * image[^1][^1].ID);
 
         int strippedSize = topLeftCorner.Size - 2;
         char[][] fullImage = new char[image.Count * strippedSize][];
@@ -364,7 +364,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         }
 
         Tile fullTile = new(fullImage);
-        AoCUtils.LogPart2(fullTile.CalculateRoughness());
+        ChallengeUtils.LogPart2(fullTile.CalculateRoughness());
     }
 
     /// <inheritdoc />

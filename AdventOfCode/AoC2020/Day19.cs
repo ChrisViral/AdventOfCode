@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Arrays;
-using AdventOfCode.Utils.Extensions.Enumerables;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -147,7 +147,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         Rule origin = rules[0];
         origin.SetupPattern(rules);
         Regex match = new($"^{origin.Pattern}$", RegexOptions.Compiled);
-        AoCUtils.LogPart1(this.Data.messages.Count(match.IsMatch));
+        ChallengeUtils.LogPart1(this.Data.messages.Count(match.IsMatch));
 
         //Setup the new special patterns
         string first = rules[42].Pattern;
@@ -159,7 +159,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         //Setup for the matches again
         origin.SetupPattern(rules);
         match = new Regex($"^{origin.Pattern}$", RegexOptions.Compiled);
-        AoCUtils.LogPart2(this.Data.messages.Count(match.IsMatch));
+        ChallengeUtils.LogPart2(this.Data.messages.Count(match.IsMatch));
     }
 
     /// <inheritdoc />

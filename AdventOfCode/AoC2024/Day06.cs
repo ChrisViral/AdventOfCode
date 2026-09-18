@@ -1,8 +1,8 @@
-﻿using AdventOfCode.Collections;
-using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers;
-using AdventOfCode.Utils;
-using AdventOfCode.Utils.Extensions.Ranges;
+﻿using Challenge.Collections;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -67,7 +67,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
             position = newPosition;
             visited.Add(position);
         }
-        AoCUtils.LogPart1(visited.Count);
+        ChallengeUtils.LogPart1(visited.Count);
 
         // We can't place an obstacle on the start position
         visited.Remove(this.Data.startPosition);
@@ -80,7 +80,7 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
                                                   new HashSet<(Direction, Vector2<int>)>(100)),
                          CheckIfObstacleCausesLoop,
                          data => Interlocked.Add(ref totalLoops, data.LoopsCount));
-        AoCUtils.LogPart2(totalLoops);
+        ChallengeUtils.LogPart2(totalLoops);
     }
 
     /// <summary>

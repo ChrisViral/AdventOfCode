@@ -1,6 +1,6 @@
-﻿using AdventOfCode.Maths.Vectors;
-using AdventOfCode.Solvers.Specialized;
-using AdventOfCode.Utils;
+﻿using Challenge.Utils;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers.Specialized;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -31,8 +31,8 @@ public sealed class Day12 : GridSolver<char>
             prices += GetAreaPrices(notVisited.First(), notVisited, visiting, fences);
         }
 
-        AoCUtils.LogPart1(prices.regular);
-        AoCUtils.LogPart2(prices.bulk);
+        ChallengeUtils.LogPart1(prices.regular);
+        ChallengeUtils.LogPart2(prices.bulk);
     }
 
     // ReSharper disable once CognitiveComplexity
