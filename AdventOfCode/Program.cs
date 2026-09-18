@@ -6,12 +6,19 @@ using Serilog;
 
 Console.Title = "Advent of Code";
 
+// Flush existing file
+const string RESULTS_FILE = "results.txt";
+if (File.Exists(RESULTS_FILE))
+{
+    File.Delete(RESULTS_FILE);
+}
+
 // DI Configuration
 Cli.Ext.ConfigureServices(services =>
 {
     Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File("results.txt")
+                .WriteTo.File(RESULTS_FILE)
                 .Enrich.FromLogContext()
                 .CreateLogger();
 
