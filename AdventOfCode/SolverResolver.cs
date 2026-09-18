@@ -2,16 +2,18 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Challenge.CLI;
 using Challenge.Utils.Extensions.Assemblies;
+using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 
-namespace AdventOfCode.CLI;
+namespace AdventOfCode;
 
 /// <summary>
-/// Input fetching helper class
+/// Solver resolver and input fetcher
 /// </summary>
 [PublicAPI]
-public static partial class InputFetcher
+public sealed partial class SolverResolver : ISolverResolver
 {
     /// <summary>
     /// <see cref="Settings"/> JSON source generation context
@@ -40,13 +42,17 @@ public static partial class InputFetcher
     /// </summary>
     private static readonly string SettingsPath = Path.Combine(INPUT_FOLDER, "settings.json");
 
-    /// <summary>
-    /// Gets the associated input file, or fetches it from the AoC website if needed
-    /// </summary>
-    /// <param name="year">Event year</param>
-    /// <param name="day">Problem day</param>
-    /// <returns>The Input file for the problem</returns>
-    public static async Task<string> EnsureInput(int year, int day)
+    /// <inheritdoc />
+    public string ChallengeName => "Advent of Code";
+
+    /// <inheritdoc />
+    public string GetSolverFullName(int year, int day, string module)
+    {
+        return $"{nameof(AdventOfCode)}.AoC{year}.Day{day:D2}";
+    }
+
+    /// <inheritdoc />
+    public async Task<Result<string>> FetchInput(int year, int day, string module, CancellationToken token = default)
     {
         //Check for the input file
         FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
@@ -54,7 +60,7 @@ public static partial class InputFetcher
         if (inputFile.Exists)
         {
             using StreamReader reader = inputFile.OpenText();
-            input = await reader.ReadToEndAsync().ConfigureAwait(false);
+            input = await reader.ReadToEndAsync(token).ConfigureAwait(false);
         }
         else
         {
@@ -65,9 +71,16 @@ public static partial class InputFetcher
             }
 
             //Get input and write to file
-            input = await GetInputFromWebsite(year, day).ConfigureAwait(false);
-            await using StreamWriter writer = inputFile.CreateText();
-            await writer.WriteAsync(input).ConfigureAwait(false);
+            try
+            {
+                input = await GetInputFromWebsite(year, day).ConfigureAwait(false);
+                await using StreamWriter writer = inputFile.CreateText();
+                await writer.WriteAsync(input).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                return Result.Failure<string>($"[{e.GetType().Name}]: {e.Message}\n{e.StackTrace}");
+            }
         }
 
 #if DEBUG
@@ -133,7 +146,7 @@ public static partial class InputFetcher
 
         // Add User-Agent header
         Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
-        string userAgentValue = $"ChrisViral.{typeof(InputFetcher).FullName}Bot/{fileVersion.ToString(2)} (github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)";
+        string userAgentValue = $"ChrisViral.{typeof(SolverResolver).FullName}Bot/{fileVersion.ToString(2)} (github.com/ChrisViral/AdventOfCode by christophe_savard@hotmail.ca)";
         client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgentValue);
 
         // Fetch input
