@@ -16,15 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.CLI", "AdventO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Utils", "Libraries\Challenge.Utils\Challenge.Utils.csproj", "{39E2DADF-81E6-4253-8659-C81959CE0425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Maths", "Libraries\Challenge.Maths\Challenge.Maths.csproj", "{BBD361F2-EBE0-4060-91F5-5BA9FD033483}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Solvers", "Libraries\Challenge.Solvers\Challenge.Solvers.csproj", "{C3E9F2E4-37F1-447B-85F1-FB4054708A47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Collections", "Libraries\Challenge.Collections\Challenge.Collections.csproj", "{1E0026B5-1FBE-4758-A9F1-07C837EA25E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Maths", "Libraries\Challenge.Maths\Challenge.Maths.csproj", "{EB88832F-0A38-4A8D-8761-2C72783F4810}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Solvers", "Libraries\Challenge.Solvers\Challenge.Solvers.csproj", "{9FDE2B43-EF93-458D-828A-0187D4CD47DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Solvers", "Libraries\Challenge.Solvers\Challenge.Solvers.csproj", "{A5C234DB-DC69-40DD-87CC-6F0D65A1FC4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Maths", "Libraries\Challenge.Maths\Challenge.Maths.csproj", "{841D5EC3-20CB-4000-AEDF-AA861D94D623}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +64,14 @@ Global
 		{A5C234DB-DC69-40DD-87CC-6F0D65A1FC4C}.Debug|x64.Build.0 = Debug|Any CPU
 		{A5C234DB-DC69-40DD-87CC-6F0D65A1FC4C}.Release|x64.ActiveCfg = Release|Any CPU
 		{A5C234DB-DC69-40DD-87CC-6F0D65A1FC4C}.Release|x64.Build.0 = Release|Any CPU
+		{9FDE2B43-EF93-458D-828A-0187D4CD47DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9FDE2B43-EF93-458D-828A-0187D4CD47DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{9FDE2B43-EF93-458D-828A-0187D4CD47DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{9FDE2B43-EF93-458D-828A-0187D4CD47DF}.Release|x64.Build.0 = Release|Any CPU
+		{841D5EC3-20CB-4000-AEDF-AA861D94D623}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{841D5EC3-20CB-4000-AEDF-AA861D94D623}.Debug|x64.Build.0 = Debug|Any CPU
+		{841D5EC3-20CB-4000-AEDF-AA861D94D623}.Release|x64.ActiveCfg = Release|Any CPU
+		{841D5EC3-20CB-4000-AEDF-AA861D94D623}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
