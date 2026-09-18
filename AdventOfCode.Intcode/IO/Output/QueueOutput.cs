@@ -4,6 +4,9 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode.Intcode.IO.Output;
 
+/// <summary>
+/// Queue-based output provider
+/// </summary>
 [PublicAPI, DebuggerDisplay("Count = {Count}")]
 public class QueueOutput : IOutputProvider
 {
