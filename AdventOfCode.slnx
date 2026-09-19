@@ -6,11 +6,25 @@
     <File Path=".editorconfig" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj" />
-  <Project Path="AdventOfCode/AdventOfCode.csproj" />
-  <Project Path="Libraries/Challenge.CLI/Challenge.CLI.csproj" />
-  <Project Path="Libraries/Challenge.Collections/Challenge.Collections.csproj" />
-  <Project Path="Libraries/Challenge.Maths/Challenge.Maths.csproj" />
-  <Project Path="Libraries/Challenge.Solvers/Challenge.Solvers.csproj" />
-  <Project Path="Libraries/Challenge.Utils/Challenge.Utils.csproj" />
+  <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="AdventOfCode/AdventOfCode.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Libraries/Challenge.CLI/Challenge.CLI.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Libraries/Challenge.Collections/Challenge.Collections.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Libraries/Challenge.Maths/Challenge.Maths.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Libraries/Challenge.Solvers/Challenge.Solvers.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Libraries/Challenge.Utils/Challenge.Utils.csproj">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
