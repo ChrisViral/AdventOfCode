@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Challenge.CLI;
 using CSharpFunctionalExtensions;
@@ -73,6 +74,11 @@ internal sealed partial class SolverResolver(ILogger<SolverResolver> logger, IAd
             return Result.Failure<string>($"[{e.GetType().Name}]: {e.Message}");
         }
     }
+
+    /// <inheritdoc />
+    /// <exception cref="NotSupportedException">Always thrown by this method</exception>
+    [DoesNotReturn]
+    public Task<Result> SubmitAnswer(string answer, CancellationToken token = default) => throw new NotSupportedException("Advent of Code API does not support submitting answers automatically");
 
     /// <summary>
     /// Fetches the input from the AoC website

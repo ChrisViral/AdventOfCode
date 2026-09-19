@@ -11,6 +11,7 @@
     <AssemblyOriginatorKeyFile>Properties\AdventOfCode.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2026.1.0</AssemblyVersion>
     <FileVersion>2026.1.0</FileVersion>
+    <Version>2026.1.0</Version>
     <Configurations>Release;Debug</Configurations>
     <Platforms>x64</Platforms>
   </PropertyGroup>
