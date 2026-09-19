@@ -41,7 +41,7 @@ internal sealed partial class SolverResolver(ILogger<SolverResolver> logger, IAd
     private ResolverSettings Settings { get; } = settings;
 
     /// <inheritdoc />
-    public async Task<Result<string>> FetchInput(uint year, uint day, string module, CancellationToken token = default)
+    public async Task<Result<string, Exception>> FetchInput(uint year, uint day, string module, CancellationToken token = default)
     {
         // Check for the input file
         FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
@@ -71,7 +71,7 @@ internal sealed partial class SolverResolver(ILogger<SolverResolver> logger, IAd
         catch (Exception e)
         {
             // Return exception description in case of failure
-            return Result.Failure<string>($"[{e.GetType().Name}]: {e.Message}");
+            return Result.Failure<string, Exception>(e);
         }
     }
 
