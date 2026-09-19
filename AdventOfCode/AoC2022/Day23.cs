@@ -1,10 +1,10 @@
 ﻿using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 23
 /// </summary>
+[Solver(2022, 23)]
 public sealed class Day23 : Solver<Day23.Elf[]>
 {
     /// <summary>

@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Spans;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 06
 /// </summary>
+[Solver(2015, 6)]
 public sealed partial class Day06 : RegexSolver<Day06.Instruction>
 {
     public enum Change

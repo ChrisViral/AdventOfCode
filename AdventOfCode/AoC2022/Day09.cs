@@ -1,7 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 09
 /// </summary>
+[Solver(2022, 9)]
 public sealed class Day09 : ArraySolver<Vector2<int>>
 {
     private enum Element

@@ -1,7 +1,8 @@
-﻿using Challenge.Utils.Extensions.Numbers;
-using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 24
 /// </summary>
+[Solver(2023, 24)]
 public sealed class Day24 : ArraySolver<Day24.Hail>
 {
     public readonly struct Hail
@@ -88,7 +90,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
 
         // Yeah, I hate using a package this way, but I am absolutely fucking not solving a system of nine unknown variables by hand
         // ReSharper disable once RedundantNameQualifier
-        using Microsoft.Z3.Context ctx = new();
+        using Context ctx = new();
 
         IntExpr px = ctx.MkIntConst("px");
         IntExpr py = ctx.MkIntConst("py");
@@ -97,7 +99,7 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
         IntExpr vy = ctx.MkIntConst("vy");
         IntExpr vz = ctx.MkIntConst("vz");
 
-        Solver solver = ctx.MkSolver();
+        Microsoft.Z3.Solver solver = ctx.MkSolver();
         foreach (int i in ..SAMPLE)
         {
             Hail hi     = this.Data[i];

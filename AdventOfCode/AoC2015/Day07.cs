@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2016 Day 07
 /// </summary>
+[Solver(2015, 7)]
 public sealed partial class Day07 : Solver<Dictionary<string, Day07.LogicGate>>
 {
     public abstract class LogicGate

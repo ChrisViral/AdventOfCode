@@ -1,7 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 03
 /// </summary>
+[Solver(2016, 3)]
 public sealed partial class Day03 : RegexSolver<Day03.Triangle>
 {
     [InlineArray(3)]

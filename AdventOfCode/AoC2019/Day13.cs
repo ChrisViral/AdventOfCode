@@ -1,8 +1,9 @@
 using System.ComponentModel;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 13
 /// </summary>
+[Solver(2019, 13)]
 public sealed class Day13 : IntcodeSolver
 {
     /// <summary>

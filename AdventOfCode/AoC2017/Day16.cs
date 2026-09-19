@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 16
 /// </summary>
+[Solver(2017, 16)]
 public sealed class Day16 : Solver<Day16.Move[]>
 {
     private const int SIZE = 16;

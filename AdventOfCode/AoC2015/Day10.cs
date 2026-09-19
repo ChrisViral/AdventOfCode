@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 10
 /// </summary>
+[Solver(2015, 10)]
 public sealed partial class Day10 : Solver<string>
 {
     private const int PART1_REPEATS = 40;

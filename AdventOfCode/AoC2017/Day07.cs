@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Arrays;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
 using CommunityToolkit.HighPerformance;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 07
 /// </summary>
+[Solver(2017, 7)]
 public sealed partial class Day07 : RegexSolver<Day07.Program>
 {
     [DebuggerDisplay("{Name} ({Weight}), TotalWeight: {TotalWeight}, IsBalanced: {IsBalanced}")]

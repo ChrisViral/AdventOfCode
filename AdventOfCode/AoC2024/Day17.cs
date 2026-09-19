@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 17
 /// </summary>
+[Solver(2024, 17)]
 public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
 {
     private enum Opcode

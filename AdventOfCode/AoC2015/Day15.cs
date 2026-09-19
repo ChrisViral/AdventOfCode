@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 15
 /// </summary>
+[Solver(2015, 15)]
 public sealed partial class Day15 : RegexSolver<Day15.Ingredient>
 {
     public readonly record struct Ingredient(string Name, int Capacity, int Durability, int Flavour, int Texture, int Calories);

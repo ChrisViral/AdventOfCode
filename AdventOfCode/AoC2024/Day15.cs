@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Arrays;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 15
 /// </summary>
+[Solver(2024, 15)]
 public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
 {
     /// <summary>

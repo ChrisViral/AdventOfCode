@@ -1,5 +1,5 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 05
 /// </summary>
+[Solver(2018, 5)]
 public sealed class Day05 : Solver<string>
 {
     /// <summary>

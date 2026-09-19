@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 10
 /// </summary>
+[Solver(2023, 10)]
 public sealed class Day10 : GridSolver<Day10.Pipe>
 {
     public enum Pipe

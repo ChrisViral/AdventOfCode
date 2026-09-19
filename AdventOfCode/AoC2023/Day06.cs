@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 06
 /// </summary>
+[Solver(2023, 6)]
 public sealed class Day06 : Solver<(int time, int record)[]>
 {
     /// <summary>

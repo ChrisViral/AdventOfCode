@@ -1,10 +1,11 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Strings;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +14,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 04
 /// </summary>
+[Solver(2016, 4)]
 public sealed partial class Day04 : RegexSolver<Day04.Room>
 {
     public class Room

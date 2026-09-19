@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
-using Challenge.Utils.Extensions.Collections;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Collections;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 21
 /// </summary>
+[Solver(2015, 21)]
 public sealed class Day21 : Solver<Day21.Stats>
 {
     public readonly record struct Stats(int HitPoints, int Damage, int Armour);

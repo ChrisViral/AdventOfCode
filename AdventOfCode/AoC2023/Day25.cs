@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 25
 /// </summary>
+[Solver(2023, 25)]
 public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
 {
     public sealed class Component(string name) : IEquatable<Component>

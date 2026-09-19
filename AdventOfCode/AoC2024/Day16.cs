@@ -1,9 +1,9 @@
 ﻿using System.Buffers;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 16
 /// </summary>
+[Solver(2024, 16)]
 public sealed class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> end)>
 {
     private readonly record struct Move(Vector2<int> Position, Direction Direction);

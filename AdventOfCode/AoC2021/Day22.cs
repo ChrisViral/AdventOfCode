@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 22
 /// </summary>
+[Solver(2021, 22)]
 public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
 {
     /// <summary>

@@ -1,7 +1,8 @@
-﻿using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 20
 /// </summary>
+[Solver(2022, 20)]
 public sealed class Day20 : ArraySolver<long>
 {
     /// <summary>Part 2 decryption key</summary>

@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 19
 /// </summary>
+[Solver(2020, 19)]
 public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] messages)>
 {
     /// <summary>

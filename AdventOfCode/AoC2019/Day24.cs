@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
-using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -15,6 +16,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 24
 /// </summary>
+[Solver(2019, 24)]
 public sealed class Day24 : GridSolver<bool>
 {
     private const int LOOPS = 200;

@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 09
 /// </summary>
+[Solver(2016, 9)]
 public sealed partial class Day09 : Solver<string>
 {
     [GeneratedRegex(@"\((\d+)x(\d+)\)")]

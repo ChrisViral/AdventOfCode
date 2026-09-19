@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Numbers;
-using Challenge.Maths;
+﻿using Challenge.Maths;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 20
 /// </summary>
+[Solver(2015, 20)]
 public sealed class Day20 : Solver<int>
 {
     private const int HOUSE_LIMIT = 50;

@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2017.Common;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
-using Challenge.Solvers.Specialized;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 23
 /// </summary>
+[Solver(2017, 23)]
 public sealed class Day23 : RegexSolver<Instruction>
 {
     /// <inheritdoc />

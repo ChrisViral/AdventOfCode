@@ -1,10 +1,10 @@
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 13
 /// </summary>
+[Solver(2023, 13)]
 public sealed class Day13 : Solver<Grid<bool>[]>
 {
     private const char ROCK = '#';

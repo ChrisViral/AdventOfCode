@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 05
 /// </summary>
+[Solver(2023, 5)]
 public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>
 {
     public record struct MapRange(long Destination, long Source, long Length)

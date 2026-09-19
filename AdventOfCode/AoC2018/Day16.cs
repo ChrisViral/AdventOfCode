@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2018.ElfCode;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 16
 /// </summary>
+[Solver(2018, 16)]
 public sealed partial class Day16 : Solver<(Day16.Sample[] samples, Instruction[] program)>
 {
     public sealed record Sample(in Registers Before, in Registers After, in Instruction Instruction);

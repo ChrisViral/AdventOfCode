@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
+﻿using Challenge.Solvers;
+using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 18
 /// </summary>
+[Solver(2016, 18)]
 public sealed class Day18 : Solver<Day18.Tile[]>
 {
     public enum Tile

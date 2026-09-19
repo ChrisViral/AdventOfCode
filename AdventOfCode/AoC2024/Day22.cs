@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 22
 /// </summary>
+[Solver(2024, 22)]
 public sealed class Day22 : ArraySolver<long>
 {
     private sealed class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(byte a, byte b, byte c, byte d), Ref<int>>

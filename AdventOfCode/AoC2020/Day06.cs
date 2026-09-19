@@ -1,5 +1,4 @@
-﻿using Challenge.Utils;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -8,6 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 06
 /// </summary>
+[Solver(2020, 6)]
 public sealed class Day06 : Solver<HashSet<char>[][]>
 {
     /// <summary>

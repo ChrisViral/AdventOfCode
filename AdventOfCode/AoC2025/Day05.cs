@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 05
 /// </summary>
+[Solver(2025, 5)]
 public sealed partial class Day05 : Solver<(Day05.IdRange[] Ranges, long[] Products)>
 {
     [DebuggerDisplay("{Start}-{End}")]

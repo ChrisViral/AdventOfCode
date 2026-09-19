@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 13
 /// </summary>
+[Solver(2022, 13)]
 public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
 {
     /// <summary>

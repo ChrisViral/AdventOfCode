@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 13
 /// </summary>
+[Solver(2018, 13)]
 public sealed class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13.Cart> carts)>
 {
     public enum Track

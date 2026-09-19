@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 21
 /// </summary>
+[Solver(2020, 21)]
 public sealed partial class Day21 : Solver<Day21.IngredientList[]>
 {
     /// <summary>

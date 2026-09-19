@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 04
 /// </summary>
+[Solver(2020, 4)]
 public sealed partial class Day04 : Solver<Day04.Passport[]>
 {
     /// <summary>

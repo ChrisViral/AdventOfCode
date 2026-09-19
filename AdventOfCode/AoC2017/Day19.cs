@@ -1,7 +1,8 @@
 ﻿using System.Text;
-using Challenge.Utils.Extensions.Strings;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Strings;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 19
 /// </summary>
+[Solver(2017, 19)]
 public sealed class Day19 : GridSolver<char>
 {
     private const char EMPTY = ' ';

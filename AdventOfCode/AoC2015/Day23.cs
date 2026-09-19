@@ -1,9 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
-using Challenge.Solvers.Specialized;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +13,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 23
 /// </summary>
+[Solver(2015, 23)]
 public sealed partial class Day23 : RegexSolver<Day23.Instruction>
 {
     public enum Opcode

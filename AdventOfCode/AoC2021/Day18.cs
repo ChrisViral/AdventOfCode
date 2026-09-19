@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Numerics;
-using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Enumerables;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 18
 /// </summary>
+[Solver(2021, 18)]
 public sealed class Day18 : ArraySolver<Day18.Number>
 {
     public sealed class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>

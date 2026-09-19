@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 25
 /// </summary>
+[Solver(2015, 25)]
 public sealed partial class Day25 : Solver<(int row, int column)>
 {
     private const long FIRST_CODE = 20151125L;

@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Enumerables;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 03
 /// </summary>
+[Solver(2018, 3)]
 public sealed partial class Day03 : RegexSolver<Day03.FabricArea>
 {
     [GeneratedRegex(@"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")]

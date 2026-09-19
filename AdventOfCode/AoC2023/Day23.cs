@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 23
 /// </summary>
+[Solver(2023, 23)]
 public sealed class Day23 : GridSolver<Day23.Element>
 {
     public enum Element

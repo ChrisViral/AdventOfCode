@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 09
 /// </summary>
+[Solver(2018, 9)]
 public sealed partial class Day09 : Solver<(int players, int topMarble)>
 {
     [GeneratedRegex(@"(\d+) players; last marble is worth (\d+) points")]

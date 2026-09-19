@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 19
 /// </summary>
+[Solver(2023, 19)]
 public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> workflows, Day19.Part[] parts)>
 {
     public enum Category

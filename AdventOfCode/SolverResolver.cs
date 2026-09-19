@@ -52,7 +52,7 @@ public sealed partial class SolverResolver(ILogger<SolverResolver> logger) : ISo
     private ILogger Logger { get; } = logger;
 
     /// <inheritdoc />
-    public async Task<Result<string>> FetchInput(int year, int day, string module, CancellationToken token = default)
+    public async Task<Result<string>> FetchInput(uint year, uint day, string module, CancellationToken token = default)
     {
         //Check for the input file
         FileInfo inputFile = new(Path.Combine(INPUT_FOLDER, year.ToString(), $"day{day:D2}.txt"));
@@ -96,7 +96,7 @@ public sealed partial class SolverResolver(ILogger<SolverResolver> logger) : ISo
     /// <returns>The input for the problem</returns>
     /// <exception cref="FileNotFoundException">If the settings file is not found</exception>
     /// <exception cref="InvalidOperationException">If the fetch is being rate limited</exception>
-    private async Task<string> GetInputFromWebsite(int year, int day, CancellationToken token)
+    private async Task<string> GetInputFromWebsite(uint year,uint day, CancellationToken token)
     {
         // Check if settings exist
         FileInfo settingsFile = new(SettingsPath);

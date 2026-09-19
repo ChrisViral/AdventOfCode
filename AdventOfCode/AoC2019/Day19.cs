@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.AoC2019.Solvers;
 using AdventOfCode.Intcode;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 19
 /// </summary>
+[Solver(2019, 19)]
 public sealed class Day19 : IntcodeSolver
 {
     private const int MAP_SIZE = 50;

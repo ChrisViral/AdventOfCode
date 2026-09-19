@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils;
-using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 22
 /// </summary>
+[Solver(2016, 22)]
 public sealed partial class Day22 : Solver<Day22.Node[]>
 {
     public enum NodeData

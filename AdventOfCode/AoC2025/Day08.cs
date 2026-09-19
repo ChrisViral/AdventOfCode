@@ -1,10 +1,11 @@
 ﻿using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
@@ -12,6 +13,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 08
 /// </summary>
+[Solver(2025, 8)]
 public sealed class Day08 : ArraySolver<Day08.Junction>
 {
     /// <summary>

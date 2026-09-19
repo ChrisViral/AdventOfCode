@@ -1,7 +1,7 @@
-﻿using Challenge.Utils.Extensions.Collections;
-using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 using Transformation = System.Func<Challenge.Maths.Vectors.Vector3<int>, Challenge.Maths.Vectors.Vector3<int>>;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 19
 /// </summary>
+[Solver(2021, 19)]
 public sealed class Day19 : Solver<List<Vector3<int>[]>>
 {
     private const int MATCHING = 12;

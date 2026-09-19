@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Maths;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 18
 /// </summary>
+[Solver(2023, 18)]
 public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
 {
     public readonly struct DigInstruction

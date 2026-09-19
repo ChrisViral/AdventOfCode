@@ -1,8 +1,9 @@
 ﻿using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 18
 /// </summary>
+[Solver(2018, 18)]
 public sealed class Day18 : GridSolver<Day18.Lumber>
 {
     public enum Lumber

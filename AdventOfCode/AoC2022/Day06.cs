@@ -1,6 +1,6 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 06
 /// </summary>
+[Solver(2022, 6)]
 public sealed class Day06 : Solver<string>
 {
     /// <summary>Character Counter</summary>

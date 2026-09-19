@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 14
 /// </summary>
+[Solver(2019, 14)]
 public sealed partial class Day14 : Solver<Day14.Chemical>
 {
     /// <summary>

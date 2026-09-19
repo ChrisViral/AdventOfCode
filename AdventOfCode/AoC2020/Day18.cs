@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 18
 /// </summary>
+[Solver(2020, 18)]
 public sealed class Day18 : Solver<string[][]>
 {
     /// <summary>

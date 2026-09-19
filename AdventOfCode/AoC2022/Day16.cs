@@ -2,9 +2,9 @@ using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Search;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 16
 /// </summary>
+[Solver(2022, 16)]
 public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] valves)>
 {
     /// <summary>

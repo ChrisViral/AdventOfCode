@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Enums;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 24
 /// </summary>
+[Solver(2020, 24)]
 public sealed partial class Day24 : Solver<Day24.Neighbour[][]>
 {
     /// <summary>

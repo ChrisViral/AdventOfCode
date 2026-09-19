@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 05
 /// </summary>
+[Solver(2021, 5)]
 public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>
 {
     /// <summary>

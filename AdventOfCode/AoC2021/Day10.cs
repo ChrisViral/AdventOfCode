@@ -1,6 +1,6 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Collections;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 10
 /// </summary>
+[Solver(2021, 10)]
 public sealed class Day10 : Solver
 {
     /// <summary>Points for broken chunks</summary>

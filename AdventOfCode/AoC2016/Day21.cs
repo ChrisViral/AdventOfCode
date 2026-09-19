@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Regexes;
 using Challenge.Utils.Extensions.Spans;
 using Challenge.Utils.ValueEnumerators;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
@@ -13,6 +14,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 21
 /// </summary>
+[Solver(2016, 21)]
 public sealed partial class Day21 : ArraySolver<Day21.Instruction>
 {
     public abstract record Instruction

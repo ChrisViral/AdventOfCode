@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +13,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 20
 /// </summary>
+[Solver(2017, 20)]
 public sealed partial class Day20 : RegexSolver<Day20.Particle>
 {
     [DebuggerDisplay("Pos: {Position}, Vel: {Velocity}, Acc: {Acceleration}")]

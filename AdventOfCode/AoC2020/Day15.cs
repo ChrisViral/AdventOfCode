@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 15
 /// </summary>
+[Solver(2020, 15)]
 public sealed class Day15 : Solver<Dictionary<int, int>>
 {
     /// <summary>

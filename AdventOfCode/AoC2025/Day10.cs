@@ -1,10 +1,11 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Search;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors.BitVectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 using ZLinq;
@@ -14,6 +15,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 10
 /// </summary>
+[Solver(2025, 10)]
 public sealed partial class Day10 : ArraySolver<Day10.Machine>
 {
     public sealed record Machine(ImmutableArray<bool> Lights, ImmutableArray<Button> Buttons, ImmutableArray<int> Joltages)

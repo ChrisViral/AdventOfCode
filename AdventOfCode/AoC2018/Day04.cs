@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +13,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 04
 /// </summary>
+[Solver(2018, 4)]
 public sealed partial class Day04 : RegexSolver<Day04.Schedule>
 {
     public enum ScheduleAction

@@ -1,6 +1,6 @@
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 10
 /// </summary>
+[Solver(2019, 10)]
 public sealed class Day10 : Solver<Vector2<int>[]>
 {
     /// <summary>

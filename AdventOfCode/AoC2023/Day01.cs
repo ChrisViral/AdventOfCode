@@ -1,6 +1,6 @@
 ﻿using System.Buffers;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 01
 /// </summary>
+[Solver(2023, 1)]
 public sealed class Day01 : Solver
 {
     private readonly SearchValues<char> digits = SearchValues.Create("123456789");

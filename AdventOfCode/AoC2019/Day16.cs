@@ -1,6 +1,6 @@
-﻿using Challenge.Utils;
+﻿using Challenge.Solvers;
+using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 16
 /// </summary>
+[Solver(2019, 16)]
 public sealed class Day16 : Solver<int[]>
 {
     /// <summary>

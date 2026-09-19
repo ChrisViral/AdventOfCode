@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 06
 /// </summary>
+[Solver(2018, 6)]
 public sealed class Day06 : ArraySolver<Vector2<int>>
 {
     private const int MAX_DISTANCE = 10_000;

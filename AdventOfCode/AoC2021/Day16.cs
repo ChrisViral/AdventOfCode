@@ -1,7 +1,7 @@
 using System.Text;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using static System.Convert;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 16
 /// </summary>
+[Solver(2021, 16)]
 public sealed class Day16 : Solver<Day16.Packet>
 {
     /// <summary>

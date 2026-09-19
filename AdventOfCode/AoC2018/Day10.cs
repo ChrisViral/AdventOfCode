@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Arrays;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 10
 /// </summary>
+[Solver(2018, 10)]
 public sealed partial class Day10 : RegexSolver<Day10.Light>
 {
     public sealed class Light(Vector2<int> position, Vector2<int> velocity)

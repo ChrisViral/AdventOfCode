@@ -3,12 +3,13 @@ using System.Diagnostics;
 using Challenge.Collections;
 using Challenge.Collections.Pooling.Arrays;
 using Challenge.Collections.Search;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
-using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +18,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 18
 /// </summary>
+[Solver(2019, 18)]
 public sealed class Day18 : GridSolver<char>
 {
     /// <summary>Empty position value</summary>

@@ -1,8 +1,9 @@
 ﻿using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 18
 /// </summary>
+[Solver(2015, 18)]
 public sealed class Day18 : GridSolver<bool>
 {
     private const char ON = '#';

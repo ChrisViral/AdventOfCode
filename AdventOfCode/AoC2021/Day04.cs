@@ -1,8 +1,8 @@
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 04
 /// </summary>
+[Solver(2021, 4)]
 public sealed class Day04 : Solver<Day04.BingoData>
 {
     /// <summary>

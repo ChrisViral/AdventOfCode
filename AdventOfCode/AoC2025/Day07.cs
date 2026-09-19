@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
-using Challenge.Utils.Extensions.Enums;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Enums;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 07
 /// </summary>
+[Solver(2025, 7)]
 public sealed class Day07 : GridSolver<Day07.ManifoldElement>
 {
     public enum ManifoldElement

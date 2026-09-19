@@ -2,8 +2,8 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Pooling.Arrays;
-using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Regexes;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 12
 /// </summary>
+[Solver(2015, 12)]
 public sealed partial class Day12 : Solver<string>
 {
     [GeneratedRegex(@"-?\d+")]

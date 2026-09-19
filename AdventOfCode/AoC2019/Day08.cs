@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Enums;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 08
 /// </summary>
+[Solver(2019, 8)]
 public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
 {
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Numbers;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 20
 /// </summary>
+[Solver(2021, 20)]
 public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
 {
     private const int PASSES      = 2;

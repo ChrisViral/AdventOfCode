@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 using Challenge.Collections.Pooling;
 using Challenge.Collections.Search;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -16,6 +16,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 11
 /// </summary>
+[Solver(2016, 11)]
 public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placements placement)>
 {
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 03
 /// </summary>
+[Solver(2025, 3)]
 public sealed class Day03 : Solver
 {
     private const char BEST_BATTERY = '9';

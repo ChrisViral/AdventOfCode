@@ -1,10 +1,10 @@
 using System.Text;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 20
 /// </summary>
+[Solver(2020, 20)]
 public sealed class Day20 : Solver<Day20.Tile[]>
 {
     /// <summary>

@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 20
 /// </summary>
+[Solver(2018, 20)]
 public sealed class Day20 : Solver<string>
 {
     [DebuggerDisplay("{Position}")]

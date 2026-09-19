@@ -1,8 +1,8 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 04
 /// </summary>
+[Solver(2023, 4)]
 public sealed partial class Day04 : Solver<Day04.Card[]>
 {
     public readonly struct Card(string winning, string numbers)

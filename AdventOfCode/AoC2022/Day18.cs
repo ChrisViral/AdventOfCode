@@ -1,4 +1,5 @@
 ﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 18
 /// </summary>
+[Solver(2022, 18)]
 public sealed class Day18 : ArraySolver<Vector3<int>>
 {
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 04
 /// </summary>
+[Solver(2015, 4)]
 public sealed class Day04 : Solver<byte[]>
 {
     private const int PART1_SIZE = 5;

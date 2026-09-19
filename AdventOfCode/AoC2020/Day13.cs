@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Numbers;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 13
 /// </summary>
+[Solver(2020, 13)]
 public sealed class Day13 : Solver<(int timestamp, int[] buses)>
 {
     /// <summary>

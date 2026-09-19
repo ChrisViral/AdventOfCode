@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 08
 /// </summary>
+[Solver(2018, 8)]
 public sealed class Day08 : Solver<Day08.Node>
 {
     public record Node(ImmutableArray<Node> Children, ImmutableArray<int> Metadata)

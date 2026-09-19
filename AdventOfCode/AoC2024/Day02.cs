@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Enumerables;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enumerables;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 02
 /// </summary>
+[Solver(2024, 2)]
 public sealed class Day02 : ArraySolver<int[]>
 {
     /// <summary>

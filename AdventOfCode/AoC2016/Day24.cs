@@ -1,10 +1,11 @@
 ﻿using Challenge.Collections.Search;
+using Challenge.Maths.Vectors;
+using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +14,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 24
 /// </summary>
+[Solver(2016, 24)]
 public sealed class Day24 : GridSolver<char>
 {
     private readonly record struct State(int Location, BitVector8 Checks, bool UseLocation)

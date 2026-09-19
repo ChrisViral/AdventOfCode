@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 09
 /// </summary>
+[Solver(2015, 9)]
 public sealed partial class Day09 : Solver<(ImmutableArray<string> locations, Dictionary<UnorderedPair<string>, int> distances)>
 {
     [GeneratedRegex(@"(\w+) to (\w+) = (\d+)")]

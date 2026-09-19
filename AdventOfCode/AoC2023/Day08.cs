@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Numbers;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 08
 /// </summary>
+[Solver(2023, 8)]
 public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>
 {
     [GeneratedRegex(@"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)")]

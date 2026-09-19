@@ -1,5 +1,6 @@
-﻿using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 02
 /// </summary>
+[Solver(2022, 2)]
 public sealed class Day02 : ArraySolver<(Day02.Move opponent, Day02.Move self)>
 {
     public readonly struct Move(int value)

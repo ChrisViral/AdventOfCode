@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2019.Solvers;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 25
 /// </summary>
+[Solver(2019, 25)]
 public sealed partial class Day25 : IntcodeSolver
 {
     private sealed class ProgramHaltedException(string reason) : Exception

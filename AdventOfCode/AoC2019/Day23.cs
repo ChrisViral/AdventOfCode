@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 23
 /// </summary>
+[Solver(2019, 23)]
 public sealed class Day23 : Solver<NAT>
 {
     private const int COMPUTERS = 50;

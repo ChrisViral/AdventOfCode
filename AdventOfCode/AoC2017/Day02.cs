@@ -1,4 +1,5 @@
-﻿using Challenge.Solvers.Specialized;
+﻿using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -6,6 +7,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 02
 /// </summary>
+[Solver(2017, 2)]
 public sealed class Day02 : ArraySolver<int[]>
 {
     /// <summary>

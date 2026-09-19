@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 03
 /// </summary>
+[Solver(2024, 3)]
 public sealed partial class Day03 : Solver<string>
 {
     [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)")]

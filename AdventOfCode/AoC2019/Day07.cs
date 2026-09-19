@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.AoC2019.Solvers;
 using AdventOfCode.Intcode;
 using AdventOfCode.Intcode.IO;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 07
 /// </summary>
+[Solver(2019, 7)]
 public sealed class Day07 : IntcodeSolver
 {
     /// <summary>

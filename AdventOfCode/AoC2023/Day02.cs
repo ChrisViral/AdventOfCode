@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 02
 /// </summary>
+[Solver(2023, 2)]
 public sealed partial class Day02 : Solver<Day02.Game[]>
 {
     public readonly partial struct Set

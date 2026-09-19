@@ -1,5 +1,6 @@
 ﻿using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 12
 /// </summary>
+[Solver(2022, 12)]
 public sealed class Day12 : GridSolver<int>
 {
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using static System.Convert;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 03
 /// </summary>
+[Solver(2021, 3)]
 public sealed class Day03 : Solver
 {
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>

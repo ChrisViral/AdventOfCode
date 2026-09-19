@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 24
 /// </summary>
+[Solver(2024, 24)]
 public sealed class Day24 : Solver<Day24.Wire[]>
 {
     /// <summary>

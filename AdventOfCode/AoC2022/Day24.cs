@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 24
 /// </summary>
+[Solver(2022, 24)]
 public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
 {
     /// <summary>

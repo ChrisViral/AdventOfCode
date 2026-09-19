@@ -2,9 +2,10 @@ using System.ComponentModel;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
 using Challenge.Collections.Search;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
-using Challenge.Maths.Vectors;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +14,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 15
 /// </summary>
+[Solver(2019, 15)]
 public sealed class Day15 : IntcodeSolver
 {
     /// <summary>

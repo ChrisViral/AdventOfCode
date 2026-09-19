@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -15,6 +15,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 21
 /// </summary>
+[Solver(2017, 21)]
 public sealed partial class Day21 : Solver<FrozenDictionary<Grid<bool>, Grid<bool>>>
 {
     private sealed class PatternComparer : IEqualityComparer<Grid<bool>>

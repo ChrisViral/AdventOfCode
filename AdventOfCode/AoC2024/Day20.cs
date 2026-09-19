@@ -3,9 +3,9 @@ using System.Collections.Frozen;
 using System.Diagnostics;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -14,6 +14,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 20
 /// </summary>
+[Solver(2024, 20)]
 public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Vector2<int> end)>
 {
     private static readonly SearchValues<char> Markers = SearchValues.Create('S', 'E');

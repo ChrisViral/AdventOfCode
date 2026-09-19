@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 25
 /// </summary>
+[Solver(2024, 25)]
 public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
 {
     /// <summary>

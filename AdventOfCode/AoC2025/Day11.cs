@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 11
 /// </summary>
+[Solver(2025, 11)]
 public sealed partial class Day11 : Solver<Dictionary<string, Day11.Device>>
 {
     public sealed class Device(string id) : IEquatable<Device>

@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +15,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 12
 /// </summary>
+[Solver(2019, 12)]
 public sealed partial class Day12 : Solver<Day12.Moon[]>
 {
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 06
 /// </summary>
+[Solver(2025, 6)]
 public sealed partial class Day06 : Solver<Grid<string>>
 {
     [GeneratedRegex(@"([\*|\+] +)(?: |$)")]

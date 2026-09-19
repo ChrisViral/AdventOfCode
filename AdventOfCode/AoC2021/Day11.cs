@@ -1,8 +1,9 @@
-﻿using Challenge.Utils.Extensions.Collections;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 11
 /// </summary>
+[Solver(2021, 11)]
 public sealed class Day11 : GridSolver<byte>
 {
     /// <summary>Simulation days</summary>

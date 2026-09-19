@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Collections;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 25
 /// </summary>
+[Solver(2018, 25)]
 public sealed class Day25 : ArraySolver<Day25.Star>
 {
     public sealed class Star

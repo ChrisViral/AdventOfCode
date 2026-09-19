@@ -6,6 +6,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 12
 /// </summary>
+[Solver(2021, 12)]
 public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
 {
     /// <summary>

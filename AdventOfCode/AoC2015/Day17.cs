@@ -1,4 +1,5 @@
 ﻿using Challenge.Collections;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 17
 /// </summary>
+[Solver(2015, 17)]
 public sealed class Day17 : ArraySolver<int>
 {
     private const int TARGET_AMOUNT = 150;

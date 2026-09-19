@@ -1,6 +1,7 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 16
 /// </summary>
+[Solver(2015, 16)]
 public sealed partial class Day16 : RegexSolver<Day16.Sue>
 {
     public readonly record struct Compound(string Name, int Amount);

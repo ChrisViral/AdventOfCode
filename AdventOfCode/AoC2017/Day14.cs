@@ -1,11 +1,11 @@
 ﻿using AdventOfCode.AoC2017.Common;
 using Challenge.Collections;
 using Challenge.Collections.Pooling;
-using Challenge.Utils.Extensions.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Collections;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -14,6 +14,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 14
 /// </summary>
+[Solver(2017, 14)]
 public sealed class Day14 : Solver<string>
 {
     private const int SIZE = 128;

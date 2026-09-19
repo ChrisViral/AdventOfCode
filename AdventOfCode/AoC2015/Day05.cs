@@ -1,7 +1,8 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 05
 /// </summary>
+[Solver(2015, 5)]
 public sealed partial class Day05 : ArraySolver<string>
 {
     private static readonly SearchValues<char> Vowels = SearchValues.Create("aeiou");

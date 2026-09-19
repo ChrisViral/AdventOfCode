@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 01
 /// </summary>
+[Solver(2024, 1)]
 public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>
 {
     [GeneratedRegex(@"(\d+)   (\d+)")]

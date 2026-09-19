@@ -1,7 +1,8 @@
-﻿using Challenge.Utils.Extensions.Enums;
-using Challenge.Utils.Extensions.Numbers;
-using Challenge.Maths;
+﻿using Challenge.Maths;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 22
 /// </summary>
+[Solver(2019, 22)]
 public sealed class Day22 : ArraySolver<Day22.Instruction>
 {
     public enum InstructionType

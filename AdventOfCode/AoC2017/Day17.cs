@@ -1,5 +1,5 @@
-﻿using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 17
 /// </summary>
+[Solver(2017, 17)]
 public sealed class Day17 : Solver<int>
 {
     private const int PART1 = 2017;

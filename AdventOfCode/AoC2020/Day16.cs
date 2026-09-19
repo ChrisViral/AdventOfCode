@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 16
 /// </summary>
+[Solver(2020, 16)]
 public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.Ticket ticket, Day16.Ticket[] examples)>
 {
     /// <summary>

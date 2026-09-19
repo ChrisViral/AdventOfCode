@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 07
 /// </summary>
+[Solver(2023, 7)]
 public sealed class Day07 : ArraySolver<Day07.Hand>
 {
     private const string ORDER   = "23456789TJQKA";

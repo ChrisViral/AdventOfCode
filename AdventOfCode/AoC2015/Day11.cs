@@ -1,8 +1,8 @@
 ﻿using System.Buffers;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Strings;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 11
 /// </summary>
+[Solver(2015, 11)]
 public sealed partial class Day11 : Solver<string>
 {
     private static readonly SearchValues<char> Banned = SearchValues.Create("iol");

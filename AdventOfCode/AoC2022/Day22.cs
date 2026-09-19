@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
-using Challenge.Utils.Extensions.Regexes;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.Regexes;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 22
 /// </summary>
+[Solver(2022, 22)]
 public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] movements)>
 {
     /// <summary>

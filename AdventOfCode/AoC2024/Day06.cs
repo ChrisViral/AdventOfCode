@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 06
 /// </summary>
+[Solver(2024, 6)]
 public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
 {
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Text;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 19
 /// </summary>
+[Solver(2015, 19)]
 public sealed partial class Day19 : Solver<(ImmutableArray<Day19.Replacement> replacements, string molecule)>
 {
     public readonly record struct Replacement(string From, string To)

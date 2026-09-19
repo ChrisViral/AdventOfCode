@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Regexes;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 15
 /// </summary>
+[Solver(2022, 15)]
 public sealed partial class Day15 : ArraySolver<(Vector2<int> sensor, int distance)>
 {
     /// <summary>Search level for part 1</summary>

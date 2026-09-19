@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using Challenge.Utils.Extensions.Arrays;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 22
 /// </summary>
+[Solver(2020, 22)]
 public sealed class Day22 : Solver<(int[] p1, int[] p2)>
 {
     /// <summary>

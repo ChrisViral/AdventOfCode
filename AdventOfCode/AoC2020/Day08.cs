@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 08
 /// </summary>
+[Solver(2020, 8)]
 public sealed class Day08 : Solver<Day08.Instruction[]>
 {
     /// <summary>

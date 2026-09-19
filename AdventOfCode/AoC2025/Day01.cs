@@ -1,5 +1,6 @@
-﻿using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 01
 /// </summary>
+[Solver(2025, 1)]
 public sealed class Day01 : ArraySolver<int>
 {
     private const int DIAL_SIZE = 100;

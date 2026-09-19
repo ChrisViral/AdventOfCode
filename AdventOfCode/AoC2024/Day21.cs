@@ -1,8 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 21
 /// </summary>
+[Solver(2024, 21)]
 public sealed class Day21 : ArraySolver<(string code, int value)>
 {
     /// <summary>

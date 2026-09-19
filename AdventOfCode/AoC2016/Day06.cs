@@ -1,6 +1,7 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 06
 /// </summary>
+[Solver(2016, 6)]
 public sealed class Day06 : ArraySolver<string>
 {
     /// <summary>

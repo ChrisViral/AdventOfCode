@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 

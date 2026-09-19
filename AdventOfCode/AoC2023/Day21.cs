@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 21
 /// </summary>
+[Solver(2023, 21)]
 public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 {
     private const int STEPS = 64;

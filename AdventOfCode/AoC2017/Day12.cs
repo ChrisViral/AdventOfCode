@@ -2,10 +2,10 @@
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Pooling;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 12
 /// </summary>
+[Solver(2017, 12)]
 public sealed partial class Day12 : Solver<FrozenDictionary<int, Day12.Program>>
 {
     public sealed class Program(int id, string pipes)

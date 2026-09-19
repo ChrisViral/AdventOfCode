@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 03
 /// </summary>
+[Solver(2023, 3)]
 public sealed class Day03 : GridSolver<char>
 {
     private const char EMPTY = '.';

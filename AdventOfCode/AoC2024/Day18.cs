@@ -1,8 +1,9 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils.Extensions.Collections;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 18
 /// </summary>
+[Solver(2024, 18)]
 public sealed class Day18 : ArraySolver<Vector2<int>>
 {
     private const int PART1_COUNT = 1024;

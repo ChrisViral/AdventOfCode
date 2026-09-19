@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 20
 /// </summary>
+[Solver(2023, 20)]
 public sealed class Day20 : Solver<Dictionary<string, Day20.Module>>
 {
     public enum Pulse

@@ -1,7 +1,7 @@
-﻿using Challenge.Utils.Extensions.Enumerables;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 11
 /// </summary>
+[Solver(2022, 11)]
 public sealed class Day11 : Solver<Day11.Monkey[]>
 {
     /// <summary>

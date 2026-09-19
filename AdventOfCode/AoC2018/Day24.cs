@@ -1,12 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using CommunityToolkit.HighPerformance;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -16,6 +16,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 24
 /// </summary>
+[Solver(2018, 24)]
 public sealed partial class Day24 : Solver<(Day24.Army immune, Day24.Army infection)>
 {
     /// <summary>

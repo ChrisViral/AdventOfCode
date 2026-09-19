@@ -2,9 +2,10 @@
 using System.Text.RegularExpressions;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -14,6 +15,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 17
 /// </summary>
+[Solver(2019, 17)]
 public sealed partial class Day17 : IntcodeSolver
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

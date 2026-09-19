@@ -1,7 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 10
 /// </summary>
+[Solver(2022, 10)]
 public sealed class Day10 : ArraySolver<(Day10.Operation op, int arg)>
 {
     // ReSharper disable once IdentifierTypo

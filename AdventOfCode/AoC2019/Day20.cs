@@ -1,10 +1,10 @@
 ﻿using System.Collections.Frozen;
 using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils.Extensions.Enums;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2019;
 /// <summary>
 /// Solver for 2019 Day 20
 /// </summary>
+[Solver(2019, 20)]
 public sealed class Day20 : Solver<Day20.MapData>
 {
     public enum Element

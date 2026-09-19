@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 07
 /// </summary>
+[Solver(2016, 7)]
 public sealed partial class Day07 : ArraySolver<string>
 {
     [GeneratedRegex(@"^(?=(?:[a-z\[\]]+\])?[a-z]*([a-z])(?!\1)([a-z])\2\1)(?![a-z\[\]]*\[[a-z]*([a-z])(?!\3)([a-z])\4\3)[a-z\[\]]+$")]

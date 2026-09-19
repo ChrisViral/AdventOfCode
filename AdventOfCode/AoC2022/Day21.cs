@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Regexes;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Regexes;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 21
 /// </summary>
+[Solver(2022, 21)]
 public sealed partial class Day21 : Solver<Dictionary<string, Day21.Monkey>>
 {
     /// <summary>

@@ -1,5 +1,6 @@
-﻿using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 20
 /// </summary>
+[Solver(2016, 20)]
 public sealed class Day20 : ArraySolver<Day20.IPRange>
 {
     public readonly record struct IPRange(uint Start, uint End) : IComparable<IPRange>

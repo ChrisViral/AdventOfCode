@@ -1,6 +1,7 @@
 using Challenge.Collections;
 using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 17
 /// </summary>
+[Solver(2023, 17)]
 public sealed class Day17 : GridSolver<int>
 {
     public interface ICrucible<T> : IEquatable<T> where T : ICrucible<T>

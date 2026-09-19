@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 04
 /// </summary>
+[Solver(2022, 4)]
 public sealed partial class Day04 : Solver<((int, int) first, (int, int) second)[]>
 {
     /// <summary>

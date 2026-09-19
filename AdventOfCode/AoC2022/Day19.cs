@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2022;
 /// <summary>
 /// Solver for 2022 Day 19
 /// </summary>
+[Solver(2022, 19)]
 public sealed partial class Day19 : Solver<Day19.Blueprint[]>
 {
     /// <summary>

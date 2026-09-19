@@ -1,4 +1,5 @@
-﻿using Challenge.Solvers.Specialized;
+﻿using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 08
 /// </summary>
+[Solver(2015, 8)]
 public sealed class Day08 : ArraySolver<string>
 {
     /// <summary>

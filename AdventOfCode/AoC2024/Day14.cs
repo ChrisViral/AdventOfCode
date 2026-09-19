@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -13,6 +13,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 14
 /// </summary>
+[Solver(2024, 14)]
 public sealed partial class Day14 : Solver<Day14.Robot[]>
 {
     public sealed class Robot(int px, int py, int vx, int vy)

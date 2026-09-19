@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Numbers;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 13
 /// </summary>
+[Solver(2017, 13)]
 public sealed partial class Day13 : RegexSolver<Day13.Firewall>
 {
     public readonly record struct Firewall(int Depth, int Range)

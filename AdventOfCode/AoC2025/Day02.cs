@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 02
 /// </summary>
+[Solver(2025, 2)]
 public sealed partial class Day02 : Solver<Day02.IdRange[]>
 {
     public readonly record struct IdRange(long Start, long End);

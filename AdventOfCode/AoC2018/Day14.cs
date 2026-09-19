@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using Challenge.Utils.Extensions.Numbers;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -8,6 +8,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 14
 /// </summary>
+[Solver(2018, 14)]
 public sealed class Day14 : Solver<int>
 {
     private const int PART1_SIZE = 10;

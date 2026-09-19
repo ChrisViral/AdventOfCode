@@ -1,9 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
 using Challenge.Collections;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 25
 /// </summary>
+[Solver(2017, 25)]
 public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char, Day25.State> states)>
 {
     [DebuggerDisplay("Write {Write}, Move {Move == 1 ? \"right\" : \"left\"}, Next {Next}")]

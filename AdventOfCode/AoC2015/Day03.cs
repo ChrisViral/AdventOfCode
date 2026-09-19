@@ -1,7 +1,7 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 03
 /// </summary>
+[Solver(2015, 3)]
 public sealed class Day03 : Solver<Direction[]>
 {
     /// <summary>

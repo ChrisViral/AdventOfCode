@@ -1,4 +1,5 @@
 ﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 10
 /// </summary>
+[Solver(2024, 10)]
 public sealed class Day10 : GridSolver<int>
 {
     /// <summary>

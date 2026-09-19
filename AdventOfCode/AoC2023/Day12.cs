@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 12
 /// </summary>
+[Solver(2023, 12)]
 public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
 {
     private sealed class CacheEqualityComparer : IEqualityComparer<(string, ArraySegment<int>)>

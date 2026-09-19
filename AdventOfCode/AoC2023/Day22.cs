@@ -1,9 +1,10 @@
-﻿using Challenge.Utils;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
+using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +13,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 22
 /// </summary>
+[Solver(2023, 22)]
 public sealed class Day22 : ArraySolver<Day22.Brick>
 {
     public sealed class Brick : IComparable<Brick>, IEquatable<Brick>

@@ -1,9 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
-using Challenge.Solvers.Specialized;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 08
 /// </summary>
+[Solver(2016, 8)]
 public sealed partial class Day08 : RegexSolver<Day08.Instruction>
 {
     public enum Kind

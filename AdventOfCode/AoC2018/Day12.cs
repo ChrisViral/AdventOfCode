@@ -2,8 +2,8 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 12
 /// </summary>
+[Solver(2018, 12)]
 public sealed partial class Day12 : Solver<(StringBuilder plants, FrozenDictionary<string, char> rules)>
 {
     private const char PLANT = '#';

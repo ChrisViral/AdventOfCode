@@ -1,5 +1,5 @@
-﻿using Challenge.Utils.Extensions.Arrays;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 19
 /// </summary>
+[Solver(2024, 19)]
 public sealed class Day19 : Solver<(string[] towels, string[] designs)>
 {
     /// <summary>

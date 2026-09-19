@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
-using Challenge.Utils;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
+using Challenge.Utils;
+using Challenge.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 13
 /// </summary>
+[Solver(2015, 13)]
 public sealed partial class Day13 : Solver<(ImmutableArray<string> people, Dictionary<UnorderedPair<string>, int> happiness)>
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

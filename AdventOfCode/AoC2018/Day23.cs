@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Challenge.Utils.Extensions.Numbers;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Numbers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 23
 /// </summary>
+[Solver(2018, 23)]
 public sealed partial class Day23 : RegexSolver<Day23.Nanobot>
 {
     public sealed record Nanobot(Vector3<long> Position, long Radius)

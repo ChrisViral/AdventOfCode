@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors.BitVectors;
+﻿using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 24
 /// </summary>
+[Solver(2015, 24)]
 public sealed class Day24 : ArraySolver<int>
 {
     /// <summary>

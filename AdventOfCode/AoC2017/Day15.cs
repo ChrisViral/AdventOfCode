@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 15
 /// </summary>
+[Solver(2017, 15)]
 public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
 {
     public sealed class Generator(int seed, int factor, int multiple)

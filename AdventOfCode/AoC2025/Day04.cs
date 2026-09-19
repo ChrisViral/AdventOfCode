@@ -1,6 +1,7 @@
-﻿using Challenge.Utils.Extensions.Collections;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Collections;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2025;
 /// <summary>
 /// Solver for 2025 Day 04
 /// </summary>
+[Solver(2025, 4)]
 public sealed class Day04 : GridSolver<bool>
 {
     private const char ROLL = '@';

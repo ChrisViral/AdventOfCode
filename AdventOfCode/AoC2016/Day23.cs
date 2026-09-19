@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2016.Assembunny;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 23
 /// </summary>
+[Solver(2016, 23)]
 public sealed class Day23 : RegexSolver<Instruction>
 {
     private const int PART1_VALUE = 7;

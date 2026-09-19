@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 01
 /// </summary>
+[Solver(2017, 1)]
 public sealed class Day01 : Solver<int[]>
 {
     /// <summary>

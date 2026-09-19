@@ -1,6 +1,7 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 15
 /// </summary>
+[Solver(2021, 15)]
 public sealed class Day15 : GridSolver<byte>
 {
     /// <summary>Full size of the map</summary>

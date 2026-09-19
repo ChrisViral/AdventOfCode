@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 14
 /// </summary>
+[Solver(2016, 14)]
 public sealed class Day14 : Solver<byte[]>
 {
     private const int KEYS_COUNT   = 64;

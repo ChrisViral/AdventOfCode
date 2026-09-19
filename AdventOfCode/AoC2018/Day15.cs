@@ -3,11 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using Challenge.Collections;
 using Challenge.Collections.Pooling;
 using Challenge.Collections.Search;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -16,6 +16,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 15
 /// </summary>
+[Solver(2018, 15)]
 public sealed class Day15 : Solver<Grid<Day15.Entity>>
 {
     /// <summary>

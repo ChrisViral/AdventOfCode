@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 06
 /// </summary>
+[Solver(2017, 6)]
 public sealed class Day06 : Solver<int[]>
 {
     [InlineArray(SIZE)]

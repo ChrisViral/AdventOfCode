@@ -1,8 +1,9 @@
 ﻿using Challenge.Collections;
+using Challenge.Maths.Vectors;
+using Challenge.Solvers;
+using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Maths.Vectors;
-using Challenge.Solvers.Specialized;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 11
 /// </summary>
+[Solver(2020, 11)]
 public sealed class Day11 : GridSolver<Day11.Seat>
 {
     public enum Seat

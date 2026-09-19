@@ -1,8 +1,8 @@
 ﻿using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 13
 /// </summary>
+[Solver(2021, 13)]
 public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 {
     /// <summary>

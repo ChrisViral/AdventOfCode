@@ -1,7 +1,7 @@
-﻿using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Enums;
-using Challenge.Maths.Vectors;
+﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Arrays;
+using Challenge.Utils.Extensions.Enums;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 11
 /// </summary>
+[Solver(2017, 11)]
 public sealed class Day11 : Solver<Day11.HexDirection[]>
 {
     public enum HexDirection

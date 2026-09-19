@@ -1,5 +1,6 @@
 using Challenge.Collections;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 14
 /// </summary>
+[Solver(2023, 14)]
 public sealed class Day14 : GridSolver<Day14.Rock>
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

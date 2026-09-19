@@ -1,9 +1,9 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
-using Challenge.Utils.Extensions.Enums;
-using Challenge.Utils.Extensions.Spans;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.Spans;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 22
 /// </summary>
+[Solver(2018, 22)]
 public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
 {
     private enum Region

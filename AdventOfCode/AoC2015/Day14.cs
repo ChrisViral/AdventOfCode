@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
@@ -9,6 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 14
 /// </summary>
+[Solver(2015, 14)]
 public sealed partial class Day14 : RegexSolver<Day14.Reindeer>
 {
     public readonly record struct Reindeer(string Name, int Speed, int Active, int Rest)

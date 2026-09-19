@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.AoC2017.Common;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 10
 /// </summary>
+[Solver(2017, 10)]
 public sealed class Day10 : Solver<string>
 {
     /// <summary>

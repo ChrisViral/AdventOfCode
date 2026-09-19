@@ -1,5 +1,5 @@
-﻿using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
@@ -7,6 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// <summary>
 /// Solver for 2020 Day 25
 /// </summary>
+[Solver(2020, 25)]
 public sealed class Day25 : Solver<(int cardKey, int doorKey)>
 {
     /// <summary>

@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Ranges;
 using Challenge.Maths.Vectors;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -11,6 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// <summary>
 /// Solver for 2023 Day 16
 /// </summary>
+[Solver(2023, 16)]
 public sealed class Day16 : GridSolver<Day16.Element>
 {
     // ReSharper disable IdentifierTypo

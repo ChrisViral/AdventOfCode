@@ -1,5 +1,6 @@
-﻿using Challenge.Utils.Extensions.Ranges;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Ranges;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
@@ -7,6 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 01
 /// </summary>
+[Solver(2021, 1)]
 public sealed class Day01 : ArraySolver<int>
 {
     /// <summary>

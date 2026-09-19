@@ -6,6 +6,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2018 Day 09
 /// </summary>
+[Solver(2017, 9)]
 public sealed class Day09 : Solver<string>
 {
     private sealed class Group

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
-using Challenge.Solvers;
 using FastEnumUtility;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +12,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 10
 /// </summary>
+[Solver(2016, 10)]
 public sealed partial class Day10 : Solver<(ImmutableArray<Day10.Input> inputs, FrozenDictionary<int, Day10.Bot> bots, FrozenDictionary<int, Day10.Output> outputs)>
 {
     private enum RecipientType

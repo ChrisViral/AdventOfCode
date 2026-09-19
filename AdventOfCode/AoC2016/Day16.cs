@@ -1,6 +1,6 @@
-﻿using Challenge.Utils.Extensions.Numbers;
+﻿using Challenge.Solvers;
+using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Spans;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// <summary>
 /// Solver for 2016 Day 16
 /// </summary>
+[Solver(2016, 16)]
 public sealed class Day16 : Solver<string>
 {
     private const int PART1_SIZE = 272;

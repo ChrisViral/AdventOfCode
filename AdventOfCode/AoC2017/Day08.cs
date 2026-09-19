@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Challenge.Collections;
-using Challenge.Utils.Extensions.Enums;
+using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
@@ -10,6 +11,7 @@ namespace AdventOfCode.AoC2017;
 /// <summary>
 /// Solver for 2017 Day 08
 /// </summary>
+[Solver(2017, 8)]
 public sealed partial class Day08 : RegexSolver<Day08.Instruction>
 {
     public enum Change

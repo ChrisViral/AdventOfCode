@@ -9,6 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// <summary>
 /// Solver for 2015 Day 22
 /// </summary>
+[Solver(2015, 22)]
 public sealed class Day22 : Solver<Day22.Stats>
 {
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Challenge.Solvers;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
@@ -10,6 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// <summary>
 /// Solver for 2018 Day 07
 /// </summary>
+[Solver(2018, 7)]
 public sealed partial class Day07 : Solver<Day07.Step[]>
 {
     public sealed record Step(char ID, HashSet<char> Requirements);

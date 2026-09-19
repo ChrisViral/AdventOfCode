@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
-using Challenge.Utils;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
+using Challenge.Utils;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using ZLinq;
@@ -11,6 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// <summary>
 /// Solver for 2024 Day 13
 /// </summary>
+[Solver(2024, 13)]
 public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
 {
     /// <summary>

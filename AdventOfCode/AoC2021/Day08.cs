@@ -1,5 +1,6 @@
-﻿using Challenge.Utils.Extensions.Arrays;
+﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils.Extensions.Arrays;
 using Microsoft.Extensions.Logging;
 using ZLinq;
 
@@ -8,6 +9,7 @@ namespace AdventOfCode.AoC2021;
 /// <summary>
 /// Solver for 2021 Day 08
 /// </summary>
+[Solver(2021, 8)]
 public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     /// <summary>Signal/output separator</summary>
