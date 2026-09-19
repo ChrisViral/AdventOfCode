@@ -26,6 +26,7 @@ Cli.Ext.ConfigureServices(services =>
             .AddLogging(builder => builder.AddSerilog(Log.Logger, true));
 });
 
+// Default args
 if (args is [])
 {
     args = ["-h"];
