@@ -33,7 +33,7 @@ Log.Logger = configuration.WriteTo.Console()
                           .CreateLogger();
 
 // Check if settings exist
-FileInfo settingsFile = new(SolverResolver.SettingsPath);
+FileInfo settingsFile = new(SolverResolverBase.SettingsPath);
 if (!settingsFile.Exists)
 {
     // Create empty settings file
@@ -76,7 +76,7 @@ Cli.Ext.ConfigureServices(services =>
             .AddLogging(builder => builder.AddSerilog(Log.Logger, true));
 
     // Add HTTP Clients
-    services.AddRefitClient<IAdventOfCodeApi>()
+    services.AddRefitClient<IAdventOfCodeAPI>()
             .ConfigureHttpClient(client =>
              {
                  // Create client
@@ -105,7 +105,7 @@ return await Cli.RunAsync<ChallengeCommand>(args, cancellationToken: cancellatio
 try
 {
     // Try running the command
-    return await Cli.RunAsync<ChallengeCommand>(args, cancellationToken: token).ConfigureAwait(false);
+    return await Cli.RunAsync<ChallengeCommand>(args, cancellationToken: cancellationSource.token).ConfigureAwait(false);
 }
 catch (Exception e)
 {

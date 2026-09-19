@@ -12,7 +12,7 @@ namespace AdventOfCode.Resolver;
 /// <param name="logger">Logger instance</param>
 /// <param name="settings">Resolver settings</param>
 /// <param name="api">Advent of Code web API</param>
-internal sealed class SolverResolver(ILogger<SolverResolver> logger, ResolverSettings settings, IAdventOfCodeApi api) : SolverResolverBase(logger, settings)
+internal sealed class SolverResolver(ILogger<SolverResolver> logger, ResolverSettings settings, IAdventOfCodeAPI api) : SolverResolverBase(logger, settings)
 {
     /// <inheritdoc />
     public override string ChallengeName => "Advent of Code";
@@ -23,7 +23,7 @@ internal sealed class SolverResolver(ILogger<SolverResolver> logger, ResolverSet
     /// <summary>
     /// Advent of Code API
     /// </summary>
-    private IAdventOfCodeApi API { get; } = api;
+    private IAdventOfCodeAPI API { get; } = api;
 
     /// <inheritdoc />
     /// <exception cref="NotSupportedException">Always thrown by this method</exception>
