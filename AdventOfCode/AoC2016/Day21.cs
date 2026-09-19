@@ -28,7 +28,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         public static partial Regex Matcher { get; }
 
         /// <inheritdoc />
-        public override void Execute(Span<char> data) => ChallengeUtils.Swap(ref data[this.X], ref data[this.Y]);
+        public override void Execute(Span<char> data) => SwapUtils.Swap(ref data[this.X], ref data[this.Y]);
 
         /// <inheritdoc />
         public override void Undo(Span<char> data) => Execute(data);
@@ -44,7 +44,7 @@ public sealed partial class Day21 : ArraySolver<Day21.Instruction>
         {
             int xIndex = data.IndexOf(this.X);
             int yIndex = data.IndexOf(this.Y);
-            ChallengeUtils.Swap(ref data[xIndex], ref data[yIndex]);
+            SwapUtils.Swap(ref data[xIndex], ref data[yIndex]);
         }
 
         /// <inheritdoc />

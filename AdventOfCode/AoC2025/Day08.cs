@@ -141,7 +141,7 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
             // Put largest circuit into A
             if (aCircuit.Count < bCircuit.Count)
             {
-                ChallengeUtils.Swap(ref aCircuit, ref bCircuit);
+                SwapUtils.Swap(ref aCircuit, ref bCircuit);
             }
 
             // Merge circuits

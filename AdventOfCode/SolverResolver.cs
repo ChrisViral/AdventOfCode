@@ -52,9 +52,6 @@ public sealed partial class SolverResolver(ILogger<SolverResolver> logger) : ISo
     private ILogger Logger { get; } = logger;
 
     /// <inheritdoc />
-    public string GetSolverFullName(int year, int day, string module) => $"{nameof(AdventOfCode)}.AoC{year}.Day{day:D2}";
-
-    /// <inheritdoc />
     public async Task<Result<string>> FetchInput(int year, int day, string module, CancellationToken token = default)
     {
         //Check for the input file

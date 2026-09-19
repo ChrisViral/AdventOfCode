@@ -49,7 +49,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
                 }
             }
 
-            ChallengeUtils.Swap(ref currentPositions, ref nextPositions);
+            SwapUtils.Swap(ref currentPositions, ref nextPositions);
             parity = !parity;
         }
 
@@ -73,7 +73,7 @@ public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
                 }
             }
 
-            ChallengeUtils.Swap(ref currentPositions, ref nextPositions);
+            SwapUtils.Swap(ref currentPositions, ref nextPositions);
             parity = !parity;
 
             if ((n - radius).IsMultiple(width))

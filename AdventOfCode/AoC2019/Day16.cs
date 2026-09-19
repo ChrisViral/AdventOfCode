@@ -46,7 +46,7 @@ public sealed class Day16 : Solver<int[]>
             {
                 updated[i] = GetUpdatedDigit(i, current);
             }
-            ChallengeUtils.Swap(ref current, ref updated);
+            SwapUtils.Swap(ref current, ref updated);
         }
 
         // Get first eight digits
@@ -78,7 +78,7 @@ public sealed class Day16 : Solver<int[]>
             {
                 last = updated[^i] = (last + current[^i]) % 10;
             }
-            ChallengeUtils.Swap(ref current, ref updated);
+            SwapUtils.Swap(ref current, ref updated);
         }
 
         // Get first eight digits

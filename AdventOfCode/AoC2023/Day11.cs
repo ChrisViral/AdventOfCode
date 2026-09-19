@@ -81,7 +81,7 @@ public sealed class Day11 : GridSolver<bool>
 
         if (x1 > x2)
         {
-            ChallengeUtils.Swap(ref x1, ref x2);
+            SwapUtils.Swap(ref x1, ref x2);
         }
 
         int distance = 0;

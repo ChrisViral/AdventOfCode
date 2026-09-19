@@ -41,7 +41,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
 
         public override void ApplyMove(Span<char> programs)
         {
-            ChallengeUtils.Swap(ref programs[this.a], ref programs[this.b]);
+            SwapUtils.Swap(ref programs[this.a], ref programs[this.b]);
         }
     }
 
@@ -55,7 +55,7 @@ public sealed class Day16 : Solver<Day16.Move[]>
         {
             int indexA = programs.IndexOf(this.a);
             int indexB = programs.IndexOf(this.b);
-            ChallengeUtils.Swap(ref programs[indexA], ref programs[indexB]);
+            SwapUtils.Swap(ref programs[indexA], ref programs[indexB]);
         }
     }
 

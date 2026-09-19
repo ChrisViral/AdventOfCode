@@ -41,7 +41,7 @@ public sealed class Day03 : Solver<Direction[]>
         {
             position += direction;
             houses[position]++;
-            ChallengeUtils.Swap(ref position, ref otherPosition);
+            SwapUtils.Swap(ref position, ref otherPosition);
         }
         LogAnswer(houses.Size);
     }

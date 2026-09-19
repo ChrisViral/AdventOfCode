@@ -45,7 +45,6 @@ public sealed class Day06 : Solver<HashSet<char>[][]>
     }
 
     /// <inheritdoc />
-    protected override HashSet<char>[][] Convert(string[] rawInput) => ChallengeUtils.CombineLines(rawInput)
-                                                                               .Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
-                                                                               .ToArray();
+    protected override HashSet<char>[][] Convert(string[] rawInput) => CombineLines(rawInput).Select(l => l.Select(s => new HashSet<char>(s)).ToArray())
+                                                                                             .ToArray();
 }

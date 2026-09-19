@@ -94,8 +94,6 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     }
 
     /// <inheritdoc />
-    protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PassportMatcher,
-                                                                                                       ChallengeUtils.CombineLines(rawInput)
-                                                                                                               .Select(l => string.Join(' ', l))
-                                                                                                               .ToList());
+    protected override Passport[] Convert(string[] rawInput) => RegexFactory<Passport>.PopulateObjects(PassportMatcher, CombineLines(rawInput).Select(l => string.Join(' ', l))
+                                                                                                                                              .ToList());
 }

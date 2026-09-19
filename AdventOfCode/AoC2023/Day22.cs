@@ -41,7 +41,7 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
              || max.Y < min.Y
              || max.Z < min.Z)
             {
-                ChallengeUtils.Swap(ref min, ref max);
+                SwapUtils.Swap(ref min, ref max);
             }
 
             this.Min = min;

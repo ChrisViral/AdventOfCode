@@ -64,7 +64,7 @@ public sealed class Day13 : Solver<int>
                 }
             }
 
-            ChallengeUtils.Swap(ref visiting, ref visitNext);
+            SwapUtils.Swap(ref visiting, ref visitNext);
         }
         LogAnswer(visited.Count);
     }

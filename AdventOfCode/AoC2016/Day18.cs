@@ -46,7 +46,7 @@ public sealed class Day18 : Solver<Day18.Tile[]>
         foreach (int _ in 1..PART1_ROWS)
         {
             GenerateNextRow(currentRow, nextRow, ref safe);
-            ChallengeUtils.Swap(ref currentRow, ref nextRow);
+            SwapUtils.Swap(ref currentRow, ref nextRow);
         }
         LogAnswer(safe);
 
@@ -54,7 +54,7 @@ public sealed class Day18 : Solver<Day18.Tile[]>
         foreach (int _ in PART1_ROWS..PART2_ROWS)
         {
             GenerateNextRow(currentRow, nextRow, ref safe);
-            ChallengeUtils.Swap(ref currentRow, ref nextRow);
+            SwapUtils.Swap(ref currentRow, ref nextRow);
         }
         LogAnswer(safe);
     }

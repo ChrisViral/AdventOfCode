@@ -81,7 +81,7 @@ public static class Knot
                 int swapCounts = length / 2;
                 foreach (int offset in ..swapCounts)
                 {
-                    ChallengeUtils.Swap(ref list[(position + offset) % SIZE],
+                    SwapUtils.Swap(ref list[(position + offset) % SIZE],
                                   ref list[(end - offset) % SIZE]);
                 }
             }

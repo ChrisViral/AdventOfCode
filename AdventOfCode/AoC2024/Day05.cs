@@ -64,7 +64,7 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
                 ref Rule before = ref update[^j];
                 if (before.MustFollow.Contains(tail.Value))
                 {
-                    ChallengeUtils.Swap(ref tail, ref before);
+                    SwapUtils.Swap(ref tail, ref before);
                 }
             }
         }

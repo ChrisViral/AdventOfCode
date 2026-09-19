@@ -120,7 +120,7 @@ public sealed class Day20 : Solver<Day20.Tile[]>
         {
             for (int i = 0; i < this.Size / 2; /*i++*/)
             {
-                ChallengeUtils.Swap(ref this.image[i++], ref this.image[^i]);
+                SwapUtils.Swap(ref this.image[i++], ref this.image[^i]);
             }
 
             if (this.ignoreBorders) return;
@@ -154,9 +154,9 @@ public sealed class Day20 : Solver<Day20.Tile[]>
                 foreach (int i in ..(this.Size / 2))
                 {
                     ref char topLeft = ref this.image[j][i];
-                    ChallengeUtils.Swap(ref topLeft, ref this.image[^(i + 1)][j]);
-                    ChallengeUtils.Swap(ref topLeft, ref this.image[^(j + 1)][^(i + 1)]);
-                    ChallengeUtils.Swap(ref topLeft, ref this.image[i][^(j + 1)]);
+                    SwapUtils.Swap(ref topLeft, ref this.image[^(i + 1)][j]);
+                    SwapUtils.Swap(ref topLeft, ref this.image[^(j + 1)][^(i + 1)]);
+                    SwapUtils.Swap(ref topLeft, ref this.image[i][^(j + 1)]);
                 }
             }
 
