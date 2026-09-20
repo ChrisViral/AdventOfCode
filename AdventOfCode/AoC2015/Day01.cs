@@ -6,7 +6,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2015 Day 01
+/// Solver for 2015 Day 1
 /// </summary>
 [Solver(2015, 1)]
 public sealed class Day01 : Solver<int[]>

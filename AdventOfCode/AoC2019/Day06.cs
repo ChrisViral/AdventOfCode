@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2019;
 
 /// <summary>
-/// Solver for 2019 Day 06
+/// Solver for 2019 Day 6
 /// </summary>
 [Solver(2019, 6)]
 public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>

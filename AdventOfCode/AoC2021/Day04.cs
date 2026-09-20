@@ -9,7 +9,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2021;
 
 /// <summary>
-/// Solver for 2021 Day 04
+/// Solver for 2021 Day 4
 /// </summary>
 [Solver(2021, 4)]
 public sealed class Day04 : Solver<Day04.BingoData>

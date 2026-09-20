@@ -10,7 +10,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2019;
 
 /// <summary>
-/// Solver for 2019 Day 08
+/// Solver for 2019 Day 8
 /// </summary>
 [Solver(2019, 8)]
 public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>

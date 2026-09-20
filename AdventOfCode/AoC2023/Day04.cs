@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2023;
 
 /// <summary>
-/// Solver for 2023 Day 04
+/// Solver for 2023 Day 4
 /// </summary>
 [Solver(2023, 4)]
 public sealed partial class Day04 : Solver<Day04.Card[]>

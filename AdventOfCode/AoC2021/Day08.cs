@@ -7,7 +7,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2021;
 
 /// <summary>
-/// Solver for 2021 Day 08
+/// Solver for 2021 Day 8
 /// </summary>
 [Solver(2021, 8)]
 public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>

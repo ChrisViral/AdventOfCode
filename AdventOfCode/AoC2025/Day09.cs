@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2025;
 
 /// <summary>
-/// Solver for 2025 Day 09
+/// Solver for 2025 Day 9
 /// </summary>
 [Solver(2025, 9)]
 public sealed class Day09 : ArraySolver<Vector2<int>>

@@ -10,7 +10,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2023;
 
 /// <summary>
-/// Solver for 2023 Day 05
+/// Solver for 2023 Day 5
 /// </summary>
 [Solver(2023, 5)]
 public sealed partial class Day05 : Solver<(long[] seeds, Dictionary<string, Day05.Map> maps)>

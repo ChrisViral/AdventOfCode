@@ -8,7 +8,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2024;
 
 /// <summary>
-/// Solver for 2024 Day 08
+/// Solver for 2024 Day 8
 /// </summary>
 [Solver(2024, 8)]
 public sealed class Day08 : GridSolver<char>

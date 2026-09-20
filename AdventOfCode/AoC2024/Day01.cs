@@ -10,7 +10,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2024;
 
 /// <summary>
-/// Solver for 2024 Day 01
+/// Solver for 2024 Day 1
 /// </summary>
 [Solver(2024, 1)]
 public sealed partial class Day01 : Solver<(int[] leftList, int[] rightList)>

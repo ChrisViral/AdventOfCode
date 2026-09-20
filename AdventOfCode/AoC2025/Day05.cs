@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2025;
 
 /// <summary>
-/// Solver for 2025 Day 05
+/// Solver for 2025 Day 5
 /// </summary>
 [Solver(2025, 5)]
 public sealed partial class Day05 : Solver<(Day05.IdRange[] Ranges, long[] Products)>

@@ -11,7 +11,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 04
+/// Solver for 2018 Day 4
 /// </summary>
 [Solver(2018, 4)]
 public sealed partial class Day04 : RegexSolver<Day04.Schedule>

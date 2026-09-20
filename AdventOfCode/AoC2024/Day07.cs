@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2024;
 
 /// <summary>
-/// Solver for 2024 Day 07
+/// Solver for 2024 Day 7
 /// </summary>
 [Solver(2024, 7)]
 public sealed class Day07 : ArraySolver<(long test, long[] operands)>

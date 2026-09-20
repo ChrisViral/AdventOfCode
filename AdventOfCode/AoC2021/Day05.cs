@@ -11,7 +11,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2021;
 
 /// <summary>
-/// Solver for 2021 Day 05
+/// Solver for 2021 Day 5
 /// </summary>
 [Solver(2021, 5)]
 public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[]>

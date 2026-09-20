@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2022;
 
 /// <summary>
-/// Solver for 2022 Day 09
+/// Solver for 2022 Day 9
 /// </summary>
 [Solver(2022, 9)]
 public sealed class Day09 : ArraySolver<Vector2<int>>

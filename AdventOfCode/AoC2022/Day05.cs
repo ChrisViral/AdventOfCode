@@ -10,7 +10,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2022;
 
 /// <summary>
-/// Solver for 2022 Day 05
+/// Solver for 2022 Day 5
 /// </summary>
 [Solver(2022, 5)]
 public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] moves)>

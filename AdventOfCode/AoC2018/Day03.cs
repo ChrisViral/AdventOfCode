@@ -10,7 +10,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 03
+/// Solver for 2018 Day 3
 /// </summary>
 [Solver(2018, 3)]
 public sealed partial class Day03 : RegexSolver<Day03.FabricArea>

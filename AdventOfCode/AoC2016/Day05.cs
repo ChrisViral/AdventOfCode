@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2016;
 
 /// <summary>
-/// Solver for 2016 Day 05
+/// Solver for 2016 Day 5
 /// </summary>
 [Solver(2016, 5)]
 public sealed class Day05 : Solver<string>

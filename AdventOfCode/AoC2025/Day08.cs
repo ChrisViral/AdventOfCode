@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2025;
 
 /// <summary>
-/// Solver for 2025 Day 08
+/// Solver for 2025 Day 8
 /// </summary>
 [Solver(2025, 8)]
 public sealed class Day08 : ArraySolver<Day08.Junction>

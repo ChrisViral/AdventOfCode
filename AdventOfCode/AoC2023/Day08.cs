@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2023;
 
 /// <summary>
-/// Solver for 2023 Day 08
+/// Solver for 2023 Day 8
 /// </summary>
 [Solver(2023, 8)]
 public sealed partial class Day08 : Solver<(Direction[] directions, Dictionary<string, (string left, string right)> map)>

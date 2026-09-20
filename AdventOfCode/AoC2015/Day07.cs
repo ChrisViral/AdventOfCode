@@ -8,7 +8,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2016 Day 07
+/// Solver for 2016 Day 7
 /// </summary>
 [Solver(2015, 7)]
 public sealed partial class Day07 : Solver<Dictionary<string, Day07.LogicGate>>

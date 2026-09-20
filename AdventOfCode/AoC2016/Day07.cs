@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2016;
 
 /// <summary>
-/// Solver for 2016 Day 07
+/// Solver for 2016 Day 7
 /// </summary>
 [Solver(2016, 7)]
 public sealed partial class Day07 : ArraySolver<string>

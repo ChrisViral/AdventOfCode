@@ -9,7 +9,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2025;
 
 /// <summary>
-/// Solver for 2025 Day 06
+/// Solver for 2025 Day 6
 /// </summary>
 [Solver(2025, 6)]
 public sealed partial class Day06 : Solver<Grid<string>>

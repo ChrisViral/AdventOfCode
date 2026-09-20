@@ -13,7 +13,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2016;
 
 /// <summary>
-/// Solver for 2016 Day 08
+/// Solver for 2016 Day 8
 /// </summary>
 [Solver(2016, 8)]
 public sealed partial class Day08 : RegexSolver<Day08.Instruction>

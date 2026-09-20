@@ -12,7 +12,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2016;
 
 /// <summary>
-/// Solver for 2016 Day 04
+/// Solver for 2016 Day 4
 /// </summary>
 [Solver(2016, 4)]
 public sealed partial class Day04 : RegexSolver<Day04.Room>

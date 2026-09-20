@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2015 Day 09
+/// Solver for 2015 Day 9
 /// </summary>
 [Solver(2015, 9)]
 public sealed partial class Day09 : Solver<(ImmutableArray<string> locations, Dictionary<UnorderedPair<string>, int> distances)>

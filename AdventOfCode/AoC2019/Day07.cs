@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2019;
 
 /// <summary>
-/// Solver for 2019 Day 07
+/// Solver for 2019 Day 7
 /// </summary>
 [Solver(2019, 7)]
 public sealed class Day07 : IntcodeSolver

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 08
+/// Solver for 2018 Day 8
 /// </summary>
 [Solver(2018, 8)]
 public sealed class Day08 : Solver<Day08.Node>

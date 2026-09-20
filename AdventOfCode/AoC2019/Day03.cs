@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2019;
 
 /// <summary>
-/// Solver for 2019 Day 03
+/// Solver for 2019 Day 3
 /// </summary>
 [Solver(2019, 3)]
 public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>

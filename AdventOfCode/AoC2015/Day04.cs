@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2015 Day 04
+/// Solver for 2015 Day 4
 /// </summary>
 [Solver(2015, 4)]
 public sealed class Day04 : Solver<byte[]>

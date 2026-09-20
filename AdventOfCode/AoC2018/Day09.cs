@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 09
+/// Solver for 2018 Day 9
 /// </summary>
 [Solver(2018, 9)]
 public sealed partial class Day09 : Solver<(int players, int topMarble)>

@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2015 Day 06
+/// Solver for 2015 Day 6
 /// </summary>
 [Solver(2015, 6)]
 public sealed partial class Day06 : RegexSolver<Day06.Instruction>

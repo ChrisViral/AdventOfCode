@@ -8,7 +8,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 06
+/// Solver for 2018 Day 6
 /// </summary>
 [Solver(2018, 6)]
 public sealed class Day06 : ArraySolver<Vector2<int>>

@@ -7,7 +7,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2022;
 
 /// <summary>
-/// Solver for 2022 Day 01
+/// Solver for 2022 Day 1
 /// </summary>
 [Solver(2022, 1)]
 public sealed class Day01 : Solver<SortedList<int>>

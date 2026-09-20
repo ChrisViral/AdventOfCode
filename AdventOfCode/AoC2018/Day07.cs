@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2018;
 
 /// <summary>
-/// Solver for 2018 Day 07
+/// Solver for 2018 Day 7
 /// </summary>
 [Solver(2018, 7)]
 public sealed partial class Day07 : Solver<Day07.Step[]>

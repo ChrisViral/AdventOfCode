@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2015;
 
 /// <summary>
-/// Solver for 2015 Day 02
+/// Solver for 2015 Day 2
 /// </summary>
 [Solver(2015, 2)]
 public sealed partial class Day02 : RegexSolver<Day02.Box>

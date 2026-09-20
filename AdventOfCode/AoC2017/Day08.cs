@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2017;
 
 /// <summary>
-/// Solver for 2017 Day 08
+/// Solver for 2017 Day 8
 /// </summary>
 [Solver(2017, 8)]
 public sealed partial class Day08 : RegexSolver<Day08.Instruction>

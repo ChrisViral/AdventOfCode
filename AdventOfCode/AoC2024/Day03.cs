@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace AdventOfCode.AoC2024;
 
 /// <summary>
-/// Solver for 2024 Day 03
+/// Solver for 2024 Day 3
 /// </summary>
 [Solver(2024, 3)]
 public sealed partial class Day03 : Solver<string>

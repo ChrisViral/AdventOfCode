@@ -9,7 +9,7 @@ using ZLinq;
 namespace AdventOfCode.AoC2025;
 
 /// <summary>
-/// Solver for 2025 Day 07
+/// Solver for 2025 Day 7
 /// </summary>
 [Solver(2025, 7)]
 public sealed class Day07 : GridSolver<Day07.ManifoldElement>
