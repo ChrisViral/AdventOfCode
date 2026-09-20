@@ -9,6 +9,7 @@
   <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj">
     <Platform Project="x64" />
   </Project>
+  <Project Path="AdventOfCode.Resolver/AdventOfCode.Resolver.csproj" />
   <Project Path="AdventOfCode/AdventOfCode.csproj">
     <Platform Project="x64" />
   </Project>

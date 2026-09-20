@@ -7,6 +7,7 @@ using DotMake.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using Serilog;
+using Serilog.Events;
 
 Console.Title = "Advent of Code";
 
@@ -30,7 +31,20 @@ LoggerConfiguration configuration = new();
 Log.Logger = configuration.WriteTo.Console()
                           .WriteTo.File(results)
                           .Enrich.FromLogContext()
+#if DEBUG
+                          .MinimumLevel.Debug()
+                          .MinimumLevel.Override(typeof(HttpClient).FullName!, LogEventLevel.Information)
+#else
+                          .MinimumLevel.Information()
+                          .MinimumLevel.Override(typeof(HttpClient).FullName!, LogEventLevel.Warning)
+#endif
                           .CreateLogger();
+
+// Ensure input directory exists
+if (!Directory.Exists(SolverResolverBase.INPUT_FOLDER))
+{
+    Directory.CreateDirectory(SolverResolverBase.INPUT_FOLDER);
+}
 
 // Check if settings exist
 FileInfo settingsFile = new(SolverResolverBase.SettingsPath);
@@ -75,20 +89,18 @@ Cli.Ext.ConfigureServices(services =>
             .AddSingleton(settings)
             .AddLogging(builder => builder.AddSerilog(Log.Logger, true));
 
+    // Setup user agent value
+    Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
+    string userAgent = $"ChrisViral.{typeof(SolverResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/EverybodyCodes)";
+
     // Add HTTP Clients
     services.AddRefitClient<IAdventOfCodeAPI>()
             .ConfigureHttpClient(client =>
              {
-                 // Create client
+                 // Set address and headers
                  client.BaseAddress = new Uri("https://adventofcode.com");
-
-                 // Add cookie header
                  client.DefaultRequestHeaders.Add("cookie", "session=" + settings.Cookie);
-
-                 // Add User-Agent header
-                 Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
-                 string userAgentValue = $"ChrisViral.{typeof(SolverResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/AdventOfCode)";
-                 client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgentValue);
+                 client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
              });
 });
 

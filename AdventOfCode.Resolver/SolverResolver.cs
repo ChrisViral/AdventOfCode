@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Challenge.CLI;
 using Challenge.Solvers;
 using CSharpFunctionalExtensions;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.Resolver;
@@ -12,7 +13,8 @@ namespace AdventOfCode.Resolver;
 /// <param name="logger">Logger instance</param>
 /// <param name="settings">Resolver settings</param>
 /// <param name="api">Advent of Code web API</param>
-internal sealed class SolverResolver(ILogger<SolverResolver> logger, ResolverSettings settings, IAdventOfCodeAPI api) : DefaultSolverResolverBase(logger, settings)
+[PublicAPI]
+public sealed class SolverResolver(ILogger<SolverResolver> logger, ResolverSettings settings, IAdventOfCodeAPI api) : DefaultSolverResolverBase(logger, settings)
 {
     /// <inheritdoc />
     public override string ChallengeName => "Advent of Code";

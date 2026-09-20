@@ -1,11 +1,13 @@
-﻿using Refit;
+﻿using JetBrains.Annotations;
+using Refit;
 
 namespace AdventOfCode.Resolver;
 
 /// <summary>
 /// Advent of Code API
 /// </summary>
-internal interface IAdventOfCodeAPI
+[PublicAPI]
+public interface IAdventOfCodeAPI
 {
     /// <summary>
     /// Gets the challenge input for the given day
