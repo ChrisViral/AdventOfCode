@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 7
 /// </summary>
 [Solver(2022, 7)]
-public sealed class Day07 : Solver<Day07.Directory>
+public sealed partial class Day07 : Solver<Day07.Directory>
 {
     /// <summary>
     /// File record
@@ -127,14 +126,6 @@ public sealed class Day07 : Solver<Day07.Directory>
     private const int    MAX_SIZE = 100000;
     /// <summary>Maximum used disk space to make system operational</summary>
     private const int    MAX_USED = 40000000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day07"/> Solver for 2022 - 07 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -132,14 +131,6 @@ public sealed partial class Day12 : Solver<Day12.Navigation[]>
             }
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Navigation"/>[] fails</exception>
-    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

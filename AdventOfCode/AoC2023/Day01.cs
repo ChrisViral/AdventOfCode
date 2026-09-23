@@ -1,7 +1,6 @@
 ﻿using System.Buffers;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 1
 /// </summary>
 [Solver(2023, 1)]
-public sealed class Day01 : Solver
+public sealed partial class Day01 : Solver
 {
     private readonly SearchValues<char> digits = SearchValues.Create("123456789");
 
@@ -34,13 +33,6 @@ public sealed class Day01 : Solver
         ["eight"] = 8,
         ["nine"]  = 9
     };
-
-    /// <summary>
-    /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    public Day01(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

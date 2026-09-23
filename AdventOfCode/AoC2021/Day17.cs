@@ -4,7 +4,6 @@ using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -21,14 +20,6 @@ public sealed partial class Day17 : Solver<(Day17.Range xRange, Day17.Range yRan
 
     [GeneratedRegex(@"target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)")]
     private static partial Regex RangeMatcher { get; }
-
-    /// <summary>7
-    /// Creates a new <see cref="Day17"/> Solver for 2021 - 17 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

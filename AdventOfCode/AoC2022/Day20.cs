@@ -3,7 +3,6 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -11,20 +10,12 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 20
 /// </summary>
 [Solver(2022, 20)]
-public sealed class Day20 : ArraySolver<long>
+public sealed partial class Day20 : ArraySolver<long>
 {
     /// <summary>Part 2 decryption key</summary>
     private const long DECRYPTION_KEY = 811589153;
     /// <summary>Part 2 decryption loops</summary>
     private const int  LOOPS          = 10;
-
-    /// <summary>
-    /// Creates a new <see cref="Day20"/> Solver for 2022 - 20 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

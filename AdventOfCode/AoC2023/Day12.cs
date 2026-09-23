@@ -2,7 +2,6 @@
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 12
 /// </summary>
 [Solver(2023, 12)]
-public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
+public sealed partial class Day12 : ArraySolver<(string condition, int[] groups)>
 {
     private sealed class CacheEqualityComparer : IEqualityComparer<(string, ArraySegment<int>)>
     {
@@ -34,18 +33,13 @@ public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
     private const char OPERATIONAL   = '.';
     private const int EXPANDED_COUNT = 5;
 
-    private readonly (string condition, int[] groups)[] expandedData;
+    private (string condition, int[] groups)[] expandedData = [];
     private readonly Dictionary<(string, ArraySegment<int>), long> cache = new(CacheEqualityComparer.Comparer);
 
-
-    /// <summary>
-    /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input, ILogger logger) : base(input, logger)
+    /// <inheritdoc />
+    public override void ParseInput(string input)
     {
+        base.ParseInput(input);
         this.expandedData = new (string, int[])[this.Data.Length];
     }
 

@@ -5,7 +5,6 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -14,7 +13,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 22
 /// </summary>
 [Solver(2023, 22)]
-public sealed class Day22 : ArraySolver<Day22.Brick>
+public sealed partial class Day22 : ArraySolver<Day22.Brick>
 {
     public sealed class Brick : IComparable<Brick>, IEquatable<Brick>
     {
@@ -87,13 +86,12 @@ public sealed class Day22 : ArraySolver<Day22.Brick>
         public override int GetHashCode() => this.data.GetHashCode();
         }
 
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) => this.Data.Sort();
+    /// <inheritdoc />
+    public override void ParseInput(string input)
+    {
+        base.ParseInput(input);
+        this.Data.Sort();
+    }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

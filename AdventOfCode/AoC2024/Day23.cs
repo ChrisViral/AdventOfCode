@@ -1,7 +1,6 @@
 ﻿using Challenge.Collections.Pooling;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 23
 /// </summary>
 [Solver(2024, 23)]
-public sealed class Day23 : Solver<Day23.NetworkNode[]>
+public sealed partial class Day23 : Solver<Day23.NetworkNode[]>
 {
     /// <summary>
     /// Network node object
@@ -118,14 +117,6 @@ public sealed class Day23 : Solver<Day23.NetworkNode[]>
         /// <returns><see langword="true"/> if both groups are unequal, otherwise <see langword="false"/></returns>
         public static bool operator !=(in NetworkGroup a, in NetworkGroup b) => !a.Equals(b);
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

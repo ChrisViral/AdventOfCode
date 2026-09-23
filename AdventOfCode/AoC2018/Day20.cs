@@ -2,7 +2,6 @@
 using Challenge.Collections.Pooling;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 20
 /// </summary>
 [Solver(2018, 20)]
-public sealed class Day20 : Solver<string>
+public sealed partial class Day20 : Solver<string>
 {
     [DebuggerDisplay("{Position}")]
     public sealed class Room(Vector2<int> position) : IEquatable<Room>
@@ -48,14 +47,6 @@ public sealed class Day20 : Solver<string>
     private const char GROUP_START = '(';
     private const char GROUP_END = ')';
     private const char BRANCH_END = '|';
-
-    /// <summary>
-    /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

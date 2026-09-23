@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using Challenge.Solvers;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 22
 /// </summary>
 [Solver(2015, 22)]
-public sealed class Day22 : Solver<Day22.Stats>
+public sealed partial class Day22 : Solver<Day22.Stats>
 {
     /// <summary>
     /// Player stats
@@ -253,14 +252,6 @@ public sealed class Day22 : Solver<Day22.Stats>
         new NoEffect()
     ];
 
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -6,7 +6,6 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Strings;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -43,14 +42,6 @@ public sealed partial class Day04 : RegexSolver<Day04.Room>
     /// <inheritdoc />
     [GeneratedRegex(@"([a-z\-]+)-(\d+)\[([a-z]{5})\]")]
     protected override partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

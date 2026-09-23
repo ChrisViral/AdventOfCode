@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 
 namespace AdventOfCode.AoC2023;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 24
 /// </summary>
 [Solver(2023, 24)]
-public sealed class Day24 : ArraySolver<Day24.Hail>
+public sealed partial class Day24 : ArraySolver<Day24.Hail>
 {
     public readonly struct Hail
     {
@@ -59,14 +58,6 @@ public sealed class Day24 : ArraySolver<Day24.Hail>
     private const long MIN = 200000000000000L;
     private const long MAX = 400000000000000L;
     private const int SAMPLE = 3;
-
-    /// <summary>
-    /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
     public override void Run()

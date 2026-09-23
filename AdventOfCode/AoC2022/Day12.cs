@@ -2,7 +2,6 @@
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -11,15 +10,8 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 12
 /// </summary>
 [Solver(2022, 12)]
-public sealed class Day12 : GridSolver<int>
+public sealed partial class Day12 : GridSolver<int>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day12"/> Solver for 2022 - 12 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

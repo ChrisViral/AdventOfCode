@@ -38,13 +38,8 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
     [GeneratedRegex(@"(\d+)([RL])|(\d+)$")]
     private static partial Regex Matcher { get; }
 
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver for 2022 - 22 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    /// <inheritdoc />
+    public Day22(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

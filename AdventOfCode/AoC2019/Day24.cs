@@ -8,7 +8,6 @@ using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using CommunityToolkit.HighPerformance;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -17,21 +16,17 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 24
 /// </summary>
 [Solver(2019, 24)]
-public sealed class Day24 : GridSolver<bool>
+public sealed partial class Day24 : GridSolver<bool>
 {
     private const int LOOPS = 200;
 
-    private readonly Grid<bool> emptyTemplate;
-    private readonly Vector2<int> center;
+    private Grid<bool> emptyTemplate = null!;
+    private Vector2<int> center;
 
-    /// <summary>
-    /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="System.InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input, ILogger logger) : base(input, logger)
+    /// <inheritdoc />
+    public override void ParseInput(string input)
     {
+        base.ParseInput(input);
         this.emptyTemplate = new Grid<bool>(this.Grid);
         this.emptyTemplate.Clear();
         this.center = this.Grid.Dimensions / 2;

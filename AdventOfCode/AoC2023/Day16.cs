@@ -4,7 +4,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 16
 /// </summary>
 [Solver(2023, 16)]
-public sealed class Day16 : GridSolver<Day16.Element>
+public sealed partial class Day16 : GridSolver<Day16.Element>
 {
     // ReSharper disable IdentifierTypo
     public enum Element
@@ -42,17 +41,13 @@ public sealed class Day16 : GridSolver<Day16.Element>
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction);
         }
 
-    private readonly Grid<bool> energized;
+    private Grid<bool> energized = null!;
     private readonly HashSet<State> visited = [];
 
-    /// <summary>
-    /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input, ILogger logger) : base(input, logger)
+    /// <inheritdoc />
+    public override void ParseInput(string input)
     {
+        base.ParseInput(input);
         this.energized = new Grid<bool>(this.Data.Width, this.Data.Height, toString: e => e ? "#" : ".");
     }
 

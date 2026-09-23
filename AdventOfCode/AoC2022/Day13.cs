@@ -3,7 +3,6 @@ using System.Text;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 13
 /// </summary>
 [Solver(2022, 13)]
-public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
+public sealed partial class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
 {
     /// <summary>
     /// Packet element marking interface
@@ -135,14 +134,6 @@ public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList righ
                                                             .Append(']')
                                                             .ToStringAndClear();
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day13"/> Solver for 2022 - 13 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -12,18 +11,10 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 11
 /// </summary>
 [Solver(2023, 11)]
-public sealed class Day11 : GridSolver<bool>
+public sealed partial class Day11 : GridSolver<bool>
 {
     private const char GALAXY = '#';
     private const int OLD_EXPANSION = 1_000_000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

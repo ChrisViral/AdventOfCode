@@ -8,15 +8,10 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 6
 /// </summary>
 [Solver(2020, 6)]
-public sealed class Day06 : Solver<HashSet<char>[][]>
+public sealed partial class Day06 : Solver<HashSet<char>[][]>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="HashSet{T}"/>[] fails</exception>
-    public Day06(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day06(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

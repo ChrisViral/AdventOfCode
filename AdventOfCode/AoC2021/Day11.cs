@@ -4,7 +4,6 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 11
 /// </summary>
 [Solver(2021, 11)]
-public sealed class Day11 : GridSolver<byte>
+public sealed partial class Day11 : GridSolver<byte>
 {
     /// <summary>Simulation days</summary>
     private const int DAYS = 100;
@@ -21,14 +20,6 @@ public sealed class Day11 : GridSolver<byte>
     private static readonly Queue<Vector2<int>> ToFlash   = new();
     /// <summary>Set containing all octopi that have flashed</summary>
     private static readonly HashSet<Vector2<int>> Flashed = [];
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver for 2021 - 11 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

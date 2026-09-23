@@ -1,6 +1,5 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -8,15 +7,8 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 9
 /// </summary>
 [Solver(2020, 9)]
-public sealed class Day09 : Solver<long[]>
+public sealed partial class Day09 : Solver<long[]>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="long"/>[] fails</exception>
-    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

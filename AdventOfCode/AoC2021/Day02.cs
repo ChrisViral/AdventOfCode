@@ -1,7 +1,6 @@
 ﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 2
 /// </summary>
 [Solver(2021, 2)]
-public sealed class Day02 : ArraySolver<(string command, int value)>
+public sealed partial class Day02 : ArraySolver<(string command, int value)>
 {
     /// <summary>Forward command</summary>
     private const string FORWARD = "forward";
@@ -17,14 +16,6 @@ public sealed class Day02 : ArraySolver<(string command, int value)>
     private const string DOWN    = "down";
     /// <summary>Up command</summary>
     private const string UP      = "up";
-
-    /// <summary>
-    /// Creates a new <see cref="Day02"/> Solver for 2021 - 02 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

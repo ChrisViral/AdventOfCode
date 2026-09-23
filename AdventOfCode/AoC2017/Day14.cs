@@ -6,7 +6,6 @@ using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -15,17 +14,9 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 14
 /// </summary>
 [Solver(2017, 14)]
-public sealed class Day14 : Solver<string>
+public sealed partial class Day14 : Solver<string>
 {
     private const int SIZE = 128;
-
-    /// <summary>
-    /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

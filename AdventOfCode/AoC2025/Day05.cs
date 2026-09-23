@@ -26,13 +26,8 @@ public sealed partial class Day05 : Solver<(Day05.IdRange[] Ranges, long[] Produ
     [GeneratedRegex(@"(\d+)-(\d+)")]
     private static partial Regex RangeMatcher { get; }
 
-    /// <summary>
-    /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day05(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

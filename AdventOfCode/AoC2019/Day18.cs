@@ -11,7 +11,6 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -19,7 +18,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 18
 /// </summary>
 [Solver(2019, 18)]
-public sealed class Day18 : GridSolver<char>
+public sealed partial class Day18 : GridSolver<char>
 {
     /// <summary>Empty position value</summary>
     private const char EMPTY       = '.';
@@ -201,14 +200,6 @@ public sealed class Day18 : GridSolver<char>
         /// <inheritdoc />
         public override int GetHashCode() => this.ID;
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

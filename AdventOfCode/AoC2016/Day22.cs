@@ -5,7 +5,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -27,14 +26,6 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
 
     [GeneratedRegex(@"/dev/grid/node-x(\d+)-y(\d+)\s+(\d+)T\s+(\d+)T\s+(\d+)T\s+\d+%")]
     private static partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

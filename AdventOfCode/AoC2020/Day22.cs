@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 22
 /// </summary>
 [Solver(2020, 22)]
-public sealed class Day22 : Solver<(int[] p1, int[] p2)>
+public sealed partial class Day22 : Solver<(int[] p1, int[] p2)>
 {
     /// <summary>
     /// Player enum
@@ -24,14 +23,6 @@ public sealed class Day22 : Solver<(int[] p1, int[] p2)>
     /// State creation StringBuilder
     /// </summary>
     private static readonly StringBuilder StateBuilder = new();
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

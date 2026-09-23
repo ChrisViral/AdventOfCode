@@ -17,13 +17,8 @@ public sealed partial class Day06 : Solver<Grid<string>>
     [GeneratedRegex(@"([\*|\+] +)(?: |$)")]
     private static partial Regex OperatorPattern { get; }
 
-    /// <summary>
-    /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day06(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    /// <inheritdoc />
+    public Day06(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

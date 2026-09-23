@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -46,14 +45,6 @@ public sealed partial class Day21 : Solver<Day21.IngredientList[]>
             this.Allergens = new HashSet<string>(allergens.Split(", "));
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IngredientList"/>[] fails</exception>
-    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 8
 /// </summary>
 [Solver(2020, 8)]
-public sealed class Day08 : Solver<Day08.Instruction[]>
+public sealed partial class Day08 : Solver<Day08.Instruction[]>
 {
     /// <summary>
     /// Instruction operations
@@ -63,14 +62,6 @@ public sealed class Day08 : Solver<Day08.Instruction[]>
             }
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Instruction"/>[] fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     private int accumulator;
     private int pointer;

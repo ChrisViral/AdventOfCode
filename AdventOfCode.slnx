@@ -19,6 +19,7 @@
   <Project Path="Libraries/Challenge.Collections/Challenge.Collections.csproj">
     <Platform Project="x64" />
   </Project>
+  <Project Path="Libraries/Challenge.Generator/Challenge.Generator.csproj" />
   <Project Path="Libraries/Challenge.Maths/Challenge.Maths.csproj">
     <Platform Project="x64" />
   </Project>

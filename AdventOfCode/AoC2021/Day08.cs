@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -10,20 +9,12 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 8
 /// </summary>
 [Solver(2021, 8)]
-public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
+public sealed partial class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     /// <summary>Signal/output separator</summary>
     private static readonly char[] SeparatorSplit = ['|'];
     /// <summary>Segments separator</summary>
     private static readonly char[] SegmentSplit   = [' '];
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver for 2021 - 08 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

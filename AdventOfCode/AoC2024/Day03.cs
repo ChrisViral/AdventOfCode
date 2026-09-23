@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -12,14 +11,6 @@ public sealed partial class Day03 : Solver<string>
 {
     [GeneratedRegex(@"mul\((\d{1,3}),(\d{1,3})\)|do(?:n't)?\(\)")]
     private static partial Regex MulPattern { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

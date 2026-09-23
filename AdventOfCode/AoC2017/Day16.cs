@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 16
 /// </summary>
 [Solver(2017, 16)]
-public sealed class Day16 : Solver<Day16.Move[]>
+public sealed partial class Day16 : Solver<Day16.Move[]>
 {
     private const int SIZE = 16;
     private const int LOOPS = 1_000_000_000;
@@ -60,14 +59,6 @@ public sealed class Day16 : Solver<Day16.Move[]>
         }
     }
 
-
-    /// <summary>
-    /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

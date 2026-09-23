@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 16
 /// </summary>
 [Solver(2019, 16)]
-public sealed class Day16 : Solver<int[]>
+public sealed partial class Day16 : Solver<int[]>
 {
     /// <summary>
     /// FFT Phases
@@ -20,14 +19,6 @@ public sealed class Day16 : Solver<int[]>
     /// Input copies
     /// </summary>
     private const int COPIES = 10000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

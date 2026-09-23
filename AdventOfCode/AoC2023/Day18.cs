@@ -5,7 +5,6 @@ using Challenge.Maths;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -39,14 +38,6 @@ public sealed partial class Day18 : Solver<Day18.DigInstruction[]>
 
     [GeneratedRegex(@"([UDLR]) (\d+) \(#([0-9a-f]{5})([0-3])\)")]
     private static partial Regex InstructionMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="DigInstruction"/>[] fails</exception>
-    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

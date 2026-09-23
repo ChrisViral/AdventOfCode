@@ -1,5 +1,4 @@
 ﻿using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -7,7 +6,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 12
 /// </summary>
 [Solver(2021, 12)]
-public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
+public sealed partial class Day12 : Solver<Dictionary<string, Day12.Cave>>
 {
     /// <summary>
     /// Cave node
@@ -31,14 +30,6 @@ public sealed class Day12 : Solver<Dictionary<string, Day12.Cave>>
     private const string START = "start";
     /// <summary>End cave name</summary>
     private const string END = "end";
-
-    /// <summary>
-    /// Creates a new <see cref="Day12"/> Solver for 2021 - 12 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
-    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

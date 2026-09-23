@@ -4,7 +4,6 @@ using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -18,14 +17,6 @@ public sealed partial class Day09 : Solver<(ImmutableArray<string> locations, Di
     private static partial Regex Matcher { get; }
 
     private BitVector8 doneState;
-
-    /// <summary>
-    /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

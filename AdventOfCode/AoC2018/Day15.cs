@@ -8,7 +8,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -17,7 +16,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 15
 /// </summary>
 [Solver(2018, 15)]
-public sealed class Day15 : Solver<Grid<Day15.Entity>>
+public sealed partial class Day15 : Solver<Grid<Day15.Entity>>
 {
     /// <summary>
     /// Unit alliance
@@ -319,14 +318,6 @@ public sealed class Day15 : Solver<Grid<Day15.Entity>>
             return ComponentComparer<int>.Instance.Compare(this.position, other.position);
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -4,7 +4,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 21
 /// </summary>
 [Solver(2024, 21)]
-public sealed class Day21 : ArraySolver<(string code, int value)>
+public sealed partial class Day21 : ArraySolver<(string code, int value)>
 {
     /// <summary>
     /// Part 1 depth
@@ -69,14 +68,6 @@ public sealed class Day21 : ArraySolver<(string code, int value)>
         ['^'] = (1, 0),
         ['A'] = (2, 0)
     }.ToFrozenDictionary();
-
-    /// <summary>
-    /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[] fails</exception>
-    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

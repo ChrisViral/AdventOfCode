@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 14
 /// </summary>
 [Solver(2022, 14)]
-public sealed class Day14 : ArraySolver<Vector2<int>[]>
+public sealed partial class Day14 : ArraySolver<Vector2<int>[]>
 {
     /// <summary>
     /// Cave element enum
@@ -29,14 +28,6 @@ public sealed class Day14 : ArraySolver<Vector2<int>[]>
     private static readonly Vector2<int> SourcePosition = new(500, 0);
     /// <summary> Double right shift </summary>
     private static readonly Vector2<int> RightShift     = new(2, 0);
-
-    /// <summary>
-    /// Creates a new <see cref="Day14"/> Solver for 2022 - 14 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

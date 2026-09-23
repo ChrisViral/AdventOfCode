@@ -4,7 +4,6 @@ using System.Text;
 using Challenge.Maths.Vectors;
 using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 17
 /// </summary>
 [Solver(2016, 17)]
-public sealed class Day17 : Solver<string>
+public sealed partial class Day17 : Solver<string>
 {
     private readonly record struct PathData(Vector2<int> Position, string Path);
 
@@ -25,14 +24,6 @@ public sealed class Day17 : Solver<string>
     private static readonly bool[] BitArray   = new bool[Direction.CardinalDirections.Length];
 
     private readonly MD5 md5 = MD5.Create();
-
-    /// <summary>
-    /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -4,7 +4,6 @@ using Challenge.Collections;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 25
 /// </summary>
 [Solver(2017, 25)]
-public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char, Day25.State> states)>
+public sealed partial class Day25 : Solver<(char start, int steps, FrozenDictionary<char, Day25.State> states)>
 {
     [DebuggerDisplay("Write {Write}, Move {Move == 1 ? \"right\" : \"left\"}, Next {Next}")]
     public sealed class Action(ReadOnlySpan<string> input)
@@ -43,14 +42,6 @@ public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char
         /// <inheritdoc />
         public override int GetHashCode() => this.ID.GetHashCode();
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

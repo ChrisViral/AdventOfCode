@@ -20,7 +20,7 @@ public abstract partial class ElfCodeSolver : Solver<Program>
     /// <param name="input">Puzzle input</param>
     /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    protected ElfCodeSolver(string input, ILogger logger) : base(input, logger) { }
+    protected ElfCodeSolver(ILogger logger) : base(logger) { }
 
     /// <inheritdoc />
     protected sealed override Program Convert(string[] rawInput)

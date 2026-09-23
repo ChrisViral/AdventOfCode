@@ -87,7 +87,6 @@ public struct Registers : IEquatable<Registers>
     }
 }
 
-
 public static class VirtualMachine
 {
     private const long TRUE  = 1L;

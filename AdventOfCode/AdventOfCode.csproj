@@ -40,6 +40,9 @@
     <ProjectReference Include="..\AdventOfCode.Intcode\AdventOfCode.Intcode.csproj" />
     <ProjectReference Include="..\AdventOfCode.Resolver\AdventOfCode.Resolver.csproj" />
     <ProjectReference Include="..\Libraries\Challenge.CLI\Challenge.CLI.csproj" />
+    <ProjectReference Include="..\Libraries\Challenge.Generator\Challenge.Generator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>

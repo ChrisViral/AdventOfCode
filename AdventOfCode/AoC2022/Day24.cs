@@ -5,7 +5,6 @@ using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -14,7 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 24
 /// </summary>
 [Solver(2022, 24)]
-public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
+public sealed partial class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
 {
     /// <summary>
     /// Blizzard object
@@ -60,14 +59,6 @@ public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.
             return this.Position;
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day24"/> Solver for 2022 - 24 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

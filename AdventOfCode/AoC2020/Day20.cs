@@ -5,7 +5,6 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 20
 /// </summary>
 [Solver(2020, 20)]
-public sealed class Day20 : Solver<Day20.Tile[]>
+public sealed partial class Day20 : Solver<Day20.Tile[]>
 {
     /// <summary>
     /// Image tile
@@ -302,14 +301,6 @@ public sealed class Day20 : Solver<Day20.Tile[]>
             return builder.ToString();
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Tile"/>[] fails</exception>
-    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

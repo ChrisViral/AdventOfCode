@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -34,14 +33,6 @@ public sealed partial class Day03 : RegexSolver<Day03.Triangle>
     /// <inheritdoc />
     [GeneratedRegex(@"(\d+)\s+(\d+)\s+(\d+)")]
     protected override partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

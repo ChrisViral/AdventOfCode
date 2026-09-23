@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 17
 /// </summary>
 [Solver(2024, 17)]
-public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
+public sealed partial class Day17 : Solver<(long a, long b, long c, int[] program)>
 {
     private enum Opcode
     {
@@ -25,14 +24,6 @@ public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
     }
 
     private readonly List<int> output = new(16);
-
-    /// <summary>
-    /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

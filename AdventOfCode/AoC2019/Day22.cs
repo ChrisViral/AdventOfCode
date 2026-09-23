@@ -4,7 +4,6 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Numbers;
 using CommunityToolkit.HighPerformance;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 22
 /// </summary>
 [Solver(2019, 22)]
-public sealed class Day22 : ArraySolver<Day22.Instruction>
+public sealed partial class Day22 : ArraySolver<Day22.Instruction>
 {
     public enum InstructionType
     {
@@ -29,14 +28,6 @@ public sealed class Day22 : ArraySolver<Day22.Instruction>
     private const long DECK_SIZE2 = 119_315_717_514_047L;
     private const long SHUFFLES   = 101_741_582_076_661;
     private const long CARD2      = 2020L;
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

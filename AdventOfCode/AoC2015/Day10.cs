@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Strings;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -17,14 +16,6 @@ public sealed partial class Day10 : Solver<string>
 
     [GeneratedRegex(@"(\d)\1*")]
     private static partial Regex GroupMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -15,15 +14,6 @@ public sealed partial class Day09 : Solver<(int players, int topMarble)>
 {
     [GeneratedRegex(@"(\d+) players; last marble is worth (\d+) points")]
     private static partial Regex RulesMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-/// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

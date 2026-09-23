@@ -2,7 +2,6 @@
 using AdventOfCode.Intcode;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 19
 /// </summary>
 [Solver(2019, 19)]
-public sealed class Day19 : IntcodeSolver
+public sealed partial class Day19 : IntcodeSolver
 {
     private const int MAP_SIZE = 50;
     private const int REQUIRED_SIZE = 100;
@@ -19,14 +18,6 @@ public sealed class Day19 : IntcodeSolver
     private static readonly Dictionary<Vector2<int>, bool> BeamMap      = new(100);
     private static readonly Dictionary<Vector2<int>, int> BeamWidthMap  = new(100);
     private static readonly Dictionary<Vector2<int>, int> BeamHeightMap = new(100);
-
-    /// <summary>
-    /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -10,15 +9,8 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 8
 /// </summary>
 [Solver(2015, 8)]
-public sealed class Day08 : ArraySolver<string>
+public sealed partial class Day08 : ArraySolver<string>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

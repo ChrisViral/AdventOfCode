@@ -1,6 +1,5 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -8,22 +7,21 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 1
 /// </summary>
 [Solver(2020, 1)]
-public sealed class Day01 : Solver<int[]>
+public sealed partial class Day01 : Solver<int[]>
 {
     /// <summary>
     /// Target total
     /// </summary>
     private const int TARGET = 2020;
 
-    private readonly HashSet<int> values;
+    private HashSet<int> values = [];
 
-    /// <summary>
-    /// Creates a new <see cref="Day01"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day01(string input, ILogger logger) : base(input, logger) => this.values = [..this.Data];
+    /// <inheritdoc />
+    public override void ParseInput(string input)
+    {
+        base.ParseInput(input);
+        this.values = [..this.Data];
+    }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

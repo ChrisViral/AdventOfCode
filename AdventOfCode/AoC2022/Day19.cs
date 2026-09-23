@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2022;
 
@@ -147,14 +146,6 @@ public sealed partial class Day19 : Solver<Day19.Blueprint[]>
     private const int FIRST_TIME  = 24;
     /// <summary>Allotted time for the second part</summary>
     private const int SECOND_TIME = 32;
-
-    /// <summary>
-    /// Creates a new <see cref="Day19"/> Solver for 2022 - 19 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

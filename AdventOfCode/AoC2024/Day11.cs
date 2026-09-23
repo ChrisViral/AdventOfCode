@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 11
 /// </summary>
 [Solver(2024, 11)]
-public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
+public sealed partial class Day11 : Solver<(long value, Day11.Stone stone)[]>
 {
     public sealed class Stone
     {
@@ -93,14 +92,6 @@ public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
 
     private const int PART1_BLINKS = 25;
     private const int PART2_BLINKS = 75;
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

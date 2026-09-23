@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -79,14 +78,6 @@ public sealed partial class Day13 : Solver<Day13.ClawMachine[]>
     /// Part 2 offset
     /// </summary>
     private const long OFFSET = 10000000000000L;
-
-    /// <summary>
-    /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ClawMachine"/>[] fails</exception>
-    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

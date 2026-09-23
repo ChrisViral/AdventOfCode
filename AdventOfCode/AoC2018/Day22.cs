@@ -4,7 +4,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Spans;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 22
 /// </summary>
 [Solver(2018, 22)]
-public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
+public sealed partial class Day22 : Solver<(int depth, Vector2<int> target)>
 {
     private enum Region
     {
@@ -35,14 +34,6 @@ public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
     private const int YMUL = 48271;
     private const int MOD  = 20183;
     private const int SWITCH_DELAY = 7;
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

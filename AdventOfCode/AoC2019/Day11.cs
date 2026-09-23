@@ -2,7 +2,6 @@
 using Challenge.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 11
 /// </summary>
 [Solver(2019, 11)]
-public sealed class Day11 : IntcodeSolver
+public sealed partial class Day11 : IntcodeSolver
 {
     /// <summary>
     /// Panel colour
@@ -20,14 +19,6 @@ public sealed class Day11 : IntcodeSolver
         BLACK = 0,
         WHITE = 1,
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

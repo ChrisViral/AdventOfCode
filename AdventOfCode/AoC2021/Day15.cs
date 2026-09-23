@@ -3,7 +3,6 @@ using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -12,18 +11,10 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 15
 /// </summary>
 [Solver(2021, 15)]
-public sealed class Day15 : GridSolver<byte>
+public sealed partial class Day15 : GridSolver<byte>
 {
     /// <summary>Full size of the map</summary>
     private const int FULL_SIZE = 5;
-
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver for 2021 - 15 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

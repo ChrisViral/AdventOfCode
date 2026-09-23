@@ -11,17 +11,12 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 19
 /// </summary>
 [Solver(2017, 19)]
-public sealed class Day19 : GridSolver<char>
+public sealed partial class Day19 : GridSolver<char>
 {
     private const char EMPTY = ' ';
 
-    /// <summary>
-    /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    /// <inheritdoc />
+    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -1,6 +1,5 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -8,20 +7,12 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 14
 /// </summary>
 [Solver(2021, 14)]
-public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)>
+public sealed partial class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)>
 {
     /// <summary>Cycles for the first part</summary>
     private const int CYCLES      = 10;
     /// <summary>Cycles for the second part</summary>
     private const int LONG_CYCLES = 40;
-
-    /// <summary>
-    /// Creates a new <see cref="Day14"/> Solver for 2021 - 14 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

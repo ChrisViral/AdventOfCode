@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Regexes;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -97,14 +96,6 @@ public sealed partial class Day07 : Solver<Dictionary<string, Day07.LogicGate>>
 
     [GeneratedRegex(@"(?:([a-z\d]+) )?(?:([A-Z]+) )?([a-z\d]+) -> ([a-z]+)")]
     private static partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

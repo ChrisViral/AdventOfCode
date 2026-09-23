@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
 using FastEnumUtility;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 11
 /// </summary>
 [Solver(2017, 11)]
-public sealed class Day11 : Solver<Day11.HexDirection[]>
+public sealed partial class Day11 : Solver<Day11.HexDirection[]>
 {
     public enum HexDirection
     {
@@ -22,14 +21,6 @@ public sealed class Day11 : Solver<Day11.HexDirection[]>
         SE,
         SW
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

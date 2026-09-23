@@ -2,7 +2,6 @@
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2023;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 7
 /// </summary>
 [Solver(2023, 7)]
-public sealed class Day07 : ArraySolver<Day07.Hand>
+public sealed partial class Day07 : ArraySolver<Day07.Hand>
 {
     private const string ORDER   = "23456789TJQKA";
     private const string J_ORDER = "J23456789TQKA";
@@ -103,14 +102,6 @@ public sealed class Day07 : ArraySolver<Day07.Hand>
             return hand;
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

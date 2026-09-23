@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Collections;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -11,17 +10,9 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 4
 /// </summary>
 [Solver(2025, 4)]
-public sealed class Day04 : GridSolver<bool>
+public sealed partial class Day04 : GridSolver<bool>
 {
     private const char ROLL = '@';
-
-    /// <summary>
-    /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

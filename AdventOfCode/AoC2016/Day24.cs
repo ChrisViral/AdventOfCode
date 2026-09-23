@@ -6,7 +6,6 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -15,7 +14,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 24
 /// </summary>
 [Solver(2016, 24)]
-public sealed class Day24 : GridSolver<char>
+public sealed partial class Day24 : GridSolver<char>
 {
     private readonly record struct State(int Location, BitVector8 Checks, bool UseLocation)
     {
@@ -34,14 +33,6 @@ public sealed class Day24 : GridSolver<char>
 
     private readonly List<Vector2<int>> locations = new(LOCATIONS);
     private readonly Dictionary<UnorderedPair<int>, int> distances = new(LOCATIONS * LOCATIONS);
-
-    /// <summary>
-    /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day24(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

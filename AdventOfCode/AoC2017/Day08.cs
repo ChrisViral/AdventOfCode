@@ -4,7 +4,6 @@ using Challenge.Collections;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -89,14 +88,6 @@ public sealed partial class Day08 : RegexSolver<Day08.Instruction>
     /// <inheritdoc />
     [GeneratedRegex(@"([a-z]+) (inc|dec) (-?\d+) if ([a-z]+) (<|>|<=|>=|==|!=) (-?\d+)")]
     protected override partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     public override void Run()

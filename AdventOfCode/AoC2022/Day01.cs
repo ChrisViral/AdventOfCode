@@ -10,17 +10,12 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 1
 /// </summary>
 [Solver(2022, 1)]
-public sealed class Day01 : Solver<SortedList<int>>
+public sealed partial class Day01 : Solver<SortedList<int>>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day01"/> Solver for 2022 - 01 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day01(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day01(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
-    /// <inheritdoc cref="Solver{T}.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {

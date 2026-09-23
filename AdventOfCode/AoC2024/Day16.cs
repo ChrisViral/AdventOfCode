@@ -4,7 +4,6 @@ using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -13,19 +12,11 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 16
 /// </summary>
 [Solver(2024, 16)]
-public sealed class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> end)>
+public sealed partial class Day16 : Solver<(Grid<bool> maze, Vector2<int> start, Vector2<int> end)>
 {
     private readonly record struct Move(Vector2<int> Position, Direction Direction);
 
     private static readonly SearchValues<char> Markers = SearchValues.Create('E', 'S');
-
-    /// <summary>
-    /// Creates a new <see cref="Day16"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

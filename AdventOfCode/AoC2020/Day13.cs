@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Numbers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
@@ -10,20 +9,12 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 13
 /// </summary>
 [Solver(2020, 13)]
-public sealed class Day13 : Solver<(int timestamp, int[] buses)>
+public sealed partial class Day13 : Solver<(int timestamp, int[] buses)>
 {
     /// <summary>
     /// Out of service line no
     /// </summary>
     private const int NO_SERVICE = -1;
-
-    /// <summary>
-    /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

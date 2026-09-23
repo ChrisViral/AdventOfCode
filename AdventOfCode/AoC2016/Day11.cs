@@ -8,7 +8,6 @@ using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
 using FastEnumUtility;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;
@@ -92,14 +91,6 @@ public sealed partial class Day11 : Solver<(Day11.RTG[] objects, Day11.Placement
 
     [GeneratedRegex("([a-z]+)(?: (generator)|-compatible (microchip))")]
     private static partial Regex RTGMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

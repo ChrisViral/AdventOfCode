@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -10,19 +9,11 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 3
 /// </summary>
 [Solver(2025, 3)]
-public sealed class Day03 : Solver
+public sealed partial class Day03 : Solver
 {
     private const char BEST_BATTERY = '9';
     private const int PART1_COUNT   = 2;
     private const int PART2_COUNT   = 12;
-
-    /// <summary>
-    /// Creates a new <see cref="Day03"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

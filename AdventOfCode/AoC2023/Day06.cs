@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -11,15 +10,8 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 6
 /// </summary>
 [Solver(2023, 6)]
-public sealed class Day06 : Solver<(int time, int record)[]>
+public sealed partial class Day06 : Solver<(int time, int record)[]>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="ValueTuple{T, T}"/>[] fails</exception>
-    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

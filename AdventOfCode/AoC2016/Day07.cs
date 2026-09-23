@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -19,14 +18,6 @@ public sealed partial class Day07 : ArraySolver<string>
 
     [GeneratedRegex(@"([a-z])(?=(?!\1)([a-z])\1)")]
     private static partial Regex ThreeCharPolindromeMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day07"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day07(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

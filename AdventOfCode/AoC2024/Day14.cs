@@ -5,7 +5,6 @@ using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -27,14 +26,6 @@ public sealed partial class Day14 : Solver<Day14.Robot[]>
 
     private const int PART1_TIME = 100;
     private static readonly Vector2<int> SpaceSize = (101, 103);
-
-    /// <summary>
-    /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Robot"/>[] fails</exception>
-    public Day14(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

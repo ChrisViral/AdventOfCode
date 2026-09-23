@@ -3,7 +3,6 @@ using System.Numerics;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 18
 /// </summary>
 [Solver(2021, 18)]
-public sealed class Day18 : ArraySolver<Day18.Number>
+public sealed partial class Day18 : ArraySolver<Day18.Number>
 {
     public sealed class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>
     {
@@ -257,14 +256,6 @@ public sealed class Day18 : ArraySolver<Day18.Number>
             return number;
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day18"/> Solver for 2021 - 18 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Number"/>[] fails</exception>
-    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -99,14 +98,6 @@ public sealed partial class Day22 : Solver<(bool command, Day22.Cuboid cube)[]>
     private const int INTERSECT_SIZE = 120000;
     /// <summary>Size of the cuboid buffer for part 2</summary>
     private const int BUFFER_SIZE = 6;
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver for 2021 - 22 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

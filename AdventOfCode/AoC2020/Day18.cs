@@ -1,7 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enums;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 18
 /// </summary>
 [Solver(2020, 18)]
-public sealed class Day18 : Solver<string[][]>
+public sealed partial class Day18 : Solver<string[][]>
 {
     /// <summary>
     /// Numerical operation types
@@ -28,14 +27,6 @@ public sealed class Day18 : Solver<string[][]>
     /// Multiplication symbol
     /// </summary>
     private const string MUL = "*";
-
-    /// <summary>
-    /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="string"/>[][] fails</exception>
-    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

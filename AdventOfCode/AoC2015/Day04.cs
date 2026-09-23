@@ -2,7 +2,6 @@
 using System.Text;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 4
 /// </summary>
 [Solver(2015, 4)]
-public sealed class Day04 : Solver<byte[]>
+public sealed partial class Day04 : Solver<byte[]>
 {
     private const int PART1_SIZE = 5;
     private const int PART2_SIZE = 6;
@@ -18,14 +17,6 @@ public sealed class Day04 : Solver<byte[]>
     private static readonly byte[] Hex  = new byte[MD5.HashSizeInBytes * 2];
 
     private readonly MD5 md5 = MD5.Create();
-
-    /// <summary>
-    /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

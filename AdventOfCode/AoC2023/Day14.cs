@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 14
 /// </summary>
 [Solver(2023, 14)]
-public sealed class Day14 : GridSolver<Day14.Rock>
+public sealed partial class Day14 : GridSolver<Day14.Rock>
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public enum Rock
@@ -27,14 +26,10 @@ public sealed class Day14 : GridSolver<Day14.Rock>
     private readonly Dictionary<Direction, Vector2<int>[]> directionOrders = new(4);
     private readonly Dictionary<string, int> states = new();
 
-    /// <summary>
-    /// Creates a new <see cref="Day14"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day14(string input, ILogger logger) : base(input, logger)
+    /// <inheritdoc />
+    public override void ParseInput(string input)
     {
+        base.ParseInput(input);
         this.directionOrders[Direction.NORTH] = Vector2<int>.EnumerateOver(this.Data.Width, this.Data.Height).ToArray();
         this.directionOrders[Direction.SOUTH] = this.directionOrders[Direction.UP].AsEnumerable().Reverse().ToArray();
         this.directionOrders[Direction.WEST]  = Vector2<int>.EnumerateOver(this.Data.Height, this.Data.Width)

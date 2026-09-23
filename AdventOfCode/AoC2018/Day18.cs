@@ -4,7 +4,6 @@ using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 18
 /// </summary>
 [Solver(2018, 18)]
-public sealed class Day18 : GridSolver<Day18.Lumber>
+public sealed partial class Day18 : GridSolver<Day18.Lumber>
 {
     public enum Lumber
     {
@@ -25,14 +24,6 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
 
     private const int PART1_CYCLES = 10;
     private const int PART2_CYCLES = 1_000_000_000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day18"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day18(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

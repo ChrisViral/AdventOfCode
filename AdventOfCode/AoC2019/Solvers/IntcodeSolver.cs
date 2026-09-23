@@ -22,7 +22,7 @@ public abstract class IntcodeSolver : Solver<IntcodeVM>
     /// <param name="input">Puzzle input</param>
     /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
-    protected IntcodeSolver(string input, ILogger logger) : base(input, logger, [], StringSplitOptions.TrimEntries) { }
+    protected IntcodeSolver(ILogger logger) : base(logger, [], StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     protected sealed override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);

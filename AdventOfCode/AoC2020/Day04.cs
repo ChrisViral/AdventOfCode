@@ -74,13 +74,8 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     [GeneratedRegex("([a-z]{3}):([#a-z0-9]+)")]
     private static partial Regex PassportMatcher { get; }
 
-    /// <summary>
-    /// Creates a new <see cref="Day04"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day04(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day04(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

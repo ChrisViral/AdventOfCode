@@ -6,7 +6,6 @@ using Challenge.Utils;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -14,7 +13,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 8
 /// </summary>
 [Solver(2025, 8)]
-public sealed class Day08 : ArraySolver<Day08.Junction>
+public sealed partial class Day08 : ArraySolver<Day08.Junction>
 {
     /// <summary>
     /// Part 1 connection count
@@ -47,14 +46,6 @@ public sealed class Day08 : ArraySolver<Day08.Junction>
     /// Circuit container
     /// </summary>
     private sealed class Circuit : HashSet<Connection>;
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

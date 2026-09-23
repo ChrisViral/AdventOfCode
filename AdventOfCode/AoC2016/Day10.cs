@@ -5,7 +5,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
 using FastEnumUtility;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -88,14 +87,6 @@ public sealed partial class Day10 : Solver<(ImmutableArray<Day10.Input> inputs, 
 
     [GeneratedRegex(@"^bot (\d+) gives low to (bot|output) (\d+) and high to (bot|output) (\d+)$")]
     private static partial Regex BotMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

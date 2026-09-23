@@ -3,7 +3,6 @@ using Challenge.Collections;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2025;
@@ -27,14 +26,6 @@ public sealed partial class Day12 : Solver<(Grid<bool>[] presents, Day12.Region[
 
         public int[] Quantities { get; } = [a, b, c, d, e, f];
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day12"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day12(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

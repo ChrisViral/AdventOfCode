@@ -79,7 +79,6 @@ csharp_style_throw_expression = true:suggestion
 
 # Default severity for all analyzer diagnostics
 
-
 # Disable trailing space removal for .md and .txt files
 [*.{md,txt}]
 trim_trailing_whitespace = false

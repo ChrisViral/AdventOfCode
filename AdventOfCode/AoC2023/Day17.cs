@@ -3,7 +3,6 @@ using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 17
 /// </summary>
 [Solver(2023, 17)]
-public sealed class Day17 : GridSolver<int>
+public sealed partial class Day17 : GridSolver<int>
 {
     public interface ICrucible<T> : IEquatable<T> where T : ICrucible<T>
     {
@@ -164,14 +163,6 @@ public sealed class Day17 : GridSolver<int>
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.position, (int)this.direction, this.currentSteps);
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

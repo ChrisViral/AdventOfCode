@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Numbers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;
@@ -21,14 +20,6 @@ public sealed partial class Day13 : RegexSolver<Day13.Firewall>
     /// <inheritdoc />
     [GeneratedRegex(@"(\d+): (\d+)")]
     protected override partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day13"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -23,13 +22,6 @@ public sealed partial class Day05 : ArraySolver<string>
     [GeneratedRegex(@"([a-z])[a-z]\1")]
     private static partial Regex TripleMatcher { get; }
 
-    /// <summary>
-    /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

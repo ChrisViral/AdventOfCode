@@ -3,7 +3,6 @@ using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 22
 /// </summary>
 [Solver(2024, 22)]
-public sealed class Day22 : ArraySolver<long>
+public sealed partial class Day22 : ArraySolver<long>
 {
     private sealed class ParallelHelper((int[] prices, byte[] diffs)[] secrets) : ParallelHelper<(byte a, byte b, byte c, byte d), Ref<int>>
     {
@@ -44,14 +43,6 @@ public sealed class Day22 : ArraySolver<long>
     /// Daily secret generation count
     /// </summary>
     private const int GEN_COUNT = 2000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day22"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day22(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -5,7 +5,6 @@ using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -22,17 +21,16 @@ public sealed partial class Day05 : Solver<(Vector2<int> from, Vector2<int> to)[
     [GeneratedRegex(@"(\d+,\d+) -> (\d+,\d+)")]
     private static partial Regex VectorMatcher { get; }
 
-    private readonly Grid<int> grid;
+    private Grid<int> grid = null!;
     private int maxX;
     private int maxY;
 
-    /// <summary>
-    /// Creates a new <see cref="Day05"/> Solver for 2021 - 05 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day05(string input, ILogger logger) : base(input, logger) => this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
+    /// <inheritdoc />
+    public override void ParseInput(string input)
+    {
+        base.ParseInput(input);
+        this.grid = new Grid<int>(this.maxX + 1, this.maxY + 1);
+    }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

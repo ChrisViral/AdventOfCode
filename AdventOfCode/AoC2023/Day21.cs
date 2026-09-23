@@ -5,7 +5,6 @@ using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2023;
@@ -14,18 +13,10 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 21
 /// </summary>
 [Solver(2023, 21)]
-public sealed class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
+public sealed partial class Day21 : Solver<(Grid<bool> garden, Vector2<int> start)>
 {
     private const int STEPS = 64;
     private const int LONG_STEPS = 26501365;
-
-    /// <summary>
-    /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

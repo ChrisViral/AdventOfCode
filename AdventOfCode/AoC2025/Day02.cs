@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Numbers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 
@@ -13,14 +12,6 @@ namespace AdventOfCode.AoC2025;
 public sealed partial class Day02 : Solver<Day02.IdRange[]>
 {
     public readonly record struct IdRange(long Start, long End);
-
-    /// <summary>
-    /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     private static readonly char[] Buffer = new char[19];
 

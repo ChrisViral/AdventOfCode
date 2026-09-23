@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -12,21 +11,13 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 20
 /// </summary>
 [Solver(2021, 20)]
-public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
+public sealed partial class Day20 : Solver<(string algorithm, Grid<bool> image)>
 {
     private const int PASSES      = 2;
     private const int LONG_PASSES = 50;
     private const char LIGHT      = '#';
     private const int BUFFER      = 6;
     private static readonly Vector2<int> Offset = new(BUFFER / 2, BUFFER / 2);
-
-    /// <summary>
-    /// Creates a new <see cref="Day20"/> Solver for 2021 - 20 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

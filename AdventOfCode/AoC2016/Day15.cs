@@ -2,7 +2,6 @@
 using Challenge.Maths;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -19,14 +18,6 @@ public sealed partial class Day15 : RegexSolver<Day15.Disc>
     /// <inheritdoc />
     [GeneratedRegex(@"Disc #(\d+) has (\d+) positions; at time=0, it is at position (\d+)")]
     protected override partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -4,7 +4,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -13,7 +12,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 8
 /// </summary>
 [Solver(2019, 8)]
-public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
+public sealed partial class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
 {
     /// <summary>
     /// Pixel colour
@@ -37,14 +36,6 @@ public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
     /// Image layer size
     /// </summary>
     private const int SIZE = WIDTH * HEIGHT;
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

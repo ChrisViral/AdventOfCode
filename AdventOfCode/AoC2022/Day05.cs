@@ -63,13 +63,8 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
         public override string ToString() => $"move {this.Amount} from {this.From + 1} to {this.To + 1}";
     }
 
-    /// <summary>
-    /// Creates a new <see cref="Day05"/> Solver for 2022 - 05 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day05(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.None) { }
+    /// <inheritdoc />
+    public Day05(ILogger logger) : base(logger, options: StringSplitOptions.None) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

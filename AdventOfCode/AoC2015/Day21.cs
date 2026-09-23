@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2015;
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 21
 /// </summary>
 [Solver(2015, 21)]
-public sealed class Day21 : Solver<Day21.Stats>
+public sealed partial class Day21 : Solver<Day21.Stats>
 {
     public readonly record struct Stats(int HitPoints, int Damage, int Armour);
 
@@ -46,14 +45,6 @@ public sealed class Day21 : Solver<Day21.Stats>
         new("Defense +2", Cost: 40,  Damage: 0, Armour: 2),
         new("Defense +3", Cost: 80,  Damage: 0, Armour: 3)
     ];
-
-    /// <summary>
-    /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

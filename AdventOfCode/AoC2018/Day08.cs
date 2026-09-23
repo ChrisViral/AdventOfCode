@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 8
 /// </summary>
 [Solver(2018, 8)]
-public sealed class Day08 : Solver<Day08.Node>
+public sealed partial class Day08 : Solver<Day08.Node>
 {
     public record Node(ImmutableArray<Node> Children, ImmutableArray<int> Metadata)
     {
@@ -63,14 +62,6 @@ public sealed class Day08 : Solver<Day08.Node>
             return new Node(children, metadata);
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day08"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day08(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

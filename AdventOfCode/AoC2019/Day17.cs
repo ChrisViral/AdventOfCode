@@ -7,7 +7,6 @@ using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -39,14 +38,6 @@ public sealed partial class Day17 : IntcodeSolver
 
     [GeneratedRegex(@"^((?:[RL],\d+,)+)\1+$")]
     private static partial Regex SingleTokenMatcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

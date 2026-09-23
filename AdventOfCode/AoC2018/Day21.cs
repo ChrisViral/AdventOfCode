@@ -1,7 +1,6 @@
 ﻿using AdventOfCode.AoC2018.ElfCode;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018;
 
@@ -9,15 +8,8 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 21
 /// </summary>
 [Solver(2018, 21)]
-public sealed class Day21 : ElfCodeSolver
+public sealed partial class Day21 : ElfCodeSolver
 {
-    /// <summary>
-    /// Creates a new <see cref="Day21"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day21(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

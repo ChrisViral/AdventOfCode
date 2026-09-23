@@ -2,7 +2,6 @@
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 11
 /// </summary>
 [Solver(2022, 11)]
-public sealed class Day11 : Solver<Day11.Monkey[]>
+public sealed partial class Day11 : Solver<Day11.Monkey[]>
 {
     /// <summary>
     /// Worry value update function
@@ -142,14 +141,6 @@ public sealed class Day11 : Solver<Day11.Monkey[]>
     private const int ROUNDS = 20;
     /// <summary>Rounds count for the second part</summary>
     private const int LONG_ROUNDS = 10000;
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver for 2022 - 11 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

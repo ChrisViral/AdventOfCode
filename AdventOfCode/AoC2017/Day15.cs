@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -10,7 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 15
 /// </summary>
 [Solver(2017, 15)]
-public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
+public sealed partial class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
 {
     public sealed class Generator(int seed, int factor, int multiple)
     {
@@ -46,14 +45,6 @@ public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
     private const int PART1_PAIRS = 40_000_000;
     private const int PART2_PAIRS = 5_000_000;
     private const int MASK        = 0b11111111_11111111;
-
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

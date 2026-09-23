@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 23
 /// </summary>
 [Solver(2021, 23)]
-public sealed class Day23 : Solver<Day23.GraphData>
+public sealed partial class Day23 : Solver<Day23.GraphData>
 {
     /// <summary>
     /// Amphipod types
@@ -217,13 +217,8 @@ public sealed class Day23 : Solver<Day23.GraphData>
         public override string ToString() => $"[Room {this.id}]: {string.Join(',', room)}";
     }
 
-    /// <summary>
-    /// Creates a new <see cref="Day23"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day23(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    /// <inheritdoc />
+    public Day23(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -133,13 +133,8 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
         public override string ToString() => this.Pattern;
     }
 
-    /// <summary>
-    /// Creates a new <see cref="Day19"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

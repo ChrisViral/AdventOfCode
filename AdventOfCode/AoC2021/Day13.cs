@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2021;
 
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 13
 /// </summary>
 [Solver(2021, 13)]
-public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
+public sealed partial class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 {
     /// <summary>
     /// Folding axis
@@ -28,14 +27,6 @@ public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
     /// <param name="Axis">Fold axis</param>
     /// <param name="Value">Fold position</param>
     public record struct Fold(Axis Axis, int Value);
-
-    /// <summary>
-    /// Creates a new <see cref="Day13"/> Solver for 2021 - 13 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day13(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

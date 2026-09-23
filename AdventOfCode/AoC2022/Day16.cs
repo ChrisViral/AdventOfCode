@@ -5,7 +5,6 @@ using Challenge.Collections.Search;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using Challenge.Utils.Extensions.Regexes;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;
@@ -68,14 +67,6 @@ public sealed partial class Day16 : Solver<(Day16.Valve start, Day16.Valve[] val
 
     [GeneratedRegex(@"Valve ([A-Z]{2}) has flow rate=(\d{1,2}); (?:tunnel leads to valve ([A-Z]{2})|tunnels lead to valves ([A-Z, ]+))")]
     private static partial Regex Matcher { get; }
-
-    /// <summary>
-    /// Creates a new <see cref="Day16"/> Solver for 2022 - 16 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day16(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

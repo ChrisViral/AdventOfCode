@@ -1,7 +1,6 @@
 ﻿using Challenge.Collections;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;
@@ -10,17 +9,9 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 11
 /// </summary>
 [Solver(2018, 11)]
-public sealed class Day11 : Solver<int>
+public sealed partial class Day11 : Solver<int>
 {
     private const int SIZE = 300;
-
-    /// <summary>
-    /// Creates a new <see cref="Day11"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day11(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

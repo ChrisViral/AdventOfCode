@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Collections;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 4
 /// </summary>
 [Solver(2021, 4)]
-public sealed class Day04 : Solver<Day04.BingoData>
+public sealed partial class Day04 : Solver<Day04.BingoData>
 {
     /// <summary>
     /// Bingo system data
@@ -48,14 +47,6 @@ public sealed class Day04 : Solver<Day04.BingoData>
 
     /// <summary>Marked bingo location value</summary>
     private const int MARKED = -1;
-
-    /// <summary>
-    /// Creates a new <see cref="Day04"/> Solver for 2021 - 04 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day04(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 20
 /// </summary>
 [Solver(2019, 20)]
-public sealed class Day20 : Solver<Day20.MapData>
+public sealed partial class Day20 : Solver<Day20.MapData>
 {
     public enum Element
     {
@@ -50,13 +50,8 @@ public sealed class Day20 : Solver<Day20.MapData>
     /// <param name="To">Second teleporter location</param>
     private record struct Teleporter(string Label, Vector2<int> From, Vector2<int> To);
 
-    /// <summary>
-    /// Creates a new <see cref="Day20"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day20(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    /// <inheritdoc />
+    public Day20(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

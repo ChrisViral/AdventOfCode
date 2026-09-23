@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 15
 /// </summary>
 [Solver(2024, 15)]
-public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
+public sealed partial class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
 {
     /// <summary>
     /// Warehouse element
@@ -27,13 +27,8 @@ public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] m
         BOX_RIGHT = ']'
     }
 
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day15(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

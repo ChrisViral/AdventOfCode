@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 using Transformation = System.Func<Challenge.Maths.Vectors.Vector3<int>, Challenge.Maths.Vectors.Vector3<int>>;
 
@@ -12,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 19
 /// </summary>
 [Solver(2021, 19)]
-public sealed class Day19 : Solver<List<Vector3<int>[]>>
+public sealed partial class Day19 : Solver<List<Vector3<int>[]>>
 {
     private const int MATCHING = 12;
     private static readonly Transformation[] Rotations =
@@ -54,14 +53,6 @@ public sealed class Day19 : Solver<List<Vector3<int>[]>>
         v => new Vector3<int>(-v.X, -v.Z, -v.Y)
     ];
     private static readonly List<Vector3<int>> Buffer = [];
-
-    /// <summary>
-    /// Creates a new <see cref="Day19"/> Solver for 2021 - 19 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

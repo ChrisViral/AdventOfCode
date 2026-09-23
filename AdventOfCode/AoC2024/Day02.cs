@@ -2,7 +2,6 @@
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -10,15 +9,8 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 2
 /// </summary>
 [Solver(2024, 2)]
-public sealed class Day02 : ArraySolver<int[]>
+public sealed partial class Day02 : ArraySolver<int[]>
 {
-    /// <summary>
-    /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="int"/>[] fails</exception>
-    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

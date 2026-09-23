@@ -6,7 +6,6 @@ using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 using ZLinq;
 
@@ -70,14 +69,6 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
     private static partial Regex ButtonMatcher { get; }
 
     private static int joltagePresses;
-
-    /// <summary>
-    /// Creates a new <see cref="Day10"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day10(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
     /// ReSharper disable once CognitiveComplexity

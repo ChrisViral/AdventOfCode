@@ -6,7 +6,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enums;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2019;
@@ -15,7 +14,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 15
 /// </summary>
 [Solver(2019, 15)]
-public sealed class Day15 : IntcodeSolver
+public sealed partial class Day15 : IntcodeSolver
 {
     /// <summary>
     /// Element values
@@ -44,14 +43,6 @@ public sealed class Day15 : IntcodeSolver
     /// Environment map
     /// </summary>
     private readonly ConsoleView<Element> map = new(41, 41, ShowElement, defaultValue: Element.UNKNOWN, fps: 60);
-
-    /// <summary>
-    /// Creates a new <see cref="Day15"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day15(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

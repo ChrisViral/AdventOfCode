@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 24
 /// </summary>
 [Solver(2024, 24)]
-public sealed class Day24 : Solver<Day24.Wire[]>
+public sealed partial class Day24 : Solver<Day24.Wire[]>
 {
     /// <summary>
     /// Wire base
@@ -111,13 +111,8 @@ public sealed class Day24 : Solver<Day24.Wire[]>
         protected override bool Evaluate() => this.Left.Value ^ this.Right.Value;
     }
 
-    /// <summary>
-    /// Creates a new <see cref="Day24"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Wire"/>[] fails</exception>
-    public Day24(string input, ILogger logger) : base(input, logger, options: StringSplitOptions.TrimEntries) { }
+    /// <inheritdoc />
+    public Day24(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

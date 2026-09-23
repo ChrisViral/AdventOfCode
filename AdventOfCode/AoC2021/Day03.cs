@@ -1,8 +1,6 @@
 ﻿using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
-using static System.Convert;
 
 namespace AdventOfCode.AoC2021;
 
@@ -10,18 +8,10 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 3
 /// </summary>
 [Solver(2021, 3)]
-public sealed class Day03 : Solver
+public sealed partial class Day03 : Solver
 {
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>
     private const int MASK = 0xFFF;
-
-    /// <summary>
-    /// Creates a new <see cref="Day03"/> Solver for 2021 - 03 with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the target type fails</exception>
-    public Day03(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
@@ -55,8 +45,8 @@ public sealed class Day03 : Solver
         // Create a copy of the counts
         int[] countsCopy = counts.Copy();
         // Get oxygen generator and CO2 scrubber values
-        int generator = ToInt32(GetRating(counts,     '1', '0'), 2);
-        int scrubber  = ToInt32(GetRating(countsCopy, '0', '1'), 2);
+        int generator = Convert.ToInt32(GetRating(counts,     '1', '0'), 2);
+        int scrubber  = Convert.ToInt32(GetRating(countsCopy, '0', '1'), 2);
         LogAnswer(generator * scrubber);
     }
 

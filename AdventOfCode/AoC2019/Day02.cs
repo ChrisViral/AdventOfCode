@@ -1,7 +1,6 @@
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 2
 /// </summary>
 [Solver(2019, 2)]
-public sealed class Day02 : IntcodeSolver
+public sealed partial class Day02 : IntcodeSolver
 {
     /// <summary>
     /// Maximum input argument value
@@ -19,14 +18,6 @@ public sealed class Day02 : IntcodeSolver
     /// Target output value
     /// </summary>
     private const int TARGET = 19690720;
-
-    /// <summary>
-    /// Creates a new <see cref="Day02"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day02(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

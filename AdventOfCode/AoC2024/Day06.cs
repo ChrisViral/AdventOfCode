@@ -2,7 +2,6 @@
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 6
 /// </summary>
 [Solver(2024, 6)]
-public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
+public sealed partial class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
 {
     /// <summary>
     /// Simulation thread data container
@@ -35,14 +34,6 @@ public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)
     /// Guard start character
     /// </summary>
     private const char START = '^';
-
-    /// <summary>
-    /// Creates a new <see cref="Day06"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to (<see cref="Grid{T}"/> <see cref="Vector2{T}"/>) fails</exception>
-    public Day06(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

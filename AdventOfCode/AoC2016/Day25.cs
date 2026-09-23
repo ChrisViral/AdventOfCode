@@ -2,7 +2,6 @@
 using AdventOfCode.AoC2016.Assembunny;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2016;
 
@@ -10,21 +9,13 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 25
 /// </summary>
 [Solver(2016, 25)]
-public sealed class Day25 : RegexSolver<Instruction>
+public sealed partial class Day25 : RegexSolver<Instruction>
 {
     // Low, but seemingly good enough
     private const int THRESHOLD = 10;
 
     /// <inheritdoc />
     protected override Regex Matcher => Instruction.Matcher;
-
-    /// <summary>
-    /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

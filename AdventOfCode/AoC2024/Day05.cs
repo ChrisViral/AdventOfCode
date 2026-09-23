@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2024;
 
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 5
 /// </summary>
 [Solver(2024, 5)]
-public sealed class Day05 : Solver<Day05.Rule[][]>
+public sealed partial class Day05 : Solver<Day05.Rule[][]>
 {
     public sealed class Rule(byte value, SearchValues<byte> mustFollow)
     {
@@ -21,14 +20,6 @@ public sealed class Day05 : Solver<Day05.Rule[][]>
 
         public override string ToString() => $"Rule({this.Value})";
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day05"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="Rule"/>[][] fails</exception>
-    public Day05(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

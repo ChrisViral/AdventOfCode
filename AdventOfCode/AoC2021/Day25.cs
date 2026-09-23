@@ -2,7 +2,6 @@
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;
@@ -11,7 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 25
 /// </summary>
 [Solver(2021, 25)]
-public sealed class Day25 : GridSolver<Day25.Element>
+public sealed partial class Day25 : GridSolver<Day25.Element>
 {
     /// <summary>
     /// Seafloor element
@@ -22,14 +21,6 @@ public sealed class Day25 : GridSolver<Day25.Element>
         EAST = '>',
         SOUTH = 'v'
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day25"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day25(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

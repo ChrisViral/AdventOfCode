@@ -1,5 +1,4 @@
 ﻿using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 
@@ -7,7 +6,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2018 Day 9
 /// </summary>
 [Solver(2017, 9)]
-public sealed class Day09 : Solver<string>
+public sealed partial class Day09 : Solver<string>
 {
     private sealed class Group
     {
@@ -81,14 +80,6 @@ public sealed class Day09 : Solver<string>
 
         public override string ToString() => $"{{{string.Join(',', this.children)}}}";
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day09"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day09(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     public override void Run()

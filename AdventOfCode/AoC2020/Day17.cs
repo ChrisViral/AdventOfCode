@@ -1,7 +1,6 @@
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2020;
 
@@ -9,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 17
 /// </summary>
 [Solver(2020, 17)]
-public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Vector4<int>> part2)>
+public sealed partial class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Vector4<int>> part2)>
 {
     /// <summary>
     /// Conway cube implementation
@@ -105,14 +104,6 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<V
             return this.activeCubes.Count;
         }
     }
-
-    /// <summary>
-    /// Creates a new <see cref="Day17"/> Solver with the input data properly parsed
-    /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="bool"/>[,,] fails</exception>
-    public Day17(string input, ILogger logger) : base(input, logger) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
