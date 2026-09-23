@@ -6,6 +6,9 @@
     <File Path=".editorconfig" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Workflows/">
+    <File Path=".github/workflows/dotnet-build.yml" />
+  </Folder>
   <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj">
     <Platform Project="x64" />
   </Project>
