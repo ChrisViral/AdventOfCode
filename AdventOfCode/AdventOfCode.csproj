@@ -9,11 +9,19 @@
     <ApplicationIcon>Assets\aoc.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Properties\AdventOfCode.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>2026.1.0</AssemblyVersion>
-    <FileVersion>2026.1.0</FileVersion>
-    <Version>2026.1.0</Version>
     <Configurations>Release;Debug</Configurations>
     <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildYear>$([System.DateTime]::UtcNow.ToString("yyyy"))</BuildYear>
+    <BuildMonth>$([System.DateTime]::UtcNow.ToString("MM"))</BuildMonth>
+    <MonthStart>$([System.DateTime]::Parse($([System.DateTime]::UtcNow.ToString("yyyy-MM-01"))))</MonthStart>
+    <MonthMinutes>$([System.Math]::Floor($([System.DateTime]::UtcNow.Subtract($(MonthStart)).TotalMinutes)))</MonthMinutes>
+    <DaySeconds>$([System.Math]::Floor($([System.DateTime]::UtcNow.Subtract($([System.DateTime]::Today)).TotalMinutes)))</DaySeconds>
+    <Version>$(BuildYear).$(BuildMonth).$(MonthMinutes).$(DaySeconds)</Version>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
@@ -25,15 +33,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
+    <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.170" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
-    <PackageReference Include="Refit" Version="16.0.0" />
-    <PackageReference Include="Refit.HttpClientFactory" Version="16.0.0" />
-    <PackageReference Include="Refit.Reflection" Version="16.0.0" />
-    <PackageReference Include="Serilog" Version="4.4.0" />
+    <PackageReference Include="Refit" Version="16.1.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="16.1.0" />
+    <PackageReference Include="Refit.Reflection" Version="16.1.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
