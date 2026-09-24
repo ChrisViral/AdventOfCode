@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Refit;
 
-namespace AdventOfCode.Resolver;
+namespace AdventOfCode.API;
 
 /// <summary>
 /// Advent of Code API

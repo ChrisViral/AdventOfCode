@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
-using AdventOfCode.Resolver;
+using AdventOfCode.API;
 using Challenge.CLI;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Assemblies;

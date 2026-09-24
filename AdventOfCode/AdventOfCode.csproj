@@ -49,7 +49,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCode.Intcode\AdventOfCode.Intcode.csproj" />
-    <ProjectReference Include="..\AdventOfCode.Resolver\AdventOfCode.Resolver.csproj" />
+    <ProjectReference Include="..\AdventOfCode.API\AdventOfCode.API.csproj" />
     <ProjectReference Include="..\Libraries\Challenge.CLI\Challenge.CLI.csproj" />
     <ProjectReference Include="..\Libraries\Challenge.Generator\Challenge.Generator.csproj"
                       OutputItemType="Analyzer"

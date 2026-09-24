@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using AdventOfCode.Resolver;
+using AdventOfCode.API;
 using Challenge.CLI;
 using Challenge.Solvers;
 using CSharpFunctionalExtensions;
