@@ -77,7 +77,7 @@ public sealed partial class Day16 : Solver<(HashSet<Day16.Field> fields, Day16.T
     private const string TARGET_START = "departure";
 
     /// <inheritdoc />
-    public Day16(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day16() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

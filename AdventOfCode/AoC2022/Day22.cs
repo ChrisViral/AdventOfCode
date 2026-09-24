@@ -39,7 +39,7 @@ public sealed partial class Day22 : Solver<(Grid<char> board, Day22.Movement[] m
     private static partial Regex Matcher { get; }
 
     /// <inheritdoc />
-    public Day22(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day22() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

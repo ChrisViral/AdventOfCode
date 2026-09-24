@@ -218,7 +218,7 @@ public sealed partial class Day23 : Solver<Day23.GraphData>
     }
 
     /// <inheritdoc />
-    public Day23(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day23() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

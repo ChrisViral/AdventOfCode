@@ -18,7 +18,7 @@ public sealed partial class Day06 : Solver<Grid<string>>
     private static partial Regex OperatorPattern { get; }
 
     /// <inheritdoc />
-    public Day06(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day06() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

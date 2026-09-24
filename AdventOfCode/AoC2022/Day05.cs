@@ -64,7 +64,7 @@ public sealed partial class Day05 : Solver<(Stack<char>[] stacks, Day05.Move[] m
     }
 
     /// <inheritdoc />
-    public Day05(ILogger logger) : base(logger, options: StringSplitOptions.None) { }
+    public Day05() : base(options: StringSplitOptions.None) { }
 
     /// <inheritdoc cref="Solver{T}.Run"/>
     /// ReSharper disable once CognitiveComplexity

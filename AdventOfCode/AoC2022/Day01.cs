@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2022;
 public sealed partial class Day01 : Solver<SortedList<int>>
 {
     /// <inheritdoc />
-    public Day01(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day01() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

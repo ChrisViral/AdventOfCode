@@ -134,7 +134,7 @@ public sealed partial class Day19 : Solver<(Day19.Rule[] rules, string[] message
     }
 
     /// <inheritdoc />
-    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day19() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

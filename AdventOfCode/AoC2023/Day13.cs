@@ -19,7 +19,7 @@ public sealed partial class Day13 : Solver<Grid<bool>[]>
     private const char ROCK = '#';
 
     /// <inheritdoc />
-    public Day13(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day13() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

@@ -15,12 +15,9 @@ public abstract partial class ElfCodeSolver : Solver<Program>
     private static partial Regex InstructionRegex { get; }
 
     /// <summary>
-    /// Creates a new <see cref="ElfCodeSolver"/> Solver with the input data properly parsed
+    /// Creates a new <see cref="ElfCodeSolver"/>
     /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    protected ElfCodeSolver(ILogger logger) : base(logger) { }
+    protected ElfCodeSolver() { }
 
     /// <inheritdoc />
     protected sealed override Program Convert(string[] rawInput)

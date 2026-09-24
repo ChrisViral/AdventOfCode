@@ -25,7 +25,7 @@ public sealed partial class Day19 : Solver<(ImmutableArray<Day19.Replacement> re
     private static partial Regex ElementMatcher { get; }
 
     /// <inheritdoc />
-    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day19() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

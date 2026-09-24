@@ -51,7 +51,7 @@ public sealed partial class Day20 : Solver<Day20.MapData>
     private record struct Teleporter(string Label, Vector2<int> From, Vector2<int> To);
 
     /// <inheritdoc />
-    public Day20(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day20() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

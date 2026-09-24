@@ -112,7 +112,7 @@ public sealed partial class Day24 : Solver<Day24.Wire[]>
     }
 
     /// <inheritdoc />
-    public Day24(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day24() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

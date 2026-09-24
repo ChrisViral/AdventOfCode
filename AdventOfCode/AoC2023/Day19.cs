@@ -161,7 +161,7 @@ public sealed partial class Day19 : Solver<(Dictionary<string, Day19.Workflow> w
     /// </summary>
     /// <param name="logger">Logger instance</param>
     /// <exception cref="InvalidOperationException">Thrown if the conversion to the data type fails</exception>
-    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day19() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     public override void ParseInput(string input) => base.ParseInput(input.Trim());

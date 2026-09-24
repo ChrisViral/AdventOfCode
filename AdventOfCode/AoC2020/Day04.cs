@@ -75,7 +75,7 @@ public sealed partial class Day04 : Solver<Day04.Passport[]>
     private static partial Regex PassportMatcher { get; }
 
     /// <inheritdoc />
-    public Day04(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day04() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

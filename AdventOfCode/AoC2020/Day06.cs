@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2020;
 public sealed partial class Day06 : Solver<HashSet<char>[][]>
 {
     /// <inheritdoc />
-    public Day06(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day06() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

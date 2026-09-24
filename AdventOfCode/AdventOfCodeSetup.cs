@@ -2,6 +2,7 @@
 using System.Text.Json;
 using AdventOfCode.Resolver;
 using Challenge.CLI;
+using Challenge.Solvers;
 using Challenge.Utils.Extensions.Assemblies;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
@@ -35,13 +36,13 @@ public sealed class AdventOfCodeSetup() : Setup<ResolverSettings>("Advent of Cod
     public override void ConfigureServices(IServiceCollection services)
     {
         // Add services
-        services.AddSingleton<ISolverResolver, SolverResolver>()
+        services.AddSingleton<ISolverResolver, AdventOfCodeResolver>()
                 .AddSingleton(this.settings)
                 .AddLogging(builder => builder.AddSerilog(Log.Logger, true));
 
         // Setup user agent value
         Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
-        string userAgent = $"ChrisViral.{typeof(SolverResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/EverybodyCodes)";
+        string userAgent = $"ChrisViral.{typeof(AdventOfCodeResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/EverybodyCodes)";
 
         // Add HTTP Clients
         services.AddRefitClient<IAdventOfCodeAPI>()

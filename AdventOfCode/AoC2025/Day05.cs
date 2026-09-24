@@ -27,7 +27,7 @@ public sealed partial class Day05 : Solver<(Day05.IdRange[] Ranges, long[] Produ
     private static partial Regex RangeMatcher { get; }
 
     /// <inheritdoc />
-    public Day05(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day05() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

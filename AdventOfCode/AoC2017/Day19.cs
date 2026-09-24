@@ -16,7 +16,7 @@ public sealed partial class Day19 : GridSolver<char>
     private const char EMPTY = ' ';
 
     /// <inheritdoc />
-    public Day19(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day19() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

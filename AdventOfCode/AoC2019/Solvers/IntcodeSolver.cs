@@ -17,12 +17,9 @@ public abstract class IntcodeSolver : Solver<IntcodeVM>
     public IntcodeVM VM => this.Data;
 
     /// <summary>
-    /// Creates a new <see cref="IntcodeSolver"/> Solver with the input data properly parsed
+    /// Creates a new <see cref="IntcodeSolver"/>
     /// </summary>
-    /// <param name="input">Puzzle input</param>
-    /// <param name="logger">Logger instance</param>
-    /// <exception cref="InvalidOperationException">Thrown if the conversion to <see cref="IntcodeVM"/> fails</exception>
-    protected IntcodeSolver(ILogger logger) : base(logger, [], StringSplitOptions.TrimEntries) { }
+    protected IntcodeSolver() : base([], StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     protected sealed override IntcodeVM Convert(string[] rawInput) => new(rawInput[0]);

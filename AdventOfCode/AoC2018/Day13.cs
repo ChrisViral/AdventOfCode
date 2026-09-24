@@ -84,7 +84,7 @@ public sealed partial class Day13 : Solver<(Grid<Day13.Track> tracks, List<Day13
     }
 
     /// <inheritdoc />
-    public Day13(ILogger logger) : base(logger, options: StringSplitOptions.RemoveEmptyEntries) { }
+    public Day13() : base(options: StringSplitOptions.RemoveEmptyEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

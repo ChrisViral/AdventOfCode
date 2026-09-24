@@ -28,7 +28,7 @@ public sealed partial class Day15 : Solver<(Grid<Day15.Element> warehouse, Direc
     }
 
     /// <inheritdoc />
-    public Day15(ILogger logger) : base(logger, options: StringSplitOptions.TrimEntries) { }
+    public Day15() : base(options: StringSplitOptions.TrimEntries) { }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
