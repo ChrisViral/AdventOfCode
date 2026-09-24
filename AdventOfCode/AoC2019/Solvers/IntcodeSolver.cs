@@ -1,7 +1,6 @@
 ﻿using AdventOfCode.Intcode;
 using Challenge.Solvers;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2019.Solvers;
 

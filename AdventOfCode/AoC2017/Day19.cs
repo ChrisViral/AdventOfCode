@@ -3,7 +3,6 @@ using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Strings;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2017;
 

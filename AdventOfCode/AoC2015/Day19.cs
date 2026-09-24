@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2015;
 

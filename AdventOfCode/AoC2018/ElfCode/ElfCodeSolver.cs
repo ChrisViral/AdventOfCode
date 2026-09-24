@@ -2,7 +2,6 @@
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 using FastEnumUtility;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2018.ElfCode;
 

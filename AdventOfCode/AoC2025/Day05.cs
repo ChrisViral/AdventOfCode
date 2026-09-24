@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 
 namespace AdventOfCode.AoC2025;
 

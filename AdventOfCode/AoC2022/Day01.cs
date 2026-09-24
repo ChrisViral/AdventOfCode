@@ -1,7 +1,6 @@
 ﻿using Challenge.Collections;
 using Challenge.Collections.Search;
 using Challenge.Solvers;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2022;

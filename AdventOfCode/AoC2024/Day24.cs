@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Arrays;
-using Microsoft.Extensions.Logging;
 using ZLinq;
 
 namespace AdventOfCode.AoC2024;
