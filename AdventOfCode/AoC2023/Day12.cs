@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 12
 /// </summary>
 [Solver(2023, 12)]
-public sealed partial class Day12 : ArraySolver<(string condition, int[] groups)>
+public sealed class Day12 : ArraySolver<(string condition, int[] groups)>
 {
     private sealed class CacheEqualityComparer : IEqualityComparer<(string, ArraySegment<int>)>
     {

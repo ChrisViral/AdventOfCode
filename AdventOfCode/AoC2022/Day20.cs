@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 20
 /// </summary>
 [Solver(2022, 20)]
-public sealed partial class Day20 : ArraySolver<long>
+public sealed class Day20 : ArraySolver<long>
 {
     /// <summary>Part 2 decryption key</summary>
     private const long DECRYPTION_KEY = 811589153;

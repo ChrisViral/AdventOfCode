@@ -6,7 +6,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 3
 /// </summary>
 [Solver(2022, 3)]
-public sealed partial class Day03 : Solver<string[]>
+public sealed class Day03 : Solver<string[]>
 {
 
     /// <inheritdoc cref="Solver{T}.Run"/>

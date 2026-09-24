@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 9
 /// </summary>
 [Solver(2025, 9)]
-public sealed partial class Day09 : ArraySolver<Vector2<int>>
+public sealed class Day09 : ArraySolver<Vector2<int>>
 {
 
     /// <inheritdoc />

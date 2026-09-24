@@ -14,7 +14,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 24
 /// </summary>
 [Solver(2016, 24)]
-public sealed partial class Day24 : GridSolver<char>
+public sealed class Day24 : GridSolver<char>
 {
     private readonly record struct State(int Location, BitVector8 Checks, bool UseLocation)
     {

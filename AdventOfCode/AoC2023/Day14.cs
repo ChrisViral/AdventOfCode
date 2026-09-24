@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 14
 /// </summary>
 [Solver(2023, 14)]
-public sealed partial class Day14 : GridSolver<Day14.Rock>
+public sealed class Day14 : GridSolver<Day14.Rock>
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public enum Rock

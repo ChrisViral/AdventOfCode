@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 23
 /// </summary>
 [Solver(2022, 23)]
-public sealed partial class Day23 : Solver<Day23.Elf[]>
+public sealed class Day23 : Solver<Day23.Elf[]>
 {
     /// <summary>
     /// Elf data class

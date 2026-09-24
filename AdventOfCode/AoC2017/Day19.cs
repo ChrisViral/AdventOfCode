@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 19
 /// </summary>
 [Solver(2017, 19)]
-public sealed partial class Day19 : GridSolver<char>
+public sealed class Day19 : GridSolver<char>
 {
     private const char EMPTY = ' ';
 

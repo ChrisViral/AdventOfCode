@@ -14,7 +14,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 14
 /// </summary>
 [Solver(2017, 14)]
-public sealed partial class Day14 : Solver<string>
+public sealed class Day14 : Solver<string>
 {
     private const int SIZE = 128;
 

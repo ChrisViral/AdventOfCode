@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 1
 /// </summary>
 [Solver(2020, 1)]
-public sealed partial class Day01 : Solver<int[]>
+public sealed class Day01 : Solver<int[]>
 {
     /// <summary>
     /// Target total

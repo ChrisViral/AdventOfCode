@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 6
 /// </summary>
 [Solver(2020, 6)]
-public sealed partial class Day06 : Solver<HashSet<char>[][]>
+public sealed class Day06 : Solver<HashSet<char>[][]>
 {
     /// <inheritdoc />
     public Day06() : base(options: StringSplitOptions.TrimEntries) { }

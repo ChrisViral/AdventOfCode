@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 18
 /// </summary>
 [Solver(2015, 18)]
-public sealed partial class Day18 : GridSolver<bool>
+public sealed class Day18 : GridSolver<bool>
 {
     private const char ON = '#';
     private const int STEPS = 100;

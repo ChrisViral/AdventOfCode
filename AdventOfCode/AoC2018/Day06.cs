@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 6
 /// </summary>
 [Solver(2018, 6)]
-public sealed partial class Day06 : ArraySolver<Vector2<int>>
+public sealed class Day06 : ArraySolver<Vector2<int>>
 {
     private const int MAX_DISTANCE = 10_000;
 

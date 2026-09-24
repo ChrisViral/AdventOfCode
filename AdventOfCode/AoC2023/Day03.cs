@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 3
 /// </summary>
 [Solver(2023, 3)]
-public sealed partial class Day03 : GridSolver<char>
+public sealed class Day03 : GridSolver<char>
 {
     private const char EMPTY = '.';
     private const char GEAR = '*';

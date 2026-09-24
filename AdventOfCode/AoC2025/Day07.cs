@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 7
 /// </summary>
 [Solver(2025, 7)]
-public sealed partial class Day07 : GridSolver<Day07.ManifoldElement>
+public sealed class Day07 : GridSolver<Day07.ManifoldElement>
 {
     public enum ManifoldElement
     {

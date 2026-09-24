@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 16
 /// </summary>
 [Solver(2017, 16)]
-public sealed partial class Day16 : Solver<Day16.Move[]>
+public sealed class Day16 : Solver<Day16.Move[]>
 {
     private const int SIZE = 16;
     private const int LOOPS = 1_000_000_000;

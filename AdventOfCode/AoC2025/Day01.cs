@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 1
 /// </summary>
 [Solver(2025, 1)]
-public sealed partial class Day01 : ArraySolver<int>
+public sealed class Day01 : ArraySolver<int>
 {
     private const int DIAL_SIZE = 100;
     private const int DIAL_START = 50;

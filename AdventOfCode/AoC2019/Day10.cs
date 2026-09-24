@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 10
 /// </summary>
 [Solver(2019, 10)]
-public sealed partial class Day10 : Solver<Vector2<int>[]>
+public sealed class Day10 : Solver<Vector2<int>[]>
 {
     /// <summary>
     /// Asteroid character

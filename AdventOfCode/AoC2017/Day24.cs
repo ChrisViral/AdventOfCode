@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 24
 /// </summary>
 [Solver(2017, 24)]
-public sealed partial class Day24 : Solver<FrozenDictionary<int, List<Day24.Pipe>>>
+public sealed class Day24 : Solver<FrozenDictionary<int, List<Day24.Pipe>>>
 {
     [DebuggerDisplay("{Input}/{Output}")]
     public sealed record Pipe(int Input, int Output)

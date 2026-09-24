@@ -18,7 +18,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 18
 /// </summary>
 [Solver(2019, 18)]
-public sealed partial class Day18 : GridSolver<char>
+public sealed class Day18 : GridSolver<char>
 {
     /// <summary>Empty position value</summary>
     private const char EMPTY       = '.';

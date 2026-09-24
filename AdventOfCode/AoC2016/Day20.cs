@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 20
 /// </summary>
 [Solver(2016, 20)]
-public sealed partial class Day20 : ArraySolver<Day20.IPRange>
+public sealed class Day20 : ArraySolver<Day20.IPRange>
 {
     public readonly record struct IPRange(uint Start, uint End) : IComparable<IPRange>
     {

@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 19
 /// </summary>
 [Solver(2018, 19)]
-public sealed partial class Day19 : ElfCodeSolver
+public sealed class Day19 : ElfCodeSolver
 {
 
     /// <inheritdoc />

@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 4
 /// </summary>
 [Solver(2015, 4)]
-public sealed partial class Day04 : Solver<byte[]>
+public sealed class Day04 : Solver<byte[]>
 {
     private const int PART1_SIZE = 5;
     private const int PART2_SIZE = 6;

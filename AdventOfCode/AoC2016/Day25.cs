@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 25
 /// </summary>
 [Solver(2016, 25)]
-public sealed partial class Day25 : RegexSolver<Instruction>
+public sealed class Day25 : RegexSolver<Instruction>
 {
     // Low, but seemingly good enough
     private const int THRESHOLD = 10;

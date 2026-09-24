@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 8
 /// </summary>
 [Solver(2025, 8)]
-public sealed partial class Day08 : ArraySolver<Day08.Junction>
+public sealed class Day08 : ArraySolver<Day08.Junction>
 {
     /// <summary>
     /// Part 1 connection count

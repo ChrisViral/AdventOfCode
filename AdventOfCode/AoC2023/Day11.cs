@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 11
 /// </summary>
 [Solver(2023, 11)]
-public sealed partial class Day11 : GridSolver<bool>
+public sealed class Day11 : GridSolver<bool>
 {
     private const char GALAXY = '#';
     private const int OLD_EXPANSION = 1_000_000;

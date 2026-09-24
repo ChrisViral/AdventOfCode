@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 13
 /// </summary>
 [Solver(2020, 13)]
-public sealed partial class Day13 : Solver<(int timestamp, int[] buses)>
+public sealed class Day13 : Solver<(int timestamp, int[] buses)>
 {
     /// <summary>
     /// Out of service line no

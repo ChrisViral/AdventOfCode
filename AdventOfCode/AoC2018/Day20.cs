@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 20
 /// </summary>
 [Solver(2018, 20)]
-public sealed partial class Day20 : Solver<string>
+public sealed class Day20 : Solver<string>
 {
     [DebuggerDisplay("{Position}")]
     public sealed class Room(Vector2<int> position) : IEquatable<Room>

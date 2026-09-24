@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 11
 /// </summary>
 [Solver(2022, 11)]
-public sealed partial class Day11 : Solver<Day11.Monkey[]>
+public sealed class Day11 : Solver<Day11.Monkey[]>
 {
     /// <summary>
     /// Worry value update function

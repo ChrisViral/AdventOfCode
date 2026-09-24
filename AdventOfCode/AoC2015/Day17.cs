@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 17
 /// </summary>
 [Solver(2015, 17)]
-public sealed partial class Day17 : ArraySolver<int>
+public sealed class Day17 : ArraySolver<int>
 {
     private const int TARGET_AMOUNT = 150;
 

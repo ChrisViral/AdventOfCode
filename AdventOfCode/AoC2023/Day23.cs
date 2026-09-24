@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 23
 /// </summary>
 [Solver(2023, 23)]
-public sealed partial class Day23 : GridSolver<Day23.Element>
+public sealed class Day23 : GridSolver<Day23.Element>
 {
     public enum Element
     {

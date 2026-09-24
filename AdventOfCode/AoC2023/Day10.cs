@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 10
 /// </summary>
 [Solver(2023, 10)]
-public sealed partial class Day10 : GridSolver<Day10.Pipe>
+public sealed class Day10 : GridSolver<Day10.Pipe>
 {
     public enum Pipe
     {

@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 3
 /// </summary>
 [Solver(2021, 3)]
-public sealed partial class Day03 : Solver
+public sealed class Day03 : Solver
 {
     /// <summary>Mask for Epsilon and Gamma (only twelve binary digits used)</summary>
     private const int MASK = 0xFFF;

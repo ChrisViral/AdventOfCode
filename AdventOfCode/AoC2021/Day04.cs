@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 4
 /// </summary>
 [Solver(2021, 4)]
-public sealed partial class Day04 : Solver<Day04.BingoData>
+public sealed class Day04 : Solver<Day04.BingoData>
 {
     /// <summary>
     /// Bingo system data

@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 1
 /// </summary>
 [Solver(2021, 1)]
-public sealed partial class Day01 : ArraySolver<int>
+public sealed class Day01 : ArraySolver<int>
 {
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity

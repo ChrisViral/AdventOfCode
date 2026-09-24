@@ -16,7 +16,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 24
 /// </summary>
 [Solver(2019, 24)]
-public sealed partial class Day24 : GridSolver<bool>
+public sealed class Day24 : GridSolver<bool>
 {
     private const int LOOPS = 200;
 

@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 23
 /// </summary>
 [Solver(2016, 23)]
-public sealed partial class Day23 : RegexSolver<Instruction>
+public sealed class Day23 : RegexSolver<Instruction>
 {
     private const int PART1_VALUE = 7;
     private const int PART2_VALUE = 12;

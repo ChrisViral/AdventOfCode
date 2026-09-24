@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 25
 /// </summary>
 [Solver(2023, 25)]
-public sealed partial class Day25 : Solver<Dictionary<string, Day25.Component>>
+public sealed class Day25 : Solver<Dictionary<string, Day25.Component>>
 {
     public sealed class Component(string name) : IEquatable<Component>
     {

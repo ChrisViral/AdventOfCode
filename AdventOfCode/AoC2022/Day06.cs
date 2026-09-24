@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 6
 /// </summary>
 [Solver(2022, 6)]
-public sealed partial class Day06 : Solver<string>
+public sealed class Day06 : Solver<string>
 {
     /// <summary>Character Counter</summary>
     private static readonly Counter<char> CharacterCounter = new(14);

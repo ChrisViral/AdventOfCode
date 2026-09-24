@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 24
 /// </summary>
 [Solver(2021, 24)]
-public sealed partial class Day24 : Solver<(int a, int b, int c)[]>
+public sealed class Day24 : Solver<(int a, int b, int c)[]>
 {
     /// <summary>
     /// Digit count

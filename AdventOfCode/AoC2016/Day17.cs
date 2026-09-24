@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 17
 /// </summary>
 [Solver(2016, 17)]
-public sealed partial class Day17 : Solver<string>
+public sealed class Day17 : Solver<string>
 {
     private readonly record struct PathData(Vector2<int> Position, string Path);
 

@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 5
 /// </summary>
 [Solver(2020, 5)]
-public sealed partial class Day05 : Solver<Day05.BoardingPass[]>
+public sealed class Day05 : Solver<Day05.BoardingPass[]>
 {
     /// <summary>
     /// BoardingPass info

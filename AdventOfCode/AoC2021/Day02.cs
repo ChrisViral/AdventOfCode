@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 2
 /// </summary>
 [Solver(2021, 2)]
-public sealed partial class Day02 : ArraySolver<(string command, int value)>
+public sealed class Day02 : ArraySolver<(string command, int value)>
 {
     /// <summary>Forward command</summary>
     private const string FORWARD = "forward";

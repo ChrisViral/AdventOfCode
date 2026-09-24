@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 14
 /// </summary>
 [Solver(2021, 14)]
-public sealed partial class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)>
+public sealed class Day14 : Solver<(string start, Dictionary<(char, char), char> rules)>
 {
     /// <summary>Cycles for the first part</summary>
     private const int CYCLES      = 10;

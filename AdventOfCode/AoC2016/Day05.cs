@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 5
 /// </summary>
 [Solver(2016, 5)]
-public sealed partial class Day05 : Solver<string>
+public sealed class Day05 : Solver<string>
 {
     private const int PASSWORD_LENGTH = 8;
 

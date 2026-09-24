@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 8
 /// </summary>
 [Solver(2018, 8)]
-public sealed partial class Day08 : Solver<Day08.Node>
+public sealed class Day08 : Solver<Day08.Node>
 {
     public record Node(ImmutableArray<Node> Children, ImmutableArray<int> Metadata)
     {

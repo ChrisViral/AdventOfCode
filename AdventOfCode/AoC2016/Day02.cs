@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 2
 /// </summary>
 [Solver(2016, 2)]
-public sealed partial class Day02 : ArraySolver<Direction[]>
+public sealed class Day02 : ArraySolver<Direction[]>
 {
     private const char EMPTY = ' ';
 

@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 13
 /// </summary>
 [Solver(2021, 13)]
-public sealed partial class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
+public sealed class Day13 : Solver<(List<Day13.Fold> folds, Grid<bool> grid)>
 {
     /// <summary>
     /// Folding axis

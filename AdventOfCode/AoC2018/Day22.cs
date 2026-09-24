@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 22
 /// </summary>
 [Solver(2018, 22)]
-public sealed partial class Day22 : Solver<(int depth, Vector2<int> target)>
+public sealed class Day22 : Solver<(int depth, Vector2<int> target)>
 {
     private enum Region
     {

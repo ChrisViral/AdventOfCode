@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 13
 /// </summary>
 [Solver(2022, 13)]
-public sealed partial class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
+public sealed class Day13 : Solver<(Day13.PacketList left, Day13.PacketList right)[]>
 {
     /// <summary>
     /// Packet element marking interface

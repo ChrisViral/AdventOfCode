@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 22
 /// </summary>
 [Solver(2020, 22)]
-public sealed partial class Day22 : Solver<(int[] p1, int[] p2)>
+public sealed class Day22 : Solver<(int[] p1, int[] p2)>
 {
     /// <summary>
     /// Player enum

@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 3
 /// </summary>
 [Solver(2019, 3)]
-public sealed partial class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
+public sealed class Day03 : Solver<(Vector2<int>[] first, Vector2<int>[] second)>
 {
 
     /// <inheritdoc />

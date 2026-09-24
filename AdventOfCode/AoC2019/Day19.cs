@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 19
 /// </summary>
 [Solver(2019, 19)]
-public sealed partial class Day19 : IntcodeSolver
+public sealed class Day19 : IntcodeSolver
 {
     private const int MAP_SIZE = 50;
     private const int REQUIRED_SIZE = 100;

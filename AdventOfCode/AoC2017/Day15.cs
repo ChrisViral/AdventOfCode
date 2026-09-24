@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 15
 /// </summary>
 [Solver(2017, 15)]
-public sealed partial class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
+public sealed class Day15 : Solver<(Day15.Generator A, Day15.Generator B)>
 {
     public sealed class Generator(int seed, int factor, int multiple)
     {

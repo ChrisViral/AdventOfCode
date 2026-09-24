@@ -14,7 +14,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 18
 /// </summary>
 [Solver(2017, 18)]
-public sealed partial class Day18 : RegexSolver<Instruction>
+public sealed class Day18 : RegexSolver<Instruction>
 {
     /// <summary>
     /// Program state

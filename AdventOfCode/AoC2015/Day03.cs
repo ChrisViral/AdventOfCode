@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 3
 /// </summary>
 [Solver(2015, 3)]
-public sealed partial class Day03 : Solver<Direction[]>
+public sealed class Day03 : Solver<Direction[]>
 {
 
     /// <inheritdoc />

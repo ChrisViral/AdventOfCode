@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 7
 /// </summary>
 [Solver(2024, 7)]
-public sealed partial class Day07 : ArraySolver<(long test, long[] operands)>
+public sealed class Day07 : ArraySolver<(long test, long[] operands)>
 {
 
     /// <inheritdoc />

@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 5
 /// </summary>
 [Solver(2024, 5)]
-public sealed partial class Day05 : Solver<Day05.Rule[][]>
+public sealed class Day05 : Solver<Day05.Rule[][]>
 {
     public sealed class Rule(byte value, SearchValues<byte> mustFollow)
     {

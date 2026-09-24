@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 1
 /// </summary>
 [Solver(2022, 1)]
-public sealed partial class Day01 : Solver<SortedList<int>>
+public sealed class Day01 : Solver<SortedList<int>>
 {
     /// <inheritdoc />
     public Day01() : base(options: StringSplitOptions.TrimEntries) { }

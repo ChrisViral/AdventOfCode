@@ -14,7 +14,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 20
 /// </summary>
 [Solver(2024, 20)]
-public sealed partial class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Vector2<int> end)>
+public sealed class Day20 : Solver<(Grid<bool> racetrack, Vector2<int> start, Vector2<int> end)>
 {
     private static readonly SearchValues<char> Markers = SearchValues.Create('S', 'E');
 

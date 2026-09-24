@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 15
 /// </summary>
 [Solver(2021, 15)]
-public sealed partial class Day15 : GridSolver<byte>
+public sealed class Day15 : GridSolver<byte>
 {
     /// <summary>Full size of the map</summary>
     private const int FULL_SIZE = 5;

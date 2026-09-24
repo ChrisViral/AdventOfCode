@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 8
 /// </summary>
 [Solver(2019, 8)]
-public sealed partial class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
+public sealed class Day08 : Solver<(Grid<Day08.Colour[]> image, int layerCount)>
 {
     /// <summary>
     /// Pixel colour

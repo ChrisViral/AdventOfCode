@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 25
 /// </summary>
 [Solver(2024, 25)]
-public sealed partial class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
+public sealed class Day25 : Solver<(Vector<byte>[] locks, Vector<byte>[] keys)>
 {
 
     /// <inheritdoc />

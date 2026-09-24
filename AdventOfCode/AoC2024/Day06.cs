@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 6
 /// </summary>
 [Solver(2024, 6)]
-public sealed partial class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
+public sealed class Day06 : Solver<(Grid<bool> grid, Vector2<int> startPosition)>
 {
     /// <summary>
     /// Simulation thread data container

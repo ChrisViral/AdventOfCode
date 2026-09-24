@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2025;
 /// Solver for 2025 Day 3
 /// </summary>
 [Solver(2025, 3)]
-public sealed partial class Day03 : Solver
+public sealed class Day03 : Solver
 {
     private const char BEST_BATTERY = '9';
     private const int PART1_COUNT   = 2;

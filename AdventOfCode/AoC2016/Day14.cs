@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 14
 /// </summary>
 [Solver(2016, 14)]
-public sealed partial class Day14 : Solver<byte[]>
+public sealed class Day14 : Solver<byte[]>
 {
     private const int KEYS_COUNT   = 64;
     private const int PART2_HASHES = 2016;

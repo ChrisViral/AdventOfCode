@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 11
 /// </summary>
 [Solver(2019, 11)]
-public sealed partial class Day11 : IntcodeSolver
+public sealed class Day11 : IntcodeSolver
 {
     /// <summary>
     /// Panel colour

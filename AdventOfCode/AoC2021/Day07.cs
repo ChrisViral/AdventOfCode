@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 7
 /// </summary>
 [Solver(2021, 7)]
-public sealed partial class Day07 : Solver<int[]>
+public sealed class Day07 : Solver<int[]>
 {
 
     /// <inheritdoc />

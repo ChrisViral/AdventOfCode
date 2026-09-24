@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 11
 /// </summary>
 [Solver(2024, 11)]
-public sealed partial class Day11 : Solver<(long value, Day11.Stone stone)[]>
+public sealed class Day11 : Solver<(long value, Day11.Stone stone)[]>
 {
     public sealed class Stone
     {

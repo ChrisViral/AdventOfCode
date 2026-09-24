@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 22
 /// </summary>
 [Solver(2017, 22)]
-public sealed partial class Day22 : Solver<SparseGrid<Day22.Infection>>
+public sealed class Day22 : Solver<SparseGrid<Day22.Infection>>
 {
     public enum Infection
     {

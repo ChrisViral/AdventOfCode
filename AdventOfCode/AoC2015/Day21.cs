@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 21
 /// </summary>
 [Solver(2015, 21)]
-public sealed partial class Day21 : Solver<Day21.Stats>
+public sealed class Day21 : Solver<Day21.Stats>
 {
     public readonly record struct Stats(int HitPoints, int Damage, int Armour);
 

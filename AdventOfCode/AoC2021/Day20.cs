@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 20
 /// </summary>
 [Solver(2021, 20)]
-public sealed partial class Day20 : Solver<(string algorithm, Grid<bool> image)>
+public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
 {
     private const int PASSES      = 2;
     private const int LONG_PASSES = 50;

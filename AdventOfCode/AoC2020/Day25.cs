@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 25
 /// </summary>
 [Solver(2020, 25)]
-public sealed partial class Day25 : Solver<(int cardKey, int doorKey)>
+public sealed class Day25 : Solver<(int cardKey, int doorKey)>
 {
     /// <summary>
     /// Subject number for public keys

@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 21
 /// </summary>
 [Solver(2021, 21)]
-public sealed partial class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
+public sealed class Day21 : Solver<(Day21.Player p1, Day21.Player p2)>
 {
     /// <summary>
     /// Player structure

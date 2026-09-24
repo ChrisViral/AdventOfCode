@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 17
 /// </summary>
 [Solver(2017, 17)]
-public sealed partial class Day17 : Solver<int>
+public sealed class Day17 : Solver<int>
 {
     private const int PART1 = 2017;
     private const int PART2 = 50_000_000;

@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 18
 /// </summary>
 [Solver(2020, 18)]
-public sealed partial class Day18 : Solver<string[][]>
+public sealed class Day18 : Solver<string[][]>
 {
     /// <summary>
     /// Numerical operation types

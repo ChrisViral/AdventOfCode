@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 8
 /// </summary>
 [Solver(2021, 8)]
-public sealed partial class Day08 : ArraySolver<(string[] signals, string[] outputs)>
+public sealed class Day08 : ArraySolver<(string[] signals, string[] outputs)>
 {
     /// <summary>Signal/output separator</summary>
     private static readonly char[] SeparatorSplit = ['|'];

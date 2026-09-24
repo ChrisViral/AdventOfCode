@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 16
 /// </summary>
 [Solver(2016, 16)]
-public sealed partial class Day16 : Solver<string>
+public sealed class Day16 : Solver<string>
 {
     private const int PART1_SIZE = 272;
     private const int PART2_SIZE = 35651584;

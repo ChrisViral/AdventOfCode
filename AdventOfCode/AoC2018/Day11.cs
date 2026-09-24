@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 11
 /// </summary>
 [Solver(2018, 11)]
-public sealed partial class Day11 : Solver<int>
+public sealed class Day11 : Solver<int>
 {
     private const int SIZE = 300;
 

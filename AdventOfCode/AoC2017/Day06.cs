@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 6
 /// </summary>
 [Solver(2017, 6)]
-public sealed partial class Day06 : Solver<int[]>
+public sealed class Day06 : Solver<int[]>
 {
     [InlineArray(SIZE)]
     private struct MemoryBanks : IEquatable<MemoryBanks>

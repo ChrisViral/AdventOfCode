@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 22
 /// </summary>
 [Solver(2023, 22)]
-public sealed partial class Day22 : ArraySolver<Day22.Brick>
+public sealed class Day22 : ArraySolver<Day22.Brick>
 {
     public sealed class Brick : IComparable<Brick>, IEquatable<Brick>
     {

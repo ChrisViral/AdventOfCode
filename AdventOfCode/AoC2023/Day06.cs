@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 6
 /// </summary>
 [Solver(2023, 6)]
-public sealed partial class Day06 : Solver<(int time, int record)[]>
+public sealed class Day06 : Solver<(int time, int record)[]>
 {
 
     /// <inheritdoc />

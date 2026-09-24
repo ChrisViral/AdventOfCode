@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 17
 /// </summary>
 [Solver(2024, 17)]
-public sealed partial class Day17 : Solver<(long a, long b, long c, int[] program)>
+public sealed class Day17 : Solver<(long a, long b, long c, int[] program)>
 {
     private enum Opcode
     {

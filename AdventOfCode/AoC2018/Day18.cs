@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 18
 /// </summary>
 [Solver(2018, 18)]
-public sealed partial class Day18 : GridSolver<Day18.Lumber>
+public sealed class Day18 : GridSolver<Day18.Lumber>
 {
     public enum Lumber
     {

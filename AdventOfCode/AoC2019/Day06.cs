@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 6
 /// </summary>
 [Solver(2019, 6)]
-public sealed partial class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
+public sealed class Day06 : Solver<Dictionary<string, Day06.OrbitalObject>>
 {
     /// <summary>
     /// Orbital object

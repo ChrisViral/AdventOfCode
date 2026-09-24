@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 24
 /// </summary>
 [Solver(2024, 24)]
-public sealed partial class Day24 : Solver<Day24.Wire[]>
+public sealed class Day24 : Solver<Day24.Wire[]>
 {
     /// <summary>
     /// Wire base

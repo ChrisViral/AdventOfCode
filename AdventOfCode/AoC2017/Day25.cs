@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 25
 /// </summary>
 [Solver(2017, 25)]
-public sealed partial class Day25 : Solver<(char start, int steps, FrozenDictionary<char, Day25.State> states)>
+public sealed class Day25 : Solver<(char start, int steps, FrozenDictionary<char, Day25.State> states)>
 {
     [DebuggerDisplay("Write {Write}, Move {Move == 1 ? \"right\" : \"left\"}, Next {Next}")]
     public sealed class Action(ReadOnlySpan<string> input)

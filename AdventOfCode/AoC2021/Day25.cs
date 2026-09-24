@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 25
 /// </summary>
 [Solver(2021, 25)]
-public sealed partial class Day25 : GridSolver<Day25.Element>
+public sealed class Day25 : GridSolver<Day25.Element>
 {
     /// <summary>
     /// Seafloor element

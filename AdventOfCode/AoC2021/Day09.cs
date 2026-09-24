@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 9
 /// </summary>
 [Solver(2021, 9)]
-public sealed partial class Day09 : GridSolver<byte>
+public sealed class Day09 : GridSolver<byte>
 {
 
     /// <inheritdoc />

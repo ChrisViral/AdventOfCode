@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 23
 /// </summary>
 [Solver(2020, 23)]
-public sealed partial class Day23 : Solver<int[]>
+public sealed class Day23 : Solver<int[]>
 {
     /// <summary>
     /// Number of moves done in part 1

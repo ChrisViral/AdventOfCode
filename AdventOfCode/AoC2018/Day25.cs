@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 25
 /// </summary>
 [Solver(2018, 25)]
-public sealed partial class Day25 : ArraySolver<Day25.Star>
+public sealed class Day25 : ArraySolver<Day25.Star>
 {
     public sealed class Star
     {

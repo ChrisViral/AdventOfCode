@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 15
 /// </summary>
 [Solver(2024, 15)]
-public sealed partial class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
+public sealed class Day15 : Solver<(Grid<Day15.Element> warehouse, Direction[] moves)>
 {
     /// <summary>
     /// Warehouse element

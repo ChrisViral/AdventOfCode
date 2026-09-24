@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 22
 /// </summary>
 [Solver(2019, 22)]
-public sealed partial class Day22 : ArraySolver<Day22.Instruction>
+public sealed class Day22 : ArraySolver<Day22.Instruction>
 {
     public enum InstructionType
     {

@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2017;
 /// Solver for 2017 Day 11
 /// </summary>
 [Solver(2017, 11)]
-public sealed partial class Day11 : Solver<Day11.HexDirection[]>
+public sealed class Day11 : Solver<Day11.HexDirection[]>
 {
     public enum HexDirection
     {

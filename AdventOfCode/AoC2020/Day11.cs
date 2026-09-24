@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 11
 /// </summary>
 [Solver(2020, 11)]
-public sealed partial class Day11 : GridSolver<Day11.Seat>
+public sealed class Day11 : GridSolver<Day11.Seat>
 {
     public enum Seat
     {

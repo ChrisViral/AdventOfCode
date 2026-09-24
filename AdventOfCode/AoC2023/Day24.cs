@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 24
 /// </summary>
 [Solver(2023, 24)]
-public sealed partial class Day24 : ArraySolver<Day24.Hail>
+public sealed class Day24 : ArraySolver<Day24.Hail>
 {
     public readonly struct Hail
     {

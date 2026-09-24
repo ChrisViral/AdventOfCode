@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 17
 /// </summary>
 [Solver(2020, 17)]
-public sealed partial class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Vector4<int>> part2)>
+public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<Vector4<int>> part2)>
 {
     /// <summary>
     /// Conway cube implementation

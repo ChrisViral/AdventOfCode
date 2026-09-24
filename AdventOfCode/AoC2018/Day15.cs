@@ -16,7 +16,7 @@ namespace AdventOfCode.AoC2018;
 /// Solver for 2018 Day 15
 /// </summary>
 [Solver(2018, 15)]
-public sealed partial class Day15 : Solver<Grid<Day15.Entity>>
+public sealed class Day15 : Solver<Grid<Day15.Entity>>
 {
     /// <summary>
     /// Unit alliance

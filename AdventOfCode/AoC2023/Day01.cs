@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2023;
 /// Solver for 2023 Day 1
 /// </summary>
 [Solver(2023, 1)]
-public sealed partial class Day01 : Solver
+public sealed class Day01 : Solver
 {
     private readonly SearchValues<char> digits = SearchValues.Create("123456789");
 

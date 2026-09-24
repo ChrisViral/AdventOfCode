@@ -9,7 +9,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 12
 /// </summary>
 [Solver(2016, 12)]
-public sealed partial class Day12 : RegexSolver<Instruction>
+public sealed class Day12 : RegexSolver<Instruction>
 {
     /// <inheritdoc />
     protected override Regex Matcher => Instruction.Matcher;

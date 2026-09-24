@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 2
 /// </summary>
 [Solver(2019, 2)]
-public sealed partial class Day02 : IntcodeSolver
+public sealed class Day02 : IntcodeSolver
 {
     /// <summary>
     /// Maximum input argument value

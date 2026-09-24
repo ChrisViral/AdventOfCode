@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2016;
 /// Solver for 2016 Day 19
 /// </summary>
 [Solver(2016, 19)]
-public sealed partial class Day19 : Solver<int>
+public sealed class Day19 : Solver<int>
 {
 
     /// <inheritdoc />

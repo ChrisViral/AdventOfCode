@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2019;
 /// Solver for 2019 Day 20
 /// </summary>
 [Solver(2019, 20)]
-public sealed partial class Day20 : Solver<Day20.MapData>
+public sealed class Day20 : Solver<Day20.MapData>
 {
     public enum Element
     {

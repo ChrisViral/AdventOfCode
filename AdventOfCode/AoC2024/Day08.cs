@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2024;
 /// Solver for 2024 Day 8
 /// </summary>
 [Solver(2024, 8)]
-public sealed partial class Day08 : GridSolver<char>
+public sealed class Day08 : GridSolver<char>
 {
     /// <summary>
     /// Empty map value

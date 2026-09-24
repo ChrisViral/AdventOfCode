@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2015;
 /// Solver for 2015 Day 20
 /// </summary>
 [Solver(2015, 20)]
-public sealed partial class Day20 : Solver<int>
+public sealed class Day20 : Solver<int>
 {
     private const int HOUSE_LIMIT = 50;
 

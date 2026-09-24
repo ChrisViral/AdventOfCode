@@ -8,7 +8,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 10
 /// </summary>
 [Solver(2021, 10)]
-public sealed partial class Day10 : Solver
+public sealed class Day10 : Solver
 {
     /// <summary>Points for broken chunks</summary>
     private static readonly Dictionary<char, int> BrokenPoints = new(4)

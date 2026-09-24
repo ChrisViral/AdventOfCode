@@ -13,7 +13,7 @@ namespace AdventOfCode.AoC2022;
 /// Solver for 2022 Day 24
 /// </summary>
 [Solver(2022, 24)]
-public sealed partial class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
+public sealed class Day24 : Solver<(Vector2<int> start, Vector2<int> end, Day24.Blizzard[] blizzards)>
 {
     /// <summary>
     /// Blizzard object

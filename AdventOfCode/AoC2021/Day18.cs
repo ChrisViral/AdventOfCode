@@ -11,7 +11,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 18
 /// </summary>
 [Solver(2021, 18)]
-public sealed partial class Day18 : ArraySolver<Day18.Number>
+public sealed class Day18 : ArraySolver<Day18.Number>
 {
     public sealed class Number : IEnumerable<Number>, IAdditionOperators<Number, Number, Number>
     {

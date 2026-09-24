@@ -7,7 +7,7 @@ namespace AdventOfCode.AoC2021;
 /// Solver for 2021 Day 6
 /// </summary>
 [Solver(2021, 6)]
-public sealed partial class Day06 : Solver<int[]>
+public sealed class Day06 : Solver<int[]>
 {
     /// <summary>Part 1 days</summary>
     private const int DAYS = 80;

@@ -12,7 +12,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 20
 /// </summary>
 [Solver(2020, 20)]
-public sealed partial class Day20 : Solver<Day20.Tile[]>
+public sealed class Day20 : Solver<Day20.Tile[]>
 {
     /// <summary>
     /// Image tile

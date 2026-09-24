@@ -10,7 +10,7 @@ namespace AdventOfCode.AoC2020;
 /// Solver for 2020 Day 8
 /// </summary>
 [Solver(2020, 8)]
-public sealed partial class Day08 : Solver<Day08.Instruction[]>
+public sealed class Day08 : Solver<Day08.Instruction[]>
 {
     /// <summary>
     /// Instruction operations
