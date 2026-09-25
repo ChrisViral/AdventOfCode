@@ -42,7 +42,7 @@ public sealed class AdventOfCodeSetup() : Setup<ResolverSettings>("Advent of Cod
 
         // Setup user agent value
         Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
-        string userAgent = $"ChrisViral.{typeof(AdventOfCodeResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/EverybodyCodes)";
+        string userAgent = $"ChrisViral.{typeof(AdventOfCodeResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/AdventOfCode)";
 
         // Add HTTP Clients
         services.AddRefitClient<IAdventOfCodeAPI>()
