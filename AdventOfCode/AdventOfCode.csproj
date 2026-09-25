@@ -37,7 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Challenge.Generator" Version="2026.9.575.1427" />
+    <PackageReference Include="Challenge.Generator" Version="2026.9.582.361" />
     <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.170" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />

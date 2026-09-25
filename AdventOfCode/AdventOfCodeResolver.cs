@@ -38,5 +38,5 @@ public sealed partial class AdventOfCodeResolver(ILogger<AdventOfCodeResolver> l
     protected override string GetInputFileName(in SolverData data) => Path.Combine(INPUT_FOLDER, data.Year.ToString(), $"day{data.Day:D2}.txt");
 
     /// <inheritdoc />
-    protected override Task<string> GetInputFromAPI(SolverData data, CancellationToken token) => this.API.GetInput(data.Year, data.Day, token);
+    protected override async Task<Result<string>> GetInputFromAPI(SolverData data, CancellationToken token) => await this.API.GetInput(data.Year, data.Day, token);
 }
