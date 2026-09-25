@@ -4,12 +4,15 @@
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path="nuget.config" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Workflows/">
     <File Path=".github/workflows/dotnet-build.yml" />
   </Folder>
-  <Project Path="AdventOfCode.API/AdventOfCode.API.csproj" />
+  <Project Path="AdventOfCode.API/AdventOfCode.API.csproj">
+    <Platform Project="x64" />
+  </Project>
   <Project Path="AdventOfCode.Intcode/AdventOfCode.Intcode.csproj">
     <Platform Project="x64" />
   </Project>
@@ -22,7 +25,6 @@
   <Project Path="Libraries/Challenge.Collections/Challenge.Collections.csproj">
     <Platform Project="x64" />
   </Project>
-  <Project Path="Libraries/Challenge.Generator/Challenge.Generator.csproj" />
   <Project Path="Libraries/Challenge.Maths/Challenge.Maths.csproj">
     <Platform Project="x64" />
   </Project>
