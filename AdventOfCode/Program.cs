@@ -1,6 +1,6 @@
-﻿using AdventOfCode;
+﻿using AdventOfCode.Resolver;
 
-using AdventOfCodeSetup setup = new();
-if (!await setup.TrySetup()) return 1;
+using AdventOfCodeSetup solverSetup = new();
+if (!await solverSetup.TrySetup()) return 1;
 
-return await setup.RunProgram(args);
+return await solverSetup.RunProgram(args);

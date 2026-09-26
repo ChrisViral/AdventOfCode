@@ -6,7 +6,7 @@ using CSharpFunctionalExtensions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace AdventOfCode;
+namespace AdventOfCode.Resolver;
 
 /// <summary>
 /// Solver resolver and input fetcher
@@ -15,14 +15,14 @@ namespace AdventOfCode;
 /// <param name="settings">Resolver settings</param>
 /// <param name="api">Advent of Code web API</param>
 [PublicAPI, SolverTable]
-public sealed partial class AdventOfCodeResolver(ILogger<AdventOfCodeResolver> logger, ResolverSettings settings, IAdventOfCodeAPI api)
-    : DefaultSolverResolverBase(logger, settings)
+public sealed partial class AdventOfCodeResolver(ILogger<AdventOfCodeResolver> logger, AdventOfCodeSettings settings, IAdventOfCodeAPI api)
+    : SolverResolverBase<AdventOfCodeSettings>(logger, settings)
 {
     /// <inheritdoc />
     public override string ChallengeName => "Advent of Code";
 
     /// <inheritdoc />
-    protected override TimeSpan RateLimit { get; } = TimeSpan.FromSeconds(900);
+    protected override TimeSpan RateLimit { get; } = TimeSpan.FromSeconds(900L);
 
     /// <summary>
     /// Advent of Code API
