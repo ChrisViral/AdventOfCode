@@ -9,10 +9,10 @@ but they'd also be the simpler way in this case, and this is what I'm going for.
 but at the end of the day I'm mostly trying to have fun with these, so the actual thing I optimise from day to day may vary.
 
 ## Advent of Code Automation Compliance
-This repo [fetches inputs automatically](AdventOfCode/AdventOfCodeResolver.cs) from the Advent of Code website,
+This repo [fetches inputs automatically](AdventOfCode/Resolver/AdventOfCodeResolver.cs) from the Advent of Code website,
 and does follow the [automation guidelines](https://www.reddit.com/r/adventofcode/wiki/faqs/automation)
 on the [/r/adventofcode](https://www.reddit.com/r/adventofcode/) community wiki.
 
-- Outbound calls are [throttled to every 900 seconds (15 minutes)](AdventOfCode/AdventOfCodeResolver.cs#L25) by storing the last call timestamp locally to preserve throttling between runs
-- Once inputs are downloaded, they are [cached locally](https://github.com/ChrisViral/ChallengeLibraries/blob/master/Challenge.CLI/SolverResolverBase.cs#L73-L81) and reused as needed
-- The [User-Agent header is set to me](AdventOfCode/AdventOfCodeSetup.cs#L45), the maintainer of this repo
+- Outbound calls are [throttled to every 900 seconds (15 minutes)](AdventOfCode/Resolver/AdventOfCodeResolver.cs#L25) by storing the last call timestamp locally to preserve throttling between runs
+- Once inputs are downloaded, they are [cached locally](https://github.com/ChrisViral/ChallengeLibraries/blob/master/Challenge.CLI/SolverResolverBase.cs#L66-L75) and reused as needed
+- The [User-Agent header is set to me](AdventOfCode/Resolver/AdventOfCodeSetup.cs#L21), the maintainer of this repo
