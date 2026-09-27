@@ -30,7 +30,7 @@
     <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageReference Include="JetBrains.ExternalAnnotations" Version="10.2.170" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
-    <PackageReference Include="Refit" Version="16.1.0" />
+    <PackageReference Include="Refit" Version="16.3.0" />
   </ItemGroup>
 
   <ItemGroup>

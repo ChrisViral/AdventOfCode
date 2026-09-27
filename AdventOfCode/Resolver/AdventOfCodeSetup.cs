@@ -11,7 +11,7 @@ namespace AdventOfCode.Resolver;
 /// Advent of Code program setup class
 /// </summary>
 public sealed class AdventOfCodeSetup()
-    : SolverSetup<AdventOfCodeSettings, AdventOfCodeResolver>("Advent of Code")
+    : SolverSetup<AdventOfCodeSettings, AdventOfCodeResolver>(AdventOfCodeResolver.CHALLENGE_NAME)
 {
     /// <inheritdoc />
     public override void ConfigureServices(IServiceCollection services)

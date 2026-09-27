@@ -16,10 +16,12 @@ namespace AdventOfCode.Resolver;
 /// <param name="api">Advent of Code web API</param>
 [PublicAPI, SolverTable]
 public sealed partial class AdventOfCodeResolver(ILogger<AdventOfCodeResolver> logger, AdventOfCodeSettings settings, IAdventOfCodeAPI api)
-    : SolverResolverBase<AdventOfCodeSettings>(logger, settings)
+    : SolverResolver<AdventOfCodeSettings>(logger, settings)
 {
+    public const string CHALLENGE_NAME = "Advent of Code";
+
     /// <inheritdoc />
-    public override string ChallengeName => "Advent of Code";
+    public override string ChallengeName => CHALLENGE_NAME;
 
     /// <inheritdoc />
     protected override TimeSpan RateLimit { get; } = TimeSpan.FromSeconds(900L);
