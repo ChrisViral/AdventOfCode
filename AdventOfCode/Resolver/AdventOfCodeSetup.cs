@@ -14,7 +14,7 @@ public sealed class AdventOfCodeSetup()
     : SolverSetup<AdventOfCodeSettings, AdventOfCodeResolver>(AdventOfCodeResolver.CHALLENGE_NAME)
 {
     /// <inheritdoc />
-    public override void ConfigureServices(IServiceCollection services)
+    public override void ConfigureAPIClients(IServiceCollection services)
     {
         // Setup user agent value
         Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
@@ -26,7 +26,7 @@ public sealed class AdventOfCodeSetup()
                  {
                      // Set address and headers
                      client.BaseAddress = new Uri("https://adventofcode.com");
-                     client.DefaultRequestHeaders.Add("cookie", "session=" + this.settings.Cookie);
+                     client.DefaultRequestHeaders.Add("cookie", $"session={this.settings.Cookie}");
                      client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
                  });
     }
