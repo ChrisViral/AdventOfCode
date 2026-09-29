@@ -24,7 +24,7 @@ public sealed class Day04 : GridSolver<bool>
         {
             if (!this.Grid[position]) continue;
 
-            int around = position.Adjacent(withDiagonals: true).Count(a => this.Grid.TryGetPosition(a, out bool hasRoll) && hasRoll);
+            int around = position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS).Count(a => this.Grid.TryGetPosition(a, out bool hasRoll) && hasRoll);
             if (around < 4)
             {
                 accessible.Add(position);
@@ -50,7 +50,7 @@ public sealed class Day04 : GridSolver<bool>
     {
         foreach (Vector2<int> position in rollPositions)
         {
-            if (position.Adjacent(withDiagonals: true).Count(rollPositions.Contains) < 4)
+            if (position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS).Count(rollPositions.Contains) < 4)
             {
                 accessible.Add(position);
             }

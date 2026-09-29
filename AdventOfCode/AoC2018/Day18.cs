@@ -129,7 +129,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
     private static void HandleOpen(DelayedGrid<Lumber> lumberyard, Vector2<int> position)
     {
         int trees = 0;
-        foreach (Vector2<int> adjacent in position.Adjacent(withDiagonals: true))
+        foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
         {
             if (!lumberyard.TryGetPosition(adjacent, out Lumber otherYard) || otherYard is not Lumber.TREES) continue;
 
@@ -146,7 +146,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
     private static void HandleTrees(DelayedGrid<Lumber> lumberyard, Vector2<int> position)
     {
         int yards = 0;
-        foreach (Vector2<int> adjacent in position.Adjacent(withDiagonals: true))
+        foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
         {
             if (!lumberyard.TryGetPosition(adjacent, out Lumber otherYard) || otherYard is not Lumber.YARD) continue;
 
@@ -164,7 +164,7 @@ public sealed class Day18 : GridSolver<Day18.Lumber>
     {
         bool hasTrees = false;
         bool hasYard = false;
-        foreach (Vector2<int> adjacent in position.Adjacent(withDiagonals: true))
+        foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
         {
             if (!lumberyard.TryGetPosition(adjacent, out Lumber otherYard)) continue;
 

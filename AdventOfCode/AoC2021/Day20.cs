@@ -48,7 +48,7 @@ public sealed class Day20 : Solver<(string algorithm, Grid<bool> image)>
         foreach (Vector2<int> position in Vector2<int>.EnumerateOver(newImage.Width, newImage.Height))
         {
             int n = 0;
-            foreach (Vector2<int> adjacent in position.Adjacent(true, true))
+            foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS | AdjacentOptions.WITH_SELF))
             {
                 n <<= 1;
                 Vector2<int> matching = adjacent - Offset;

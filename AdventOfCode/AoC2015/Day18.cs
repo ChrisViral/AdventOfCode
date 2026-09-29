@@ -45,7 +45,7 @@ public sealed class Day18 : GridSolver<bool>
         foreach (Vector2<int> position in lights.Dimensions.Enumerate())
         {
             int onNeighbours = 0;
-            foreach (Vector2<int> adjacent in position.Adjacent(withDiagonals: true))
+            foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
             {
                 if (lights.WithinGrid(adjacent))
                 {

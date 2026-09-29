@@ -60,7 +60,7 @@ public sealed partial class Day17 : IntcodeSolver
         Vector2<int> search = grid.Dimensions - (2, 2);
         int alignment = search.Enumerate()
                               .Select(p => p + Vector2<int>.One)
-                              .Where(p => p.Adjacent(withSelf: true).All(adj => grid[adj] is Element.SCAFFOLD))
+                              .Where(p => p.Adjacent(options: AdjacentOptions.WITH_SELF).All(adj => grid[adj] is Element.SCAFFOLD))
                               .Sum(p => p.X * p.Y);
         LogAnswer(alignment);
 

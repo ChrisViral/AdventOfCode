@@ -25,7 +25,7 @@ public sealed class Day03 : Solver<int>
                                                           .TakeWhile(_ => value <= this.Data))
         {
             value = 0;
-            foreach (Vector2<int> adjacent in position.Adjacent(withDiagonals: true))
+            foreach (Vector2<int> adjacent in position.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
             {
                 if (grid.TryGetValue(adjacent, out int adjacentValue))
                 {

@@ -34,7 +34,7 @@ public sealed class Day03 : GridSolver<char>
                 gears[pos] = numbers;
             }
 
-            foreach (Vector2<int> adjacent in pos.Adjacent(true))
+            foreach (Vector2<int> adjacent in pos.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
             {
                 if (explored.Contains(adjacent) || !this.Data.WithinGrid(adjacent)) continue;
 
@@ -66,7 +66,7 @@ public sealed class Day03 : GridSolver<char>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool IsValid(Vector2<int> pos) => this.Data.WithinGrid(pos) && char.IsNumber(this.Data[pos]);
+    private bool IsValid(Vector2<int> pos) => this.Data.WithinGrid(pos) && char.IsNumber(this.Data[pos]);
 
     /// <inheritdoc cref="GridSolver{T}.LineConverter"/>
     protected override char[] LineConverter(string line) => line.ToCharArray();

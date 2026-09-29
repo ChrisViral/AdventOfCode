@@ -116,8 +116,8 @@ public sealed class Day17 : Solver<(Day17.Cube<Vector3<int>> part1, Day17.Cube<V
     /// <inheritdoc />
     protected override (Cube<Vector3<int>>, Cube<Vector4<int>>) Convert(string[] rawInput)
     {
-        Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new Vector3<int>(x, y, 0), v => v.AsAdjacentEnumerable(withDiagonals: true));
-        Cube<Vector4<int>> cube4 = new(rawInput, (x, y) => new Vector4<int>(x, y, 0, 0), v => v.Adjacent(withDiagonals: true));
+        Cube<Vector3<int>> cube3 = new(rawInput, (x, y) => new Vector3<int>(x, y, 0), v => v.AsAdjacentEnumerable(options: AdjacentOptions.WITH_DIAGONALS));
+        Cube<Vector4<int>> cube4 = new(rawInput, (x, y) => new Vector4<int>(x, y, 0, 0), v => v.Adjacent(options: AdjacentOptions.WITH_DIAGONALS));
         return (cube3, cube4);
     }
 }

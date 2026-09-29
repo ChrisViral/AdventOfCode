@@ -61,7 +61,7 @@ public sealed class Day23 : Solver<Day23.Elf[]>
         {
             // Order is NW-N-NE-W-E-SW-S-SE
             bool[] adjacent = this.Position
-                                  .Adjacent(withDiagonals: true)
+                                  .Adjacent(options: AdjacentOptions.WITH_DIAGONALS)
                                   .Select(elves.Contains)
                                   .ToArray();
             // Check if anything is adjacent at all

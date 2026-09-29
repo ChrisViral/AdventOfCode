@@ -21,7 +21,7 @@ public sealed class Day04 : GridSolver<char>
         {
             if (this.Data[xPos] is not 'X') continue;
 
-            foreach (Vector2<int> direction in Vector2<int>.Zero.Adjacent(withDiagonals: true))
+            foreach (Vector2<int> direction in Vector2<int>.Zero.Adjacent(options: AdjacentOptions.WITH_DIAGONALS))
             {
                 if (this.Data.TryMoveWithinGrid(xPos, direction, out Vector2<int> mPos) && this.Data[mPos] is 'M'
                  && this.Data.TryMoveWithinGrid(mPos, direction, out Vector2<int> aPos) && this.Data[aPos] is 'A'
