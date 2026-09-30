@@ -18,7 +18,8 @@ public sealed class AdventOfCodeSetup()
     {
         // Setup user agent value
         Version fileVersion = Assembly.GetExecutingAssembly().GetFileVersion;
-        string userAgent = $"ChrisViral.{typeof(AdventOfCodeResolver).FullName}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/AdventOfCode)";
+        string userAgent = $"ChrisViral.{nameof(AdventOfCodeResolver)}/{fileVersion.ToString(2)} (https://github.com/ChrisViral/AdventOfCode)";
+        string cookie = $"session={this.settings.Cookie}";
 
         // Add HTTP Clients
         services.AddRefitClient<IAdventOfCodeAPI>()
@@ -26,7 +27,7 @@ public sealed class AdventOfCodeSetup()
                  {
                      // Set address and headers
                      client.BaseAddress = new Uri("https://adventofcode.com");
-                     client.DefaultRequestHeaders.Add("cookie", $"session={this.settings.Cookie}");
+                     client.DefaultRequestHeaders.Add("cookie", cookie);
                      client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
                  });
     }

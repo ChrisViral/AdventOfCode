@@ -14,5 +14,5 @@ and does follow the [automation guidelines](https://www.reddit.com/r/adventofcod
 on the [/r/adventofcode](https://www.reddit.com/r/adventofcode/) community wiki.
 
 - Outbound calls are [throttled to every 900 seconds (15 minutes)](AdventOfCode/Resolver/AdventOfCodeResolver.cs#L25) by storing the last call timestamp locally to preserve throttling between runs
-- Once inputs are downloaded, they are [cached locally](https://github.com/ChrisViral/ChallengeLibraries/blob/master/Challenge.CLI/SolverResolverBase.cs#L66-L75) and reused as needed
+- Once inputs are downloaded, they are [cached locally](https://github.com/ChrisViral/ChallengeLibraries/blob/master/Challenge.CLI/SolverResolver.cs#L90-L99) and reused as needed
 - The [User-Agent header is set to me](AdventOfCode/Resolver/AdventOfCodeSetup.cs#L21), the maintainer of this repo
