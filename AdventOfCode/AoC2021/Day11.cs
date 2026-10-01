@@ -4,6 +4,7 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using ZLinq;
 
 namespace AdventOfCode.AoC2021;

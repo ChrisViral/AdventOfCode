@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 using Challenge.Collections;
 using Challenge.Solvers;
 using Challenge.Utils;
-using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Numbers;
 using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using ZLinq;
 
 namespace AdventOfCode.AoC2017;

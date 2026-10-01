@@ -6,8 +6,8 @@ using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
-using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using ZLinq;
 
 namespace AdventOfCode.AoC2018;

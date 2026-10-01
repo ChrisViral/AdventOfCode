@@ -7,6 +7,8 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
 using Challenge.Utils.Extensions.Ranges;
+using Challenge.Utils.Extensions.RefEnumerables;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using CommunityToolkit.HighPerformance;
 using ZLinq;
 

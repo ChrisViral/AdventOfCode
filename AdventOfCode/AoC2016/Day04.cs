@@ -4,8 +4,8 @@ using Challenge.Collections;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
-using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Strings;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using ZLinq;
 
 namespace AdventOfCode.AoC2016;

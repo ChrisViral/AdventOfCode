@@ -5,6 +5,7 @@ using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Arrays;
 using Challenge.Utils.Extensions.Enumerables;
 using Challenge.Utils.Extensions.Enums;
+using Challenge.Utils.Extensions.RefEnumerables;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Enumerables;
 using ZLinq;

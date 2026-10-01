@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Challenge.Solvers;
 using Challenge.Utils;
 using Challenge.Utils.Extensions.Arrays;
-using Challenge.Utils.Extensions.Enumerables;
+using Challenge.Utils.Extensions.ValueEnumerables;
 using ZLinq;
 
 namespace AdventOfCode.AoC2020;
