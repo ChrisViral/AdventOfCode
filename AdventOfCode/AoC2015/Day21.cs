@@ -85,8 +85,8 @@ public sealed class Day21 : Solver<Day21.Stats>
                                   .Min();
         int minCostTwoRings = Rings.EnumeratePairs()
                                    .AsValueEnumerable()
-                                   .Where(p => WinsCombat(player with { Damage = player.Damage + p.first.Damage + p.second.Damage, Armour = player.Armour + p.first.Armour + p.second.Armour }))
-                                   .Select(p => p.first.Cost + p.second.Cost + costSoFar)
+                                   .Where(p => WinsCombat(player with { Damage = player.Damage + p.First.Damage + p.Second.Damage, Armour = player.Armour + p.First.Armour + p.Second.Armour }))
+                                   .Select(p => p.First.Cost + p.Second.Cost + costSoFar)
                                    .Append(int.MaxValue)
                                    .Min();
         return Math.Min(minCostOneRing, minCostTwoRings);
@@ -119,8 +119,8 @@ public sealed class Day21 : Solver<Day21.Stats>
                                   .Max();
         int maxCostTwoRings = Rings.EnumeratePairs()
                                    .AsValueEnumerable()
-                                   .Where(p => !WinsCombat(player with { Damage = player.Damage + p.first.Damage + p.second.Damage, Armour = player.Armour + p.first.Armour + p.second.Armour }))
-                                   .Select(p => p.first.Cost + p.second.Cost + costSoFar)
+                                   .Where(p => !WinsCombat(player with { Damage = player.Damage + p.First.Damage + p.Second.Damage, Armour = player.Armour + p.First.Armour + p.Second.Armour }))
+                                   .Select(p => p.First.Cost + p.Second.Cost + costSoFar)
                                    .Append(int.MinValue)
                                    .Max();
         return Math.Max(maxCostOneRing, maxCostTwoRings);

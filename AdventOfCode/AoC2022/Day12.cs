@@ -37,21 +37,21 @@ public sealed class Day12 : GridSolver<int>
             }
         }
 
-        int path = SearchUtils.GetPathLength(start, end,
-                                             p => Vector2<int>.ManhattanDistance(p, end),
+        Dictionary<Vector2<int>, int> distanceCache = new(1000);
+        int path = SearchUtils.GetPathLength(start, end, null,
                                              FindNeighbours,
-                                             MinSearchComparer<double>.Comparer)
+                                             MinSearchComparer<int>.Comparer,
+                                             distanceCache)
                               .GetValueOrDefault(-1);
         LogAnswer(path);
 
         int shortestPath = path;
-        foreach (Vector2<int> position in Vector2<int>.EnumerateOver(this.Grid.Width, this.Grid.Height)
-                                                      .Where(p => p != start && this.Grid[p] is 0))
+        foreach (Vector2<int> position in this.Grid.Dimensions.Enumerate().Where(p => p != start && this.Grid[p] is 0))
         {
-            path = SearchUtils.GetPathLength(position, end,
-                                             p => Vector2<int>.ManhattanDistance(p, end),
+            path = SearchUtils.GetPathLength(position, end, null,
                                              FindNeighbours,
-                                             MinSearchComparer<double>.Comparer)
+                                             MinSearchComparer<int>.Comparer,
+                                             distanceCache)
                               .GetValueOrDefault(-1);
             if (path is -1) continue;
 
@@ -61,7 +61,7 @@ public sealed class Day12 : GridSolver<int>
         LogAnswer(shortestPath);
     }
 
-    private IEnumerable<MoveData<Vector2<int>, double>> FindNeighbours(Vector2<int> node)
+    private IEnumerable<MoveData<Vector2<int>, int>> FindNeighbours(Vector2<int> node)
     {
         int current = this.Grid[node];
         foreach (Vector2<int> adjacent in node.AsAdjacentEnumerable())
@@ -71,7 +71,7 @@ public sealed class Day12 : GridSolver<int>
             int neighbour = this.Grid[adjacent];
             if (neighbour <= current + 1)
             {
-                yield return new MoveData<Vector2<int>, double>(adjacent, 1d);
+                yield return new MoveData<Vector2<int>, int>(adjacent, 1);
             }
         }
     }

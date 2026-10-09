@@ -35,8 +35,8 @@ public sealed partial class Day22 : Solver<Day22.Node[]>
         this.Data.Sort((a, b) => b.Used.CompareTo(a.Used));
         // Count pairs that have used, and that can be moved
         int valid = this.Data.EnumeratePairs()
-                             .Where(p => p.first.Used is not 0)
-                             .Count(p => p.first.Used <= p.second.Available);
+                             .Where(p => p.First.Used is not 0)
+                             .Count(p => p.First.Used <= p.Second.Available);
         LogAnswer(valid);
 
         // Get grid size and smallest available space size

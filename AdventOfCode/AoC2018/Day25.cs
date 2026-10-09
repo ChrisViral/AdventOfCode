@@ -1,6 +1,7 @@
 ﻿using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
+using Challenge.Utils;
 using Challenge.Utils.Extensions.Collections;
 using ZLinq;
 
@@ -12,7 +13,7 @@ namespace AdventOfCode.AoC2018;
 [Solver(2018, 25)]
 public sealed class Day25 : ArraySolver<Day25.Star>
 {
-    public sealed class Star
+    public sealed class Star : IEquatable<Star>
     {
         public Vector4<int> Position { get; }
 
@@ -23,22 +24,31 @@ public sealed class Day25 : ArraySolver<Day25.Star>
             this.Position = position;
             this.Constellation = [this];
         }
+
+        /// <inheritdoc />
+        public bool Equals(Star? other) => other is not null && this.Position.Equals(other.Position);
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj) => ReferenceEquals(this, obj) || obj is Star other && Equals(other);
+
+        /// <inheritdoc />
+        public override int GetHashCode() => this.Position.GetHashCode();
     }
 
     /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
-        foreach ((Star a, Star b) in this.Data.EnumeratePairs())
+        foreach (UnorderedPair<Star> pair in this.Data.EnumeratePairs())
         {
-            if (a.Constellation == b.Constellation) continue;
+            if (pair.First!.Constellation == pair.Second!.Constellation) continue;
 
-            if (Vector4<int>.ManhattanDistance(a.Position, b.Position) <= 3)
+            if (Vector4<int>.ManhattanDistance(pair.First!.Position, pair.Second!.Position) <= 3)
             {
-                a.Constellation.AddRange(b.Constellation);
-                foreach (Star other in b.Constellation)
+                pair.First!.Constellation.AddRange(pair.Second!.Constellation);
+                foreach (Star other in pair.Second!.Constellation)
                 {
-                    other.Constellation = a.Constellation;
+                    other.Constellation = pair.First!.Constellation;
                 }
             }
         }
