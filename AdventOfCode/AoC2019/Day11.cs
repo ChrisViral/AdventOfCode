@@ -1,5 +1,6 @@
 ﻿using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 

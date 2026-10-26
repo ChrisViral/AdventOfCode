@@ -1,10 +1,10 @@
 ﻿using System.Buffers;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using Challenge.Collections;
 using Challenge.Collections.Pooling.Arrays;
 using Challenge.Collections.Search;
 using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;

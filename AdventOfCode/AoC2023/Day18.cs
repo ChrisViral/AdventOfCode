@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Text.RegularExpressions;
 using Challenge.Maths;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils;

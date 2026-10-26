@@ -1,8 +1,8 @@
 ﻿using AdventOfCode.AoC2017.Common;
 using Challenge.Collections;
 using Challenge.Collections.Pooling;
+using Challenge.Maths.BitVectors;
 using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;
 using Challenge.Utils.Extensions.Ranges;

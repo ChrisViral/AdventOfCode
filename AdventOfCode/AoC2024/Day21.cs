@@ -1,5 +1,6 @@
 ﻿using System.Collections.Frozen;
 using System.Text;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.AoC2019.Solvers;
-using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Maths.BitVectors;
+using Challenge.Maths.Directions;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Ranges;
 

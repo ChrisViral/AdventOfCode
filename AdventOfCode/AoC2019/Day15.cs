@@ -2,6 +2,7 @@ using System.ComponentModel;
 using AdventOfCode.AoC2019.Solvers;
 using Challenge.Collections;
 using Challenge.Collections.Search;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 using Challenge.Utils.Extensions.Collections;

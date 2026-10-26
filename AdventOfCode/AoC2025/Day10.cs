@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Challenge.Collections.Search;
-using Challenge.Maths.Vectors.BitVectors;
+using Challenge.Maths.BitVectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;
@@ -52,7 +52,7 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
         protected override void Process(Machine element, in IterationData iteration)
         {
             int presses = GetMinimumPressesJoltages(element);
-            Interlocked.Add(ref joltagePresses, presses);
+            Interlocked.Add(ref JoltagePresses, presses);
         }
 
         /// <inheritdoc />
@@ -68,9 +68,9 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
     [GeneratedRegex(@"[\d,]+")]
     private static partial Regex ButtonMatcher { get; }
 
-    private static int joltagePresses;
+    private static int JoltagePresses;
 
-    /// <inheritdoc cref="Challenge.Solvers.Solver.Run"/>
+    /// <inheritdoc />
     /// ReSharper disable once CognitiveComplexity
     public override void Run()
     {
@@ -79,7 +79,7 @@ public sealed partial class Day10 : ArraySolver<Day10.Machine>
 
         JoltagePressHelper helper = new();
         helper.ForEach(this.Data);
-        LogAnswer(joltagePresses);
+        LogAnswer(JoltagePresses);
     }
 
     private static int GetMinimumPresses(Machine machine)

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Challenge.Collections;
+using Challenge.Maths.BitVectors;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Enumerables;

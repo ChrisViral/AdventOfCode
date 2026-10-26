@@ -1,6 +1,6 @@
 ﻿using Challenge.Collections.Search;
+using Challenge.Maths.BitVectors;
 using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils;

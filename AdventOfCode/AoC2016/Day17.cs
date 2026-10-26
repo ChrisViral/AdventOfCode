@@ -1,8 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.Security.Cryptography;
 using System.Text;
+using Challenge.Maths.BitVectors;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
-using Challenge.Maths.Vectors.BitVectors;
 using Challenge.Solvers;
 using ZLinq;
 

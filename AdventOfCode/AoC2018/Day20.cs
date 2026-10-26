@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Challenge.Collections.Pooling;
+using Challenge.Maths.Directions;
 using Challenge.Maths.Vectors;
 using Challenge.Solvers;
 

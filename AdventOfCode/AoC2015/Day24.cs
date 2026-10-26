@@ -1,4 +1,4 @@
-﻿using Challenge.Maths.Vectors.BitVectors;
+﻿using System.Collections.Specialized;
 using Challenge.Solvers;
 using Challenge.Solvers.Specialized;
 using Challenge.Utils.Extensions.Ranges;
